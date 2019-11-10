@@ -2,7 +2,7 @@ const constants = require('./helpers/constants');
 const fastify = require('fastify')({ logger: true });
 const path = require('path');
 fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, '/../frontend/build/'),
+  root: path.join(__dirname, '/../client/build/'),
   prefix: "/"
 });
 
