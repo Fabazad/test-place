@@ -21,6 +21,10 @@ class UserService extends BaseService {
     register(name, email, password) {
         return axios.post(this.baseURL + '/register', {name, email, password}).then(serviceResolve);
     }
+
+    checkToken(token) {
+        return axios.get(this.baseURL + '/checkToken', {token}).then(serviceResolve);
+    }
 }
 
 export default new UserService();

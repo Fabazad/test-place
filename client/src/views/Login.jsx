@@ -22,6 +22,7 @@ import {
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
+import { setCookie } from "helpers/cookies";
 
 class Login extends React.Component {
 
@@ -43,6 +44,7 @@ class Login extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     userService.login(this.state.email, this.state.password).then(res => {
+      setCookie("token", res.token, 7);
       this.props.history.push('/profile');
     });
   }
@@ -52,7 +54,7 @@ class Login extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
-  
+
   render() {
     return (
       <>

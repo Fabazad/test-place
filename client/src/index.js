@@ -16,6 +16,7 @@ import Register from "views/Register";
 import Landing from "views/Landing";
 import Profile from "views/Profile";
 import "interceptors";
+import withAuth from "helpers/withAuth";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,7 +32,7 @@ ReactDOM.render(
         <Route path="/login" exact render={props => <Login {...props} />} />
         <Route path="/register" exact render={props => <Register {...props} />} />
         <Route path="/landing" exact render={props => <Landing {...props} />} />
-        <Route path="/profile" exact render={props => <Profile {...props} />} />
+        <Route path="/profile" component={withAuth(Profile)} />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>

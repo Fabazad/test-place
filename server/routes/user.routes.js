@@ -1,7 +1,7 @@
 const UserController = require('../controllers/user.controller');
+const withAuth = require('../middlewares/withAuth');
 
 async function userRoutes (fastify) {
-    fastify.register(require('fastify-cookie'));
     const path = "/api/user/";
 
     fastify.post(path + 'register', async (request, reply) => {
@@ -15,10 +15,15 @@ async function userRoutes (fastify) {
         const { email, password } = request.body;
         UserController.login(email, password)
             .then(token => {
-                console.info(token);
-                reply.setCookie('token', token, { httpOnly: true }).send()
-            } )
+                reply.send({token});
+            })
             .catch(err => reply.code(err.status).send(err.message));
+    });
+
+    fastify.get(path + 'checkToken', async (request, reply) => {
+        withAuth(request, reply);
+        reply.send();
+        
     });
 }
 

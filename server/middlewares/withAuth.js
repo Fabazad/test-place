@@ -1,21 +1,21 @@
 const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
 
-const withAuth = function(req, res, next) {
+const withAuth = function(req, res) {
   const token =
-    req.body.token ||
-    req.query.token ||
+    (req.body && req.body.token) ||
+    (req.query && req.query.token) ||
     req.headers['x-access-token'] ||
-    req.cookies.token;
+    (req.cookies && req.cookies.token);
   if (!token) {
-    res.status(401).send('Unauthorized: No token provided');
+    res.status(401).send('Unauthorized');
   } else {
     jwt.verify(token, secret, function(err, decoded) {
       if (err) {
-        res.status(401).send('Unauthorized: Invalid token');
+        res.status(401).send('Unauthorized');
       } else {
         req.email = decoded.email;
-        next();
+        return {request: req, reply: res}
       }
     });
   }
