@@ -13,8 +13,8 @@ class StepController {
         });
     }
 
-    static async login(user) {
-        User.findOne({ email }, function(err, user) {
+    static async login(email, password) {
+        UserModel.findOne({ email }, function(err, user) {
             if (err) {
               console.error(err);
               //res.status(500).json({error: 'Internal error please try again'});

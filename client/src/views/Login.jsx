@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import userService from "services/user.services";
 
 // reactstrap components
 import {
@@ -39,7 +40,9 @@ class Login extends React.Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    alert('Authentication coming soon!');
+    userService.login(this.state.email, this.state.password).then(res => {
+      this.props.history.push('/');
+    });
   }
 
   componentDidMount() {
