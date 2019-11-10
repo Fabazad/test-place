@@ -1,7 +1,7 @@
 async function frontRoutes (fastify) {
     fastify.get('/', async (req, reply) => {
         console.log("test");
-        reply.sendFile("index.html");
+        reply.code(200).sendFile("index.html");
     });
     fastify.get('/login', async (req, reply) => {
         console.log("test");
