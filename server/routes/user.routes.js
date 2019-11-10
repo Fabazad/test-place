@@ -5,14 +5,19 @@ async function userRoutes (fastify) {
     const path = "/api/user/";
 
     fastify.post(path + 'register', async (request, reply) => {
-        const { user } = request.body;
-        return await UserController.register(user);
+        const { name, email, password } = request.body;
+        UserController.register(name, email, password)
+            .then(() => reply.code(200).send())
+            .catch(err => reply.code(err.status).send(err.message));
     });
 
     fastify.post(path + 'login', async (request, reply) => {
         const { email, password } = request.body;
         UserController.login(email, password)
-            .then(token =>  reply.setCookie('token', token, { httpOnly: true }).send())
+            .then(token => {
+                console.info(token);
+                reply.setCookie('token', token, { httpOnly: true }).send()
+            } )
             .catch(err => reply.code(err.status).send(err.message));
     });
 }

@@ -15,7 +15,11 @@ class UserService extends BaseService {
     }
 
     login(email, password) {
-        return axios.post(this.baseURL + '/login', {email, password}).then(serviceResolve, err => console.log(err));
+        return axios.post(this.baseURL + '/login', {email, password}).then(serviceResolve);
+    }
+
+    register(name, email, password) {
+        return axios.post(this.baseURL + '/register', {name, email, password}).then(serviceResolve);
     }
 }
 

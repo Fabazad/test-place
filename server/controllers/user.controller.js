@@ -1,15 +1,19 @@
 const UserModel = require('../models/user.model');
+const jwt = require('jsonwebtoken');
+const secret = 'mysecretsshhh';
 
 class StepController {
 
-    static async register(user) {
-        const user = new User(user);
-        user.save(function(err) {
-            if (err) {
-                return ("Error registering new user please try again.");
-            } else {
-                return("Welcome to the club!");
-            }
+    static async register(name, email, password) {
+        return new Promise ((resolve, reject) => {
+            const user = new UserModel({name, email, password});
+            user.save(function(err) {
+                if (err) {
+                    reject({ status: 500, message: "Error registering new user please try again." });
+                } else {
+                    resolve();
+                }
+            });
         });
     }
 

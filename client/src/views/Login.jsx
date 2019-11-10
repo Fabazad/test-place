@@ -32,16 +32,18 @@ class Login extends React.Component {
       password: ''
     };
   }
+
   handleInputChange = (event) => {
     const { value, name } = event.target;
     this.setState({
       [name]: value
     });
   }
+
   onSubmit = (event) => {
     event.preventDefault();
     userService.login(this.state.email, this.state.password).then(res => {
-      this.props.history.push('/');
+      this.props.history.push('/profile');
     });
   }
 
@@ -50,6 +52,7 @@ class Login extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+  
   render() {
     return (
       <>

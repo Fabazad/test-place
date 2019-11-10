@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const saltRounds = 10;
+
 var UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -37,4 +39,4 @@ UserSchema.methods.isCorrectPassword = function(password, callback){
     });
 }
 
-module.exports = mongoose.model('UserModel', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

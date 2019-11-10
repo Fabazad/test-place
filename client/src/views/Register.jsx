@@ -1,21 +1,5 @@
-/*!
-
-=========================================================
-* Argon Design System React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
+import userService from "services/user.services";
 
 // reactstrap components
 import {
@@ -39,6 +23,30 @@ import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 
 class Register extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: '',
+      email : '',
+      password: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+  
+  onSubmit = (event) => {
+    event.preventDefault();
+    userService.register(this.state.name, this.state.email, this.state.password).then(res => {
+      this.props.history.push('/login');
+    });
+  }
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -103,7 +111,7 @@ class Register extends React.Component {
                       <div className="text-center text-muted mb-4">
                         <small>Or sign up with credentials</small>
                       </div>
-                      <Form role="form">
+                      <Form role="form" onSubmit={this.onSubmit}>
                         <FormGroup>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
@@ -111,7 +119,14 @@ class Register extends React.Component {
                                 <i className="ni ni-hat-3" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Name" type="text" />
+                            <Input 
+                              placeholder="Name" 
+                              type="text"
+                              name="name"
+                              value={this.state.name} 
+                              onChange={this.handleInputChange}
+                              required
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -121,7 +136,14 @@ class Register extends React.Component {
                                 <i className="ni ni-email-83" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Email" type="email" />
+                            <Input 
+                              placeholder="Email" 
+                              type="email" 
+                              name="email"
+                              value={this.state.email} 
+                              onChange={this.handleInputChange}
+                              required
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -134,7 +156,11 @@ class Register extends React.Component {
                             <Input
                               placeholder="Password"
                               type="password"
+                              name="password"
                               autoComplete="off"
+                              value={this.state.password}
+                              onChange={this.handleInputChange}
+                              required
                             />
                           </InputGroup>
                         </FormGroup>
@@ -175,7 +201,7 @@ class Register extends React.Component {
                           <Button
                             className="mt-4"
                             color="primary"
-                            type="button"
+                            type="submit"
                           >
                             Create account
                           </Button>
