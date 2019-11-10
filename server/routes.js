@@ -1,9 +1,9 @@
 const frontRoutes = require('./routes/front.routes');
-const stepRoutes = require('./routes/step.routes');
+const userRoutes = require('./routes/user.routes');
 
 async function routes (fastify) {
     frontRoutes(fastify);
-    stepRoutes(fastify);
+    userRoutes(fastify);
 }
 
 module.exports = routes;
