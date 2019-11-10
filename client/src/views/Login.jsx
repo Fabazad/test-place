@@ -23,6 +23,25 @@ import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 
 class Login extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      email : '',
+      password: ''
+    };
+  }
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+  onSubmit = (event) => {
+    event.preventDefault();
+    alert('Authentication coming soon!');
+  }
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -87,7 +106,7 @@ class Login extends React.Component {
                       <div className="text-center text-muted mb-4">
                         <small>Or sign in with credentials</small>
                       </div>
-                      <Form role="form">
+                      <Form role="form" onSubmit={this.onSubmit}>
                         <FormGroup className="mb-3">
                           <InputGroup className="input-group-alternative">
                             <InputGroupAddon addonType="prepend">
@@ -95,7 +114,14 @@ class Login extends React.Component {
                                 <i className="ni ni-email-83" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Email" type="email" />
+                            <Input 
+                              placeholder="Email" 
+                              type="email" 
+                              name="email"
+                              value={this.state.email} 
+                              onChange={this.handleInputChange}
+                              required
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -108,7 +134,11 @@ class Login extends React.Component {
                             <Input
                               placeholder="Password"
                               type="password"
+                              name="password"
                               autoComplete="off"
+                              value={this.state.password}
+                              onChange={this.handleInputChange}
+                              required
                             />
                           </InputGroup>
                         </FormGroup>
@@ -129,7 +159,7 @@ class Login extends React.Component {
                           <Button
                             className="my-4"
                             color="primary"
-                            type="button"
+                            type="submit"
                           >
                             Sign in
                           </Button>
