@@ -1,0 +1,24 @@
+{
+  "name": "test-place",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd server && npm i && cd ../client && npm i",
+    "start-server": "cd server && npm start",
+    "start-client": "cd client && npm start",
+    "start": "cd server && npm start",
+    "heroku-postbuild": "cd client && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fabazad/test-place.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fabazad/test-place/issues"
+  },
+  "homepage": "https://github.com/Fabazad/test-place#readme"
+}
