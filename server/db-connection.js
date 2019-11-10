@@ -3,7 +3,7 @@ const fastifyPlugin = require('fastify-plugin');
 require('dotenv').config();
 
 async function dbConnector (fastify) {
-    mongoose.connect(process.env.DB_URL || process.env.MONGO_LOCAL_URL, {useNewUrlParser: true});
+    mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_LOCAL_URL, {useNewUrlParser: true});
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
