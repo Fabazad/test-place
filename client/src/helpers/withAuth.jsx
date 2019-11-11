@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import userService from 'services/user.services';
+import DemoNavbar from 'components/Navbars/DemoNavbar';
+import { eraseCookie } from './cookies';
 
 export default function withAuth(ComponentToProtect) {
   return class extends Component {
@@ -16,6 +18,7 @@ export default function withAuth(ComponentToProtect) {
         .then( () =>  this.setState({ loading: false }))
         .catch(err => {
           this.setState({ loading: false, redirect: true });
+          eraseCookie("token");
         });
     }
     render() {
@@ -28,6 +31,7 @@ export default function withAuth(ComponentToProtect) {
       }
       return (
         <React.Fragment>
+          <DemoNavbar {...this.props} logged={true}/>
           <ComponentToProtect {...this.props} />
         </React.Fragment>
       );

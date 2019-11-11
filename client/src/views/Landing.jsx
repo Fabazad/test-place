@@ -36,7 +36,6 @@ class Landing extends React.Component {
   render() {
     return (
       <>
-        <DemoNavbar />
         <main ref="main">
           <div className="position-relative">
             {/* shape Hero */}
