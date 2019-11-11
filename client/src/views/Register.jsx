@@ -22,15 +22,16 @@ import {
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
+import PasswordStrength from "components/PasswordStrength";
 
 class Register extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
       email : '',
       password: '',
+      password2: '',
       captcha: ''
     };
   }
@@ -44,11 +45,19 @@ class Register extends React.Component {
   
   onSubmit = (event) => {
     event.preventDefault();
+    if (this.state.password.length < 8) {
+      toast.error("Le mot de passe doit possèder au moins 8 caractères.");
+      return;
+    }
+    if (this.state.password !== this.state.password2) {
+      toast.error("Les deux mots de passe ne sont pas identiques.");
+      return;
+    }
     if (!this.state.captcha) {
       toast.error("Vérifiez que vous êtes Humain.");
       return;
     }
-    userService.register(this.state.name, this.state.email, this.state.password, this.state.captcha).then(res => {
+    userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
       this.props.history.push('/login');
       toast.success("Inscrit !");
     });
@@ -127,23 +136,6 @@ class Register extends React.Component {
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>
-                                <i className="ni ni-hat-3" />
-                              </InputGroupText>
-                            </InputGroupAddon>
-                            <Input 
-                              placeholder="Name" 
-                              type="text"
-                              name="name"
-                              value={this.state.name} 
-                              onChange={this.handleInputChange}
-                              required
-                            />
-                          </InputGroup>
-                        </FormGroup>
-                        <FormGroup>
-                          <InputGroup className="input-group-alternative mb-3">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>
                                 <i className="ni ni-email-83" />
                               </InputGroupText>
                             </InputGroupAddon>
@@ -175,14 +167,25 @@ class Register extends React.Component {
                             />
                           </InputGroup>
                         </FormGroup>
-                        <div className="text-muted font-italic">
-                          <small>
-                            password strength:{" "}
-                            <span className="text-success font-weight-700">
-                              strong
-                            </span>
-                          </small>
-                        </div>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i className="ni ni-lock-circle-open" />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="Password"
+                              type="password"
+                              name="password2"
+                              autoComplete="off"
+                              value={this.state.password2}
+                              onChange={this.handleInputChange}
+                              required
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <PasswordStrength min={8} password={this.state.password} />
                         <div className="text-center my-3">
                           <ReCAPTCHA
                             sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
