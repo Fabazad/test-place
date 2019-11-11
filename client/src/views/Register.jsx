@@ -32,6 +32,7 @@ class Register extends React.Component {
       name: '',
       email : '',
       password: '',
+      password2: '',
       captcha: ''
     };
   }
@@ -45,12 +46,16 @@ class Register extends React.Component {
   
   onSubmit = (event) => {
     event.preventDefault();
-    if (!this.state.captcha) {
-      toast.error("Vérifiez que vous êtes Humain.");
-      return;
-    }
     if (this.state.password.length < 8) {
       toast.error("Le mot de passe doit possèder au moins 8 caractères.");
+      return;
+    }
+    if (this.state.password !== this.state.password2) {
+      toast.error("Les deux mots de passe ne sont pas identiques.");
+      return;
+    }
+    if (!this.state.captcha) {
+      toast.error("Vérifiez que vous êtes Humain.");
       return;
     }
     userService.register(this.state.name, this.state.email, this.state.password, this.state.captcha).then(res => {
@@ -176,7 +181,24 @@ class Register extends React.Component {
                               autoComplete="off"
                               value={this.state.password}
                               onChange={this.handleInputChange}
-                              min={8}
+                              required
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i className="ni ni-lock-circle-open" />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="Password"
+                              type="password"
+                              name="password2"
+                              autoComplete="off"
+                              value={this.state.password2}
+                              onChange={this.handleInputChange}
                               required
                             />
                           </InputGroup>
