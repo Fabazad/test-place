@@ -23,6 +23,7 @@ import {
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { setCookie } from "helpers/cookies";
+import { toast } from "react-toastify";
 
 class Login extends React.Component {
 
@@ -46,6 +47,7 @@ class Login extends React.Component {
     userService.login(this.state.email, this.state.password).then(res => {
       setCookie("token", res.token, 7);
       this.props.history.push('/profile');
+      toast.success("Connecté !");
     });
   }
 
@@ -58,7 +60,6 @@ class Login extends React.Component {
   render() {
     return (
       <>
-        <DemoNavbar />
         <main ref="main">
           <section className="section section-shaped section-lg">
             <div className="shape shape-style-1 bg-gradient-default">

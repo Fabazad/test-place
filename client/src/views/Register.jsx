@@ -21,6 +21,7 @@ import {
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
+import { toast } from "react-toastify";
 
 class Register extends React.Component {
 
@@ -44,6 +45,7 @@ class Register extends React.Component {
     event.preventDefault();
     userService.register(this.state.name, this.state.email, this.state.password).then(res => {
       this.props.history.push('/login');
+      toast.success("Inscrit !");
     });
   }
 
@@ -55,7 +57,6 @@ class Register extends React.Component {
   render() {
     return (
       <>
-        <DemoNavbar />
         <main ref="main">
           <section className="section section-shaped section-lg">
             <div className="shape shape-style-1 bg-gradient-default">

@@ -18,6 +18,7 @@ import Profile from "views/Profile";
 import "interceptors";
 import withAuth from "helpers/withAuth";
 import withoutAuth from "helpers/withoutAuth";
+import anyAuth from "helpers/anyAuth";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,10 +30,10 @@ ReactDOM.render(
   <ToastContainer />
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact render={props => <Login {...props} />} />
+        <Route path="/" exact render={props => <Redirect to={"/login"}/>} />
         <Route path="/login" component={withoutAuth(Login)} />
         <Route path="/register" component={withoutAuth(Register)} />
-        <Route path="/landing" exact render={props => <Landing {...props} />} />
+        <Route path="/landing" component={anyAuth(Landing)} />
         <Route path="/profile" component={withAuth(Profile)} />
         <Redirect to="/" />
       </Switch>

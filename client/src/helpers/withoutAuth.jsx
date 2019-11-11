@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import userService from 'services/user.services';
+import DemoNavbar from 'components/Navbars/DemoNavbar';
+import { getCookie } from './cookies';
 
 export default function withoutAuth(ComponentToProtect) {
   return class extends Component {
@@ -12,12 +13,12 @@ export default function withoutAuth(ComponentToProtect) {
       };
     }
     componentDidMount() {
-      userService.checkToken()
-        .then( () =>  this.setState({ loading: false, redirect: true }))
-        .catch(err => {
-          
-          this.setState({ loading: false });
-        });
+      if (getCookie("token")) {
+        this.setState({ loading: false, redirect: true });
+      }
+      else {
+        this.setState({ loading: false });
+      }
     }
     render() {
       const { loading, redirect } = this.state;
@@ -29,6 +30,7 @@ export default function withoutAuth(ComponentToProtect) {
       }
       return (
         <React.Fragment>
+            <DemoNavbar {...this.props} />
           <ComponentToProtect {...this.props} />
         </React.Fragment>
       );

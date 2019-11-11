@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Headroom from "headroom.js";
 // reactstrap components
 import {
-  Button,
   UncontrolledCollapse,
   DropdownMenu,
   DropdownItem,
@@ -21,6 +20,7 @@ import {
   Col,
   UncontrolledTooltip
 } from "reactstrap";
+import LogoutButton from "./LogoutButton";
 
 class DemoNavbar extends React.Component {
   componentDidMount() {
@@ -28,6 +28,7 @@ class DemoNavbar extends React.Component {
     // initialise
     headroom.init();
   }
+
   render() {
     return (
       <>
@@ -217,21 +218,11 @@ class DemoNavbar extends React.Component {
                       Star us on Github
                     </UncontrolledTooltip>
                   </NavItem>
-                  <NavItem className="d-none d-lg-block ml-lg-4">
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-navbar"
-                      target="_blank"
-                    >
-                      <span className="btn-inner--icon">
-                        <i className="fa fa-cloud-download mr-2" />
-                      </span>
-                      <span className="nav-link-inner--text ml-1">
-                        Download
-                      </span>
-                    </Button>
-                  </NavItem>
+                  {this.props.logged ? (
+                    <NavItem className="d-none d-lg-block ml-lg-4">
+                      <LogoutButton history={this.props.history}/>
+                    </NavItem>
+                  ) : null}
                 </Nav>
               </UncontrolledCollapse>
             </Container>
