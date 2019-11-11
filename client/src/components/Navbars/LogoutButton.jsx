@@ -22,10 +22,10 @@ class LogoutButton extends React.Component {
             onClick={() => this.onLogout()}
         >
             <span className="btn-inner--icon">
-                <i className="fa fa-cloud-download mr-2" />
+                <i className="fa fa-sign-out mr-2" />
             </span>
             <span className="nav-link-inner--text ml-1">
-                Logout
+                Déconnexion
             </span>
         </Button>
       </>
