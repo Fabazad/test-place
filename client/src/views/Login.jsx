@@ -44,10 +44,6 @@ class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    if (!this.state.captcha) {
-      toast.info("Validez le Captcha pour vous connecter.");
-      return;
-    }
     userService.login(this.state.email, this.state.password).then(res => {
       setCookie("token", res.token, 7);
       this.props.history.push('/profile');

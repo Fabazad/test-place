@@ -29,7 +29,6 @@ class Register extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
       email : '',
       password: '',
       password2: '',
@@ -58,7 +57,7 @@ class Register extends React.Component {
       toast.error("Vérifiez que vous êtes Humain.");
       return;
     }
-    userService.register(this.state.name, this.state.email, this.state.password, this.state.captcha).then(res => {
+    userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
       this.props.history.push('/login');
       toast.success("Inscrit !");
     });
@@ -133,23 +132,6 @@ class Register extends React.Component {
                         <small>Or sign up with credentials</small>
                       </div>
                       <Form role="form" onSubmit={this.onSubmit}>
-                        <FormGroup>
-                          <InputGroup className="input-group-alternative mb-3">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>
-                                <i className="ni ni-hat-3" />
-                              </InputGroupText>
-                            </InputGroupAddon>
-                            <Input 
-                              placeholder="Name" 
-                              type="text"
-                              name="name"
-                              value={this.state.name} 
-                              onChange={this.handleInputChange}
-                              required
-                            />
-                          </InputGroup>
-                        </FormGroup>
                         <FormGroup>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">

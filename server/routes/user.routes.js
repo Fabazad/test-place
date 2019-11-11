@@ -6,8 +6,8 @@ async function userRoutes (fastify) {
     const path = "/api/user/";
 
     fastify.post(path + 'register', async (request, reply) => {
-        const { name, email, password, captcha } = request.body;
-        UserController.register(name, email, password, captcha)
+        const { email, password, captcha } = request.body;
+        UserController.register(email, password, captcha)
             .then(() => reply.code(200).send())
             .catch(err => reply.code(err.status).send(err.message));
     });
