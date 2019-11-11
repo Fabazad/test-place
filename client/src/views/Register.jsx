@@ -19,9 +19,9 @@ import {
 } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { toast } from "react-toastify";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class Register extends React.Component {
 
@@ -30,7 +30,8 @@ class Register extends React.Component {
     this.state = {
       name: '',
       email : '',
-      password: ''
+      password: '',
+      captcha: ''
     };
   }
 
@@ -43,7 +44,11 @@ class Register extends React.Component {
   
   onSubmit = (event) => {
     event.preventDefault();
-    userService.register(this.state.name, this.state.email, this.state.password).then(res => {
+    if (!this.state.captcha) {
+      toast.error("Vérifiez que vous êtes Humain.");
+      return;
+    }
+    userService.register(this.state.name, this.state.email, this.state.password, this.state.captcha).then(res => {
       this.props.history.push('/login');
       toast.success("Inscrit !");
     });
@@ -54,6 +59,11 @@ class Register extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+
+  onCaptchaChange(value) {
+    this.setState({ captcha: value});
+  }
+
   render() {
     return (
       <>
@@ -173,6 +183,12 @@ class Register extends React.Component {
                             </span>
                           </small>
                         </div>
+                        <div className="text-center my-3">
+                          <ReCAPTCHA
+                            sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
+                            onChange={($event) => this.onCaptchaChange($event)}
+                          />
+                        </div>
                         <Row className="my-4">
                           <Col xs="12">
                             <div className="custom-control custom-control-alternative custom-checkbox">
@@ -180,6 +196,7 @@ class Register extends React.Component {
                                 className="custom-control-input"
                                 id="customCheckRegister"
                                 type="checkbox"
+                                required
                               />
                               <label
                                 className="custom-control-label"
