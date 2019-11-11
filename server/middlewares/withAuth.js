@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
 
-const withAuth = function(req, res) {
+const withAuth = function(req, res, next) {
   const token =
     (req.body && req.body.token) ||
     (req.query && req.query.token) ||
@@ -15,7 +15,7 @@ const withAuth = function(req, res) {
         res.status(401).send('Unauthorized');
       } else {
         req.email = decoded.email;
-        return {request: req, reply: res}
+        next();
       }
     });
   }

@@ -1,5 +1,6 @@
 const UserController = require('../controllers/user.controller');
 const withAuth = require('../middlewares/withAuth');
+const middlewares = require("../middlewares/middlewares");
 
 async function userRoutes (fastify) {
     const path = "/api/user/";
@@ -21,9 +22,9 @@ async function userRoutes (fastify) {
     });
 
     fastify.get(path + 'checkToken', async (request, reply) => {
-        withAuth(request, reply);
-        reply.send();
-        
+        middlewares(request, reply, [withAuth], () => {
+            reply.send();
+        });
     });
 }
 
