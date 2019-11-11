@@ -8,6 +8,9 @@ class StepController {
 
     static async register(name, email, password, captcha) {
         return new Promise ((resolve, reject) => {
+            if (password.length < 8) {
+                reject({ status: 400, message: "The password is too short." });
+            }
             const secret = process.env.SECRET_RECAPTCHA;
             axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`)
             .then(response => {

@@ -22,6 +22,7 @@ import {
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
+import PasswordStrength from "components/PasswordStrength";
 
 class Register extends React.Component {
 
@@ -46,6 +47,10 @@ class Register extends React.Component {
     event.preventDefault();
     if (!this.state.captcha) {
       toast.error("Vérifiez que vous êtes Humain.");
+      return;
+    }
+    if (this.state.password.length < 8) {
+      toast.error("Le mot de passe doit possèder au moins 8 caractères.");
       return;
     }
     userService.register(this.state.name, this.state.email, this.state.password, this.state.captcha).then(res => {
@@ -171,18 +176,12 @@ class Register extends React.Component {
                               autoComplete="off"
                               value={this.state.password}
                               onChange={this.handleInputChange}
+                              min={8}
                               required
                             />
                           </InputGroup>
                         </FormGroup>
-                        <div className="text-muted font-italic">
-                          <small>
-                            password strength:{" "}
-                            <span className="text-success font-weight-700">
-                              strong
-                            </span>
-                          </small>
-                        </div>
+                        <PasswordStrength min={8} password={this.state.password} />
                         <div className="text-center my-3">
                           <ReCAPTCHA
                             sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
