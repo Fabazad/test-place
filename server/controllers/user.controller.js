@@ -2,6 +2,9 @@ const UserModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
 const axios = require('axios');
+const randomToken = require('random-token');
+const moment = require("moment");
+const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 
 class StepController {
@@ -59,6 +62,26 @@ class StepController {
                     });
                 }
             });
+        });
+    }
+
+    static async resetPasswordMail(email) {
+        return new Promise((resolve, reject) => {
+            const resetPasswordToken = randomToken(16);
+            const tokenMoment = (new moment()).add(15, "minutes");
+            const resetPasswordExpires = tokenMoment.toDate();
+            UserModel.findOneAndUpdate({email}, { $set:{ resetPasswordToken, resetPasswordExpires } }, { new: true })
+                .then(user => {
+                    EmailController.sendResetPasswordMail(email, resetPasswordToken)
+                        .then(resolve).catch(err => reject({status: 500, message: err}));
+                })
+                .catch(err => reject({status: 500, message: err}));
+        });
+    }
+
+    static async resetPassword(password, resetPasswordToken) {
+        return new Promise((resolve, reject) => {
+            UserModel.findOne({resetPasswordToken}).then(user => resolve(user)).catch(err => reject({status: 500, message: err}));
         });
     }
 }

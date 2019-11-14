@@ -23,6 +23,7 @@ import {
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { setCookie } from "helpers/cookies";
 import { toast } from "react-toastify";
+import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
 
 
 class Login extends React.Component {
@@ -178,13 +179,7 @@ class Login extends React.Component {
                   </Card>
                   <Row className="mt-3">
                     <Col xs="6">
-                      <a
-                        className="text-light"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <small>Forgot password?</small>
-                      </a>
+                      <ForgottenPasswordModal/>
                     </Col>
                     <Col className="text-right" xs="6">
                       <Link to="/register" className="text-light">
