@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
+import userService from 'services/user.services';
 // reactstrap components
 import {
   UncontrolledCollapse,
@@ -30,6 +31,7 @@ class DemoNavbar extends React.Component {
   }
 
   render() {
+    const isAuth = userService.isAuth();
     return (
       <>
         <header className="header-global">
@@ -218,7 +220,7 @@ class DemoNavbar extends React.Component {
                       Star us on Github
                     </UncontrolledTooltip>
                   </NavItem>
-                  {this.props.logged ? (
+                  {isAuth ? (
                     <NavItem className="d-none d-lg-block ml-lg-4">
                       <LogoutButton history={this.props.history}/>
                     </NavItem>

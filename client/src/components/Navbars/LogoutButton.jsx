@@ -2,13 +2,13 @@ import React from "react";
 
 // reactstrap components
 import { Button } from "reactstrap";
-import { eraseCookie } from "helpers/cookies";
 import { toast } from "react-toastify";
+import userServices from "services/user.services";
 
 class LogoutButton extends React.Component {
 
     onLogout() {
-        eraseCookie("token");
+        userServices.logout();
         this.props.history.push("/landing");
         toast.success("Deconnecté !");
     }

@@ -1,10 +1,12 @@
 import React from "react";
+import userService from "services/user.services";
 
 // reactstrap components
 import { Button, Card, Container, Row, Col } from "reactstrap";
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
+import UpdatePasswordModal from "components/Modals/UpdatePasswordModal";
 
 class Profile extends React.Component {
   componentDidMount() {
@@ -13,6 +15,7 @@ class Profile extends React.Component {
     this.refs.main.scrollTop = 0;
   }
   render() {
+    const isAuth = userService.isAuth();
     return (
       <>
         <main className="profile-page" ref="main">
@@ -135,6 +138,11 @@ class Profile extends React.Component {
                         </a>
                       </Col>
                     </Row>
+                    {isAuth ? <Row className="justify-content-center mt-3">
+                      <Col lg="9">
+                        <UpdatePasswordModal/>
+                      </Col>
+                    </Row> : null}
                   </div>
                 </div>
               </Card>

@@ -47,7 +47,7 @@ class Login extends React.Component {
     event.preventDefault();
     userService.login(this.state.email, this.state.password).then(res => {
       setCookie("token", res.token, 7);
-      this.props.history.push('/profile');
+      this.props.history.push('/profile/' + res.user._id);
       toast.success("Connecté !");
     });
   }

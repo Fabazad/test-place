@@ -6,6 +6,7 @@ import { eraseCookie } from './cookies';
 
 export default function withAuth(ComponentToProtect) {
   return class extends Component {
+
     constructor() {
       super();
       this.state = {
@@ -13,6 +14,7 @@ export default function withAuth(ComponentToProtect) {
         redirect: false,
       };
     }
+
     componentDidMount() {
       userService.checkToken()
         .then( () =>  this.setState({ loading: false }))
@@ -21,6 +23,7 @@ export default function withAuth(ComponentToProtect) {
           eraseCookie("token");
         });
     }
+
     render() {
       const { loading, redirect } = this.state;
       if (loading) {
@@ -31,7 +34,7 @@ export default function withAuth(ComponentToProtect) {
       }
       return (
         <React.Fragment>
-          <DemoNavbar {...this.props} logged={true}/>
+          <DemoNavbar {...this.props}/>
           <ComponentToProtect {...this.props} />
         </React.Fragment>
       );

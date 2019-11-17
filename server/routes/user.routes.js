@@ -15,15 +15,13 @@ async function userRoutes (fastify) {
     fastify.post(path + 'login', async (request, reply) => {
         const { email, password } = request.body;
         UserController.login(email, password)
-            .then(token => {
-                reply.send({token});
-            })
+            .then(res => reply.send(res))
             .catch(err => reply.code(err.status).send(err.message));
     });
 
     fastify.get(path + 'checkToken', async (request, reply) => {
         middlewares(request, reply, [withAuth], () => {
-            reply.send();
+            reply.send({userId: request.userId});
         });
     });
 
@@ -39,6 +37,16 @@ async function userRoutes (fastify) {
         UserController.resetPassword(password, resetPasswordToken)
             .then(() => reply.send())
             .catch(err => reply.code(err.status).send(err.message));
+    });
+
+    fastify.post(path + 'updatePassword', async (request, reply) => {
+        middlewares(request, reply, [withAuth], () => {
+            const { previousPassword, password } = request.body;
+            const { userId } = request;
+            UserController.updatePassword(previousPassword, password, userId)
+                .then(() => reply.send())
+                .catch(err => reply.code(err.status).send(err.message));
+        });
     });
 }
 

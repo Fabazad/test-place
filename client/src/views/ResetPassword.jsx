@@ -96,7 +96,7 @@ class ResetPassword extends React.Component {
                               </InputGroupText>
                             </InputGroupAddon>
                             <Input
-                              placeholder="Password"
+                              placeholder="Mot de passe"
                               type="password"
                               autoComplete="off"
                               name="password"
@@ -114,7 +114,7 @@ class ResetPassword extends React.Component {
                               </InputGroupText>
                             </InputGroupAddon>
                             <Input
-                              placeholder="Password"
+                              placeholder="Mot de passe"
                               type="password"
                               autoComplete="off"
                               name="password2"
