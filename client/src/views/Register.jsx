@@ -59,7 +59,7 @@ class Register extends React.Component {
     }
     userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
       this.props.history.push('/login');
-      toast.success("Inscrit !");
+      toast.success("Inscrit ! Un mail de validation vous a été envoyé.");
     });
   }
 

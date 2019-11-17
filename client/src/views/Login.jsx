@@ -24,6 +24,8 @@ import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { setCookie } from "helpers/cookies";
 import { toast } from "react-toastify";
 import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
+import Loading from "components/Loading";
+import userServices from "services/user.services";
 
 
 class Login extends React.Component {
@@ -32,7 +34,8 @@ class Login extends React.Component {
     super(props)
     this.state = {
       email : '',
-      password: ''
+      password: '',
+      loadingPromise: null
     };
   }
 
@@ -45,11 +48,14 @@ class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    userService.login(this.state.email, this.state.password).then(res => {
+    this.setState({loading: true});
+    const loadingPromise = userService.login(this.state.email, this.state.password).then(res => {
+      this.setState({loading: false});
       setCookie("token", res.token, 7);
       this.props.history.push('/profile/' + res.user._id);
       toast.success("Connecté !");
-    });
+    }).catch(() => this.setState({loading: false}));
+    this.setState({loadingPromise});
   }
 
   componentDidMount() {
@@ -77,6 +83,7 @@ class Login extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
+                    <Loading promise={this.state.loadingPromise} />
                     <CardHeader className="bg-white pb-5">
                       <div className="text-muted text-center mb-3">
                         <small>Sign in with</small>

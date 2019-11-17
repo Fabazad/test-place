@@ -23,7 +23,9 @@ class StepController {
                         if (err) {
                             reject({ status: 500, message: "Error registering new user please try again." });
                         } else {
-                            resolve({user});
+                            EmailController.sendValidateMailAddressMail(email, user._id)
+                                .then(() => resolve({user}))
+                                .catch(reject);
                         }
                     });
                 }
@@ -45,6 +47,8 @@ class StepController {
                     reject({ status: 500, message: "Internal error please try again"});
                 } else if (!user) {
                     reject({ status: 401, message: "Incorrect email or password"});
+                } else if (!user.emailValidation) {
+                    reject({ status: 401, message: "The email needs to be validate before."});
                 } else {
                     user.isCorrectPassword(password, function(err, same) {
                         if (err) {
@@ -64,7 +68,6 @@ class StepController {
     }
 
     static async resetPasswordMail(email) {
-        console.log("TEST");
         return new Promise((resolve, reject) => {
             if (!email) {
                 reject({ status: 400, message: "Missing email."});
@@ -77,7 +80,6 @@ class StepController {
                     if (!user) {
                         return reject({ status: 400, message: "No user with this email found."})
                     }
-                    console.log("TEST2")
                     EmailController.sendResetPasswordMail(email, resetPasswordToken)
                         .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
                 })
