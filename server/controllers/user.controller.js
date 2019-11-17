@@ -66,6 +66,7 @@ class StepController {
     }
 
     static async resetPasswordMail(email) {
+        console.log("TEST");
         return new Promise((resolve, reject) => {
             if (!mail) {
                 return reject({ status: 400, message: "Missing email."});
@@ -75,6 +76,10 @@ class StepController {
             const resetPasswordExpires = tokenMoment.toDate();
             UserModel.findOneAndUpdate({email}, { $set:{ resetPasswordToken, resetPasswordExpires } }, { new: true })
                 .then(user => {
+                    if (!user) {
+                        return reject({ status: 400, message: "No user with this email found."})
+                    }
+                    console.log("TEST2")
                     EmailController.sendResetPasswordMail(email, resetPasswordToken)
                         .then(resolve).catch(err => reject({status: 500, message: err}));
                 })

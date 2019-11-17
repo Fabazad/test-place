@@ -38,6 +38,7 @@ class EmailController {
     const jsonMail = mail.toJSON();
     const baseUrl = process.env.NODE_ENV === 'development' ? constants.FRONTEND_LOCAL_URL : constants.FRONTEND_URL;
     jsonMail.personalizations[0].dynamic_template_data = { resetPasswordToken, baseUrl };
+    console.log("TEST3");
     return this.sendEmail(jsonMail);
   }
 
