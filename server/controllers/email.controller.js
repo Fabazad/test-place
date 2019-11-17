@@ -1,14 +1,14 @@
 const helper = require('sendgrid').mail;
+const constants = require("../helpers/constants");
 require('dotenv').config();
 
-const from_email = new helper.Email('test@example.com');
+const from_email = new helper.Email(constants.FROM_MAIL_ADDRESS);
 const senfGrid = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 class EmailController {
 
   static async sendEmail(body) {
     return new Promise((resolve, reject) => {
-      console.log(body.personalizations[0]);
       var request = senfGrid.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -16,10 +16,7 @@ class EmailController {
       });
       
       senfGrid.API(request, function(error, response) {
-        console.log(response.statusCode);
-        console.log(typeof response.statusCode);
         if (response.statusCode === 202) {
-          console.log("test");
           resolve();
         }
         else {
@@ -37,9 +34,10 @@ class EmailController {
     const mail = new helper.Mail();
     mail.setFrom(from_email);
     mail.addPersonalization(personalization);
-    mail.setTemplateId("d-d4d5481b37e648b0ad6583ef88d572d6");
+    mail.setTemplateId(constants.MAIL_TEMPLATES_IDS.RESET_PASSWORD);
     const jsonMail = mail.toJSON();
-    jsonMail.personalizations[0].dynamic_template_data = { "resetPasswordToken": resetPasswordToken };
+    const baseUrl = process.env.NODE_ENV === 'development' ? constants.FRONTEND_LOCAL_URL : constants.FRONTEND_URL;
+    jsonMail.personalizations[0].dynamic_template_data = { resetPasswordToken, baseUrl };
     return this.sendEmail(jsonMail);
   }
 
