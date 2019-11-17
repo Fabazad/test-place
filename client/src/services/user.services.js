@@ -40,6 +40,10 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + "/resetPassword", {password, resetPasswordToken}).then(serviceResolve);
     }
 
+    updatePassword(previousPassword, password) {
+        return axios.post(this.baseURL + "/updatePassword", {previousPassword, password}).then(serviceResolve);
+    }
+
     getCurrentUserId(){
         return this.currentUserId;
     }
@@ -49,7 +53,6 @@ class UserService extends BaseService {
     }
 
     logout() {
-        console.log("test");
         eraseCookie("token");
         this.currentUserId = null;
     }

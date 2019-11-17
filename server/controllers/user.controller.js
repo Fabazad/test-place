@@ -65,13 +65,13 @@ class StepController {
 
     static async resetPasswordMail(email) {
         return new Promise((resolve, reject) => {
-            if (!mail) {
-                return reject({ status: 400, message: "Missing email."});
+            if (!email) {
+                reject({ status: 400, message: "Missing email."});
             }
             const resetPasswordToken = randomToken(16);
             const tokenMoment = (new moment()).add(15, "minutes");
             const resetPasswordExpires = tokenMoment.toDate();
-            UserModel.findOneAndUpdate({email}, { $set:{ resetPasswordToken, resetPasswordExpires } }, { new: true })
+            UserModel.findOneAndUpdate({email}, { $set: { resetPasswordToken, resetPasswordExpires } }, { new: true })
                 .then(user => {
                     EmailController.sendResetPasswordMail(email, resetPasswordToken)
                         .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
@@ -93,6 +93,48 @@ class StepController {
                     if (!user) {
                         return reject({ status: 403, message: "Wrong or expired token."});
                     }
+                    user.password = password;
+                    user.resetPasswordToken = undefined;
+                    user.resetPasswordExpires = undefined;
+                    user.save((err) => {
+                        if (err) {
+                            reject({ status: 500, message: "Error updating password's user, please try again." });
+                        }
+                        else {
+                            resolve({user});
+                        }
+                    });
+                })
+                .catch(err => reject({status: 500, message: err}));
+        });
+    }
+
+    static async updatePassword(previousPassword, password, userId) {
+        return new Promise((resolve, reject) => {
+            if (password.length < 8) {
+                return reject({ status: 400, message: "Password too short."});
+            }
+            if (!userId) {
+                return reject({ status: 400, message: "Missing user token."});
+            }
+            UserModel.findById(userId)
+                .then(user => {
+                    if (!user) {
+                        return reject({ status: 403, message: "Wrong user token."});
+                    }
+                    user.isCorrectPassword(previousPassword, (err, same) => {
+                        if (err) {
+                            reject({ status: 500, message: "Internal error please try again."});
+                        } else if (!same) {
+                            reject({ status: 401, message: "Incorrect current password."});
+                        } else {
+                            // Issue token
+                            user.password = password;
+                            user.save(() => {
+                                resolve({user});
+                            });
+                        }
+                    });
                     user.password = password;
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
