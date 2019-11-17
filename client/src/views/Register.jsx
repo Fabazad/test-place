@@ -23,6 +23,7 @@ import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
 import PasswordStrength from "components/PasswordStrength";
+import Loading from "components/Loading";
 
 class Register extends React.Component {
 
@@ -32,7 +33,8 @@ class Register extends React.Component {
       email : '',
       password: '',
       password2: '',
-      captcha: ''
+      captcha: '',
+      loadingPromise: null
     };
   }
 
@@ -57,10 +59,11 @@ class Register extends React.Component {
       toast.error("Vérifiez que vous êtes Humain.");
       return;
     }
-    userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
+    const loadingPromise = userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
       this.props.history.push('/login');
-      toast.success("Inscrit !");
+      toast.success("Inscrit ! Un mail de validation vous a été envoyé.");
     });
+    this.setState({ loadingPromise });
   }
 
   componentDidMount() {
@@ -92,6 +95,7 @@ class Register extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
+                    <Loading promise={this.state.loadingPromise} />
                     <CardHeader className="bg-white pb-5">
                       <div className="text-muted text-center mb-3">
                         <small>Sign up with</small>

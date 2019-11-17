@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import userService from "services/user.services";
+import Loading from "components/Loading";
 //import PropTypes from 'prop-types';
 
 class ForgottenPasswordModal extends React.Component {
@@ -20,7 +21,8 @@ class ForgottenPasswordModal extends React.Component {
     super(props)
     this.state = {
       email : '',
-      exampleModal: false
+      exampleModal: false,
+      loadingPromise: null
     };
   }
 
@@ -39,15 +41,14 @@ class ForgottenPasswordModal extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    userService.sendResetPasswordMail(this.state.email)
+    const loadingPromise = userService.sendResetPasswordMail(this.state.email)
       .then(() => {
         toast.success("Un mail a été envoyé.");
         this.setState({email: ''});
         this.toggleModal("exampleModal");
       })
       .catch(() => toast.error("Le mail n'a pas pu être envoyé."));
-    
-    
+    this.setState({ loadingPromise });
   }
   
   render() {
@@ -67,6 +68,7 @@ class ForgottenPasswordModal extends React.Component {
           isOpen={this.state.exampleModal}
           toggle={() => this.toggleModal("exampleModal")}
         >
+          <Loading promise={this.state.loadingPromise} />
           <Form role="form" onSubmit={this.onSubmit}>
             <div className="modal-header bg-secondary">
               <h5 className="modal-title" id="exampleModalLabel">

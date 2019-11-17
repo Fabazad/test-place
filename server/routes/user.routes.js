@@ -48,6 +48,13 @@ async function userRoutes (fastify) {
                 .catch(err => reply.code(err.status).send(err.message));
         });
     });
+
+    fastify.post(path + 'emailValidation', async (request, reply) => {
+        const { userId } = request.body;
+        UserController.emailValidation(userId)
+            .then(() => reply.send())
+            .catch(err => reply.code(err.status).send(err.message));
+    });
 }
 
 module.exports = userRoutes

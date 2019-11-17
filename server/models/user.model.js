@@ -6,6 +6,7 @@ const saltRounds = 10;
 var UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date
 });

@@ -22,6 +22,7 @@ import anyAuth from "helpers/anyAuth";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from "views/ResetPassword";
+import EmailValidation from "views/EmailValidation";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
@@ -37,6 +38,7 @@ ReactDOM.render(
         <Route path="/landing" component={anyAuth(Landing)} />
         <Route path="/profile/:userId" component={anyAuth(Profile)} />
         <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)} />
+        <Route path="/email-validation/:userId" component={withoutAuth(EmailValidation)} />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>

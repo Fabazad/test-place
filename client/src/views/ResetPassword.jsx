@@ -21,6 +21,7 @@ import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import PasswordStrength from "components/PasswordStrength";
 import { toast } from "react-toastify";
 import userServices from "services/user.services";
+import Loading from "components/Loading";
 
 class ResetPassword extends React.Component {
 
@@ -29,7 +30,8 @@ class ResetPassword extends React.Component {
     this.state = {
       password : '',
       password2 : '',
-      exampleModal: false
+      exampleModal: false,
+      loadingPromise: null
     };
   }
 
@@ -56,12 +58,13 @@ class ResetPassword extends React.Component {
       toast.error("Les deux mots des passe ne sont pas identiques.");
       return;
     }
-    userServices.resetPassword(this.state.password, this.props.match.params.resetPasswordToken)
+    const loadingPromise = userServices.resetPassword(this.state.password, this.props.match.params.resetPasswordToken)
       .then(() => {
         toast.success("Mot de passe modifié.");
         this.props.history.push("/login");
       })
       .catch((err) => toast.error("Le mot de passe n'a pas été modifié."));
+    this.setState({ loadingPromise });
   }
 
   render() {
@@ -83,6 +86,7 @@ class ResetPassword extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
+                    <Loading promise={this.state.loadingPromise} />
                     <CardBody className="px-lg-5 py-lg-5">
                       <div className="text-center text-muted mb-4">
                         <small>Choisir un nouveau mot de passe</small>

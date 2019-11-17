@@ -26,6 +26,21 @@ class EmailController {
     })
   }
 
+  static async sendValidateMailAddressMail(email, userId) {
+    const to_email = new helper.Email(email);
+    const personalization = new helper.Personalization();
+    personalization.addTo(to_email);
+
+    const mail = new helper.Mail();
+    mail.setFrom(from_email);
+    mail.addPersonalization(personalization);
+    mail.setTemplateId(constants.MAIL_TEMPLATES_IDS.VALIDATE_EMAIL);
+    const jsonMail = mail.toJSON();
+    const baseUrl = process.env.NODE_ENV === 'development' ? constants.FRONTEND_LOCAL_URL : constants.FRONTEND_URL;
+    jsonMail.personalizations[0].dynamic_template_data = { userId, baseUrl };
+    return this.sendEmail(jsonMail);
+  }
+
   static async sendResetPasswordMail(email, resetPasswordToken) {
     const to_email = new helper.Email(email);
     const personalization = new helper.Personalization();
@@ -38,7 +53,6 @@ class EmailController {
     const jsonMail = mail.toJSON();
     const baseUrl = process.env.NODE_ENV === 'development' ? constants.FRONTEND_LOCAL_URL : constants.FRONTEND_URL;
     jsonMail.personalizations[0].dynamic_template_data = { resetPasswordToken, baseUrl };
-    console.log("TEST3");
     return this.sendEmail(jsonMail);
   }
 
