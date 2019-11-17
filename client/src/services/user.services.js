@@ -44,6 +44,10 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + "/updatePassword", {previousPassword, password}).then(serviceResolve);
     }
 
+    emailValidation(userId) {
+        return axios.post(this.baseURL + "/emailValidation", {userId}).then(serviceResolve);
+    }
+
     getCurrentUserId(){
         return this.currentUserId;
     }

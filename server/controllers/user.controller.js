@@ -157,6 +157,22 @@ class StepController {
                 .catch(err => reject({status: 500, message: err}));
         });
     }
+
+    static async emailValidation(userId) {
+        return new Promise((resolve, reject) => {
+            if (!userId) {
+                return reject({ status: 400, message: "Missing token."});
+            }
+            UserModel.findByIdAndUpdate(userId, { $set: { emailValidation: true } })
+                .then(user => {
+                    if (!user) {
+                        return reject({ status: 403, message: "Wrong token."});
+                    }
+                    resolve({user});
+                })
+                .catch(err => reject({status: 500, message: err}));
+        });
+    }
 }
 
 module.exports = StepController;
