@@ -1,4 +1,5 @@
 import React from "react";
+import userService from "services/user.services";
 
 // reactstrap components
 import { Button, Card, Container, Row, Col } from "reactstrap";
@@ -11,6 +12,7 @@ class Profile extends React.Component {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+    console.log(userService.getCurrentUserId());
   }
   render() {
     return (

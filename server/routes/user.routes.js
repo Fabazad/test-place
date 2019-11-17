@@ -15,15 +15,13 @@ async function userRoutes (fastify) {
     fastify.post(path + 'login', async (request, reply) => {
         const { email, password } = request.body;
         UserController.login(email, password)
-            .then(token => {
-                reply.send({token});
-            })
+            .then(res => reply.send(res))
             .catch(err => reply.code(err.status).send(err.message));
     });
 
     fastify.get(path + 'checkToken', async (request, reply) => {
         middlewares(request, reply, [withAuth], () => {
-            reply.send();
+            reply.send({userId: request.userId});
         });
     });
 

@@ -1,5 +1,6 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
+import { eraseCookie } from "helpers/cookies.js";
 
 function serviceResolve(res) {
     if (res.status !== 200) {
@@ -12,6 +13,7 @@ function serviceResolve(res) {
 class UserService extends BaseService {
     constructor() {
         super('/user');
+        this.currentUserId = null;
     }
 
     login(email, password) {
@@ -23,7 +25,11 @@ class UserService extends BaseService {
     }
 
     checkToken(token) {
-        return axios.get(this.baseURL + '/checkToken', {token}).then(serviceResolve);
+        return axios.get(this.baseURL + '/checkToken', {token}).then(res => {
+            if (res.data.userId) {
+                this.currentUserId = res.data.userId;
+            }
+        }).catch(() => this.logout());
     }
 
     sendResetPasswordMail(email) {
@@ -32,6 +38,19 @@ class UserService extends BaseService {
 
     resetPassword(password, resetPasswordToken) {
         return axios.post(this.baseURL + "/resetPassword", {password, resetPasswordToken}).then(serviceResolve);
+    }
+
+    getCurrentUserId(){
+        return this.currentUserId;
+    }
+
+    isAuth() {
+        return !!this.currentUserId;
+    }
+
+    logout() {
+        eraseCookie("token");
+        this.currentUserId = null;
     }
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import DemoNavbar from 'components/Navbars/DemoNavbar';
 import { getCookie } from './cookies';
+import userServices from 'services/user.services';
 
 export default function withoutAuth(ComponentToProtect) {
   return class extends Component {
@@ -17,6 +18,7 @@ export default function withoutAuth(ComponentToProtect) {
         this.setState({ loading: false, redirect: true });
       }
       else {
+        userServices.logout();
         this.setState({ loading: false });
       }
     }
@@ -26,7 +28,7 @@ export default function withoutAuth(ComponentToProtect) {
         return null;
       }
       if (redirect) {
-        return <Redirect to="/profile" />;
+        return <Redirect to="/landing" />;
       }
       return (
         <React.Fragment>

@@ -23,7 +23,7 @@ class StepController {
                         if (err) {
                             reject({ status: 500, message: "Error registering new user please try again." });
                         } else {
-                            resolve();
+                            resolve({user});
                         }
                     });
                 }
@@ -53,11 +53,9 @@ class StepController {
                             reject({ status: 401, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const payload = { email };
-                            const token = jwt.sign(payload, secret, {
-                                expiresIn: '1h'
-                            });
-                            resolve(token);
+                            const payload = { userId: user._id };
+                            const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+                            resolve({user, token});
                         }
                     });
                 }
@@ -76,7 +74,7 @@ class StepController {
             UserModel.findOneAndUpdate({email}, { $set:{ resetPasswordToken, resetPasswordExpires } }, { new: true })
                 .then(user => {
                     EmailController.sendResetPasswordMail(email, resetPasswordToken)
-                        .then(resolve).catch(err => reject({status: 500, message: err}));
+                        .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
                 })
                 .catch(err => reject({status: 500, message: err}));
         });
@@ -103,7 +101,7 @@ class StepController {
                             reject({ status: 500, message: "Error updating password's user, please try again." });
                         }
                         else {
-                            resolve(user);
+                            resolve({user});
                         }
                     });
                 })
