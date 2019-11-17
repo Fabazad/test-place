@@ -20,7 +20,6 @@ import {
 } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import CardsFooter from "components/Footers/CardsFooter.jsx";
 
 // index page sections

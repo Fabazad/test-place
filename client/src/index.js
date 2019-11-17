@@ -21,6 +21,7 @@ import withoutAuth from "helpers/withoutAuth";
 import anyAuth from "helpers/anyAuth";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ResetPassword from "views/ResetPassword";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
@@ -35,6 +36,7 @@ ReactDOM.render(
         <Route path="/register" component={withoutAuth(Register)} />
         <Route path="/landing" component={anyAuth(Landing)} />
         <Route path="/profile" component={withAuth(Profile)} />
+        <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)} />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>

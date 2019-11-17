@@ -4,7 +4,6 @@ import React from "react";
 import { Button, Card, Container, Row, Col } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 
 class Profile extends React.Component {

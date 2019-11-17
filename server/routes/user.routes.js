@@ -26,6 +26,20 @@ async function userRoutes (fastify) {
             reply.send();
         });
     });
+
+    fastify.post(path + 'resetPasswordMail', async (request, reply) => {
+        const { email } = request.body;
+        UserController.resetPasswordMail(email)
+            .then(() => reply.send())
+            .catch(err => reply.code(err.status).send(err.message));
+    });
+
+    fastify.post(path + 'resetPassword', async (request, reply) => {
+        const { password, resetPasswordToken } = request.body;
+        UserController.resetPassword(password, resetPasswordToken)
+            .then(() => reply.send())
+            .catch(err => reply.code(err.status).send(err.message));
+    });
 }
 
 module.exports = userRoutes
