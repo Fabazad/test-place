@@ -67,6 +67,9 @@ class StepController {
 
     static async resetPasswordMail(email) {
         return new Promise((resolve, reject) => {
+            if (!mail) {
+                return reject({ status: 400, message: "Missing email."});
+            }
             const resetPasswordToken = randomToken(16);
             const tokenMoment = (new moment()).add(15, "minutes");
             const resetPasswordExpires = tokenMoment.toDate();
@@ -81,6 +84,12 @@ class StepController {
 
     static async resetPassword(password, resetPasswordToken) {
         return new Promise((resolve, reject) => {
+            if (password.length < 8) {
+                return reject({ status: 400, message: "Password too short."});
+            }
+            if (!resetPasswordToken) {
+                return reject({ status: 400, message: "Missing token."});
+            }
             UserModel.findOne({resetPasswordToken, resetPasswordExpires: { $gte: new Date() } })
                 .then(user => {
                     if (!user) {
