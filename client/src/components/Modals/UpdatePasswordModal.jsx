@@ -13,6 +13,7 @@ import {
 import { toast } from "react-toastify";
 import userServices from "services/user.services";
 import PasswordStrength from "components/PasswordStrength";
+import Loading from "components/Loading";
 //import PropTypes from 'prop-types';
 
 class UpdatePasswordModal extends React.Component {
@@ -23,7 +24,8 @@ class UpdatePasswordModal extends React.Component {
         previousPassword: '',
         password : '',
         password2: '',
-        exampleModal: false
+        exampleModal: false,
+        loadingPromise: null
     };
   }
 
@@ -50,13 +52,14 @@ class UpdatePasswordModal extends React.Component {
       toast.error("Les deux mots des passe ne sont pas identiques.");
       return;
     }
-    userServices.updatePassword(this.state.previousPassword, this.state.password)
+    const loadingPromise = userServices.updatePassword(this.state.previousPassword, this.state.password)
       .then(() => {
         toast.success("Mot de passe modifié.");
         this.setState({previousPassword: '', password: '', password2: ''});
         this.toggleModal("exampleModal");
       })
       .catch((err) => toast.error("Le mot de passe n'a pas été modifié."));
+    this.setState({ loadingPromise });
   }
   
   render() {
@@ -77,6 +80,7 @@ class UpdatePasswordModal extends React.Component {
           isOpen={this.state.exampleModal}
           toggle={() => this.toggleModal("exampleModal")}
         >
+          <Loading promise={this.state.loadingPromise} />
             <Form role="form" onSubmit={this.onSubmit}>
                 <div className="modal-header bg-secondary">
                     <h5 className="modal-title" id="exampleModalLabel">
