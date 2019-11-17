@@ -81,7 +81,24 @@ class StepController {
 
     static async resetPassword(password, resetPasswordToken) {
         return new Promise((resolve, reject) => {
-            UserModel.findOne({resetPasswordToken}).then(user => resolve(user)).catch(err => reject({status: 500, message: err}));
+            UserModel.findOne({resetPasswordToken, resetPasswordExpires: { $gte: new Date() } })
+                .then(user => {
+                    if (!user) {
+                        return reject({ status: 403, message: "Wrong or expired token."});
+                    }
+                    user.password = password;
+                    user.resetPasswordToken = undefined;
+                    user.resetPasswordExpires = undefined;
+                    user.save((err) => {
+                        if (err) {
+                            reject({ status: 500, message: "Error updating password's user, please try again." });
+                        }
+                        else {
+                            resolve(user);
+                        }
+                    });
+                })
+                .catch(err => reject({status: 500, message: err}));
         });
     }
 }

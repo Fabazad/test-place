@@ -17,9 +17,10 @@ import {
 } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import PasswordStrength from "components/PasswordStrength";
+import { toast } from "react-toastify";
+import userServices from "services/user.services";
 
 class ResetPassword extends React.Component {
 
@@ -45,8 +46,22 @@ class ResetPassword extends React.Component {
     });
   };
   
-  onSubmit = () => {
-    console.log("test");
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.password.length < 8) {
+      toast.error("Le mot de passe doit contenir au moins 8 caractères.");
+      return;
+    }
+    if(this.state.password !== this.state.password2) {
+      toast.error("Les deux mots des passe ne sont pas identiques.");
+      return;
+    }
+    userServices.resetPassword(this.state.password, this.props.match.params.resetPasswordToken)
+      .then(() => {
+        toast.success("Mot de passe modifié.");
+        this.props.history.push("/login");
+      })
+      .catch((err) => toast.error("Le mot de passe n'a pas été modifié."));
   }
 
   render() {

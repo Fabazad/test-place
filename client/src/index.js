@@ -36,7 +36,7 @@ ReactDOM.render(
         <Route path="/register" component={withoutAuth(Register)} />
         <Route path="/landing" component={anyAuth(Landing)} />
         <Route path="/profile" component={withAuth(Profile)} />
-        <Route path="/reset-password/:token" component={withoutAuth(ResetPassword)} />
+        <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)} />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>

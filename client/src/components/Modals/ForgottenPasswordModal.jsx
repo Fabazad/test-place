@@ -37,7 +37,8 @@ class ForgottenPasswordModal extends React.Component {
     });
   };
 
-  onSubmit = () => {
+  onSubmit = (e) => {
+    e.preventDefault();
     userService.sendResetPasswordMail(this.state.email)
       .then(() => {
         toast.success("Un mail a été envoyé.");

@@ -171,7 +171,7 @@ class Login extends React.Component {
                             color="primary"
                             type="submit"
                           >
-                            Sign in
+                            Connexion
                           </Button>
                         </div>
                       </Form>

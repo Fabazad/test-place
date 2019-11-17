@@ -29,6 +29,10 @@ class UserService extends BaseService {
     sendResetPasswordMail(email) {
         return axios.post(this.baseURL + "/resetPasswordMail", {email}).then(serviceResolve);
     }
+
+    resetPassword(password, resetPasswordToken) {
+        return axios.post(this.baseURL + "/resetPassword", {password, resetPasswordToken}).then(serviceResolve);
+    }
 }
 
 export default new UserService();
