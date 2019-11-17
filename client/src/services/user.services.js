@@ -49,6 +49,7 @@ class UserService extends BaseService {
     }
 
     logout() {
+        console.log("test");
         eraseCookie("token");
         this.currentUserId = null;
     }
