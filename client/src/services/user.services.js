@@ -13,7 +13,7 @@ function serviceResolve(res) {
 class UserService extends BaseService {
     constructor() {
         super('/user');
-        this.currentUserId = null;
+        this.currentUserId = undefined;
     }
 
     login(email, password) {
@@ -25,11 +25,18 @@ class UserService extends BaseService {
     }
 
     checkToken(token) {
-        return axios.get(this.baseURL + '/checkToken', {token}).then(res => {
-            if (res.data.userId) {
-                this.currentUserId = res.data.userId;
-            }
-        }).catch(() => this.logout());
+        return new Promise((resolve, reject) => {
+            axios.get(this.baseURL + '/checkToken', {token}).then(res => {
+                if (res.data.userId) {
+                    this.currentUserId = res.data.userId;
+                    resolve();
+                }
+                reject();
+            }).catch(() => {
+                this.logout();
+                reject();
+            });
+        });   
     }
 
     sendResetPasswordMail(email) {
@@ -59,6 +66,10 @@ class UserService extends BaseService {
     logout() {
         eraseCookie("token");
         this.currentUserId = null;
+    }
+
+    isAlreadyChecked() {
+        return this.currentUserId !== undefined;
     }
 }
 

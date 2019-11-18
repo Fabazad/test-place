@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import userService from 'services/user.services';
 import DemoNavbar from 'components/Navbars/DemoNavbar';
 import { eraseCookie } from './cookies';
+import Loading from 'components/Loading';
 
 export default function withAuth(ComponentToProtect) {
   return class extends Component {
@@ -10,30 +11,33 @@ export default function withAuth(ComponentToProtect) {
     constructor() {
       super();
       this.state = {
-        loading: true,
         redirect: false,
+        checked: false,
+        loadingPromise: null
       };
     }
 
     componentDidMount() {
-      userService.checkToken()
-        .then( () =>  this.setState({ loading: false }))
+      const loadingPromise = userService.checkToken()
+        .then( () =>  this.setState({ checked: true }))
         .catch(err => {
-          this.setState({ loading: false, redirect: true });
-          eraseCookie("token");
+          this.setState({ checked: true, redirect: true });
+          userService.logout();
         });
+        this.setState({ loadingPromise });
     }
 
     render() {
-      const { loading, redirect } = this.state;
-      if (loading) {
-        return null;
-      }
+      const { checked, redirect, loadingPromise } = this.state;
       if (redirect) {
         return <Redirect to="/login" />;
       }
+      if(!userService.isAlreadyChecked() && !checked) {
+        return (<><Loading key={"0"} loading={true}/></>);
+      }
       return (
         <React.Fragment>
+          <Loading key={"1"} promise={loadingPromise}/>
           <DemoNavbar {...this.props}/>
           <ComponentToProtect {...this.props} />
         </React.Fragment>
