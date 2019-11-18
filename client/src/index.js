@@ -38,7 +38,7 @@ ReactDOM.render(
         <Route path="/landing" component={anyAuth(Landing)} />
         <Route path="/profile/:userId" component={anyAuth(Profile)} />
         <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)} />
-        <Route path="/email-validation/:userId" component={withoutAuth(EmailValidation)} />
+        <Route path="/email-validation/:userId" component={anyAuth(EmailValidation)} />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>
