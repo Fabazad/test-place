@@ -15,7 +15,8 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
+  Label
 } from "reactstrap";
 
 // core components
@@ -24,6 +25,7 @@ import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
 import PasswordStrength from "components/PasswordStrength";
 import Loading from "components/Loading";
+import SwitchButtons from "components/SwitchButtons";
 
 class Register extends React.Component {
 
@@ -33,6 +35,7 @@ class Register extends React.Component {
       email : '',
       password: '',
       password2: '',
+      role: '',
       captcha: '',
       loadingPromise: null
     };
@@ -59,9 +62,10 @@ class Register extends React.Component {
       toast.error("Vérifiez que vous êtes Humain.");
       return;
     }
-    const loadingPromise = userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
+
+    const loadingPromise = userService.register(this.state.email, this.state.password, this.state.role, this.state.captcha).then(res => {
       this.props.history.push('/login');
-      toast.success("Inscrit ! Un mail de validation vous a été envoyé.");
+      toast.success("Un mail de validation vous a été envoyé.");
     });
     this.setState({ loadingPromise });
   }
@@ -190,7 +194,15 @@ class Register extends React.Component {
                           </InputGroup>
                         </FormGroup>
                         <PasswordStrength min={8} password={this.state.password} />
-                        <div className="text-center my-3">
+                        <div className="my-3">
+                          <Label>Je suis :</Label>
+                          <SwitchButtons 
+                            fields={[{label: "Testeur", value: 'reviewer'}, {label: "Vendeur", value: 'buyer'}]} 
+                            onChange={this.handleInputChange}
+                            name="role"
+                          />
+                        </div>
+                        <div className="text-center mb-3 mt-4">
                           <ReCAPTCHA
                             sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
                             onChange={($event) => this.onCaptchaChange($event)}
