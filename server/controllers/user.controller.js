@@ -57,7 +57,7 @@ class StepController {
                             reject({ status: 401, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const payload = { userId: user._id };
+                            const payload = { userId: user._id, role: user.role };
                             const token = jwt.sign(payload, secret, { expiresIn: '1h' });
                             resolve({user, token});
                         }

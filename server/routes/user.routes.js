@@ -21,7 +21,7 @@ async function userRoutes (fastify) {
 
     fastify.get(path + 'checkToken', async (request, reply) => {
         middlewares(request, reply, [withAuth], () => {
-            reply.send({userId: request.userId});
+            reply.send({ userId: request.userId, role: request.role });
         });
     });
 

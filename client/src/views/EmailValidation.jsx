@@ -6,9 +6,9 @@ import {
   CardBody,
   Container,
   Row,
-  CardHeader,
   Col
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
@@ -63,6 +63,9 @@ class EmailValidation extends React.Component {
                       {this.state.validate === true ? 
                       <div className="text-center">
                         <AnimatedCheck text={'Email validée.'}/>
+                        <p className="text-center text-primary">
+                          <Link to="/login"><small>Se connecter</small></Link>
+                        </p>
                       </div> : null}
                       {this.state.validate === false ? 
                       <div className="text-center">

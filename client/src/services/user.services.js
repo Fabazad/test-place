@@ -14,6 +14,7 @@ class UserService extends BaseService {
     constructor() {
         super('/user');
         this.currentUserId = undefined;
+        this.role = undefined;
     }
 
     login(email, password) {
@@ -29,6 +30,7 @@ class UserService extends BaseService {
             axios.get(this.baseURL + '/checkToken', {token}).then(res => {
                 if (res.data.userId) {
                     this.currentUserId = res.data.userId;
+                    this.role = res.data.role;
                     resolve();
                 }
                 reject();
@@ -70,6 +72,10 @@ class UserService extends BaseService {
 
     isAlreadyChecked() {
         return this.currentUserId !== undefined;
+    }
+
+    getRole() {
+        return this.role;
     }
 }
 

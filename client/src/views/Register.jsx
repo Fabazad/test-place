@@ -143,7 +143,7 @@ class Register extends React.Component {
                       <Form role="form" onSubmit={this.onSubmit}>
                         <div className="mt-3 mb-4">
                           <SwitchButtons 
-                            fields={[{label: "Testeur", value: 'reviewer'}, {label: "Vendeur", value: 'buyer'}]} 
+                            fields={[{label: "Testeur", value: 'reviewer'}, {label: "Vendeur", value: 'seller'}]} 
                             onChange={this.handleInputChange}
                             name="role"
                           />

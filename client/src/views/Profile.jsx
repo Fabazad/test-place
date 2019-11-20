@@ -16,6 +16,9 @@ class Profile extends React.Component {
   }
   render() {
     const isAuth = userService.isAuth();
+    if (isAuth) {
+      console.log(userService.getRole());
+    }
     return (
       <>
         <main className="profile-page" ref="main">
