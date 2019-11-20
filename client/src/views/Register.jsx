@@ -15,9 +15,10 @@ import {
   InputGroup,
   Container,
   Row,
-  Col,
-  Label
+  Col
 } from "reactstrap";
+
+import { Link } from 'react-router-dom';
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
@@ -140,6 +141,13 @@ class Register extends React.Component {
                         <small>Or sign up with credentials</small>
                       </div>
                       <Form role="form" onSubmit={this.onSubmit}>
+                        <div className="mt-3 mb-4">
+                          <SwitchButtons 
+                            fields={[{label: "Testeur", value: 'reviewer'}, {label: "Vendeur", value: 'buyer'}]} 
+                            onChange={this.handleInputChange}
+                            name="role"
+                          />
+                        </div>
                         <FormGroup>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
@@ -194,14 +202,6 @@ class Register extends React.Component {
                           </InputGroup>
                         </FormGroup>
                         <PasswordStrength min={8} password={this.state.password} />
-                        <div className="my-3">
-                          <Label>Je suis :</Label>
-                          <SwitchButtons 
-                            fields={[{label: "Testeur", value: 'reviewer'}, {label: "Vendeur", value: 'buyer'}]} 
-                            onChange={this.handleInputChange}
-                            name="role"
-                          />
-                        </div>
                         <div className="text-center mb-3 mt-4">
                           <ReCAPTCHA
                             sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
@@ -242,6 +242,11 @@ class Register extends React.Component {
                           >
                             Create account
                           </Button>
+                        </div>
+                        <div className="text-center mt-3">
+                          <Link to="/login">
+                            <small className="text-primary">J'ai déjà un compte</small>
+                          </Link>
                         </div>
                       </Form>
                     </CardBody>

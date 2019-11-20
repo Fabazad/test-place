@@ -56,7 +56,7 @@ class ForgottenPasswordModal extends React.Component {
       <>
         {/* Button trigger modal */}
         <a
-          className="text-light"
+          className="text-primary"
           href="#pablo"
           onClick={() => this.toggleModal("exampleModal")}
         >

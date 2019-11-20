@@ -181,18 +181,19 @@ class Login extends React.Component {
                           </Button>
                         </div>
                       </Form>
+                      <Row className="mt-2">
+                        <Col xs="6">
+                          <ForgottenPasswordModal/>
+                        </Col>
+                        <Col className="text-right" xs="6">
+                          <Link to="/register" className="text-primary">
+                            <small>Nouveau compte</small>
+                          </Link>
+                        </Col>
+                      </Row>
                     </CardBody>
                   </Card>
-                  <Row className="mt-3">
-                    <Col xs="6">
-                      <ForgottenPasswordModal/>
-                    </Col>
-                    <Col className="text-right" xs="6">
-                      <Link to="/register" className="text-light">
-                        <small>Create new account</small>
-                      </Link>
-                    </Col>
-                  </Row>
+                  
                 </Col>
               </Row>
             </Container>
