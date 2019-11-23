@@ -13,14 +13,22 @@ class Loading extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            loading: false
+            loading: null
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ loading: this.props.loading });
+        if (this.props.promise) {
+            this.setState({loading: true});
+            this.props.promise.finally(() => this.setState({loading: false}));
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.promise) {
             this.setState({loading: true});
-            nextProps.promise.then(() => this.setState({loading: false}));
+            nextProps.promise.finally(() => this.setState({loading: false}));
         }
     }
 

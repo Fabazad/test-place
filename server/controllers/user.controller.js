@@ -9,7 +9,7 @@ require('dotenv').config();
 
 class StepController {
 
-    static async register(email, password, captcha) {
+    static async register(email, password, role, captcha) {
         return new Promise ((resolve, reject) => {
             if (password.length < 8) {
                 reject({ status: 400, message: "The password is too short." });
@@ -18,7 +18,7 @@ class StepController {
             axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`)
             .then(response => {
                 if (response.data.success) {
-                    const user = new UserModel({email, password});
+                    const user = new UserModel({ email, password, role });
                     user.save(function(err) {
                         if (err) {
                             reject({ status: 500, message: "Error registering new user please try again." });
@@ -57,7 +57,7 @@ class StepController {
                             reject({ status: 401, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const payload = { userId: user._id };
+                            const payload = { userId: user._id, role: user.role };
                             const token = jwt.sign(payload, secret, { expiresIn: '1h' });
                             resolve({user, token});
                         }

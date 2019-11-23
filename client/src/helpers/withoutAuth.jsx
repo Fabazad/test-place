@@ -9,24 +9,19 @@ export default function withoutAuth(ComponentToProtect) {
     constructor() {
       super();
       this.state = {
-        loading: true,
         redirect: false,
       };
     }
     componentDidMount() {
       if (getCookie("token")) {
-        this.setState({ loading: false, redirect: true });
+        this.setState({ redirect: true });
       }
       else {
         userServices.logout();
-        this.setState({ loading: false });
       }
     }
     render() {
-      const { loading, redirect } = this.state;
-      if (loading) {
-        return null;
-      }
+      const { redirect } = this.state;
       if (redirect) {
         return <Redirect to="/landing" />;
       }

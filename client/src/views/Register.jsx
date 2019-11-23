@@ -18,12 +18,15 @@ import {
   Col
 } from "reactstrap";
 
+import { Link } from 'react-router-dom';
+
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
 import PasswordStrength from "components/PasswordStrength";
 import Loading from "components/Loading";
+import SwitchButtons from "components/SwitchButtons";
 
 class Register extends React.Component {
 
@@ -33,6 +36,7 @@ class Register extends React.Component {
       email : '',
       password: '',
       password2: '',
+      role: '',
       captcha: '',
       loadingPromise: null
     };
@@ -59,9 +63,10 @@ class Register extends React.Component {
       toast.error("Vérifiez que vous êtes Humain.");
       return;
     }
-    const loadingPromise = userService.register(this.state.email, this.state.password, this.state.captcha).then(res => {
+
+    const loadingPromise = userService.register(this.state.email, this.state.password, this.state.role, this.state.captcha).then(res => {
       this.props.history.push('/login');
-      toast.success("Inscrit ! Un mail de validation vous a été envoyé.");
+      toast.success("Un mail de validation vous a été envoyé.");
     });
     this.setState({ loadingPromise });
   }
@@ -136,6 +141,13 @@ class Register extends React.Component {
                         <small>Or sign up with credentials</small>
                       </div>
                       <Form role="form" onSubmit={this.onSubmit}>
+                        <div className="mt-3 mb-4">
+                          <SwitchButtons 
+                            fields={[{label: "Testeur", value: 'reviewer'}, {label: "Vendeur", value: 'seller'}]} 
+                            onChange={this.handleInputChange}
+                            name="role"
+                          />
+                        </div>
                         <FormGroup>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
@@ -190,7 +202,7 @@ class Register extends React.Component {
                           </InputGroup>
                         </FormGroup>
                         <PasswordStrength min={8} password={this.state.password} />
-                        <div className="text-center my-3">
+                        <div className="text-center mb-3 mt-4">
                           <ReCAPTCHA
                             sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
                             onChange={($event) => this.onCaptchaChange($event)}
@@ -230,6 +242,11 @@ class Register extends React.Component {
                           >
                             Create account
                           </Button>
+                        </div>
+                        <div className="text-center mt-3">
+                          <Link to="/login">
+                            <small className="text-primary">J'ai déjà un compte</small>
+                          </Link>
                         </div>
                       </Form>
                     </CardBody>

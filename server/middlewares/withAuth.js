@@ -15,6 +15,7 @@ const withAuth = function(req, res, next) {
         res.status(401).send('Unauthorized');
       } else {
         req.userId = decoded.userId;
+        req.role = decoded.role;
         next();
       }
     });

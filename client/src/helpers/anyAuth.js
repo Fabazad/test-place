@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DemoNavbar from 'components/Navbars/DemoNavbar';
 import userService from 'services/user.services';
 import { eraseCookie, getCookie } from './cookies';
+import Loading from 'components/Loading';
 
 export default function withAuth(ComponentToProtect) {
 
@@ -10,33 +11,35 @@ export default function withAuth(ComponentToProtect) {
     constructor() {
       super();
       this.state = {
-        loading: true,
+        loadingPromise: null,
+        checked: false
       };
     }
   
     componentDidMount() {
       if (!getCookie("token")) {
         userService.logout();
-        this.setState({ loading: false });
+        this.setState({ checked: true });
       }
       else {
-        userService.checkToken()
-        .then( () =>  this.setState({ loading: false }))
+        const loadingPromise = userService.checkToken()
+        .then(() => this.setState({ checked: true }))
         .catch(err => {
-          this.setState({ loading: false });
           eraseCookie("token");
+          this.setState({ checked: true })
         });
+        this.setState({ loadingPromise });
       }
     }
 
 
     render() {
-      const { loading } = this.state;
-      if (loading) {
-        return null;
+      if(!userService.isAlreadyChecked() && !this.state.checked) {
+        return (<><Loading key={"0"} loading={true}/></>);
       }
       return (
         <React.Fragment>
+          <Loading key={"1"} promise={this.state.loadingPromise} loading={false}/>
           <DemoNavbar {...this.props}/>
           <ComponentToProtect {...this.props} />
         </React.Fragment>

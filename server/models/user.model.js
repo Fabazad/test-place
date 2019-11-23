@@ -8,7 +8,8 @@ var UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    role: { type: String, required: true, enum: ['reviewer', 'seller']}
 });
 
 UserSchema.pre('save', function(next) {

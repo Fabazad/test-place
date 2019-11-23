@@ -6,14 +6,16 @@ import {
   CardBody,
   Container,
   Row,
-  CardHeader,
   Col
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import Loading from "components/Loading";
 import userServices from "services/user.services";
+import AnimatedCheck from "components/AnimatedCheck";
+import AnimatedError from "components/AnimatedError";
 
 
 class EmailValidation extends React.Component {
@@ -56,16 +58,19 @@ class EmailValidation extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-
-                    <CardHeader className="bg-white pb-5">
-                      <h5 className="modal-title">Validation de l'adresse email</h5>
-                    </CardHeader>
+                    <CardBody className="px-lg-5 py-lg-5">
                       <Loading promise={this.state.loadigPromise} />
                       {this.state.validate === true ? 
-                      <div>Votre email a bien été validée.</div> : null}
+                      <div className="text-center">
+                        <AnimatedCheck text={'Email validée.'}/>
+                        <p className="text-center text-primary">
+                          <Link to="/login"><small>Se connecter</small></Link>
+                        </p>
+                      </div> : null}
                       {this.state.validate === false ? 
-                      <div>Votre email n'a pa pu être validée.</div> : null}
-                    <CardBody className="px-lg-5 py-lg-5">
+                      <div className="text-center">
+                        <AnimatedError text={'Email non validée.'} />
+                      </div> : null}
                     </CardBody>
                   </Card>
                 </Col>

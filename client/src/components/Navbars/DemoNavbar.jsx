@@ -41,11 +41,13 @@ class DemoNavbar extends React.Component {
             id="navbar-main"
           >
             <Container>
-              <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
+              <NavbarBrand className="mr-lg-5 d-flex" to="/" tag={Link}>
                 <img
+                  style={{height: "60px"}}
                   alt="..."
-                  src={require("assets/img/brand/argon-react-white.png")}
+                  src={require("assets/img/brand/logo_test_place.png")}
                 />
+                <span className="h3 text-white ml-3 my-auto" style={{lineHeight: "60px"}}>Test Place</span>
               </NavbarBrand>
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
@@ -57,7 +59,7 @@ class DemoNavbar extends React.Component {
                       <Link to="/">
                         <img
                           alt="..."
-                          src={require("assets/img/brand/argon-react.png")}
+                          src={require("assets/img/brand/logo_test_place.png")}
                         />
                       </Link>
                     </Col>
@@ -137,20 +139,20 @@ class DemoNavbar extends React.Component {
                   <UncontrolledDropdown nav>
                     <DropdownToggle nav>
                       <i className="ni ni-collection d-lg-none mr-1" />
-                      <span className="nav-link-inner--text">Examples</span>
+                      <span className="nav-link-inner--text">Menu</span>
                     </DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem to="/landing-page" tag={Link}>
-                        Landing
-                      </DropdownItem>
-                      <DropdownItem to="/profile-page" tag={Link}>
-                        Profile
-                      </DropdownItem>
-                      <DropdownItem to="/login-page" tag={Link}>
-                        Login
-                      </DropdownItem>
-                      <DropdownItem to="/register-page" tag={Link}>
-                        Register
+                      { !isAuth ? <DropdownItem to="/login" tag={Link}>
+                        Connexion
+                      </DropdownItem>: null }
+                      { !isAuth ? <DropdownItem to="/register" tag={Link}>
+                        Inscription
+                      </DropdownItem> : null }
+                      { isAuth ? <DropdownItem to={"/profile/"+userService.getCurrentUserId()} tag={Link}>
+                        Mon Profil
+                      </DropdownItem> : null }
+                      <DropdownItem to="/landing" tag={Link}>
+                        Recherche
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>

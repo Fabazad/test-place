@@ -72,7 +72,7 @@ class UpdatePasswordModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("exampleModal")}
         >
-          <small>Modifier le mot de passe</small>
+          <span>Modifier le mot de passe</span>
         </Button>
         {/* Modal */}
         <Modal

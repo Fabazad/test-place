@@ -53,11 +53,12 @@ class Landing extends React.Component {
               <Container className="py-lg-md d-flex">
                 <div className="col px-0">
                   <Row>
-                    <Col lg="6">
+                    <Col lg="12 text-center">
                       <h1 className="display-3 text-white">
-                        A beautiful Design System{" "}
-                        <span>completed with examples</span>
+                        Test Place{" "}
+                        <span>Produits Amazons contre des Avis Clients</span>
                       </h1>
+                      <img src={require("assets/img/brand/logo_test_place.png")} style={{height: "300px"}}/>
                       <p className="lead text-white">
                         The design system comes with four pre-built pages to
                         help you get started faster. You can change the text and
