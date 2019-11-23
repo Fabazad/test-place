@@ -39,9 +39,11 @@ export default function withAuth(ComponentToProtect) {
       }
       return (
         <React.Fragment>
-          <Loading key={"1"} promise={this.state.loadingPromise} loading={false}/>
-          <DemoNavbar {...this.props}/>
-          <ComponentToProtect {...this.props} />
+          <div id="login">
+            <Loading key={"1"} promise={this.state.loadingPromise} loading={false}/>
+            <DemoNavbar {...this.props}/>
+            <ComponentToProtect {...this.props} />
+          </div>
         </React.Fragment>
       );
     }

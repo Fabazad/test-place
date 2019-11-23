@@ -66,7 +66,7 @@ class Login extends React.Component {
   render() {
     return (
       <>
-        <main ref="main">
+        <main ref="main" id="login">
           <section className="section section-shaped section-lg">
             <div className="shape shape-style-1 bg-gradient-default">
               <span />

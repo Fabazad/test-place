@@ -244,7 +244,7 @@ class Register extends React.Component {
                           </Button>
                         </div>
                         <div className="text-center mt-3">
-                          <Link to="/login">
+                          <Link to='/#/login'>
                             <small className="text-primary">J'ai déjà un compte</small>
                           </Link>
                         </div>

@@ -30,7 +30,7 @@ export default function withAuth(ComponentToProtect) {
     render() {
       const { checked, redirect, loadingPromise } = this.state;
       if (redirect) {
-        return <Redirect to="/login" />;
+        return <Redirect to='/#/login' />;
       }
       if(!userService.isAlreadyChecked() && !checked) {
         return (<><Loading key={"0"} loading={true}/></>);

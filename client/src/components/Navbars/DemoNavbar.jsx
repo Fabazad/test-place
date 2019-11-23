@@ -36,9 +36,10 @@ class DemoNavbar extends React.Component {
       <>
         <header className="header-global">
           <Navbar
-            className="navbar-main navbar-transparent navbar-light headroom"
+            className="navbar-main navbar-transparent navbar-light headroom bg-primary"
             expand="lg"
             id="navbar-main"
+            style={{"zIndex": "10"}}
           >
             <Container>
               <NavbarBrand className="mr-lg-5 d-flex" to="/" tag={Link}>
@@ -75,7 +76,7 @@ class DemoNavbar extends React.Component {
                   <UncontrolledDropdown nav>
                     <DropdownToggle nav>
                       <i className="ni ni-ui-04 d-lg-none mr-1" />
-                      <span className="nav-link-inner--text">Components</span>
+                      <span className="nav-link-inner--text text-white">Components</span>
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-xl">
                       <div className="dropdown-menu-inner">
@@ -139,10 +140,10 @@ class DemoNavbar extends React.Component {
                   <UncontrolledDropdown nav>
                     <DropdownToggle nav>
                       <i className="ni ni-collection d-lg-none mr-1" />
-                      <span className="nav-link-inner--text">Menu</span>
+                      <span className="nav-link-inner--text text-white">Menu</span>
                     </DropdownToggle>
                     <DropdownMenu>
-                      { !isAuth ? <DropdownItem to="/login" tag={Link}>
+                      { !isAuth ? <DropdownItem to='/#/login' tag={Link}>
                         Connexion
                       </DropdownItem>: null }
                       { !isAuth ? <DropdownItem to="/register" tag={Link}>
@@ -150,6 +151,9 @@ class DemoNavbar extends React.Component {
                       </DropdownItem> : null }
                       { isAuth ? <DropdownItem to={"/profile/"+userService.getCurrentUserId()} tag={Link}>
                         Mon Profil
+                      </DropdownItem> : null }
+                      { isAuth ? <DropdownItem to={"/dashboard/index"} tag={Link}>
+                        Dashboard
                       </DropdownItem> : null }
                       <DropdownItem to="/landing" tag={Link}>
                         Recherche
@@ -165,7 +169,7 @@ class DemoNavbar extends React.Component {
                       id="tooltip333589074"
                       target="_blank"
                     >
-                      <i className="fa fa-facebook-square" />
+                      <i className="fa fa-facebook-square text-white" />
                       <span className="nav-link-inner--text d-lg-none ml-2">
                         Facebook
                       </span>
@@ -181,7 +185,7 @@ class DemoNavbar extends React.Component {
                       id="tooltip356693867"
                       target="_blank"
                     >
-                      <i className="fa fa-instagram" />
+                      <i className="fa fa-instagram text-white" />
                       <span className="nav-link-inner--text d-lg-none ml-2">
                         Instagram
                       </span>
@@ -197,7 +201,7 @@ class DemoNavbar extends React.Component {
                       id="tooltip184698705"
                       target="_blank"
                     >
-                      <i className="fa fa-twitter-square" />
+                      <i className="fa fa-twitter-square text-white" />
                       <span className="nav-link-inner--text d-lg-none ml-2">
                         Twitter
                       </span>
@@ -213,7 +217,7 @@ class DemoNavbar extends React.Component {
                       id="tooltip112445449"
                       target="_blank"
                     >
-                      <i className="fa fa-github" />
+                      <i className="fa fa-github text-white" />
                       <span className="nav-link-inner--text d-lg-none ml-2">
                         Github
                       </span>

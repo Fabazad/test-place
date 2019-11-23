@@ -9,6 +9,8 @@ import thunkMiddleware from 'redux-thunk'
 import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss";
+import "assets/dashboard/scss/argon-dashboard-react.scss";
+
 import "assets/scss/style.scss";
 
 import Login from "views/Login";
@@ -23,6 +25,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from "views/ResetPassword";
 import EmailValidation from "views/EmailValidation";
+import DashboardLayout from "layouts/Dashboard.jsx";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
@@ -33,12 +36,13 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route path="/" exact render={props => <Redirect to={"/login"}/>} />
-        <Route path="/login" component={withoutAuth(Login)} />
+        <Route path="/login" component={withoutAuth(Login)}/>
         <Route path="/register" component={withoutAuth(Register)} />
         <Route path="/landing" component={anyAuth(Landing)} />
         <Route path="/profile/:userId" component={anyAuth(Profile)} />
         <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)} />
         <Route path="/email-validation/:userId" component={anyAuth(EmailValidation)} />
+        <Route path="/dashboard" component={withAuth(DashboardLayout)} />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>
