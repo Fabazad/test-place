@@ -27,6 +27,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import PasswordStrength from "components/PasswordStrength";
 import Loading from "components/Loading";
 import SwitchButtons from "components/SwitchButtons";
+import PrivacyPolicyModal from "components/Modals/PrivacyPolicyModal";
 
 class Register extends React.Component {
 
@@ -222,13 +223,8 @@ class Register extends React.Component {
                                 htmlFor="customCheckRegister"
                               >
                                 <span>
-                                  I agree with the{" "}
-                                  <a
-                                    href="#pablo"
-                                    onClick={e => e.preventDefault()}
-                                  >
-                                    Privacy Policy
-                                  </a>
+                                  J'accepte les{" "}
+                                  <PrivacyPolicyModal />
                                 </span>
                               </label>
                             </div>
