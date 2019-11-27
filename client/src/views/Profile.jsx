@@ -7,18 +7,23 @@ import { Button, Card, Container, Row, Col } from "reactstrap";
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import UpdatePasswordModal from "components/Modals/UpdatePasswordModal";
+import productService from "services/product.service";
+import NewProductModal from "components/Modals/NewProductModal";
 
 class Profile extends React.Component {
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+
+  scrap() {
+    productService.scrapFromAsin("B07R5YJ61X").then(res => console.log(res));
+  }
+
   render() {
     const isAuth = userService.isAuth();
-    if (isAuth) {
-      console.log(userService.getRole());
-    }
     return (
       <>
         <main className="profile-page" ref="main">
@@ -103,7 +108,7 @@ class Profile extends React.Component {
                         </div>
                         <div>
                           <span className="heading">89</span>
-                          <span className="description">Comments</span>
+                          <span className="description" onClick={() => this.scrap()}>Comments</span>
                         </div>
                       </div>
                     </Col>
@@ -144,6 +149,7 @@ class Profile extends React.Component {
                     {isAuth ? <Row className="justify-content-center mt-3">
                       <Col lg="9">
                         <UpdatePasswordModal/>
+                        <NewProductModal/>
                       </Col>
                     </Row> : null}
                   </div>

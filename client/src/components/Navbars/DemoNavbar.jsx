@@ -36,7 +36,7 @@ class DemoNavbar extends React.Component {
       <>
         <header className="header-global">
           <Navbar
-            className="navbar-main navbar-transparent navbar-light headroom bg-primary"
+            className="navbar-main navbar-transparent navbar-light headroom position-fixed"
             expand="lg"
             id="navbar-main"
             style={{"zIndex": "10"}}
@@ -44,7 +44,7 @@ class DemoNavbar extends React.Component {
             <Container>
               <NavbarBrand className="mr-lg-5 d-flex" to="/" tag={Link}>
                 <img
-                  style={{height: "60px"}}
+                  style={{height: "50px"}}
                   alt="..."
                   src={require("assets/img/brand/logo_test_place.png")}
                 />

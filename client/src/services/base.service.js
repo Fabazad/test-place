@@ -16,19 +16,19 @@ class BaseService {
 
     getOne(itemId) {
         itemId = itemId ? itemId : '';
-        return axios.get(this.baseURL + '/' + itemId).then(serviceResolve, err => console.log(err));
+        return axios.get(this.baseURL + '/' + itemId).then(serviceResolve);
     }
 
     create(item, options = {}) {
-        return axios.post(this.baseURL + "/create", {item, options}).then(serviceResolve, err => console.log(err));
+        return axios.post(this.baseURL + "/create", {item, options}).then(serviceResolve);
     }
 
     update(itemId, fields) {
-        return axios.post(this.baseURL + "/update", {itemId, fields}).then(serviceResolve, err => console.log(err));
+        return axios.post(this.baseURL + "/update", {itemId, fields}).then(serviceResolve);
     }
 
     find(query = {}) {
-        return axios.get(this.baseURL + "/find", { params: query}).then(serviceResolve, err => console.log(err));
+        return axios.get(this.baseURL + "/find", { params: query}).then(serviceResolve);
     }
 }
 

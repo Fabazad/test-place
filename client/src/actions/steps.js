@@ -1,4 +1,4 @@
-import stepService from "services/step.service"
+import stepService from "services/product.service"
 
 export const FETCH_STEP_REQUEST = "FETCH_STEP_REQUEST";
 export const FETCH_STEP_FAILURE = "FETCH_STEP_FAILURE";
