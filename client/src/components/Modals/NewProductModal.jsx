@@ -114,64 +114,66 @@ class NewProductModal extends React.Component {
               </button>
             </div>
             <div className="modal-body white-space-pre-line bg-secondary">
-              <FormGroup className="mb-3">
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="fa fa-hashtag" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input 
-                    placeholder="ASIN ou Lien amazon du produit" 
-                    type="text" 
-                    name="asin"
-                    value={this.state.asin} 
-                    onChange={this.handleInputChange}
-                    required
-                  />
-                </InputGroup>
-                </FormGroup>
-            <Button color="success" className="mb-3 w-100" onClick={() => this.scrapAsin()}>Pré-Remplir</Button>
-            <div className="w-100 text-center my-3">
-                <img src={this.state.src} alt="" className="img-fluid rounded shadow-lg" style={{"maxHeight": "200px", "maxWidth": "200px"}}/>
-            </div>
-            <div className="row">
-                <div className="col-9">
+                <div className="border-bottom">
                     <FormGroup className="mb-3">
                         <InputGroup className="input-group-alternative">
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText>
-                                <i className="fa fa-angle-right" />
-                                </InputGroupText>
-                            </InputGroupAddon>
-                            <Input 
-                                placeholder="Titre" 
-                                type="text" 
-                                name="title"
-                                value={this.state.title} 
-                                onChange={this.handleInputChange}
-                                required
-                            />
-                        </InputGroup>
-                    </FormGroup>
-                </div>
-                <div className="col-3">
-                    <div className="custom-control custom-control-alternative custom-checkbox mb-3">
-                        <input
-                            className="custom-control-input"
-                            id="customCheck5"
-                            type="checkbox"
-                            name="isPrime"
-                            checked={this.state.isPrime}
-                            onChange={this.handleCheckChange}
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                            <i className="fa fa-hashtag" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Input 
+                            placeholder="ASIN ou Lien amazon du produit" 
+                            type="text" 
+                            name="asin"
+                            value={this.state.asin} 
+                            onChange={this.handleInputChange}
                         />
-                        <label className="custom-control-label" htmlFor="customCheck5">
-                            <img src={require("assets/img/icons/prime.png")} alt="prime" style={{"height": "24px"}}/>
-                        </label>
+                        </InputGroup>
+                        </FormGroup>
+                    <Button color="success" className="mb-3 w-100" onClick={() => this.scrapAsin()}>Pré-Remplir</Button>
+                </div>
+                <div className="border-bottom">
+                    <div className="w-100 text-center my-3">
+                        <img src={this.state.src} alt="" className="img-fluid rounded shadow-lg" style={{"maxHeight": "200px", "maxWidth": "200px"}}/>
+                    </div>
+                    <div className="row">
+                    <div className="col-9">
+                        <FormGroup className="mb-3">
+                            <InputGroup className="input-group-alternative">
+                                <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                    <i className="fa fa-angle-right" />
+                                    </InputGroupText>
+                                </InputGroupAddon>
+                                <Input 
+                                    placeholder="Titre" 
+                                    type="text" 
+                                    name="title"
+                                    value={this.state.title} 
+                                    onChange={this.handleInputChange}
+                                    required
+                                />
+                            </InputGroup>
+                        </FormGroup>
+                    </div>
+                    <div className="col-3">
+                        <div className="custom-control custom-control-alternative custom-checkbox mb-3">
+                            <input
+                                className="custom-control-input"
+                                id="customCheck5"
+                                type="checkbox"
+                                name="isPrime"
+                                checked={this.state.isPrime}
+                                onChange={this.handleCheckChange}
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck5">
+                                <img src={require("assets/img/icons/prime.png")} alt="prime" style={{"height": "24px"}}/>
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="row">
+                    <div className="row">
                 <div className="col-6">
                 <FormGroup className="mb-3">
                     <InputGroup className="input-group-alternative">
@@ -205,7 +207,7 @@ class NewProductModal extends React.Component {
                                 placeholder="Prix Final" 
                                 type="number"
                                 step="0.01"
-                                min="0.01"
+                                min="0"
                                 name="finalPrice"
                                 value={this.state.finalPrice} 
                                 onChange={this.handleInputChange}
@@ -215,21 +217,22 @@ class NewProductModal extends React.Component {
                     </FormGroup>
                 </div>
             </div>
-            
-            <FormGroup className="mb-3">
-                <Input
-                    className="form-control-alternative"
-                    placeholder="Description"
-                    rows="10"
-                    type="textarea"
-                    name="description"
-                    value={this.state.description} 
-                    onChange={this.handleInputChange}
-                    required
-                />
-            </FormGroup>
-
-            <div className="row">
+                
+                    <FormGroup className="mb-3">
+                        <Input
+                            className="form-control-alternative"
+                            placeholder="Description"
+                            rows="10"
+                            type="textarea"
+                            name="description"
+                            value={this.state.description} 
+                            onChange={this.handleInputChange}
+                            required
+                        />
+                    </FormGroup>
+                </div>
+                <div class="mt-3">
+                    <div className="row">
                 <div className="col-6">
                 <Input
                     className="form-control-alternative"
@@ -255,7 +258,7 @@ class NewProductModal extends React.Component {
                     />
                 </div>
             </div>
-
+                </div>
             </div>
             <div className="modal-footer bg-secondary ">
                 <Button

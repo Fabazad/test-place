@@ -18,10 +18,6 @@ class Profile extends React.Component {
     this.refs.main.scrollTop = 0;
   }
 
-  scrap() {
-    productService.scrapFromAsin("B07R5YJ61X").then(res => console.log(res));
-  }
-
   render() {
     const isAuth = userService.isAuth();
     return (
@@ -108,7 +104,7 @@ class Profile extends React.Component {
                         </div>
                         <div>
                           <span className="heading">89</span>
-                          <span className="description" onClick={() => this.scrap()}>Comments</span>
+                          <span className="description">Comments</span>
                         </div>
                       </div>
                     </Col>
