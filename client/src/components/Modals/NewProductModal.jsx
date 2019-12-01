@@ -8,7 +8,9 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Input
+  Input,
+  UncontrolledPopover,
+  PopoverBody
 } from "reactstrap";
 import { toast } from "react-toastify";
 import userService from "services/user.services";
@@ -30,6 +32,8 @@ class NewProductModal extends React.Component {
       isPrime: false,
       afterNote: '',
       beforeNote: '',
+      maxDemands: '',
+      automaticAcceptance: false,
       exampleModal: false,
       loadingPromise: null
     };
@@ -49,14 +53,18 @@ class NewProductModal extends React.Component {
   };
 
   handleCheckChange = (event) => {
-    const { checked, name } = event.target;
+    const { checked, name } = event.target
     this.setState({
       [name]: checked
     });
   };
 
   scrapAsin() {
-    const loadingPromise = productService.scrapFromAsin(this.state.asin).then(res => {
+      if (!this.state.asin) {
+          toast.error("Veuillez forunir l'identifiant ASIN ou l'url du produit.")
+      }
+      const asin = this.state.asin.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/)[1];
+    const loadingPromise = productService.scrapFromAsin(asin).then(res => {
         this.setState({
             title: res.title,
             price : res.price,
@@ -231,21 +239,21 @@ class NewProductModal extends React.Component {
                         />
                     </FormGroup>
                 </div>
-                <div class="mt-3">
+                <div className="mt-3">
                     <div className="row">
-                <div className="col-6">
-                <Input
-                    className="form-control-alternative"
-                    placeholder="Note visible AVANT une demande"
-                    rows="3"
-                    type="textarea"
-                    name="beforeNote"
-                    value={this.state.beforeNote} 
-                    onChange={this.handleInputChange}
-                    required
-                />
-                </div>
-                <div className="col-6">
+                <FormGroup className="col-6">
+                    <Input
+                        className="form-control-alternative"
+                        placeholder="Note visible AVANT une demande"
+                        rows="3"
+                        type="textarea"
+                        name="beforeNote"
+                        value={this.state.beforeNote} 
+                        onChange={this.handleInputChange}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup className="col-6">
                     <Input
                         className="form-control-alternative"
                         placeholder="Note visible APRES une demande"
@@ -256,9 +264,53 @@ class NewProductModal extends React.Component {
                         onChange={this.handleInputChange}
                         required
                     />
-                </div>
+                </FormGroup>
+                <FormGroup className="col-6">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                            <i className="fa fa-user" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Input 
+                            placeholder="Nombre maximum de demande" 
+                            type="number"
+                            step="1"
+                            min="1"
+                            name="maxDemands"
+                            value={this.state.maxDemands} 
+                            onChange={this.handleInputChange}
+                            required
+                        />
+                    </InputGroup>
+                </FormGroup>
+                <FormGroup className="col-6">
+                    <div className="custom-control custom-control-alternative custom-checkbox mb-3">
+                        <input
+                            className="custom-control-input"
+                            id="customCheck6"
+                            type="checkbox"
+                            name="automaticAcceptance"
+                            checked={this.state.automaticAcceptance}
+                            onChange={this.handleCheckChange}
+                        />
+                        <label className="custom-control-label" htmlFor="customCheck6">
+                            Acceptation automatique des demandes 
+                        </label>
+                        <i className="fa fa-question-circle ml-3 cursor-pointer" id="tooltip348236073"></i>
+                        <UncontrolledPopover
+                            placement="top"
+                            target="tooltip348236073"
+                            className="popover-default"
+                        >
+                            <PopoverBody>
+                                This is a very beautiful popover, show some love.
+                            </PopoverBody>
+                        </UncontrolledPopover>
+                    </div>
+                </FormGroup>
             </div>
-                </div>
+            </div>
             </div>
             <div className="modal-footer bg-secondary ">
                 <Button

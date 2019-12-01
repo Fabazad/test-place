@@ -17,21 +17,23 @@ class ProductModel {
                     else if(res.statusCode === 404){
                         reject({ status: 404, message: "Aucun produit trouvé."});
                     } else {
-                        // $ is Cheerio by default
-                        //a lean implementation of core jQuery designed specifically for the server
-
                         const livraisonText = $('div.olp-text-box span.a-color-base').text();
                         var livraisonPrice = 0;
                         if (!livraisonText.match(/GRATUITE/)) {
                             livraisonPrice = parseFloat(livraisonText.replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
-                        const price = parseFloat($('td.a-span12 span.a-size-medium.a-color-price').text().trim().replace(",", "."))
+                        const price = parseFloat($('td.a-span12 span.a-size-medium.a-color-price').text().trim().replace(",", "."));
 
+                        const description = $('div.centerColAlign div.a-section.a-spacing-medium').text().trim()
+                            .replace(/\s{2,}/g, "\n\n") //Remove white spaces
+                            .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
+                            .replace(/Voir plus de détails$/, ""); // Remove ending text
+                            
 
                         const res = {
                             title: $('h1.a-size-large').text().trim(),
                             price: price + livraisonPrice,
-                            description: $('div.centerColAlign div.a-section.a-spacing-medium').text().trim().replace(/\s+/g, " "),
+                            description: description,
                             imageSrc: $('#landingImage').attr("src").trim(),
                             isPrime: !!$('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row').text().trim()
                         };
