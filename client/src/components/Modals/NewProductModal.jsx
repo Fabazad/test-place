@@ -13,30 +13,35 @@ import {
   PopoverBody
 } from "reactstrap";
 import { toast } from "react-toastify";
-import userService from "services/user.services";
 import Loading from "components/Loading";
 import productService from "services/product.service";
+import ImageUploader from 'components/ImageUploader';
+import s3Services from "services/s3.services";
+import constants from "helpers/constants";
 //import PropTypes from 'prop-types';
 
 class NewProductModal extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      asin : '',
-      title : '',
-      price : '',
-      finalPrice: '',
-      src: '',
-      description: '',
-      isPrime: false,
-      afterNote: '',
-      beforeNote: '',
-      maxDemands: '',
-      automaticAcceptance: false,
-      exampleModal: false,
-      loadingPromise: null
-    };
+    this.initialState = {
+        asin : '',
+        title : '',
+        price : '',
+        finalPrice: '',
+        pictureUrl: '',
+        description: '',
+        isPrime: false,
+        afterNote: '',
+        beforeNote: '',
+        maxDemands: '',
+        automaticAcceptance: false,
+        exampleModal: false,
+        loadingPromise: null,
+        picture: null
+      };
+    this.state = this.initialState;
+    this.updatePicture = this.updatePicture.bind(this);
   }
 
   toggleModal = state => {
@@ -60,17 +65,25 @@ class NewProductModal extends React.Component {
   };
 
   scrapAsin() {
-      if (!this.state.asin) {
-          toast.error("Veuillez forunir l'identifiant ASIN ou l'url du produit.")
+      if (this.state.asin === '') {
+          toast.error("Veuillez forunir l'identifiant ASIN ou l'url du produit.");
+          return;
       }
-      const asin = this.state.asin.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/)[1];
+      const match = this.state.asin.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
+      if (!match) {
+        toast.error("ASIN ou url du produit incorrecte.");
+        return;
+      }
+      const asin = match[1];
+      this.setState({asin});
     const loadingPromise = productService.scrapFromAsin(asin).then(res => {
         this.setState({
             title: res.title,
             price : res.price,
             description : res.description,
-            src: res.imageSrc,
-            isPrime: res.isPrime
+            pictureUrl: res.imageSrc,
+            isPrime: res.isPrime,
+            picture: null
         });
     });
     this.setState({ loadingPromise });
@@ -78,16 +91,44 @@ class NewProductModal extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const loadingPromise = userService.sendResetPasswordMail(this.state.email)
-      .then(() => {
-        toast.success("Un mail a été envoyé.");
-        this.setState({email: ''});
-        this.toggleModal("exampleModal");
-      })
-      .catch(() => toast.error("Le mail n'a pas pu être envoyé."));
+    const loadingPromise = new Promise(async (resolve, reject) => {
+        const { asin, title, price, finalPrice, pictureUrl, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance } = this.state;
+        const product = {
+            asin,
+            title,
+            price,
+            finalPrice,
+            description,
+            isPrime,
+            afterNote,
+            beforeNote,
+            maxDemands,
+            automaticAcceptance
+        }
+        
+        if(this.state.picture) {
+            product.pictureUrl = await s3Services.upload(this.state.picture);
+        } else {
+            product.pictureUrl = pictureUrl;
+        }
+
+        return productService.create(product).then(() => {
+            toast.success("Product added");
+            this.setState(this.initialState);
+        }).catch(reject);
+    });
+     
     this.setState({ loadingPromise });
   }
-  
+
+  updatePicture(picture) {
+    const pictureUrl = URL.createObjectURL(picture);
+    this.setState({
+        pictureUrl,
+        picture
+    });
+  }
+
   render() {
     return (
       <>
@@ -125,25 +166,25 @@ class NewProductModal extends React.Component {
                 <div className="border-bottom">
                     <FormGroup className="mb-3">
                         <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                            <i className="fa fa-hashtag" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Input 
-                            placeholder="ASIN ou Lien amazon du produit" 
-                            type="text" 
-                            name="asin"
-                            value={this.state.asin} 
-                            onChange={this.handleInputChange}
-                        />
+                            <InputGroupAddon addonType="prepend">
+                                <InputGroupText>
+                                <i className="fa fa-hashtag" />
+                                </InputGroupText>
+                            </InputGroupAddon>
+                            <Input 
+                                placeholder="ASIN ou Lien amazon du produit" 
+                                type="text" 
+                                name="asin"
+                                value={this.state.asin} 
+                                onChange={this.handleInputChange}
+                            />
                         </InputGroup>
-                        </FormGroup>
+                    </FormGroup>
                     <Button color="success" className="mb-3 w-100" onClick={() => this.scrapAsin()}>Pré-Remplir</Button>
                 </div>
                 <div className="border-bottom">
                     <div className="w-100 text-center my-3">
-                        <img src={this.state.src} alt="" className="img-fluid rounded shadow-lg" style={{"maxHeight": "200px", "maxWidth": "200px"}}/>
+                        <ImageUploader onChange={this.updatePicture} src={this.state.pictureUrl} baseUrl={constants.BASE_PRODUCT_PICTURE_URL}/>
                     </div>
                     <div className="row">
                     <div className="col-9">

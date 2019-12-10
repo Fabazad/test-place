@@ -1,6 +1,7 @@
 var Crawler = require("crawler");
+const ProductModel = require('../models/product.model');
 
-class ProductModel {
+class ProductController {
 
     static async scrapFromAsin(asin) {
         return new Promise((resolve, reject) => {
@@ -45,6 +46,14 @@ class ProductModel {
             c.queue(url);
         });
     }
+
+    static async create( productObj ) {
+        return new Promise((resolve, reject) => {
+            console.log(productObj);
+            const product = new ProductModel( productObj );
+            product.save().then(resolve).catch(err => reject({status: 400, message: err}))
+        });
+    }
 }
 
-module.exports = ProductModel;
+module.exports = ProductController;

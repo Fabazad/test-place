@@ -7,7 +7,6 @@ import { Button, Card, Container, Row, Col } from "reactstrap";
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import UpdatePasswordModal from "components/Modals/UpdatePasswordModal";
-import productService from "services/product.service";
 import NewProductModal from "components/Modals/NewProductModal";
 
 class Profile extends React.Component {

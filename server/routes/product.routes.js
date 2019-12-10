@@ -9,6 +9,13 @@ async function productRoutes (fastify) {
             .then((res) => reply.code(200).send(res))
             .catch(err => reply.code(err.status).send(err.message));
     });
+
+    fastify.post(path + 'create', async (request, reply) => {
+        const { item } = request.body;
+        ProductController.create(item)
+            .then((res) => reply.code(200).send(res))
+            .catch(err => reply.code(err.status).send(err.message));
+    });
 }
 
 module.exports = productRoutes
