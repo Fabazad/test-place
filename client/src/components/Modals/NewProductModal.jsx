@@ -98,6 +98,7 @@ class NewProductModal extends React.Component {
             title,
             price,
             finalPrice,
+            pictureUrl,
             description,
             isPrime,
             afterNote,
@@ -107,11 +108,12 @@ class NewProductModal extends React.Component {
         }
         
         if(this.state.picture) {
+            const test = await s3Services.upload(this.state.picture);
+            console.log(test);
             product.pictureUrl = await s3Services.upload(this.state.picture);
         } else {
             product.pictureUrl = pictureUrl;
         }
-
         return productService.create(product).then(() => {
             toast.success("Product added");
             this.setState(this.initialState);
