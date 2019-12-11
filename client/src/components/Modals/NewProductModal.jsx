@@ -109,8 +109,6 @@ class NewProductModal extends React.Component {
         }
         
         if(this.state.picture) {
-            const test = await s3Services.upload(this.state.picture);
-            console.log(test);
             product.pictureUrl = await s3Services.upload(this.state.picture);
         } else {
             product.pictureUrl = pictureUrl;
@@ -190,7 +188,7 @@ class NewProductModal extends React.Component {
                         <ImageUploader onChange={this.updatePicture} src={this.state.pictureUrl} baseUrl={constants.BASE_PRODUCT_PICTURE_URL}/>
                     </div>
                     <div className="row">
-                    <div className="col-9">
+                    <div className="col-6 col-md-9">
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
                                 <InputGroupAddon addonType="prepend">
@@ -209,7 +207,7 @@ class NewProductModal extends React.Component {
                             </InputGroup>
                         </FormGroup>
                     </div>
-                    <div className="col-3">
+                    <div className="col-md-3 col-6 text-center">
                         <div className="custom-control custom-control-alternative custom-checkbox mb-3">
                             <input
                                 className="custom-control-input"
@@ -285,7 +283,7 @@ class NewProductModal extends React.Component {
                 </div>
                 <div className="mt-3">
                     <div className="row">
-                <FormGroup className="col-6">
+                <FormGroup className="col-md-6 col-12">
                     <Input
                         className="form-control-alternative"
                         placeholder="Note visible AVANT une demande"
@@ -297,7 +295,7 @@ class NewProductModal extends React.Component {
                         required
                     />
                 </FormGroup>
-                <FormGroup className="col-6">
+                <FormGroup className="col-md-6 col-12">
                     <Input
                         className="form-control-alternative"
                         placeholder="Note visible APRES une demande"
@@ -309,7 +307,7 @@ class NewProductModal extends React.Component {
                         required
                     />
                 </FormGroup>
-                <FormGroup className="col-6">
+                <FormGroup className="col-md-6 col-12">
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
@@ -328,7 +326,7 @@ class NewProductModal extends React.Component {
                         />
                     </InputGroup>
                 </FormGroup>
-                <FormGroup className="col-6">
+                <FormGroup className="col-md-6 col-12">
                     <div className="custom-control custom-control-alternative custom-checkbox mb-3">
                         <input
                             className="custom-control-input"
@@ -347,8 +345,9 @@ class NewProductModal extends React.Component {
                             target="tooltip348236073"
                             className="popover-default"
                         >
-                            <PopoverBody>
-                                This is a very beautiful popover, show some love.
+                            <PopoverBody className="text-center">
+                                Permet d'afficher le bouton qui permet aux testeurs d'avoir directement leur demande validée sans action de la part du vendeur.<br/>
+                                Seulement les testeurs ayants souscrits à l'option premium auront la possibilité de faire des demandes automatiques.
                             </PopoverBody>
                         </UncontrolledPopover>
                     </div>
