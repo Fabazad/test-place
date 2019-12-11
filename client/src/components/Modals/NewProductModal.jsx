@@ -70,7 +70,7 @@ class NewProductModal extends React.Component {
           toast.error("Veuillez forunir l'identifiant ASIN ou l'url du produit.");
           return;
       }
-      const match = this.state.asin.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
+      const match = this.state.asinInput.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
       if (!match) {
         toast.error("ASIN ou url du produit incorrecte.");
         return;
