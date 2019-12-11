@@ -10,7 +10,9 @@ var productSchema = new mongoose.Schema({
     beforeNote: String,
     afterNote: String,
     maxDemands: { type: Number, required: true },
-    automaticAcceptance: { type: Boolean, required: true }
+    automaticAcceptance: { type: Boolean, required: true },
+    pictureUrl: { type: String, required: true },
+    sellerId: { type: mongoose.Schema.Types.ObjectId, required: true }
 });
 
 module.exports = mongoose.model('Product', productSchema);

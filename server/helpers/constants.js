@@ -6,7 +6,11 @@ const constants = {
         RESET_PASSWORD: "d-d4d5481b37e648b0ad6583ef88d572d6",
         VALIDATE_EMAIL: "d-d1da8fb375f742619f281f9b661f2d05"
     },
-    FROM_MAIL_ADDRESS: 'test@example.com'
+    FROM_MAIL_ADDRESS: 'test@example.com',
+    ROLES: {
+        REVIEWER: "reviewer",
+        SELLER: "seller"
+    }
 };
 
 module.exports = constants;

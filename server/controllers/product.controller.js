@@ -1,5 +1,6 @@
 var Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
+const constants = require("../helpers/constants");
 
 class ProductController {
 
@@ -47,11 +48,20 @@ class ProductController {
         });
     }
 
-    static async create( productObj ) {
+    static async create( productObj, userId, userRole ) {
         return new Promise((resolve, reject) => {
-            console.log(productObj);
+            console.log(userRole);
+            if (userRole !== constants.ROLES.SELLER) {
+                reject({ status: 403, message: "Vous devez être vendeur pour effectuer cette action." })
+            }
+            productObj.sellerId = userId;
             const product = new ProductModel( productObj );
-            product.save().then(resolve).catch(err => reject({status: 400, message: err}))
+            product.save().then(resolve).catch(err => {
+                if (err.code === 11000) {
+                    reject({status: 400, message: 'Un produit avec le même identifiant ASIN existe déjà.'})
+                }
+                reject({status: 400, message: err.errmsg})
+            });
         });
     }
 }

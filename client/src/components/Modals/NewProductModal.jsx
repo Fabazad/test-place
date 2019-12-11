@@ -25,7 +25,8 @@ class NewProductModal extends React.Component {
   constructor(props) {
     super(props)
     this.initialState = {
-        asin : '',
+        asinInput: '',
+        asin : null,
         title : '',
         price : '',
         finalPrice: '',
@@ -175,9 +176,9 @@ class NewProductModal extends React.Component {
                             </InputGroupAddon>
                             <Input 
                                 placeholder="ASIN ou Lien amazon du produit" 
-                                type="text" 
-                                name="asin"
-                                value={this.state.asin} 
+                                type="text"
+                                name="asinInput"
+                                value={this.state.asinInput} 
                                 onChange={this.handleInputChange}
                             />
                         </InputGroup>

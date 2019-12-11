@@ -12,7 +12,9 @@ axios.interceptors.request.use(function (request) {
 axios.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
-    toast.error(error.response.data ? error.response.data  : error.response.statusText);
-    console.log(error.response.data ? error.response.data  : error.response.statusText);
+    const message = error.response.data ?
+      (error.response.data.message ? error.response.data.message : error.response.data) :
+      error.response.statusText;
+    toast.error(message);
     return Promise.reject(error);
   });
