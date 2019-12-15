@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/ImageUploader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ImageUploader.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Loading.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Loading.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/ForgottenPasswordModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/ForgottenPasswordModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/NewProductModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/NewProductModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/SimpleModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/SimpleModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/UpdatePasswordModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/UpdatePasswordModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Navbars/DashboardNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbars/DashboardNavbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Sidebar/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Sidebar/Sidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/SwitchButtons.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/SwitchButtons.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/layouts/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/assets/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/assets/scss/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/PrivacyPolicyModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/PrivacyPolicyModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/views/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Register.jsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +48,13 @@
     <configuration name="Unnamed" type="NodeJSConfigurationType" nameIsGenerated="true" working-dir="$PROJECT_DIR$/server">
       <method v="2" />
     </configuration>
+    <configuration name="app" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="client" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/client/package.json" />
       <command value="start" />
@@ -71,6 +72,7 @@
     <list>
       <item itemvalue="Node.js.Unnamed" />
       <item itemvalue="npm.client" />
+      <item itemvalue="npm.app" />
       <item itemvalue="npm.server" />
     </list>
   </component>
@@ -87,7 +89,7 @@
       <workItem from="1576429022548" duration="206000" />
       <workItem from="1576429254066" duration="138000" />
       <workItem from="1576429428817" duration="2661000" />
-      <workItem from="1576436959388" duration="261000" />
+      <workItem from="1576436959388" duration="7284000" />
     </task>
     <servers />
   </component>
