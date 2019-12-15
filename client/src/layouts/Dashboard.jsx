@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import DashboardNavbar from "components/Navbars/DashboardNavbar.jsx";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 

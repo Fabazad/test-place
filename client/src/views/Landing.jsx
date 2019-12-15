@@ -58,7 +58,7 @@ class Landing extends React.Component {
                         Test Place{" "}
                         <span>Produits Amazons contre des Avis Clients</span>
                       </h1>
-                      <img src={require("assets/img/brand/logo_test_place.png")} style={{height: "300px"}}/>
+                      <img src={require("assets/img/brand/logo_test_place.png")} style={{height: "300px"}} alt="test place logo"/>
                       <p className="lead text-white">
                         The design system comes with four pre-built pages to
                         help you get started faster. You can change the text and

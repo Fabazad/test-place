@@ -1,5 +1,4 @@
 import React from "react";
-import { withTranslation } from 'react-i18next';
 import {ToastContainer} from "react-toastify";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import withoutAuth from "./helpers/withoutAuth";
@@ -44,4 +43,4 @@ class App extends React.Component {
     }
 }
 
-export default withTranslation()(App);
+export default App;

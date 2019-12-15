@@ -30,7 +30,7 @@ import Loading from "components/Loading";
 class Login extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       email : '',
       password: '',
@@ -43,7 +43,7 @@ class Login extends React.Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
@@ -55,7 +55,7 @@ class Login extends React.Component {
       toast.success("Connecté !");
     }).catch(() => this.setState({loading: false}));
     this.setState({loadingPromise});
-  }
+  };
 
   componentDidMount() {
     document.documentElement.scrollTop = 0;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import userService from 'services/user.services';
 import DemoNavbar from 'components/Navbars/DemoNavbar';
-import { eraseCookie } from './cookies';
 import Loading from 'components/Loading';
 
 export default function withAuth(ComponentToProtect) {

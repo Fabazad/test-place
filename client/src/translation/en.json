@@ -1,3 +1,13 @@
 {
-  "TOO_SHORT": "Too short"
+  "TOO_SHORT": "Too short",
+  "STRONG": "Strong",
+  "MEDIUM": "Medium",
+  "WEAK": "Weak",
+  "PASSWORD_STRENGTH": "Password Strength",
+  "EMAIL_HAS_BEEN_SENT": "An email has been sent.",
+  "EMAIL_HAS_NOT_BEEN_SENT": "The email couldn't been sent.",
+  "FORGOTTEN_PASSWORD": "Forgotten password",
+  "ACCOUNT_EMAIL": "Account's Address mail",
+  "CLOSE": "Close",
+  "SEND": "Send"
 }

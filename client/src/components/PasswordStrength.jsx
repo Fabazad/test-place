@@ -40,25 +40,26 @@ class PasswordStrength extends React.Component {
     }
 
     formatPasswordStrength() {
-        const { t, i18n } = this.props;
+        const { t } = this.props;
         const score = this.scorePassword(this.props.password);
         if (this.props.password.length < this.props.min) {
             return (<span className="text-danger font-weight-700">{t("TOO_SHORT")}</span>);
         } else if (score > 70) {
-            return (<span className="text-success font-weight-700">Fort</span>);
+            return (<span className="text-success font-weight-700">{t("STRONG")}</span>);
         } else if (score > 40) {
-            return (<span className="text-warning font-weight-700">Moyen</span>);
+            return (<span className="text-warning font-weight-700">{t("MEDIUM")}</span>);
         } else {
-            return (<span className="text-danger font-weight-700">Faible</span>);
+            return (<span className="text-danger font-weight-700">{t("WEAK")}</span>);
         }
     }
 
     render() {
+        const { t } = this.props;
         return (
             <>
                 <div className="text-muted font-italic">
                     <small>
-                        Force du Mot de passe :{" "}
+                        {t("PASSWORD_STRENGTH")} :{" "}
                         {this.formatPasswordStrength()}
                     </small>
                 </div>

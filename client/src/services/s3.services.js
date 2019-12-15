@@ -1,15 +1,6 @@
 import axios from "axios";
 import BaseService from "./base.service";
 
-function serviceResolve(res) {
-    if (res.status !== 200) {
-        const error = new Error(res.error);
-        throw error;
-    }
-    return Promise.resolve(res.data);
-}
-
-
 class S3Service extends BaseService {
 
     constructor() {

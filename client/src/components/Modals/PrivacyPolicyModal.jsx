@@ -4,7 +4,6 @@ import {
   Button,
   Modal
 } from "reactstrap";
-import PropTypes from 'prop-types';
 
 class PrivacyPolicyModal extends React.Component {
   state = {

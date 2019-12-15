@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Loading.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Loading.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/ForgottenPasswordModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/ForgottenPasswordModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/PrivacyPolicyModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/PrivacyPolicyModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/PasswordStrength.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/PasswordStrength.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/withAuth.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/withAuth.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/layouts/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/services/s3.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/s3.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/translation/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/translation/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/translation/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/translation/fr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/views/Landing.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Landing.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/views/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/middlewares/withAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middlewares/withAuth.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1V1mXmwKpv9OogcNTZcRAOXdhTl" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="npm.client">
+    <configuration name="Unnamed" type="NodeJSConfigurationType" nameIsGenerated="true" working-dir="$PROJECT_DIR$/server">
+      <method v="2" />
+    </configuration>
+    <configuration name="client" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/client/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="server" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/server/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.Unnamed" />
+      <item itemvalue="npm.client" />
+      <item itemvalue="npm.server" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="" />
+      <created>1576429018097</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1576429018097</updated>
+      <workItem from="1576429022548" duration="206000" />
+      <workItem from="1576429254066" duration="138000" />
+      <workItem from="1576429428817" duration="2661000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
