@@ -6,6 +6,7 @@ import {
   NavLink,
   Nav
 } from "reactstrap";
+import PropTypes from "prop-types";
 
 class SwitchButtons extends React.Component {
 
@@ -68,5 +69,15 @@ class SwitchButtons extends React.Component {
         );
   }
 }
+
+SwitchButtons.propTypes = {
+    value: PropTypes.string,
+    name: PropTypes.string,
+    fields: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+    })).isRequired,
+    onChange: PropTypes.func.isRequired
+};
 
 export default SwitchButtons;

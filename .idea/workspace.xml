@@ -2,21 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ImageUploader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ImageUploader.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Loading.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Loading.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Modals/ForgottenPasswordModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/ForgottenPasswordModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/PrivacyPolicyModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/PrivacyPolicyModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/PasswordStrength.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/PasswordStrength.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/withAuth.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/withAuth.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/NewProductModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/NewProductModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/SimpleModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/SimpleModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Modals/UpdatePasswordModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Modals/UpdatePasswordModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Navbars/DashboardNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbars/DashboardNavbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Sidebar/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Sidebar/Sidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/SwitchButtons.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/SwitchButtons.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/layouts/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/Dashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/services/s3.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/s3.services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/translation/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/translation/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/translation/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/translation/fr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Landing.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Landing.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/middlewares/withAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middlewares/withAuth.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +36,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/server" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -90,6 +87,7 @@
       <workItem from="1576429022548" duration="206000" />
       <workItem from="1576429254066" duration="138000" />
       <workItem from="1576429428817" duration="2661000" />
+      <workItem from="1576436959388" duration="261000" />
     </task>
     <servers />
   </component>

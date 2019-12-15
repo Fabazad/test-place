@@ -4,9 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
-import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 import routes from "routes.js";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 class Dashboard extends React.Component {
   componentDidUpdate(e) {
@@ -47,11 +47,6 @@ class Dashboard extends React.Component {
         <Sidebar
           {...this.props}
           routes={routes}
-          logo={{
-            innerLink: "/admin/index",
-            imgSrc: require("assets/img/brand/logo_test_place.png"),
-            imgAlt: "..."
-          }}
         />
         <div className="main-content" ref="mainContent">
           <Switch>{this.getRoutes(routes)}</Switch>

@@ -1,6 +1,7 @@
 import React from "react";
 import {css} from '@emotion/core';
 import {BounceLoader} from 'react-spinners';
+import PropTypes from 'prop-types';
 
 const override = css`
     display: block;
@@ -65,5 +66,13 @@ class Loading extends React.Component {
         );
     }
 }
+
+Loading.propTypes = {
+    loading: PropTypes.bool,
+    promise: PropTypes.shape({
+        then: PropTypes.func.isRequired,
+        catch: PropTypes.func.isRequired
+    })
+};
 
 export default Loading;

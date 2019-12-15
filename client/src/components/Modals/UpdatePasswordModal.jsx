@@ -19,7 +19,7 @@ import Loading from "components/Loading";
 class UpdatePasswordModal extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
         previousPassword: '',
         password : '',
@@ -176,9 +176,6 @@ class UpdatePasswordModal extends React.Component {
       </>
     );
   }
-}
-
-UpdatePasswordModal.propTypes = {
 }
 
 export default UpdatePasswordModal;

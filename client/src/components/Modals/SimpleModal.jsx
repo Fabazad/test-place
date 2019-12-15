@@ -67,6 +67,6 @@ SimpleModal.propTypes = {
   buttonTitle: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
-}
+};
 
 export default SimpleModal;
