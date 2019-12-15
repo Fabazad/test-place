@@ -4,9 +4,7 @@
     <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AnimatedCheck.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AnimatedCheck.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/services/user.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/user.services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/EmailValidation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/EmailValidation.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/constants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/views/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Register.jsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -71,8 +69,8 @@
     </configuration>
     <list>
       <item itemvalue="Node.js.Unnamed" />
-      <item itemvalue="npm.client" />
       <item itemvalue="npm.app" />
+      <item itemvalue="npm.client" />
       <item itemvalue="npm.server" />
     </list>
   </component>
@@ -89,7 +87,7 @@
       <workItem from="1576429022548" duration="206000" />
       <workItem from="1576429254066" duration="138000" />
       <workItem from="1576429428817" duration="2661000" />
-      <workItem from="1576436959388" duration="11207000" />
+      <workItem from="1576436959388" duration="11747000" />
     </task>
     <servers />
   </component>

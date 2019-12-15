@@ -8,9 +8,9 @@ class AmazonLoginButton extends React.Component {
 
     onButtonClicked() {
         if(this.props.linked) {
-            this.props.triggerLogin();
-        } else {
             this.props.triggerLogout();
+        } else {
+            this.props.triggerLogin();
         }
     }
     
@@ -27,7 +27,7 @@ class AmazonLoginButton extends React.Component {
                     ) : (
                         <>
                             <i className="fa fa-amazon size-lg text-yellow"/>
-                            <span className="btn-inner--text">Lier le compte Amazon</span>
+                            <span className="btn-inner--text">Lier un compte Amazon</span>
                         </>
                     )
                 }

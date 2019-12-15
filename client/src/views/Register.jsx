@@ -29,6 +29,7 @@ import Loading from "components/Loading";
 import SwitchButtons from "components/SwitchButtons";
 import PrivacyPolicyModal from "components/Modals/PrivacyPolicyModal";
 import AmazonLoginButton from "../components/AmazonLoginButton";
+import constants from "../helpers/constants";
 
 class Register extends React.Component {
 
@@ -165,7 +166,7 @@ class Register extends React.Component {
                                                         className={"w-100"}
                                                         linked={!!this.state.amazonId}
                                                         provider='amazon'
-                                                        appId='amzn1.application-oa2-client.1dc653b5a0d74449b587f561ea23589a'
+                                                        appId={constants.AMAZON_APP_ID}
                                                         onLoginSuccess={this.onAmazonLogin}
                                                         onLoginFailure={this.onAmazonLoginFailure}
                                                     />
