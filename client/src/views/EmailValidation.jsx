@@ -62,7 +62,8 @@ class EmailValidation extends React.Component {
                       <Loading promise={this.state.loadigPromise} />
                       {this.state.validate === true ? 
                       <div className="text-center">
-                        <AnimatedCheck text={'Email validée.'}/>
+                        <AnimatedCheck/>
+                        <p className="success">Email validée.</p>
                         <p className="text-center text-primary">
                           <Link to='/#/login'><small>Se connecter</small></Link>
                         </p>

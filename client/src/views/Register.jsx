@@ -35,14 +35,17 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
             password2: '',
             role: '',
             captcha: '',
             loadingPromise: null,
-            amazonUrl: ''
+            amazonId: '',
+            amazonLoading: false
         };
+        this.onAmazonLogin = this.onAmazonLogin.bind(this);
     }
 
     handleInputChange = (event) => {
@@ -66,8 +69,21 @@ class Register extends React.Component {
             toast.error("Vérifiez que vous êtes Humain.");
             return;
         }
+        if (!this.state.amazonId) {
+            toast.error("Vous devez lier un compte Amazon.");
+            return;
+        }
 
-        const loadingPromise = userService.register(this.state.email, this.state.password, this.state.role, this.state.captcha, this.state.amazonUrl).then(res => {
+        const user = {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password,
+            role: this.state.role,
+            captcha: this.state.captcha,
+            amazonId: this.state.amazonId
+        };
+
+        const loadingPromise = userService.register(user).then(res => {
             this.props.history.push('/login');
             toast.success("Un mail de validation vous a été envoyé.");
         });
@@ -82,6 +98,22 @@ class Register extends React.Component {
 
     onCaptchaChange(value) {
         this.setState({captcha: value});
+    }
+
+    onAmazonLogin(response) {
+        this.setState({
+            name: response.name,
+            amazonId: response.id,
+            email: this.state.email ? this.state.email : response.email,
+            amazonLoading: false
+        });
+    }
+
+    onAmazonLoginFailure(err) {
+        toast.error(err);
+        this.setState({
+            amazonLoading: false
+        });
     }
 
     render() {
@@ -103,21 +135,13 @@ class Register extends React.Component {
                             <Row className="justify-content-center">
                                 <Col lg="5">
                                     <Card className="bg-secondary shadow border-0">
-                                        <Loading promise={this.state.loadingPromise}/>
+                                        <Loading promise={this.state.loadingPromise} loading={this.state.amazonLoading}/>
                                         <CardHeader className="bg-white pb-5">
                                             <div className="text-muted text-center mb-3">
                                                 <small>Sign up with</small>
                                             </div>
                                             <div className="text-center">
-                                                <AmazonLoginButton
-                                                    provider='amazon'
-                                                    appId='amzn1.application-oa2-client.1dc653b5a0d74449b587f561ea23589a'
-                                                    onLoginSuccess={(response) => console.log(response)}
-                                                    onLoginFailure={(err) => console.log(err)}
-                                                >
-                                                    <i className="fa fa-amazon size-lg text-yellow"/>
-                                                    <span className="btn-inner--text">Amazon</span>
-                                                </AmazonLoginButton>
+
                                             </div>
                                         </CardHeader>
                                         <CardBody className="px-lg-5 py-lg-5">
@@ -135,33 +159,32 @@ class Register extends React.Component {
                                                         name="role"
                                                     />
                                                 </div>
+                                                <FormGroup className="text-center">
+                                                    <AmazonLoginButton
+                                                        onClick={() => this.setState({amazonLoading: true})}
+                                                        className={"w-100"}
+                                                        linked={!!this.state.amazonId}
+                                                        provider='amazon'
+                                                        appId='amzn1.application-oa2-client.1dc653b5a0d74449b587f561ea23589a'
+                                                        onLoginSuccess={this.onAmazonLogin}
+                                                        onLoginFailure={this.onAmazonLoginFailure}
+                                                    />
+                                                </FormGroup>
                                                 <FormGroup>
                                                     <InputGroup className="input-group-alternative mb-3">
                                                         <InputGroupAddon addonType="prepend">
                                                             <InputGroupText>
-                                                                <i className="fa fa-link"/>
+                                                                <i className="ni ni-email-83"/>
                                                             </InputGroupText>
                                                         </InputGroupAddon>
                                                         <Input
-                                                            placeholder="Lien du Profil Amazon"
-                                                            type="text"
-                                                            name="amazonUrl"
-                                                            value={this.state.amazonUrl}
+                                                            placeholder="Nom d'utilisateur"
+                                                            type="name"
+                                                            name="name"
+                                                            value={this.state.name}
                                                             onChange={this.handleInputChange}
                                                             required
                                                         />
-                                                        <i className="fa fa-question-circle cursor-pointer mx-2 my-auto" id="amazonLinkTooltip"/>
-                                                        <UncontrolledPopover
-                                                            placement="top"
-                                                            target="amazonLinkTooltip"
-                                                            className="popover-default w-400px"
-                                                        >
-                                                            <PopoverBody className="text-center">
-                                                                Rendez-vous sur <a href="https://www.amazon.fr/gp/css/homepage.html">amazon.fr/gp/css/homepage.html</a>.<br/>
-                                                                Puis dans la rubrique <strong>Commander et préférences d'achats</strong> cliquez sur <strong>Profil</strong>.<br/>
-                                                                Copiez puis collez l'adresse URL de la page.
-                                                            </PopoverBody>
-                                                        </UncontrolledPopover>
                                                     </InputGroup>
                                                 </FormGroup>
                                                 <FormGroup>
