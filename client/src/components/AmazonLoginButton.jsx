@@ -6,10 +6,17 @@ import AnimatedCheck from "./AnimatedCheck";
 
 class AmazonLoginButton extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.onButtonClicked = this.onButtonClicked.bind(this);
+    }
+
     onButtonClicked() {
         if(this.props.linked) {
+            this.props.onStartLogout();
             this.props.triggerLogout();
         } else {
+            this.props.onStartLogin();
             this.props.triggerLogin();
         }
     }
@@ -17,7 +24,7 @@ class AmazonLoginButton extends React.Component {
     render() {
         const { triggerLogin, linked, ...props } = this.props;
         return (
-            <Button onClick={() => this.onButtonClicked()} {...props}>
+            <Button onClick={this.onButtonClicked} {...props}>
                 {
                     this.props.linked ? (
                         <>
@@ -40,7 +47,9 @@ class AmazonLoginButton extends React.Component {
 AmazonLoginButton.propTypes = {
     linked: PropTypes.bool.isRequired,
     triggerLogin: PropTypes.func,
-    triggerLogout: PropTypes.func
+    triggerLogout: PropTypes.func,
+    onStartLogin: PropTypes.func,
+    onStartLogout: PropTypes.func
 };
 
 export default SocialLogin(AmazonLoginButton);

@@ -47,6 +47,8 @@ class Register extends React.Component {
             amazonLoading: false
         };
         this.onAmazonLogin = this.onAmazonLogin.bind(this);
+        this.onAmazonLoginFailure = this.onAmazonLoginFailure.bind(this);
+        this.stopAmazonLoading = this.stopAmazonLoading.bind(this);
     }
 
     handleInputChange = (event) => {
@@ -117,6 +119,10 @@ class Register extends React.Component {
         });
     }
 
+    stopAmazonLoading() {
+        this.setState({amazonLogin: false});
+    }
+
     render() {
         return (
             <>
@@ -162,13 +168,16 @@ class Register extends React.Component {
                                                 </div>
                                                 <FormGroup className="text-center">
                                                     <AmazonLoginButton
-                                                        onClick={() => this.setState({amazonLoading: true})}
                                                         className={"w-100"}
                                                         linked={!!this.state.amazonId}
                                                         provider='amazon'
                                                         appId={constants.AMAZON_APP_ID}
                                                         onLoginSuccess={this.onAmazonLogin}
                                                         onLoginFailure={this.onAmazonLoginFailure}
+                                                        onStartLogin={() => this.setState({amazonLogin: true})}
+                                                        onStartLogout={() => this.setState({amazonLogin: true})}
+                                                        onLogoutSuccess={this.stopAmazonLoading}
+                                                        onLogoutFailure={this.stopAmazonLoading}
                                                     />
                                                 </FormGroup>
                                                 <FormGroup>
