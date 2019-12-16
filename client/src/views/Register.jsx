@@ -128,7 +128,7 @@ class Register extends React.Component {
     }
 
     stopAmazonLoading() {
-        this.setState({amazonLogin: false});
+        this.setState({amazonLoading: false});
     }
 
     render() {

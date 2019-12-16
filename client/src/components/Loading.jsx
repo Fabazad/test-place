@@ -41,6 +41,9 @@ class Loading extends React.Component {
                 }
             });
         }
+        if (nextProps.loading) {
+            this.setState({loading: nextProps.loading});
+        }
     }
 
     componentWillUnmount() {

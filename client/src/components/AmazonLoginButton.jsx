@@ -28,7 +28,7 @@ class AmazonLoginButton extends React.Component {
                 {
                     this.props.linked ? (
                         <>
-                            <AnimatedCheck className={"m-0 d-inline-block"} style={{"width": "26px"}}/>
+                            <AnimatedCheck className={"m-0 d-inline-block"} style={{"width": "20px"}}/>
                             <span className="ml-2">Compte Amazon Lié</span>
                         </>
                     ) : (
