@@ -49,6 +49,8 @@ class Register extends React.Component {
         this.onAmazonLogin = this.onAmazonLogin.bind(this);
         this.onAmazonFailure = this.onAmazonFailure.bind(this);
         this.stopAmazonLoading = this.stopAmazonLoading.bind(this);
+        this.onAmazonLogout = this.onAmazonLogout.bind(this);
+        this.stopAmazonLoading = this.stopAmazonLoading.bind(this);
     }
 
     handleInputChange = (event) => {
@@ -180,8 +182,8 @@ class Register extends React.Component {
                                                         appId={constants.AMAZON_APP_ID}
                                                         onLoginSuccess={res => this.onAmazonLogin(res)}
                                                         onLoginFailure={this.onAmazonFailure}
-                                                        onStartLogin={() => this.setState({amazonLogin: true})}
-                                                        onStartLogout={() => this.setState({amazonLogin: true})}
+                                                        onStartLogin={() => this.setState({amazonLoading: true})}
+                                                        onStartLogout={() => this.setState({amazonLoading: true})}
                                                         onLogoutSuccess={this.onAmazonLogout}
                                                         onLogoutFailure={this.onAmazonFailure}
                                                     />
@@ -190,7 +192,7 @@ class Register extends React.Component {
                                                     <InputGroup className="input-group-alternative mb-3">
                                                         <InputGroupAddon addonType="prepend">
                                                             <InputGroupText>
-                                                                <i className="ni ni-user"/>
+                                                                <i className="ni ni-single-02"/>
                                                             </InputGroupText>
                                                         </InputGroupAddon>
                                                         <Input
