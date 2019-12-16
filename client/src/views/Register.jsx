@@ -104,6 +104,8 @@ class Register extends React.Component {
     }
 
     onAmazonLogin(response) {
+        console.log("test");
+        console.log(response);
         this.setState({
             name: response.name,
             amazonId: response.id,
@@ -172,7 +174,7 @@ class Register extends React.Component {
                                                         linked={!!this.state.amazonId}
                                                         provider='amazon'
                                                         appId={constants.AMAZON_APP_ID}
-                                                        onLoginSuccess={this.onAmazonLogin}
+                                                        onLoginSuccess={res => this.onAmazonLogin(res)}
                                                         onLoginFailure={this.onAmazonLoginFailure}
                                                         onStartLogin={() => this.setState({amazonLogin: true})}
                                                         onStartLogout={() => this.setState({amazonLogin: true})}

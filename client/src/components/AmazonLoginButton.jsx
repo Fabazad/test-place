@@ -22,7 +22,7 @@ class AmazonLoginButton extends React.Component {
     }
     
     render() {
-        const { triggerLogin, linked, ...props } = this.props;
+        const { triggerLogin, triggerLogout, onStartLogin, onStartLogout, linked, ...props } = this.props;
         return (
             <Button onClick={this.onButtonClicked} {...props}>
                 {
