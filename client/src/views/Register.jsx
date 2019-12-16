@@ -107,9 +107,9 @@ class Register extends React.Component {
         console.log("test");
         console.log(response);
         this.setState({
-            name: response.name,
-            amazonId: response.id,
-            email: this.state.email ? this.state.email : response.email,
+            name: response._profile.name,
+            amazonId: response._profile.id,
+            email: this.state.email ? this.state.email : response._profile.email,
             amazonLoading: false
         });
     }
