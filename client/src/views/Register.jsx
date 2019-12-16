@@ -104,8 +104,6 @@ class Register extends React.Component {
     }
 
     onAmazonLogin(response) {
-        console.log("test");
-        console.log(response);
         this.setState({
             name: response._profile.name,
             amazonId: response._profile.id,
@@ -113,8 +111,14 @@ class Register extends React.Component {
             amazonLoading: false
         });
     }
+    onAmazonLogout() {
+        this.setState({
+            amazonId: '',
+            amazonLoading: false
+        });
+    }
 
-    onAmazonLoginFailure(err) {
+    onAmazonFailure(err) {
         toast.error(err);
         this.setState({
             amazonLoading: false
@@ -175,18 +179,18 @@ class Register extends React.Component {
                                                         provider='amazon'
                                                         appId={constants.AMAZON_APP_ID}
                                                         onLoginSuccess={res => this.onAmazonLogin(res)}
-                                                        onLoginFailure={this.onAmazonLoginFailure}
+                                                        onLoginFailure={this.onAmazonFailure}
                                                         onStartLogin={() => this.setState({amazonLogin: true})}
                                                         onStartLogout={() => this.setState({amazonLogin: true})}
-                                                        onLogoutSuccess={this.stopAmazonLoading}
-                                                        onLogoutFailure={this.stopAmazonLoading}
+                                                        onLogoutSuccess={this.onAmazonLogout}
+                                                        onLogoutFailure={this.onAmazonFailure}
                                                     />
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <InputGroup className="input-group-alternative mb-3">
                                                         <InputGroupAddon addonType="prepend">
                                                             <InputGroupText>
-                                                                <i className="ni ni-email-83"/>
+                                                                <i className="ni ni-user"/>
                                                             </InputGroupText>
                                                         </InputGroupAddon>
                                                         <Input
