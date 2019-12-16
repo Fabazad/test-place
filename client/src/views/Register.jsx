@@ -160,7 +160,7 @@ class Register extends React.Component {
                                             </div>
                                         </CardHeader>
                                         <CardBody className="px-lg-5 py-lg-5">
-                                            <div className="text-center text-muted mb-4">
+                                            <div className="text-center text-muted mb-4" >
                                                 <small>Or sign up with credentials</small>
                                             </div>
                                             <Form role="form" onSubmit={this.onSubmit}>

@@ -33,6 +33,7 @@ class Loading extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log("t");
         if (nextProps.promise && this._isMounted) {
             this.setState({loading: true});
             nextProps.promise.finally(() => {
@@ -41,9 +42,6 @@ class Loading extends React.Component {
                 }
             });
         }
-        if (nextProps.loading) {
-            this.setState({loading: nextProps.loading});
-        }
     }
 
     componentWillUnmount() {
@@ -51,7 +49,7 @@ class Loading extends React.Component {
     }
 
     render() {
-        if (!this.state.loading) {
+        if (!this.state.loading && !this.props.loading) {
             return null;
         }
         return (
