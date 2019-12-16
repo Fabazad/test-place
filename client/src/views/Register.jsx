@@ -47,7 +47,7 @@ class Register extends React.Component {
             amazonLoading: false
         };
         this.onAmazonLogin = this.onAmazonLogin.bind(this);
-        this.onAmazonLoginFailure = this.onAmazonLoginFailure.bind(this);
+        this.onAmazonFailure = this.onAmazonFailure.bind(this);
         this.stopAmazonLoading = this.stopAmazonLoading.bind(this);
     }
 
