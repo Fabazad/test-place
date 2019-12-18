@@ -149,7 +149,7 @@ class DemoNavbar extends React.Component {
                       { !isAuth ? <DropdownItem to="/register" tag={Link}>
                         Inscription
                       </DropdownItem> : null }
-                      { isAuth ? <DropdownItem to={"/my-profile/"} tag={Link}>
+                      { isAuth ? <DropdownItem to={"/my-profile"} tag={Link}>
                         Mon Profil
                       </DropdownItem> : null }
                       { isAuth ? <DropdownItem to={"/dashboard/index"} tag={Link}>

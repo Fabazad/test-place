@@ -58,10 +58,11 @@ async function userRoutes (fastify) {
 
     fastify.post(path + 'amazonLogin', async (request, reply) => {
         middlewares(request, reply, [withAuth], () => {
-            const { token } = request.body;
+
+            const { amazonToken } = request.body;
             const { userId } = request;
-            UserController.amazonLogin(userId, token)
-                .then(() => reply.send())
+            UserController.amazonLogin(userId, amazonToken)
+                .then(user => reply.send(user))
                 .catch(err => reply.code(err.status).send(err.message));
         });
     });

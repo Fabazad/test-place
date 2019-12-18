@@ -51,7 +51,7 @@ class Login extends React.Component {
     const loadingPromise = userService.login(this.state.email, this.state.password).then(res => {
       this.setState({loading: false});
       setCookie("token", res.token, 7);
-      this.props.history.push('/my-profile/');
+      this.props.history.push('/my-profile');
       toast.success("Connecté !");
     }).catch(() => this.setState({loading: false}));
     this.setState({loadingPromise});

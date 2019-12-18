@@ -3,9 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Navbars/DemoNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbars/DemoNavbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/services/user.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/user.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/views/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/front.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/front.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/user.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/user.routes.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +31,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/server" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
@@ -88,7 +92,7 @@
       <workItem from="1576429254066" duration="138000" />
       <workItem from="1576429428817" duration="2661000" />
       <workItem from="1576436959388" duration="21426000" />
-      <workItem from="1576704657180" duration="5836000" />
+      <workItem from="1576704657180" duration="7223000" />
     </task>
     <servers />
   </component>

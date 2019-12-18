@@ -84,8 +84,8 @@ class UserService extends BaseService {
         return this.amazonId;
     }
 
-    amazonLogin(token) {
-        return axios.post(this.baseURL + "/amazonLogin", { token }).then(serviceResolve);
+    amazonLogin(amazonToken) {
+        return axios.post(this.baseURL + "/amazonLogin", { amazonToken }).then(serviceResolve);
     }
 }
 
