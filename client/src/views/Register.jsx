@@ -15,7 +15,7 @@ import {
     InputGroup,
     Container,
     Row,
-    Col, UncontrolledPopover, PopoverBody
+    Col
 } from "reactstrap";
 
 import {Link} from 'react-router-dom';
@@ -28,8 +28,6 @@ import PasswordStrength from "components/PasswordStrength";
 import Loading from "components/Loading";
 import SwitchButtons from "components/SwitchButtons";
 import PrivacyPolicyModal from "components/Modals/PrivacyPolicyModal";
-import AmazonLoginButton from "../components/AmazonLoginButton";
-import constants from "../helpers/constants";
 
 class Register extends React.Component {
 
@@ -46,11 +44,6 @@ class Register extends React.Component {
             amazonId: '',
             amazonLoading: false
         };
-        this.onAmazonLogin = this.onAmazonLogin.bind(this);
-        this.onAmazonFailure = this.onAmazonFailure.bind(this);
-        this.stopAmazonLoading = this.stopAmazonLoading.bind(this);
-        this.onAmazonLogout = this.onAmazonLogout.bind(this);
-        this.stopAmazonLoading = this.stopAmazonLoading.bind(this);
     }
 
     handleInputChange = (event) => {
@@ -105,32 +98,6 @@ class Register extends React.Component {
         this.setState({captcha: value});
     }
 
-    onAmazonLogin(response) {
-        this.setState({
-            name: response._profile.name,
-            amazonId: response._profile.id,
-            email: this.state.email ? this.state.email : response._profile.email,
-            amazonLoading: false
-        });
-    }
-    onAmazonLogout() {
-        this.setState({
-            amazonId: '',
-            amazonLoading: false
-        });
-    }
-
-    onAmazonFailure(err) {
-        toast.error(err);
-        this.setState({
-            amazonLoading: false
-        });
-    }
-
-    stopAmazonLoading() {
-        this.setState({amazonLoading: false});
-    }
-
     render() {
         return (
             <>
@@ -174,20 +141,6 @@ class Register extends React.Component {
                                                         name="role"
                                                     />
                                                 </div>
-                                                <FormGroup className="text-center">
-                                                    <AmazonLoginButton
-                                                        className={"w-100"}
-                                                        linked={!!this.state.amazonId}
-                                                        provider='amazon'
-                                                        appId={constants.AMAZON_APP_ID}
-                                                        onLoginSuccess={res => this.onAmazonLogin(res)}
-                                                        onLoginFailure={this.onAmazonFailure}
-                                                        onStartLogin={() => this.setState({amazonLoading: true})}
-                                                        onStartLogout={() => this.setState({amazonLoading: true})}
-                                                        onLogoutSuccess={this.onAmazonLogout}
-                                                        onLogoutFailure={this.onAmazonFailure}
-                                                    />
-                                                </FormGroup>
                                                 <FormGroup>
                                                     <InputGroup className="input-group-alternative mb-3">
                                                         <InputGroupAddon addonType="prepend">

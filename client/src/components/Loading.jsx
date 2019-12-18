@@ -21,7 +21,6 @@ class Loading extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
-        this.setState({loading: this.props.loading});
         if (this.props.promise) {
             this.setState({loading: true});
             this.props.promise.finally(() => {
@@ -33,7 +32,6 @@ class Loading extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("t");
         if (nextProps.promise && this._isMounted) {
             this.setState({loading: true});
             nextProps.promise.finally(() => {
@@ -54,13 +52,13 @@ class Loading extends React.Component {
         }
         return (
             <>
-                <div className="position-absolute w-100 h-100 bg-white loading d-flex">
+                <div className="position-absolute w-100 h-100 bg-white loading d-flex overflow-hidden top-0 left-0">
                     <BounceLoader
                         css={override}
                         sizeUnit={"px"}
                         size={70}
                         color={'#123abc'}
-                        loading={this.state.loading}
+                        loading={this.state.loading || this.props.loading}
                     />
                 </div>
             </>

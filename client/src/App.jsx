@@ -31,7 +31,7 @@ class App extends React.Component {
                         <Route path="/login" component={withoutAuth(Login)}/>
                         <Route path="/register" component={withoutAuth(Register)}/>
                         <Route path="/landing" component={anyAuth(Landing)}/>
-                        <Route path="/profile/:userId" component={anyAuth(Profile)}/>
+                        <Route path="/my-profile" component={withAuth(Profile)}/>
                         <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)}/>
                         <Route path="/email-validation/:userId" component={anyAuth(EmailValidation)}/>
                         <Route path="/dashboard" component={withAuth(DashboardLayout)}/>

@@ -8,6 +8,7 @@ import { Button, Card, Container, Row, Col } from "reactstrap";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import UpdatePasswordModal from "components/Modals/UpdatePasswordModal";
 import NewProductModal from "components/Modals/NewProductModal";
+import AmazonLoginButton from "../components/AmazonLoginButton";
 
 class Profile extends React.Component {
 
@@ -145,6 +146,7 @@ class Profile extends React.Component {
                       <Col lg="9">
                         <UpdatePasswordModal/>
                         <NewProductModal/>
+                        <AmazonLoginButton/>
                       </Col>
                     </Row> : null}
                   </div>
