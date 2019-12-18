@@ -15,6 +15,7 @@ class UserService extends BaseService {
         super('/user');
         this.currentUserId = undefined;
         this.role = undefined;
+        this.amazonId = undefined;
     }
 
     login(email, password) {
@@ -31,6 +32,7 @@ class UserService extends BaseService {
                 if (res.data.userId) {
                     this.currentUserId = res.data.userId;
                     this.role = res.data.role;
+                    this.amazonId = res.data.amazonId;
                     resolve();
                 }
                 reject();
@@ -76,6 +78,10 @@ class UserService extends BaseService {
 
     getRole() {
         return this.role;
+    }
+
+    getAmazonId() {
+        return this.amazonId;
     }
 
     amazonLogin(token) {

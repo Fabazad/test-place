@@ -147,7 +147,7 @@ class StepController {
                     user.resetPasswordExpires = undefined;
                     user.save((err) => {
                         if (err) {
-                            reject({ status: 500, message: "Error updating password's user, please try again." });
+                            reject({ status: 500, message: err });
                         }
                         else {
                             resolve({user});
