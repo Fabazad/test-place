@@ -77,6 +77,10 @@ class UserService extends BaseService {
     getRole() {
         return this.role;
     }
+
+    amazonLogin(token) {
+        return axios.post(this.baseURL + "/amazonLogin", { token }).then(serviceResolve);
+    }
 }
 
 export default new UserService();

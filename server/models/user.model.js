@@ -9,7 +9,8 @@ var UserSchema = new mongoose.Schema({
     emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    role: { type: String, required: true, enum: ['reviewer', 'seller']}
+    role: { type: String, required: true, enum: ['reviewer', 'seller']},
+    amazonId: String
 });
 
 UserSchema.pre('save', function(next) {

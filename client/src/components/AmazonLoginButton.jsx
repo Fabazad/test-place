@@ -3,6 +3,8 @@ import AnimatedCheck from "./AnimatedCheck";
 import constants from "../helpers/constants";
 import SocialButton from "./SocialButton";
 import Loading from "./Loading";
+import userServices from "../services/user.services";
+import {Toast as toast} from "react-toastify";
 
 class AmazonLoginButton extends React.Component {
 
@@ -19,11 +21,13 @@ class AmazonLoginButton extends React.Component {
     }
 
     onAmazonLogin(response) {
-        console.log(response);
-        this.setState({
-            amazonId: response._profile.id,
-            loading: false
-        });
+        userServices.amazonLogin(response.token.accessToken).then(user => {
+            console.log(user);
+            this.setState({
+                amazonId: user.amazonId,
+                loading: false
+            });
+        }).catch(() => toast.error("La connection à Amazon a échouée"));
     }
 
     onAmazonFailure(err) {
@@ -55,13 +59,12 @@ class AmazonLoginButton extends React.Component {
                     onLoginFailure={this.onAmazonFailure}
                     onLogoutSuccess={this.onAmazonLogout}
                     onStart={this.onStart}
-                    className={"btn btn-default"}
+                    className={"btn " + (this.state.amazonId ? 'btn-default' : 'btn-primary')}
                     linked={this.state.amazonId ? 1 : 0}
                 >
                     <Loading loading={this.state.loading} />
                     {this.state.amazonId ? (
                     <>
-                        <i className="fa fa-amazon size-lg text-yellow"/>
                         <AnimatedCheck className={"m-0 d-inline-block"} style={{"width": "20px"}}/>
                         <span className="ml-2">Compte Amazon Lié</span>
                     </>

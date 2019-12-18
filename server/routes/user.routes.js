@@ -55,6 +55,16 @@ async function userRoutes (fastify) {
             .then(() => reply.send())
             .catch(err => reply.code(err.status).send(err.message));
     });
+
+    fastify.post(path + 'amazonLogin', async (request, reply) => {
+        middlewares(request, reply, [withAuth], () => {
+            const { token } = request.body;
+            const { userId } = request;
+            UserController.amazonLogin(userId, token)
+                .then(() => reply.send())
+                .catch(err => reply.code(err.status).send(err.message));
+        });
+    });
 }
 
 module.exports = userRoutes

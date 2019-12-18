@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/SocialButton.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AmazonLoginButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Loading.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Loading.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Navbars/DemoNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbars/DemoNavbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/services/user.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/user.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/user.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/user.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/user.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/user.routes.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +44,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.client">
+  <component name="RunManager" selected="npm.server">
     <configuration name="Unnamed" type="NodeJSConfigurationType" nameIsGenerated="true" working-dir="$PROJECT_DIR$/server">
       <method v="2" />
     </configuration>
@@ -93,7 +90,7 @@
       <workItem from="1576429254066" duration="138000" />
       <workItem from="1576429428817" duration="2661000" />
       <workItem from="1576436959388" duration="21426000" />
-      <workItem from="1576704657180" duration="2785000" />
+      <workItem from="1576704657180" duration="4617000" />
     </task>
     <servers />
   </component>

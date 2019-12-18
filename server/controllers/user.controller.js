@@ -173,6 +173,21 @@ class StepController {
                 .catch(err => reject({status: 500, message: err}));
         });
     }
+
+    static async amazonLogin(userId, token) {
+        return new Promise((resolve, reject) => {
+            if (!userId) {
+                return reject({ status: 403, message: "Wrong user token."});
+            }
+            if (!token) {
+                return reject({ status: 400, message: "Missing token."});
+            }
+            axios.get("https://api.amazon.com/user/profile?access_token=" + token ).then(res => {
+                UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}).then(resolve)
+                    .catch(err => reject({status: 500, message: err}));
+            }).catch(err => reject({status: 403, message: "Wrong token."}));
+        });
+    }
 }
 
 module.exports = StepController;
