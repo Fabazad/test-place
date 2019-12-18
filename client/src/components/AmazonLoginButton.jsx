@@ -29,7 +29,7 @@ class AmazonLoginButton extends React.Component {
 
     onAmazonLogin(response) {
         userServices.amazonLogin(response.token.accessToken).then(user => {
-            console.log(user);
+            userServices.amazonId = user.amazonId;
             this.setState({
                 amazonId: user.amazonId,
                 loading: false
@@ -49,9 +49,11 @@ class AmazonLoginButton extends React.Component {
     }
 
     onAmazonLogout() {
-        this.setState({
-            amazonId: '',
-            loading: false
+        userServices.update(userServices.getCurrentUserId(), {amazonId: null}).then(() => {
+            this.setState({
+                amazonId: '',
+                loading: false
+            });
         });
     }
 

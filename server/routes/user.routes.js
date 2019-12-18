@@ -68,4 +68,4 @@ async function userRoutes (fastify) {
     });
 }
 
-module.exports = userRoutes
+module.exports = userRoutes;
