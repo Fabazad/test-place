@@ -4,7 +4,7 @@ import constants from "../helpers/constants";
 import SocialButton from "./SocialButton";
 import Loading from "./Loading";
 import userServices from "../services/user.services";
-import {Toast as toast} from "react-toastify";
+import {toast} from "react-toastify";
 
 class AmazonLoginButton extends React.Component {
 
