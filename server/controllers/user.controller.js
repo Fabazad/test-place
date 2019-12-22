@@ -8,7 +8,7 @@ const ErrorResponses =  require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 
-class StepController {
+class UserController {
 
     static async register(email, password, captcha) {
         return new Promise ((resolve, reject) => {
@@ -45,7 +45,7 @@ class StepController {
         return new Promise((resolve, reject) => {
             UserModel.findOne({ email }, function(err, user) {
                 if (err) {
-                    reject({ status: 500, message: "Internal error please try again"});
+                    reject(ErrorResponses.mongoose(err));
                 } else if (!user) {
                     reject({ status: 401, message: "Incorrect email or password"});
                 } else if (!user.emailValidation) {
@@ -53,7 +53,7 @@ class StepController {
                 } else {
                     user.isCorrectPassword(password, function(err, same) {
                         if (err) {
-                            reject({ status: 500, message: "Internal error please try again"});
+                            reject(ErrorResponses.mongoose(err));
                         } else if (!same) {
                             reject({ status: 401, message: "Incorrect email or password"});
                         } else {
@@ -84,7 +84,7 @@ class StepController {
                     EmailController.sendResetPasswordMail(email, resetPasswordToken)
                         .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
                 })
-                .catch(err => reject({status: 500, message: err}));
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 
@@ -106,14 +106,14 @@ class StepController {
                     user.resetPasswordExpires = undefined;
                     user.save((err) => {
                         if (err) {
-                            reject({ status: 500, message: "Error updating password's user, please try again." });
+                            reject(ErrorResponses.mongoose(err));
                         }
                         else {
                             resolve({user});
                         }
                     });
                 })
-                .catch(err => reject({status: 500, message: err}));
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 
@@ -148,7 +148,7 @@ class StepController {
                     user.resetPasswordExpires = undefined;
                     user.save((err) => {
                         if (err) {
-                            reject({ status: 500, message: err });
+                            reject(ErrorResponses.mongoose(err));
                         }
                         else {
                             resolve({user});
@@ -171,7 +171,7 @@ class StepController {
                     }
                     resolve({user});
                 })
-                .catch(err => reject({status: 500, message: err}));
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 
@@ -185,10 +185,10 @@ class StepController {
             }
             axios.get("https://api.amazon.com/user/profile?access_token=" + amazonToken ).then(res => {
                 UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}).then(resolve)
-                    .catch(err => reject({status: 500, message: err}));
+                    .catch(err => reject(ErrorResponses.mongoose(err)));
             }).catch(err => reject({status: 403, message: "Wrong token."}));
         });
     }
 }
 
-module.exports = StepController;
+module.exports = UserController;

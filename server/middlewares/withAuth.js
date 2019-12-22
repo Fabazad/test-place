@@ -16,6 +16,7 @@ const withAuth = function(req, res, next) {
       } else {
         req.userId = decoded.userId;
         req.role = decoded.role;
+        req.amazonId = decoded.amazonId;
         next();
       }
     });
