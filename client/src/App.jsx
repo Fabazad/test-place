@@ -15,6 +15,7 @@ import {Provider} from "react-redux";
 import {applyMiddleware, compose, createStore} from "redux";
 import rootReducer from "./reducers";
 import thunkMiddleware from "redux-thunk";
+import Search from "./views/Search";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
@@ -35,6 +36,7 @@ class App extends React.Component {
                         <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)}/>
                         <Route path="/email-validation/:userId" component={anyAuth(EmailValidation)}/>
                         <Route path="/dashboard" component={withAuth(DashboardLayout)}/>
+                        <Route path="/search" component={anyAuth(Search)}/>
                         <Redirect to="/"/>
                     </Switch>
                 </BrowserRouter>

@@ -25,3 +25,11 @@
 .w-fit-content {
     width: fit-content;
 }
+
+.filter-icon{
+    transition: 100ms;
+    &:hover {
+        color: white !important;
+        transition: 200ms;
+    }
+}
