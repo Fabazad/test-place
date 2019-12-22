@@ -26,7 +26,6 @@ import {toast} from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
 import PasswordStrength from "components/PasswordStrength";
 import Loading from "components/Loading";
-import SwitchButtons from "components/SwitchButtons";
 import PrivacyPolicyModal from "components/Modals/PrivacyPolicyModal";
 
 class Register extends React.Component {
@@ -38,10 +37,8 @@ class Register extends React.Component {
             email: '',
             password: '',
             password2: '',
-            role: '',
             captcha: '',
             loadingPromise: null,
-            amazonId: '',
             amazonLoading: false
         };
     }
@@ -67,18 +64,12 @@ class Register extends React.Component {
             toast.error("Vérifiez que vous êtes Humain.");
             return;
         }
-        if (!this.state.amazonId) {
-            toast.error("Vous devez lier un compte Amazon.");
-            return;
-        }
 
         const user = {
             name: this.state.name,
             email: this.state.email,
             password: this.state.password,
-            role: this.state.role,
-            captcha: this.state.captcha,
-            amazonId: this.state.amazonId
+            captcha: this.state.captcha
         };
 
         const loadingPromise = userService.register(user).then(res => {
@@ -131,16 +122,6 @@ class Register extends React.Component {
                                                 <small>Or sign up with credentials</small>
                                             </div>
                                             <Form role="form" onSubmit={this.onSubmit}>
-                                                <div className="mt-3 mb-4">
-                                                    <SwitchButtons
-                                                        fields={[{
-                                                            label: "Testeur",
-                                                            value: 'reviewer'
-                                                        }, {label: "Vendeur", value: 'seller'}]}
-                                                        onChange={this.handleInputChange}
-                                                        name="role"
-                                                    />
-                                                </div>
                                                 <FormGroup>
                                                     <InputGroup className="input-group-alternative mb-3">
                                                         <InputGroupAddon addonType="prepend">

@@ -4,12 +4,13 @@ const secret = 'mysecretsshhh';
 const axios = require('axios');
 const randomToken = require('random-token');
 const moment = require("moment");
+const ErrorResponses =  require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 
 class StepController {
 
-    static async register(email, password, role, captcha) {
+    static async register(email, password, captcha) {
         return new Promise ((resolve, reject) => {
             if (password.length < 8) {
                 reject({ status: 400, message: "The password is too short." });
@@ -18,10 +19,10 @@ class StepController {
             axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`)
             .then(response => {
                 if (response.data.success) {
-                    const user = new UserModel({ email, password, role });
+                    const user = new UserModel({ email, password });
                     user.save(function(err) {
                         if (err) {
-                            reject({ status: 500, message: "Error registering new user please try again." });
+                            reject(ErrorResponses.mongoose(err));
                         } else {
                             EmailController.sendValidateMailAddressMail(email, user._id)
                                 .then(() => resolve({user}))
@@ -57,7 +58,7 @@ class StepController {
                             reject({ status: 401, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const payload = { userId: user._id, role: user.role };
+                            const payload = { userId: user._id, role: user.role, amazonId: user.amazonId };
                             const token = jwt.sign(payload, secret, { expiresIn: '1h' });
                             resolve({user, token});
                         }
