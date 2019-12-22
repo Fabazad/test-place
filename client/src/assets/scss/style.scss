@@ -11,3 +11,17 @@
     width: 400px;
     max-width: 400px;
 }
+
+.overlay-image-uploader {
+    background-color: black;
+    opacity: 0;
+    transition: 300ms;
+    &:hover {
+        opacity: 0.6;
+        transition: 400ms;
+    }
+}
+
+.w-fit-content {
+    width: fit-content;
+}

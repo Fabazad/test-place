@@ -210,21 +210,16 @@ class NewProductModal extends React.Component {
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
-                                    <div className="col-md-3 col-6 text-center">
-                                        <div className="custom-control custom-control-alternative custom-checkbox mb-3">
-                                            <input
-                                                className="custom-control-input"
-                                                id="customCheck5"
-                                                type="checkbox"
-                                                name="isPrime"
-                                                checked={this.state.isPrime}
-                                                onChange={this.handleCheckChange}
-                                            />
-                                            <label className="custom-control-label" htmlFor="customCheck5">
-                                                <img src={require("assets/img/icons/prime.png")} alt="prime"
-                                                     style={{"height": "24px"}}/>
-                                            </label>
-                                        </div>
+                                    <div className="col-md-3 col-6 text-center d-flex">
+                                        <label className="custom-toggle mt-2">
+                                            <input type="checkbox" name="isPrime" checked={this.state.isPrime}
+                                                   onChange={this.handleCheckChange} id="isPrimeInput"/>
+                                            <span className="custom-toggle-slider rounded-circle"/>
+                                        </label>
+                                        <label htmlFor="isPrimeInput" className="mt-2 ml-1">
+                                            <img src={require("assets/img/icons/prime.png")} alt="prime"
+                                                 style={{"height": "24px"}}/>
+                                        </label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -331,7 +326,7 @@ class NewProductModal extends React.Component {
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className="col-md-6 col-12">
-                                        <div className="custom-control custom-control-alternative custom-checkbox mb-3">
+                                        <div className="custom-control custom-control-alternative custom-checkbox mt-2">
                                             <input
                                                 className="custom-control-input"
                                                 id="customCheck6"
@@ -343,7 +338,8 @@ class NewProductModal extends React.Component {
                                             <label className="custom-control-label" htmlFor="customCheck6">
                                                 Acceptation automatique des demandes
                                             </label>
-                                            <i className="fa fa-question-circle ml-3 cursor-pointer" id="tooltip348236073"/>
+                                            <i className="fa fa-question-circle ml-3 cursor-pointer"
+                                               id="tooltip348236073"/>
                                             <UncontrolledPopover
                                                 placement="top"
                                                 target="tooltip348236073"
