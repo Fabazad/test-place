@@ -2,20 +2,13 @@ import React from "react";
 
 // reactstrap components
 import {
-    Card,
-    CardBody,
     Container,
-    Row,
-    Col
+    Row
 } from "reactstrap";
-import { Link } from "react-router-dom";
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
-import Loading from "components/Loading";
 import userServices from "services/user.services";
-import AnimatedCheck from "components/AnimatedCheck";
-import AnimatedError from "components/AnimatedError";
 import SearchEngine from "../components/SearchEngine";
 
 

@@ -2,25 +2,23 @@ import React from "react";
 import '../assets/scss/animated-checks.scss';
 import PropTypes from "prop-types";
 import { Form, FormGroup, Input, Row, Button, UncontrolledTooltip } from "reactstrap";
+import DropdownSelect from "./DropdownSelect";
 
 class SearchEngine extends React.Component {
 
     render() {
-        const style = this.props.style || {};
-        const className = this.props.className || "";
         return (
             <>
                 <Form className="p-4 rounded bg-translucent-light">
                     <Row>
                         <div className="col-md-3 text-center col-12">
                             <FormGroup className="mb-md-0">
-                                <Input type="select" className="form-control-alternative">
-                                    <option value={null}>Catégories</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
+                                <DropdownSelect
+                                    className={"w-100"} name={"category"}
+                                    placeholder={"Catégories"}
+                                    value={'test'}
+                                    onChange={(value) => console.log(value)}
+                                    options={[{ value: 'test', text: 'testx'}]}/>
                             </FormGroup>
                         </div>
                         <div className="col-md-5 text-center col-12">
