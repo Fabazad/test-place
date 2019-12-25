@@ -14,7 +14,6 @@ class UserService extends BaseService {
     constructor() {
         super('/user');
         this.currentUserId = undefined;
-        this.role = undefined;
         this.amazonId = undefined;
     }
 
@@ -26,12 +25,11 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + '/register', user).then(serviceResolve);
     }
 
-    checkToken(token) {
+    checkToken(required = true) {
         return new Promise((resolve, reject) => {
-            axios.get(this.baseURL + '/checkToken', {token}).then(res => {
+            axios.get(this.baseURL + '/checkToken', { params: { required } } ).then(res => {
                 if (res.data.userId) {
                     this.currentUserId = res.data.userId;
-                    this.role = res.data.role;
                     this.amazonId = res.data.amazonId;
                     resolve();
                 }
@@ -74,10 +72,6 @@ class UserService extends BaseService {
 
     isAlreadyChecked() {
         return this.currentUserId !== undefined;
-    }
-
-    getRole() {
-        return this.role;
     }
 
     getAmazonId() {

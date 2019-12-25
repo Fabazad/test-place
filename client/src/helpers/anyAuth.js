@@ -8,8 +8,8 @@ export default function withAuth(ComponentToProtect) {
 
   return class extends Component {
 
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
       this.state = {
         loadingPromise: null,
         checked: false
@@ -22,7 +22,7 @@ export default function withAuth(ComponentToProtect) {
         this.setState({ checked: true });
       }
       else {
-        const loadingPromise = userService.checkToken()
+        const loadingPromise = userService.checkToken(false)
         .then(() => this.setState({ checked: true }))
         .catch(err => {
           eraseCookie("token");

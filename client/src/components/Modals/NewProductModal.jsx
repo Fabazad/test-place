@@ -226,11 +226,6 @@ class NewProductModal extends React.Component {
                                     <div className="col-6">
                                         <FormGroup className="mb-3">
                                             <InputGroup className="input-group-alternative">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="fa fa-euro"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
                                                 <Input
                                                     placeholder="Prix"
                                                     type="number"
@@ -241,17 +236,17 @@ class NewProductModal extends React.Component {
                                                     onChange={this.handleInputChange}
                                                     required
                                                 />
+                                                <InputGroupAddon addonType="append">
+                                                    <InputGroupText>
+                                                        <i className="fa fa-euro"/>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
                                     <div className="col-6">
                                         <FormGroup className="mb-3">
                                             <InputGroup className="input-group-alternative">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="fa fa-euro"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
                                                 <Input
                                                     placeholder="Prix Final"
                                                     type="number"
@@ -262,6 +257,11 @@ class NewProductModal extends React.Component {
                                                     onChange={this.handleInputChange}
                                                     required
                                                 />
+                                                <InputGroupAddon addonType="append">
+                                                    <InputGroupText>
+                                                        <i className="fa fa-euro"/>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
