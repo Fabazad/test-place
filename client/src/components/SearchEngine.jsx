@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import '../assets/scss/animated-checks.scss';
 import PropTypes from "prop-types";
 import {
@@ -12,6 +12,7 @@ import {
     PopoverBody, InputGroup, InputGroupText, InputGroupAddon, Container, Badge
 } from "reactstrap";
 import DropdownSelect from "./DropdownSelect";
+import constants from "../helpers/constants";
 
 class SearchEngine extends React.Component {
 
@@ -25,11 +26,14 @@ class SearchEngine extends React.Component {
             automaticAcceptance: false,
             prime: false,
             category: undefined,
-            keyWords: ''
+            keyWords: '',
+            isPopoverOpen: false
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.resetFilters = this.resetFilters.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -78,7 +82,23 @@ class SearchEngine extends React.Component {
         })
     };
 
+    resetFilters() {
+        this.setState({
+            filterNb: 0,
+            minPrice: '',
+            maxPrice: '',
+            free: false,
+            automaticAcceptance: false,
+            prime: false
+        });
+    }
+
+    toggle() {
+        this.setState({isPopoverOpen: !this.state.isPopoverOpen});
+    }
+
     render() {
+
         return (
             <>
                 <Form className="p-4 rounded bg-translucent-light" onSubmit={this.onSubmit}>
@@ -90,7 +110,7 @@ class SearchEngine extends React.Component {
                                     placeholder={"Catégories"}
                                     value={this.state.category}
                                     onChange={this.handleInputChange}
-                                    options={[{value: 'test', text: 'testx'}]}/>
+                                    options={constants.PRODUCT_CATEGORIES}/>
                             </FormGroup>
                         </div>
                         <div className="col-md-5 text-center col-12">
@@ -103,12 +123,12 @@ class SearchEngine extends React.Component {
                             </FormGroup>
                         </div>
                         <div className="col-12 col-md-1 text-center">
-                            <FormGroup className="mb-0">
+                            <FormGroup className="mb-0 mx-auto w-fit-content position-relative">
                                 <i className="fa fa-filter fa-lg text-light p-3 cursor-pointer filter-icon"
                                    data-placement="top"
                                    id="filterIcon"/>
                                 {this.state.filterNb ? (
-                                    <Badge color="primary" className={"badge-circle position-absolute top-0"}>
+                                    <Badge color="primary" className="badge-circle position-absolute top-0 right-0">
                                         {this.state.filterNb}
                                     </Badge>
                                 ) : null}
@@ -119,10 +139,11 @@ class SearchEngine extends React.Component {
                                 >
                                     Plus de filtres
                                 </UncontrolledTooltip>
-                                <UncontrolledPopover placement="auto" target="filterIcon" className={"filter-popover"}>
-                                    <PopoverBody>
+                                <UncontrolledPopover placement="auto" target="filterIcon" className={"filter-popover"}
+                                                     isOpen={this.state.isPopoverOpen} toggle={this.toggle}>
+                                    <PopoverBody className="bg-secondary rounded">
                                         <Container>
-                                            <Row>
+                                            <Row className="mt-2">
                                                 <div className="col-6">
                                                     <FormGroup className="mb-0 w-100">
                                                         <InputGroup className="input-group-alternative">
@@ -195,6 +216,21 @@ class SearchEngine extends React.Component {
                                                     </label>
                                                 </div>
                                             </Row>
+                                            <Row className="mt-2">
+                                                <div className="col-12">
+                                                    {
+                                                        this.state.filterNb ? (
+
+                                                            <Button color="danger" outline
+                                                                    onClick={this.resetFilters}>Reset</Button>
+
+                                                        ) : null
+                                                    }
+                                                    <Button color="secondary" className="float-right" outline
+                                                            onClick={this.toggle}>Fermer</Button>
+                                                </div>
+                                            </Row>
+
                                         </Container>
                                     </PopoverBody>
                                 </UncontrolledPopover>

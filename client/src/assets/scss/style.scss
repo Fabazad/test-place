@@ -43,3 +43,8 @@
     height: 1.5rem;
     font-size: small;
 }
+
+.dropdown-menu.show {
+    position: absolute!important;
+    min-width: 100%;
+}
