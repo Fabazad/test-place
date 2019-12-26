@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import '../assets/scss/animated-checks.scss';
 import PropTypes from "prop-types";
 import {
@@ -79,7 +79,7 @@ class SearchEngine extends React.Component {
         e.preventDefault();
         this.props.onSearch({
             ...this.state
-        })
+        });
     };
 
     resetFilters() {

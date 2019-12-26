@@ -11,7 +11,7 @@ import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import SearchEngine from "../components/SearchEngine";
 import productServices from "../services/product.service";
 import Loading from "../components/Loading";
-
+import { updateURLParameter } from "../helpers/urlHelpers"
 
 class Search extends React.Component {
 
@@ -45,30 +45,10 @@ class Search extends React.Component {
         this.searchProducts(searchEngineData);
     }
 
-    updateURLParameter(url, param, paramVal) {
-        let newAdditionalURL = "";
-        let tempArray = url.split("?");
-        let baseURL = tempArray[0];
-        let additionalURL = tempArray[1];
-        let temp = "";
-        if (additionalURL) {
-            tempArray = additionalURL.split("&");
-            for (let i=0; i<tempArray.length; i++){
-                if(tempArray[i].split('=')[0] !== param){
-                    newAdditionalURL += temp + tempArray[i];
-                    temp = "&";
-                }
-            }
-        }
-
-        const rows_txt = temp + "" + param + "=" + paramVal;
-        return baseURL + "?" + newAdditionalURL + rows_txt;
-    }
-
     onSearch(searchData) {
         let url = window.location.href;
         Object.keys(searchData).forEach(dataKey => {
-            url = this.updateURLParameter(url, dataKey, searchData[dataKey]);
+            url = updateURLParameter(url, dataKey, searchData[dataKey]);
         });
         window.history.pushState({},"", url);
         this.searchProducts(searchData);

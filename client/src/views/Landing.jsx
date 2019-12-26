@@ -24,14 +24,31 @@ import CardsFooter from "components/Footers/CardsFooter.jsx";
 
 // index page sections
 import Download from "./IndexSections/Download.jsx";
+import SearchEngine from "../components/SearchEngine";
+import { updateURLParameter } from "../helpers/urlHelpers";
 
 class Landing extends React.Component {
-  state = {};
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.onSearch = this.onSearch.bind(this);
+  }
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+
+  onSearch(searchData) {
+    let url = '/search';
+    Object.keys(searchData).forEach(dataKey => {
+      url = updateURLParameter(url, dataKey, searchData[dataKey]);
+    });
+    this.props.history.push(url);
+  }
+
   render() {
     return (
       <>
@@ -64,30 +81,11 @@ class Landing extends React.Component {
                         help you get started faster. You can change the text and
                         images and you're good to go.
                       </p>
-                      <div className="btn-wrapper">
-                        <Button
-                          className="btn-icon mb-3 mb-sm-0"
-                          color="info"
-                          href="https://demos.creative-tim.com/argon-design-system-react/#/documentation/alerts?ref=adsr-landing-page"
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <i className="fa fa-code" />
-                          </span>
-                          <span className="btn-inner--text">Components</span>
-                        </Button>
-                        <Button
-                          className="btn-white btn-icon mb-3 mb-sm-0 ml-1"
-                          color="default"
-                          href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-landing-page"
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <i className="ni ni-cloud-download-95" />
-                          </span>
-                          <span className="btn-inner--text">
-                            Download React
-                          </span>
-                        </Button>
-                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <SearchEngine onSearch={this.onSearch} data={{}}/>
                     </Col>
                   </Row>
                 </div>
