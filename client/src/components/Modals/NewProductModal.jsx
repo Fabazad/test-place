@@ -42,10 +42,12 @@ class NewProductModal extends React.Component {
             exampleModal: false,
             loadingPromise: null,
             picture: null,
-            categories: [],
             category: ''
         };
-        this.state = this.initialState;
+        this.state = {
+            categories: [],
+            ...this.initialState
+        };
         this.updatePicture = this.updatePicture.bind(this);
     }
 

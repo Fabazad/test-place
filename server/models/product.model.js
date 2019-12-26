@@ -17,7 +17,8 @@ const productSchema = new mongoose.Schema({
     automaticAcceptance: { type: Boolean, required: true },
     pictureUrl: { type: String, required: true },
     sellerId: { type: mongoose.Schema.Types.ObjectId, required: true },
-    category: { type: String, enum: categoryValues, required: true }
+    category: { type: String, enum: categoryValues, required: true },
+    createdAt: { type: Date, default: new Date(), required: true }
 });
 
 module.exports = mongoose.model('Product', productSchema);

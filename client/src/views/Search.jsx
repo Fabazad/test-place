@@ -12,6 +12,7 @@ import SearchEngine from "../components/SearchEngine";
 import productServices from "../services/product.service";
 import Loading from "../components/Loading";
 import { updateURLParameter } from "../helpers/urlHelpers"
+import ProductCard from "../components/ProductCard";
 
 class Search extends React.Component {
 
@@ -78,18 +79,43 @@ class Search extends React.Component {
                             <span />
                             <span />
                         </div>
-                        <Container className="pt-lg-md">
-                            <Row>
-                                <div className="col-12">
+                        <Container className="pt-lg-md mb-5">
+                            <Row className="mt-3">
+                                <div className="col-12 mb-5">
                                     <SearchEngine onSearch={this.onSearch} data={this.state.searchEngineData}/>
                                 </div>
                             </Row>
                         </Container>
+                        <div className="separator separator-bottom separator-skew">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                preserveAspectRatio="none"
+                                version="1.1"
+                                viewBox="0 0 2560 100"
+                                x="0"
+                                y="0"
+                                className={"w-100"}
+                            >
+                                <polygon
+                                    className="fill-secondary"
+                                    points="2560 0 2560 100 0 100"
+                                />
+                            </svg>
+                        </div>
                     </section>
-                    <section className="section section-lg">
+                    <section className="section section-lg pt-0 mt--100">
                         <Container>
                             <Loading promise={this.state.loadingPromise}/>
-                            Big
+                            <Row>
+                                {
+                                    this.state.products.map(product => (
+                                        <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2" key={product._id}>
+                                            <ProductCard product={product}/>
+                                        </div>
+
+                                    ))
+                                }
+                            </Row>
                         </Container>
                     </section>
                 </main>
