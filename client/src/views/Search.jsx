@@ -47,6 +47,7 @@ class Search extends React.Component {
 
     onSearch(searchData) {
         let url = window.location.href;
+        this.setState({ searchEngineData: searchData });
         Object.keys(searchData).forEach(dataKey => {
             url = updateURLParameter(url, dataKey, searchData[dataKey]);
         });
