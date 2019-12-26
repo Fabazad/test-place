@@ -56,9 +56,9 @@ class ProductController {
             const product = new ProductModel( productObj );
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {
-                    reject({status: 400, message: 'Un produit avec le même identifiant ASIN existe déjà.'})
+                    reject({status: 400, message: 'Un produit avec le même identifiant ASIN existe déjà.'});
                 }
-                reject({status: 400, message: err.errmsg})
+                reject(ErrorResponses.mongoose(err));
             });
         });
     }

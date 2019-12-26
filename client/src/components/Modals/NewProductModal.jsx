@@ -10,7 +10,7 @@ import {
     InputGroupText,
     Input,
     UncontrolledPopover,
-    PopoverBody
+    PopoverBody, Row
 } from "reactstrap";
 import {toast} from "react-toastify";
 import Loading from "components/Loading";
@@ -18,6 +18,7 @@ import productService from "services/product.service";
 import ImageUploader from 'components/ImageUploader';
 import s3Services from "services/s3.services";
 import constants from "helpers/constants";
+import DropdownSelect from "../DropdownSelect";
 
 //import PropTypes from 'prop-types';
 
@@ -40,10 +41,16 @@ class NewProductModal extends React.Component {
             automaticAcceptance: false,
             exampleModal: false,
             loadingPromise: null,
-            picture: null
+            picture: null,
+            categories: [],
+            category: ''
         };
         this.state = this.initialState;
         this.updatePicture = this.updatePicture.bind(this);
+    }
+
+    componentDidMount() {
+        productService.getProductCategories().then(categories => this.setState({categories}));
     }
 
     toggleModal = state => {
@@ -94,7 +101,7 @@ class NewProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {asin, title, price, finalPrice, pictureUrl, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance} = this.state;
+            const {asin, title, price, finalPrice, pictureUrl, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category} = this.state;
             const product = {
                 asin,
                 title,
@@ -106,7 +113,8 @@ class NewProductModal extends React.Component {
                 afterNote,
                 beforeNote,
                 maxDemands,
-                automaticAcceptance
+                automaticAcceptance,
+                category
             };
 
             if (this.state.picture) {
@@ -166,24 +174,31 @@ class NewProductModal extends React.Component {
                         </div>
                         <div className="modal-body white-space-pre-line bg-secondary">
                             <div className="border-bottom">
-                                <FormGroup className="mb-3">
-                                    <InputGroup className="input-group-alternative">
-                                        <InputGroupAddon addonType="prepend">
-                                            <InputGroupText>
-                                                <i className="fa fa-hashtag"/>
-                                            </InputGroupText>
-                                        </InputGroupAddon>
-                                        <Input
-                                            placeholder="ASIN ou Lien amazon du produit"
-                                            type="text"
-                                            name="asinInput"
-                                            value={this.state.asinInput}
-                                            onChange={this.handleInputChange}
-                                        />
-                                    </InputGroup>
-                                </FormGroup>
-                                <Button color="success" className="mb-3 w-100"
-                                        onClick={() => this.scrapAsin()}>Pré-Remplir</Button>
+                                <Row>
+                                    <div className="col-12 col-md-8 col-lg-9">
+                                        <FormGroup className="mb-3">
+                                            <InputGroup className="input-group-alternative">
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>
+                                                        <i className="fa fa-hashtag"/>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
+                                                <Input
+                                                    placeholder="ASIN ou Lien amazon du produit"
+                                                    type="text"
+                                                    name="asinInput"
+                                                    value={this.state.asinInput}
+                                                    onChange={this.handleInputChange}
+                                                />
+                                            </InputGroup>
+                                        </FormGroup>
+                                    </div>
+                                    <div className="col-12 col-md-4 col-lg-3">
+                                        <Button color="primary" className="mb-3 w-100"
+                                                onClick={() => this.scrapAsin()}>Pré-Remplir</Button>
+                                    </div>
+
+                                </Row>
                             </div>
                             <div className="border-bottom">
                                 <div className="w-100 text-center my-3">
@@ -191,7 +206,7 @@ class NewProductModal extends React.Component {
                                                    baseUrl={constants.BASE_PRODUCT_PICTURE_URL}/>
                                 </div>
                                 <div className="row">
-                                    <div className="col-6 col-md-9">
+                                    <div className="col-12">
                                         <FormGroup className="mb-3">
                                             <InputGroup className="input-group-alternative">
                                                 <InputGroupAddon addonType="prepend">
@@ -210,18 +225,25 @@ class NewProductModal extends React.Component {
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
-                                    <div className="col-md-3 col-6 text-center d-flex">
+                                </div>
+                                <Row className="mb-3">
+                                    <div className="col-6">
+                                        <DropdownSelect name={"category"} options={this.state.categories}
+                                                        className={"w-100"} value={this.state.category}
+                                                        onChange={this.handleInputChange} placeholder={"Catégorie"}/>
+                                    </div>
+                                    <div className="col-6 text-center d-flex">
                                         <label className="custom-toggle mt-2">
                                             <input type="checkbox" name="isPrime" checked={this.state.isPrime}
                                                    onChange={this.handleCheckChange} id="isPrimeInput"/>
                                             <span className="custom-toggle-slider rounded-circle"/>
                                         </label>
-                                        <label htmlFor="isPrimeInput" className="mt-2 ml-1">
+                                        <label htmlFor="isPrimeInput" className="mt-2 ml-2">
                                             <img src={require("assets/img/icons/prime.png")} alt="prime"
                                                  style={{"height": "24px"}}/>
                                         </label>
                                     </div>
-                                </div>
+                                </Row>
                                 <div className="row">
                                     <div className="col-6">
                                         <FormGroup className="mb-3">
