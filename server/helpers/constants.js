@@ -10,7 +10,11 @@ const constants = {
     ROLES: {
         REVIEWER: "reviewer",
         SELLER: "seller"
-    }
+    },
+    PRODUCT_CATEGORIES: [
+        { text: 'Electronique', value: 'electronic' },
+        { text: 'Ameublement', value: 'house-furniture' },
+    ]
 };
 
 module.exports = constants;

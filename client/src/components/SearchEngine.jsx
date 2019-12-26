@@ -12,7 +12,7 @@ import {
     PopoverBody, InputGroup, InputGroupText, InputGroupAddon, Container, Badge
 } from "reactstrap";
 import DropdownSelect from "./DropdownSelect";
-import constants from "../helpers/constants";
+import productServices from '../services/product.service';
 
 class SearchEngine extends React.Component {
 
@@ -27,13 +27,18 @@ class SearchEngine extends React.Component {
             prime: false,
             category: undefined,
             keyWords: '',
-            isPopoverOpen: false
+            isPopoverOpen: false,
+            categories: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.resetFilters = this.resetFilters.bind(this);
         this.toggle = this.toggle.bind(this);
+    }
+
+    componentDidMount() {
+        productServices.getProductCategories().then(categories => this.setState({ categories }));
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -58,7 +63,7 @@ class SearchEngine extends React.Component {
         if (this.state.prime) {
             filterNb++;
         }
-        this.setState({filterNb});
+        this.setState({ filterNb });
     }
 
     handleInputChange = (event) => {
@@ -77,8 +82,16 @@ class SearchEngine extends React.Component {
 
     onSubmit = e => {
         e.preventDefault();
-        this.props.onSearch({
-            ...this.state
+        this.setState({ isPopoverOpen: false }, () => {
+            this.props.onSearch({
+                minPrice: this.state.minPrice,
+                maxPrice: this.state.maxPrice,
+                free: this.state.free,
+                automaticAcceptance: this.state.free,
+                prime: this.state.prime,
+                category: this.state.category,
+                keyWords: this.state.keyWords
+            });
         });
     };
 
@@ -110,7 +123,7 @@ class SearchEngine extends React.Component {
                                     placeholder={"Catégories"}
                                     value={this.state.category}
                                     onChange={this.handleInputChange}
-                                    options={constants.PRODUCT_CATEGORIES}/>
+                                    options={this.state.categories}/>
                             </FormGroup>
                         </div>
                         <div className="col-md-5 text-center col-12">

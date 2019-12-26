@@ -1,3 +1,5 @@
+const constants =  require("../helpers/constants");
+
 var Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
 const ErrorResponses =  require("../helpers/ErrorResponses");
@@ -64,6 +66,17 @@ class ProductController {
     static async find( searchData ) {
         return new Promise((resolve, reject) => {
             ProductModel.find({}).then(resolve).catch(err => reject(ErrorResponses.mongoose(err)))
+        });
+    }
+
+    static async getCategories(  ) {
+        return new Promise((resolve, reject) => {
+            const categories = constants.PRODUCT_CATEGORIES;
+            if (categories && categories.length > 0 ) {
+                resolve(categories);
+            } else {
+                reject({status: 500, message: 'Missing categories.'})
+            }
         });
     }
 }

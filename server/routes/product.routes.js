@@ -29,6 +29,12 @@ async function productRoutes (fastify) {
             .then((res) => reply.code(200).send(res))
             .catch(err => reply.code(err.status).send(err.message));
     });
+
+    fastify.get(path + 'categories', async (request, reply) => {
+        ProductController.getCategories()
+            .then((res) => reply.code(200).send(res))
+            .catch(err => reply.code(err.status).send(err.message));
+    });
 }
 
 module.exports = productRoutes
