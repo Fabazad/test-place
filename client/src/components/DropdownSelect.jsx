@@ -13,12 +13,12 @@ class DropdownSelect extends React.Component {
     }
 
     onSelectItem(option) {
-        this.setState({ option });
-        this.props.onChange(option ? option.value : null);
+        const value = option ? option.value : null;
+        this.props.onChange({ target: {name: this.props.name, value} });
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.value) {
+        if ('value' in nextProps) {
             //const options = this.props.options ? this.props.options : nextProps.options;
             const option = this.props.options.find(o => o.value === nextProps.value);
             this.setState({ option })
@@ -54,12 +54,12 @@ class DropdownSelect extends React.Component {
 
 DropdownSelect.propTypes = {
     className: PropTypes.string,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.shape({
         value: PropTypes.string,
         text: PropTypes.string
-    })),
+    })).isRequired,
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string
 };

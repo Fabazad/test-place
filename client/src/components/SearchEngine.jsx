@@ -9,30 +9,97 @@ import {
     Button,
     UncontrolledTooltip,
     UncontrolledPopover,
-    PopoverBody, InputGroup, InputGroupText, InputGroupAddon, Container
+    PopoverBody, InputGroup, InputGroupText, InputGroupAddon, Container, Badge
 } from "reactstrap";
 import DropdownSelect from "./DropdownSelect";
 
 class SearchEngine extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterNb: 0,
+            minPrice: '',
+            maxPrice: '',
+            free: false,
+            automaticAcceptance: false,
+            prime: false,
+            category: undefined,
+            keyWords: ''
+        };
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleCheckChange = this.handleCheckChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if ("data" in nextProps) {
+            this.setState({
+                ...nextProps.data
+            }, this.filterNbCalculation);
+        }
+    }
+
+    filterNbCalculation() {
+        let filterNb = 0;
+        if (this.state.minPrice !== '' || this.state.maxPrice !== '') {
+            filterNb++;
+        }
+        if (this.state.free) {
+            filterNb++;
+        }
+        if (this.state.automaticAcceptance) {
+            filterNb++;
+        }
+        if (this.state.prime) {
+            filterNb++;
+        }
+        this.setState({filterNb});
+    }
+
+    handleInputChange = (event) => {
+        const {value, name} = event.target;
+        this.setState({
+            [name]: value
+        }, this.filterNbCalculation);
+    };
+
+    handleCheckChange = (event) => {
+        const {checked, name} = event.target;
+        this.setState({
+            [name]: checked
+        }, this.filterNbCalculation);
+    };
+
+    onSubmit = e => {
+        e.preventDefault();
+        this.props.onSearch({
+            ...this.state
+        })
+    };
+
     render() {
         return (
             <>
-                <Form className="p-4 rounded bg-translucent-light">
+                <Form className="p-4 rounded bg-translucent-light" onSubmit={this.onSubmit}>
                     <Row>
                         <div className="col-md-3 text-center col-12">
                             <FormGroup className="mb-md-0">
                                 <DropdownSelect
                                     className={"w-100"} name={"category"}
                                     placeholder={"Catégories"}
-                                    value={'test'}
-                                    onChange={(value) => console.log(value)}
+                                    value={this.state.category}
+                                    onChange={this.handleInputChange}
                                     options={[{value: 'test', text: 'testx'}]}/>
                             </FormGroup>
                         </div>
                         <div className="col-md-5 text-center col-12">
                             <FormGroup className="mb-0">
-                                <Input type="text" placeholder={"Mots clés"} className="form-control-alternative"/>
+                                <Input type="text" placeholder={"Mots clés"}
+                                       className="form-control-alternative"
+                                       name="keyWords" onChange={this.handleInputChange}
+                                       value={this.state.keyWords}
+                                />
                             </FormGroup>
                         </div>
                         <div className="col-12 col-md-1 text-center">
@@ -40,6 +107,11 @@ class SearchEngine extends React.Component {
                                 <i className="fa fa-filter fa-lg text-light p-3 cursor-pointer filter-icon"
                                    data-placement="top"
                                    id="filterIcon"/>
+                                {this.state.filterNb ? (
+                                    <Badge color="primary" className={"badge-circle position-absolute top-0"}>
+                                        {this.state.filterNb}
+                                    </Badge>
+                                ) : null}
                                 <UncontrolledTooltip
                                     delay={0}
                                     placement="top"
@@ -55,7 +127,9 @@ class SearchEngine extends React.Component {
                                                     <FormGroup className="mb-0 w-100">
                                                         <InputGroup className="input-group-alternative">
                                                             <Input type="number" placeholder={"Prix init min"}
-                                                                   className="form-control-alternative"/>
+                                                                   name="minPrice" min={0} value={this.state.minPrice}
+                                                                   className="form-control-alternative"
+                                                                   onChange={this.handleInputChange}/>
                                                             <InputGroupAddon addonType="append">
                                                                 <InputGroupText>
                                                                     <i className="fa fa-euro"/>
@@ -68,7 +142,9 @@ class SearchEngine extends React.Component {
                                                     <FormGroup className="mb-0 w-100">
                                                         <InputGroup className="input-group-alternative">
                                                             <Input type="number" placeholder={"Prix init max"}
-                                                                   className="form-control-alternative"/>
+                                                                   name="maxPrice" min={0} value={this.state.maxPrice}
+                                                                   className="form-control-alternative"
+                                                                   onChange={this.handleInputChange}/>
                                                             <InputGroupAddon addonType="append">
                                                                 <InputGroupText>
                                                                     <i className="fa fa-euro"/>
@@ -81,11 +157,12 @@ class SearchEngine extends React.Component {
                                             <Row className="mt-2">
                                                 <div className="col-12 d-flex">
                                                     <label className="custom-toggle mt-2">
-                                                        <input type="checkbox" name="onlyFree"
-                                                               id="onlyFreeInput"/>
+                                                        <input type="checkbox" name="free"
+                                                               onChange={this.handleCheckChange}
+                                                               id="freeInput" checked={this.state.free}/>
                                                         <span className="custom-toggle-slider rounded-circle"/>
                                                     </label>
-                                                    <label htmlFor="onlyFreeInput" className="mt-2 ml-2">
+                                                    <label htmlFor="freeInput" className="mt-2 ml-2 cursor-pointer">
                                                         Gratuits
                                                     </label>
                                                 </div>
@@ -93,11 +170,14 @@ class SearchEngine extends React.Component {
                                             <Row className="mt-2">
                                                 <div className="col-12 d-flex">
                                                     <label className="custom-toggle mt-2">
-                                                        <input type="checkbox" name="onlyAutomaticAcceptance"
-                                                               id="onlyAutomaticAcceptanceInput"/>
+                                                        <input type="checkbox" name="automaticAcceptance"
+                                                               onChange={this.handleCheckChange}
+                                                               id="automaticAcceptanceInput"
+                                                               checked={this.state.automaticAcceptance}/>
                                                         <span className="custom-toggle-slider rounded-circle"/>
                                                     </label>
-                                                    <label htmlFor="onlyAutomaticAcceptanceInput" className="mt-2 ml-2">
+                                                    <label htmlFor="automaticAcceptanceInput"
+                                                           className="mt-2 ml-2 cursor-pointer">
                                                         Acceptation Automatique
                                                     </label>
                                                 </div>
@@ -105,11 +185,12 @@ class SearchEngine extends React.Component {
                                             <Row className="mt-2">
                                                 <div className="col-12 d-flex">
                                                     <label className="custom-toggle mt-2">
-                                                        <input type="checkbox" name="onlyPrime"
-                                                               id="onlyPrimeInput"/>
+                                                        <input type="checkbox" name="prime"
+                                                               onChange={this.handleCheckChange}
+                                                               id="primeInput" checked={this.state.prime}/>
                                                         <span className="custom-toggle-slider rounded-circle"/>
                                                     </label>
-                                                    <label htmlFor="onlyPrimeInput" className="mt-2 ml-2">
+                                                    <label htmlFor="primeInput" className="mt-2 ml-2 cursor-pointer">
                                                         Prime
                                                     </label>
                                                 </div>
@@ -135,6 +216,9 @@ class SearchEngine extends React.Component {
     }
 }
 
-SearchEngine.propTypes = {};
+SearchEngine.propTypes = {
+    onSearch: PropTypes.func.isRequired,
+    data: PropTypes.object
+};
 
 export default SearchEngine;
