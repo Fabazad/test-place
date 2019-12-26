@@ -1,6 +1,6 @@
 var Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
-const constants = require("../helpers/constants");
+const ErrorResponses =  require("../helpers/ErrorResponses");
 
 class ProductController {
 
@@ -48,12 +48,8 @@ class ProductController {
         });
     }
 
-    static async create( productObj, userId, userRole ) {
+    static async create( productObj, userId ) {
         return new Promise((resolve, reject) => {
-            console.log(userRole);
-            if (userRole !== constants.ROLES.SELLER) {
-                reject({ status: 403, message: "Vous devez être vendeur pour effectuer cette action." })
-            }
             productObj.sellerId = userId;
             const product = new ProductModel( productObj );
             product.save().then(resolve).catch(err => {
@@ -62,6 +58,12 @@ class ProductController {
                 }
                 reject({status: 400, message: err.errmsg})
             });
+        });
+    }
+
+    static async find( searchData ) {
+        return new Promise((resolve, reject) => {
+            ProductModel.find({}).then(resolve).catch(err => reject(ErrorResponses.mongoose(err)))
         });
     }
 }

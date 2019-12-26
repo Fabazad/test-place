@@ -9,6 +9,8 @@ import {
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import SearchEngine from "../components/SearchEngine";
+import productServices from "../services/product.service";
+import Loading from "../components/Loading";
 
 
 class Search extends React.Component {
@@ -18,7 +20,8 @@ class Search extends React.Component {
         this.state = {
             loadingPromise: null,
             validate: null,
-            searchEngineData: {}
+            searchEngineData: {},
+            products: []
         };
         this.onSearch = this.onSearch.bind(this);
     }
@@ -39,6 +42,7 @@ class Search extends React.Component {
             keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : ''
         };
         this.setState({ searchEngineData });
+        this.searchProducts(searchEngineData);
     }
 
     updateURLParameter(url, param, paramVal) {
@@ -66,8 +70,16 @@ class Search extends React.Component {
         Object.keys(searchData).forEach(dataKey => {
             url = this.updateURLParameter(url, dataKey, searchData[dataKey]);
         });
-
         window.history.pushState({},"", url);
+        this.searchProducts(searchData);
+    }
+
+    searchProducts(searchData) {
+        const loadingPromise = productServices.find({searchData}).then(products => {
+            this.setState({ products })
+            console.log(products);
+        });
+        this.setState({ loadingPromise });
     }
 
     render() {
@@ -95,6 +107,7 @@ class Search extends React.Component {
                     </section>
                     <section className="section section-lg">
                         <Container>
+                            <Loading promise={this.state.loadingPromise}/>
                             Big
                         </Container>
                     </section>
