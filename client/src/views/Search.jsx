@@ -25,7 +25,7 @@ class Search extends React.Component {
             loading: false,
             validate: null,
             searchEngineData: {},
-            products: [],
+            products: [null, null, null, null],
             totalCount: 0,
             page: 1,
             sortBy: constants.SORT_BY_OPTIONS[0].value
@@ -61,7 +61,7 @@ class Search extends React.Component {
         });
         window.history.pushState({}, "", url);
 
-        this.setState({searchEngineData: searchData , page: 1}, () => this.goToPage(1));
+        this.setState({searchEngineData: searchData, page: 1}, () => this.goToPage(1));
     }
 
     searchProducts() {
@@ -69,10 +69,10 @@ class Search extends React.Component {
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
         searchData.sortBy = this.state.sortBy;
         searchData.page = this.state.page;
-        this.setState({ loading: true });
+        this.setState({products: this.state.products.map(() => null)});
         productServices.find({searchData}).then(products => {
-            this.setState({ products: products.hits, totalCount: products.totalCount });
-        }).finally(() => this.setState({ loading: false}));
+            this.setState({products: products.hits, totalCount: products.totalCount});
+        });
 
     }
 
@@ -83,11 +83,11 @@ class Search extends React.Component {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
         this.refs.main.scrollTop = 0;
-        this.setState({ page }, this.searchProducts);
+        this.setState({page}, this.searchProducts);
     }
 
     onSortByChange(sortBy) {
-        this.setState({ sortBy }, () => {
+        this.setState({sortBy}, () => {
             let url = window.location.href;
             url = updateURLParameter(url, 'sortBy', sortBy);
             window.history.pushState({}, "", url);
@@ -152,7 +152,8 @@ class Search extends React.Component {
                             <Row>
                                 {
                                     this.state.products.map(product => (
-                                        <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2" key={product._id}>
+                                        <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2"
+                                             key={product ? product._id : Math.ceil(Math.random() * 1000)}>
                                             <ProductCard product={product}/>
                                         </div>
 

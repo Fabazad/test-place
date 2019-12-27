@@ -6,6 +6,8 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import { textSlice, formatDate } from '../helpers/textHelpers';
+import constants from "../helpers/constants";
+import Loading from "./Loading";
 
 class ProductCard extends React.Component {
 
@@ -13,17 +15,18 @@ class ProductCard extends React.Component {
     }
 
     render() {
-        const {product} = this.props;
+        const { product } = this.props;
         return (
             <Card className={"card-lift--hover shadow border-0 cursor-pointer"}>
                 <CardBody>
+                    <Loading loading={!product}/>
                     <div style={{'height': '200px'}} className={"text-center"}>
-                        <img src={product.pictureUrl} alt="" className={"mw-100 shadow-lg rounded"}
+                        <img src={product ? product.pictureUrl : constants.BASE_PRODUCT_PICTURE_URL} alt="" className={"mw-100 shadow-lg rounded"}
                              style={{'maxHeight': '200px'}}/>
                     </div>
                     <div style={{height: '58px'}}>
                         <h5 className="text-primary mt-4">
-                            {textSlice(product.title, 80)}
+                            {product ? textSlice(product.title, 80) : ''}
                         </h5>
                     </div>
                     <Row className='mt-3'>
@@ -31,22 +34,22 @@ class ProductCard extends React.Component {
                             <small>Prix Amazon</small>
                             <h1>
                                 <Badge color="primary" pill className={'badge-xl'}>
-                                    {product.price} €
+                                    {product ? product.price : ' '} €
                                 </Badge>
                             </h1>
                         </div>
                         <div className="col-6 text-center">
                             <small>Coût Final</small>
                             <h1>
-                                <Badge color={product.finalPrice > 0 ? "warning" : "success"} pill size={'xl'}>
-                                    {product.finalPrice} €
+                                <Badge color={product && product.finalPrice > 0 ? "warning" : "success"} pill size={'xl'}>
+                                    {product ? product.finalPrice : ' '} €
                                 </Badge>
                             </h1>
                         </div>
                     </Row>
                     <div className="text-center mt-3" style={{'height': '30px'}}>
                         {
-                            product.isPrime ? (
+                            product && product.isPrime ? (
                                 <Badge color="info" pill className="mr-1 badge-lg">
                                     <img src={require("assets/img/icons/prime.png")} alt="prime"
                                          style={{"height": "11px"}}/>
@@ -54,7 +57,7 @@ class ProductCard extends React.Component {
                             ) : null
                         }
                         {
-                            product.automaticAcceptance ? (
+                            product && product.automaticAcceptance ? (
                                 <>
                                     <Badge color="info" pill className="mr-1 badge-lg"
                                            id={"automaticAcceptance" + product._id}>
@@ -73,7 +76,7 @@ class ProductCard extends React.Component {
 
                     </div>
                     <div className="mt-3">
-                        <small className="text-muted">{ formatDate(product.createdAt) }</small>
+                        <small className="text-muted">{ product ? formatDate(product.createdAt) : '  /  /  ' }</small>
                     </div>
                 </CardBody>
             </Card>
@@ -82,7 +85,7 @@ class ProductCard extends React.Component {
 }
 
 ProductCard.propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object
 };
 
 export default ProductCard;
