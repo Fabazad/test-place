@@ -25,6 +25,7 @@ class AmazonLoginButton extends React.Component {
         if (amazonId) {
             this.setState({amazonId});
         }
+        this.onAmazonLogout();
     }
 
     onAmazonLogin(response) {
@@ -71,7 +72,7 @@ class AmazonLoginButton extends React.Component {
                     onLoginSuccess={this.onAmazonLogin}
                     onLoginFailure={this.onAmazonFailure}
                     onLogoutSuccess={this.onAmazonLogout}
-                    onLogout={this.onAmazonLogout}
+                    onLogoutClick={this.onAmazonLogout}
                     onStart={this.onStart}
                     className={"btn " + (this.state.amazonId ? 'btn-default' : 'btn-primary')}
                     linked={this.state.amazonId ? 1 : 0}

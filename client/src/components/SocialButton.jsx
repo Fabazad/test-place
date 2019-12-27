@@ -8,7 +8,7 @@ class SocialButton extends React.Component {
         this.props.onStart();
         if (this.props.linked) {
             this.props.triggerLogout();
-            this.props.onLogout();
+            this.props.onLogoutClick();
         } else {
             this.props.triggerLogin();
         }
@@ -29,6 +29,7 @@ SocialButton.propTypes = {
     triggerLogin: PropTypes.func,
     triggerLogout: PropTypes.func,
     onLogoutSuccess: PropTypes.func,
+    onLogoutClick: PropTypes.func,
     linked: PropTypes.number.isRequired
 };
 

@@ -66,6 +66,17 @@ async function userRoutes (fastify) {
                 .catch(err => reply.code(err.status).send(err.message));
         });
     });
+
+    fastify.post(path + 'update', async (request, reply) => {
+        middlewares(request, reply, [withAuth], () => {
+
+            const { itemId, fields } = request.body;
+            const { userId } = request;
+            UserController.update(userId, itemId, fields)
+                .then(user => reply.send(user))
+                .catch(err => reply.code(err.status).send(err.message));
+        });
+    });
 }
 
 module.exports = userRoutes;

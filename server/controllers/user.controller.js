@@ -189,6 +189,16 @@ class UserController {
             }).catch(err => reject({status: 403, message: "Wrong token."}));
         });
     }
+
+    static async update(userId, itemId, fields) {
+        return new Promise((resolve, reject) => {
+            if ('amazonId' in fields && userId !== itemId) {
+                reject({status: 401, message: 'Unauthorized'});
+            }
+
+            UserModel.findByIdAndUpdate(itemId, fields)
+        });
+    }
 }
 
 module.exports = UserController;
