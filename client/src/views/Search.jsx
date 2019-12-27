@@ -22,16 +22,16 @@ class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loadingPromise: null,
+            loading: false,
             validate: null,
-            searchEngineData: {
-                page: 1,
-            },
+            searchEngineData: {},
             products: [],
             totalCount: 0,
+            page: 1,
             sortBy: constants.SORT_BY_OPTIONS[0].value
         };
         this.onSearch = this.onSearch.bind(this);
+        this.searchProducts = this.searchProducts.bind(this);
     }
 
     componentDidMount() {
@@ -50,49 +50,48 @@ class Search extends React.Component {
             keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : ''
         };
         searchEngineData.page = this.state.searchEngineData.page;
-        this.setState({searchEngineData});
-        this.searchProducts(searchEngineData);
+        this.setState({searchEngineData}, this.searchProducts);
     }
 
     onSearch(searchData) {
         let url = window.location.href;
-        searchData.page = 1;
-        this.setState({searchEngineData: searchData});
+
         Object.keys(searchData).forEach(dataKey => {
             url = updateURLParameter(url, dataKey, searchData[dataKey]);
         });
         window.history.pushState({}, "", url);
-        this.searchProducts(searchData);
+
+        this.setState({searchEngineData: searchData , page: 1}, () => this.goToPage(1));
     }
 
-    searchProducts(searchData) {
+    searchProducts() {
+        const searchData = this.state.searchEngineData;
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
         searchData.sortBy = this.state.sortBy;
-        const loadingPromise = productServices.find({searchData}).then(products => {
-            this.setState({products: products.hits, totalCount: products.totalCount})
-        });
-        this.setState({loadingPromise});
+        searchData.page = this.state.page;
+        this.setState({ loading: true });
+        productServices.find({searchData}).then(products => {
+            this.setState({ products: products.hits, totalCount: products.totalCount });
+        }).finally(() => this.setState({ loading: false}));
+
     }
 
-    onPageClick(page) {
-        const {searchEngineData} = this.state;
-        searchEngineData.page = page;
+    goToPage(page) {
         let url = window.location.href;
-        url = updateURLParameter(url, 'page', searchEngineData.page);
+        url = updateURLParameter(url, 'page', page);
         window.history.pushState({}, "", url);
-        this.searchProducts(searchEngineData);
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
         this.refs.main.scrollTop = 0;
+        this.setState({ page }, this.searchProducts);
     }
 
     onSortByChange(sortBy) {
-        this.setState({sortBy}, () => {
+        this.setState({ sortBy }, () => {
             let url = window.location.href;
             url = updateURLParameter(url, 'sortBy', sortBy);
             window.history.pushState({}, "", url);
-            const {searchEngineData} = this.state;
-            this.searchProducts(searchEngineData);
+            this.goToPage(1);
         });
     }
 
@@ -149,7 +148,7 @@ class Search extends React.Component {
                     </section>
                     <section className="section section-lg pt-0 mt--100">
                         <Container>
-                            <Loading promise={this.state.loadingPromise}/>
+                            <Loading loading={this.state.loading}/>
                             <Row>
                                 {
                                     this.state.products.map(product => (
@@ -166,8 +165,8 @@ class Search extends React.Component {
                         <Container>
                             <Row>
                                 <div className="col-12">
-                                    <PaginationBis page={this.state.searchEngineData.page}
-                                                   onPageClick={page => this.onPageClick(page)}
+                                    <PaginationBis page={this.state.page}
+                                                   onPageClick={page => this.goToPage(page)}
                                                    totalPage={Math.ceil(this.state.totalCount / constants.ITEMS_PER_PAGE)}/>
                                 </div>
                             </Row>
