@@ -48,6 +48,7 @@ const constants = {
         { text: 'Montres', value: 'watch' },
         { text: 'Sports & Loisirs', value: 'sports' },
         { text: 'Vetements & Accessoires', value: 'cloths' },
+        { text: 'Vetements & Accessoires', value: 'cloths' },
     ]
 };
 

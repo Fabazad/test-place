@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="#server add categories elements">
+    <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/helpers/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/constants.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,8 +61,8 @@
     </configuration>
     <list>
       <item itemvalue="Node.js.Unnamed" />
-      <item itemvalue="npm.app" />
       <item itemvalue="npm.client" />
+      <item itemvalue="npm.app" />
       <item itemvalue="npm.server" />
     </list>
   </component>
@@ -95,6 +96,14 @@
       <workItem from="1577311786196" duration="15417000" />
       <workItem from="1577362202303" duration="29409000" />
     </task>
+    <task id="LOCAL-00001" summary="workspace">
+      <created>1577459005404</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1577459005404</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,6 +115,12 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="COLUMN_WIDTH">
+                <map>
+                  <entry key="2" value="95" />
+                  <entry key="3" value="102" />
+                </map>
+              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -115,17 +130,22 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="#server add categories elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="#server add categories elements" />
+    <MESSAGE value="workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="264" y="0" key="CommitChangelistDialog2" timestamp="1577458868917">
+    <state x="264" y="0" key="CommitChangelistDialog2" timestamp="1577459004662">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="264" y="0" key="CommitChangelistDialog2/0.0.1280.680/460.1080.1000.504@0.0.1280.680" timestamp="1577458868917" />
-    <state x="93" y="93" width="1095" height="495" key="DiffContextDialog" timestamp="1577458968754">
+    <state x="264" y="0" key="CommitChangelistDialog2/0.0.1280.680/460.1080.1000.504@0.0.1280.680" timestamp="1577459004662" />
+    <state x="93" y="93" width="1095" height="495" key="DiffContextDialog" timestamp="1577459080706">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="93" y="93" width="1095" height="495" key="DiffContextDialog/0.0.1280.680/460.1080.1000.504@0.0.1280.680" timestamp="1577458968754" />
+    <state x="93" y="93" width="1095" height="495" key="DiffContextDialog/0.0.1280.680/460.1080.1000.504@0.0.1280.680" timestamp="1577459080706" />
+    <state x="233" y="63" key="Vcs.Push.Dialog.v2" timestamp="1577459024275">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="233" y="63" key="Vcs.Push.Dialog.v2/0.0.1280.680/460.1080.1000.504@0.0.1280.680" timestamp="1577459024275" />
     <state x="317" y="76" key="VcsDiffUtil.ChangesDialog" timestamp="1577458962578">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
