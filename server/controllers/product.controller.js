@@ -65,8 +65,7 @@ class ProductController {
 
     static async find( searchData ) {
         return new Promise((resolve, reject) => {
-            console.log(searchData);
-            const { category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page } = searchData;
+            const { category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy } = searchData;
 
             const query = {};
             if (category && category !== 'undefined' && category !== 'null') {
@@ -77,12 +76,12 @@ class ProductController {
             }
             if (minPrice !== '' && minPrice !== undefined || maxPrice !== '' && maxPrice !== undefined) {
                 query.price = {};
-            }
-            if (minPrice) {
-                query.price.$gte = minPrice;
-            }
-            if (maxPrice) {
-                query.price.$lte = maxPrice;
+                if (minPrice) {
+                    query.price.$gte = minPrice;
+                }
+                if (maxPrice) {
+                    query.price.$lte = maxPrice;
+                }
             }
             if (free) {
                 query.finalPrice = '0';
@@ -96,7 +95,20 @@ class ProductController {
 
             const score = { score: { '$meta': "textScore" } };
 
-            ProductModel.find(query, score).sort({ score: { $meta: "textScore" } }).skip(itemsPerPage*(page-1)).limit(itemsPerPage)
+            let sort;
+            switch (sortBy) {
+                default:
+                case 'score':
+                    sort = { score: { $meta: "textScore" } };
+                    break;
+                case 'price':
+                case 'finalPrice':
+                case 'createdAt':
+                    sort = { [sortBy]: 1 };
+                    break;
+            }
+
+            ProductModel.find(query, score).sort(sort).skip(itemsPerPage*(page-1)).limit(itemsPerPage)
                 .then(res => {
                     ProductModel.count(query).then(count => {
                         resolve({ hits: res, totalCount: count});

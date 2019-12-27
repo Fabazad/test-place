@@ -15,6 +15,7 @@ import {updateURLParameter} from "../helpers/urlHelpers"
 import ProductCard from "../components/ProductCard";
 import constants from "../helpers/constants";
 import PaginationBis from "../components/PaginationBis";
+import DropdownSelect from "../components/DropdownSelect";
 
 class Search extends React.Component {
 
@@ -24,10 +25,11 @@ class Search extends React.Component {
             loadingPromise: null,
             validate: null,
             searchEngineData: {
-                page: 1
+                page: 1,
             },
             products: [],
-            totalCount: 0
+            totalCount: 0,
+            sortBy: constants.SORT_BY_OPTIONS[0].value
         };
         this.onSearch = this.onSearch.bind(this);
     }
@@ -54,7 +56,7 @@ class Search extends React.Component {
 
     onSearch(searchData) {
         let url = window.location.href;
-        searchData.page = this.state.searchEngineData.page;
+        searchData.page = 1;
         this.setState({searchEngineData: searchData});
         Object.keys(searchData).forEach(dataKey => {
             url = updateURLParameter(url, dataKey, searchData[dataKey]);
@@ -83,6 +85,16 @@ class Search extends React.Component {
         this.refs.main.scrollTop = 0;
     }
 
+    onSortByChange(sortBy) {
+        this.setState({sortBy});
+        let url = window.location.href;
+        url = updateURLParameter(url, 'sortBy', sortBy);
+        window.history.pushState({}, "", url);
+        const {searchEngineData} = this.state;
+        searchEngineData.sortBy = sortBy;
+        this.searchProducts(searchEngineData);
+    }
+
     render() {
         return (
             <>
@@ -104,11 +116,16 @@ class Search extends React.Component {
                                     <SearchEngine onSearch={this.onSearch} data={this.state.searchEngineData}/>
                                 </div>
                             </Row>
-                            <Row>
-                                <div className="col-12">
-                                    <h2 className="mt-3 text-secondary display-4">
+                            <Row className="mt-5">
+                                <div className="col-12 col-md-8 col-lg-9">
+                                    <h2 className="text-secondary display-4">
                                         {this.state.totalCount} Résultat{this.state.totalCount > 1 ? 's' : ''}
                                     </h2>
+                                </div>
+                                <div className="col-12 col-md-4 col-lg-3 text-right">
+                                    <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS}
+                                                    onChange={e => this.onSortByChange(e.target.value)}
+                                                    value={this.state.sortBy} placeholder={'Trier le Résultat'}/>
                                 </div>
                             </Row>
                         </Container>
