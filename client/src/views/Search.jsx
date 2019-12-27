@@ -67,6 +67,7 @@ class Search extends React.Component {
 
     searchProducts(searchData) {
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
+        searchData.sortBy = this.state.sortBy;
         const loadingPromise = productServices.find({searchData}).then(products => {
             this.setState({products: products.hits, totalCount: products.totalCount})
         });
@@ -86,13 +87,13 @@ class Search extends React.Component {
     }
 
     onSortByChange(sortBy) {
-        this.setState({sortBy});
-        let url = window.location.href;
-        url = updateURLParameter(url, 'sortBy', sortBy);
-        window.history.pushState({}, "", url);
-        const {searchEngineData} = this.state;
-        searchEngineData.sortBy = sortBy;
-        this.searchProducts(searchEngineData);
+        this.setState({sortBy}, () => {
+            let url = window.location.href;
+            url = updateURLParameter(url, 'sortBy', sortBy);
+            window.history.pushState({}, "", url);
+            const {searchEngineData} = this.state;
+            this.searchProducts(searchEngineData);
+        });
     }
 
     render() {
