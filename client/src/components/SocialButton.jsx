@@ -7,6 +7,8 @@ class SocialButton extends React.Component {
     onClick() {
         this.props.onStart();
         if (this.props.linked) {
+            console.log("test");
+            console.log(this.props.triggerLogout);
             this.props.triggerLogout();
         } else {
             this.props.triggerLogin();
