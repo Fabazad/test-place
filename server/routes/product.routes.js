@@ -25,7 +25,7 @@ async function productRoutes (fastify) {
 
     fastify.get(path + 'find', async (request, reply) => {
         const { searchData } = request.query;
-        ProductController.find(searchData)
+        ProductController.find(JSON.parse(searchData))
             .then((res) => reply.code(200).send(res))
             .catch(err => reply.code(err.status).send(err.message));
     });

@@ -65,7 +65,41 @@ class ProductController {
 
     static async find( searchData ) {
         return new Promise((resolve, reject) => {
-            ProductModel.find({}).then(resolve).catch(err => reject(ErrorResponses.mongoose(err)))
+            console.log(searchData);
+            const { category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime } = searchData;
+
+            const query = {};
+            if (category && category !== 'undefined' && category !== 'null') {
+                query.category = category;
+            }
+            if (keyWords) {
+                query.$text = { '$search': keyWords.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") };
+            }
+            if (minPrice !== '' && minPrice !== undefined || maxPrice !== '' && maxPrice !== undefined) {
+                query.price = {};
+            }
+            if (minPrice) {
+                query.price.$gte = minPrice;
+            }
+            if (maxPrice) {
+                query.price.$lte = maxPrice;
+            }
+            if (free) {
+                query.finalPrice = '0';
+            }
+            if (automaticAcceptance) {
+                query.automaticAcceptance = true
+            }
+            if (prime) {
+                query.isPrime = true
+            }
+
+            const score = { score: { '$meta': "textScore" } };
+
+            ProductModel.find(query, score).sort({ score: { $meta: "textScore" } }).then(res => {
+                console.log(res);
+                resolve(res);
+            }).catch(err => reject(ErrorResponses.mongoose(err)))
         });
     }
 

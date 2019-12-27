@@ -87,7 +87,7 @@ class SearchEngine extends React.Component {
                 minPrice: this.state.minPrice,
                 maxPrice: this.state.maxPrice,
                 free: this.state.free,
-                automaticAcceptance: this.state.free,
+                automaticAcceptance: this.state.automaticAcceptance,
                 prime: this.state.prime,
                 category: this.state.category,
                 keyWords: this.state.keyWords
