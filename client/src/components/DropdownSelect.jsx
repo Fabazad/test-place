@@ -39,7 +39,7 @@ class DropdownSelect extends React.Component {
                         {this.state.option ? this.state.option.text : this.props.placeholder}
                     </span>
                 </DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu style={{'overflow-y': 'scroll', 'maxHeight': '500px'}}>
                     {
                         this.props.placeholder ? (
                             <DropdownItem onClick={() => this.onSelectItem(null)}
