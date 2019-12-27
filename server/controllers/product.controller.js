@@ -66,7 +66,7 @@ class ProductController {
     static async find( searchData ) {
         return new Promise((resolve, reject) => {
             console.log(searchData);
-            const { category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime } = searchData;
+            const { category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page } = searchData;
 
             const query = {};
             if (category && category !== 'undefined' && category !== 'null') {
@@ -96,9 +96,12 @@ class ProductController {
 
             const score = { score: { '$meta': "textScore" } };
 
-            ProductModel.find(query, score).sort({ score: { $meta: "textScore" } }).then(res => {
-                console.log(res);
-                resolve(res);
+            ProductModel.find(query, score).sort({ score: { $meta: "textScore" } }).skip(itemsPerPage*(page-1)).limit(itemsPerPage)
+                .then(res => {
+                    ProductModel.count(query).then(count => {
+                        resolve({ hits: res, totalCount: count});
+                    }).catch(err => reject(ErrorResponses.mongoose(err)))
+
             }).catch(err => reject(ErrorResponses.mongoose(err)))
         });
     }

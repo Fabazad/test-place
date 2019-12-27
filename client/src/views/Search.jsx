@@ -11,8 +11,10 @@ import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import SearchEngine from "../components/SearchEngine";
 import productServices from "../services/product.service";
 import Loading from "../components/Loading";
-import { updateURLParameter } from "../helpers/urlHelpers"
+import {updateURLParameter} from "../helpers/urlHelpers"
 import ProductCard from "../components/ProductCard";
+import constants from "../helpers/constants";
+import PaginationBis from "../components/PaginationBis";
 
 class Search extends React.Component {
 
@@ -21,8 +23,11 @@ class Search extends React.Component {
         this.state = {
             loadingPromise: null,
             validate: null,
-            searchEngineData: {},
-            products: []
+            searchEngineData: {
+                page: 1
+            },
+            products: [],
+            totalCount: 0
         };
         this.onSearch = this.onSearch.bind(this);
     }
@@ -42,26 +47,40 @@ class Search extends React.Component {
             category: urlParams.has('category') ? urlParams.get('category') : '',
             keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : ''
         };
-        this.setState({ searchEngineData });
+        searchEngineData.page = this.state.searchEngineData.page;
+        this.setState({searchEngineData});
         this.searchProducts(searchEngineData);
     }
 
     onSearch(searchData) {
         let url = window.location.href;
-        this.setState({ searchEngineData: searchData });
+        searchData.page = this.state.searchEngineData.page;
+        this.setState({searchEngineData: searchData});
         Object.keys(searchData).forEach(dataKey => {
             url = updateURLParameter(url, dataKey, searchData[dataKey]);
         });
-        window.history.pushState({},"", url);
+        window.history.pushState({}, "", url);
         this.searchProducts(searchData);
     }
 
     searchProducts(searchData) {
+        searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
         const loadingPromise = productServices.find({searchData}).then(products => {
-            this.setState({ products })
-            console.log(products);
+            this.setState({products: products.hits, totalCount: products.totalCount})
         });
-        this.setState({ loadingPromise });
+        this.setState({loadingPromise});
+    }
+
+    onPageClick(page) {
+        const {searchEngineData} = this.state;
+        searchEngineData.page = page;
+        let url = window.location.href;
+        url = updateURLParameter(url, 'page', searchEngineData.page);
+        window.history.pushState({}, "", url);
+        this.searchProducts(searchEngineData);
+        document.documentElement.scrollTop = 0;
+        document.scrollingElement.scrollTop = 0;
+        this.refs.main.scrollTop = 0;
     }
 
     render() {
@@ -70,19 +89,26 @@ class Search extends React.Component {
                 <main ref="main">
                     <section className="section section-shaped section-lg">
                         <div className="shape shape-style-1 bg-gradient-default">
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
+                            <span/>
+                            <span/>
+                            <span/>
+                            <span/>
+                            <span/>
+                            <span/>
+                            <span/>
+                            <span/>
                         </div>
                         <Container className="pt-lg-md mb-5">
                             <Row className="mt-3">
-                                <div className="col-12 mb-5">
+                                <div className="col-12">
                                     <SearchEngine onSearch={this.onSearch} data={this.state.searchEngineData}/>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className="col-12">
+                                    <h2 className="mt-3 text-secondary display-4">
+                                        {this.state.totalCount} Résultat{this.state.totalCount > 1 ? 's' : ''}
+                                    </h2>
                                 </div>
                             </Row>
                         </Container>
@@ -118,8 +144,19 @@ class Search extends React.Component {
                             </Row>
                         </Container>
                     </section>
+                    <section>
+                        <Container>
+                            <Row>
+                                <div className="col-12">
+                                    <PaginationBis page={this.state.searchEngineData.page}
+                                                   onPageClick={page => this.onPageClick(page)}
+                                                   totalPage={Math.ceil(this.state.totalCount / constants.ITEMS_PER_PAGE)}/>
+                                </div>
+                            </Row>
+                        </Container>
+                    </section>
                 </main>
-                <SimpleFooter />
+                <SimpleFooter/>
             </>
         );
     }

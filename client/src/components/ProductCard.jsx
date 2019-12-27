@@ -2,7 +2,7 @@ import React from "react";
 
 // reactstrap components
 import {
-    CardBody, Badge, Button, Card, Row, UncontrolledTooltip
+    CardBody, Badge, Card, Row, UncontrolledTooltip
 } from "reactstrap";
 import PropTypes from "prop-types";
 import { textSlice, formatDate } from '../helpers/textHelpers';

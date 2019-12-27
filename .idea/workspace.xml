@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="788f5426-9351-439e-a3dd-16fc3bdf6e34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/PaginationBis.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/SearchEngine.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/SearchEngine.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ProductCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ProductCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/views/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Search.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/product.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/product.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/helpers/ErrorResponses.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/ErrorResponses.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/product.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/product.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/product.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/product.routes.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +98,7 @@
       <workItem from="1576436959388" duration="21426000" />
       <workItem from="1576704657180" duration="23197000" />
       <workItem from="1577311786196" duration="15417000" />
-      <workItem from="1577362202303" duration="15956000" />
+      <workItem from="1577362202303" duration="20250000" />
     </task>
     <servers />
   </component>
