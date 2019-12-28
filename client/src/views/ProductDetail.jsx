@@ -2,13 +2,14 @@ import React from "react";
 
 // reactstrap components
 import {
-    Container, Row, Button, Badge, Card, CardBody
+    Container, Row, Button, Badge, Card, CardBody, Label
 } from "reactstrap";
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import productServices from '../services/product.service';
 import constants from "../helpers/constants";
+import {Link} from "react-router-dom";
 
 class ProductDetail extends React.Component {
 
@@ -126,13 +127,29 @@ class ProductDetail extends React.Component {
                                         <Card>
                                             <CardBody>
                                                 <h2 className="text-center">Vendeur</h2>
+                                                <Row>
+                                                    <div className="col-6 text-center">
+                                                        <Label className='d-block'>Test Place</Label>
+                                                        {product ? (
+                                                            <Link to={'#'}>{product.seller.name}</Link>
+                                                            ) : null}
+                                                    </div>
+                                                    <div className="col-6 text-center">
+                                                        <Label className='d-block'>Amazon</Label>
+                                                        {product ? (
+                                                            <a href={product.amazonSeller.url} target='_blank'>
+                                                                {product.amazonSeller.name}
+                                                            </a>) : null}
+                                                    </div>
+                                                </Row>
                                             </CardBody>
                                         </Card>
                                     </div>
                                 </div>
                             </Row>
                             <Row>
-                                <div className="col-12">
+                                <div className="col-12 mt-5">
+                                    <h2>Description Produit</h2>
                                     <p className="text-left">
                                         <small
                                             style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
