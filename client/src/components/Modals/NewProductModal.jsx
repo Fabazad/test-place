@@ -42,7 +42,8 @@ class NewProductModal extends React.Component {
             exampleModal: false,
             loadingPromise: null,
             picture: null,
-            category: ''
+            category: '',
+            seller: undefined
         };
         this.state = {
             categories: [],
@@ -95,7 +96,8 @@ class NewProductModal extends React.Component {
                 pictureUrl: res.imageSrc,
                 isPrime: res.isPrime,
                 category: res.category,
-                picture: null
+                picture: null,
+                amazonSeller: res.seller
             });
         });
         this.setState({loadingPromise});
@@ -104,7 +106,7 @@ class NewProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {asin, title, price, finalPrice, pictureUrl, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category} = this.state;
+            const {asin, title, price, finalPrice, pictureUrl, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
             const product = {
                 asin,
                 title,
@@ -117,7 +119,8 @@ class NewProductModal extends React.Component {
                 beforeNote,
                 maxDemands,
                 automaticAcceptance,
-                category
+                category,
+                amazonSeller
             };
 
             if (this.state.picture) {

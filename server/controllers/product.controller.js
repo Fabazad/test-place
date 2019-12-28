@@ -9,7 +9,7 @@ class ProductController {
     static async scrapFromAsin(asin) {
         return new Promise((resolve, reject) => {
 
-            var c = new Crawler({
+            let  c = new Crawler({
                 maxConnections : 10,
                 userAgent: "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1",
                 // This will be called for each crawled page
@@ -22,7 +22,7 @@ class ProductController {
                         reject({ status: 404, message: "Aucun produit trouvé."});
                     } else {
                         const livraisonText = $('div.olp-text-box span.a-color-base').text();
-                        var livraisonPrice = 0;
+                        let livraisonPrice = 0;
                         if (!livraisonText.match(/GRATUITE/)) {
                             livraisonPrice = parseFloat(livraisonText.replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
@@ -33,10 +33,16 @@ class ProductController {
                             .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
                             .replace(/Voir plus de détails$/, ""); // Remove ending text
                             
-                        const imageSrc = $('#landingImage').attr('src');
+                        const imageSrc = $('#landingImage').attr('data-old-hires');
 
                         const categoryText = $('div.a-subheader li:nth-of-type(1) a.a-link-normal').text();
                         const category = constants.PRODUCT_CATEGORIES.find(c => c.text === categoryText.trim());
+
+                        const $seller = $('a#sellerProfileTriggerId');
+                        const seller = {
+                            name: $seller.text().trim(),
+                            url: 'https://amazon.fr' + $seller.attr('href').trim()
+                        };
 
                         const res = {
                             title: $('h1.a-size-large').text().trim(),
@@ -44,7 +50,8 @@ class ProductController {
                             description: description,
                             imageSrc: imageSrc ? imageSrc.trim() : '',
                             isPrime: !!$('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row').text().trim(),
-                            category: category ? category.value : undefined
+                            category: category ? category.value : undefined,
+                            seller
                         };
                         resolve(res);
                     }
@@ -57,7 +64,7 @@ class ProductController {
 
     static async create( productObj, userId ) {
         return new Promise((resolve, reject) => {
-            productObj.sellerId = userId;
+            productObj.seller = userId;
             const product = new ProductModel( productObj );
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {

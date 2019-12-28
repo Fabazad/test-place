@@ -4,6 +4,11 @@ const mongoose = require('mongoose');
 
 const categoryValues = constants.PRODUCT_CATEGORIES.map(category => category.value);
 
+const amazonSellerSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    url: { type: String, required: true }
+});
+
 const productSchema = new mongoose.Schema({
     asin: { type: String, required: true, unique: true, index: true},
     title: { type: String, required: true, index: true },
@@ -18,7 +23,8 @@ const productSchema = new mongoose.Schema({
     pictureUrl: { type: String, required: true },
     seller: { type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User' },
     category: { type: String, enum: categoryValues, required: true, index: true },
-    createdAt: { type: Date, default: new Date(), required: true, index: true }
+    createdAt: { type: Date, default: new Date(), required: true, index: true },
+    amazonSeller: { type: amazonSellerSchema }
 });
 
 productSchema.index({'title': 'text'});
