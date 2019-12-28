@@ -26,20 +26,25 @@ class ProductController {
                         if (!livraisonText.match(/GRATUITE/)) {
                             livraisonPrice = parseFloat(livraisonText.replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
-                        const price = parseFloat($('td.a-span12 span.a-size-medium.a-color-price').text().trim().replace(",", "."));
+                        const price = parseFloat($('td.a-span12 span.a-size-medium').text().trim().replace(",", "."));
 
                         const description = $('div.centerColAlign div.a-section.a-spacing-medium').text().trim()
                             .replace(/\s{2,}/g, "\n\n") //Remove white spaces
                             .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
                             .replace(/Voir plus de détails$/, ""); // Remove ending text
                             
+                        const imageSrc = $('#landingImage').attr('src');
+
+                        const categoryText = $('div.a-subheader li:nth-of-type(1) a.a-link-normal').text();
+                        const category = constants.PRODUCT_CATEGORIES.find(c => c.text === categoryText.trim());
 
                         const res = {
                             title: $('h1.a-size-large').text().trim(),
                             price: price + livraisonPrice,
                             description: description,
-                            imageSrc: $('#landingImage').attr("src").trim(),
-                            isPrime: !!$('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row').text().trim()
+                            imageSrc: imageSrc ? imageSrc.trim() : '',
+                            isPrime: !!$('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row').text().trim(),
+                            category: category ? category.value : undefined
                         };
                         resolve(res);
                     }
@@ -118,7 +123,7 @@ class ProductController {
         });
     }
 
-    static async getCategories(  ) {
+    static async getCategories() {
         return new Promise((resolve, reject) => {
             const categories = constants.PRODUCT_CATEGORIES;
             if (categories && categories.length > 0 ) {
@@ -128,6 +133,16 @@ class ProductController {
             }
         });
     }
+
+    static async getOne(productId) {
+        return new Promise((resolve, reject) => {
+            ProductModel.findById(productId).populate('seller')
+                .then(resolve)
+                .catch(err => reject(ErrorResponses.mongoose(err)));
+        });
+    }
 }
 
 module.exports = ProductController;
+
+

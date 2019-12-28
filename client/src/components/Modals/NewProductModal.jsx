@@ -94,6 +94,7 @@ class NewProductModal extends React.Component {
                 description: res.description,
                 pictureUrl: res.imageSrc,
                 isPrime: res.isPrime,
+                category: res.category,
                 picture: null
             });
         });
@@ -242,7 +243,7 @@ class NewProductModal extends React.Component {
                                         </label>
                                         <label htmlFor="isPrimeInput" className="mt-2 ml-2">
                                             <img src={require("assets/img/icons/prime.png")} alt="prime"
-                                                 style={{"height": "24px"}}/>
+                                                 style={{"height": "18px"}}/>
                                         </label>
                                     </div>
                                 </Row>

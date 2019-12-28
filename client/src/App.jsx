@@ -16,6 +16,7 @@ import {applyMiddleware, compose, createStore} from "redux";
 import rootReducer from "./reducers";
 import thunkMiddleware from "redux-thunk";
 import Search from "./views/Search";
+import ProductDetail from "./views/ProductDetail";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
@@ -37,6 +38,7 @@ class App extends React.Component {
                         <Route path="/email-validation/:userId" component={anyAuth(EmailValidation)}/>
                         <Route path="/dashboard" component={withAuth(DashboardLayout)}/>
                         <Route path="/search" component={anyAuth(Search)}/>
+                        <Route path="/ad/:productId" component={anyAuth(ProductDetail)}/>
                         <Redirect to="/"/>
                     </Switch>
                 </BrowserRouter>

@@ -28,7 +28,7 @@ const constants = {
         { text: 'Fournitures de bureau', value: 'office-supplies' },
         { text: 'Electroménager', value: 'appliances' },
         { text: 'High-Tech', value: 'high-tech' },
-        { text: 'Higiène & Santé', value: 'higiene-health' },
+        { text: 'Hygiène et Santé', value: 'higiene-health' },
         { text: 'Informatique', value: 'computeur-science' },
         { text: 'Instrument & Musique', value: 'music' },
         { text: 'Jardin', value: 'garden' },
