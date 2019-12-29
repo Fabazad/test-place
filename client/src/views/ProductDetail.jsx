@@ -2,7 +2,7 @@ import React from "react";
 
 // reactstrap components
 import {
-    Container, Row, Button, Badge, Card, CardBody, Label
+    Container, Row, Button, Badge, Card, CardBody, Label, UncontrolledCarousel
 } from "reactstrap";
 
 // core components
@@ -16,7 +16,8 @@ class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: undefined
+            product: undefined,
+            selectedIndex: 0
         };
     }
 
@@ -29,8 +30,28 @@ class ProductDetail extends React.Component {
         productServices.getOne(productId).then(product => this.setState({product}));
     }
 
+    selectImage(index) {
+        this.setState({ selectedIndex: index });
+    }
+
+    nextImage() {
+        if (this.state.selectedIndex+1 < this.state.product.imageUrls.length) {
+            this.setState({ selectedIndex: this.state.selectedIndex+1});
+        } else {
+            this.setState({ selectedIndex: 0 })
+        }
+    }
+
+    prevImage() {
+        if (this.state.selectedIndex > 0) {
+            this.setState({ selectedIndex: this.state.selectedIndex-1});
+        } else {
+            this.setState({ selectedIndex: this.state.product.imageUrls.length-1 });
+        }
+    }
+
     render() {
-        const {product} = this.state;
+        const { product } = this.state;
         return (
             <>
                 <main ref="main">
@@ -69,8 +90,30 @@ class ProductDetail extends React.Component {
                         <Container>
                             <Row>
                                 <div className="col-12 col-md-6">
-                                    <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL}
-                                         alt="product" className="rounded shadow w-100"/>
+                                    {
+                                        product ? (
+                                            <div className='rounded overflow-hidden shadow'>
+                                                <UncontrolledCarousel items={product.imageUrls.map(imageUrl => {
+                                                    return {'src': imageUrl};
+                                                })} activeIndex={this.state.selectedIndex} next={() => this.nextImage()}
+                                                previous={() => this.prevImage()} indicators={false}/>
+                                            </div>
+                                        ) : (
+                                            <img src={constants.BASE_PRODUCT_PICTURE_URL}
+                                                 alt="product base" className="rounded shadow w-100"/>
+                                        )
+                                    }
+
+                                    <div className="w-100 overflow-x-auto white-space-nowrap">
+                                        {
+                                            product ? product.imageUrls.map((imageUrl, index) => (
+                                                <img src={imageUrl} alt="thunbail"
+                                                     className={"rounded shadow m-2 cursor-pointer " + (index === this.state.selectedIndex ? 'selected' : '')}
+                                                     width="100" onClick={() => this.selectImage(index)}
+                                                     key={imageUrl}/>
+                                            )) : null
+                                        }
+                                    </div>
                                 </div>
                                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                                     <div className="text-center mt-4 d-flex justify-content-around">

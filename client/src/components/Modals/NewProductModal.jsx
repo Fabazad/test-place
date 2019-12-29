@@ -2,15 +2,16 @@ import React from "react";
 // reactstrap components
 import {
     Button,
-    Modal,
     Form,
     FormGroup,
+    Input,
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    Input,
-    UncontrolledPopover,
-    PopoverBody, Row
+    Modal,
+    PopoverBody,
+    Row,
+    UncontrolledPopover
 } from "reactstrap";
 import {toast} from "react-toastify";
 import Loading from "components/Loading";

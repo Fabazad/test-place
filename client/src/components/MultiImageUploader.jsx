@@ -13,6 +13,19 @@ class MultiImageUploader extends React.Component {
     constructor(props) {
         super(props);
         this.lastUploaderRef = React.createRef();
+        this.state = {
+            images: []
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ images : this.props.images });
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if ('images' in nextProps) {
+            this.setState({ images: nextProps.images });
+        }
     }
 
     onChange(image, index) {

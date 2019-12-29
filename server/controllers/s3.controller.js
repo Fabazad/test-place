@@ -9,7 +9,7 @@ aws.config.update({
   secretAccessKey: process.env.AWSSecretKey
 });
 
-const S3_BUCKET = process.env.bucket
+const S3_BUCKET = process.env.bucket;
 
 class S3Controller {
     static async signS3(fileName, fileType) {
@@ -32,7 +32,7 @@ class S3Controller {
             // Data payload of what we are sending back, the url of the signedRequest and a URL where we can access the content after its saved. 
             const returnData = {
                 signedRequest: data,
-                url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+                url: `https://${S3_BUCKET}.s3.amazonaws.com/product-pictures/${fileName}`
             };
             // Send it all back
             return resolve({success:true, data:{returnData}});
