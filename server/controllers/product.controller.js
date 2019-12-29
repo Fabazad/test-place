@@ -1,6 +1,6 @@
 const constants =  require("../helpers/constants");
 
-var Crawler = require("crawler");
+const Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
 const ErrorResponses =  require("../helpers/ErrorResponses");
 
@@ -11,16 +11,16 @@ class ProductController {
 
             let  c = new Crawler({
                 maxConnections : 10,
-                userAgent: "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1",
                 // This will be called for each crawled page
                 callback : (error, res) => {
-                    var $ = res.$;
+                    let $ = res.$;
                     if (error) {
                         reject({ status: 500, message: "Internal Server Error."});
                     }
-                    else if(res.statusCode === 404){
+                    else if (res.statusCode === 404){
                         reject({ status: 404, message: "Aucun produit trouvé."});
-                    } else {
+                    }
+                    else {
                         const livraisonText = $('div.olp-text-box span.a-color-base').text();
                         let livraisonPrice = 0;
                         if (!livraisonText.match(/GRATUITE/)) {
@@ -32,8 +32,15 @@ class ProductController {
                             .replace(/\s{2,}/g, "\n\n") //Remove white spaces
                             .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
                             .replace(/Voir plus de détails$/, ""); // Remove ending text
-                            
-                        const imageSrc = $('#landingImage').attr('data-old-hires');
+
+                        const imageUrls = [];
+                        $('.a-button-thumbnail img').each(i => {
+                            const url = $($('.a-button-thumbnail img')[i]).attr('src');
+                            const match = url.match(/I\/(.+)\._AC/);
+                            if(match) {
+                                imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
+                            }
+                        });
 
                         const categoryText = $('div.a-subheader li:nth-of-type(1) a.a-link-normal').text();
                         const category = constants.PRODUCT_CATEGORIES.find(c => c.text === categoryText.trim());
@@ -48,7 +55,7 @@ class ProductController {
                             title: $('h1.a-size-large').text().trim(),
                             price: price + livraisonPrice,
                             description: description,
-                            imageSrc: imageSrc ? imageSrc.trim() : '',
+                            imageUrls: imageUrls,
                             isPrime: !!$('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row').text().trim(),
                             category: category ? category.value : undefined,
                             seller

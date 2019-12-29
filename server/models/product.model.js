@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
     afterNote: String,
     maxDemands: { type: Number, required: true },
     automaticAcceptance: { type: Boolean, required: true, index: true },
-    pictureUrl: { type: String, required: true },
+    imageUrls: { type: [String], required: true },
     seller: { type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User' },
     category: { type: String, enum: categoryValues, required: true, index: true },
     createdAt: { type: Date, default: new Date(), required: true, index: true },

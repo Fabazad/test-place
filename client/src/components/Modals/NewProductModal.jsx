@@ -15,10 +15,9 @@ import {
 import {toast} from "react-toastify";
 import Loading from "components/Loading";
 import productService from "services/product.service";
-import ImageUploader from 'components/ImageUploader';
 import s3Services from "services/s3.services";
-import constants from "helpers/constants";
 import DropdownSelect from "../DropdownSelect";
+import MultiImageUploader from "../MultiImageUploader";
 
 //import PropTypes from 'prop-types';
 
@@ -32,7 +31,7 @@ class NewProductModal extends React.Component {
             title: '',
             price: '',
             finalPrice: '',
-            pictureUrl: '',
+            images: [],
             description: '',
             isPrime: false,
             afterNote: '',
@@ -41,7 +40,7 @@ class NewProductModal extends React.Component {
             automaticAcceptance: false,
             exampleModal: false,
             loadingPromise: null,
-            picture: null,
+            pictures: [null],
             category: '',
             seller: undefined
         };
@@ -49,7 +48,6 @@ class NewProductModal extends React.Component {
             categories: [],
             ...this.initialState
         };
-        this.updatePicture = this.updatePicture.bind(this);
     }
 
     componentDidMount() {
@@ -93,10 +91,10 @@ class NewProductModal extends React.Component {
                 title: res.title,
                 price: res.price,
                 description: res.description,
-                pictureUrl: res.imageSrc,
+                images: res.imageUrls,
                 isPrime: res.isPrime,
                 category: res.category,
-                picture: null,
+                pictures: [null],
                 amazonSeller: res.seller
             });
         });
@@ -106,13 +104,12 @@ class NewProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {asin, title, price, finalPrice, pictureUrl, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
+            const {asin, title, price, finalPrice, images, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
             const product = {
                 asin,
                 title,
                 price,
                 finalPrice,
-                pictureUrl,
                 description,
                 isPrime,
                 afterNote,
@@ -123,11 +120,19 @@ class NewProductModal extends React.Component {
                 amazonSeller
             };
 
-            if (this.state.picture) {
-                product.pictureUrl = await s3Services.upload(this.state.picture);
-            } else {
-                product.pictureUrl = pictureUrl;
-            }
+            const s3promises = [];
+            images.forEach((image, index) => {
+                if (typeof image === 'object') {
+                    s3promises.push(
+                        new Promise(async resolve => {
+                            images[index] = await s3Services.upload(image);
+                            resolve();
+                        })
+                    );
+                }
+            });
+            await Promise.all(s3promises);
+            product.imageUrls = images;
             return productService.create(product).then(() => {
                 toast.success("Product added");
                 this.setState(this.initialState);
@@ -136,14 +141,6 @@ class NewProductModal extends React.Component {
 
         this.setState({loadingPromise});
     };
-
-    updatePicture(picture) {
-        const pictureUrl = URL.createObjectURL(picture);
-        this.setState({
-            pictureUrl,
-            picture
-        });
-    }
 
     render() {
         return (
@@ -207,9 +204,10 @@ class NewProductModal extends React.Component {
                                 </Row>
                             </div>
                             <div className="border-bottom">
-                                <div className="w-100 text-center my-3">
-                                    <ImageUploader onChange={this.updatePicture} src={this.state.pictureUrl}
-                                                   baseUrl={constants.BASE_PRODUCT_PICTURE_URL}/>
+                                <div className="w-100 my-3">
+                                    <MultiImageUploader images={this.state.images} maxFile={6}
+                                                        onChange={images => this.setState({images})}/>
+
                                 </div>
                                 <div className="row">
                                     <div className="col-12">

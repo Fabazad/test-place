@@ -13,6 +13,7 @@ import {
 import {toast} from "react-toastify";
 import {withTranslation} from "react-i18next";
 import Loading from "../Loading";
+import userServices from '../../services/user.services';
 
 //import PropTypes from 'prop-types';
 
@@ -39,12 +40,11 @@ class ForgottenPasswordModal extends React.Component {
             [name]: value
         });
     };
-    userService;
 
     onSubmit = (e) => {
         const {t} = this.props;
         e.preventDefault();
-        const loadingPromise = this.userService.sendResetPasswordMail(this.state.email)
+        const loadingPromise = userServices.sendResetPasswordMail(this.state.email)
             .then(() => {
                 toast.success(t("EMAIL_HAS_BEEN_SENT"));
                 this.setState({email: ''});

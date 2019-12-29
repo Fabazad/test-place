@@ -1,5 +1,4 @@
 import React from "react";
-import $ from "jquery";
 import ImageUploaderNative from 'react-images-upload';
 import PropTypes from "prop-types";
 
@@ -8,6 +7,7 @@ class ImageUploader extends React.Component {
     constructor(props) {
         super(props);
         this.onDrop = this.onDrop.bind(this);
+        this.imageUploader = React.createRef();
     }
 
     onDrop(pictures) {
@@ -16,7 +16,7 @@ class ImageUploader extends React.Component {
     }
 
     onImageClick() {
-        $(".imageUploader").click();
+        this.imageUploader.current.triggerFileUpload();
     }
 
     render() {
@@ -43,6 +43,7 @@ class ImageUploader extends React.Component {
                         maxFileSize={5242880}
                         buttonClassName={"imageUploader"}
                         singleImage={true}
+                        ref={this.imageUploader}
                     />
                 </div>
             </>

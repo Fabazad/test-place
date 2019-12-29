@@ -31,7 +31,6 @@ class ProductDetail extends React.Component {
 
     render() {
         const {product} = this.state;
-        console.log(product ? product.description : undefined);
         return (
             <>
                 <main ref="main">
@@ -70,8 +69,8 @@ class ProductDetail extends React.Component {
                         <Container>
                             <Row>
                                 <div className="col-12 col-md-6">
-                                    <img src={product ? product.pictureUrl : constants.BASE_PRODUCT_PICTURE_URL}
-                                         alt="product image" className="rounded shadow w-100"/>
+                                    <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL}
+                                         alt="product" className="rounded shadow w-100"/>
                                 </div>
                                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                                     <div className="text-center mt-4 d-flex justify-content-around">
@@ -132,12 +131,13 @@ class ProductDetail extends React.Component {
                                                         <Label className='d-block'>Test Place</Label>
                                                         {product ? (
                                                             <Link to={'#'}>{product.seller.name}</Link>
-                                                            ) : null}
+                                                        ) : null}
                                                     </div>
                                                     <div className="col-6 text-center">
                                                         <Label className='d-block'>Amazon</Label>
                                                         {product ? (
-                                                            <a href={product.amazonSeller.url} target='_blank'>
+                                                            <a href={product.amazonSeller.url} target='_blank'
+                                                               rel="noopener noreferrer">
                                                                 {product.amazonSeller.name}
                                                             </a>) : null}
                                                     </div>

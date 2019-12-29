@@ -23,7 +23,7 @@ class ProductCard extends React.Component {
                 <CardBody>
                     <Loading loading={!product}/>
                     <div style={{'height': '200px'}} className={"text-center"}>
-                        <img src={product ? product.pictureUrl : constants.BASE_PRODUCT_PICTURE_URL} alt=""
+                        <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL} alt=""
                              className={"mw-100 shadow-lg rounded"}
                              style={{'maxHeight': '200px'}}/>
                     </div>
