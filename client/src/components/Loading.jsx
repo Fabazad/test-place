@@ -33,7 +33,6 @@ class Loading extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.promise && this._isMounted) {
-            console.log(nextProps.promise);
             this.setState({loading: true});
             nextProps.promise.finally(() => {
                 if (this._isMounted) {
