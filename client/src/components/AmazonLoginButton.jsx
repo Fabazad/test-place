@@ -25,7 +25,6 @@ class AmazonLoginButton extends React.Component {
         if (amazonId) {
             this.setState({amazonId});
         }
-        this.onAmazonLogout();
     }
 
     onAmazonLogin(response) {
