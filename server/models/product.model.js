@@ -10,7 +10,7 @@ const amazonSellerSchema = new mongoose.Schema({
 });
 
 const productSchema = new mongoose.Schema({
-    asin: { type: String, required: true, unique: true, index: true},
+    asin: { type: String, required: true, unique: true},
     title: { type: String, required: true, index: true },
     price: { type: Number, required: true, index: true },
     finalPrice: { type: Number, required: true },

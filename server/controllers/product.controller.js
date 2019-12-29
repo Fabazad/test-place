@@ -91,7 +91,7 @@ class ProductController {
                 query.category = category;
             }
             if (keyWords) {
-                query.$text = { '$search': keyWords.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") };
+                query.$text = { '$search': keyWords.toLowerCase() };
             }
             if (minPrice !== '' && minPrice !== undefined || maxPrice !== '' && maxPrice !== undefined) {
                 query.price = {};
@@ -130,7 +130,7 @@ class ProductController {
             ProductModel.find(query, score).sort(sort).skip(itemsPerPage*(page-1)).limit(itemsPerPage)
                 .then(res => {
                     ProductModel.count(query).then(count => {
-                        resolve({ hits: res, totalCount: count});
+                        resolve({ hits: res, totalCount: count });
                     }).catch(err => reject(ErrorResponses.mongoose(err)))
 
             }).catch(err => reject(ErrorResponses.mongoose(err)))
