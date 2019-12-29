@@ -184,7 +184,7 @@ class UserController {
                 return reject({ status: 400, message: "Missing token."});
             }
             axios.get("https://api.amazon.com/user/profile?access_token=" + amazonToken ).then(res => {
-                UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}).then(resolve)
+                UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}, { new: true }).then(resolve)
                     .catch(err => reject(ErrorResponses.mongoose(err)));
             }).catch(err => reject({status: 403, message: "Wrong token."}));
         });

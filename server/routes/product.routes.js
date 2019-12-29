@@ -44,4 +44,4 @@ async function productRoutes (fastify) {
     });
 }
 
-module.exports = productRoutes
+module.exports = productRoutes;
