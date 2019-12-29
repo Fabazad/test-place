@@ -10,6 +10,7 @@ import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import productServices from '../services/product.service';
 import constants from "../helpers/constants";
 import {Link} from "react-router-dom";
+import {formatDate} from "../helpers/textHelpers";
 
 class ProductDetail extends React.Component {
 
@@ -197,13 +198,9 @@ class ProductDetail extends React.Component {
                                         <small
                                             style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
                                     </p>
+                                    <Label className="mb-3">Publication : { product ? formatDate(product.createdAt) : '' }</Label>
                                 </div>
                             </Row>
-
-                        </Container>
-                    </section>
-                    <section>
-                        <Container>
 
                         </Container>
                     </section>
