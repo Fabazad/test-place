@@ -5,6 +5,7 @@ import SocialButton from "./SocialButton";
 import Loading from "./Loading";
 import userServices from "../services/user.services";
 import {toast} from "react-toastify";
+import PropTypes from "prop-types";
 
 class AmazonLoginButton extends React.Component {
 
