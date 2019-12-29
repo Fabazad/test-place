@@ -175,7 +175,9 @@ class ProductDetail extends React.Component {
                                             </p>
                                         ) : null
                                     }
-                                    <Label>Publication : {product ? formatDate(product.createdAt) : ''}</Label>
+                                    <Badge color={'primary'} pill className='badge-lg'>
+                                        Publication : {product ? formatDate(product.createdAt) : ''}
+                                    </Badge>
                                 </div>
                             </Row>
                         </Container>

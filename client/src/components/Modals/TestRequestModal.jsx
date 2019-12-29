@@ -96,9 +96,13 @@ class TestRequestModal extends React.Component {
                         >
                             Fermer
                         </Button>
-                        <Button color={'primary'} type='button'>
-                            Confirmer la demande
-                        </Button>
+                        {
+                            userServices.isAuth() && userServices.amazonId ? (
+                                <Button color={'primary'} type='button'>
+                                    Confirmer la demande
+                                </Button>
+                            ) : null
+                        }
                     </div>
                 </Modal>
             </>
