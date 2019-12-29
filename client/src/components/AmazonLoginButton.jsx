@@ -34,6 +34,9 @@ class AmazonLoginButton extends React.Component {
                 amazonId: user.amazonId,
                 loading: false
             });
+            if (this.props.onLogin) {
+                this.props.onLogin();
+            }
         }).catch(() => {
             toast.error("La connection à Amazon a échouée");
             this.setState({loading: false});
@@ -49,13 +52,13 @@ class AmazonLoginButton extends React.Component {
     }
 
     onAmazonLogout() {
-        console.log("test");
         userServices.update(userServices.getCurrentUserId(), {amazonId: null}).then(() => {
             userServices.amazonId = undefined;
             this.setState({
                 amazonId: '',
                 loading: false
             });
+            toast.success('Compte Amazon déconnecté');
         });
     }
 
@@ -96,6 +99,7 @@ class AmazonLoginButton extends React.Component {
 }
 
 AmazonLoginButton.propTypes = {
+    onLogin: PropTypes.func
 };
 
 export default AmazonLoginButton;
