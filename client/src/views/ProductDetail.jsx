@@ -32,27 +32,27 @@ class ProductDetail extends React.Component {
     }
 
     selectImage(index) {
-        this.setState({ selectedIndex: index });
+        this.setState({selectedIndex: index});
     }
 
     nextImage() {
-        if (this.state.selectedIndex+1 < this.state.product.imageUrls.length) {
-            this.setState({ selectedIndex: this.state.selectedIndex+1});
+        if (this.state.selectedIndex + 1 < this.state.product.imageUrls.length) {
+            this.setState({selectedIndex: this.state.selectedIndex + 1});
         } else {
-            this.setState({ selectedIndex: 0 })
+            this.setState({selectedIndex: 0})
         }
     }
 
     prevImage() {
         if (this.state.selectedIndex > 0) {
-            this.setState({ selectedIndex: this.state.selectedIndex-1});
+            this.setState({selectedIndex: this.state.selectedIndex - 1});
         } else {
-            this.setState({ selectedIndex: this.state.product.imageUrls.length-1 });
+            this.setState({selectedIndex: this.state.product.imageUrls.length - 1});
         }
     }
 
     render() {
-        const { product } = this.state;
+        const {product} = this.state;
         return (
             <>
                 <main ref="main">
@@ -97,7 +97,8 @@ class ProductDetail extends React.Component {
                                                 <UncontrolledCarousel items={product.imageUrls.map(imageUrl => {
                                                     return {'src': imageUrl};
                                                 })} activeIndex={this.state.selectedIndex} next={() => this.nextImage()}
-                                                previous={() => this.prevImage()} indicators={false}/>
+                                                                      previous={() => this.prevImage()}
+                                                                      indicators={false}/>
                                             </div>
                                         ) : (
                                             <img src={constants.BASE_PRODUCT_PICTURE_URL}
@@ -198,10 +199,17 @@ class ProductDetail extends React.Component {
                                         <small
                                             style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
                                     </p>
-                                    <Label className="mb-3">Publication : { product ? formatDate(product.createdAt) : '' }</Label>
+                                    {
+                                        product && product.asin ? (
+                                            <p>Plus de détails sur la{' '}
+                                                <a href={'https://www.amazon.fr/dp/' + product.asin} target='_blank'
+                                                   rel="noopener noreferrer">Page Amazon du Produit</a>
+                                            </p>
+                                        ) : null
+                                    }
+                                    <Label>Publication : {product ? formatDate(product.createdAt) : ''}</Label>
                                 </div>
                             </Row>
-
                         </Container>
                     </section>
                 </main>
