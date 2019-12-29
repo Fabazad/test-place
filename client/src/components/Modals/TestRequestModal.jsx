@@ -16,17 +16,23 @@ class TestRequestModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalOpen: false
+            isModalOpen: false,
+            amazonId: null
         }
     }
 
     componentDidMount() {
+        this.onAmazonLogin();
     }
 
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
+    }
+
+    onAmazonLogin() {
+        this.setState( { amazonId: userServices.amazonId });
     }
 
     render() {
@@ -61,7 +67,7 @@ class TestRequestModal extends React.Component {
                     <div className="modal-body text-center">
                         {
                             userServices.isAuth() ?
-                                userServices.amazonId ? (
+                                this.state.amazonId ? (
                                     <div>
                                         <Label>Message Vendeur Pré-Demande</Label>
                                         <div className='text-left'>
@@ -73,7 +79,7 @@ class TestRequestModal extends React.Component {
                                         {/* Missing amazon linked case*/}
                                         <AnimatedError/>
                                         <p>Vous devez lier un compte Amazon pour demander à tester un produit.</p>
-                                        <AmazonLoginButton/>
+                                        <AmazonLoginButton onLogin={() => this.onAmazonLogin()}/>
                                     </div>
                                 )
                                 : (
