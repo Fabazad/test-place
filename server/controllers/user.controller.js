@@ -58,7 +58,7 @@ class UserController {
                             reject({ status: 401, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const payload = { userId: user._id, role: user.role, amazonId: user.amazonId };
+                            const payload = { userId: user._id };
                             const token = jwt.sign(payload, secret, { expiresIn: '1h' });
                             resolve({user, token});
                         }

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
+const UserModel = require('../models/user.model');
 
 const withAuth = function (req, res, next) {
     const required = req.query.required !== false;
@@ -16,10 +17,14 @@ const withAuth = function (req, res, next) {
             if (err && required) {
                 res.status(401).send('Unauthorized');
             } else {
-                req.userId = decoded.userId;
-                req.role = decoded.role;
-                req.amazonId = decoded.amazonId;
-                next();
+                UserModel.findById(decoded.userId).then(user => {
+                    if (!user && required) {
+                        res.status(401).send('Unauthorized');
+                    }
+                    req.userId = user.id;
+                    req.amazonId = user.amazonId;
+                    next();
+                }).catch(err => res.status(500).send('Internal Error'));
             }
         });
     }

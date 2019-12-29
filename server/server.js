@@ -19,8 +19,8 @@ fastify.register(require('./db-connection'));
 const start = () => {
   fastify.listen(process.env.PORT || 5000, '0.0.0.0')
   .catch (err => {
-    fastify.log.error(err)
+    fastify.log.error(err);
     process.exit(1)
   });
-}
-start()
+};
+start();
