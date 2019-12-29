@@ -197,6 +197,8 @@ class UserController {
             }
 
             UserModel.findByIdAndUpdate(itemId, fields)
+                .then(resolve)
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 }
