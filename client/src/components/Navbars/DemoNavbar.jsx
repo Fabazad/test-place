@@ -34,21 +34,21 @@ class DemoNavbar extends React.Component {
         const isAuth = userService.isAuth();
         return (
             <>
-                <header className="header-global">
+                <header className="header-global ">
                     <Navbar
                         className="navbar-main navbar-transparent navbar-light headroom position-fixed"
                         expand="lg"
                         id="navbar-main"
                         style={{"zIndex": "10"}}
                     >
-                        <Container>
+                        <Container className='ml-2 mw-100 mr-5'>
                             <NavbarBrand className="mr-lg-5 d-flex" to="/" tag={Link}>
                                 <img
                                     style={{height: "50px"}}
                                     alt="..."
                                     src={require("assets/img/brand/logo_test_place.png")}
                                 />
-                                <span className="h3 text-white ml-3 my-auto"
+                                <span className="h3 text-light ml-3 my-auto"
                                       style={{lineHeight: "60px"}}>Test Place</span>
                             </NavbarBrand>
                             <button className="navbar-toggler" id="navbar_global">

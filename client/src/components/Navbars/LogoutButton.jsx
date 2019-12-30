@@ -21,9 +21,6 @@ class LogoutButton extends React.Component {
             color="default"
             onClick={() => this.onLogout()}
         >
-            <span className="btn-inner--icon">
-                <i className="fa fa-sign-out mr-2" />
-            </span>
             <span className="nav-link-inner--text ml-1">
                 Déconnexion
             </span>
