@@ -11,7 +11,6 @@ import {
     DropdownToggle,
     UncontrolledDropdown,
     DropdownItem,
-    Media,
     NavbarBrand,
     Navbar,
     NavItem,
@@ -22,6 +21,7 @@ import {
     Col
 } from "reactstrap";
 import LogoutButton from "./LogoutButton";
+import routes from "../../routes";
 
 class DemoNavbar extends React.Component {
     componentDidMount() {
@@ -87,13 +87,15 @@ class DemoNavbar extends React.Component {
                                                 <span className='d-inline d-lg-none text-black'>Dashboard</span>
                                                 <span className="d-none d-lg-inline text-white">Dashboard</span>
                                             </DropdownToggle>
-                                            <DropdownMenu>
-                                                <DropdownItem to={'/my-profile'} tag={Link}>
-                                                    Mon Profil
-                                                </DropdownItem>
-                                                <DropdownItem to={'/dashboard/index'} tag={Link}>
-                                                    Index
-                                                </DropdownItem>
+                                            <DropdownMenu className='w-200px'>
+                                                {
+                                                    routes.map(route => (
+                                                        <DropdownItem to={route.layout + route.path} tag={Link}>
+                                                            <i className={route.icon}/>
+                                                            {route.name}
+                                                        </DropdownItem>
+                                                    ))
+                                                }
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                     ) : null}
