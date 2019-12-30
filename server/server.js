@@ -1,6 +1,10 @@
 const constants = require('./helpers/constants');
-const fastify = require('fastify')({logger: true});
+const httpsRedirect = require('fastify-https-redirect');
+const fs = require('fs');
 const path = require('path');
+const fastify = require('fastify')({logger: true});
+
+fastify.register(httpsRedirect);
 
 fastify.register(require('fastify-static'), {
     root: path.join(__dirname, '/../client/build/'),
