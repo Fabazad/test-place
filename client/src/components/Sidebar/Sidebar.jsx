@@ -27,8 +27,6 @@ import {
   Col
 } from "reactstrap";
 
-var ps;
-
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false

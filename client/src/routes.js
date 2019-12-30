@@ -2,7 +2,7 @@ import Index from "views/Index.jsx";
 import Profile from "views/examples/Profile.jsx";
 import Maps from "views/examples/Maps.jsx";
 import Tables from "views/examples/Tables.jsx";
-import Icons from "views/examples/Icons.jsx";
+import MyProducts from "./views/MyProducts";
 
 const routes = [
   {
@@ -13,10 +13,10 @@ const routes = [
     layout: "/dashboard"
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
+    path: "/my-products",
+    name: "Mes Produits",
+    icon: "ni ni-bag-17 text-blue",
+    component: MyProducts,
     layout: "/dashboard"
   },
   {
