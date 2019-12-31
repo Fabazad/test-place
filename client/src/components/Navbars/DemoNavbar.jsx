@@ -90,7 +90,7 @@ class DemoNavbar extends React.Component {
                                             <DropdownMenu className='w-200px'>
                                                 {
                                                     routes.map(route => (
-                                                        <DropdownItem to={route.layout + route.path} tag={Link}>
+                                                        <DropdownItem to={route.layout + route.path} tag={Link} key={'route'+route.path}>
                                                             <i className={route.icon}/>
                                                             {route.name}
                                                         </DropdownItem>

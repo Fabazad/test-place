@@ -141,7 +141,7 @@ class SearchEngine extends React.Component {
                                    data-placement="top"
                                    id="filterIcon"/>
                                 {this.state.filterNb ? (
-                                    <Badge color="primary" className="badge-circle position-absolute top-0 right-0">
+                                    <Badge color="primary" pill className="position-absolute top-0 right-0">
                                         {this.state.filterNb}
                                     </Badge>
                                 ) : null}
