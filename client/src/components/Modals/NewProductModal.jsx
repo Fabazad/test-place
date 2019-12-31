@@ -19,8 +19,8 @@ import productService from "services/product.service";
 import s3Services from "services/s3.services";
 import DropdownSelect from "../DropdownSelect";
 import MultiImageUploader from "../MultiImageUploader";
-
-//import PropTypes from 'prop-types';
+import SearchEngine from "../SearchEngine";
+import PropTypes from "prop-types";
 
 class NewProductModal extends React.Component {
 
@@ -137,6 +137,9 @@ class NewProductModal extends React.Component {
             return productService.create(product).then(() => {
                 toast.success("Product added");
                 this.setState(this.initialState);
+                if (this.props.onNewProduct) {
+                    this.props.onNewProduct();
+                }
             }).catch(reject);
         });
 
@@ -408,5 +411,9 @@ class NewProductModal extends React.Component {
         );
     }
 }
+
+SearchEngine.propTypes = {
+    onNewProduct: PropTypes.func
+};
 
 export default NewProductModal;
