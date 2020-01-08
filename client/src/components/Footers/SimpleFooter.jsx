@@ -38,30 +38,18 @@ class SimpleFooter extends React.Component {
             <Row className=" row-grid align-items-center mb-5">
               <Col lg="6">
                 <h3 className=" text-primary font-weight-light mb-2">
-                  Thank you for supporting us!
+                  Merci de visiter notre site !
                 </h3>
                 <h4 className=" mb-0 font-weight-light">
-                  Let's get in touch on any of these platforms.
+                  Vous pouvez également nous suivre sur nos autres plateformes
                 </h4>
               </Col>
               <Col className=" text-lg-center btn-wrapper" lg="6">
-                <Button
-                  className=" btn-neutral btn-icon-only btn-round"
-                  color="twitter"
-                  href="https://twitter.com/creativetim"
-                  id="tooltip126536702"
-                  size="lg"
-                  target="_blank"
-                >
-                  <i className=" fa fa-twitter" />
-                </Button>
-                <UncontrolledTooltip delay={0} target="tooltip126536702">
-                  Follow us
-                </UncontrolledTooltip>
+
                 <Button
                   className=" btn-neutral btn-icon-only btn-round ml-1"
                   color="facebook"
-                  href="https://www.facebook.com/creativetim"
+                  href="https://www.facebook.com/testplaceproduits/"
                   id="tooltip383967593"
                   size="lg"
                   target="_blank"
@@ -69,34 +57,9 @@ class SimpleFooter extends React.Component {
                   <i className=" fa fa-facebook-square" />
                 </Button>
                 <UncontrolledTooltip delay={0} target="tooltip383967593">
-                  Like us
+                  Aimez notre page
                 </UncontrolledTooltip>
-                <Button
-                  className=" btn-neutral btn-icon-only btn-round ml-1"
-                  color="dribbble"
-                  href="https://dribbble.com/creativetim"
-                  id="tooltip568564532"
-                  size="lg"
-                  target="_blank"
-                >
-                  <i className=" fa fa-dribbble" />
-                </Button>
-                <UncontrolledTooltip delay={0} target="tooltip568564532">
-                  Follow us
-                </UncontrolledTooltip>
-                <Button
-                  className=" btn-neutral btn-icon-only btn-round ml-1"
-                  color="github"
-                  href="https://github.com/creativetimofficial"
-                  id="tooltip626177562"
-                  size="lg"
-                  target="_blank"
-                >
-                  <i className=" fa fa-github" />
-                </Button>
-                <UncontrolledTooltip delay={0} target="tooltip626177562">
-                  Star on Github
-                </UncontrolledTooltip>
+
               </Col>
             </Row>
             <hr />
@@ -105,10 +68,10 @@ class SimpleFooter extends React.Component {
                 <div className=" copyright">
                   © {new Date().getFullYear()}{" "}
                   <a
-                    href="https://www.creative-tim.com?ref=adsr-footer"
+                    href="http://www.test-place.fr/index.html"
                     target="_blank"
                   >
-                    Creative Tim
+                    Test Place
                   </a>
                   .
                 </div>
@@ -117,34 +80,26 @@ class SimpleFooter extends React.Component {
                 <Nav className=" nav-footer justify-content-end">
                   <NavItem>
                     <NavLink
-                      href="https://www.creative-tim.com?ref=adsr-footer"
+                      href="http://www.test-place.fr//Landkit-1.1.0/src/contact.html"
                       target="_blank"
                     >
-                      Creative Tim
+                      Contactez-nous
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink
-                      href="https://www.creative-tim.com/presentation?ref=adsr-footer"
+                      href="http://www.test-place.fr/index.html"
                       target="_blank"
                     >
-                      About Us
+                      En savoir plus
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink
-                      href="http://blog.creative-tim.com?ref=adsr-footer"
+                      href="http://www.test-place.fr//Landkit-1.1.0/src/mentionslegales.html"
                       target="_blank"
                     >
-                      Blog
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      href="https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md"
-                      target="_blank"
-                    >
-                      MIT License
+                      CGU
                     </NavLink>
                   </NavItem>
                 </Nav>
