@@ -7,11 +7,10 @@ path.resolve(__dirname, './SSL/key.key');
 
 
 async function routes (app) {
-    app.use('/', frontRoutes);
     app.use("/api/user", userRoutes);
     app.use("/api/product", productRoutes);
     app.use('/api/s3', s3Routes);
-
+    app.use('/', frontRoutes);
 }
 
 module.exports = routes;
