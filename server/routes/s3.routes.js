@@ -1,14 +1,12 @@
 const S3Controller = require('../controllers/s3.controller')
+const express = require('express');
+const router = express.Router();
 
-async function productRoutes (fastify) {
-    const path = "/api/s3/";
+router.post('/sign-s3', async (request, reply) => {
+    const {fileName, fileType} = request.body;
+    S3Controller.signS3(fileName, fileType)
+        .then((res) => reply.status(200).send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'sign-s3', async (request, reply) => {
-        const { fileName, fileType } = request.body;
-        S3Controller.signS3(fileName, fileType)
-            .then((res) => reply.code(200).send(res))
-            .catch(err => reply.code(err.status).send(err.message));
-    });
-}
-
-module.exports = productRoutes
+module.exports = router;

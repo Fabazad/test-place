@@ -1,10 +1,12 @@
-async function frontRoutes(fastify) {
-    ["/", '/login', '/register', '/landing', '/my-profile', "/reset-password/*", "/email-validation/*", '/search*', '/dashboard/*', '/ad/*']
-        .forEach(route => {
-            fastify.get(route, async (req, reply) => {
-                reply.code(200).sendFile("index.html");
-            });
-        });
-}
+const express = require('express');
+const router = express.Router();
+const path = require('path');
 
-module.exports = frontRoutes;
+["*", 'login', 'register', 'landing', 'my-profile', "reset-password/*", "email-validation/*", 'search*', 'dashboard/*', 'ad/*']
+    .forEach(route => {
+        router.get(route, async (req, res) => {
+            res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+        });
+    });
+
+module.exports = router;
