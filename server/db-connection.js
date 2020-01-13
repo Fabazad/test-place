@@ -10,6 +10,4 @@ async function dbConnection () {
     });
 }
 
-// Wrapping a plugin function with fastify-plugin exposes the decorators,
-// hooks, and middlewares declared inside the plugin to the parent scope.
 module.exports = dbConnection;
