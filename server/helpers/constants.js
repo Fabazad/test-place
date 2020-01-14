@@ -9,7 +9,8 @@ const constants = {
     FROM_MAIL_ADDRESS: 'review@test-place.com',
     ROLES: {
         REVIEWER: "reviewer",
-        SELLER: "seller"
+        SELLER: "seller",
+        ADMIN: "admin"
     },
     PRODUCT_CATEGORIES: [
         { text: 'Animalerie', value: 'pet-shop' },
@@ -36,7 +37,11 @@ const constants = {
         { text: 'Montres', value: 'watch' },
         { text: 'Sports et Loisirs', value: 'sports' },
         { text: 'Vêtements et accessoires', value: 'cloths' },
-    ]
+    ],
+    AUTH_CONDITIONS: {
+        IS_SELLER: "IS_SELLER",
+        ANY: "ANY"
+    }
 };
 
 module.exports = constants;

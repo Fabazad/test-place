@@ -191,11 +191,8 @@ class ProductController {
         return new Promise((resolve, reject) => {
             ProductModel.findById(productId)
                 .then(product => {
-                if ('published' in fields && product.seller.toString() !== userId) {
-                    return reject({ status: 401, message: "Unauthorized"});
-                }
-                if ('published' in fields) {
-                    fields.publishDate = Date.now();
+                if(!product.updateAuth(userId, fields, null)) {
+                    return reject({ status: 401, message: "Unauthorized" });
                 }
                 ProductModel.findByIdAndUpdate(productId, fields)
                     .then(resolve)
