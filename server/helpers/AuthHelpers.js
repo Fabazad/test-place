@@ -12,14 +12,15 @@ const AUTH = constants.AUTH_CONDITIONS;
  */
 const checkFieldAuth = (fieldAuth, userId, userRole, instance) => {
     //Needs to match each conditions
-    fieldAuth.forEach(rule => {
+    for (let i = 0; i < fieldAuth.length; i++){
+        const rule = fieldAuth[i];
         if (rule === AUTH.ANY || userRole === constants.ROLES.ADMIN) {
             return true;
         }
         if (rule === AUTH.IS_SELLER && instance.seller.toString() !== userId) {
             return false
         }
-    });
+    }
     return true;
 };
 
@@ -36,7 +37,9 @@ class AuthHelpers {
      */
     static update(userId, fields, userRole, objectSchema, instance) {
         const fieldNames = Object.keys(fields);
-        fieldNames.forEach(fieldName => {
+        for (let i = 0; i < fieldNames.length; i++ ) {
+            const fieldName = fieldNames[i];
+
             // Field has to be in the object schema
             if (!(fieldName in objectSchema)) {
                 return false;
@@ -53,7 +56,7 @@ class AuthHelpers {
             if (!checkFieldAuth(fieldAuth, userId, userRole, instance)) {
                 return false;
             }
-        });
+        }
         return true;
     }
 }
