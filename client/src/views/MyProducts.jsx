@@ -122,7 +122,11 @@ class MyProducts extends React.Component {
                                         <tbody>
                                         {
                                             this.state.products.map(product => (
-                                                <ProductRaw product={product} loading={this.state.loading} key={'product' + product._id}/>
+                                                <ProductRaw product={product}
+                                                            loading={this.state.loading}
+                                                            key={'product' + product._id}
+                                                            onChange={() => this.findProducts()}
+                                                />
                                             ))
                                         }
 

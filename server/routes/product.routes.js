@@ -1,5 +1,4 @@
 const ProductController = require('../controllers/product.controller');
-const middlewares = require("../middlewares/middlewares");
 const withAuth = require('../middlewares/withAuth');
 const express = require('express');
 const router = express.Router();
@@ -34,6 +33,13 @@ router.get('/categories', async (request, reply) => {
 router.get('/:productId', async (request, reply) => {
     const {productId} = request.params;
     ProductController.getOne(productId)
+        .then((res) => reply.status(200).send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/update', withAuth, async (request, reply) => {
+    const { itemId, fields } = request.body;
+    ProductController.update(itemId, fields, request.userId)
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });

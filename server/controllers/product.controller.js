@@ -174,11 +174,33 @@ class ProductController {
         });
     }
 
-    static async getOne(productId) {
+    static async getOne(productId, userId) {
         return new Promise((resolve, reject) => {
             ProductModel.findById(productId).populate('seller')
-                .then(resolve)
+                .then(product => {
+                    if (!product.published && product.seller._id.toString() !== userId) {
+                        return reject({ status: 401, message: "Unauthorize"});
+                    }
+                    return resolve(product);
+                })
                 .catch(err => reject(ErrorResponses.mongoose(err)));
+        });
+    }
+
+    static async update(productId, fields, userId) {
+        return new Promise((resolve, reject) => {
+            ProductModel.findById(productId)
+                .then(product => {
+                if ('published' in fields && product.seller.toString() !== userId) {
+                    return reject({ status: 401, message: "Unauthorized"});
+                }
+                if ('published' in fields) {
+                    fields.publishDate = Date.now();
+                }
+                ProductModel.findByIdAndUpdate(productId, fields)
+                    .then(resolve)
+                    .catch(err => reject(ErrorResponses.mongoose(err)));
+            }).catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 }

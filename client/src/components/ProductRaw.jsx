@@ -8,10 +8,31 @@ import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../helpers/textHelpers';
 import {Link} from "react-router-dom";
 import Skeleton from 'react-loading-skeleton';
+import productServices from '../services/product.service';
+import {toast} from "react-toastify";
 
 class ProductRaw extends React.Component {
 
-    componentDidMount() {
+    removeProduct(productId) {
+        if (window.confirm("Etes vous sûr de vouloir enlever la publication de votre annonce produit ?")) {
+            productServices.update(productId, {published: false})
+                .then(() => {
+                    this.props.onChange();
+                    toast.success("Le produit n'est plus plublié");
+                })
+                .catch(() => toast.error("Une erreur est survenue lors de la récupération des produits."));
+        }
+    }
+
+    publishProduct(productId) {
+        if (window.confirm("Etes vous sûr de vouloir publier votre annonce produit ?")) {
+            productServices.update(productId, {published: true})
+                .then(() => {
+                    this.props.onChange();
+                    toast.success("Le produit a été plublié");
+                })
+                .catch(() => toast.error("Une erreur est survenue lors de la récupération des produits."));
+        }
     }
 
     render() {
@@ -22,42 +43,42 @@ class ProductRaw extends React.Component {
                     <th scope={'row'}>
                         <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
                             <div className={"w-100"}>
-                                    <Skeleton />
+                                <Skeleton/>
                             </div>
                         </div>
                     </th>
                     <th scope={'row'}>
                         <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
                             <div className={"w-100"}>
-                                    <Skeleton />
+                                <Skeleton/>
                             </div>
                         </div>
                     </th>
                     <th scope={'row'}>
                         <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
                             <div className={"w-100"}>
-                                    <Skeleton />
+                                <Skeleton/>
                             </div>
                         </div>
                     </th>
                     <th scope={'row'}>
                         <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
                             <div className={"w-100"}>
-                                    <Skeleton />
+                                <Skeleton/>
                             </div>
                         </div>
                     </th>
                     <th scope={'row'}>
                         <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
                             <div className={"w-100"}>
-                                    <Skeleton />
+                                <Skeleton/>
                             </div>
                         </div>
                     </th>
                     <th scope={'row'}>
                         <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
                             <div className={"w-100"}>
-                                    <Skeleton />
+                                <Skeleton/>
                             </div>
                         </div>
                     </th>
@@ -90,7 +111,7 @@ class ProductRaw extends React.Component {
                 </th>
                 <th>
                     {
-                        true ? (
+                        product.published ? (
                             <>
                                 <Badge color={'success'}
                                        className={'badge-circle badge-lg text-center p-0'}
@@ -98,7 +119,7 @@ class ProductRaw extends React.Component {
                                     <i className="ni ni-check-bold m-auto"/>
                                 </Badge>
                                 <span
-                                    className="ml-2 text-muted">{formatDate(product.createdAt)}</span>
+                                    className="ml-2 text-muted">{formatDate(product.publishDate)}</span>
                             </>
                         ) : (
                             <Badge color={'danger'}
@@ -112,50 +133,74 @@ class ProductRaw extends React.Component {
                 <td>0 / {product.maxDemands}</td>
                 <td>
                     <div className="avatar-group">
-                        <div
-                            className="cursor-pointer avatar avatar-sm bg-transparent">
-                            <Badge pill className="badge-circle w-100 h-100"
-                                   color={'danger'}
-                                   tag={Link} to={'#'} id={"remove" + product._id}>
-                                <i className="fa fa-close m-auto fa-lg"/>
-                            </Badge>
-                            <UncontrolledTooltip delay={0} target={"remove" + product._id} >
-                                Supprimer
-                            </UncontrolledTooltip>
-                        </div>
-                        <div
-                            className="cursor-pointer avatar avatar-sm bg-transparent">
-                            <Badge pill
-                                   className="badge-circle w-100 h-100"
-                                   color={'warning'}
-                                   tag={Link} to={'#'} id={"edit" + product._id}>
+                        {product.published ? (
+                            <div className="cursor-pointer avatar avatar-sm bg-transparent">
+                                <Badge pill className="badge-circle w-100 h-100"
+                                       onClick={() => this.removeProduct(product._id)}
+                                       color={'danger'}
+                                       tag={Link} to={'#'} id={"remove" + product._id}>
+                                    <i className="fa fa-close m-auto fa-lg"/>
+                                </Badge>
+                                <UncontrolledTooltip
+                                    delay={0}
+                                    target={"remove" + product._id}
+                                >Retirer</UncontrolledTooltip>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="cursor-pointer avatar avatar-sm bg-transparent">
+                                    <Badge pill className="badge-circle w-100 h-100"
+                                           color={'danger'}
+                                           tag={Link} to={'#'} id={"delete" + product._id}>
+                                        <i className="fa fa-trash m-auto fa-lg"/>
+                                    </Badge>
+                                    <UncontrolledTooltip
+                                        delay={0}
+                                        target={"delete" + product._id}
+                                    >Supprimer</UncontrolledTooltip>
+                                </div>
+                                < div className="cursor-pointer avatar avatar-sm bg-transparent">
+                                    <Badge pill className="badge-circle w-100 h-100"
+                                           onClick={() => this.publishProduct(product._id)}
+                                           color={'success'}
+                                           tag={Link} to={'#'} id={"publish" + product._id}>
+                                        <i className="fa fa-globe m-auto fa-lg"/>
+                                    </Badge>
+                                    <UncontrolledTooltip
+                                        delay={0}
+                                        target={"publish" + product._id}
+                                    >Publier</UncontrolledTooltip>
+                                </div>
+                            </>
+                        )}
+                        <div className="cursor-pointer avatar avatar-sm bg-transparent">
+                            < Badge pill
+                                    className="badge-circle w-100 h-100"
+                                    color={'warning'}
+                                    tag={Link} to={'#'} id={"edit" + product._id}>
                                 <i className="fa fa-edit m-auto fa-lg"/>
                             </Badge>
                             <UncontrolledTooltip
                                 delay={0}
                                 target={"edit" + product._id}
-                            >
-                                Editer
-                            </UncontrolledTooltip>
+                            >Editer</UncontrolledTooltip>
                         </div>
-                        <div
-                            className="cursor-pointer avatar avatar-sm bg-transparent">
-                            <Badge pill
-                                   className="badge-circle w-100 h-100"
-                                   color={'info'}
-                                   tag={Link} to={'/ad/' + product._id}
-                                   id={"see" + product._id}>
-                                <i className="fa fa-eye m-auto fa-lg"/>
-                            </Badge>
-                            <UncontrolledTooltip
-                                delay={0}
-                                target={"see" + product._id}
-                            >
-                                Voir
-                            </UncontrolledTooltip>
-                        </div>
-                        <div
-                            className="cursor-pointer avatar avatar-sm bg-transparent">
+                        {product.published ? (
+                            <div className="cursor-pointer avatar avatar-sm bg-transparent">
+                                <Badge pill
+                                       className="badge-circle w-100 h-100"
+                                       color={'info'}
+                                       tag={Link} to={'/ad/' + product._id}
+                                       id={"see" + product._id}>
+                                    <i className="fa fa-eye m-auto fa-lg"/>
+                                </Badge>
+                                <UncontrolledTooltip
+                                    delay={0}
+                                    target={"see" + product._id}
+                                >Voir</UncontrolledTooltip>
+                            </div>
+                        ) : null}
+                        <div className="cursor-pointer avatar avatar-sm bg-transparent">
                             <Badge pill
                                    className="badge-circle w-100 h-100"
                                    color={'primary'}
@@ -177,8 +222,9 @@ class ProductRaw extends React.Component {
 }
 
 ProductRaw.propTypes = {
-    product: PropTypes.object,
-    loading: PropTypes.bool
+    product: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 
 export default ProductRaw;
