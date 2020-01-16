@@ -21,46 +21,72 @@ class ProductController {
                         reject({ status: 404, message: "Aucun produit trouvé."});
                     }
                     else {
-                        const livraisonText = $('div.olp-text-box span.a-color-base').text();
-                        let livraisonPrice = 0;
-                        if (!livraisonText.match(/GRATUITE/)) {
-                            livraisonPrice = parseFloat(livraisonText.replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
+                        const scrapRes = {
+                            title: undefined,
+                            price: 0,
+                            description: undefined,
+                            imageUrls: [],
+                            isPrime: false,
+                            category: undefined,
+                            seller: undefined
+                        };
+
+                        //Title
+                        const $title = $('h1.a-size-large');
+                        if ($title.length) {
+                            scrapRes.title = $title.text().trim();
                         }
-                        const price = parseFloat($('td.a-span12 span.a-size-medium').text().trim().replace(",", "."));
 
-                        const description = $('div.centerColAlign div.a-section.a-spacing-medium').text().trim()
-                            .replace(/\s{2,}/g, "\n\n") //Remove white spaces
-                            .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
-                            .replace(/Voir plus de détails$/, ""); // Remove ending text
+                        //Price
+                        const $livraison = $('div.olp-text-box span.a-color-base');
+                        if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
+                            scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
+                        }
+                        const $price = $('#cerberus-data-metrics');
+                        if ($price.length) {
+                            scrapRes.price += parseFloat($price.attr("data-asin-price"));
+                        }
 
-                        const imageUrls = [];
+                        //Description
+                        const $description = $('div.centerColAlign div.a-section.a-spacing-medium');
+                        if ($description.length) {
+                            scrapRes.description = $description.text().trim()
+                                .replace(/\s{2,}/g, "\n\n") //Remove white spaces
+                                .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
+                                .replace(/Voir plus de détails$/, ""); // Remove ending text
+                        }
+
+                        //Images
                         $('.a-button-thumbnail img').each(i => {
                             const url = $($('.a-button-thumbnail img')[i]).attr('src');
                             const match = url.match(/I\/(.+)\._AC/);
                             if(match) {
-                                imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
+                                scrapRes.imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
                             }
                         });
 
-                        const categoryText = $('div.a-subheader li:nth-of-type(1) a.a-link-normal').text();
-                        const category = constants.PRODUCT_CATEGORIES.find(c => c.text === categoryText.trim());
+                        //Prime
+                        const $prime = $('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row');
+                        if ($prime.length) {
+                            scrapRes.isPrime = !!$prime.text().trim()
+                        }
 
+                        //Category
+                        const $category = $('div.a-subheader li:nth-of-type(1) a.a-link-normal');
+                        if ($category.length) {
+                            scrapRes.category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim());
+                        }
+
+                        //Seller
                         const $seller = $('a#sellerProfileTriggerId');
-                        const seller = {
-                            name: $seller.text().trim(),
-                            url: 'https://amazon.fr' + $seller.attr('href').trim()
-                        };
+                        if ($seller.length) {
+                            scrapRes.seller = {
+                                name: $seller.text().trim(),
+                                url: 'https://amazon.fr' + $seller.attr('href').trim()
+                            };
+                        }
 
-                        const res = {
-                            title: $('h1.a-size-large').text().trim(),
-                            price: price + livraisonPrice,
-                            description: description,
-                            imageUrls: imageUrls,
-                            isPrime: !!$('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row').text().trim(),
-                            category: category ? category.value : undefined,
-                            seller
-                        };
-                        resolve(res);
+                        resolve(scrapRes);
                     }
                 }
             });
