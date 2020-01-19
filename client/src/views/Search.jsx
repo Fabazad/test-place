@@ -69,6 +69,7 @@ class Search extends React.Component {
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
         searchData.sortBy = this.state.sortBy;
         searchData.page = this.state.page;
+        searchData.published = true;
         this.setState({products: this.state.products.map(() => null)});
         productServices.find({searchData}).then(products => {
             this.setState({products: products.hits, totalCount: products.totalCount});

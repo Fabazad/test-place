@@ -30,7 +30,7 @@ class DropdownSelect extends React.Component {
 
     render() {
         return (
-            <UncontrolledDropdown group className={'w-100 '+this.props.className}>
+            <UncontrolledDropdown group className={'w-100 dropdown-select '+ this.props.className}>
                 <DropdownToggle caret color="secondary"
                                 className={"w-100 text-right bg-white input-group-alternative rounded"}
                                 style={{'height': '46px'}}>
@@ -39,7 +39,7 @@ class DropdownSelect extends React.Component {
                         {this.state.option ? this.state.option.text : this.props.placeholder}
                     </span>
                 </DropdownToggle>
-                <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px'}}>
+                <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
                     {
                         this.props.placeholder ? (
                             <DropdownItem onClick={() => this.onSelectItem(null)}

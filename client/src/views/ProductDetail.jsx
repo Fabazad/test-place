@@ -103,34 +103,41 @@ class ProductDetail extends React.Component {
                                         </div>
                                         {
                                             product ? (
-                                                <div>
+                                                <div className={"d-none d-md-block"}>
                                                     <TestRequestModal sellerNote={product.beforeNote}/>
                                                 </div>
                                             ) : null
                                         }
                                     </div>
+                                    {
+                                        product ? (
+                                            <div className={"d-block d-md-none"}>
+                                                <TestRequestModal sellerNote={product.beforeNote}/>
+                                            </div>
+                                        ) : null
+                                    }
                                     <div className="mt-5">
                                         <h1>{product ? product.title : ''}</h1>
                                     </div>
                                     <div className="mt-4 d-flex justify-content-around">
                                         {
                                             product && product.automaticAcceptance ? (
-                                                <h1 className="d-inline-block">
+                                                <h2 className="d-inline-block">
                                                     <Badge pill color={'info'} className='badge-lg'>
                                                         Acceptation Automatique
                                                     </Badge>
-                                                </h1>
+                                                </h2>
                                             ) : null
                                         }
 
                                         {
                                             product && product.isPrime ? (
-                                                <h1 className="d-inline-block">
+                                                <h2 className="d-inline-block">
                                                     <Badge pill color={'info'} className='badge-lg'>
                                                         <img src={require("assets/img/icons/prime.png")} alt="prime"
                                                              style={{"height": "18px"}}/>
                                                     </Badge>
-                                                </h1>
+                                                </h2>
                                             ) : null
                                         }
 

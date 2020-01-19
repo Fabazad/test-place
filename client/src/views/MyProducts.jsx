@@ -87,14 +87,15 @@ class MyProducts extends React.Component {
                                     <h3 className="mb-0 d-inline-block mt-2">
                                         Mes Annonces Produits - {this.state.totalCount}
                                     </h3>
-                                    <div className="float-right">
-                                        <div className="d-inline-block">
+                                    <div className="float-right text-center">
+                                        <div className="d-inline-block my-2 my-md-0">
                                             <NewProductModal onNewProduct={() => this.findProducts()}/>
                                         </div>
-                                        <div className="d-inline-block w-200px ml-2">
-                                            <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS}
-                                                            placeholder={'Trier'}
-                                                            onChange={() => this.findProducts()}/>
+                                        <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
+                                            <DropdownSelect
+                                                name={'sortBy'} options={constants.SORT_BY_OPTIONS}
+                                                placeholder={'Trier'}
+                                                onChange={() => this.findProducts()}/>
                                         </div>
                                     </div>
                                 </CardHeader>

@@ -40,7 +40,7 @@ class TestRequestModal extends React.Component {
             <>
                 {/* Button trigger modal */}
                 <Button
-                    className='mt-3'
+                    className='mt-3 w-100'
                     color="primary"
                     type="button"
                     size={'lg'}

@@ -1,26 +1,24 @@
-const constants =  require("../helpers/constants");
+const constants = require("../helpers/constants");
 
 const Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
-const ErrorResponses =  require("../helpers/ErrorResponses");
+const ErrorResponses = require("../helpers/ErrorResponses");
 
 class ProductController {
 
     static async scrapFromAsin(asin) {
         return new Promise((resolve, reject) => {
 
-            let  c = new Crawler({
-                maxConnections : 10,
+            let c = new Crawler({
+                maxConnections: 10,
                 // This will be called for each crawled page
-                callback : (error, res) => {
+                callback: (error, res) => {
                     let $ = res.$;
                     if (error) {
-                        reject({ status: 500, message: "Internal Server Error."});
-                    }
-                    else if (res.statusCode === 404){
-                        reject({ status: 404, message: "Aucun produit trouvé."});
-                    }
-                    else {
+                        reject({status: 500, message: "Internal Server Error."});
+                    } else if (res.statusCode === 404) {
+                        reject({status: 404, message: "Aucun produit trouvé."});
+                    } else {
                         const scrapRes = {
                             title: undefined,
                             price: 0,
@@ -33,17 +31,19 @@ class ProductController {
 
                         //Images
                         const $images = $('.a-button-thumbnail img');
+                        if ($images.length) {
                             $images.each(i => {
                                 const url = $($('.a-button-thumbnail img')[i]).attr('src');
                                 const match = url.match(/I\/(.+)\._AC/);
-                                if(match) {
+                                if (match) {
                                     scrapRes.imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
                                 }
                             });
-                        if (!scrapRes.imageUrls.length) {
-                            const url = `https://www.amazon.fr/dp/${asin}`;
-                            c.queue(url);
-                            return;
+                            if (!scrapRes.imageUrls.length) {
+                                const url = `https://www.amazon.fr/dp/${asin}`;
+                                c.queue(url);
+                                return;
+                            }
                         }
 
                         //Title
@@ -59,7 +59,7 @@ class ProductController {
                         }
                         const $price = $('td.a-span12 span.a-size-medium');
                         if ($price.length) {
-                            scrapRes.price += parseFloat($price.text().slice(0,-1).trim().replace(/,/, '.'));
+                            scrapRes.price += parseFloat($price.text().slice(0, -1).trim().replace(/,/, '.'));
                         }
 
                         //Description
@@ -80,7 +80,10 @@ class ProductController {
                         //Category
                         const $category = $('#searchDropdownBox option[selected="selected"]');
                         if ($category.length) {
-                            scrapRes.category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim()).value;
+                            const category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim());
+                            if (category) {
+                                scrapRes.category = category.value;
+                            }
                         }
 
                         //Seller
@@ -101,10 +104,12 @@ class ProductController {
         });
     }
 
-    static async create( productObj, userId ) {
+    static async create(productObj, userId) {
         return new Promise((resolve, reject) => {
             productObj.seller = userId;
-            const product = new ProductModel( productObj );
+            const product = new ProductModel(productObj);
+            product.published = true;
+            product.publishDate = Date.now();
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {
                     reject({status: 400, message: 'Un produit avec le même identifiant ASIN existe déjà.'});
@@ -114,16 +119,16 @@ class ProductController {
         });
     }
 
-    static async find( searchData ) {
+    static async find(decoded, searchData) {
         return new Promise((resolve, reject) => {
-            const { category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy } = searchData;
+            const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published} = searchData;
 
             const query = {};
             if (category && category !== 'undefined' && category !== 'null') {
                 query.category = category;
             }
             if (keyWords) {
-                query.$text = { '$search': keyWords.toLowerCase() };
+                query.$text = {'$search': keyWords.toLowerCase()};
             }
             if (minPrice !== '' && minPrice !== undefined || maxPrice !== '' && maxPrice !== undefined) {
                 query.price = {};
@@ -144,35 +149,53 @@ class ProductController {
                 query.isPrime = true
             }
 
-            const score = { score: { '$meta': "textScore" } };
+            const score = {score: {'$meta': "textScore"}};
 
             let sort;
             switch (sortBy) {
                 default:
                 case 'score':
-                    sort = { score: { $meta: "textScore" } };
+                    sort = {score: {$meta: "textScore"}};
                     break;
                 case 'price':
                 case 'finalPrice':
                 case 'createdAt':
-                    sort = { [sortBy]: 1 };
+                    sort = {[sortBy]: 1};
                     break;
             }
 
-            ProductModel.find(query, score).sort(sort).skip(itemsPerPage*(page-1)).limit(itemsPerPage)
+            if (published === undefined && decoded && decoded.userId) {
+                // No published field and user logged case : user can see its product and the published ones
+                query.$or = [
+                    {published: true},
+                    {seller: decoded.userId}
+                ];
+            } else if (published !== undefined) {
+                // Publish field case
+                query.published = published;
+                if (!decoded || !decoded.userId) {
+                    // If no logged user then only the published ones
+                    query.published = true;
+                } else if (published === false) {
+                    //No published products and connected user case : user need to be the seller
+                    query.seller = decoded.userId;
+                }
+            }
+
+            ProductModel.find(query, score).sort(sort).skip(itemsPerPage * (page - 1)).limit(itemsPerPage)
                 .then(res => {
                     ProductModel.count(query).then(count => {
-                        resolve({ hits: res, totalCount: count });
+                        resolve({hits: res, totalCount: count});
                     }).catch(err => reject(ErrorResponses.mongoose(err)))
 
-            }).catch(err => reject(ErrorResponses.mongoose(err)))
+                }).catch(err => reject(ErrorResponses.mongoose(err)))
         });
     }
 
     static async getCategories() {
         return new Promise((resolve, reject) => {
             const categories = constants.PRODUCT_CATEGORIES;
-            if (categories && categories.length > 0 ) {
+            if (categories && categories.length > 0) {
                 resolve(categories);
             } else {
                 reject({status: 500, message: 'Missing categories.'})
@@ -185,7 +208,7 @@ class ProductController {
             ProductModel.findById(productId).populate('seller')
                 .then(product => {
                     if (!product.published && product.seller._id.toString() !== userId) {
-                        return reject({ status: 401, message: "Unauthorize"});
+                        return reject({status: 401, message: "Unauthorize"});
                     }
                     return resolve(product);
                 })
@@ -197,13 +220,13 @@ class ProductController {
         return new Promise((resolve, reject) => {
             ProductModel.findById(productId)
                 .then(product => {
-                if(!product.updateAuth(userId, fields, null)) {
-                    return reject({ status: 401, message: "Unauthorized" });
-                }
-                ProductModel.findByIdAndUpdate(productId, fields)
-                    .then(resolve)
-                    .catch(err => reject(ErrorResponses.mongoose(err)));
-            }).catch(err => reject(ErrorResponses.mongoose(err)));
+                    if (!product.updateAuth(userId, fields, null)) {
+                        return reject({status: 401, message: "Unauthorized"});
+                    }
+                    ProductModel.findByIdAndUpdate(productId, fields)
+                        .then(resolve)
+                        .catch(err => reject(ErrorResponses.mongoose(err)));
+                }).catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 }

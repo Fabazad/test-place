@@ -89,3 +89,7 @@ img.selected {
 .w-200px {
     width: 200px;
 }
+
+.dropdown-select .dropdown-menu.show {
+    position: absolute !important;
+}

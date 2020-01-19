@@ -116,7 +116,7 @@ class DemoNavbar extends React.Component {
                                         </NavItem>) : null
                                     }
                                     {isAuth ? (
-                                        <NavItem className="d-none d-lg-block ml-lg-4">
+                                        <NavItem>
                                             <LogoutButton history={this.props.history}/>
                                         </NavItem>
                                     ) : null}

@@ -10,7 +10,7 @@ const withAuth = function (req, res, next) {
         (req.query && req.query.token) ||
         req.headers['x-access-token'] ||
         (req.cookies && req.cookies.token);
-    if (!token && required) {
+    if ((!token ||token === "null") && required) {
         res.status(401).send('Unauthorized');
     } else {
         jwt.verify(token, secret, function (err, decoded) {

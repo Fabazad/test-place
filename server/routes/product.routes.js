@@ -1,5 +1,6 @@
 const ProductController = require('../controllers/product.controller');
 const withAuth = require('../middlewares/withAuth');
+const decode = require('../middlewares/decode');
 const express = require('express');
 const router = express.Router();
 
@@ -17,9 +18,9 @@ router.post('/create', withAuth, async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
-router.get('/find', async (request, reply) => {
+router.get('/find', decode, async (request, reply) => {
     const {searchData} = request.query;
-    ProductController.find(JSON.parse(searchData))
+    ProductController.find(request.decoded, JSON.parse(searchData))
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
