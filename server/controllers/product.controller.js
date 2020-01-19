@@ -25,11 +25,26 @@ class ProductController {
                             title: undefined,
                             price: 0,
                             description: undefined,
-                            imageUrls: [],
                             isPrime: false,
                             category: undefined,
-                            seller: undefined
+                            seller: undefined,
+                            imageUrls: []
                         };
+
+                        //Images
+                        const $images = $('.a-button-thumbnail img');
+                            $images.each(i => {
+                                const url = $($('.a-button-thumbnail img')[i]).attr('src');
+                                const match = url.match(/I\/(.+)\._AC/);
+                                if(match) {
+                                    scrapRes.imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
+                                }
+                            });
+                        if (!scrapRes.imageUrls.length) {
+                            const url = `https://www.amazon.fr/dp/${asin}`;
+                            c.queue(url);
+                            return;
+                        }
 
                         //Title
                         const $title = $('h1.a-size-large');
@@ -42,7 +57,7 @@ class ProductController {
                         if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
                             scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
-                        const $price = $('#priceblock_ourprice');
+                        const $price = $('td.a-span12 span.a-size-medium');
                         if ($price.length) {
                             scrapRes.price += parseFloat($price.text().slice(0,-1).trim().replace(/,/, '.'));
                         }
@@ -55,15 +70,6 @@ class ProductController {
                                 .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
                                 .replace(/Voir plus de détails$/, ""); // Remove ending text
                         }
-
-                        //Images
-                        $('.a-button-thumbnail img').each(i => {
-                            const url = $($('.a-button-thumbnail img')[i]).attr('src');
-                            const match = url.match(/I\/(.+)\._AC/);
-                            if(match) {
-                                scrapRes.imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
-                            }
-                        });
 
                         //Prime
                         const $prime = $('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row');
