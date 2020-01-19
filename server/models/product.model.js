@@ -38,7 +38,7 @@ const productObject = {
     },
     amazonSeller: { type: amazonSellerSchema },
     publishDate: { type: Date, default: Date.now(), auth: basicProductAuth },
-    publishExpirationDate: { type: Date, auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ]} }
+    publishExpirationDate: { type: Date, auth: basicProductAuth }
 };
 
 const productSchema = new mongoose.Schema(productObject);

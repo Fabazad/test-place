@@ -207,7 +207,8 @@ class ProductController {
         return new Promise((resolve, reject) => {
             ProductModel.findById(productId).populate('seller')
                 .then(product => {
-                    if (!product.published && product.seller._id.toString() !== userId) {
+                    const published = Date.now() <= product.publishExpirationDate.getTime();
+                    if (!published && product.seller._id.toString() !== userId) {
                         return reject({status: 401, message: "Unauthorize"});
                     }
                     return resolve(product);
@@ -222,6 +223,10 @@ class ProductController {
                 .then(product => {
                     if (fields.published || fields.publishExpirationDate) {
                         fields.publishExpirationDate = (new Date()).setMonth((new Date()).getMonth() + 1);
+                        delete fields.published;
+                    }
+                    if (fields.published === false) {
+                        fields.publishExpirationDate = null;
                         delete fields.published;
                     }
                     if (!product.updateAuth(userId, fields, null)) {
