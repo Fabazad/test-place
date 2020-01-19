@@ -42,9 +42,9 @@ class ProductController {
                         if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
                             scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
-                        const $price = $('#cerberus-data-metrics');
+                        const $price = $('#priceblock_ourprice');
                         if ($price.length) {
-                            scrapRes.price += parseFloat($price.attr("data-asin-price"));
+                            scrapRes.price += parseFloat($price.text().slice(0,-1).trim().replace(/,/, '.'));
                         }
 
                         //Description
@@ -72,9 +72,9 @@ class ProductController {
                         }
 
                         //Category
-                        const $category = $('div.a-subheader li:nth-of-type(1) a.a-link-normal');
+                        const $category = $('#searchDropdownBox option[selected="selected"]');
                         if ($category.length) {
-                            scrapRes.category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim());
+                            scrapRes.category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim()).value;
                         }
 
                         //Seller
