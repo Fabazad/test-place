@@ -140,20 +140,21 @@ class ProductDetail extends React.Component {
                                             <CardBody>
                                                 <h2 className="text-center">Vendeur</h2>
                                                 <Row>
-                                                    <div className="col-6 text-center">
+                                                    <div className="col text-center">
                                                         <Label className='d-block'>Test Place</Label>
                                                         {product ? (
                                                             <Link to={'#'}>{product.seller.name}</Link>
                                                         ) : null}
                                                     </div>
-                                                    <div className="col-6 text-center">
-                                                        <Label className='d-block'>Amazon</Label>
-                                                        {product ? (
+                                                    {product && product.amazonSeller ? (
+                                                        <div className="col-6 text-center">
+                                                            <Label className='d-block'>Amazon</Label>
                                                             <a href={product.amazonSeller.url} target='_blank'
                                                                rel="noopener noreferrer">
                                                                 {product.amazonSeller.name}
-                                                            </a>) : null}
-                                                    </div>
+                                                            </a>
+                                                        </div>
+                                                    ) : null }
                                                 </Row>
                                             </CardBody>
                                         </Card>

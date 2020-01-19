@@ -68,11 +68,7 @@ class ProductRaw extends React.Component {
             <tr>
                 <th scope="row">
                     <Media className="align-items-center">
-                        <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
+                        <a className="avatar rounded-circle mr-3 bg-transparent" href="#pablo" onClick={e => e.preventDefault()} >
                             <img className='shadow' alt="..."
                                  src={product.imageUrls[0].replace(/^(.+)(\.jpg)/, "$1._SS40_$2")}
                             />
@@ -88,10 +84,9 @@ class ProductRaw extends React.Component {
                     <h3><Badge color={'primary'}>{product.price}€</Badge></h3>
                 </th>
                 <th>
-                    <h3><Badge
-                        color={product.finalPrice > 0 ? 'warning' : 'success'}>
-                        {product.finalPrice}€
-                    </Badge></h3>
+                    <h3>
+                        <Badge color={product.finalPrice > 0 ? 'warning' : 'success'}>{product.finalPrice}€</Badge>
+                    </h3>
                 </th>
                 <th>
                     {
@@ -124,10 +119,7 @@ class ProductRaw extends React.Component {
                                    tag={Link} to={'#'} id={"remove" + product._id}>
                                 <i className="fa fa-close m-auto fa-lg"/>
                             </Badge>
-                            <UncontrolledTooltip
-                                delay={0}
-                                target={"remove" + product._id}
-                            >
+                            <UncontrolledTooltip delay={0} target={"remove" + product._id} >
                                 Supprimer
                             </UncontrolledTooltip>
                         </div>
