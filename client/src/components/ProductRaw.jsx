@@ -25,7 +25,7 @@ class ProductRaw extends React.Component {
     }
 
     publishProduct(productId) {
-        if (window.confirm("Etes vous sûr de vouloir publier votre annonce produit ?")) {
+        if (window.confirm("Etes vous sûr de vouloir publier votre annonce produit ? Elle sera publiée pour un mois de plus maximum.")) {
             productServices.update(productId, {published: true})
                 .then(() => {
                     this.props.onChange();

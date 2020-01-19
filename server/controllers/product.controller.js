@@ -108,8 +108,8 @@ class ProductController {
         return new Promise((resolve, reject) => {
             productObj.seller = userId;
             const product = new ProductModel(productObj);
-            product.published = true;
-            product.publishDate = Date.now();
+            product.publishDate = new Date();
+            product.publishExpirationDate = (new Date()).setMonth((new Date()).getMonth() + 1);
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {
                     reject({status: 400, message: 'Un produit avec le même identifiant ASIN existe déjà.'});
@@ -167,15 +167,15 @@ class ProductController {
             if (published === undefined && decoded && decoded.userId) {
                 // No published field and user logged case : user can see its product and the published ones
                 query.$or = [
-                    {published: true},
+                    { publishExpirationDate: { $gte: new Date() } },
                     {seller: decoded.userId}
                 ];
             } else if (published !== undefined) {
                 // Publish field case
-                query.published = published;
+                query.publishExpirationDate = published ? { $gte: new Date() } : undefined;
                 if (!decoded || !decoded.userId) {
                     // If no logged user then only the published ones
-                    query.published = true;
+                    query.publishExpirationDate = { $gte: new Date() };
                 } else if (published === false) {
                     //No published products and connected user case : user need to be the seller
                     query.seller = decoded.userId;
@@ -220,6 +220,10 @@ class ProductController {
         return new Promise((resolve, reject) => {
             ProductModel.findById(productId)
                 .then(product => {
+                    if (fields.published || fields.publishExpirationDate) {
+                        fields.publishExpirationDate = (new Date()).setMonth((new Date()).getMonth() + 1);
+                        delete fields.published;
+                    }
                     if (!product.updateAuth(userId, fields, null)) {
                         return reject({status: 401, message: "Unauthorized"});
                     }
