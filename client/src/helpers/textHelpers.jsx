@@ -9,8 +9,8 @@ export function textSlice(text, max) {
                 { text.slice(0, max) }
                 <span id={"tooltip" + tooltipId}>...</span>
                 <UncontrolledTooltip
-                    delay={0}
-                    placement="top"
+                    delay={0} flip={false}
+                    placement="auto"
                     target={"tooltip" + tooltipId}
                 >
                     {text}
