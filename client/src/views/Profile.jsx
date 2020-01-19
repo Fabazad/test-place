@@ -8,7 +8,7 @@ import { Button, Card, Container, Row, Col } from "reactstrap";
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import UpdatePasswordModal from "components/Modals/UpdatePasswordModal";
 import NewProductModal from "components/Modals/NewProductModal";
-import AmazonLoginButton from "../components/AmazonLoginButton";
+import AmazonLoginButton from "../components/Buttons/AmazonLoginButton";
 
 class Profile extends React.Component {
 

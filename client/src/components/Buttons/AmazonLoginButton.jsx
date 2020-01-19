@@ -1,9 +1,9 @@
 import React from "react";
-import AnimatedCheck from "./AnimatedCheck";
-import constants from "../helpers/constants";
-import SocialButton from "./SocialButton";
-import Loading from "./Loading";
-import userServices from "../services/user.services";
+import AnimatedCheck from "../AnimatedCheck";
+import constants from "../../helpers/constants";
+import SocialButton from "../SocialButton";
+import Loading from "../Loading";
+import userServices from "../../services/user.services";
 import {toast} from "react-toastify";
 import PropTypes from "prop-types";
 

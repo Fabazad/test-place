@@ -6,7 +6,7 @@ import {
     Label
 } from "reactstrap";
 import userServices from '../../services/user.services';
-import AmazonLoginButton from "../AmazonLoginButton";
+import AmazonLoginButton from "../Buttons/AmazonLoginButton";
 import {Link} from "react-router-dom";
 import AnimatedError from "../AnimatedError";
 import PropTypes from "prop-types";
