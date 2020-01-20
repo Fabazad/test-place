@@ -2,11 +2,9 @@ import React from "react";
 
 // reactstrap components
 import {
-    Badge,
     Card,
     CardHeader,
     CardFooter,
-    Media,
     Table,
     Container,
     Row,
@@ -16,11 +14,8 @@ import {
 import Header from "../components/Headers/Header.jsx";
 import productServices from '../services/product.service';
 import userServices from '../services/user.services';
-import {formatDate, textSlice} from "../helpers/textHelpers";
-import {Link} from "react-router-dom";
 import PaginationBis from "../components/PaginationBis";
 import SearchEngine from "../components/SearchEngine";
-import Loading from "../components/Loading";
 import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import NewProductModal from "../components/Modals/NewProductModal";

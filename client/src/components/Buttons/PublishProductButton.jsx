@@ -8,15 +8,23 @@ import {toast} from "react-toastify";
 
 class PublishProductButton extends React.Component {
 
+    _isMounted = true;
+
     publishProduct(productId) {
         if (window.confirm("Etes vous sûr de vouloir publier votre annonce produit ? Elle sera publiée pour un mois de plus maximum.")) {
             productServices.update(productId, {published: true})
                 .then(() => {
-                    this.props.onChange();
-                    toast.success("Le produit a été plublié");
+                    if (this._isMounted) {
+                        this.props.onChange();
+                        toast.success("Le produit a été plublié");
+                    }
                 })
                 .catch(() => toast.error("Une erreur est survenue lors de la publication du produit."));
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {

@@ -8,22 +8,10 @@ import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../helpers/textHelpers';
 import {Link} from "react-router-dom";
 import Skeleton from 'react-loading-skeleton';
-import productServices from '../services/product.service';
-import {toast} from "react-toastify";
 import PublishProductButton from "./Buttons/PublishProductButton";
+import UnpublishProductButton from "./Buttons/UnpublishProductButton";
 
 class ProductRaw extends React.Component {
-
-    removeProduct(productId) {
-        if (window.confirm("Etes vous sûr de vouloir enlever la publication de votre annonce produit ?")) {
-            productServices.update(productId, {published: false})
-                .then(() => {
-                    this.props.onChange();
-                    toast.success("Le produit n'est plus plublié");
-                })
-                .catch(() => toast.error("Une erreur est survenue lors de la récupération des produits."));
-        }
-    }
 
     render() {
         const { product } = this.props;
@@ -127,16 +115,7 @@ class ProductRaw extends React.Component {
                     <div className="avatar-group">
                         {published ? (
                             <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                                <Badge pill className="badge-circle w-100 h-100"
-                                       onClick={() => this.removeProduct(product._id)}
-                                       color={'danger'}
-                                       tag={Link} to={'#'} id={"remove" + product._id}>
-                                    <i className="fa fa-close m-auto fa-lg"/>
-                                </Badge>
-                                <UncontrolledTooltip
-                                    delay={0}
-                                    target={"remove" + product._id}
-                                >Retirer</UncontrolledTooltip>
+                                <UnpublishProductButton productId={product._id} onChange={this.props.onChange}/>
                             </div>
                         ) : (
                             <>
