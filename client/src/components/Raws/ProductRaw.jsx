@@ -57,7 +57,7 @@ class ProductRaw extends React.Component {
                                     <i className="ni ni-check-bold m-auto"/>
                                 </Badge>
                                 <span
-                                    className="ml-2 text-muted">{formatDate(product.publishDate)}</span>
+                                    className="ml-2 text-muted">{formatDate(product.publishExpirationDate)}</span>
                             </>
                         ) : (
                             <Badge color={'danger'}
