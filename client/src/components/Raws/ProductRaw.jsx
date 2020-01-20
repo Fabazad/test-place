@@ -2,18 +2,17 @@ import React from "react";
 
 // reactstrap components
 import {
-    Badge, UncontrolledTooltip, Media
+    Badge, Media
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';
-import {Link} from "react-router-dom";
-import Skeleton from 'react-loading-skeleton';
 import PublishProductButton from "../Buttons/PublishProductButton";
 import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import SeeProductButton from "../Buttons/SeeProductButton";
 import EditProductButton from "../Buttons/EditProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
+import SkeletonProductRaw from "./SkeletonProductRaw";
 
 class ProductRaw extends React.Component {
 
@@ -22,52 +21,7 @@ class ProductRaw extends React.Component {
 
         const published = product.publishExpirationDate ? new Date(product.publishExpirationDate).getTime() > Date.now() : false;
         if (this.props.loading) {
-            return (
-                <tr className={"w-100"}>
-                    <th scope={'row'}>
-                        <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
-                            <div className={"w-100"}>
-                                <Skeleton/>
-                            </div>
-                        </div>
-                    </th>
-                    <th scope={'row'}>
-                        <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
-                            <div className={"w-100"}>
-                                <Skeleton/>
-                            </div>
-                        </div>
-                    </th>
-                    <th scope={'row'}>
-                        <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
-                            <div className={"w-100"}>
-                                <Skeleton/>
-                            </div>
-                        </div>
-                    </th>
-                    <th scope={'row'}>
-                        <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
-                            <div className={"w-100"}>
-                                <Skeleton/>
-                            </div>
-                        </div>
-                    </th>
-                    <th scope={'row'}>
-                        <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
-                            <div className={"w-100"}>
-                                <Skeleton/>
-                            </div>
-                        </div>
-                    </th>
-                    <th scope={'row'}>
-                        <div style={{'height': '48px'}} className={"d-flex w-100 align-items-center"}>
-                            <div className={"w-100"}>
-                                <Skeleton/>
-                            </div>
-                        </div>
-                    </th>
-                </tr>
-            )
+            return (<SkeletonProductRaw/>)
         }
         return (
             <tr>
