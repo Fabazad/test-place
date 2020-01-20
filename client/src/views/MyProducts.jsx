@@ -20,7 +20,7 @@ import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import NewProductModal from "../components/Modals/NewProductModal";
 import DropdownSelect from "../components/DropdownSelect";
-import ProductRaw from "../components/ProductRaw";
+import ProductRaw from "../components/Raws/ProductRaw";
 
 class MyProducts extends React.Component {
 

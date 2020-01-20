@@ -5,13 +5,15 @@ import {
     Badge, UncontrolledTooltip, Media
 } from "reactstrap";
 import PropTypes from "prop-types";
-import {textSlice, formatDate} from '../helpers/textHelpers';
+import {textSlice, formatDate} from '../../helpers/textHelpers';
 import {Link} from "react-router-dom";
 import Skeleton from 'react-loading-skeleton';
-import PublishProductButton from "./Buttons/PublishProductButton";
-import UnpublishProductButton from "./Buttons/UnpublishProductButton";
-import DeleteProductButton from "./Buttons/DeleteProductButton";
-import SeeProductButton from "./Buttons/SeeProductButton";
+import PublishProductButton from "../Buttons/PublishProductButton";
+import UnpublishProductButton from "../Buttons/UnpublishProductButton";
+import DeleteProductButton from "../Buttons/DeleteProductButton";
+import SeeProductButton from "../Buttons/SeeProductButton";
+import EditProductButton from "../Buttons/EditProductButton";
+import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 
 class ProductRaw extends React.Component {
 
@@ -130,16 +132,7 @@ class ProductRaw extends React.Component {
                             </>
                         )}
                         <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                            <Badge pill
-                                    className="badge-circle w-100 h-100"
-                                    color={'warning'}
-                                    tag={Link} to={'#'} id={"edit" + product._id}>
-                                <i className="fa fa-edit m-auto fa-lg"/>
-                            </Badge>
-                            <UncontrolledTooltip
-                                delay={0}
-                                target={"edit" + product._id}
-                            >Editer</UncontrolledTooltip>
+                            <EditProductButton productId={product._id}/>
                         </div>
                         {published ? (
                             <div className="cursor-pointer avatar avatar-sm bg-transparent">
@@ -147,18 +140,7 @@ class ProductRaw extends React.Component {
                             </div>
                         ) : null}
                         <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                            <Badge pill
-                                   className="badge-circle w-100 h-100"
-                                   color={'primary'}
-                                   tag={Link} to={'#'} id={"upgrade" + product._id}>
-                                <i className="fa fa-diamond m-auto fa-lg"/>
-                            </Badge>
-                            <UncontrolledTooltip
-                                delay={0}
-                                target={"upgrade" + product._id}
-                            >
-                                Upgrade
-                            </UncontrolledTooltip>
+                            <UpgradeProductButton productId={product._id}/>
                         </div>
                     </div>
                 </td>
