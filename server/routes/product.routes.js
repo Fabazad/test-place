@@ -32,7 +32,7 @@ router.get('/categories', async (request, reply) => {
 });
 
 router.get('/:productId', async (request, reply) => {
-    const {productId} = request.params;
+    const { productId } = request.params;
     ProductController.getOne(productId)
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
@@ -41,6 +41,13 @@ router.get('/:productId', async (request, reply) => {
 router.post('/update', withAuth, async (request, reply) => {
     const { itemId, fields } = request.body;
     ProductController.update(itemId, fields, request.userId)
+        .then((res) => reply.status(200).send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.delete('/:productId', withAuth, async (request, reply) => {
+    const { productId } = request.params;
+    ProductController.delete(productId, request.userId)
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });

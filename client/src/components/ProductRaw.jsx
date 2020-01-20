@@ -10,6 +10,8 @@ import {Link} from "react-router-dom";
 import Skeleton from 'react-loading-skeleton';
 import PublishProductButton from "./Buttons/PublishProductButton";
 import UnpublishProductButton from "./Buttons/UnpublishProductButton";
+import DeleteProductButton from "./Buttons/DeleteProductButton";
+import SeeProductButton from "./Buttons/SeeProductButton";
 
 class ProductRaw extends React.Component {
 
@@ -120,14 +122,7 @@ class ProductRaw extends React.Component {
                         ) : (
                             <>
                                 <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                                    <Badge pill className="badge-circle w-100 h-100"
-                                           color={'danger'}
-                                           tag={Link} to={'#'} id={"delete" + product._id}>
-                                        <i className="fa fa-trash m-auto fa-lg"/>
-                                    </Badge>
-                                    <UncontrolledTooltip delay={0} target={"delete" + product._id}>
-                                        Supprimer
-                                    </UncontrolledTooltip>
+                                    <DeleteProductButton productId={product._id}/>
                                 </div>
                                 <div className="cursor-pointer avatar avatar-sm bg-transparent">
                                     <PublishProductButton productId={product._id}/>
@@ -148,17 +143,7 @@ class ProductRaw extends React.Component {
                         </div>
                         {published ? (
                             <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                                <Badge pill
-                                       className="badge-circle w-100 h-100"
-                                       color={'info'}
-                                       tag={Link} to={'/ad/' + product._id}
-                                       id={"see" + product._id}>
-                                    <i className="fa fa-eye m-auto fa-lg"/>
-                                </Badge>
-                                <UncontrolledTooltip
-                                    delay={0}
-                                    target={"see" + product._id}
-                                >Voir</UncontrolledTooltip>
+                                <SeeProductButton productId={product._id}/>
                             </div>
                         ) : null}
                         <div className="cursor-pointer avatar avatar-sm bg-transparent">

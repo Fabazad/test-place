@@ -238,6 +238,23 @@ class ProductController {
                 }).catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
+
+    static async delete(productId, userId) {
+        return new Promise((resolve, reject) => {
+            ProductModel.findById(productId)
+                .then(product => {
+                    if (!product) {
+                        return reject({ status: 400, message: "Wrong product id"});
+                    }
+                    if (product.seller.toString() !== userId) {
+                        return reject({ status: 401, message: "Unauthorized"});
+                    }
+                    ProductModel.findByIdAndDelete(productId)
+                        .then(resolve)
+                        .catch(err => reject(ErrorResponses.mongoose(err)));
+                }).catch(err => reject(ErrorResponses.mongoose(err)));
+        });
+    }
 }
 
 module.exports = ProductController;

@@ -24,6 +24,8 @@ import ProductRaw from "../components/ProductRaw";
 
 class MyProducts extends React.Component {
 
+    _isMount = true;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -40,10 +42,13 @@ class MyProducts extends React.Component {
     }
 
     componentWillUnmount() {
-        productServices.productsUpdatedSubject.unsubscribe();
+        this._isMount = false;
     }
 
     findProducts() {
+        if (!this._isMount) {
+            return;
+        }
         const searchData = {
             seller: userServices.currentUserId
         };
