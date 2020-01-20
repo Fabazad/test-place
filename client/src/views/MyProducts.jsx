@@ -35,7 +35,12 @@ class MyProducts extends React.Component {
     }
 
     componentDidMount() {
-        this.findProducts();
+        productServices.productsUpdatedSubject.subscribe(() => this.findProducts());
+        productServices.productsUpdatedSubject.next();
+    }
+
+    componentWillUnmount() {
+        productServices.productsUpdatedSubject.unsubscribe();
     }
 
     findProducts() {
@@ -121,7 +126,6 @@ class MyProducts extends React.Component {
                                                 <ProductRaw product={product}
                                                             loading={this.state.loading}
                                                             key={'product' + product._id}
-                                                            onChange={() => this.findProducts()}
                                                 />
                                             ))
                                         }

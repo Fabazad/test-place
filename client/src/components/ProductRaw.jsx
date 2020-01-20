@@ -115,7 +115,7 @@ class ProductRaw extends React.Component {
                     <div className="avatar-group">
                         {published ? (
                             <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                                <UnpublishProductButton productId={product._id} onChange={this.props.onChange}/>
+                                <UnpublishProductButton productId={product._id}/>
                             </div>
                         ) : (
                             <>
@@ -130,7 +130,7 @@ class ProductRaw extends React.Component {
                                     </UncontrolledTooltip>
                                 </div>
                                 <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                                    <PublishProductButton productId={product._id} onChange={this.props.onChange}/>
+                                    <PublishProductButton productId={product._id}/>
                                 </div>
                             </>
                         )}
@@ -184,8 +184,7 @@ class ProductRaw extends React.Component {
 
 ProductRaw.propTypes = {
     product: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired
+    loading: PropTypes.bool.isRequired
 };
 
 export default ProductRaw;

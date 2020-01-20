@@ -15,7 +15,7 @@ class UnpublishProductButton extends React.Component {
             productServices.update(productId, {published: false})
                 .then(() => {
                     if (this._isMounted) {
-                        this.props.onChange();
+                        productServices.productsUpdatedSubject.next();
                     }
                     toast.success("Le produit n'est plus plublié");
                 })
@@ -42,8 +42,7 @@ class UnpublishProductButton extends React.Component {
 }
 
 UnpublishProductButton.propTypes = {
-    productId: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
+    productId: PropTypes.string.isRequired
 };
 
 export default UnpublishProductButton;

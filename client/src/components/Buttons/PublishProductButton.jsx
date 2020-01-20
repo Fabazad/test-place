@@ -15,9 +15,9 @@ class PublishProductButton extends React.Component {
             productServices.update(productId, {published: true})
                 .then(() => {
                     if (this._isMounted) {
-                        this.props.onChange();
-                        toast.success("Le produit a été plublié");
+                        productServices.productsUpdatedSubject.next();
                     }
+                    toast.success("Le produit a été plublié");
                 })
                 .catch(() => toast.error("Une erreur est survenue lors de la publication du produit."));
         }
@@ -44,8 +44,7 @@ class PublishProductButton extends React.Component {
 }
 
 PublishProductButton.propTypes = {
-    productId: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
+    productId: PropTypes.string.isRequired
 };
 
 export default PublishProductButton;

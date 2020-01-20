@@ -1,5 +1,6 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
+import { Subject } from 'rxjs';
 
 function serviceResolve(res) {
     if (res.status !== 200) {
@@ -13,6 +14,7 @@ class ProductService extends BaseService {
     constructor() {
         super('/product');
         this.categories =  [];
+        this.productsUpdatedSubject = new Subject();
         this.getProductCategories().then(categories => this.categories = categories);
     }
 
