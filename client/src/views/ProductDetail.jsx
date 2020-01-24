@@ -19,7 +19,8 @@ class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: undefined
+            product: undefined,
+            categories: []
         };
     }
 
@@ -29,7 +30,16 @@ class ProductDetail extends React.Component {
         this.refs.main.scrollTop = 0;
 
         const {productId} = this.props.match.params;
-        productServices.getOne(productId).then(product => this.setState({product}));
+        productServices.getOne(productId).then(product => this.setState({ product }));
+        productServices.getProductCategories().then(categories => this.setState({ categories }));
+    }
+
+    getProduct(productValue) {
+        const product = this.state.categories.find(category => category.value === productValue);
+        if (product) {
+            return product.text;
+        }
+        return null;
     }
 
     render() {
@@ -117,6 +127,11 @@ class ProductDetail extends React.Component {
                                         ) : null
                                     }
                                     <div className="mt-5">
+                                        <Label>
+                                            Catégorie : {product ? this.getProduct(product.category) : null}
+                                        </Label>
+                                    </div>
+                                    <div className="mt-2">
                                         <h1>{product ? product.title : ''}</h1>
                                     </div>
                                     <div className="mt-4 d-flex justify-content-around">

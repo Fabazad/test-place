@@ -78,9 +78,6 @@ class MyProducts extends React.Component {
         return (
             <>
                 <Header>
-                    <div className="mt-5 mt-md-3">
-                        <SearchEngine onSearch={() => this.findProducts()}/>
-                    </div>
                 </Header>
                 {/* Page content */}
                 <Container className="mt--7" fluid>
