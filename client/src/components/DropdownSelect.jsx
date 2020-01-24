@@ -20,9 +20,15 @@ class DropdownSelect extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if ('value' in this.props) {
+            const option = this.props.options.find(o => o.value === this.props.value);
+            this.setState({option})
+        }
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
         if ('value' in nextProps) {
-            //const options = this.props.options ? this.props.options : nextProps.options;
             const option = this.props.options.find(o => o.value === nextProps.value);
             this.setState({option})
         }

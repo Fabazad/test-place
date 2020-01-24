@@ -10,9 +10,9 @@ import PublishProductButton from "../Buttons/PublishProductButton";
 import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import SeeProductButton from "../Buttons/SeeProductButton";
-import EditProductButton from "../Buttons/EditProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 import SkeletonProductRaw from "./SkeletonProductRaw";
+import EditProductModal from "../Modals/EditProductModal";
 
 class ProductRaw extends React.Component {
 
@@ -86,7 +86,7 @@ class ProductRaw extends React.Component {
                             </>
                         )}
                         <div className="cursor-pointer avatar avatar-sm bg-transparent">
-                            <EditProductButton productId={product._id}/>
+                            <EditProductModal product={product}/>
                         </div>
                         {published ? (
                             <div className="cursor-pointer avatar avatar-sm bg-transparent">

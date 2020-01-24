@@ -36,7 +36,7 @@ const productObject = {
     createdAt: { type: Date, default: new Date(), required: true, index: true,
         auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ] }
     },
-    amazonSeller: { type: amazonSellerSchema },
+    amazonSeller: { type: amazonSellerSchema, auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ]} },
     publishDate: { type: Date, default: Date.now(), auth: basicProductAuth },
     publishExpirationDate: { type: Date, auth: basicProductAuth }
 };

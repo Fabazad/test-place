@@ -138,9 +138,7 @@ class NewProductModal extends React.Component {
             return productService.create(product).then(() => {
                 toast.success("Product added");
                 this.setState(this.initialState);
-                if (this.props.onNewProduct) {
-                    this.props.onNewProduct();
-                }
+                productService.productsUpdatedSubject.next();
             }).catch(reject);
         });
 
