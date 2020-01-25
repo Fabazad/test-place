@@ -75,7 +75,7 @@ class PaginationBis extends React.Component {
                             </PaginationItem>
                         ) : null}
 
-                        {page !== totalPage ? (
+                        {page !== totalPage && totalPage !== 0 ? (
                             <PaginationItem onClick={() => this.onPageClick(totalPage)}>
                                 <PaginationLink onClick={e => e.preventDefault()}>{ totalPage }</PaginationLink>
                             </PaginationItem>

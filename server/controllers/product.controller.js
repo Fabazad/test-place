@@ -113,7 +113,7 @@ class ProductController {
             product.remainingRequests = product.maxDemands;
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {
-                    reject({status: 400, message: 'Vous avez déjà fait une demande de test pour ce produit.'});
+                    reject({status: 400, message: 'Un produit avec le même asin a déjà été publié.'});
                 }
                 reject(ErrorResponses.mongoose(err));
             });
@@ -122,7 +122,7 @@ class ProductController {
 
     static async find(decoded, searchData) {
         return new Promise((resolve, reject) => {
-            const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests} = searchData;
+            const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests, seller} = searchData;
 
             const query = {};
             if (category && category !== 'undefined' && category !== 'null') {
@@ -151,6 +151,9 @@ class ProductController {
             }
             if (remainingRequests) {
                 query.remainingRequests = { $gt: 0 };
+            }
+            if (seller) {
+                query.seller = seller;
             }
 
             const score = {score: {'$meta': "textScore"}};
