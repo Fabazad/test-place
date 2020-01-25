@@ -25,7 +25,7 @@ class UserController {
                             reject(ErrorResponses.mongoose(err));
                         } else {
                             EmailController.sendValidateMailAddressMail(email, user._id)
-                                .then(() => resolve({user}))
+                                .then(() => resolve(user))
                                 .catch(reject);
                         }
                     });

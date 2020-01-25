@@ -20,7 +20,7 @@ class EmailController {
           resolve();
         }
         else {
-          reject({ eroor:500, error});
+          reject({ status: 500, message: error});
         }
       });
     })

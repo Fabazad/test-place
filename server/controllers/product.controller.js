@@ -122,7 +122,7 @@ class ProductController {
 
     static async find(decoded, searchData) {
         return new Promise((resolve, reject) => {
-            const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published} = searchData;
+            const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests} = searchData;
 
             const query = {};
             if (category && category !== 'undefined' && category !== 'null') {
@@ -144,10 +144,13 @@ class ProductController {
                 query.finalPrice = '0';
             }
             if (automaticAcceptance) {
-                query.automaticAcceptance = true
+                query.automaticAcceptance = true;
             }
             if (prime) {
-                query.isPrime = true
+                query.isPrime = true;
+            }
+            if (remainingRequests) {
+                query.remainingRequests = { $gt: 0 };
             }
 
             const score = {score: {'$meta': "textScore"}};

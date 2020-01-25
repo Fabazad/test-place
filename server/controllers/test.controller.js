@@ -1,6 +1,5 @@
 const constants = require("../helpers/constants");
 
-const Crawler = require("crawler");
 const TestModel = require('../models/test.model');
 const ProductModel = require('../models/product.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
@@ -15,6 +14,9 @@ class TestController {
             }
             if (product.remainingRequests < 1) {
                 return reject({status: 400, message: "Not enough remaining requests on this product."})
+            }
+            if (product.seller.toString() === userId) {
+                return reject({status: 400, message: "You can't test your own product."})
             }
             testData.tester = userId;
             testData.seller = product.seller.toString();

@@ -15,7 +15,6 @@ import Header from "../components/Headers/Header.jsx";
 import productServices from '../services/product.service';
 import userServices from '../services/user.services';
 import PaginationBis from "../components/PaginationBis";
-import SearchEngine from "../components/SearchEngine";
 import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import NewProductModal from "../components/Modals/NewProductModal";

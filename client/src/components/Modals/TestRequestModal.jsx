@@ -38,7 +38,7 @@ class TestRequestModal extends React.Component {
     }
 
     async confirmRequest() {
-        await testServices.create({ product: this.props.productId});
+        await testServices.create({product: this.props.productId});
         toast.success("Demande envoyée.");
     }
 
@@ -72,33 +72,33 @@ class TestRequestModal extends React.Component {
                         </button>
                     </div>
                     <div className="modal-body text-center">
-                        {
-                            userServices.isAuth() ?
-                                this.state.amazonId || true ? (
-                                    <div>
-                                        <Label>Message Vendeur Pré-Demande</Label>
-                                        <div className='text-left mt-3'>
-                                            {this.props.sellerNote}
-                                        </div>
+                        {userServices.isAuth() ?
+                            //TODO remove true
+                            this.state.amazonId || true ? (
+                                <div>
+                                    {/* It's all good case */}
+                                    <Label>Message Vendeur Pré-Demande</Label>
+                                    <div className='text-left mt-3'>
+                                        {this.props.sellerNote}
                                     </div>
-                                ) : (
-                                    <div>
-                                        {/* Missing amazon linked case*/}
-                                        <AnimatedError/>
-                                        <p>Vous devez lier un compte Amazon pour demander à tester un produit.</p>
-                                        <AmazonLoginButton onLogin={() => this.onAmazonLogin()}/>
-                                    </div>
-                                )
-                                : (
-                                    <div>
-                                        {/* Logout case*/}
-                                        <AnimatedError/>
-                                        <p>Vous devez être connecté pour demander à tester un produit.</p>
-                                        <Button color={'primary'} to={'/login'} tag={Link}>Se Connecter</Button>
-                                        <Link to={'/register'}>Créer un compte</Link>
-                                    </div>
-                                )
-                        }
+                                </div>
+                            ) : (
+                                <div>
+                                    {/* Missing amazon link case*/}
+                                    <AnimatedError/>
+                                    <p>Vous devez lier un compte Amazon pour demander à tester un produit.</p>
+                                    <AmazonLoginButton onLogin={() => this.onAmazonLogin()}/>
+                                </div>
+                            )
+                            : (
+                                <div>
+                                    {/* Logout case*/}
+                                    <AnimatedError/>
+                                    <p>Vous devez être connecté pour demander à tester un produit.</p>
+                                    <Button color={'primary'} to={'/login'} tag={Link}>Se Connecter</Button>
+                                    <Link to={'/register'} className="ml-3">Créer un compte</Link>
+                                </div>
+                            )}
                     </div>
                     <div className="modal-footer">
                         <Button
@@ -109,13 +109,12 @@ class TestRequestModal extends React.Component {
                         >
                             Fermer
                         </Button>
-                        {
-                            userServices.isAuth() && userServices.amazonId || true ? (
-                                <Button color={'primary'} type='button' onClick={() => this.confirmRequest()}>
-                                    Confirmer la Demande
-                                </Button>
-                            ) : null
-                        }
+                        {userServices.isAuth() && userServices.amazonId || true ? (
+                            //TODO remove true
+                            <Button color={'primary'} type='button' onClick={() => this.confirmRequest()}>
+                                Confirmer la Demande
+                            </Button>
+                        ) : null}
                     </div>
                 </Modal>
             </>

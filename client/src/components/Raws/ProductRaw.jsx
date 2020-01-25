@@ -68,7 +68,7 @@ class ProductRaw extends React.Component {
                         )
                     }
                 </th>
-                <td>0 / {product.maxDemands}</td>
+                <td>{product.maxDemands - product.remainingRequests} / {product.maxDemands}</td>
                 <td>
                     <div className="avatar-group">
                         {published ? (

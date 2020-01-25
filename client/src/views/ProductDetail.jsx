@@ -8,6 +8,7 @@ import {
 // core components
 import SimpleFooter from "../components/Footers/SimpleFooter.jsx";
 import productServices from '../services/product.service';
+import userServices from '../services/user.services';
 import constants from "../helpers/constants";
 import {Link} from "react-router-dom";
 import {formatDate} from "../helpers/textHelpers";
@@ -44,6 +45,7 @@ class ProductDetail extends React.Component {
 
     render() {
         const {product} = this.state;
+        const currentUserId = userServices.getCurrentUserId();
         return (
             <>
                 <main ref="main">
@@ -110,12 +112,14 @@ class ProductDetail extends React.Component {
                                                 </Badge>
                                             </h1>
                                         </div>
-                                        {product && product._id ? (
+                                        {/* Desktop view */}
+                                        {product && product._id && currentUserId !== product.seller._id ? (
                                             <div className={"d-none d-md-block"}>
                                                 <TestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
                                             </div>
                                         ) : null}
                                     </div>
+                                    {/* Mobile view */}
                                     {product && product._id ? (
                                         <div className={"d-block d-md-none"}>
                                             <TestRequestModal sellerNote={product.beforeNote} productId={product._id}/>

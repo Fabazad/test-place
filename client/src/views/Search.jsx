@@ -47,7 +47,7 @@ class Search extends React.Component {
             automaticAcceptance: urlParams.get('automaticAcceptance') === 'true',
             prime: urlParams.get('prime') === 'true',
             category: urlParams.has('category') ? urlParams.get('category') : '',
-            keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : ''
+            keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : '',
         };
         searchEngineData.page = this.state.searchEngineData.page;
         this.setState({searchEngineData}, this.searchProducts);
@@ -70,6 +70,7 @@ class Search extends React.Component {
         searchData.sortBy = this.state.sortBy;
         searchData.page = this.state.page;
         searchData.published = true;
+        searchData.remainingRequests = true;
         this.setState({products: this.state.products.map(() => null)});
         productServices.find({searchData}).then(products => {
             this.setState({products: products.hits, totalCount: products.totalCount});
