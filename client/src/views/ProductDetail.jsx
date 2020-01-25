@@ -30,8 +30,8 @@ class ProductDetail extends React.Component {
         this.refs.main.scrollTop = 0;
 
         const {productId} = this.props.match.params;
-        productServices.getOne(productId).then(product => this.setState({ product }));
-        productServices.getProductCategories().then(categories => this.setState({ categories }));
+        productServices.getOne(productId).then(product => this.setState({product}));
+        productServices.getProductCategories().then(categories => this.setState({categories}));
     }
 
     getProduct(productValue) {
@@ -104,28 +104,23 @@ class ProductDetail extends React.Component {
                                         <div>
                                             <small className='text-muted d-block mb-1'>Coût Final</small>
                                             <h1 className="d-inline-block">
-                                                <Badge pill
-                                                       color={product && product.finalPrice === 0 ? 'success' : 'warning'}
-                                                       className='badge-lg bg-secondary shadow'>
+                                                <Badge pill className='badge-lg bg-secondary shadow'
+                                                       color={product && product.finalPrice === 0 ? 'success' : 'warning'}>
                                                     {product ? product.finalPrice : ''} €
                                                 </Badge>
                                             </h1>
                                         </div>
-                                        {
-                                            product ? (
-                                                <div className={"d-none d-md-block"}>
-                                                    <TestRequestModal sellerNote={product.beforeNote}/>
-                                                </div>
-                                            ) : null
-                                        }
-                                    </div>
-                                    {
-                                        product ? (
-                                            <div className={"d-block d-md-none"}>
-                                                <TestRequestModal sellerNote={product.beforeNote}/>
+                                        {product && product._id ? (
+                                            <div className={"d-none d-md-block"}>
+                                                <TestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
                                             </div>
-                                        ) : null
-                                    }
+                                        ) : null}
+                                    </div>
+                                    {product && product._id ? (
+                                        <div className={"d-block d-md-none"}>
+                                            <TestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
+                                        </div>
+                                    ) : null}
                                     <div className="mt-5">
                                         <Label>
                                             Catégorie : {product ? this.getProduct(product.category) : null}
@@ -176,7 +171,7 @@ class ProductDetail extends React.Component {
                                                                 {product.amazonSeller.name}
                                                             </a>
                                                         </div>
-                                                    ) : null }
+                                                    ) : null}
                                                 </Row>
                                             </CardBody>
                                         </Card>

@@ -110,9 +110,10 @@ class ProductController {
             const product = new ProductModel(productObj);
             product.publishDate = new Date();
             product.publishExpirationDate = (new Date()).setMonth((new Date()).getMonth() + 1);
+            product.remainingRequests = product.maxDemands;
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {
-                    reject({status: 400, message: 'Un produit avec le même identifiant ASIN existe déjà.'});
+                    reject({status: 400, message: 'Vous avez déjà fait une demande de test pour ce produit.'});
                 }
                 reject(ErrorResponses.mongoose(err));
             });

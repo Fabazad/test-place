@@ -6,10 +6,12 @@ import {
     Label
 } from "reactstrap";
 import userServices from '../../services/user.services';
+import testServices from '../../services/test.services';
 import AmazonLoginButton from "../Buttons/AmazonLoginButton";
 import {Link} from "react-router-dom";
 import AnimatedError from "../AnimatedError";
 import PropTypes from "prop-types";
+import {toast} from "react-toastify";
 
 class TestRequestModal extends React.Component {
 
@@ -32,7 +34,12 @@ class TestRequestModal extends React.Component {
     }
 
     onAmazonLogin() {
-        this.setState( { amazonId: userServices.amazonId });
+        this.setState({amazonId: userServices.amazonId});
+    }
+
+    async confirmRequest() {
+        await testServices.create({ product: this.props.productId});
+        toast.success("Demande envoyée.");
     }
 
     render() {
@@ -67,10 +74,10 @@ class TestRequestModal extends React.Component {
                     <div className="modal-body text-center">
                         {
                             userServices.isAuth() ?
-                                this.state.amazonId ? (
+                                this.state.amazonId || true ? (
                                     <div>
                                         <Label>Message Vendeur Pré-Demande</Label>
-                                        <div className='text-left'>
+                                        <div className='text-left mt-3'>
                                             {this.props.sellerNote}
                                         </div>
                                     </div>
@@ -103,9 +110,9 @@ class TestRequestModal extends React.Component {
                             Fermer
                         </Button>
                         {
-                            userServices.isAuth() && userServices.amazonId ? (
-                                <Button color={'primary'} type='button'>
-                                    Confirmer la demande
+                            userServices.isAuth() && userServices.amazonId || true ? (
+                                <Button color={'primary'} type='button' onClick={() => this.confirmRequest()}>
+                                    Confirmer la Demande
                                 </Button>
                             ) : null
                         }
@@ -117,7 +124,8 @@ class TestRequestModal extends React.Component {
 }
 
 TestRequestModal.propTypes = {
-    sellerNote: PropTypes.string.isRequired
+    sellerNote: PropTypes.string.isRequired,
+    productId: PropTypes.string.isRequired
 };
 
 export default TestRequestModal;

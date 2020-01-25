@@ -18,4 +18,11 @@ const testObject = {
 
 const testSchema = new mongoose.Schema(testObject);
 
+testSchema.index({
+    product: 1,
+    tester: 1,
+}, {
+    unique: true,
+});
+
 module.exports = mongoose.model('Test', testSchema);
