@@ -25,6 +25,7 @@ import { setCookie } from "helpers/cookies";
 import { toast } from "react-toastify";
 import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
 import Loading from "components/Loading";
+import ResendValidationMailModal from "../components/Modals/ResendValidationMailModal";
 
 
 class Login extends React.Component {
@@ -190,6 +191,11 @@ class Login extends React.Component {
                             <small>Nouveau compte</small>
                           </Link>
                         </Col>
+                      </Row>
+                      <Row className="mt-3">
+                        <div className="col-12 text-center">
+                          <ResendValidationMailModal/>
+                        </div>
                       </Row>
                     </CardBody>
                   </Card>

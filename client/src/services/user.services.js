@@ -81,6 +81,10 @@ class UserService extends BaseService {
     amazonLogin(amazonToken) {
         return axios.post(this.baseURL + "/amazonLogin", { amazonToken }).then(serviceResolve);
     }
+
+    resendValidationMail(email) {
+        return axios.post(this.baseURL + "/validationMail", { email }).then(serviceResolve);
+    }
 }
 
 export default new UserService();

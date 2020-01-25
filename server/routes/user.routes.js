@@ -68,4 +68,11 @@ router.post('/update', withAuth, async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/validationMail', async (request, reply) => {
+    const {email} = request.body;
+    UserController.validationMail(email)
+        .then(() => reply.send())
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;

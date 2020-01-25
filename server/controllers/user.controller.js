@@ -201,6 +201,26 @@ class UserController {
                 .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
+
+    static async validationMail(email) {
+        return new Promise((resolve, reject) => {
+            if (!email) {
+                reject({ status: 400, message: "Missing email."});
+            }
+            UserModel.findOne({email})
+                .then(user => {
+                    if (!user) {
+                        return reject({ status: 400, message: "No user with this email found."});
+                    }
+                    if (user.emailValidation) {
+                        return reject({ status: 403, message: "Email already validated."});
+                    }
+                    EmailController.sendValidateMailAddressMail(email, user._id.toString())
+                        .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
+                })
+                .catch(err => reject(ErrorResponses.mongoose(err)));
+        });
+    }
 }
 
 module.exports = UserController;
