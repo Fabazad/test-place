@@ -41,6 +41,17 @@ const constants = {
     AUTH_CONDITIONS: {
         IS_SELLER: "IS_SELLER",
         ANY: "ANY"
+    },
+    TEST_STATUSES: {
+        requested: "REQUESTED",
+        requestDeclined: "REQUEST_DECLINED",
+        requestAccepted: "REQUEST_ACCEPTED",
+        productBought: "PRODUCT_BOUGHT",
+        productReviewed: "PRODUCT_REVIEWED",
+        reviewValidated: "REVIEW_VALIDATED",
+        reviewRefused: "REVIEW_REFUSED",
+        moneySent: "MONEY_SENT",
+        moneyReceived: "MONEY_RECEIVED"
     }
 };
 
