@@ -5,23 +5,23 @@ import {
     CardBody, Badge, Card, Row, UncontrolledTooltip
 } from "reactstrap";
 import PropTypes from "prop-types";
-import {textSlice, formatDate} from '../helpers/textHelpers';
-import constants from "../helpers/constants";
-import Loading from "./Loading";
+import {textSlice, formatDate} from '../../helpers/textHelpers';
+import constants from "../../helpers/constants";
+import Loading from "../Loading";
 import {Link} from "react-router-dom";
 
-class ProductCard extends React.Component {
+class MyProductCard extends React.Component {
 
     componentDidMount() {
     }
 
     render() {
-        const {product} = this.props;
+        const { product, loading } = this.props;
         return (
             <Card className={"card-lift--hover shadow border-0 cursor-pointer"}
                   to={(product ? 'ad/' + product._id : '#')} tag={Link}>
                 <CardBody>
-                    <Loading loading={!product}/>
+                    <Loading loading={loading}/>
                     <div style={{'height': '200px'}} className={"text-center"}>
                         <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL} alt=""
                              className={"mw-100 shadow-lg rounded"}
@@ -88,8 +88,9 @@ class ProductCard extends React.Component {
     }
 }
 
-ProductCard.propTypes = {
-    product: PropTypes.object
+MyProductCard.propTypes = {
+    product: PropTypes.object.isRequired,
+    loading: PropTypes.bool
 };
 
-export default ProductCard;
+export default MyProductCard;

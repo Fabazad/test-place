@@ -20,6 +20,7 @@ import {updateURLParameter} from "../helpers/urlHelpers";
 import NewProductModal from "../components/Modals/NewProductModal";
 import DropdownSelect from "../components/DropdownSelect";
 import ProductRaw from "../components/Raws/ProductRaw";
+import MyProductCard from "../components/Cards/MyProductCard";
 
 class MyProducts extends React.Component {
 
@@ -67,9 +68,9 @@ class MyProducts extends React.Component {
             );
     }
 
-    onSortChange (e) {
+    onSortChange(e) {
         const sortBy = e.target.value;
-        this.setState({ sortBy }, () => {
+        this.setState({sortBy}, () => {
             let url = window.location.href;
             url = updateURLParameter(url, 'sortBy', sortBy);
             window.history.pushState({}, "", url);
@@ -89,6 +90,7 @@ class MyProducts extends React.Component {
         return (
             <>
                 <Header>
+                    <div className="py-3"></div>
                 </Header>
                 {/* Page content */}
                 <Container className="mt--7" fluid>
@@ -112,39 +114,43 @@ class MyProducts extends React.Component {
                                         </div>
                                     </div>
                                 </CardHeader>
-                                <div>
-                                    <Table className="align-items-center table-flush" responsive>
-                                        <thead className="thead-light">
-                                        <tr>
-                                            <th scope="col">Produit</th>
-                                            <th scope='col'>Prix</th>
-                                            <th scope='col'>Final</th>
-                                            <th scope="col">Publication</th>
-                                            <th scope="col">
-                                                <span id='demandsColumn' data-placement='top'>Demandes</span>
-                                                <UncontrolledTooltip
-                                                    delay={0}
-                                                    target='demandsColumn'
-                                                    placement="top"
-                                                >
-                                                    Nombre de Demandes Reçues / Nombre de Demande Max
-                                                </UncontrolledTooltip>
-                                            </th>
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {
-                                            this.state.products.map(product => (
-                                                <ProductRaw product={product}
-                                                            loading={this.state.loading}
-                                                            key={'product' + product._id}
-                                                />
-                                            ))
-                                        }
-
-                                        </tbody>
-                                    </Table>
+                                <Table className="align-items-center table-flush d-none d-lg-table" responsive>
+                                    <thead className="thead-light">
+                                    <tr>
+                                        <th scope="col">Produit</th>
+                                        <th scope='col'>Prix</th>
+                                        <th scope='col'>Final</th>
+                                        <th scope="col">Publication</th>
+                                        <th scope="col">
+                                            <span id='demandsColumn' data-placement='top'>Demandes</span>
+                                            <UncontrolledTooltip
+                                                delay={0}
+                                                target='demandsColumn'
+                                                placement="top"
+                                            >
+                                                Nombre de Demandes Reçues / Nombre de Demande Max
+                                            </UncontrolledTooltip>
+                                        </th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {this.state.products.map(product => (
+                                        <ProductRaw product={product}
+                                                    loading={this.state.loading}
+                                                    key={'product' + product._id}
+                                        />
+                                    ))}
+                                    </tbody>
+                                </Table>
+                                <div className="container d-block d-lg-none">
+                                    <div className="row">
+                                        {this.state.products.map(product => (
+                                            <div className="col-12 col-md-6 my-2" key={"productCard" + product._id}>
+                                                <MyProductCard product={product} loading={this.state.loading}/>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                                 <CardFooter className="py-4">
                                     <nav aria-label="...">

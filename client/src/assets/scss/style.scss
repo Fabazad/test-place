@@ -93,3 +93,12 @@ img.selected {
 .dropdown-select .dropdown-menu.show {
     position: absolute !important;
 }
+
+.main-content {
+    margin-left: 0px !important;
+}
+@media (min-width: 992px) {
+    .main-content {
+        margin-left: 250px !important;
+    }
+}

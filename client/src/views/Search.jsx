@@ -12,7 +12,7 @@ import SearchEngine from "../components/SearchEngine";
 import productServices from "../services/product.service";
 import Loading from "../components/Loading";
 import {updateURLParameter} from "../helpers/urlHelpers"
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/Cards/ProductCard";
 import constants from "../helpers/constants";
 import PaginationBis from "../components/PaginationBis";
 import DropdownSelect from "../components/DropdownSelect";
@@ -152,15 +152,12 @@ class Search extends React.Component {
                         <Container>
                             <Loading loading={this.state.loading}/>
                             <Row>
-                                {
-                                    this.state.products.map(product => (
-                                        <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2"
-                                             key={product ? product._id : Math.ceil(Math.random() * 1000)}>
-                                            <ProductCard product={product}/>
-                                        </div>
-
-                                    ))
-                                }
+                                {this.state.products.map(product => (
+                                    <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2"
+                                         key={product ? product._id : Math.ceil(Math.random() * 1000)}>
+                                        <ProductCard product={product}/>
+                                    </div>
+                                ))}
                             </Row>
                         </Container>
                     </section>
