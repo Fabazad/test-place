@@ -31,7 +31,8 @@ class MyProducts extends React.Component {
             products: [],
             totalCount: 0,
             loading: false,
-            page: 1
+            page: 1,
+            sortBy: null
         };
     }
 
@@ -54,6 +55,7 @@ class MyProducts extends React.Component {
 
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
         searchData.page = this.state.page;
+        searchData.sortBy = this.state.sortBy;
 
         this.setState({loading: true});
         productServices.find({searchData})
@@ -63,6 +65,16 @@ class MyProducts extends React.Component {
                     loading: false
                 })
             );
+    }
+
+    onSortChange (e) {
+        const sortBy = e.target.value;
+        this.setState({ sortBy }, () => {
+            let url = window.location.href;
+            url = updateURLParameter(url, 'sortBy', sortBy);
+            window.history.pushState({}, "", url);
+            this.goToPage(1);
+        });
     }
 
     goToPage(page) {
@@ -95,8 +107,8 @@ class MyProducts extends React.Component {
                                         <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
                                             <DropdownSelect
                                                 name={'sortBy'} options={constants.SORT_BY_OPTIONS}
-                                                placeholder={'Trier'}
-                                                onChange={() => this.findProducts()}/>
+                                                placeholder={'Trier'} value={this.state.sortBy}
+                                                onChange={(e) => this.onSortChange(e)}/>
                                         </div>
                                     </div>
                                 </CardHeader>
