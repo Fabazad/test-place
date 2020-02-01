@@ -149,10 +149,8 @@ class NewProductModal extends React.Component {
         return (
             <>
                 {/* Button trigger modal */}
-                <Button
-                    color="primary"
-                    onClick={() => this.toggleModal("exampleModal")}
-                >
+                <Button color="primary" onClick={() => this.toggleModal("exampleModal")}>
+                    <i className="ni ni-bag-17 mr-2"/>
                     Nouveau Produit
                 </Button>
                 {/* Modal */}
@@ -417,21 +415,13 @@ class NewProductModal extends React.Component {
                         </div>
 
                         <div className="modal-footer bg-secondary ">
-                            <Button
-                                color="secondary"
-                                data-dismiss="modal"
-                                type="button"
-                                onClick={() => this.toggleModal("exampleModal")}
-                            >
+                            <Button color="secondary" data-dismiss="modal" type="button"
+                                onClick={() => this.toggleModal("exampleModal")}>
                                 Fermer
                             </Button>
-                            <Button
-                                color="primary"
-                                data-dismiss="modal"
-                                type="submit"
-                            >
-                                Ajouter
-                            </Button>
+                            {this.state.asin ? (
+                                <Button color="primary" data-dismiss="modal" type="submit">Ajouter</Button>
+                            ) : null}
                         </div>
                     </Form>
                 </Modal>

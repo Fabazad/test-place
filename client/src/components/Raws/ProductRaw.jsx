@@ -27,8 +27,8 @@ class ProductRaw extends React.Component {
             <tr>
                 <th scope="row">
                     <Media className="align-items-center">
-                        <a className="avatar rounded-circle mr-3 bg-transparent" href="#pablo" onClick={e => e.preventDefault()} >
-                            <img className='shadow' alt="..."
+                        <a className="avatar rounded-circle mr-3 bg-transparent shadow" onClick={e => e.preventDefault()} >
+                            <img className="shadow" alt="..."
                                  src={product.imageUrls[0].replace(/^(.+)(\.jpg)/, "$1._SS40_$2")}
                             />
                         </a>

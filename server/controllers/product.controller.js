@@ -7,7 +7,11 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 class ProductController {
 
     static async scrapFromAsin(asin) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
+            const product = await ProductModel.findOne({ asin });
+            if (product) {
+                return reject({ status: 400, message: "Un produit avec ce même ASIN a déjà été ajouté."})
+            }
 
             let c = new Crawler({
                 maxConnections: 10,
