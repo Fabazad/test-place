@@ -89,7 +89,7 @@ class AmazonLoginButton extends React.Component {
                     </>
                     ) : (
                     <>
-                        <i className="fa fa-amazon size-lg text-yellow"/>
+                        <i className="fab fa-amazon size-lg text-yellow"/>
                         <span className="btn-inner--text">Lier un compte Amazon</span>
                     </>
                     )}

@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import { Badge, UncontrolledTooltip } from "reactstrap";
+import {Badge, UncontrolledTooltip, Button} from "reactstrap";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import productServices from "../../services/product.service";
@@ -31,11 +31,18 @@ class UnpublishProductButton extends React.Component {
         const productId = this.props.productId;
         return (
             <>
-                <Badge pill className="badge-circle w-100 h-100" onClick={() => this.removeProduct(productId)}
-                       color={'danger'} tag={Link} to={'#'} id={"remove" + productId}>
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                    <Badge pill className="badge-circle w-100 h-100" onClick={() => this.removeProduct(productId)}
+                           color={'danger'} tag={Link} to={''} id={"remove" + productId}>
+                        <i className="fa fa-times m-auto fa-lg"/>
+                    </Badge>
+                    <UncontrolledTooltip delay={0} target={"remove" + productId}>Retirer</UncontrolledTooltip>
+                </div>
+                <Button color="danger" onClick={() => this.removeProduct(productId)}
+                        className="d-block d-md-none w-100 text-center mx-0 my-1">
                     <i className="fa fa-times m-auto fa-lg"/>
-                </Badge>
-                <UncontrolledTooltip delay={0} target={"remove" + productId}>Retirer</UncontrolledTooltip>
+                    <span className="ml-2">Retirer</span>
+                </Button>
             </>
         );
     }

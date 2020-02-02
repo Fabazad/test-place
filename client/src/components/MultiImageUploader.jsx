@@ -65,7 +65,7 @@ class MultiImageUploader extends React.Component {
                                 <Badge pill className="badge-circle cursor-pointer position-absolute" color={'danger'}
                                        tag={Link} style={{top: '-12px', right: '-12px'}} to={'#'}
                                        onClick={e => this.removeImage(e, index)}>
-                                    <i className="fa fa-close"/>
+                                    <i className="fa fa-times"/>
                                 </Badge>
                             </div>
                         )

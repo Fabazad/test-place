@@ -59,9 +59,9 @@ class ResendValidationMailModal extends React.Component {
         return (
             <>
                 {/* Button trigger modal */}
-                <a className="text-primary cursor-pointer" onClick={() => this.toggleModal()}>
+                <span className="text-primary cursor-pointer" onClick={() => this.toggleModal()} href="#">
                     <small>Renvoyer l'email de Validation</small>
-                </a>
+                </span>
                 {/* Modal */}
                 <Modal
                     className="modal-dialog-centered"

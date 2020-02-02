@@ -10,12 +10,13 @@ class EditProductButton extends React.Component {
         const productId = this.props.productId;
         return (
             <>
-                <Badge pill
-                       className="badge-circle w-100 h-100" color={'warning'}
-                       tag={Link} to={'#'} id={"edit" + productId}>
-                    <i className="fa fa-edit m-auto fa-lg"/>
-                </Badge>
-                <UncontrolledTooltip delay={0} target={"edit" + productId}>Editer</UncontrolledTooltip>
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                    <Badge pill className="badge-circle w-100 h-100" color={'warning'}
+                           tag={Link} to={'#'} id={"edit" + productId}>
+                        <i className="fa fa-edit m-auto fa-lg"/>
+                    </Badge>
+                    <UncontrolledTooltip delay={0} target={"edit" + productId}>Editer</UncontrolledTooltip>
+                </div>
             </>
         );
     }

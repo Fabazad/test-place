@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import { Badge, UncontrolledTooltip } from "reactstrap";
+import {Badge, Button, UncontrolledTooltip} from "reactstrap";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import productServices from "../../services/product.service";
@@ -31,11 +31,18 @@ class DeleteProductButton extends React.Component {
         const productId = this.props.productId;
         return (
             <>
-                <Badge pill className="badge-circle w-100 h-100" color={'danger'}
-                       tag={Link} to={'#'} id={"delete" + productId} onClick={() => this.deleteProduct(productId)}>
+                <Button color="danger" className="d-block d-md-none w-100 text-center mx-0 my-1"
+                        onClick={() => this.deleteProduct(productId)}>
                     <i className="fa fa-trash m-auto fa-lg"/>
-                </Badge>
-                <UncontrolledTooltip delay={0} target={"delete" + productId}>Supprimer</UncontrolledTooltip>
+                    <span className="ml-2">Supprimer</span>
+                </Button>
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                    <Badge pill className="badge-circle w-100 h-100" color={'danger'}
+                           tag={Link} to={'#'} id={"delete" + productId} onClick={() => this.deleteProduct(productId)}>
+                        <i className="fa fa-trash m-auto fa-lg"/>
+                    </Badge>
+                    <UncontrolledTooltip delay={0} target={"delete" + productId}>Supprimer</UncontrolledTooltip>
+                </div>
             </>
         );
     }

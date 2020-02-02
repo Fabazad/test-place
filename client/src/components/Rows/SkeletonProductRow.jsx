@@ -1,7 +1,7 @@
 import React from "react";
 import Skeleton from 'react-loading-skeleton';
 
-class SkeletonProductRaw extends React.Component {
+class SkeletonProductRow extends React.Component {
     render() {
         return (
             <tr className={"w-100"}>
@@ -52,7 +52,7 @@ class SkeletonProductRaw extends React.Component {
     }
 }
 
-SkeletonProductRaw.propTypes = {
+SkeletonProductRow.propTypes = {
 };
 
-export default SkeletonProductRaw;
+export default SkeletonProductRow;

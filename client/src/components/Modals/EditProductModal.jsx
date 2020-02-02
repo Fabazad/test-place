@@ -115,16 +115,23 @@ class EditProductModal extends React.Component {
     };
 
     render() {
-        const { product } = this.props;
+        const {product} = this.props;
         return (
             <>
                 {/* Button trigger modal */}
-                <Badge pill onClick={() => this.toggleModal("exampleModal")}
-                       className="badge-circle w-100 h-100" color={'warning'}
-                       tag={Link} to={'#'} id={"edit" + product._id}>
+                <Button color="warning" className="d-block d-md-none w-100 text-center mx-0 my-1"
+                        onClick={() => this.toggleModal("exampleModal")}>
                     <i className="fa fa-edit m-auto fa-lg"/>
-                </Badge>
-                <UncontrolledTooltip delay={0} target={"edit" + product._id}>Editer</UncontrolledTooltip>
+                    <span className="ml-2">Editer</span>
+                </Button>
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                    <Badge pill onClick={() => this.toggleModal("exampleModal")}
+                           className="badge-circle w-100 h-100" color={'warning'}
+                           tag={Link} to={'#'} id={"edit" + product._id}>
+                        <i className="fa fa-edit m-auto fa-lg"/>
+                    </Badge>
+                    <UncontrolledTooltip delay={0} target={"edit" + product._id}>Editer</UncontrolledTooltip>
+                </div>
                 {/* Modal */}
                 <Modal
                     className="modal-dialog-centered"

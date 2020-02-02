@@ -19,7 +19,7 @@ import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import NewProductModal from "../components/Modals/NewProductModal";
 import DropdownSelect from "../components/DropdownSelect";
-import ProductRaw from "../components/Raws/ProductRaw";
+import ProductRow from "../components/Rows/ProductRow.jsx";
 import MyProductCard from "../components/Cards/MyProductCard";
 
 class MyProducts extends React.Component {
@@ -136,7 +136,7 @@ class MyProducts extends React.Component {
                                     </thead>
                                     <tbody>
                                     {this.state.products.map(product => (
-                                        <ProductRaw product={product}
+                                        <ProductRow product={product}
                                                     loading={this.state.loading}
                                                     key={'product' + product._id}
                                         />

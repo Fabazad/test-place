@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import { Badge, UncontrolledTooltip } from "reactstrap";
+import {Badge, Button, UncontrolledTooltip} from "reactstrap";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
@@ -10,11 +10,18 @@ class SeeProductButton extends React.Component {
         const productId = this.props.productId;
         return (
             <>
-                <Badge pill className="badge-circle w-100 h-100" color={'info'}
-                       tag={Link} to={'/ad/' + productId} id={"see" + productId}>
+                <Button color="info" className="d-block d-md-none w-100 text-center mx-0 my-1" tag={Link}
+                        to={'/ad/' + productId}>
                     <i className="fa fa-eye m-auto fa-lg"/>
-                </Badge>
-                <UncontrolledTooltip delay={0} target={"see" + productId}>Voir</UncontrolledTooltip>
+                    <span className="ml-2">Voir</span>
+                </Button>
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                    <Badge pill className="badge-circle w-100 h-100" color={'info'}
+                           tag={Link} to={'/ad/' + productId} id={"see" + productId}>
+                        <i className="fa fa-eye m-auto fa-lg"/>
+                    </Badge>
+                    <UncontrolledTooltip delay={0} target={"see" + productId}>Voir</UncontrolledTooltip>
+                </div>
             </>
         );
     }

@@ -9,6 +9,12 @@ import {textSlice, formatDate} from '../../helpers/textHelpers';
 import constants from "../../helpers/constants";
 import Loading from "../Loading";
 import {Link} from "react-router-dom";
+import UnpublishProductButton from "../Buttons/UnpublishProductButton";
+import DeleteProductButton from "../Buttons/DeleteProductButton";
+import PublishProductButton from "../Buttons/PublishProductButton";
+import EditProductModal from "../Modals/EditProductModal";
+import SeeProductButton from "../Buttons/SeeProductButton";
+import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 
 class MyProductCard extends React.Component {
 
@@ -16,10 +22,11 @@ class MyProductCard extends React.Component {
     }
 
     render() {
-        const { product, loading } = this.props;
+        const {product, loading} = this.props;
+        const published = product && product.publishExpirationDate ?
+            new Date(product.publishExpirationDate).getTime() > Date.now() : false;
         return (
-            <Card className={"card-lift--hover shadow border-0 cursor-pointer"}
-                  to={(product ? 'ad/' + product._id : '#')} tag={Link}>
+            <Card className={"card-lift--hover shadow border-0 cursor-pointer"}>
                 <CardBody>
                     <Loading loading={loading}/>
                     <div style={{'height': '200px'}} className={"text-center"}>
@@ -51,36 +58,60 @@ class MyProductCard extends React.Component {
                             </h1>
                         </div>
                     </Row>
-                    <div className="text-center mt-3" style={{'height': '30px'}}>
-                        {
-                            product && product.isPrime ? (
+                    <div className="text-center mt-2">
+                        <small>Options</small>
+                        <div>
+                            {product && product.isPrime ? (
                                 <Badge color="info" pill className="mr-1 badge-lg">
                                     <img src={require("assets/img/icons/prime.png")} alt="prime"
                                          style={{"height": "11px"}}/>
                                 </Badge>
-                            ) : null
-                        }
-                        {
-                            product && product.automaticAcceptance ? (
+                            ) : null}
+                            {product && product.automaticAcceptance ? (
                                 <>
                                     <Badge color="info" pill className="mr-1 badge-lg"
                                            id={"automaticAcceptance" + product._id}>
                                         Automatique
                                     </Badge>
-                                    <UncontrolledTooltip
-                                        delay={0}
-                                        placement="top"
-                                        target={"automaticAcceptance" + product._id}
-                                    >
+                                    <UncontrolledTooltip delay={0} placement="top"
+                                                         target={"automaticAcceptance" + product._id}>
                                         Acceptation Automatique
                                     </UncontrolledTooltip>
                                 </>
-                            ) : null
-                        }
-
+                            ) : null}
+                        </div>
                     </div>
-                    <div className="mt-3">
-                        <small className="text-muted">{product ? formatDate(product.createdAt) : '  /  /  '}</small>
+                    <div className="mt-3 row">
+                        <div className="text-center col-6">
+                            <small>Publication</small>
+                            <div>
+                                <Badge color={'success'} className={'badge-circle badge-lg text-center p-0'} pill>
+                                    <i className="ni ni-check-bold m-auto"/>
+                                </Badge>
+                                <small className="text-muted ml-2">
+                                    {product ? formatDate(product.createdAt) : '  /  /  '}
+                                </small>
+                            </div>
+                        </div>
+                        <div className="text-center col-6">
+                            <small>Demandes</small>
+                            <h4 className="mt-1">{product.maxDemands - product.remainingRequests} / {product.maxDemands}</h4>
+                        </div>
+                    </div>
+                    <div className="row mt-3">
+                        {published ? (
+                            <>
+                                <div className="col-6 pr-1"><UnpublishProductButton productId={product._id}/></div>
+                                <div className="col-6 pl-1"><SeeProductButton productId={product._id}/></div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="col-6 pr-1"><DeleteProductButton productId={product._id}/></div>
+                                <div className="col-6 pl-1"><PublishProductButton productId={product._id}/></div>
+                            </>
+                        )}
+                        <div className="col-6 pr-1"><EditProductModal product={product}/></div>
+                        <div className="col-6 pl-1"><UpgradeProductButton productId={product._id}/></div>
                     </div>
                 </CardBody>
             </Card>
