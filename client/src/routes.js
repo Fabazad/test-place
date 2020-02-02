@@ -20,16 +20,16 @@ const routes = [
     layout: "/dashboard"
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
+    path: "/received-requests",
+    name: "Demandes Envoyées",
+    icon: "fa fa-hand-paper text-orange",
     component: Maps,
     layout: "/dashboard"
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
+    path: "/sent-requests",
+    name: "Demandes Reçues",
+    icon: "far fa-hand-paper text-yellow",
     component: Profile,
     layout: "/dashboard"
   },

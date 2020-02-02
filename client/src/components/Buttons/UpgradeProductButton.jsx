@@ -12,7 +12,7 @@ class UpgradeProductButton extends React.Component {
             <>
                 <Badge pill className="badge-circle w-100 h-100" color={'primary'}
                        tag={Link} to={'#'} id={"upgrade" + productId}>
-                    <i className="fa fa-diamond m-auto fa-lg"/>
+                    <i className="far fa-gem m-auto fa-lg"/>
                 </Badge>
                 <UncontrolledTooltip delay={0} target={"upgrade" + productId}>Upgrade</UncontrolledTooltip>
             </>

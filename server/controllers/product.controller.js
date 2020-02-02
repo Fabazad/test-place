@@ -10,7 +10,7 @@ class ProductController {
         return new Promise(async (resolve, reject) => {
             const product = await ProductModel.findOne({ asin });
             if (product) {
-                return reject({ status: 400, message: "Un produit avec ce même ASIN a déjà été ajouté."})
+                return reject({ status: 400, message: "Un produit avec ce même ASIN a déjà été ajouté."});
             }
 
             let c = new Crawler({

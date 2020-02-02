@@ -33,7 +33,7 @@ class UnpublishProductButton extends React.Component {
             <>
                 <Badge pill className="badge-circle w-100 h-100" onClick={() => this.removeProduct(productId)}
                        color={'danger'} tag={Link} to={'#'} id={"remove" + productId}>
-                    <i className="fa fa-close m-auto fa-lg"/>
+                    <i className="fa fa-times m-auto fa-lg"/>
                 </Badge>
                 <UncontrolledTooltip delay={0} target={"remove" + productId}>Retirer</UncontrolledTooltip>
             </>

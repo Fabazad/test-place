@@ -54,7 +54,7 @@ class SimpleFooter extends React.Component {
                   size="lg"
                   target="_blank"
                 >
-                  <i className=" fa fa-facebook-square" />
+                  <i className=" fab fa-facebook-f" />
                 </Button>
                 <UncontrolledTooltip delay={0} target="tooltip383967593">
                   Aimez notre page
