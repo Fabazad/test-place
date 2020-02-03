@@ -1,7 +1,6 @@
 import Index from "views/Index.jsx";
-import Profile from "views/examples/Profile.jsx";
+import Profile from "views/Profile2.jsx";
 import Maps from "views/examples/Maps.jsx";
-import Tables from "views/examples/Tables.jsx";
 import MyProducts from "./views/MyProducts";
 
 const routes = [
@@ -30,14 +29,14 @@ const routes = [
     path: "/sent-requests",
     name: "Demandes Reçues",
     icon: "far fa-hand-paper text-yellow",
-    component: Profile,
+    component: Maps,
     layout: "/dashboard"
   },
   {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
+    path: "/my-profile",
+    name: "Mon Profil",
+    icon: "fa fa-user text-green",
+    component: Profile,
     layout: "/dashboard"
   }
 ];

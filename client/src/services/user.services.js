@@ -1,12 +1,9 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
-import { eraseCookie } from "helpers/cookies.js";
+import {eraseCookie} from "helpers/cookies.js";
+import {Subject} from "rxjs";
 
 function serviceResolve(res) {
-    if (res.status !== 200) {
-        const error = new Error(res.error);
-        throw error;
-    }
     return Promise.resolve(res.data);
 }
 
@@ -15,10 +12,22 @@ class UserService extends BaseService {
         super('/user');
         this.currentUserId = undefined;
         this.amazonId = undefined;
+        this.currentUser = undefined;
+        this.currentUserSubject = new Subject();
+        this.currentUserResolve = this.currentUserResolve.bind(this);
+    }
+
+    async currentUserResolve(res) {
+        const data = await serviceResolve(res);
+        if ("user" in data) {
+            this.currentUser = data.user;
+            this.currentUserSubject.next();
+        }
+        return Promise.resolve(data);
     }
 
     login(email, password) {
-        return axios.post(this.baseURL + '/login', {email, password}).then(serviceResolve);
+        return axios.post(this.baseURL + '/login', {email, password}).then(this.currentUserResolve);
     }
 
     register(user) {
@@ -27,18 +36,20 @@ class UserService extends BaseService {
 
     checkToken(required = true) {
         return new Promise((resolve, reject) => {
-            axios.get(this.baseURL + '/checkToken', { params: { required } } ).then(res => {
+            axios.get(this.baseURL + '/checkToken', {params: {required}}).then(res => {
                 if (res.data.userId) {
                     this.currentUserId = res.data.userId;
                     this.amazonId = res.data.amazonId;
-                    resolve();
+                    this.currentUserResolve(res).then(resolve);
+                } else {
+                    reject();
                 }
-                reject();
-            }).catch(() => {
+            }).catch((err) => {
+                console.log(err);
                 this.logout();
                 reject();
             });
-        });   
+        });
     }
 
     sendResetPasswordMail(email) {
@@ -57,17 +68,19 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + "/emailValidation", {userId}).then(serviceResolve);
     }
 
-    getCurrentUserId(){
-        return this.currentUserId;
+    getCurrentUserId() {
+        return this.currentUser._id;
     }
 
     isAuth() {
-        return !!this.currentUserId;
+        return !!this.currentUser;
     }
 
     logout() {
         eraseCookie("token");
         this.currentUserId = null;
+        this.currentUser = undefined;
+        this.currentUserSubject.next();
     }
 
     isAlreadyChecked() {
@@ -75,15 +88,15 @@ class UserService extends BaseService {
     }
 
     getAmazonId() {
-        return this.amazonId;
+        return this.currentUser.amazonId;
     }
 
     amazonLogin(amazonToken) {
-        return axios.post(this.baseURL + "/amazonLogin", { amazonToken }).then(serviceResolve);
+        return axios.post(this.baseURL + "/amazonLogin", {amazonToken}).then(this.currentUserResolve);
     }
 
     resendValidationMail(email) {
-        return axios.post(this.baseURL + "/validationMail", { email }).then(serviceResolve);
+        return axios.post(this.baseURL + "/validationMail", {email}).then(serviceResolve);
     }
 }
 

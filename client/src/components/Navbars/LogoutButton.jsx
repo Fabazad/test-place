@@ -8,6 +8,7 @@ import userServices from "services/user.services";
 class LogoutButton extends React.Component {
 
     onLogout() {
+        console.log("1");
         userServices.logout();
         this.props.history.push("/landing");
         toast.success("Deconnecté !");

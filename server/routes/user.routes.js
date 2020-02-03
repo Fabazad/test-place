@@ -18,7 +18,7 @@ router.post('/login', async (request, reply) => {
 });
 
 router.get('/checkToken', withAuth, async (request, res) => {
-    res.send({userId: request.userId, amazonId: request.amazonId});
+    res.send({userId: request.userId, amazonId: request.amazonId, user: request.user});
 });
 
 router.post('/resetPasswordMail', async (request, reply) => {
@@ -55,7 +55,7 @@ router.post('/amazonLogin', withAuth, async (request, reply) => {
     const {amazonToken} = request.body;
     const {userId} = request;
     UserController.amazonLogin(userId, amazonToken)
-        .then(user => reply.send(user))
+        .then(user => reply.send({ user }))
         .catch(err => reply.status(err.status).send(err.message));
 });
 

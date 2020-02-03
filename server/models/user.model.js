@@ -10,7 +10,8 @@ const UserSchema = new mongoose.Schema({
     emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    amazonId: String
+    amazonId: String,
+    testerMessage: String
 });
 
 UserSchema.pre('save', function(next) {

@@ -17,6 +17,7 @@ export default function withoutAuth(ComponentToProtect) {
         this.setState({ redirect: true });
       }
       else {
+        console.log("3");
         userServices.logout();
       }
     }

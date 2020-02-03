@@ -3,7 +3,7 @@ const secret = 'mysecretsshhh';
 const UserModel = require('../models/user.model');
 
 const withAuth = function (req, res, next) {
-    const required = req.query.required !== false;
+    const required = req.query.required !== false && req.query.required !== "false";
 
     const token =
         (req.body && req.body.token) ||
@@ -17,12 +17,16 @@ const withAuth = function (req, res, next) {
             if (err && required) {
                 res.status(401).send('Unauthorized');
             } else {
+                if (!decoded) {
+                    return next();
+                }
                 UserModel.findById(decoded.userId).then(user => {
                     if (!user && required) {
                         res.status(401).send('Unauthorized');
                     }
                     req.userId = user.id;
                     req.amazonId = user.amazonId;
+                    req.user = user;
                     next();
                 }).catch(err => res.status(500).send('Internal Error'));
             }

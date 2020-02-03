@@ -106,7 +106,7 @@ class NewProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {asin, title, price, finalPrice, images, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
+            const {asin, title, price, finalPrice, images, description, isPrime, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
             const product = {
                 asin,
                 title,
@@ -114,8 +114,6 @@ class NewProductModal extends React.Component {
                 finalPrice,
                 description,
                 isPrime,
-                afterNote,
-                beforeNote,
                 maxDemands,
                 automaticAcceptance,
                 category,
@@ -166,13 +164,8 @@ class NewProductModal extends React.Component {
                             <h2 className="modal-title" id="exampleModalLabel">
                                 Nouveau Produit
                             </h2>
-                            <button
-                                aria-label="Close"
-                                className="close"
-                                data-dismiss="modal"
-                                type="button"
-                                onClick={() => this.toggleModal("exampleModal")}
-                            >
+                            <button aria-label="Close" className="close" data-dismiss="modal"
+                                type="button" onClick={() => this.toggleModal("exampleModal")}>
                                 <span aria-hidden={true}>×</span>
                             </button>
                         </div>
@@ -187,13 +180,9 @@ class NewProductModal extends React.Component {
                                                         <i className="fa fa-hashtag"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input
-                                                    placeholder="ASIN ou Lien amazon du produit"
-                                                    type="text"
-                                                    name="asinInput"
-                                                    value={this.state.asinInput}
-                                                    onChange={this.handleInputChange}
-                                                />
+                                                <Input placeholder="ASIN ou Lien amazon du produit" type="text"
+                                                    name="asinInput" value={this.state.asinInput}
+                                                    onChange={this.handleInputChange}/>
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
@@ -204,7 +193,7 @@ class NewProductModal extends React.Component {
 
                                 </Row>
                             </div>
-                            { this.state.asin ? (
+                            {this.state.asin ? (
                                 <>
                                     <div className="border-top">
                                         <div className="w-100 my-3">
@@ -279,16 +268,9 @@ class NewProductModal extends React.Component {
                                             <div className="col-6">
                                                 <FormGroup className="mb-3">
                                                     <InputGroup className="input-group-alternative">
-                                                        <Input
-                                                            placeholder="Prix"
-                                                            type="number"
-                                                            step="0.01"
-                                                            min="0.01"
-                                                            name="price"
-                                                            value={this.state.price}
-                                                            onChange={this.handleInputChange}
-                                                            required
-                                                        />
+                                                        <Input placeholder="Prix" type="number" step="0.01"
+                                                            min="0.01" name="price" value={this.state.price}
+                                                            onChange={this.handleInputChange} required/>
                                                         <InputGroupAddon addonType="append">
                                                             <InputGroupText>
                                                                 <i className="fa fa-euro"/>
@@ -335,30 +317,6 @@ class NewProductModal extends React.Component {
                                     </div>
                                     <div className="mt-3">
                                         <div className="row">
-                                            <FormGroup className="col-md-6 col-12">
-                                                <Input
-                                                    className="form-control-alternative"
-                                                    placeholder="Note visible AVANT une demande"
-                                                    rows="3"
-                                                    type="textarea"
-                                                    name="beforeNote"
-                                                    value={this.state.beforeNote}
-                                                    onChange={this.handleInputChange}
-                                                    required
-                                                />
-                                            </FormGroup>
-                                            <FormGroup className="col-md-6 col-12">
-                                                <Input
-                                                    className="form-control-alternative"
-                                                    placeholder="Note visible APRES une demande"
-                                                    rows="3"
-                                                    type="textarea"
-                                                    name="afterNote"
-                                                    value={this.state.afterNote}
-                                                    onChange={this.handleInputChange}
-                                                    required
-                                                />
-                                            </FormGroup>
                                             <FormGroup className="col-md-6 col-12">
                                                 <InputGroup className="input-group-alternative">
                                                     <InputGroupAddon addonType="prepend">

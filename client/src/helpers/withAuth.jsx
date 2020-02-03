@@ -21,6 +21,7 @@ export default function withAuth(ComponentToProtect) {
         .then( () =>  this.setState({ checked: true }))
         .catch(err => {
           this.setState({ checked: true, redirect: true });
+          console.log("2");
           userService.logout();
         });
         this.setState({ loadingPromise });

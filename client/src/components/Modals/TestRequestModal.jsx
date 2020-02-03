@@ -3,7 +3,9 @@ import React from "react";
 import {
     Button,
     Modal,
-    Label
+    Label,
+    FormGroup,
+    Input
 } from "reactstrap";
 import userServices from '../../services/user.services';
 import testServices from '../../services/test.services';
@@ -17,14 +19,25 @@ class TestRequestModal extends React.Component {
 
     constructor(props) {
         super(props);
+        this.initState = {
+            testerMessage: ""
+        };
         this.state = {
             isModalOpen: false,
-            amazonId: null
+            amazonId: null,
+            ...this.initState
         }
     }
 
     componentDidMount() {
-        this.onAmazonLogin();
+        const currentUser = userServices.currentUser;
+
+        if (currentUser) {
+            this.setState({
+                amazonId: currentUser.amazonId,
+                testerMessage: currentUser.testerMessage
+            });
+        }
     }
 
     toggleModal() {
@@ -38,36 +51,37 @@ class TestRequestModal extends React.Component {
     }
 
     async confirmRequest() {
-        await testServices.create({product: this.props.productId});
+        await testServices.create({
+            product: this.props.productId,
+            testerMessage: this.state.testerMessage
+        });
+        this.setState(this.initState);
+        this.toggleModal();
         toast.success("Demande envoyée.");
     }
+
+    handleInputChange = (event) => {
+        const {value, name} = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
 
     render() {
         return (
             <>
                 {/* Button trigger modal */}
-                <Button
-                    className='mt-3 w-100'
-                    color="primary"
-                    type="button"
-                    size={'lg'}
-                    onClick={() => this.toggleModal()}
-                >Demander à Tester</Button>
+                <Button className='mt-3 w-100' color="primary" type="button" size={'lg'}
+                        onClick={() => this.toggleModal()}>
+                    Demander à Tester
+                </Button>
                 {/* Modal */}
-                <Modal
-                    className="modal-dialog-centered"
-                    isOpen={this.state.isModalOpen}
-                    toggle={() => this.toggleModal()}
-                >
+                <Modal className="modal-dialog-centered" isOpen={this.state.isModalOpen}
+                       toggle={() => this.toggleModal()}>
                     <div className="modal-header">
                         <h2 className="modal-title">Demande de Test</h2>
-                        <button
-                            aria-label="Close"
-                            className="close"
-                            data-dismiss="modal"
-                            type="button"
-                            onClick={() => this.toggleModal()}
-                        >
+                        <button aria-label="Close" className="close" data-dismiss="modal" type="button"
+                                onClick={() => this.toggleModal()}>
                             <span aria-hidden={true}>×</span>
                         </button>
                     </div>
@@ -75,13 +89,13 @@ class TestRequestModal extends React.Component {
                         {userServices.isAuth() ?
                             //TODO remove true
                             this.state.amazonId || true ? (
-                                <div>
+                                <FormGroup className="text-left">
                                     {/* It's all good case */}
-                                    <Label>Message Vendeur Pré-Demande</Label>
-                                    <div className='text-left mt-3'>
-                                        {this.props.sellerNote}
-                                    </div>
-                                </div>
+                                    <Label for="sellerMessage">Message au Vendeur</Label>
+                                    <Input className="form-control-alternative" id="testerMessage" value={this.state.testerMessage}
+                                           placeholder="Je serai très fier de tester votre produit..."
+                                           type="textarea" name="testerMessage" onChange={this.handleInputChange}/>
+                                </FormGroup>
                             ) : (
                                 <div>
                                     {/* Missing amazon link case*/}
@@ -101,12 +115,7 @@ class TestRequestModal extends React.Component {
                             )}
                     </div>
                     <div className="modal-footer">
-                        <Button
-                            color="secondary"
-                            data-dismiss="modal"
-                            type="button"
-                            onClick={() => this.toggleModal()}
-                        >
+                        <Button color="secondary" data-dismiss="modal" type="button" onClick={() => this.toggleModal()}>
                             Fermer
                         </Button>
                         {userServices.isAuth() && userServices.amazonId || true ? (

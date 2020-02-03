@@ -24,8 +24,6 @@ const productObject = {
     finalPrice: { type: Number, required: true, auth: basicProductAuth },
     description: { type: String, required: true, auth: basicProductAuth},
     isPrime: { type: Boolean, required: true, index: true, auth: basicProductAuth },
-    beforeNote: { type: String, auth: basicProductAuth },
-    afterNote: { type: String, auth: basicProductAuth },
     maxDemands: { type: Number, required: true, auth: basicProductAuth },
     automaticAcceptance: { type: Boolean, required: true, index: true, auth: basicProductAuth },
     imageUrls: { type: [String], required: true, auth: basicProductAuth },

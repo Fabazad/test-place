@@ -13,7 +13,8 @@ const testObject = {
     tester: { type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User' },
     status: { type: String, enum: Object.values(constants.TEST_STATUSES), required: true },
     createdAt: { type: Date, default: new Date(), required: true, index: true },
-    updates: { type: [updateObject], default: [] }
+    updates: { type: [updateObject], default: [] },
+    testerMessage: { type: String }
 };
 
 const testSchema = new mongoose.Schema(testObject);
