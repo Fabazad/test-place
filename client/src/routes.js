@@ -19,14 +19,14 @@ const routes = [
     layout: "/dashboard"
   },
   {
-    path: "/received-requests",
+    path: "/sent-requests",
     name: "Demandes Envoyées",
     icon: "fa fa-hand-paper text-orange",
     component: Maps,
     layout: "/dashboard"
   },
   {
-    path: "/sent-requests",
+    path: "/recived-requests",
     name: "Demandes Reçues",
     icon: "far fa-hand-paper text-yellow",
     component: Maps,

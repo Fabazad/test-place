@@ -14,18 +14,17 @@ import {Link} from "react-router-dom";
 import AnimatedError from "../AnimatedError";
 import PropTypes from "prop-types";
 import {toast} from "react-toastify";
+import AnimatedCheck from "../AnimatedCheck";
 
 class TestRequestModal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.initState = {
-            testerMessage: ""
-        };
         this.state = {
             isModalOpen: false,
             amazonId: null,
-            ...this.initState
+            testerMessage: "",
+            requestSent: false
         }
     }
 
@@ -42,7 +41,9 @@ class TestRequestModal extends React.Component {
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen
+            isModalOpen: !this.state.isModalOpen,
+            testerMessage: userServices.currentUser.testerMessage,
+            requestSent: false
         });
     }
 
@@ -55,9 +56,7 @@ class TestRequestModal extends React.Component {
             product: this.props.productId,
             testerMessage: this.state.testerMessage
         });
-        this.setState(this.initState);
-        this.toggleModal();
-        toast.success("Demande envoyée.");
+        this.setState({ requestSent: true });
     }
 
     handleInputChange = (event) => {
@@ -86,39 +85,56 @@ class TestRequestModal extends React.Component {
                         </button>
                     </div>
                     <div className="modal-body text-center">
-                        {userServices.isAuth() ?
-                            //TODO remove true
-                            this.state.amazonId || true ? (
-                                <FormGroup className="text-left">
-                                    {/* It's all good case */}
-                                    <Label for="sellerMessage">Message au Vendeur</Label>
-                                    <Input className="form-control-alternative" id="testerMessage" defaultValue={this.state.testerMessage}
-                                           placeholder="Je serai très fier de tester votre produit..."
-                                           type="textarea" name="testerMessage" onChange={this.handleInputChange}/>
-                                </FormGroup>
-                            ) : (
-                                <div>
-                                    {/* Missing amazon link case*/}
-                                    <AnimatedError/>
-                                    <p>Vous devez lier un compte Amazon pour demander à tester un produit.</p>
-                                    <AmazonLoginButton onLogin={() => this.onAmazonLogin()}/>
-                                </div>
-                            )
-                            : (
-                                <div>
-                                    {/* Logout case*/}
-                                    <AnimatedError/>
-                                    <p>Vous devez être connecté pour demander à tester un produit.</p>
-                                    <Button color={'primary'} to={'/login'} tag={Link}>Se Connecter</Button>
-                                    <Link to={'/register'} className="ml-3">Créer un compte</Link>
-                                </div>
-                            )}
+                        {this.state.requestSent ? (
+                            <div>
+                                <AnimatedCheck />
+                                <p className="mt-5 h4">
+                                    Votre demande de test a bien été envoyée.<br/>
+                                    Il ne vous reste plus qu'à attendre la réponse du vendeur.<br/><br/>
+                                    Vous pouvez l'état de votre demande sur votre page<br/>
+                                    <Link to="/dashboard/sent-requests">Mes Demandes Envoyées</Link>
+                                </p>
+                            </div>
+                        ) : (
+                            <>
+                                {userServices.isAuth() ?
+                                    //TODO remove true
+                                    this.state.amazonId || true ? (
+                                        <FormGroup className="text-left">
+                                            {/* It's all good case */}
+                                            <Label for="sellerMessage">Message au Vendeur</Label>
+                                            <Input className="form-control-alternative" id="testerMessage"
+                                                   defaultValue={this.state.testerMessage}
+                                                   placeholder="Je serai très fier de tester votre produit..."
+                                                   type="textarea" name="testerMessage"
+                                                   onChange={this.handleInputChange}/>
+                                        </FormGroup>
+                                    ) : (
+                                        <div>
+                                            {/* Missing amazon link case*/}
+                                            <AnimatedError/>
+                                            <p>Vous devez lier un compte Amazon pour demander à tester un produit.</p>
+                                            <AmazonLoginButton onLogin={() => this.onAmazonLogin()}/>
+                                        </div>
+                                    )
+                                    : (
+                                        <div>
+                                            {/* Logout case*/}
+                                            <AnimatedError/>
+                                            <p>Vous devez être connecté pour demander à tester un produit.</p>
+                                            <Button color={'primary'} to={'/login'} tag={Link}>Se Connecter</Button>
+                                            <Link to={'/register'} className="ml-3">Créer un compte</Link>
+                                        </div>
+                                    )}
+                            </>
+                        )}
+
                     </div>
                     <div className="modal-footer">
                         <Button color="secondary" data-dismiss="modal" type="button" onClick={() => this.toggleModal()}>
                             Fermer
                         </Button>
-                        {userServices.isAuth() && userServices.amazonId || true ? (
+                        {userServices.isAuth() && userServices.amazonId && !this.state.requestSent || true ? (
                             //TODO remove true
                             <Button color={'primary'} type='button' onClick={() => this.confirmRequest()}>
                                 Confirmer la Demande
