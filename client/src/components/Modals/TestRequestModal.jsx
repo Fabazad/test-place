@@ -92,7 +92,7 @@ class TestRequestModal extends React.Component {
                                 <FormGroup className="text-left">
                                     {/* It's all good case */}
                                     <Label for="sellerMessage">Message au Vendeur</Label>
-                                    <Input className="form-control-alternative" id="testerMessage" value={this.state.testerMessage}
+                                    <Input className="form-control-alternative" id="testerMessage" defaultValue={this.state.testerMessage}
                                            placeholder="Je serai très fier de tester votre produit..."
                                            type="textarea" name="testerMessage" onChange={this.handleInputChange}/>
                                 </FormGroup>

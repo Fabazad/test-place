@@ -20,6 +20,7 @@ import Loading from "../components/Loading";
 import UpdatePasswordModal from "../components/Modals/UpdatePasswordModal";
 import {toast} from "react-toastify";
 import AmazonLoginButton from "../components/Buttons/AmazonLoginButton";
+import InfoPopover from "../components/InfoPopover";
 
 class Profile extends React.Component {
 
@@ -161,6 +162,11 @@ class Profile extends React.Component {
                                                         <label className="form-control-label"
                                                                htmlFor="input-tester-message">
                                                             Message Testeur
+                                                            <InfoPopover className="ml-3">
+                                                                Le champ texte <b><i>Message au Vendeur</i></b> à fournir lors
+                                                                d'une demande de test sera pré-rempli avec ce <b><i>Message
+                                                                Testeur</i></b>.
+                                                            </InfoPopover>
                                                         </label>
                                                         <Input className="form-control-alternative"
                                                                defaultValue={user.testerMessage}
