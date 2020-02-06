@@ -98,8 +98,8 @@ class TestRequestModal extends React.Component {
                         ) : (
                             <>
                                 {userServices.isAuth() ?
-                                    //TODO remove true
-                                    this.state.amazonId || true ? (
+                                    //TODO add true on local
+                                    this.state.amazonId ? (
                                         <FormGroup className="text-left">
                                             {/* It's all good case */}
                                             <Label for="sellerMessage">Message au Vendeur</Label>
@@ -134,8 +134,8 @@ class TestRequestModal extends React.Component {
                         <Button color="secondary" data-dismiss="modal" type="button" onClick={() => this.toggleModal()}>
                             Fermer
                         </Button>
-                        {userServices.isAuth() && userServices.amazonId && !this.state.requestSent || true ? (
-                            //TODO remove true
+                        {userServices.isAuth() && userServices.amazonId && !this.state.requestSent ? (
+                            //TODO add true on local
                             <Button color={'primary'} type='button' onClick={() => this.confirmRequest()}>
                                 Confirmer la Demande
                             </Button>
