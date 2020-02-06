@@ -66,26 +66,18 @@ class UpdatePasswordModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
-          color="primary"
-          size="sm"
-          type="button"
-          onClick={() => this.toggleModal("exampleModal")}
-        >
-          <span>Modifier le mot de passe</span>
+        <Button color="primary" type="button" onClick={() => this.toggleModal("exampleModal")}>
+          <span>Modifier mon mot de passe</span>
         </Button>
         {/* Modal */}
-        <Modal
-          className="modal-dialog-centered"
-          isOpen={this.state.exampleModal}
-          toggle={() => this.toggleModal("exampleModal")}
-        >
+        <Modal className="modal-dialog-centered" isOpen={this.state.exampleModal}
+          toggle={() => this.toggleModal("exampleModal")}>
           <Loading promise={this.state.loadingPromise} />
             <Form role="form" onSubmit={this.onSubmit}>
                 <div className="modal-header bg-secondary">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                        Modifier le mot de passe
-                    </h5>
+                    <h4 className="modal-title" id="exampleModalLabel">
+                        Modifier mon mot de passe
+                    </h4>
                     <button
                         aria-label="Close"
                         className="close"

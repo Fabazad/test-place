@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';
 import constants from "../../helpers/constants";
 import Loading from "../Loading";
-import {Link} from "react-router-dom";
 import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import PublishProductButton from "../Buttons/PublishProductButton";

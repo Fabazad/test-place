@@ -221,6 +221,16 @@ class UserController {
                 .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
+
+    static async updateUserInfo(currentUserId, userId, data) {
+        return new Promise((resolve, reject) => {
+            if (currentUserId !== userId) {
+                return reject({ status: 403, message: "Unauthorized"});
+            }
+            UserModel.findByIdAndUpdate(userId, data, { new: true }).then(resolve)
+                .catch(err => ErrorResponses.mongoose(err));
+        });
+    }
 }
 
 module.exports = UserController;

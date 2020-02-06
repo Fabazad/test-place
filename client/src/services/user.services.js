@@ -98,6 +98,10 @@ class UserService extends BaseService {
     resendValidationMail(email) {
         return axios.post(this.baseURL + "/validationMail", {email}).then(serviceResolve);
     }
+
+    updateUserInfo(userId, data) {
+        return axios.post(this.baseURL + "/updateUserInfo", {userId, data}).then(this.currentUserResolve);
+    }
 }
 
 export default new UserService();
