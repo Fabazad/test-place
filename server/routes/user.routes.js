@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/register', async (request, reply) => {
     const {name, email, password, captcha} = request.body;
     UserController.register(name, email, password, captcha)
-        .then(user => reply.send(user))
+        .then(user => reply.send())
         .catch(err => reply.status(err.status).send(err.message));
 });
 
