@@ -17,8 +17,9 @@ router.post('/login', async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
-router.get('/checkToken', withAuth, async (request, res) => {
-    res.send({userId: request.userId, amazonId: request.amazonId, user: request.user});
+router.get('/checkToken', async (request, res) => {
+    UserController.checkToken(request.query.logged, request.decoded)
+        .then(data => res.send(data));
 });
 
 router.post('/resetPasswordMail', async (request, reply) => {

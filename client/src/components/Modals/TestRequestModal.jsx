@@ -42,7 +42,7 @@ class TestRequestModal extends React.Component {
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen,
-            testerMessage: userServices.currentUser.testerMessage,
+            testerMessage: userServices.isAuth() ? userServices.currentUser.testerMessage : '',
             requestSent: false
         });
     }

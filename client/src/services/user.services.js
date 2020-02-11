@@ -10,8 +10,6 @@ function serviceResolve(res) {
 class UserService extends BaseService {
     constructor() {
         super('/user');
-        this.currentUserId = undefined;
-        this.amazonId = undefined;
         this.currentUser = undefined;
         this.currentUserSubject = new Subject();
         this.currentUserResolve = this.currentUserResolve.bind(this);
@@ -19,9 +17,11 @@ class UserService extends BaseService {
 
     async currentUserResolve(res) {
         const data = await serviceResolve(res);
-        if ("user" in data) {
+        if (typeof data === "object" && "user" in data) {
             this.currentUser = data.user;
             this.currentUserSubject.next();
+        } else if(this.isAuth() && !data.check) {
+            this.logout();
         }
         return Promise.resolve(data);
     }
@@ -34,22 +34,10 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + '/register', user).then(serviceResolve);
     }
 
-    checkToken(required = true) {
-        return new Promise((resolve, reject) => {
-            axios.get(this.baseURL + '/checkToken', {params: {required}}).then(res => {
-                if (res.data.userId) {
-                    this.currentUserId = res.data.userId;
-                    this.amazonId = res.data.amazonId;
-                    this.currentUserResolve(res).then(resolve);
-                } else {
-                    reject();
-                }
-            }).catch((err) => {
-                console.log(err);
-                this.logout();
-                reject();
-            });
-        });
+    checkToken() {
+        return axios.get(this.baseURL + '/checkToken', {
+            params: { logged: this.isAuth() }
+        }).then(this.currentUserResolve);
     }
 
     sendResetPasswordMail(email) {
@@ -69,7 +57,7 @@ class UserService extends BaseService {
     }
 
     getCurrentUserId() {
-        return this.currentUser._id;
+        return this.isAuth() ? this.currentUser._id : null;
     }
 
     isAuth() {
@@ -78,13 +66,12 @@ class UserService extends BaseService {
 
     logout() {
         eraseCookie("token");
-        this.currentUserId = null;
         this.currentUser = undefined;
         this.currentUserSubject.next();
     }
 
     isAlreadyChecked() {
-        return this.currentUserId !== undefined;
+        return this.currentUser !== undefined;
     }
 
     getAmazonId() {

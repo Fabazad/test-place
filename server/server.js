@@ -1,10 +1,11 @@
-const constants = require('./helpers/constants');
+const decode = require('./middlewares/decode');
 const express = require('express');
 const app = express();
 const dbConnection = require("./db-connection");
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require("path");
+
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -12,7 +13,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.use(cors());
 
-app.use(function (req, res, next) {
+app.use(decode, function (req, res, next) {
     console.log(req.method + ' : '  +req.url + ' [' + Date.now() + ']');
     next();
 });

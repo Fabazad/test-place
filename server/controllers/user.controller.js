@@ -231,6 +231,20 @@ class UserController {
                 .catch(err => ErrorResponses.mongoose(err));
         });
     }
+
+    static async checkToken(logged, decoded) {
+        return new Promise((resolve, reject) => {
+            if (!decoded || !decoded.userId) {
+                resolve({ user: null, check: false});
+            } else if (!logged || logged === "false") {
+                UserModel.findById(decoded.userId)
+                    .then(user => resolve({ user, check: false }))
+                    .catch(err => reject(ErrorResponses.mongoose(err)))
+            } else {
+                resolve({ check: true });
+            }
+        });
+    }
 }
 
 module.exports = UserController;
