@@ -35,8 +35,6 @@ class EditProductModal extends React.Component {
             images: [],
             description: '',
             isPrime: false,
-            afterNote: '',
-            beforeNote: '',
             maxDemands: '',
             automaticAcceptance: true,
             exampleModal: false,
@@ -78,15 +76,13 @@ class EditProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {title, price, finalPrice, images, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category} = this.state;
+            const {title, price, finalPrice, images, description, isPrime, maxDemands, automaticAcceptance, category} = this.state;
             const product = {
                 title,
                 price,
                 finalPrice,
                 description,
                 isPrime,
-                afterNote,
-                beforeNote,
                 maxDemands,
                 automaticAcceptance,
                 category
@@ -285,30 +281,6 @@ class EditProductModal extends React.Component {
                             </div>
                             <div className="mt-3">
                                 <div className="row">
-                                    <FormGroup className="col-md-6 col-12">
-                                        <Input
-                                            className="form-control-alternative"
-                                            placeholder="Note visible AVANT une demande"
-                                            rows="3"
-                                            type="textarea"
-                                            name="beforeNote"
-                                            value={this.state.beforeNote}
-                                            onChange={this.handleInputChange}
-                                            required
-                                        />
-                                    </FormGroup>
-                                    <FormGroup className="col-md-6 col-12">
-                                        <Input
-                                            className="form-control-alternative"
-                                            placeholder="Note visible APRES une demande"
-                                            rows="3"
-                                            type="textarea"
-                                            name="afterNote"
-                                            value={this.state.afterNote}
-                                            onChange={this.handleInputChange}
-                                            required
-                                        />
-                                    </FormGroup>
                                     <FormGroup className="col-md-6 col-12">
                                         <InputGroup className="input-group-alternative">
                                             <InputGroupAddon addonType="prepend">
