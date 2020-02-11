@@ -1,12 +1,12 @@
 const UserModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
-const secret = 'mysecretsshhh';
 const axios = require('axios');
 const randomToken = require('random-token');
 const moment = require("moment");
 const ErrorResponses =  require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
+const secret = process.env.JWT_KEY;
 
 class UserController {
 
