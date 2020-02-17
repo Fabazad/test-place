@@ -1,0 +1,57 @@
+.on-loading-app.background {
+    background: linear-gradient(-45deg, #23a6d5, #19194d, #6a79e8);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    display: flex;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(0.9, 0.9);
+    }
+    50% {
+        transform: scale(1.2, 1.2);
+    }
+    100% {
+        transform: scale(0.9, 0.9);
+    }
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        -webkit-transform: scale(0.9, 0.9);
+    }
+    50% {
+        -webkit-transform: scale(1.2, 1.2);
+    }
+    100% {
+        -webkit-transform: scale(0.9, 0.9);
+    }
+}
+
+.on-loading-app img {
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    animation: pulsate 2s ease-out;
+    animation-iteration-count: infinite;
+    -webkit-animation: pulsate 2s ease-out;
+    -webkit-animation-iteration-count: infinite;
+}
