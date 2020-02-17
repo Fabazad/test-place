@@ -40,6 +40,17 @@ class TestController {
                 });
         });
     }
+
+    static async getStatuses() {
+        return new Promise((resolve, reject) => {
+            const statuses = constants.TEST_STATUSES;
+            if (statuses && statuses.length > 0) {
+                resolve(statuses);
+            } else {
+                reject({status: 500, message: 'Missing test statuses.'})
+            }
+        });
+    }
 }
 
 module.exports = TestController;

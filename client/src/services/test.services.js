@@ -13,6 +13,14 @@ function serviceResolve(res) {
 class TestServices extends BaseService {
     constructor() {
         super('/test');
+        this.testStatuses = [];
+    }
+
+    async getTestStatuses() {
+        if (this.testStatuses && this.testStatuses.length > 0) {
+            this.testStatuses = await axios.get(this.baseURL + '/statuses').then(serviceResolve);
+        }
+        return Promise.resolve(this.testStatuses);
     }
 }
 

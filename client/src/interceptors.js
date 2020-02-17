@@ -13,7 +13,6 @@ axios.interceptors.request.use(function (request) {
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    console.log(error.response.status);
     let message;
     if (error.response) {
         message = error.response.data ?

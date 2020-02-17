@@ -10,4 +10,10 @@ router.post('/create', withAuth, async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.get('/statuses', async (request, reply) => {
+    TestController.getStatuses()
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;

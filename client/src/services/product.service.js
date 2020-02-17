@@ -15,20 +15,17 @@ class ProductService extends BaseService {
         super('/product');
         this.categories =  [];
         this.productsUpdatedSubject = new Subject();
-        this.getProductCategories().then(categories => this.categories = categories);
     }
 
     scrapFromAsin(asin) {
         return axios.get(this.baseURL + "/srapFromAsin/" + asin).then(serviceResolve);
     }
 
-    getProductCategories() {
-        if (this.categories && this.categories.length > 0) {
-            return Promise.resolve(this.categories);
-        } else {
-            return axios.get(this.baseURL + '/categories').then(serviceResolve);
+    async getProductCategories() {
+        if (!this.categories || !this.categories.length > 0) {
+            this.categories = await axios.get(this.baseURL + '/categories').then(serviceResolve);
         }
-
+        return Promise.resolve(this.categories);
     }
 }
 

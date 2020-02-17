@@ -238,7 +238,7 @@ class UserController {
                 resolve({ user: null, check: false});
             } else if (!logged || logged === "false") {
                 UserModel.findById(decoded.userId)
-                    .then(user => resolve({ user, check: false }))
+                    .then(user => resolve({ user, check: true }))
                     .catch(err => reject(ErrorResponses.mongoose(err)))
             } else {
                 resolve({ check: true });
