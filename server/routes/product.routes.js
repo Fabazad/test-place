@@ -13,7 +13,7 @@ router.get('/srapFromAsin/:asin', withAuth, async (request, reply) => {
 
 router.post('/create', withAuth, async (request, reply) => {
     const {item} = request.body;
-    ProductController.create(item, request.userId)
+    ProductController.create(item, request.decoded.userId)
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
