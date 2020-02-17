@@ -47,15 +47,15 @@ class UserController {
                 if (err) {
                     reject(ErrorResponses.mongoose(err));
                 } else if (!user) {
-                    reject({ status: 401, message: "Incorrect email or password"});
+                    reject({ status: 400, message: "Incorrect email or password"});
                 } else if (!user.emailValidation) {
-                    reject({ status: 401, message: "The email needs to be validate before."});
+                    reject({ status: 400, message: "The email needs to be validate before."});
                 } else {
                     user.isCorrectPassword(password, function(err, same) {
                         if (err) {
                             reject(ErrorResponses.mongoose(err));
                         } else if (!same) {
-                            reject({ status: 401, message: "Incorrect email or password"});
+                            reject({ status: 400, message: "Incorrect email or password"});
                         } else {
                             // Issue token
                             const payload = { userId: user._id };

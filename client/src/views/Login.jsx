@@ -54,7 +54,7 @@ class Login extends React.Component {
       setCookie("token", res.token, 7);
       this.props.history.push('/');
       toast.success("Connecté !");
-    }).catch(() => this.setState({loading: false}));
+    }).catch(() => this.setState({loading: false, password: ''}));
     this.setState({loadingPromise});
   };
 
