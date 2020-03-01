@@ -3,9 +3,9 @@ import { Route, Switch } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import SimpleFooter from "components/Footers/SimpleFooter.jsx";
+import SimpleFooter from "./../components/Footers/SimpleFooter.jsx";
 
-import routes from "routes.js";
+import routes from "./../routes.js";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 class Dashboard extends React.Component {

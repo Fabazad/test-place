@@ -1,8 +1,8 @@
 import Index from "views/Index.jsx";
 import Profile3 from "views/Profile.jsx";
-import Maps from "views/examples/Maps.jsx";
 import MyProducts from "./views/MyProducts";
 import SentDemands from "./views/SentDemands";
+import ReceivedDemands from "./views/ReceivedDemands";
 
 const routes = [
   {
@@ -30,7 +30,7 @@ const routes = [
     path: "/recived-requests",
     name: "Demandes Reçues",
     icon: "far fa-hand-paper text-yellow",
-    component: Maps,
+    component: ReceivedDemands,
     layout: "/dashboard"
   },
   {
