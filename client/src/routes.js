@@ -2,6 +2,7 @@ import Index from "views/Index.jsx";
 import Profile3 from "views/Profile.jsx";
 import Maps from "views/examples/Maps.jsx";
 import MyProducts from "./views/MyProducts";
+import SentDemands from "./views/SentDemands";
 
 const routes = [
   {
@@ -22,7 +23,7 @@ const routes = [
     path: "/sent-requests",
     name: "Demandes Envoyées",
     icon: "fa fa-hand-paper text-orange",
-    component: Maps,
+    component: SentDemands,
     layout: "/dashboard"
   },
   {

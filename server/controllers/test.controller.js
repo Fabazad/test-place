@@ -44,11 +44,38 @@ class TestController {
     static async getStatuses() {
         return new Promise((resolve, reject) => {
             const statuses = constants.TEST_STATUSES;
-            if (statuses && statuses.length > 0) {
+            if (statuses && Object.values(statuses).length > 0) {
                 resolve(statuses);
             } else {
                 reject({status: 500, message: 'Missing test statuses.'})
             }
+        });
+    }
+
+    static async find(currentUserId, searchData) {
+        return new Promise((resolve, reject) => {
+            const { itemsPerPage, page, statuses } = searchData;
+            if (!currentUserId) {
+                return reject({ status: 500, message: 'Should have currentUserId.' });
+            }
+            if (!itemsPerPage || !page) {
+                return reject({ status: 400, message: 'Missing pagination.' });
+            }
+            const skip = itemsPerPage * (page - 1);
+            const limit = itemsPerPage;
+            const sort = { 'createdAt': 1 };
+
+            let searchQuery = {};
+            if (statuses && statuses.length) {
+                searchQuery.status = { $in: statuses };
+            }
+
+            TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit)
+                .then(res => {
+                    TestModel.count(searchQuery).then(count => {
+                        resolve({hits: res, totalCount: count});
+                    }).catch(err => reject(ErrorResponses.mongoose(err)))
+                }).catch(err => reject(ErrorResponses.mongoose(err)))
         });
     }
 }

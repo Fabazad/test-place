@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DemoNavbar from 'components/Navbars/DemoNavbar';
 import userService from 'services/user.services';
-import { eraseCookie, getCookie } from './cookies';
+import { getCookie } from './cookies';
 import Loading from 'components/Loading';
 
 export default function withAuth(ComponentToProtect) {

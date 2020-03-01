@@ -13,7 +13,6 @@ import AmazonLoginButton from "../Buttons/AmazonLoginButton";
 import {Link} from "react-router-dom";
 import AnimatedError from "../AnimatedError";
 import PropTypes from "prop-types";
-import {toast} from "react-toastify";
 import AnimatedCheck from "../AnimatedCheck";
 
 class TestRequestModal extends React.Component {

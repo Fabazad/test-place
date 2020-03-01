@@ -44,6 +44,7 @@ const constants = {
     },
     TEST_STATUSES: {
         requested: "REQUESTED",
+        cancelled: "CANCELLED",
         requestDeclined: "REQUEST_DECLINED",
         requestAccepted: "REQUEST_ACCEPTED",
         productBought: "PRODUCT_BOUGHT",
