@@ -65,18 +65,21 @@ class TestController {
             const limit = itemsPerPage;
             const sort = { 'createdAt': 1 };
 
-            let searchQuery = {};
+            const searchQuery = {};
+            const populateList = ['product'];
             if (statuses && statuses.length) {
                 searchQuery.status = { $in: statuses };
             }
             if (asSeller) {
                 searchQuery.seller = currentUserId;
+                populateList.push('tester');
             }
             if (asTester) {
                 searchQuery.tester = currentUserId;
+                populateList.push('seller');
             }
 
-            TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit)
+            TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit).populate(populateList)
                 .then(res => {
                     TestModel.count(searchQuery).then(count => {
                         resolve({hits: res, totalCount: count});

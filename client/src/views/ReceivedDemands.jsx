@@ -18,6 +18,7 @@ import PaginationBis from "../components/PaginationBis";
 import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import DropdownSelect from "../components/DropdownSelect";
+import ReceivedDemandRow from "../components/Rows/ReceivedDemandRow";
 
 class ReceivedDemands extends React.Component {
 
@@ -121,7 +122,7 @@ class ReceivedDemands extends React.Component {
                             <Card className="shadow">
                                 <CardHeader className="border-0">
                                     <h3 className="mb-0 d-inline-block mt-2">
-                                        Mes Demandes de Test Envoyées - {this.state.totalCount}
+                                        Mes Demandes de Test Reçues - {this.state.totalCount}
                                     </h3>
                                     <div className="float-right text-center">
                                         <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
@@ -138,25 +139,15 @@ class ReceivedDemands extends React.Component {
                                         <th scope="col">Produit</th>
                                         <th scope='col'>Prix</th>
                                         <th scope='col'>Final</th>
-                                        <th scope="col">Publication</th>
-                                        <th scope="col">
-                                            <span id='demandsColumn' data-placement='top'>Demandes</span>
-                                            <UncontrolledTooltip
-                                                delay={0}
-                                                target='demandsColumn'
-                                                placement="top"
-                                            >
-                                                Nombre de Demandes Reçues / Nombre de Demande Max
-                                            </UncontrolledTooltip>
-                                        </th>
+                                        <th scope="col">Testeur</th>
+                                        <th scope="col">Date</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {this.state.tests.map(test => (
-                                        <tr key={'product' + test._id}>
-                                            <td>yo</td>
-                                        </tr>
+                                        <ReceivedDemandRow key={'test' + test._id} test={test}
+                                                           loading={this.state.loading}/>
                                     ))}
                                     </tbody>
                                 </Table>

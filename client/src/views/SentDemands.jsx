@@ -18,6 +18,7 @@ import PaginationBis from "../components/PaginationBis";
 import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import DropdownSelect from "../components/DropdownSelect";
+import SentDemandRow from "../components/Rows/SentDemandRow";
 
 class SentDemands extends React.Component {
 
@@ -138,25 +139,16 @@ class SentDemands extends React.Component {
                                         <th scope="col">Produit</th>
                                         <th scope='col'>Prix</th>
                                         <th scope='col'>Final</th>
-                                        <th scope="col">Publication</th>
-                                        <th scope="col">
-                                            <span id='demandsColumn' data-placement='top'>Demandes</span>
-                                            <UncontrolledTooltip
-                                                delay={0}
-                                                target='demandsColumn'
-                                                placement="top"
-                                            >
-                                                Nombre de Demandes Reçues / Nombre de Demande Max
-                                            </UncontrolledTooltip>
-                                        </th>
+                                        <th scope="col">Vendeur</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {this.state.tests.map(test => (
-                                        <tr key={'product' + test._id}>
-                                            <td>yo</td>
-                                        </tr>
+                                        <SentDemandRow key={'test' + test._id} test={test}
+                                                       loading={this.state.loading}/>
                                     ))}
                                     </tbody>
                                 </Table>
