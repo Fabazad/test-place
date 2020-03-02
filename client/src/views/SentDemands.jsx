@@ -65,12 +65,12 @@ class SentDemands extends React.Component {
         }
         const searchData = {
             seller: userServices.currentUserId,
-            statuses: this.state.statusesFilter
+            statuses: this.state.statusesFilter,
+            itemsPerPage: constants.ITEMS_PER_PAGE,
+            page: this.state.page,
+            statusFilter: this.state.statusFilter,
+            asTester: true
         };
-
-        searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
-        searchData.page = this.state.page;
-        searchData.statusFilter = this.state.statusFilter;
 
         this.setState({loading: true});
         testsServices.find({searchData})
@@ -128,7 +128,7 @@ class SentDemands extends React.Component {
                                             <DropdownSelect
                                                 options={statusesFilterOptions}
                                                 placeholder={'Filtrer par Status'} value={this.state.statusFilter}
-                                                onChange={(e) => this.onFilterChange(e)} name={'statusFilter'} />
+                                                onChange={(e) => this.onFilterChange(e)} name={'statusFilter'}/>
                                         </div>
                                     </div>
                                 </CardHeader>
@@ -154,7 +154,9 @@ class SentDemands extends React.Component {
                                     </thead>
                                     <tbody>
                                     {this.state.tests.map(test => (
-                                        <tr key={'product' + test._id}><td>yo</td></tr>
+                                        <tr key={'product' + test._id}>
+                                            <td>yo</td>
+                                        </tr>
                                     ))}
                                     </tbody>
                                 </Table>

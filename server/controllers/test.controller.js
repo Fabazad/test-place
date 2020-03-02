@@ -54,7 +54,7 @@ class TestController {
 
     static async find(currentUserId, searchData) {
         return new Promise((resolve, reject) => {
-            const { itemsPerPage, page, statuses } = searchData;
+            const { itemsPerPage, page, statuses, asSeller, asTester } = searchData;
             if (!currentUserId) {
                 return reject({ status: 500, message: 'Should have currentUserId.' });
             }
@@ -68,6 +68,12 @@ class TestController {
             let searchQuery = {};
             if (statuses && statuses.length) {
                 searchQuery.status = { $in: statuses };
+            }
+            if (asSeller) {
+                searchQuery.seller = currentUserId;
+            }
+            if (asTester) {
+                searchQuery.tester = currentUserId;
             }
 
             TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit)

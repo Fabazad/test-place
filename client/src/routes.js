@@ -27,7 +27,7 @@ const routes = [
     layout: "/dashboard"
   },
   {
-    path: "/recived-requests",
+    path: "/received-requests",
     name: "Demandes Reçues",
     icon: "far fa-hand-paper text-yellow",
     component: ReceivedDemands,
