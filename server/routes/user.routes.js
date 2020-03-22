@@ -63,7 +63,7 @@ router.post('/amazonLogin', withAuth, async (request, reply) => {
 router.post('/update', withAuth, async (request, reply) => {
 
     const {itemId, fields} = request.body;
-    const {userId} = request;
+    const {userId} = request.decoded;
     UserController.update(userId, itemId, fields)
         .then(user => reply.send(user))
         .catch(err => reply.status(err.status).send(err.message));

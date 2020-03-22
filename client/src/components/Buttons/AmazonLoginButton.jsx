@@ -53,9 +53,10 @@ class AmazonLoginButton extends React.Component {
     }
 
     onAmazonLogout() {
+        this.setState({loading: true});
         userServices.update(userServices.getCurrentUserId(), {amazonId: null})
             .then(() => {
-                userServices.currentUser.amazonId = undefined;
+                userServices.currentUser.amazonId = null;
                 this.setState({
                     amazonId: '',
                     loading: false
