@@ -51,7 +51,7 @@ class MyProducts extends React.Component {
             return;
         }
         const searchData = {
-            seller: userServices.currentUserId
+            seller: userServices.getCurrentUserId()
         };
 
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;

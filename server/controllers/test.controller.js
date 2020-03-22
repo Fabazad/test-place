@@ -25,7 +25,7 @@ class TestController {
             const test = new TestModel(testData);
 
             test.save()
-                .then(res => {
+                .then(() => {
                     product.remainingRequests--;
                     product.save()
                         .then(() => resolve(test))
@@ -102,7 +102,17 @@ class TestController {
             test.status = constants.TEST_STATUSES.requestCancelled;
             test.cancelRequestReason = cancelReason;
 
-            test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
+            test.save().then(() => {
+                ProductModel.findByIdAndUpdate(test.product._id, { $inc: { remainingRequests: 1 } })
+                    .then(() => resolve(test))
+                    .catch(err => reject(ErrorResponses.mongoose(err)))
+            })
+                .catch(err => {
+                    if (err.code === 11000) {
+                        reject({status: 400, message: 'Vous avez déjà fait une demande de test avec ce même produit.'});
+                    }
+                    reject(ErrorResponses.mongoose(err));
+                });
         });
     }
 }

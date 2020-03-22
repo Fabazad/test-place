@@ -66,7 +66,7 @@ class ProductRow extends React.Component {
                 </th>
                 <td>{product.maxDemands - product.remainingRequests} / {product.maxDemands}</td>
                 <td>
-                    <div className="avatar-group">
+                    <div className="avatar-group pl-3">
                         {published ? (
                             <>
                                 <UnpublishProductButton productId={product._id}/>
