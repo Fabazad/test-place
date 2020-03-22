@@ -7,8 +7,7 @@ import {
     CardFooter,
     Table,
     Container,
-    Row,
-    UncontrolledTooltip
+    Row
 } from "reactstrap";
 // core components
 import Header from "../components/Headers/Header.jsx";
@@ -19,10 +18,14 @@ import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import DropdownSelect from "../components/DropdownSelect";
 import SentDemandRow from "../components/Rows/SentDemandRow";
+import TestRequestModal from "../components/Modals/TestRequestModal.jsx";
 
 class SentDemands extends React.Component {
 
     _isMount = true;
+    modalNames = {
+        testRequest: 'testRequest'
+    };
 
     constructor(props) {
         super(props);
@@ -34,18 +37,23 @@ class SentDemands extends React.Component {
             statusFilter: null,
             statuses: [],
             statusesFilter: {},
-            statusesFilterOptions: {}
+            statusesFilterOptions: {},
+            isModalOpen: {
+                testRequest: false
+            },
+            selectedTest: null
         };
+        this.onShowButtonClick = this.onShowButtonClick.bind(this);
     }
 
     componentDidMount() {
         testsServices.testsSubject.subscribe(() => this.findTests());
         testsServices.getTestStatuses().then(statuses => {
             const statusesFilterOptions = [
-                statuses.requested,
-                statuses.cancelled,
-                statuses.requestDeclined,
-                statuses.requestAccepted
+                statuses['requested'],
+                statuses['requestCancelled'],
+                statuses['requestDeclined'],
+                statuses['requestAccepted']
             ];
             this.setState({
                 statuses,
@@ -65,7 +73,7 @@ class SentDemands extends React.Component {
             return;
         }
         const searchData = {
-            seller: userServices.currentUserId,
+            seller: userServices.getCurrentUserId(),
             statuses: this.state.statusesFilter,
             itemsPerPage: constants.ITEMS_PER_PAGE,
             page: this.state.page,
@@ -100,6 +108,20 @@ class SentDemands extends React.Component {
         window.history.pushState({}, "", url);
 
         this.setState({page}, this.findTests);
+    }
+
+    toggleModal(modalName) {
+        this.setState({
+            isModalOpen: {
+                [modalName]: !this.state.isModalOpen[modalName]
+            }
+        })
+    }
+
+    onShowButtonClick(test) {
+        this.setState({
+            selectedTest: test
+        }, () => this.toggleModal(this.modalNames.testRequest));
     }
 
     render() {
@@ -148,7 +170,9 @@ class SentDemands extends React.Component {
                                     <tbody>
                                     {this.state.tests.map(test => (
                                         <SentDemandRow key={'test' + test._id} test={test}
-                                                       loading={this.state.loading}/>
+                                                       loading={this.state.loading}
+                                                       onShowButtonClick={this.onShowButtonClick}
+                                        />
                                     ))}
                                     </tbody>
                                 </Table>
@@ -172,6 +196,10 @@ class SentDemands extends React.Component {
                         </div>
                     </Row>
                 </Container>
+                <TestRequestModal isOpen={this.state.isModalOpen[this.modalNames.testRequest]}
+                                  onToggle={() => this.toggleModal(this.modalNames.testRequest)}
+                                  test={this.state.selectedTest}
+                />
             </>
         );
     }

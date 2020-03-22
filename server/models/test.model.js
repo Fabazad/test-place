@@ -14,10 +14,20 @@ const testObject = {
     status: { type: String, enum: Object.values(constants.TEST_STATUSES), required: true },
     createdAt: { type: Date, default: new Date(), required: true, index: true },
     updates: { type: [updateObject], default: [] },
-    testerMessage: { type: String }
+    testerMessage: { type: String },
+    cancelRequestReason: { type: String }
 };
 
 const testSchema = new mongoose.Schema(testObject);
+
+testSchema.pre('save', function(next) {
+    // Check if document is new or a new status has been set
+    if (this.isNew || this.isModified('status')) {
+        const document = this;
+        document.updates.push({date: new Date(), status: document.status});
+    }
+    next();
+});
 
 testSchema.index({
     product: 1,

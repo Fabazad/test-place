@@ -7,8 +7,7 @@ import {
     CardFooter,
     Table,
     Container,
-    Row,
-    UncontrolledTooltip
+    Row
 } from "reactstrap";
 // core components
 import Header from "../components/Headers/Header.jsx";
@@ -65,7 +64,7 @@ class ReceivedDemands extends React.Component {
             return;
         }
         const searchData = {
-            seller: userServices.currentUserId,
+            seller: userServices.getCurrentUserId(),
             statuses: this.state.statusesFilter,
             itemsPerPage: constants.ITEMS_PER_PAGE,
             page: this.state.page,

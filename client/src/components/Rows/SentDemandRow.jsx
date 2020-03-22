@@ -2,7 +2,7 @@ import React from "react";
 
 // reactstrap components
 import {
-    Badge, Media
+    Badge, Media, UncontrolledTooltip
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';
@@ -10,6 +10,8 @@ import SkeletonProductRow from "./SkeletonProductRow";
 import {Link} from "react-router-dom";
 import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
 import testServices from "../../services/test.services";
+import ShowTestRequestButton from "../Buttons/ShowTestRequestButton";
+import {withTranslation} from "react-i18next";
 
 class SentDemandRow extends React.Component {
 
@@ -24,13 +26,32 @@ class SentDemandRow extends React.Component {
         testServices.getTestStatuses().then(statuses => this.setState({statuses}));
     }
 
+    getStatusColor(status) {
+        const {statuses} = this.state;
+        if (!Object.keys(statuses).length) return '';
+        if (statuses['requested'] === status) return 'warning';
+        if (statuses['requestCancelled'] === status) return 'default';
+        if (statuses['requestDeclined'] === status) return 'danger';
+        return 'success';
+    }
+
+    getIconClass(status) {
+        const {statuses} = this.state;
+        if (!Object.keys(statuses).length) return '';
+        if (statuses['requested'] === status) return 'fa-hourglass';
+        if (statuses['requestCancelled'] === status) return 'fa-times';
+        if (statuses['requestDeclined'] === status) return 'fa-hand-paper';
+        return 'fa-check';
+    }
+
     render() {
-        const {test} = this.props;
+        const {test, t} = this.props;
         const {statuses} = this.state;
 
-        if (this.props.loading) {
+        if (this.props.loading || !test) {
             return (<SkeletonProductRow/>)
         }
+
         return (
             <tr>
                 <td scope="row">
@@ -65,12 +86,19 @@ class SentDemandRow extends React.Component {
                     </Badge>
                 </td>
                 <td>
-                    {test.status}
+                    <span>
+                        <Badge pill className="badge-circle" color={this.getStatusColor(test.status)} id={'status-' + test._id}>
+                            <i className={"fa m-auto " + this.getIconClass(test.status)}/>
+                        </Badge>
+                        <UncontrolledTooltip delay={0} target={"status-" + test._id}>{t(test.status)}</UncontrolledTooltip>
+                    </span>
                 </td>
                 <td>
                     <div className="avatar-group">
                         {test.status === statuses.requested ? (
                             <CancelTestRequestButton testId={test._id}/>) : null}
+                        <ShowTestRequestButton onClick={() => this.props.onShowButtonClick(test)} testId={test._id}/>
+
                     </div>
                 </td>
             </tr>
@@ -80,7 +108,8 @@ class SentDemandRow extends React.Component {
 
 SentDemandRow.propTypes = {
     test: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    onShowButtonClick: PropTypes.func.isRequired
 };
 
-export default SentDemandRow;
+export default withTranslation()(SentDemandRow);

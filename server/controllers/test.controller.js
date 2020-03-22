@@ -22,7 +22,6 @@ class TestController {
             testData.seller = product.seller.toString();
             testData.status = constants.TEST_STATUSES.requested;
             testData.createdAt = new Date();
-            testData.updates = [{date: new Date(), status: constants.TEST_STATUSES.requested}];
             const test = new TestModel(testData);
 
             test.save()
@@ -30,7 +29,7 @@ class TestController {
                     product.remainingRequests--;
                     product.save()
                         .then(() => resolve(test))
-                        .catch(err => ErrorResponses.mongoose(err))
+                        .catch(err => reject(ErrorResponses.mongoose(err)))
                 })
                 .catch(err => {
                     if (err.code === 11000) {
@@ -85,6 +84,25 @@ class TestController {
                         resolve({hits: res, totalCount: count});
                     }).catch(err => reject(ErrorResponses.mongoose(err)))
                 }).catch(err => reject(ErrorResponses.mongoose(err)))
+        });
+    }
+
+    static async cancelRequest(currentUserId, testId, cancelReason) {
+        return new Promise(async (resolve, reject) => {
+            const test = await TestModel.findById(testId);
+
+            if (test.tester.toString() !== currentUserId) {
+                return reject({ status: 400, message: "You need to be the tester to cancel the test request."});
+            }
+
+            if (test.status !== constants.TEST_STATUSES.requested) {
+                return reject( { status: 400, message: "The test status has to be 'requested' in order to cancel the request." });
+            }
+
+            test.status = constants.TEST_STATUSES.requestCancelled;
+            test.cancelRequestReason = cancelReason;
+
+            test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 }

@@ -1,11 +1,10 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
 
 function serviceResolve(res) {
     if (res.status !== 200) {
-        const error = new Error(res.error);
-        throw error;
+        throw new Error(res.error);
     }
     return Promise.resolve(res.data);
 }
@@ -22,6 +21,10 @@ class TestServices extends BaseService {
             this.testStatuses = await axios.get(this.baseURL + '/statuses').then(serviceResolve);
         }
         return Promise.resolve(this.testStatuses);
+    }
+
+    async cancelRequest(testId, cancelReason) {
+        return axios.post(this.baseURL + "/cancelRequest", {testId, cancelReason}).then(serviceResolve);
     }
 }
 

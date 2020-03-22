@@ -13,7 +13,7 @@ import constants from "../helpers/constants";
 import {Link} from "react-router-dom";
 import {formatDate} from "../helpers/textHelpers";
 import Carousel from "../components/Carousel";
-import TestRequestModal from "../components/Modals/TestRequestModal";
+import NewTestRequestModal from "../components/Modals/NewTestRequestModal.jsx";
 
 class ProductDetail extends React.Component {
 
@@ -115,14 +115,14 @@ class ProductDetail extends React.Component {
                                         {/* Desktop view */}
                                         {product && product._id && currentUserId !== product.seller._id ? (
                                             <div className={"d-none d-md-block"}>
-                                                <TestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
+                                                <NewTestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
                                             </div>
                                         ) : null}
                                     </div>
                                     {/* Mobile view */}
                                     {product && product._id ? (
                                         <div className={"d-block d-md-none"}>
-                                            <TestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
+                                            <NewTestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
                                         </div>
                                     ) : null}
                                     <div className="mt-5">

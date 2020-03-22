@@ -25,17 +25,13 @@ class CancelTestRequestButton extends React.Component {
         this.setState({isOpen: false});
     }
 
-    cancelTest(e) {
-        e.preventDefault();
-        console.log('cancel');
-    }
-
     render() {
         const testId = this.props.testId;
         return (
             <>
-                <Button color="info" className="d-block d-md-none w-100 text-center mx-0 my-1">
-                    <i className="fa fa-eye m-auto fa-lg"/>
+                <Button color="danger" className="d-block d-md-none w-100 text-center mx-0 my-1"
+                        onClick={this.openModal}>
+                    <i className="fa fa-times m-auto fa-lg"/>
                     <span className="ml-2">Annuler</span>
                 </Button>
                 <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
@@ -45,7 +41,7 @@ class CancelTestRequestButton extends React.Component {
                     </Badge>
                     <UncontrolledTooltip delay={0} target={"cancel-" + testId}>Annuler</UncontrolledTooltip>
                 </div>
-                <CancelTestRequestModal isOpen={this.state.isOpen} onClose={this.closeModal}/>
+                <CancelTestRequestModal isOpen={this.state.isOpen} onClose={this.closeModal} testId={testId}/>
             </>
         );
     }

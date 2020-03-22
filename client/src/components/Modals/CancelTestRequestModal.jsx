@@ -5,15 +5,13 @@ import {
     Modal,
     Form,
     FormGroup,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
     Input
 } from "reactstrap";
 import {withTranslation} from "react-i18next";
 import Loading from "../Loading";
 import PropTypes from "prop-types";
-import EditProductModal from "./EditProductModal";
+import testServices from "../../services/test.services";
+import {toast} from "react-toastify";
 
 //import PropTypes from 'prop-types';
 
@@ -34,9 +32,15 @@ class CancelTestRequestModal extends React.Component {
         });
     };
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.props.onClose();
+    onSubmit = async (e) => {
+            e.preventDefault();
+            const loadingPromise = testServices.cancelRequest(this.props.testId, this.state.cancelReason);
+            this.setState({loadingPromise});
+            await loadingPromise.then(() => {
+                testServices.testsSubject.next();
+                toast.success("Demande de test annulée");
+                this.props.onClose();
+            });
     };
 
     render() {
@@ -77,7 +81,8 @@ class CancelTestRequestModal extends React.Component {
 
 CancelTestRequestModal.propTypes = {
     onClose: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool.isRequired
+    isOpen: PropTypes.bool.isRequired,
+    testId: PropTypes.string.isRequired
 };
 
 export default withTranslation()(CancelTestRequestModal);

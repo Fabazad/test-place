@@ -23,4 +23,11 @@ router.get('/find', withAuth, async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/cancelRequest', withAuth, async (request, reply) => {
+    const { testId, cancelReason } = request.body;
+    TestController.cancelRequest(request.decoded.userId, testId, cancelReason)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;
