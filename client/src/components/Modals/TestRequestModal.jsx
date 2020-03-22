@@ -90,7 +90,7 @@ class TestRequestModal extends React.Component {
                                 <p className="mt-5 h4">
                                     Votre demande de test a bien été envoyée.<br/>
                                     Il ne vous reste plus qu'à attendre la réponse du vendeur.<br/><br/>
-                                    Vous pouvez l'état de votre demande sur votre page<br/>
+                                    Vous pouvez suivre l'état de votre demande sur votre page<br/>
                                     <Link to="/dashboard/sent-requests">Mes Demandes Envoyées</Link>
                                 </p>
                             </div>
@@ -133,7 +133,7 @@ class TestRequestModal extends React.Component {
                         <Button color="secondary" data-dismiss="modal" type="button" onClick={() => this.toggleModal()}>
                             Fermer
                         </Button>
-                        {userServices.isAuth() && userServices.amazonId && !this.state.requestSent ? (
+                        {userServices.isAuth() && this.state.amazonId && !this.state.requestSent ? (
                             //TODO add true on local
                             <Button color={'primary'} type='button' onClick={() => this.confirmRequest()}>
                                 Confirmer la Demande
