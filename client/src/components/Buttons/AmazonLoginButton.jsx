@@ -53,14 +53,15 @@ class AmazonLoginButton extends React.Component {
     }
 
     onAmazonLogout() {
-        userServices.update(userServices.getCurrentUserId(), {amazonId: null}).then(() => {
-            userServices.amazonId = undefined;
-            this.setState({
-                amazonId: '',
-                loading: false
+        userServices.update(userServices.getCurrentUserId(), {amazonId: null})
+            .then(() => {
+                userServices.currentUser.amazonId = undefined;
+                this.setState({
+                    amazonId: '',
+                    loading: false
+                });
+                toast.success('Compte Amazon déconnecté');
             });
-            toast.success('Compte Amazon déconnecté');
-        });
     }
 
     render() {
@@ -81,17 +82,17 @@ class AmazonLoginButton extends React.Component {
                     className={"btn " + (this.state.amazonId ? 'btn-default' : 'btn-primary')}
                     linked={this.state.amazonId ? 1 : 0}
                 >
-                    <Loading loading={this.state.loading} />
+                    <Loading loading={this.state.loading}/>
                     {this.state.amazonId ? (
-                    <>
-                        <AnimatedCheck className={"m-0 d-inline-block"} style={{"width": "20px"}}/>
-                        <span className="ml-2">Compte Amazon Lié</span>
-                    </>
+                        <>
+                            <AnimatedCheck className={"m-0 d-inline-block"} style={{"width": "20px"}}/>
+                            <span className="ml-2">Compte Amazon Lié</span>
+                        </>
                     ) : (
-                    <>
-                        <i className="fab fa-amazon size-lg text-yellow"/>
-                        <span className="btn-inner--text">Lier un compte Amazon</span>
-                    </>
+                        <>
+                            <i className="fab fa-amazon size-lg text-yellow"/>
+                            <span className="btn-inner--text">Lier un compte Amazon</span>
+                        </>
                     )}
                 </SocialButton>
             </>

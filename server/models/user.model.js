@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    amazonId: { type: String, unique: true },
+    amazonId: { type: String, unique: true, sparse: true },
     testerMessage: String
 });
 

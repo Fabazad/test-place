@@ -54,7 +54,7 @@ router.post('/emailValidation', async (request, reply) => {
 router.post('/amazonLogin', withAuth, async (request, reply) => {
 
     const {amazonToken} = request.body;
-    const {userId} = request;
+    const {userId} = request.decoded;
     UserController.amazonLogin(userId, amazonToken)
         .then(user => reply.send({ user }))
         .catch(err => reply.status(err.status).send(err.message));
