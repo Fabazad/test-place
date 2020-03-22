@@ -41,10 +41,10 @@ class ReceivedDemands extends React.Component {
         testsServices.testsSubject.subscribe(() => this.findTests());
         testsServices.getTestStatuses().then(statuses => {
             const statusesFilterOptions = [
-                statuses.requested,
-                statuses.cancelled,
-                statuses.requestDeclined,
-                statuses.requestAccepted
+                statuses['requested'],
+                statuses['requestCancelled'],
+                statuses['requestDeclined'],
+                statuses['requestAccepted']
             ];
             this.setState({
                 statuses,

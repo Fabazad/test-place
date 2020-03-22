@@ -2,6 +2,7 @@ import React from "react";
 import '../assets/scss/animated-checks.scss';
 import PropTypes from "prop-types";
 import {UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
+import {withTranslation} from "react-i18next";
 
 class DropdownSelect extends React.Component {
 
@@ -35,6 +36,7 @@ class DropdownSelect extends React.Component {
     }
 
     render() {
+        const {t} = this.props;
         return (
             <UncontrolledDropdown group className={'w-100 dropdown-select '+ this.props.className}>
                 <DropdownToggle caret color="secondary"
@@ -61,7 +63,7 @@ class DropdownSelect extends React.Component {
                                 (
                                     <DropdownItem onClick={() => this.onSelectItem(option)}
                                                   key={option.value} className={"cursor-pointer"}>
-                                        {option.text}
+                                        {t(option.text)}
                                     </DropdownItem>
                                 )
                              : null
@@ -85,4 +87,4 @@ DropdownSelect.propTypes = {
     value: PropTypes.string
 };
 
-export default DropdownSelect;
+export default withTranslation()(DropdownSelect);
