@@ -48,7 +48,7 @@ class TestRequestModal extends React.Component {
     }
 
     onAmazonLogin() {
-        this.setState({amazonId: userServices.amazonId});
+        this.setState({amazonId: userServices.currentUser.amazonId});
     }
 
     async confirmRequest() {

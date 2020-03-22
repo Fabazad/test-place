@@ -38,7 +38,7 @@ router.post('/resetPassword', async (request, reply) => {
 
 router.post('/updatePassword', withAuth, async (request, reply) => {
     const {previousPassword, password} = request.body;
-    const {userId} = request;
+    const {userId} = request.decoded;
     UserController.updatePassword(previousPassword, password, userId)
         .then(() => reply.send())
         .catch(err => reply.status(err.status).send(err.message));
