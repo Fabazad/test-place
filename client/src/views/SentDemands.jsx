@@ -111,11 +111,12 @@ class SentDemands extends React.Component {
     }
 
     toggleModal(modalName) {
+        const isOpen = !this.state.isModalOpen[modalName];
         this.setState({
             isModalOpen: {
-                [modalName]: !this.state.isModalOpen[modalName]
+                [modalName]: isOpen
             }
-        })
+        });
     }
 
     onShowButtonClick(test) {

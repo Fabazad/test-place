@@ -115,14 +115,16 @@ class ProductDetail extends React.Component {
                                         {/* Desktop view */}
                                         {product && product._id && currentUserId !== product.seller._id ? (
                                             <div className={"d-none d-md-block"}>
-                                                <NewTestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
+                                                <NewTestRequestModal sellerNote={product.beforeNote}
+                                                                     productId={product._id}/>
                                             </div>
                                         ) : null}
                                     </div>
                                     {/* Mobile view */}
                                     {product && product._id ? (
                                         <div className={"d-block d-md-none"}>
-                                            <NewTestRequestModal sellerNote={product.beforeNote} productId={product._id}/>
+                                            <NewTestRequestModal sellerNote={product.beforeNote}
+                                                                 productId={product._id}/>
                                         </div>
                                     ) : null}
                                     <div className="mt-5">
@@ -134,26 +136,22 @@ class ProductDetail extends React.Component {
                                         <h1>{product ? product.title : ''}</h1>
                                     </div>
                                     <div className="mt-4 d-flex justify-content-around">
-                                        {
-                                            product && product.automaticAcceptance ? (
-                                                <h2 className="d-inline-block">
-                                                    <Badge pill color={'info'} className='badge-lg'>
-                                                        Acceptation Automatique
-                                                    </Badge>
-                                                </h2>
-                                            ) : null
-                                        }
+                                        {product && product.automaticAcceptance ? (
+                                            <h2 className="d-inline-block">
+                                                <Badge pill color={'info'} className='badge-lg'>
+                                                    Acceptation Automatique
+                                                </Badge>
+                                            </h2>
+                                        ) : null}
 
-                                        {
-                                            product && product.isPrime ? (
-                                                <h2 className="d-inline-block">
-                                                    <Badge pill color={'info'} className='badge-lg'>
-                                                        <img src={require("assets/img/icons/prime.png")} alt="prime"
-                                                             style={{"height": "18px"}}/>
-                                                    </Badge>
-                                                </h2>
-                                            ) : null
-                                        }
+                                        {product && product.isPrime ? (
+                                            <h2 className="d-inline-block">
+                                                <Badge pill color={'info'} className='badge-lg'>
+                                                    <img src={require("assets/img/icons/prime.png")} alt="prime"
+                                                         style={{"height": "18px"}}/>
+                                                </Badge>
+                                            </h2>
+                                        ) : null}
 
                                     </div>
                                     <div className="mt-3">
