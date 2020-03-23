@@ -2,7 +2,7 @@ import React from "react";
 
 // reactstrap components
 import {
-    Badge, Media, UncontrolledTooltip
+    Badge, Media
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';

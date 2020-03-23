@@ -22,6 +22,11 @@ const TestRequestModal = (props) => {
     const [statuses, setStatuses] = useState({});
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
 
+    const onAnswerTestSubmit = () => {
+        testServices.testsSubject.next();
+        onToggle();
+    };
+
     if (!test) return '';
 
     return (
@@ -44,7 +49,9 @@ const TestRequestModal = (props) => {
                         <div className='my-auto'>
                             <Label>Date de le demande :</Label> {formatDate(test.createdAt)}
                             <h4>
-                                <Link to={'/ad/' + test.product._id} target='_blank'>{test.product.title}</Link>
+                                <Link to={'/ad/' + test.product._id} target='_blank' rel="noopener noreferrer">
+                                    {test.product.title}
+                                </Link>
                             </h4>
                         </div>
                     </div>
@@ -73,14 +80,14 @@ const TestRequestModal = (props) => {
                         <div className='row w-100'>
                             <div className="col-6 text-center">
                                 <Label>Vendeur Test-Place</Label>
-                                <Link to={'/profile/' + test.seller._id} target='_blank' className='d-block'>
+                                <Link to={'/profile/' + test.seller._id} target='_blank' className='d-block' rel="noopener noreferrer">
                                     {test.seller.name}
                                 </Link>
                             </div>
                             <div className="col-6 text-center">
                                 <Label>Vendeur Amazon</Label>
                                 {test.product.amazonSeller ? (
-                                    <a href={test.product.amazonSeller.url} target='_blank' className='d-block'>
+                                    <a href={test.product.amazonSeller.url} target='_blank' className='d-block' rel="noopener noreferrer">
                                         {test.product.amazonSeller.name}
                                     </a>) : null}
                             </div>
@@ -88,7 +95,7 @@ const TestRequestModal = (props) => {
                     </div> : null}
                     {userType === userTypes.seller ? <div className="col-12 col-md-6 mt-3 text-center">
                         <Label>Testeur</Label>
-                        <a href={'/profile/' + test.tester.id} target='_blank' className='d-block'>
+                        <a href={'/profile/' + test.tester.id} target='_blank' className='d-block' rel="noopener noreferrer">
                             {test.tester.name}
                         </a>
                     </div> : null}
@@ -118,7 +125,7 @@ const TestRequestModal = (props) => {
                         <div className="col-12 text-center mt-3">
                             <Label>Raison du refus</Label>
                             <Alert color="danger">
-                                {test.declinedRaison}
+                                {test.declineRequestReason}
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requestAccepted'] && userTypes.tester === userType ?
@@ -126,10 +133,10 @@ const TestRequestModal = (props) => {
                             <Label>Ensuite ?</Label>
                             <Alert color="success">
                                 Commandez le produit sur le site amazon en suivant ce lien :
-                                <a href={'https://www.amazon.fr/dp/' + test.product.asin} target='_blank'> Lien
+                                <a href={'https://www.amazon.fr/dp/' + test.product.asin} target='_blank' rel="noopener noreferrer"> Lien
                                     Produit</a>.<br/>
                                 Indiquez au vendeur lorsque vous commandez sur votre page
-                                <Link to='' target='_blank'> Mes Tests en Cours</Link>.<br/>
+                                <Link to='' target='_blank' rel="noopener noreferrer"> Mes Tests en Cours</Link>.<br/>
                                 Recevez votre colis, testez le, notez le et recevez votre compensation financière de la
                                 part du vendeur.
                             </Alert>
@@ -140,7 +147,7 @@ const TestRequestModal = (props) => {
                             <Alert color="success">
                                 Attendez que le testeur achète et test le produit.<br/>
                                 Vous pouvez suivre l'avancer du test sur votre page
-                                <Link to='' target='_blank'> Mes Tests en Cours</Link>.
+                                <Link to='' target='_blank' rel="noopener noreferrer"> Mes Tests en Cours</Link>.
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requested'] && userTypes.tester === userType ?
@@ -162,7 +169,7 @@ const TestRequestModal = (props) => {
                 </div>
                 {test.status === statuses['requested'] && userTypes.seller === userType ?
                     <div className="text-center bg-secondary p-3 mt-3 rounded">
-                        <AnswerTestRequestForm/>
+                        <AnswerTestRequestForm onSubmit={onAnswerTestSubmit} testId={test._id}/>
                     </div> : null}
 
             </div>

@@ -26,6 +26,14 @@ class TestServices extends BaseService {
     async cancelRequest(testId, cancelReason) {
         return axios.post(this.baseURL + "/cancelRequest", {testId, cancelReason}).then(serviceResolve);
     }
+
+    async declineTestRequest(testId, declineReason) {
+        return axios.post(this.baseURL + "/declineRequest", {testId, declineReason}).then(serviceResolve);
+    }
+
+    async acceptTestRequest(testId, sellerMessage) {
+        return axios.post(this.baseURL + "/acceptRequest", {testId, sellerMessage}).then(serviceResolve);
+    }
 }
 
 export default new TestServices();

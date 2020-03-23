@@ -15,7 +15,9 @@ const testObject = {
     createdAt: { type: Date, default: new Date(), required: true, index: true },
     updates: { type: [updateObject], default: [] },
     testerMessage: { type: String },
-    cancelRequestReason: { type: String }
+    cancelRequestReason: { type: String },
+    declineRequestReason: { type: String },
+    sellerMessage: { type: String }
 };
 
 const testSchema = new mongoose.Schema(testObject);

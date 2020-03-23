@@ -30,4 +30,18 @@ router.post('/cancelRequest', withAuth, async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/declineRequest', withAuth, async (request, reply) => {
+    const { testId, declineReason } = request.body;
+    TestController.declineRequest(request.decoded.userId, testId, declineReason)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/acceptRequest', withAuth, async (request, reply) => {
+    const { testId, sellerMessage } = request.body;
+    TestController.acceptRequest(request.decoded.userId, testId, sellerMessage)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;
