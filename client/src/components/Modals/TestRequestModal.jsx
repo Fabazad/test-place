@@ -8,9 +8,11 @@ import testServices from "../../services/test.services";
 import {withTranslation} from "react-i18next";
 import PropTypes from "prop-types";
 import Button from "reactstrap/es/Button";
+import Alert from "reactstrap/es/Alert";
+import AnswerTestRequestForm from "../Forms/AnswerTestRequestForm";
 
 const TestRequestModal = (props) => {
-    const {isOpen, onToggle, test, t} = props;
+    const {isOpen, onToggle, test, userType, t} = props;
 
     const userTypes = {
         seller: 'seller',
@@ -34,7 +36,7 @@ const TestRequestModal = (props) => {
             </div>
             <div className="modal-body white-space-pre-line">
 
-                <div className="row bg-secondary py-3 rounded">
+                <div className="row bg-secondary py-4 rounded">
                     <div className="col-12 col-md-4 text-center">
                         <img src={test.product.imageUrls[0]} alt="" height='150' className='rounded shadow-lg'/>
                     </div>
@@ -67,7 +69,7 @@ const TestRequestModal = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-12 col-md-6 mt-3">
+                    {userType === userTypes.tester ? <div className="col-12 col-md-6 mt-3">
                         <div className='row w-100'>
                             <div className="col-6 text-center">
                                 <Label>Vendeur Test-Place</Label>
@@ -83,10 +85,16 @@ const TestRequestModal = (props) => {
                                     </a>) : null}
                             </div>
                         </div>
-                    </div>
+                    </div> : null}
+                    {userType === userTypes.seller ? <div className="col-12 col-md-6 mt-3 text-center">
+                        <Label>Testeur</Label>
+                        <a href={'/profile/' + test.tester.id} target='_blank' className='d-block'>
+                            {test.tester.name}
+                        </a>
+                    </div> : null}
                 </div>
 
-                <div className="row mt-3 bg-white border rounded py-3 shadow">
+                <div className="row mt-3 bg-white border rounded py-4 shadow">
                     <div className="col-6 text-center">
                         <Label>Status de la demande</Label>
                         <div>
@@ -98,40 +106,64 @@ const TestRequestModal = (props) => {
                         <Label>Date du changement de status</Label>
                         <div>{test.updates.length ? formatDate(test.updates.pop().date) : ''}</div>
                     </div>
+
                     {test.status === statuses['requestCancelled'] ?
                         <div className="col-12 text-center mt-3">
                             <Label>Raison de l'annulation</Label>
-                            <div>
+                            <Alert color="default">
                                 {test.cancelRequestReason}
-                            </div>
+                            </Alert>
                         </div> : null}
                     {test.status === statuses['requestDeclined'] ?
                         <div className="col-12 text-center mt-3">
                             <Label>Raison du refus</Label>
-                            <div>
+                            <Alert color="danger">
                                 {test.declinedRaison}
-                            </div>
+                            </Alert>
                         </div> : null}
-                    {test.status === statuses['requestAccepted'] ?
+                    {test.status === statuses['requestAccepted'] && userTypes.tester === userType ?
                         <div className="col-12 text-left mt-4 px-0 px-md-5">
                             <Label>Ensuite ?</Label>
-                            <div>
+                            <Alert color="success">
                                 Commandez le produit sur le site amazon en suivant ce lien :
-                                <a href={'https://www.amazon.fr/dp/' + test.product.asin} target='_blank'> Lien Produit</a>.<br/>
+                                <a href={'https://www.amazon.fr/dp/' + test.product.asin} target='_blank'> Lien
+                                    Produit</a>.<br/>
                                 Indiquez au vendeur lorsque vous commandez sur votre page
                                 <Link to='' target='_blank'> Mes Tests en Cours</Link>.<br/>
-                                Recevez votre colis, testez le, notez le et recevez votre compensation financière de la part du vendeur.
-                            </div>
+                                Recevez votre colis, testez le, notez le et recevez votre compensation financière de la
+                                part du vendeur.
+                            </Alert>
                         </div> : null}
-                    {test.status === statuses['requested'] ?
+                    {test.status === statuses['requestAccepted'] && userTypes.seller === userType ?
                         <div className="col-12 text-left mt-4 px-0 px-md-5">
                             <Label>Ensuite ?</Label>
-                            <div>
-                                Pour l'instant, tout ce que vous avez à faire est d'attendre la réponse du vendeur sur votre demande de test.<br/>
+                            <Alert color="success">
+                                Attendez que le testeur achète et test le produit.<br/>
+                                Vous pouvez suivre l'avancer du test sur votre page
+                                <Link to='' target='_blank'> Mes Tests en Cours</Link>.
+                            </Alert>
+                        </div> : null}
+                    {test.status === statuses['requested'] && userTypes.tester === userType ?
+                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                            <Label>Ensuite ?</Label>
+                            <Alert color="warning">
+                                En attente d'acceptation.<br/>
+                                Pour l'instant, tout ce que vous avez à faire est d'attendre la réponse du vendeur.<br/>
                                 N'achetez donc pas encore le produit.
-                            </div>
+                            </Alert>
+                        </div> : null}
+                    {test.status === statuses['requested'] && userTypes.seller === userType ?
+                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                            <Label>Message du testeur</Label>
+                            <Alert color="info">
+                                {test.testerMessage}
+                            </Alert>
                         </div> : null}
                 </div>
+                {test.status === statuses['requested'] && userTypes.seller === userType ?
+                    <div className="text-center bg-secondary p-3 mt-3 rounded">
+                        <AnswerTestRequestForm/>
+                    </div> : null}
 
             </div>
             <div className="modal-footer">
