@@ -18,10 +18,14 @@ import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import DropdownSelect from "../components/DropdownSelect";
 import ReceivedDemandRow from "../components/Rows/ReceivedDemandRow";
+import TestRequestModal from "../components/Modals/TestRequestModal";
 
 class ReceivedDemands extends React.Component {
 
     _isMount = true;
+    modalNames = {
+        testRequest: 'testRequest'
+    };
 
     constructor(props) {
         super(props);
@@ -33,8 +37,12 @@ class ReceivedDemands extends React.Component {
             statusFilter: null,
             statuses: [],
             statusesFilter: {},
-            statusesFilterOptions: {}
+            statusesFilterOptions: {},
+            isModalOpen: {
+                testRequest: false
+            }
         };
+        this.onShowButtonClick = this.onShowButtonClick.bind(this);
     }
 
     componentDidMount() {
@@ -101,6 +109,21 @@ class ReceivedDemands extends React.Component {
         this.setState({page}, this.findTests);
     }
 
+    toggleModal(modalName) {
+        const isOpen = !this.state.isModalOpen[modalName];
+        this.setState({
+            isModalOpen: {
+                [modalName]: isOpen
+            }
+        });
+    }
+
+    onShowButtonClick(test) {
+        this.setState({
+            selectedTest: test
+        }, () => this.toggleModal(this.modalNames.testRequest));
+    }
+
     render() {
         const statusesFilterOptions = Object.keys(this.state.statusesFilterOptions).map(statusKey => {
             return {
@@ -140,13 +163,15 @@ class ReceivedDemands extends React.Component {
                                         <th scope='col'>Final</th>
                                         <th scope="col">Testeur</th>
                                         <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {this.state.tests.map(test => (
                                         <ReceivedDemandRow key={'test' + test._id} test={test}
-                                                           loading={this.state.loading}/>
+                                                           loading={this.state.loading}
+                                                           onShowButtonClick={this.onShowButtonClick}/>
                                     ))}
                                     </tbody>
                                 </Table>
@@ -170,6 +195,10 @@ class ReceivedDemands extends React.Component {
                         </div>
                     </Row>
                 </Container>
+                <TestRequestModal isOpen={this.state.isModalOpen[this.modalNames.testRequest]}
+                                  onToggle={() => this.toggleModal(this.modalNames.testRequest)}
+                                  test={this.state.selectedTest} userType='seller'
+                />
             </>
         );
     }

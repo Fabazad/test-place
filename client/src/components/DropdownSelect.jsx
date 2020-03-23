@@ -44,7 +44,7 @@ class DropdownSelect extends React.Component {
                                 style={{'height': '46px'}}>
                     <span
                         className={"text-left w-100 d-inline-block font-weight-normal" + (this.state.option ? '' : ' text-muted')}>
-                        {this.state.option ? this.state.option.text : this.props.placeholder}
+                        {t(this.state.option ? this.state.option.text : this.props.placeholder)}
                     </span>
                 </DropdownToggle>
                 <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
@@ -52,7 +52,7 @@ class DropdownSelect extends React.Component {
                         this.props.placeholder ? (
                             <DropdownItem onClick={() => this.onSelectItem(null)}
                                           key={'option.null'} className={"cursor-pointer text-muted"}>
-                                {this.props.placeholder}
+                                {t(this.props.placeholder)}
                             </DropdownItem>
                         ) : null
                     }

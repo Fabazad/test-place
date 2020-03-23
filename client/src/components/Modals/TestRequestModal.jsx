@@ -12,6 +12,11 @@ import Button from "reactstrap/es/Button";
 const TestRequestModal = (props) => {
     const {isOpen, onToggle, test, t} = props;
 
+    const userTypes = {
+        seller: 'seller',
+        tester: 'tester'
+    };
+
     const [statuses, setStatuses] = useState({});
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
 
@@ -118,6 +123,14 @@ const TestRequestModal = (props) => {
                                 Recevez votre colis, testez le, notez le et recevez votre compensation financière de la part du vendeur.
                             </div>
                         </div> : null}
+                    {test.status === statuses['requested'] ?
+                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                            <Label>Ensuite ?</Label>
+                            <div>
+                                Pour l'instant, tout ce que vous avez à faire est d'attendre la réponse du vendeur sur votre demande de test.<br/>
+                                N'achetez donc pas encore le produit.
+                            </div>
+                        </div> : null}
                 </div>
 
             </div>
@@ -133,7 +146,8 @@ const TestRequestModal = (props) => {
 TestRequestModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
-    test: PropTypes.object
+    test: PropTypes.object,
+    userType: PropTypes.string.isRequired
 };
 
 export default withTranslation()(TestRequestModal);

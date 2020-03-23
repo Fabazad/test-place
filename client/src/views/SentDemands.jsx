@@ -199,7 +199,7 @@ class SentDemands extends React.Component {
                 </Container>
                 <TestRequestModal isOpen={this.state.isModalOpen[this.modalNames.testRequest]}
                                   onToggle={() => this.toggleModal(this.modalNames.testRequest)}
-                                  test={this.state.selectedTest}
+                                  test={this.state.selectedTest} userType='tester'
                 />
             </>
         );

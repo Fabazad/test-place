@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';
 import SkeletonProductRow from "./SkeletonProductRow";
 import {Link} from "react-router-dom";
+import TestStatusIcon from "../TestStatusIcon";
+import ShowTestRequestButton from "../Buttons/ShowTestRequestButton";
 
 class ReceivedDemandRow extends React.Component {
 
@@ -51,8 +53,11 @@ class ReceivedDemandRow extends React.Component {
                     </Badge>
                 </td>
                 <td>
-                    <div className="avatar-group">
-                        hello
+                    <TestStatusIcon status={test.status}/>
+                </td>
+                <td>
+                    <div className="avatar-group pl-3">
+                        <ShowTestRequestButton onClick={() => this.props.onShowButtonClick(test)} testId={test._id}/>
                     </div>
                 </td>
             </tr>
@@ -62,7 +67,8 @@ class ReceivedDemandRow extends React.Component {
 
 ReceivedDemandRow.propTypes = {
     test: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    onShowButtonClick: PropTypes.func.isRequired
 };
 
 export default ReceivedDemandRow;
