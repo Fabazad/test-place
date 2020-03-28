@@ -145,7 +145,7 @@ class ProductDetail extends React.Component {
                                                         <NewTestButton productId={product._id}/>
                                                     </div> : null}
                                                 {product.isPrime ?
-                                                    <div className="col text-right d-flex">
+                                                    <div className="col text-right d-flex mt-sm-0 mt-2">
                                                         <h2 className="d-inline-block m-auto">
                                                             <Badge pill color={'info'} className='badge-lg'>
                                                                 <img src={require("assets/img/icons/prime.png")}
@@ -160,7 +160,7 @@ class ProductDetail extends React.Component {
                                                             <div className="col-1 text-center">
                                                                 <i className="fa fa-star text-yellow"/>
                                                             </div>
-                                                            <div className="col-11">
+                                                            <div className="col">
                                                                 Grâce à l'acceptation automatique, votre demande de test
                                                                 est&nbsp;
                                                                 <strong>automatiqement acceptée par le
