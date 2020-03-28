@@ -129,7 +129,7 @@ const TestRequestModal = (props) => {
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requestAccepted'] && userTypes.TESTER === userType ?
-                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                        <div className="col-12 text-left mt-4 px-md-5">
                             <Label>Ensuite ?</Label>
                             <Alert color="success">
                                 Commandez le produit sur le site amazon en suivant ce lien :
@@ -142,7 +142,7 @@ const TestRequestModal = (props) => {
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requestAccepted'] && userTypes.SELLER === userType ?
-                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                        <div className="col-12 text-left mt-4 px-md-5">
                             <Label>Ensuite ?</Label>
                             <Alert color="success">
                                 Attendez que le testeur achète et test le produit.<br/>
@@ -151,7 +151,7 @@ const TestRequestModal = (props) => {
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requested'] && userTypes.TESTER === userType ?
-                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                        <div className="col-12 text-left mt-4 px-md-5">
                             <Label>Ensuite ?</Label>
                             <Alert color="warning">
                                 En attente d'acceptation.<br/>
@@ -160,7 +160,7 @@ const TestRequestModal = (props) => {
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requested'] && userTypes.SELLER === userType ?
-                        <div className="col-12 text-left mt-4 px-0 px-md-5">
+                        <div className="col-12 text-left mt-4 px-md-5">
                             <Label>Message du testeur</Label>
                             <Alert color="info">
                                 {test.testerMessage}
