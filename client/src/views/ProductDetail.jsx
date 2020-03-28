@@ -201,10 +201,10 @@ class ProductDetail extends React.Component {
                             <Row>
                                 <div className="col-12 mt-5">
                                     <div className="bg-white rounded border p-4">
-                                        <Badge color={'primary'} pill className='badge-lg float-right'>
+                                        <Badge color={'primary'} pill className='badge-lg float-right mb-3'>
                                             Publication : {product ? formatDate(product.createdAt) : ''}
                                         </Badge>
-                                        <h2>Description Produit</h2>
+                                        <h2>Description</h2>
                                         <p className="text-left mb-0">
                                             <small
                                                 style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
