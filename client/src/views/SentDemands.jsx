@@ -119,10 +119,13 @@ class SentDemands extends React.Component {
         });
     }
 
-    onShowButtonClick(test) {
-        this.setState({
-            selectedTest: test
-        }, () => this.toggleModal(this.modalNames.testRequest));
+    onShowButtonClick(testId) {
+        const test = this.state.tests.find(t => t._id === testId);
+        if (test) {
+            this.setState({
+                selectedTest: Object.assign({}, test)
+            }, () => this.toggleModal(this.modalNames.testRequest));
+        }
     }
 
     render() {
@@ -170,7 +173,7 @@ class SentDemands extends React.Component {
                                     </thead>
                                     <tbody>
                                     {this.state.tests.map(test => (
-                                        <SentDemandRow key={'test' + test._id} test={test}
+                                        <SentDemandRow key={'test' + test._id} test={Object.assign({}, test)}
                                                        loading={this.state.loading}
                                                        onShowButtonClick={this.onShowButtonClick}
                                         />

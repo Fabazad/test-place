@@ -13,14 +13,23 @@ class TestController {
                 return reject({status: 400, message: "Couldn't find product."});
             }
             if (product.remainingRequests < 1) {
-                return reject({status: 400, message: "Not enough remaining requests on this product."})
+                return reject({status: 400, message: "Not enough remaining requests on this product."});
             }
             if (product.seller.toString() === userId) {
-                return reject({status: 400, message: "You can't test your own product."})
+                return reject({status: 400, message: "You can't test your own product."});
             }
             testData.tester = userId;
             testData.seller = product.seller.toString();
-            testData.status = constants.TEST_STATUSES.requested;
+
+            // Automatic Acceptance
+            if ('status' in testData && testData.status === constants.TEST_STATUSES.requestAccepted) {
+                if (!product.automaticAcceptance) {
+                    return reject({status: 400, message: "This product doesn't have automatic acceptance."})
+                }
+            } else {
+                testData.status = constants.TEST_STATUSES.requested;
+            }
+
             testData.createdAt = new Date();
             const test = new TestModel(testData);
 

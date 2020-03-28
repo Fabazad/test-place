@@ -29,6 +29,8 @@ const TestRequestModal = (props) => {
 
     if (!test) return '';
 
+    const lastUpdate = test.updates.length ? test.updates[test.updates.length - 1] : {};
+
     return (
         <Modal className="modal-dialog-centered" size='lg' isOpen={isOpen} toggle={onToggle}>
             <div className="modal-header">
@@ -111,7 +113,7 @@ const TestRequestModal = (props) => {
                     </div>
                     <div className="col-6 text-center">
                         <Label>Date du changement de status</Label>
-                        <div>{test.updates.length ? formatDate(test.updates.pop().date) : ''}</div>
+                        <div>{lastUpdate ? formatDate(lastUpdate.date) : '-'}</div>
                     </div>
 
                     {test.status === statuses['requestCancelled'] ?

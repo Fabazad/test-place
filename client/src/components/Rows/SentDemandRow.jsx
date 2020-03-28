@@ -20,11 +20,16 @@ class SentDemandRow extends React.Component {
         super(props);
         this.state = {
             statuses: {}
-        }
+        };
+        this.handleShowButtonClick = this.handleShowButtonClick.bind(this);
     }
 
     componentDidMount() {
         testServices.getTestStatuses().then(statuses => this.setState({statuses}));
+    }
+
+    handleShowButtonClick() {
+        this.props.onShowButtonClick(this.props.test._id);
     }
 
     render() {
@@ -75,7 +80,7 @@ class SentDemandRow extends React.Component {
                     <div className="avatar-group pl-3">
                         {test.status === statuses.requested ? (
                             <CancelTestRequestButton testId={test._id}/>) : null}
-                        <ShowTestRequestButton onClick={() => this.props.onShowButtonClick(test)} testId={test._id}/>
+                        <ShowTestRequestButton onClick={this.handleShowButtonClick} testId={test._id}/>
 
                     </div>
                 </td>
