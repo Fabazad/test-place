@@ -20,6 +20,7 @@ import DropdownSelect from "../components/DropdownSelect";
 import SentDemandRow from "../components/Rows/SentDemandRow";
 import TestRequestModal from "../components/Modals/TestRequestModal.jsx";
 import TestRequestCard from "../components/Cards/TestRequestCard";
+import Badge from "reactstrap/es/Badge";
 
 const {USER_TYPES} = constants;
 
@@ -151,7 +152,10 @@ class SentDemands extends React.Component {
                             <Card className="shadow">
                                 <CardHeader className="border-0">
                                     <h3 className="mb-0 d-inline-block mt-2">
-                                        Mes Demandes de Test Envoyées - {this.state.totalCount}
+                                        Mes Demandes de Test Envoyées
+                                        <Badge color="primary" pill className="ml-3 badge-circle">
+                                            <h4 className="m-0">{this.state.totalCount}</h4>
+                                        </Badge>
                                     </h3>
                                     <div className="float-right text-center">
                                         <div className="d-inline-block w-200px my-2 ml-2 my-md-0">

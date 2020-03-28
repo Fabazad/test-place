@@ -20,6 +20,8 @@ import ReceivedDemandRow from "../components/Rows/ReceivedDemandRow";
 import TestRequestModal from "../components/Modals/TestRequestModal";
 import constants from "../helpers/constants";
 import TestRequestCard from "../components/Cards/TestRequestCard";
+import Badge from "reactstrap/es/Badge";
+
 const {USER_TYPES} = constants;
 
 class ReceivedDemands extends React.Component {
@@ -149,7 +151,10 @@ class ReceivedDemands extends React.Component {
                             <Card className="shadow">
                                 <CardHeader className="border-0">
                                     <h3 className="mb-0 d-inline-block mt-2">
-                                        Mes Demandes de Test Reçues - {this.state.totalCount}
+                                        Mes Demandes de Test Reçues
+                                        <Badge color="primary" pill className="ml-3 badge-circle">
+                                            <h4 className="m-0">{this.state.totalCount}</h4>
+                                        </Badge>
                                     </h3>
                                     <div className="float-right text-center">
                                         <div className="d-inline-block w-200px my-2 ml-2 my-md-0">

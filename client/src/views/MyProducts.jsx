@@ -21,6 +21,7 @@ import NewProductModal from "../components/Modals/NewProductModal";
 import DropdownSelect from "../components/DropdownSelect";
 import ProductRow from "../components/Rows/ProductRow.jsx";
 import MyProductCard from "../components/Cards/MyProductCard";
+import Badge from "reactstrap/es/Badge";
 
 class MyProducts extends React.Component {
 
@@ -100,7 +101,10 @@ class MyProducts extends React.Component {
                             <Card className="shadow">
                                 <CardHeader className="border-0">
                                     <h3 className="mb-0 d-inline-block mt-2">
-                                        Mes Annonces Produits - {this.state.totalCount}
+                                        Mes Annonces Produits
+                                        <Badge color="primary" pill className="ml-3 badge-circle">
+                                            <h4 className="m-0">{this.state.totalCount}</h4>
+                                        </Badge>
                                     </h3>
                                     <div className="float-right text-center">
                                         <div className="d-inline-block my-2 my-md-0">
