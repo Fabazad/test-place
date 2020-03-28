@@ -11,5 +11,9 @@ export default {
         { text: 'Prix Initial', value: 'price' },
         { text: 'Coût Final', value: 'finalPrice' },
         { text: 'Date de Création', value: 'createdAt' }
-    ]
+    ],
+    USER_TYPES: {
+        SELLER: 'SELLER',
+        TESTER: 'TESTER'
+    }
 }

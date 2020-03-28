@@ -10,12 +10,12 @@ class SeeProductButton extends React.Component {
         const productId = this.props.productId;
         return (
             <>
-                <Button color="info" className="d-block d-md-none w-100 text-center mx-0 my-1" tag={Link}
+                <Button color="info" className="d-block d-lg-none w-100 text-center mx-0 my-1" tag={Link}
                         to={'/ad/' + productId}>
                     <i className="fa fa-eye m-auto fa-lg"/>
                     <span className="ml-2">Voir</span>
                 </Button>
-                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
                     <Badge pill className="badge-circle w-100 h-100" color={'info'}
                            tag={Link} to={'/ad/' + productId} id={"see" + productId}>
                         <i className="fa fa-eye m-auto fa-lg"/>

@@ -14,11 +14,13 @@ import Header from "../components/Headers/Header.jsx";
 import testsServices from '../services/test.services';
 import userServices from '../services/user.services';
 import PaginationBis from "../components/PaginationBis";
-import constants from "../helpers/constants";
 import {updateURLParameter} from "../helpers/urlHelpers";
 import DropdownSelect from "../components/DropdownSelect";
 import ReceivedDemandRow from "../components/Rows/ReceivedDemandRow";
 import TestRequestModal from "../components/Modals/TestRequestModal";
+import constants from "../helpers/constants";
+import TestRequestCard from "../components/Cards/TestRequestCard";
+const {USER_TYPES} = constants;
 
 class ReceivedDemands extends React.Component {
 
@@ -118,10 +120,13 @@ class ReceivedDemands extends React.Component {
         });
     }
 
-    onShowButtonClick(test) {
-        this.setState({
-            selectedTest: test
-        }, () => this.toggleModal(this.modalNames.testRequest));
+    onShowButtonClick(testId) {
+        const test = this.state.tests.find(t => t._id === testId);
+        if (test) {
+            this.setState({
+                selectedTest: Object.assign({}, test)
+            }, () => this.toggleModal(this.modalNames.testRequest));
+        }
     }
 
     render() {
@@ -178,8 +183,9 @@ class ReceivedDemands extends React.Component {
                                 <div className="container d-block d-lg-none">
                                     <div className="row">
                                         {this.state.tests.map(test => (
-                                            <div className="col-12 col-md-6 my-2" key={"productCard" + test._id}>
-                                                yo
+                                            <div className="col-12 col-md-6 my-2" key={"testCard" + test._id}>
+                                                <TestRequestCard test={test} userType={USER_TYPES.SELLER}
+                                                                 onShowButtonClick={this.onShowButtonClick}/>
                                             </div>
                                         ))}
                                     </div>
@@ -197,7 +203,7 @@ class ReceivedDemands extends React.Component {
                 </Container>
                 <TestRequestModal isOpen={this.state.isModalOpen[this.modalNames.testRequest]}
                                   onToggle={() => this.toggleModal(this.modalNames.testRequest)}
-                                  test={this.state.selectedTest} userType='seller'
+                                  test={this.state.selectedTest} userType={USER_TYPES.SELLER}
                 />
             </>
         );

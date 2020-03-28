@@ -31,12 +31,12 @@ class DeleteProductButton extends React.Component {
         const productId = this.props.productId;
         return (
             <>
-                <Button color="danger" className="d-block d-md-none w-100 text-center mx-0 my-1"
+                <Button color="danger" className="d-block d-lg-none w-100 text-center mx-0 my-1"
                         onClick={() => this.deleteProduct(productId)}>
                     <i className="fa fa-trash m-auto fa-lg"/>
                     <span className="ml-2">Supprimer</span>
                 </Button>
-                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
                     <Badge pill className="badge-circle w-100 h-100" color={'danger'}
                            tag={Link} to={'#'} id={"delete" + productId} onClick={() => this.deleteProduct(productId)}>
                         <i className="fa fa-trash m-auto fa-lg"/>

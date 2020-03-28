@@ -13,11 +13,11 @@ const ShowTestRequestButton = (props) => {
 
     return (
         <>
-            <Button color="info" className="d-block d-md-none w-100 text-center mx-0 my-1" onClick={onClick}>
+            <Button color="info" className="d-block d-lg-none w-100 text-center mx-0 my-1" onClick={onClick}>
                 <i className="fa fa-eye m-auto fa-lg"/>
                 <span className="ml-2">Voir</span>
             </Button>
-            <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+            <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
                 <Badge pill className="badge-circle w-100 h-100" color={'info'} id={"show-" + testId} tag={Link}
                        to={''} onClick={onClick}>
                     <i className="fa fa-eye m-auto fa-lg"/>

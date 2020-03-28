@@ -115,12 +115,12 @@ class EditProductModal extends React.Component {
         return (
             <>
                 {/* Button trigger modal */}
-                <Button color="warning" className="d-block d-md-none w-100 text-center mx-0 my-1"
+                <Button color="warning" className="d-block d-lg-none w-100 text-center mx-0 my-1"
                         onClick={() => this.toggleModal("exampleModal")}>
                     <i className="fa fa-edit m-auto fa-lg"/>
                     <span className="ml-2">Editer</span>
                 </Button>
-                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
                     <Badge pill onClick={() => this.toggleModal("exampleModal")}
                            className="badge-circle w-100 h-100" color={'warning'}
                            tag={Link} to={'#'} id={"edit" + product._id}>

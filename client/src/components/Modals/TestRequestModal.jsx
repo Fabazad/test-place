@@ -10,14 +10,12 @@ import PropTypes from "prop-types";
 import Button from "reactstrap/es/Button";
 import Alert from "reactstrap/es/Alert";
 import AnswerTestRequestForm from "../Forms/AnswerTestRequestForm";
+import constants from "../../helpers/constants";
 
 const TestRequestModal = (props) => {
     const {isOpen, onToggle, test, userType, t} = props;
 
-    const userTypes = {
-        seller: 'seller',
-        tester: 'tester'
-    };
+    const userTypes = constants.USER_TYPES;
 
     const [statuses, setStatuses] = useState({});
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
@@ -29,7 +27,7 @@ const TestRequestModal = (props) => {
 
     if (!test) return '';
 
-    const lastUpdate = test.updates.length ? test.updates[test.updates.length - 1] : {};
+    const lastUpdate = test.updates && test.updates.length ? test.updates[test.updates.length - 1] : {};
 
     return (
         <Modal className="modal-dialog-centered" size='lg' isOpen={isOpen} toggle={onToggle}>
@@ -78,7 +76,7 @@ const TestRequestModal = (props) => {
                             </div>
                         </div>
                     </div>
-                    {userType === userTypes.tester ? <div className="col-12 col-md-6 mt-3">
+                    {userType === userTypes.TESTER ? <div className="col-12 col-md-6 mt-3">
                         <div className='row w-100'>
                             <div className="col-6 text-center">
                                 <Label>Vendeur Test-Place</Label>
@@ -95,7 +93,7 @@ const TestRequestModal = (props) => {
                             </div>
                         </div>
                     </div> : null}
-                    {userType === userTypes.seller ? <div className="col-12 col-md-6 mt-3 text-center">
+                    {userType === userTypes.SELLER ? <div className="col-12 col-md-6 mt-3 text-center">
                         <Label>Testeur</Label>
                         <a href={'/profile/' + test.tester.id} target='_blank' className='d-block' rel="noopener noreferrer">
                             {test.tester.name}
@@ -130,7 +128,7 @@ const TestRequestModal = (props) => {
                                 {test.declineRequestReason}
                             </Alert>
                         </div> : null}
-                    {test.status === statuses['requestAccepted'] && userTypes.tester === userType ?
+                    {test.status === statuses['requestAccepted'] && userTypes.TESTER === userType ?
                         <div className="col-12 text-left mt-4 px-0 px-md-5">
                             <Label>Ensuite ?</Label>
                             <Alert color="success">
@@ -143,7 +141,7 @@ const TestRequestModal = (props) => {
                                 part du vendeur.
                             </Alert>
                         </div> : null}
-                    {test.status === statuses['requestAccepted'] && userTypes.seller === userType ?
+                    {test.status === statuses['requestAccepted'] && userTypes.SELLER === userType ?
                         <div className="col-12 text-left mt-4 px-0 px-md-5">
                             <Label>Ensuite ?</Label>
                             <Alert color="success">
@@ -152,7 +150,7 @@ const TestRequestModal = (props) => {
                                 <Link to='' target='_blank' rel="noopener noreferrer"> Mes Tests en Cours</Link>.
                             </Alert>
                         </div> : null}
-                    {test.status === statuses['requested'] && userTypes.tester === userType ?
+                    {test.status === statuses['requested'] && userTypes.TESTER === userType ?
                         <div className="col-12 text-left mt-4 px-0 px-md-5">
                             <Label>Ensuite ?</Label>
                             <Alert color="warning">
@@ -161,7 +159,7 @@ const TestRequestModal = (props) => {
                                 N'achetez donc pas encore le produit.
                             </Alert>
                         </div> : null}
-                    {test.status === statuses['requested'] && userTypes.seller === userType ?
+                    {test.status === statuses['requested'] && userTypes.SELLER === userType ?
                         <div className="col-12 text-left mt-4 px-0 px-md-5">
                             <Label>Message du testeur</Label>
                             <Alert color="info">
@@ -169,7 +167,7 @@ const TestRequestModal = (props) => {
                             </Alert>
                         </div> : null}
                 </div>
-                {test.status === statuses['requested'] && userTypes.seller === userType ?
+                {test.status === statuses['requested'] && userTypes.SELLER === userType ?
                     <div className="text-center bg-secondary p-3 mt-3 rounded">
                         <AnswerTestRequestForm onSubmit={onAnswerTestSubmit} testId={test._id}/>
                     </div> : null}
@@ -177,7 +175,7 @@ const TestRequestModal = (props) => {
             </div>
             <div className="modal-footer">
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    Close
+                    Fermer
                 </Button>
             </div>
         </Modal>

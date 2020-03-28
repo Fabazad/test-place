@@ -19,6 +19,9 @@ import {updateURLParameter} from "../helpers/urlHelpers";
 import DropdownSelect from "../components/DropdownSelect";
 import SentDemandRow from "../components/Rows/SentDemandRow";
 import TestRequestModal from "../components/Modals/TestRequestModal.jsx";
+import TestRequestCard from "../components/Cards/TestRequestCard";
+
+const {USER_TYPES} = constants;
 
 class SentDemands extends React.Component {
 
@@ -183,8 +186,9 @@ class SentDemands extends React.Component {
                                 <div className="container d-block d-lg-none">
                                     <div className="row">
                                         {this.state.tests.map(test => (
-                                            <div className="col-12 col-md-6 my-2" key={"productCard" + test._id}>
-                                                yo
+                                            <div className="col-12 col-md-6 my-2" key={"testCard" + test._id}>
+                                                <TestRequestCard test={test} userType={USER_TYPES.TESTER}
+                                                                 onShowButtonClick={this.onShowButtonClick}/>
                                             </div>
                                         ))}
                                     </div>
@@ -202,7 +206,7 @@ class SentDemands extends React.Component {
                 </Container>
                 <TestRequestModal isOpen={this.state.isModalOpen[this.modalNames.testRequest]}
                                   onToggle={() => this.toggleModal(this.modalNames.testRequest)}
-                                  test={this.state.selectedTest} userType='tester'
+                                  test={this.state.selectedTest} userType={USER_TYPES.TESTER}
                 />
             </>
         );

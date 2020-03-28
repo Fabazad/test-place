@@ -29,12 +29,12 @@ class CancelTestRequestButton extends React.Component {
         const testId = this.props.testId;
         return (
             <>
-                <Button color="danger" className="d-block d-md-none w-100 text-center mx-0 my-1"
+                <Button color="danger" className="d-block d-lg-none w-100 text-center mx-0 my-1"
                         onClick={this.openModal}>
                     <i className="fa fa-times m-auto fa-lg"/>
                     <span className="ml-2">Annuler</span>
                 </Button>
-                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-md-inline-block">
+                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
                     <Badge pill className="badge-circle w-100 h-100" color={'danger'} id={"cancel-" + testId} tag={Link}
                            to={''} onClick={this.openModal}>
                         <i className="fa fa-times m-auto fa-lg"/>
