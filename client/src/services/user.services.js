@@ -2,6 +2,8 @@ import BaseService from "./base.service.js";
 import axios from "axios";
 import {eraseCookie} from "../helpers/cookies.js";
 import {Subject} from "rxjs";
+import constants from "../helpers/constants";
+const {USER_ROLES} = constants;
 
 function serviceResolve(res) {
     if (!res || res.status !== 200) {
@@ -85,6 +87,15 @@ class UserService extends BaseService {
 
     getAmazonId() {
         return this.currentUser.amazonId;
+    }
+
+    hasRole(role) {
+        if (this.isAuth() && this.currentUser.roles) {
+            return this.currentUser.roles.reduce((prev, currentRole) => {
+                return prev || currentRole === role || currentRole === USER_ROLES.ADMIN;
+            }, false);
+        }
+        return false;
     }
 
     amazonLogin(amazonToken) {

@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
-import userService from 'services/user.services';
 // reactstrap components
 import {
     UncontrolledCollapse,
@@ -22,16 +21,39 @@ import {
 } from "reactstrap";
 import LogoutButton from "./LogoutButton";
 import routes from "../../routes";
+import userServices from "../../services/user.services";
 
 class DemoNavbar extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state= {
+            routes: []
+        };
+        this._isMounted = false;
+    }
+
     componentDidMount() {
+        this._isMounted = true;
         let headroom = new Headroom(document.getElementById("navbar-main"));
         // initialise
         headroom.init();
+        this._isMounted && this.setState({
+            routes: routes.filter(route => !route.role || userServices.hasRole(route.role))
+        });
+        userServices.currentUserSubject.subscribe(() => {
+            this._isMounted && this.setState({
+                routes: routes.filter(route => !route.role || userServices.hasRole(route.role))
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
-        const isAuth = userService.isAuth();
+        const isAuth = userServices.isAuth();
         return (
             <>
                 <header className="header-global ">
@@ -89,7 +111,7 @@ class DemoNavbar extends React.Component {
                                             </DropdownToggle>
                                             <DropdownMenu className='w-200px'>
                                                 {
-                                                    routes.map(route => (
+                                                    this.state.routes.map(route => (
                                                         <DropdownItem to={route.layout + route.path} tag={Link} key={'route'+route.path}>
                                                             <i className={route.icon}/>
                                                             {route.name}

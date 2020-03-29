@@ -3,6 +3,9 @@ import Profile3 from "views/Profile.jsx";
 import MyProducts from "./views/MyProducts";
 import SentDemands from "./views/SentDemands";
 import ReceivedDemands from "./views/ReceivedDemands";
+import constants from "./helpers/constants";
+
+const {USER_ROLES} = constants;
 
 const routes = [
   {
@@ -10,28 +13,32 @@ const routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
-    layout: "/dashboard"
+    layout: "/dashboard",
   },
   {
     path: "/my-products",
     name: "Mes Produits",
     icon: "ni ni-bag-17 text-blue",
     component: MyProducts,
-    layout: "/dashboard"
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER
   },
   {
     path: "/sent-requests",
     name: "Demandes Envoyées",
     icon: "fa fa-hand-paper text-orange",
     component: SentDemands,
-    layout: "/dashboard"
+    layout: "/dashboard",
+    role: USER_ROLES.TESTER
+
   },
   {
     path: "/received-requests",
     name: "Demandes Reçues",
     icon: "far fa-hand-paper text-yellow",
     component: ReceivedDemands,
-    layout: "/dashboard"
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER
   },
   {
     path: "/my-profile",
@@ -41,4 +48,5 @@ const routes = [
     layout: "/dashboard"
   }
 ];
+
 export default routes;
