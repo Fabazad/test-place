@@ -28,7 +28,9 @@ class Profile extends React.Component {
         super(props);
         this.state = {
             user: undefined,
-            testerMessage: ""
+            testerMessage: "",
+            sellerMessage: "",
+            loading: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -36,8 +38,10 @@ class Profile extends React.Component {
     componentDidMount() {
         this.setState({
             user: userService.currentUser,
-            testerMessage: userService.currentUser.testerMessage
+            testerMessage: userService.currentUser.testerMessage,
+            sellerMessage: userService.currentUser.sellerMessage,
         });
+        userService.currentUserSubject.subscribe(user => this.setState({user}));
     }
 
     handleInputChange = (event) => {
@@ -49,8 +53,16 @@ class Profile extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        await userService.updateUserInfo(userService.currentUser._id, {testerMessage: this.state.testerMessage});
-        toast.success("Modifications enregistrées");
+        this.setState({loading: true});
+        userService.updateUserInfo(userService.currentUser._id, {
+            testerMessage: this.state.testerMessage,
+            sellerMessage: this.state.sellerMessage
+        })
+            .catch(err => this.setState({loading: false}))
+            .then(() => {
+                this.setState({loading: false});
+                toast.success("Modifications Enregistrées");
+            });
     }
 
     render() {
@@ -59,6 +71,8 @@ class Profile extends React.Component {
         }
 
         const {user} = this.state;
+        const disabledSave = user.testerMessage === this.state.testerMessage
+            && user.sellerMessage === this.state.sellerMessage;
 
         return (
             <>
@@ -146,12 +160,14 @@ class Profile extends React.Component {
                                     </Row>
                                 </CardHeader>
                                 <CardBody>
-                                    <Form onSubmit={this.handleSubmit}>
+                                    <Form onSubmit={this.handleSubmit} className="position-relative">
+                                        <Loading loading={this.state.loading}/>
                                         <div>
                                             <h6 className="heading-small text-muted mb-4 d-inline-block">
                                                 Mes Informations
                                             </h6>
-                                            <Button size="sm" color="info" className="float-right" type="submit">
+                                            <Button size="sm" color="info" className="float-right" type="submit"
+                                                    disabled={disabledSave}>
                                                 Enregister
                                             </Button>
                                         </div>
@@ -163,7 +179,8 @@ class Profile extends React.Component {
                                                                htmlFor="input-tester-message">
                                                             Message Testeur
                                                             <InfoPopover className="ml-3">
-                                                                Le champ texte <b><i>Message au Vendeur</i></b> à fournir lors
+                                                                Le champ texte <b><i>Message au Vendeur</i></b> à
+                                                                fournir lors
                                                                 d'une demande de test sera pré-rempli avec ce <b><i>Message
                                                                 Testeur</i></b>.
                                                             </InfoPopover>
@@ -177,72 +194,27 @@ class Profile extends React.Component {
                                                         />
                                                     </FormGroup>
                                                 </Col>
-                                                <Col lg="6">
+                                                <Col xs="12">
                                                     <FormGroup>
-                                                        <label
-                                                            className="form-control-label"
-                                                            htmlFor="input-username"
-                                                        >
-                                                            Username
+                                                        <label className="form-control-label"
+                                                               htmlFor="input-seller-message">
+                                                            Message Vendeur
+                                                            <InfoPopover className="ml-3">
+                                                                <b>Message Vendeur</b> sera utilisé comme message par
+                                                                défault lorsque vous <b>accepterez des demandes de
+                                                                test</b>.<br/>
+                                                                C'est aussi le message que recevront vos testeurs
+                                                                lorsqu'ils passeront par l'<b>acceptaion
+                                                                automatique</b> des demandes (<i
+                                                                className="fa fa-star text-yellow"/>).
+                                                            </InfoPopover>
                                                         </label>
-                                                        <Input
-                                                            className="form-control-alternative"
-                                                            defaultValue="lucky.jesse"
-                                                            id="input-username"
-                                                            placeholder="Username"
-                                                            type="text"
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col lg="6">
-                                                    <FormGroup>
-                                                        <label
-                                                            className="form-control-label"
-                                                            htmlFor="input-email"
-                                                        >
-                                                            Email address
-                                                        </label>
-                                                        <Input
-                                                            className="form-control-alternative"
-                                                            id="input-email"
-                                                            placeholder="jesse@example.com"
-                                                            type="email"
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col lg="6">
-                                                    <FormGroup>
-                                                        <label
-                                                            className="form-control-label"
-                                                            htmlFor="input-first-name"
-                                                        >
-                                                            First name
-                                                        </label>
-                                                        <Input
-                                                            className="form-control-alternative"
-                                                            defaultValue="Lucky"
-                                                            id="input-first-name"
-                                                            placeholder="First name"
-                                                            type="text"
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col lg="6">
-                                                    <FormGroup>
-                                                        <label
-                                                            className="form-control-label"
-                                                            htmlFor="input-last-name"
-                                                        >
-                                                            Last name
-                                                        </label>
-                                                        <Input
-                                                            className="form-control-alternative"
-                                                            defaultValue="Jesse"
-                                                            id="input-last-name"
-                                                            placeholder="Last name"
-                                                            type="text"
+                                                        <Input className="form-control-alternative"
+                                                               defaultValue={user.sellerMessage}
+                                                               id="input-seller-message"
+                                                               placeholder={"Merci d'avoir choisi notre produit, ..."}
+                                                               type="textarea" name="sellerMessage"
+                                                               onChange={this.handleInputChange}
                                                         />
                                                     </FormGroup>
                                                 </Col>

@@ -11,7 +11,7 @@ class TestController {
             if (!amazonId) {
                 return reject({status: 403, message: "Unauthorized."});
             }
-            const product = await ProductModel.findById(testData.product);
+            const product = await ProductModel.findById(testData.product).populate("seller");
             if (!product) {
                 return reject({status: 400, message: "Couldn't find product."});
             }
@@ -22,13 +22,14 @@ class TestController {
                 return reject({status: 400, message: "You can't test your own product."});
             }
             testData.tester = userId;
-            testData.seller = product.seller.toString();
+            testData.seller = product.seller._id.toString();
 
             // Automatic Acceptance
             if ('status' in testData && testData.status === constants.TEST_STATUSES.requestAccepted) {
                 if (!product.automaticAcceptance) {
                     return reject({status: 400, message: "This product doesn't have automatic acceptance."})
                 }
+                testData.sellerMessage = product.seller.sellerMessage;
             } else {
                 testData.status = constants.TEST_STATUSES.requested;
             }

@@ -14,6 +14,7 @@ import FormGroup from "reactstrap/es/FormGroup";
 import Alert from "reactstrap/es/Alert";
 import {toast} from "react-toastify";
 import testServices from "../../services/test.services";
+import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 
 class AnswerTestRequestForm extends React.Component {
@@ -34,7 +35,7 @@ class AnswerTestRequestForm extends React.Component {
         this.setState({
             [state]: index,
             declineReason: '',
-            sellerMessage: ''
+            sellerMessage: userServices.currentUser.sellerMessage ?? ''
         });
     };
 
@@ -110,7 +111,8 @@ class AnswerTestRequestForm extends React.Component {
                                 <FormGroup>
                                     <Input className="form-control-alternative" onChange={this.handleInputChange}
                                            placeholder="Si besoin, donnez des indications au testeur pour la suite..."
-                                           rows="3" type="textarea" name='sellerMessage'/>
+                                           rows="3" type="textarea" name='sellerMessage'
+                                           defaultValue={userServices.currentUser.sellerMessage ?? ''}/>
                                 </FormGroup>
                                 <Alert color={'warning'} className='text-left'>
                                     <strong>Attention !</strong><br/>

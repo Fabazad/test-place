@@ -78,8 +78,8 @@ router.post('/validationMail', async (request, reply) => {
 
 router.post('/updateUserInfo', withAuth, async (request, reply) => {
     const { userId, data } = request.body;
-    const currentUser = request.user;
-    UserController.updateUserInfo(currentUser._id.toString(), userId, data)
+    const {decoded} = request;
+    UserController.updateUserInfo(decoded.userId, userId, data)
         .then((user) => reply.send({ user }))
         .catch(err => reply.status(err.status).send(err.message));
 });

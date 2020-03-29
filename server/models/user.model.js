@@ -11,7 +11,8 @@ const UserSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     amazonId: { type: String, unique: true, sparse: true },
-    testerMessage: String
+    testerMessage: String,
+    sellerMessage: String
 });
 
 UserSchema.pre('save', function(next) {

@@ -1,9 +1,12 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
-import {eraseCookie} from "helpers/cookies.js";
+import {eraseCookie} from "../helpers/cookies.js";
 import {Subject} from "rxjs";
 
 function serviceResolve(res) {
+    if (!res || res.status !== 200) {
+        return Promise.reject(new Error(res.error));
+    }
     return Promise.resolve(res.data);
 }
 
@@ -16,14 +19,20 @@ class UserService extends BaseService {
     }
 
     async currentUserResolve(res) {
-        const data = await serviceResolve(res);
-        if (typeof data === "object" && "user" in data) {
-            this.currentUser = data.user;
-            this.currentUserSubject.next();
-        } else if(this.isAuth() && !data.check) {
-            this.logout();
-        }
-        return Promise.resolve(data);
+        return new Promise((resolve, reject) => {
+            serviceResolve(res)
+                .then(data => {
+                    if (typeof data === "object" && "user" in data) {
+                        this.currentUser = data.user;
+                        this.currentUserSubject.next(this.currentUser);
+                    } else if (this.isAuth() && !data.check) {
+                        this.logout();
+                    }
+                    return resolve(data);
+                })
+                .catch(err => reject(err));
+        });
+
     }
 
     login(email, password) {
@@ -36,7 +45,7 @@ class UserService extends BaseService {
 
     checkToken() {
         return axios.get(this.baseURL + '/checkToken', {
-            params: { logged: this.isAuth() }
+            params: {logged: this.isAuth()}
         }).then(this.currentUserResolve);
     }
 

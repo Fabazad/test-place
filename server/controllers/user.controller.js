@@ -227,7 +227,13 @@ class UserController {
             if (currentUserId !== userId) {
                 return reject({ status: 403, message: "Unauthorized"});
             }
-            UserModel.findByIdAndUpdate(userId, data, { new: true }).then(resolve)
+
+            const authorizedData = {
+                testerMessage: data.testerMessage,
+                sellerMessage: data.sellerMessage
+            };
+
+            UserModel.findByIdAndUpdate(userId, authorizedData, { new: true }).then(resolve)
                 .catch(err => ErrorResponses.mongoose(err));
         });
     }
