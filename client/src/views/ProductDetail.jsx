@@ -48,6 +48,9 @@ class ProductDetail extends React.Component {
         if (!product) {
             return <Loading/>;
         }
+
+        const newTestButtonDisabled = currentUserId === product.seller._id || product.remainingRequests < 1;
+
         return (
             <>
                 <main ref="main">
@@ -113,10 +116,12 @@ class ProductDetail extends React.Component {
                                             </h1>
                                         </div>
                                         {/* Desktop view */}
-                                        {product._id && currentUserId !== product.seller._id ? (
+                                        {product._id ? (
                                             <div className={"d-none d-md-block"}>
                                                 <NewTestRequestModal sellerNote={product.beforeNote}
-                                                                     productId={product._id}/>
+                                                                     productId={product._id}
+                                                                     disabled={newTestButtonDisabled}
+                                                />
                                             </div>
                                         ) : null}
                                     </div>
@@ -124,7 +129,9 @@ class ProductDetail extends React.Component {
                                     {product._id ? (
                                         <div className={"d-block d-md-none"}>
                                             <NewTestRequestModal sellerNote={product.beforeNote}
-                                                                 productId={product._id}/>
+                                                                 productId={product._id}
+                                                                 disabled={newTestButtonDisabled}
+                                            />
                                         </div>
                                     ) : null}
 
@@ -142,7 +149,9 @@ class ProductDetail extends React.Component {
                                             <div className="row">
                                                 {product.automaticAcceptance ?
                                                     <div className="col text-center">
-                                                        <NewTestButton productId={product._id}/>
+                                                        <NewTestButton productId={product._id}
+                                                                       disabled={newTestButtonDisabled}
+                                                        />
                                                     </div> : null}
                                                 {product.isPrime ?
                                                     <div className="col text-right d-flex mt-sm-0 mt-2">
@@ -165,7 +174,8 @@ class ProductDetail extends React.Component {
                                                                 est&nbsp;
                                                                 <strong>automatiqement acceptée par le
                                                                     vendeur</strong>.<br/>
-                                                                Vous pouvez donc commencer à <strong>tester directement</strong>.
+                                                                Vous pouvez donc commencer à <strong>tester
+                                                                directement</strong>.
                                                             </div>
                                                         </small>
                                                     </div> : null}

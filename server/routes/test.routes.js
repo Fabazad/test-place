@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/create', withAuth, async (request, reply) => {
     const {item} = request.body;
-    TestController.create(item, request.decoded.userId)
+    TestController.create(item, request.decoded.userId, request.decoded.amazonId)
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });

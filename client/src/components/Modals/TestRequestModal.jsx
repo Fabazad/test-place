@@ -114,14 +114,14 @@ const TestRequestModal = (props) => {
                         <div>{lastUpdate ? formatDate(lastUpdate.date) : '-'}</div>
                     </div>
 
-                    {test.status === statuses['requestCancelled'] ?
+                    {test.status === statuses['requestCancelled'] && test.cancelRequestReason ?
                         <div className="col-12 text-center mt-3">
                             <Label>Raison de l'annulation</Label>
                             <Alert color="default">
                                 {test.cancelRequestReason}
                             </Alert>
                         </div> : null}
-                    {test.status === statuses['requestDeclined'] ?
+                    {test.status === statuses['requestDeclined'] && test.declineRequestReason ?
                         <div className="col-12 text-center mt-3">
                             <Label>Raison du refus</Label>
                             <Alert color="danger">
@@ -159,7 +159,7 @@ const TestRequestModal = (props) => {
                                 N'achetez donc pas encore le produit.
                             </Alert>
                         </div> : null}
-                    {test.status === statuses['requested'] && userTypes.SELLER === userType ?
+                    {test.status === statuses['requested'] && userTypes.SELLER === userType && test.testerMessage ?
                         <div className="col-12 text-left mt-4 px-md-5">
                             <Label>Message du testeur</Label>
                             <Alert color="info">

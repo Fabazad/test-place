@@ -1,6 +1,7 @@
 const constants = require("../helpers/constants");
-
+const {TEST_STATUSES} = constants;
 const mongoose = require('mongoose');
+const ProductModel = require("./product.model");
 
 const updateObject = {
     date: { type: Date, required: true, default: new Date() },
@@ -22,7 +23,7 @@ const testObject = {
 
 const testSchema = new mongoose.Schema(testObject);
 
-testSchema.pre('save', function(next) {
+testSchema.pre('save', async function(next) {
     // Check if document is new or a new status has been set
     if (this.isNew || this.isModified('status')) {
         const document = this;

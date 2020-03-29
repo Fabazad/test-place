@@ -57,7 +57,7 @@ class ReceivedDemandRow extends React.Component {
                 </td>
                 <td>
                     <div className="avatar-group pl-3">
-                        <ShowTestRequestButton onClick={() => this.props.onShowButtonClick(test)} testId={test._id}/>
+                        <ShowTestRequestButton onClick={() => this.props.onShowButtonClick(test._id)} testId={test._id}/>
                     </div>
                 </td>
             </tr>

@@ -6,8 +6,11 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 
 class TestController {
 
-    static async create(testData, userId) {
+    static async create(testData, userId, amazonId) {
         return new Promise(async (resolve, reject) => {
+            if (!amazonId) {
+                return reject({status: 403, message: "Unauthorized."});
+            }
             const product = await ProductModel.findById(testData.product);
             if (!product) {
                 return reject({status: 400, message: "Couldn't find product."});

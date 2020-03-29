@@ -8,9 +8,9 @@ class ProductController {
 
     static async scrapFromAsin(asin) {
         return new Promise(async (resolve, reject) => {
-            const product = await ProductModel.findOne({ asin });
+            const product = await ProductModel.findOne({asin});
             if (product) {
-                return reject({ status: 400, message: "Un produit avec ce même ASIN a déjà été ajouté."});
+                return reject({status: 400, message: "Un produit avec ce même ASIN a déjà été ajouté."});
             }
 
             let c = new Crawler({
@@ -154,7 +154,7 @@ class ProductController {
                 query.isPrime = true;
             }
             if (remainingRequests) {
-                query.remainingRequests = { $gt: 0 };
+                query.remainingRequests = {$gt: 0};
             }
             if (seller) {
                 query.seller = seller;
@@ -178,15 +178,15 @@ class ProductController {
             if (published === undefined && decoded && decoded.userId) {
                 // No published field and user logged case : user can see its product and the published ones
                 query.$or = [
-                    { publishExpirationDate: { $gte: new Date() } },
+                    {publishExpirationDate: {$gte: new Date()}},
                     {seller: decoded.userId}
                 ];
             } else if (published !== undefined) {
                 // Publish field case
-                query.publishExpirationDate = published ? { $gte: new Date() } : undefined;
+                query.publishExpirationDate = published ? {$gte: new Date()} : undefined;
                 if (!decoded || !decoded.userId) {
                     // If no logged user then only the published ones
-                    query.publishExpirationDate = { $gte: new Date() };
+                    query.publishExpirationDate = {$gte: new Date()};
                 } else if (published === false) {
                     //No published products and connected user case : user need to be the seller
                     query.seller = decoded.userId;
@@ -217,13 +217,7 @@ class ProductController {
     static async getOne(productId, userId) {
         return new Promise((resolve, reject) => {
             ProductModel.findById(productId).populate('seller')
-                .then(product => {
-                    const published = Date.now() <= product.publishExpirationDate.getTime();
-                    if (!published && product.seller._id.toString() !== userId) {
-                        return reject({status: 401, message: "Unauthorize"});
-                    }
-                    return resolve(product);
-                })
+                .then(resolve)
                 .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
@@ -255,10 +249,10 @@ class ProductController {
             ProductModel.findById(productId)
                 .then(product => {
                     if (!product) {
-                        return reject({ status: 400, message: "Wrong product id"});
+                        return reject({status: 400, message: "Wrong product id"});
                     }
                     if (product.seller.toString() !== userId) {
-                        return reject({ status: 401, message: "Unauthorized"});
+                        return reject({status: 401, message: "Unauthorized"});
                     }
                     ProductModel.findByIdAndDelete(productId)
                         .then(resolve)

@@ -14,6 +14,7 @@ import PublishProductButton from "../Buttons/PublishProductButton";
 import EditProductModal from "../Modals/EditProductModal";
 import SeeProductButton from "../Buttons/SeeProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
+import productServices from "../../services/product.service";
 
 class MyProductCard extends React.Component {
 
@@ -22,8 +23,7 @@ class MyProductCard extends React.Component {
 
     render() {
         const {product, loading} = this.props;
-        const published = product && product.publishExpirationDate ?
-            new Date(product.publishExpirationDate).getTime() > Date.now() : false;
+        const published = productServices.isPublished(product);
         return (
             <Card className={"card-lift--hover shadow border-0 cursor-pointer"}>
                 <CardBody>

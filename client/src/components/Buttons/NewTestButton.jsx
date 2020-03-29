@@ -6,7 +6,7 @@ import testServices from "../../services/test.services";
 import {toast} from "react-toastify";
 
 const NewTestButton = (props) => {
-    const {productId} = props;
+    const {productId, disabled} = props;
     const [statuses, setStatuses] = useState({});
 
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
@@ -20,7 +20,7 @@ const NewTestButton = (props) => {
     };
 
     return (
-        <Button color="info" size='lg' onClick={handleClick}>
+        <Button color="info" size='lg' onClick={handleClick} disabled={disabled}>
             <i className="fa fa-star text-yellow mr-2"/>
             Tester le produit
         </Button>
@@ -28,7 +28,8 @@ const NewTestButton = (props) => {
 };
 
 NewTestRequestModal.propTypes = {
-    productId: PropTypes.string.isRequired
+    productId: PropTypes.string.isRequired,
+    disabled: PropTypes.bool
 };
 
 export default NewTestButton;

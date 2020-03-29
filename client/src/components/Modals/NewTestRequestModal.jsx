@@ -69,7 +69,7 @@ class NewTestRequestModal extends React.Component {
         return (
             <>
                 {/* Button trigger modal */}
-                <Button className='mt-3 w-100' color="primary" type="button" size={'lg'}
+                <Button className='mt-3 w-100' color="primary" type="button" size={'lg'} disabled={this.props.disabled}
                         onClick={() => this.toggleModal()}>
                     Demander à Tester
                 </Button>
@@ -79,7 +79,7 @@ class NewTestRequestModal extends React.Component {
                     <div className="modal-header">
                         <h2 className="modal-title">Demande de Test</h2>
                         <button aria-label="Close" className="close" data-dismiss="modal" type="button"
-                                onClick={() => this.toggleModal()}>
+                                onClick={() => this.toggleModal()} disabled={this.props.disabled}>
                             <span aria-hidden={true}>×</span>
                         </button>
                     </div>
@@ -147,7 +147,8 @@ class NewTestRequestModal extends React.Component {
 }
 
 NewTestRequestModal.propTypes = {
-    productId: PropTypes.string.isRequired
+    productId: PropTypes.string.isRequired,
+    disabled: PropTypes.bool
 };
 
 export default NewTestRequestModal;

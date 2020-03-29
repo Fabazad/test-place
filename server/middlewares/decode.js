@@ -16,7 +16,7 @@ const decode = function (req, res, next) {
             if (err) {
                 res.status(401).send('Unauthorized');
             } else {
-                req.decoded = { userId: decoded.userId };
+                req.decoded = decoded ;
                 next();
             }
         });

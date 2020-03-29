@@ -13,13 +13,14 @@ import SeeProductButton from "../Buttons/SeeProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 import SkeletonProductRow from "./SkeletonProductRow";
 import EditProductModal from "../Modals/EditProductModal";
+import productServices from "../../services/product.service";
 
 class ProductRow extends React.Component {
 
     render() {
         const {product} = this.props;
 
-        const published = product.publishExpirationDate ? new Date(product.publishExpirationDate).getTime() > Date.now() : false;
+        const published = productServices.isPublished(product);
         if (this.props.loading) {
             return (<SkeletonProductRow/>)
         }
