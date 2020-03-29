@@ -3,27 +3,42 @@ import Button from "reactstrap/es/Button";
 import PropTypes from "prop-types";
 import NewTestRequestModal from "../Modals/NewTestRequestModal";
 import testServices from "../../services/test.services";
-import {toast} from "react-toastify";
+import NewTestModal from "../Modals/NewTestModal";
+import Loading from "../Loading";
 
 const NewTestButton = (props) => {
     const {productId, disabled} = props;
     const [statuses, setStatuses] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
 
     const handleClick = async () => {
-        await testServices.create({
+        setLoading(true);
+
+        testServices.create({
             product: productId,
             status: statuses['requestAccepted']
-        });
-        toast.success("Test produit créé");
+        })
+            .then(() => {
+                setLoading(false);
+                onToggle();
+            })
+            .catch(err => setLoading(false));
     };
 
+    const onToggle = () => setIsOpen(!isOpen);
+
     return (
-        <Button color="info" size='lg' onClick={handleClick} disabled={disabled}>
-            <i className="fa fa-star text-yellow mr-2"/>
-            Tester le produit
-        </Button>
+        <>
+            <Loading loading={loading}/>
+            <Button color="info" size='lg' onClick={handleClick} disabled={disabled}>
+                <i className="fa fa-star text-yellow mr-2"/>
+                Tester le produit
+            </Button>
+            <NewTestModal isOpen={isOpen} onToggle={onToggle}/>
+        </>
     )
 };
 
