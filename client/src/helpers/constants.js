@@ -12,8 +12,9 @@ export default {
         { text: 'Coût Final', value: 'finalPrice' },
         { text: 'Date de Création', value: 'createdAt' }
     ],
-    USER_TYPES: {
+    USER_ROLES: {
         SELLER: 'SELLER',
-        TESTER: 'TESTER'
+        TESTER: 'TESTER',
+        ADMIN: 'ADMIN'
     }
 }

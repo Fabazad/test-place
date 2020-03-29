@@ -13,5 +13,7 @@
   "REQUESTED": "Demande envoyée",
   "REQUEST_CANCELLED": "Demande annulée",
   "REQUEST_DECLINED": "Demande refusée",
-  "REQUEST_ACCEPTED": "Demande acceptée"
+  "REQUEST_ACCEPTED": "Demande acceptée",
+  "TESTER": "Testeur",
+  "SELLER": "Vendeur"
 }

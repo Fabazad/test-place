@@ -22,7 +22,7 @@ import constants from "../helpers/constants";
 import TestRequestCard from "../components/Cards/TestRequestCard";
 import Badge from "reactstrap/es/Badge";
 
-const {USER_TYPES} = constants;
+const {USER_ROLES} = constants;
 
 class ReceivedDemands extends React.Component {
 
@@ -189,7 +189,7 @@ class ReceivedDemands extends React.Component {
                                     <div className="row">
                                         {this.state.tests.map(test => (
                                             <div className="col-12 col-md-6 my-2" key={"testCard" + test._id}>
-                                                <TestRequestCard test={test} userType={USER_TYPES.SELLER}
+                                                <TestRequestCard test={test} userType={USER_ROLES.SELLER}
                                                                  onShowButtonClick={this.onShowButtonClick}/>
                                             </div>
                                         ))}
@@ -208,7 +208,7 @@ class ReceivedDemands extends React.Component {
                 </Container>
                 <TestRequestModal isOpen={this.state.isModalOpen[this.modalNames.testRequest]}
                                   onToggle={() => this.toggleModal(this.modalNames.testRequest)}
-                                  test={this.state.selectedTest} userType={USER_TYPES.SELLER}
+                                  test={this.state.selectedTest} userType={USER_ROLES.SELLER}
                 />
             </>
         );

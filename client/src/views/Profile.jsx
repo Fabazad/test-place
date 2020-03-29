@@ -21,6 +21,8 @@ import UpdatePasswordModal from "../components/Modals/UpdatePasswordModal";
 import {toast} from "react-toastify";
 import AmazonLoginButton from "../components/Buttons/AmazonLoginButton";
 import InfoPopover from "../components/InfoPopover";
+import RolesSelectInput from "../components/Forms/RolesSelectInput";
+import Label from "reactstrap/es/Label";
 
 class Profile extends React.Component {
 
@@ -30,7 +32,8 @@ class Profile extends React.Component {
             user: undefined,
             testerMessage: "",
             sellerMessage: "",
-            loading: false
+            loading: false,
+            roles: []
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -40,6 +43,7 @@ class Profile extends React.Component {
             user: userService.currentUser,
             testerMessage: userService.currentUser.testerMessage,
             sellerMessage: userService.currentUser.sellerMessage,
+            roles: userService.currentUser.roles
         });
         userService.currentUserSubject.subscribe(user => this.setState({user}));
     }
@@ -56,7 +60,8 @@ class Profile extends React.Component {
         this.setState({loading: true});
         userService.updateUserInfo(userService.currentUser._id, {
             testerMessage: this.state.testerMessage,
-            sellerMessage: this.state.sellerMessage
+            sellerMessage: this.state.sellerMessage,
+            roles: this.state.roles
         })
             .catch(err => this.setState({loading: false}))
             .then(() => {
@@ -71,8 +76,10 @@ class Profile extends React.Component {
         }
 
         const {user} = this.state;
+
         const disabledSave = user.testerMessage === this.state.testerMessage
-            && user.sellerMessage === this.state.sellerMessage;
+            && user.sellerMessage === this.state.sellerMessage
+            && user.roles.join(',') === this.state.roles.join(',');
 
         return (
             <>
@@ -173,6 +180,14 @@ class Profile extends React.Component {
                                         </div>
                                         <div className="pl-lg-4">
                                             <Row>
+                                                <Col xs="12">
+                                                    <FormGroup>
+                                                        <Label className="form-control-label">Vous êtes ?</Label>
+                                                        <RolesSelectInput defaultValue={userService.currentUser.roles}
+                                                                          onChange={this.handleInputChange}
+                                                                          name="roles"/>
+                                                    </FormGroup>
+                                                </Col>
                                                 <Col xs="12">
                                                     <FormGroup>
                                                         <label className="form-control-label"

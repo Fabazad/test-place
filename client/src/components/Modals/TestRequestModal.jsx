@@ -15,7 +15,7 @@ import constants from "../../helpers/constants";
 const TestRequestModal = (props) => {
     const {isOpen, onToggle, test, userType, t} = props;
 
-    const userTypes = constants.USER_TYPES;
+    const userTypes = constants.USER_ROLES;
 
     const [statuses, setStatuses] = useState({});
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));

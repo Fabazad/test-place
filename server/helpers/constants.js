@@ -8,9 +8,9 @@ const constants = {
     },
     FROM_MAIL_ADDRESS: 'review@test-place.com',
     ROLES: {
-        REVIEWER: "reviewer",
-        SELLER: "seller",
-        ADMIN: "admin"
+        TESTER: "TESTER",
+        SELLER: "SELLER",
+        ADMIN: "ADMIN"
     },
     PRODUCT_CATEGORIES: [
         { text: 'Animalerie', value: 'pet-shop' },

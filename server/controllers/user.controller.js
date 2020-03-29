@@ -230,7 +230,8 @@ class UserController {
 
             const authorizedData = {
                 testerMessage: data.testerMessage,
-                sellerMessage: data.sellerMessage
+                sellerMessage: data.sellerMessage,
+                roles: data.roles
             };
 
             UserModel.findByIdAndUpdate(userId, authorizedData, { new: true }).then(resolve)

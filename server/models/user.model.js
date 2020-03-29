@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const {ROLES} = require("../helpers/constants");
 
 const saltRounds = 10;
 
@@ -12,7 +13,8 @@ const UserSchema = new mongoose.Schema({
     resetPasswordExpires: Date,
     amazonId: { type: String, unique: true, sparse: true },
     testerMessage: String,
-    sellerMessage: String
+    sellerMessage: String,
+    roles: { type: [String], enum: Object.values(ROLES), default: [ROLES.TESTER] }
 });
 
 UserSchema.pre('save', function(next) {

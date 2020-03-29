@@ -9,7 +9,7 @@ import {withTranslation} from "react-i18next";
 import ShowTestRequestButton from "../Buttons/ShowTestRequestButton";
 import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
 import testServices from "../../services/test.services";
-const {USER_TYPES} = constants;
+const {USER_ROLES} = constants;
 
 const TestRequestCard = (props) => {
     const {test, t, userType, onShowButtonClick} = props;
@@ -63,7 +63,7 @@ const TestRequestCard = (props) => {
                     </div>
                 </Row>
                 <Row className='mt-3'>
-                    {userType === USER_TYPES.TESTER ?
+                    {userType === USER_ROLES.TESTER ?
                         <div className="col-6 text-center">
                         <small>Vendeur</small>
                         <Link to={'#'}>
@@ -72,7 +72,7 @@ const TestRequestCard = (props) => {
                             </h4>
                         </Link>
                     </div> : null}
-                    {userType === USER_TYPES.SELLER ?
+                    {userType === USER_ROLES.SELLER ?
                         <div className="col-6 text-center">
                             <small>Testeur</small>
                             <Link to={'#'}>
@@ -104,7 +104,7 @@ const TestRequestCard = (props) => {
 
                 </div>
                 <div className="row mt-3">
-                    {userType === USER_TYPES.TESTER && test.status === statuses['requested'] ? (
+                    {userType === USER_ROLES.TESTER && test.status === statuses['requested'] ? (
                         <CancelTestRequestButton testId={test._id}/>) : null}
                     <ShowTestRequestButton onClick={handleShowButtonClick} testId={test._id}/>
                 </div>
