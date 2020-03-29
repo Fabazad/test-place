@@ -40,7 +40,7 @@ router.post('/updatePassword', withAuth, async (request, reply) => {
     const {previousPassword, password} = request.body;
     const {userId} = request.decoded;
     UserController.updatePassword(previousPassword, password, userId)
-        .then(() => reply.send())
+        .then(res => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
 
@@ -56,16 +56,7 @@ router.post('/amazonLogin', withAuth, async (request, reply) => {
     const {amazonToken} = request.body;
     const {userId} = request.decoded;
     UserController.amazonLogin(userId, amazonToken)
-        .then(user => reply.send({ user }))
-        .catch(err => reply.status(err.status).send(err.message));
-});
-
-router.post('/update', withAuth, async (request, reply) => {
-
-    const {itemId, fields} = request.body;
-    const {userId} = request.decoded;
-    UserController.update(userId, itemId, fields)
-        .then(user => reply.send(user))
+        .then(res => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
 
@@ -80,7 +71,7 @@ router.post('/updateUserInfo', withAuth, async (request, reply) => {
     const { userId, data } = request.body;
     const {decoded} = request;
     UserController.updateUserInfo(decoded.userId, userId, data)
-        .then((user) => reply.send({ user }))
+        .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
 

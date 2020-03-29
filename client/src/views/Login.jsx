@@ -21,7 +21,7 @@ import {
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
-import { setCookie } from "helpers/cookies";
+import { setCookie } from "../helpers/cookies";
 import { toast } from "react-toastify";
 import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
 import Loading from "components/Loading";
@@ -51,7 +51,6 @@ class Login extends React.Component {
     this.setState({loading: true});
     const loadingPromise = userService.login(this.state.email, this.state.password).then(res => {
       this.setState({loading: false});
-      setCookie("token", res.token, 7);
       this.props.history.push('/');
       toast.success("Connecté !");
     }).catch(() => this.setState({loading: false, password: ''}));

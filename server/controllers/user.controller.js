@@ -3,63 +3,66 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const randomToken = require('random-token');
 const moment = require("moment");
-const ErrorResponses =  require("../helpers/ErrorResponses");
+const ErrorResponses = require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
 
+const createToken = (user, time) => {
+    const payload = {userId: user._id, amazonId: user.amazonId, roles: user.roles};
+    return jwt.sign(payload, secret, {expiresIn: time});
+};
+
 class UserController {
 
     static async register(name, email, password, captcha) {
-        return new Promise ((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (password.length < 8) {
-                reject({ status: 400, message: "The password is too short." });
+                reject({status: 400, message: "The password is too short."});
             }
             const secret = process.env.SECRET_RECAPTCHA;
             axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`)
-            .then(response => {
-                if (response.data.success) {
-                    const user = new UserModel({name, email, password });
-                    user.save(function(err) {
-                        if (err) {
-                            reject(ErrorResponses.mongoose(err));
-                        } else {
-                            EmailController.sendValidateMailAddressMail(email, user._id)
-                                .then(() => resolve(user))
-                                .catch(reject);
-                        }
-                    });
-                }
-                else {
-                    reject({ status: 401, message: "ReCAPTCHA failed."})
-                }
-            })
-            .catch(error => {
-                reject({ status: 500, message: "Internal error please try again"});
-            });
-            
+                .then(response => {
+                    if (response.data.success) {
+                        const user = new UserModel({name, email, password});
+                        user.save(function (err) {
+                            if (err) {
+                                reject(ErrorResponses.mongoose(err));
+                            } else {
+                                EmailController.sendValidateMailAddressMail(email, user._id)
+                                    .then(() => resolve(user))
+                                    .catch(reject);
+                            }
+                        });
+                    } else {
+                        reject({status: 401, message: "ReCAPTCHA failed."})
+                    }
+                })
+                .catch(error => {
+                    reject({status: 500, message: "Internal error please try again"});
+                });
+
         });
     }
 
     static async login(email, password) {
         return new Promise((resolve, reject) => {
-            UserModel.findOne({ email }, function(err, user) {
+            UserModel.findOne({email}, function (err, user) {
                 if (err) {
                     reject(ErrorResponses.mongoose(err));
                 } else if (!user) {
-                    reject({ status: 400, message: "Incorrect email or password"});
+                    reject({status: 400, message: "Incorrect email or password"});
                 } else if (!user.emailValidation) {
-                    reject({ status: 400, message: "The email needs to be validate before."});
+                    reject({status: 400, message: "The email needs to be validate before."});
                 } else {
-                    user.isCorrectPassword(password, function(err, same) {
+                    user.isCorrectPassword(password, function (err, same) {
                         if (err) {
                             reject(ErrorResponses.mongoose(err));
                         } else if (!same) {
-                            reject({ status: 400, message: "Incorrect email or password"});
+                            reject({status: 400, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const payload = { userId: user._id, amazonId: user.amazonId };
-                            const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+                            const token = createToken(user, '1h');
                             resolve({user, token});
                         }
                     });
@@ -71,15 +74,15 @@ class UserController {
     static async resetPasswordMail(email) {
         return new Promise((resolve, reject) => {
             if (!email) {
-                reject({ status: 400, message: "Missing email."});
+                reject({status: 400, message: "Missing email."});
             }
             const resetPasswordToken = randomToken(16);
             const tokenMoment = (new moment()).add(15, "minutes");
             const resetPasswordExpires = tokenMoment.toDate();
-            UserModel.findOneAndUpdate({email}, { $set: { resetPasswordToken, resetPasswordExpires } }, { new: true })
+            UserModel.findOneAndUpdate({email}, {$set: {resetPasswordToken, resetPasswordExpires}}, {new: true})
                 .then(user => {
                     if (!user) {
-                        return reject({ status: 400, message: "No user with this email found."})
+                        return reject({status: 400, message: "No user with this email found."})
                     }
                     EmailController.sendResetPasswordMail(email, resetPasswordToken)
                         .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
@@ -91,15 +94,15 @@ class UserController {
     static async resetPassword(password, resetPasswordToken) {
         return new Promise((resolve, reject) => {
             if (password.length < 8) {
-                return reject({ status: 400, message: "Password too short."});
+                return reject({status: 400, message: "Password too short."});
             }
             if (!resetPasswordToken) {
-                return reject({ status: 400, message: "Missing token."});
+                return reject({status: 400, message: "Missing token."});
             }
-            UserModel.findOne({resetPasswordToken, resetPasswordExpires: { $gte: new Date() } })
+            UserModel.findOne({resetPasswordToken, resetPasswordExpires: {$gte: new Date()}})
                 .then(user => {
                     if (!user) {
-                        return reject({ status: 403, message: "Wrong or expired token."});
+                        return reject({status: 403, message: "Wrong or expired token."});
                     }
                     user.password = password;
                     user.resetPasswordToken = undefined;
@@ -107,8 +110,7 @@ class UserController {
                     user.save((err) => {
                         if (err) {
                             reject(ErrorResponses.mongoose(err));
-                        }
-                        else {
+                        } else {
                             resolve({user});
                         }
                     });
@@ -120,38 +122,32 @@ class UserController {
     static async updatePassword(previousPassword, password, userId) {
         return new Promise((resolve, reject) => {
             if (password.length < 8) {
-                return reject({ status: 400, message: "Password too short."});
+                return reject({status: 400, message: "Password too short."});
             }
             if (!userId) {
-                return reject({ status: 400, message: "Missing user token."});
+                return reject({status: 400, message: "Missing user token."});
             }
             UserModel.findById(userId)
                 .then(user => {
                     if (!user) {
-                        return reject({ status: 403, message: "Wrong user token."});
+                        return reject({status: 403, message: "Wrong user token."});
                     }
                     user.isCorrectPassword(previousPassword, (err, same) => {
                         if (err) {
-                            reject({ status: 500, message: "Internal error please try again."});
+                            reject({status: 500, message: "Internal error please try again."});
                         } else if (!same) {
-                            reject({ status: 401, message: "Incorrect current password."});
+                            reject({status: 401, message: "Incorrect current password."});
                         } else {
                             // Issue token
                             user.password = password;
-                            user.save(() => {
-                                resolve({user});
-                            });
-                        }
-                    });
-                    user.password = password;
-                    user.resetPasswordToken = undefined;
-                    user.resetPasswordExpires = undefined;
-                    user.save((err) => {
-                        if (err) {
-                            reject(ErrorResponses.mongoose(err));
-                        }
-                        else {
-                            resolve({user});
+                            user.resetPasswordToken = undefined;
+                            user.resetPasswordExpires = undefined;
+                            user.save()
+                                .then(user => {
+                                    const token = createToken(user, '1h');
+                                    resolve({user, token});
+                                })
+                                .catch(err => reject(ErrorResponses.mongoose(err)));
                         }
                     });
                 })
@@ -162,12 +158,12 @@ class UserController {
     static async emailValidation(userId) {
         return new Promise((resolve, reject) => {
             if (!userId) {
-                return reject({ status: 400, message: "Missing token."});
+                return reject({status: 400, message: "Missing token."});
             }
-            UserModel.findByIdAndUpdate(userId, { $set: { emailValidation: true } })
+            UserModel.findByIdAndUpdate(userId, {$set: {emailValidation: true}})
                 .then(user => {
                     if (!user) {
-                        return reject({ status: 403, message: "Wrong token."});
+                        return reject({status: 403, message: "Wrong token."});
                     }
                     resolve({user});
                 })
@@ -178,42 +174,34 @@ class UserController {
     static async amazonLogin(userId, amazonToken) {
         return new Promise((resolve, reject) => {
             if (!userId) {
-                return reject({ status: 403, message: "Wrong user token."});
+                return reject({status: 403, message: "Wrong user token."});
             }
             if (!amazonToken) {
-                return reject({ status: 400, message: "Missing token."});
+                return reject({status: 400, message: "Missing token."});
             }
-            axios.get("https://api.amazon.com/user/profile?access_token=" + amazonToken ).then(res => {
-                UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}, { new: true }).then(resolve)
+            axios.get("https://api.amazon.com/user/profile?access_token=" + amazonToken).then(res => {
+                UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}, {new: true})
+                    .then(user => {
+                        const token = createToken(user, '1h');
+                        resolve({user, token});
+                    })
                     .catch(err => reject(ErrorResponses.mongoose(err)));
             }).catch(err => reject({status: 403, message: "Wrong token."}));
-        });
-    }
-
-    static async update(userId, itemId, fields) {
-        return new Promise((resolve, reject) => {
-            if ('amazonId' in fields && userId !== itemId) {
-                reject({status: 401, message: 'Unauthorized'});
-            }
-
-            UserModel.findByIdAndUpdate(itemId, fields)
-                .then(resolve)
-                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 
     static async validationMail(email) {
         return new Promise((resolve, reject) => {
             if (!email) {
-                reject({ status: 400, message: "Missing email."});
+                reject({status: 400, message: "Missing email."});
             }
             UserModel.findOne({email})
                 .then(user => {
                     if (!user) {
-                        return reject({ status: 400, message: "No user with this email found."});
+                        return reject({status: 400, message: "No user with this email found."});
                     }
                     if (user.emailValidation) {
-                        return reject({ status: 403, message: "Email already validated."});
+                        return reject({status: 403, message: "Email already validated."});
                     }
                     EmailController.sendValidateMailAddressMail(email, user._id.toString())
                         .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
@@ -225,7 +213,7 @@ class UserController {
     static async updateUserInfo(currentUserId, userId, data) {
         return new Promise((resolve, reject) => {
             if (currentUserId !== userId) {
-                return reject({ status: 403, message: "Unauthorized"});
+                return reject({status: 403, message: "Unauthorized"});
             }
 
             const authorizedData = {
@@ -234,7 +222,11 @@ class UserController {
                 roles: data.roles
             };
 
-            UserModel.findByIdAndUpdate(userId, authorizedData, { new: true }).then(resolve)
+            UserModel.findByIdAndUpdate(userId, authorizedData, {new: true})
+                .then(user => {
+                    const token = createToken(user, '1h');
+                    resolve({user, token});
+                })
                 .catch(err => ErrorResponses.mongoose(err));
         });
     }
@@ -242,13 +234,13 @@ class UserController {
     static async checkToken(logged, decoded) {
         return new Promise((resolve, reject) => {
             if (!decoded || !decoded.userId) {
-                resolve({ user: null, check: false});
+                resolve({user: null, check: false});
             } else if (!logged || logged === "false") {
                 UserModel.findById(decoded.userId)
-                    .then(user => resolve({ user, check: true }))
+                    .then(user => resolve({user, check: true}))
                     .catch(err => reject(ErrorResponses.mongoose(err)))
             } else {
-                resolve({ check: true });
+                resolve({check: true});
             }
         });
     }

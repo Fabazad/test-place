@@ -3,6 +3,7 @@ import axios from "axios";
 import {eraseCookie} from "../helpers/cookies.js";
 import {Subject} from "rxjs";
 import constants from "../helpers/constants";
+import {setCookie} from "../helpers/cookies";
 const {USER_ROLES} = constants;
 
 function serviceResolve(res) {
@@ -29,6 +30,9 @@ class UserService extends BaseService {
                         this.currentUserSubject.next(this.currentUser);
                     } else if (this.isAuth() && !data.check) {
                         this.logout();
+                    }
+                    if (typeof data === "object" && "token" in data) {
+                        setCookie("token", data.token, 7);
                     }
                     return resolve(data);
                 })
