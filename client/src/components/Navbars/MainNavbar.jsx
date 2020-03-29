@@ -43,7 +43,7 @@ class MainNavbar extends React.Component {
                 <span className="navbar-toggler-icon" />
               </button>
               <UncontrolledCollapse navbar toggler="#navbar_global">
-                <div className="navbar-collapse-header">
+                <div className="navbar-collapse-header ml-1">
                   <Row>
                     <Col className="collapse-brand" xs="6">
                       <Link to="/">

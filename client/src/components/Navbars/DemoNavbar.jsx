@@ -27,7 +27,7 @@ class DemoNavbar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
+        this.state = {
             routes: []
         };
         this._isMounted = false;
@@ -76,74 +76,77 @@ class DemoNavbar extends React.Component {
                             <button className="navbar-toggler" id="navbar_global">
                                 <span className="navbar-toggler-icon"/>
                             </button>
-                            <UncontrolledCollapse navbar toggler="#navbar_global">
-                                <div className="navbar-collapse-header">
-                                    <Row>
-                                        <Col className="collapse-brand" xs="6">
-                                            <Link to="/">
-                                                <img
-                                                    alt="..."
-                                                    src={require("assets/img/brand/logo_test_place.png")}
-                                                />
-                                            </Link>
-                                        </Col>
-                                        <Col className="collapse-close" xs="6">
-                                            <button className="navbar-toggler" id="navbar_global">
-                                                <span/>
-                                                <span/>
-                                            </button>
-                                        </Col>
-                                    </Row>
-                                </div>
-                                <Nav className="navbar-nav-hover align-items-lg-center" navbar>
-                                    <NavItem>
-                                        <NavLink to='/search' tag={Link}
-                                                 className="nav-link-inner--text text-white cursor-pointer">
-                                            Recherche
-                                        </NavLink>
-                                    </NavItem>
-
-                                    {isAuth ? (
-                                        <UncontrolledDropdown>
-                                            <DropdownToggle nav>
-                                                <span className='d-inline d-lg-none text-black'>Dashboard</span>
-                                                <span className="d-none d-lg-inline text-white">Dashboard</span>
-                                            </DropdownToggle>
-                                            <DropdownMenu className='w-200px'>
-                                                {
-                                                    this.state.routes.map(route => (
-                                                        <DropdownItem to={route.layout + route.path} tag={Link} key={'route'+route.path}>
-                                                            <i className={route.icon}/>
-                                                            {route.name}
-                                                        </DropdownItem>
-                                                    ))
-                                                }
-                                            </DropdownMenu>
-                                        </UncontrolledDropdown>
-                                    ) : null}
-                                </Nav>
-                                <Nav className="align-items-lg-center ml-lg-auto" navbar>
-                                    {!isAuth ? (
+                            <div className="ml-1 w-100">
+                                <UncontrolledCollapse navbar toggler="#navbar_global">
+                                    <div className="navbar-collapse-header">
+                                        <Row>
+                                            <Col className="collapse-brand" xs="6">
+                                                <Link to="/">
+                                                    <img
+                                                        alt="..."
+                                                        src={require("assets/img/brand/logo_test_place.png")}
+                                                    />
+                                                </Link>
+                                            </Col>
+                                            <Col className="collapse-close" xs="6">
+                                                <button className="navbar-toggler" id="navbar_global">
+                                                    <span/>
+                                                    <span/>
+                                                </button>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                    <Nav className="navbar-nav-hover align-items-lg-center" navbar>
                                         <NavItem>
-                                            <Button to='/login' tag={Link} color={'secondary'}
-                                                    className="nav-link-inner--text">
-                                                Connexion
-                                            </Button>
-                                        </NavItem>) : null
-                                    }
-                                    {!isAuth ? (
-                                        <NavItem>
-                                            <NavLink to='/register' tag={Link}
-                                                     className="nav-link-inner--text text-white cursor-pointer">Inscription</NavLink>
-                                        </NavItem>) : null
-                                    }
-                                    {isAuth ? (
-                                        <NavItem>
-                                            <LogoutButton history={this.props.history}/>
+                                            <NavLink to='/search' tag={Link}
+                                                     className="nav-link-inner--text text-white cursor-pointer">
+                                                Recherche
+                                            </NavLink>
                                         </NavItem>
-                                    ) : null}
-                                </Nav>
-                            </UncontrolledCollapse>
+
+                                        {isAuth ? (
+                                            <UncontrolledDropdown>
+                                                <DropdownToggle nav>
+                                                    <span className='d-inline d-lg-none text-black'>Dashboard</span>
+                                                    <span className="d-none d-lg-inline text-white">Dashboard</span>
+                                                </DropdownToggle>
+                                                <DropdownMenu className='w-200px'>
+                                                    {
+                                                        this.state.routes.map(route => (
+                                                            <DropdownItem to={route.layout + route.path} tag={Link}
+                                                                          key={'route' + route.path}>
+                                                                <i className={route.icon}/>
+                                                                {route.name}
+                                                            </DropdownItem>
+                                                        ))
+                                                    }
+                                                </DropdownMenu>
+                                            </UncontrolledDropdown>
+                                        ) : null}
+                                    </Nav>
+                                    <Nav className="align-items-lg-center ml-lg-auto" navbar>
+                                        {!isAuth ? (
+                                            <NavItem>
+                                                <Button to='/login' tag={Link} color={'secondary'}
+                                                        className="nav-link-inner--text">
+                                                    Connexion
+                                                </Button>
+                                            </NavItem>) : null
+                                        }
+                                        {!isAuth ? (
+                                            <NavItem>
+                                                <NavLink to='/register' tag={Link}
+                                                         className="nav-link-inner--text text-white cursor-pointer">Inscription</NavLink>
+                                            </NavItem>) : null
+                                        }
+                                        {isAuth ? (
+                                            <NavItem>
+                                                <LogoutButton history={this.props.history}/>
+                                            </NavItem>
+                                        ) : null}
+                                    </Nav>
+                                </UncontrolledCollapse>
+                            </div>
                         </Container>
                     </Navbar>
                 </header>

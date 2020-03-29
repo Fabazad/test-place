@@ -69,6 +69,7 @@ class Sidebar extends React.Component {
       );
     });
   };
+
   render() {
     const { bgColor, routes, logo } = this.props;
     let navbarBrandProps;
@@ -213,7 +214,7 @@ class Sidebar extends React.Component {
               </InputGroup>
             </Form>
             {/* Navigation */}
-            <Nav navbar>{this.createLinks(routes)}</Nav>
+            <Nav navbar className="mt-4">{this.createLinks(routes)}</Nav>
             {/* Divider */}
             <hr className="my-3" />
             {/* Heading */}
