@@ -221,7 +221,7 @@ class Profile extends React.Component {
                                                                 C'est aussi le message que recevront vos testeurs
                                                                 lorsqu'ils passeront par l'<b>acceptaion
                                                                 automatique</b> des demandes (<i
-                                                                className="fa fa-star text-yellow"/>).
+                                                                className="fa fa-bolt text-yellow"/>).
                                                             </InfoPopover>
                                                         </label>
                                                         <Input className="form-control-alternative"
@@ -244,12 +244,12 @@ class Profile extends React.Component {
                                     <div className="pl-lg-4">
                                         <Row>
                                             <Col md="6">
-                                                <FormGroup>
+                                                <FormGroup className="text-center">
                                                     <UpdatePasswordModal/>
                                                 </FormGroup>
                                             </Col>
                                             <Col md="6">
-                                                <FormGroup>
+                                                <FormGroup className="text-center">
                                                     <AmazonLoginButton/>
                                                 </FormGroup>
                                             </Col>

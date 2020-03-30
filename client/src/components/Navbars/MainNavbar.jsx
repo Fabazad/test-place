@@ -84,7 +84,7 @@ class MainNavbar extends React.Component {
 
 MainNavbar.propTypes = {
   initHistorySteps: PropTypes.func.isRequired,
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   initHistorySteps: step => dispatch(initHistorySteps(step))

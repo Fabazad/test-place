@@ -167,7 +167,7 @@ class ProductDetail extends React.Component {
                                                     <div className="text-left mt-4 col-12">
                                                         <small className="row">
                                                             <div className="col-1 text-center">
-                                                                <i className="fa fa-star text-yellow"/>
+                                                                <i className="fa fa-bolt text-yellow"/>
                                                             </div>
                                                             <div className="col">
                                                                 Grâce à l'acceptation automatique, votre demande de test

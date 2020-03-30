@@ -34,7 +34,7 @@ const NewTestButton = (props) => {
         <>
             <Loading loading={loading}/>
             <Button color="info" size='lg' onClick={handleClick} disabled={disabled}>
-                <i className="fa fa-star text-yellow mr-2"/>
+                <i className="fa fa-bolt text-yellow mr-2"/>
                 Tester le produit
             </Button>
             <NewTestModal isOpen={isOpen} onToggle={onToggle}/>
