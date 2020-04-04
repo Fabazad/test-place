@@ -38,7 +38,7 @@ class DropdownSelect extends React.Component {
     render() {
         const {t} = this.props;
         return (
-            <UncontrolledDropdown group className={'w-100 dropdown-select '+ this.props.className}>
+            <UncontrolledDropdown group className={'w-100 dropdown-select ' + this.props.className}>
                 <DropdownToggle caret color="secondary"
                                 className={"w-100 text-right bg-white input-group-alternative rounded"}
                                 style={{'height': '46px'}}>
@@ -57,18 +57,14 @@ class DropdownSelect extends React.Component {
                         ) : null
                     }
 
-                    {
-                        this.props.options.map((option, i) =>
-                            !this.state.option || (this.state.option && this.state.option.value !== option.value) ?
-                                (
-                                    <DropdownItem onClick={() => this.onSelectItem(option)}
-                                                  key={option.value} className={"cursor-pointer"}>
-                                        {t(option.text)}
-                                    </DropdownItem>
-                                )
-                             : null
-                        )
-                    }
+                    {this.props.options.map((option, i) => (
+                        <DropdownItem onClick={() => this.onSelectItem(option)}
+                                      key={option.value}
+                                      className={"cursor-pointer" + (this.state.option && this.state.option.value === option.value ? ' selected' : '')}>
+                            {t(option.text)}
+                        </DropdownItem>
+                    ))}
+
                 </DropdownMenu>
             </UncontrolledDropdown>
         );

@@ -120,3 +120,8 @@ img.selected {
         width: auto !important;
     }
 }
+
+.dropdown-select .selected, .dropdown-select .selected:hover {
+    background-color: #5e72e4;
+    color: white;
+}
