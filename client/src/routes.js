@@ -4,6 +4,7 @@ import MyProducts from "./views/MyProducts";
 import SentDemands from "./views/SentDemands";
 import ReceivedDemands from "./views/ReceivedDemands";
 import constants from "./helpers/constants";
+import MyCurrentTests from "./views/MyCurrentTests/MyCurrentTests";
 
 const {USER_ROLES} = constants;
 
@@ -39,6 +40,14 @@ const routes = [
     component: ReceivedDemands,
     layout: "/dashboard",
     role: USER_ROLES.SELLER
+  },
+  {
+    path: "/my-current-tests",
+    name: "Demandes en Cours",
+    icon: "far fa-arrow-alt-circle-right text-pink",
+    component: MyCurrentTests,
+    layout: "/dashboard",
+    role: USER_ROLES.TESTER
   },
   {
     path: "/my-profile",
