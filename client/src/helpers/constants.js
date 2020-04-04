@@ -16,5 +16,14 @@ export default {
         SELLER: 'SELLER',
         TESTER: 'TESTER',
         ADMIN: 'ADMIN'
+    },
+    TEST_GLOBAL_STATUSES: {
+        REQUESTED: "REQUESTED",
+        PROCESSING: "PROCESSING",
+        COMPLETED: "COMPLETED"
+    },
+    TEST_ROW_CLICK_ACTIONS: {
+        SHOW_TEST_REQUEST: "SHOW_TEST_REQUEST",
+        SHOW_PROCESSING_TEST: "SHOW_PROCESSING_TEST"
     }
 }

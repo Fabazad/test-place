@@ -9,15 +9,16 @@ import PropTypes from "prop-types";
 import {withTranslation} from "react-i18next";
 import userServices from "../services/user.services";
 import CardBody from "reactstrap/es/CardBody";
-import ReceivedDemandRow from "./Rows/ReceivedDemandRow";
 import RowSkeleton from "./Rows/RowSkeleton";
 import TestRequestCard from "./Cards/TestRequestCard";
 import CardSkeleton from "./Cards/CardSkeleton";
+import TestRow from "./Rows/TestRow";
+import TestRequestModal from "./Modals/TestRequestModal";
 
-const {USER_ROLES, ITEMS_PER_PAGE} = constants;
+const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS} = constants;
 
 const TestListWithControls = props => {
-    const {title, t, statusesOptions} = props;
+    const {title, t, statusesOptions, userRole, globalStatus} = props;
 
     const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(1);
@@ -25,15 +26,18 @@ const TestListWithControls = props => {
     const [statusFilter, setStatusFilter] = useState(null);
     const [tests, setTests] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState({});
+    const [statusesOptionsFormatted, setStatusesOptionsFormatted] = useState([]);
 
     const search = () => {
         setLoading(true);
         const searchData = {
             seller: userServices.getCurrentUserId(),
-            statuses: statusFilter ? [statusFilter] : statusesOptions.map(opt => opt.value),
+            statuses: statusFilter ? [statusFilter] : statusesOptionsFormatted.map(opt => opt.value),
             itemsPerPage: ITEMS_PER_PAGE,
             page: page,
-            asSeller: true
+            asSeller: userRole === USER_ROLES.SELLER,
+            asTester: userRole === USER_ROLES.TESTER
         };
 
         testsServices.find({searchData})
@@ -47,12 +51,43 @@ const TestListWithControls = props => {
 
     // On component init
     useEffect(() => {
-        testsServices.testsSubject.subscribe(search);
-        return () => testsServices.testsSubject.unsubscribe();
+        let mount = true;
+
+        testsServices.getTestStatuses().then(statuses => {
+            const optionsFormatted = statusesOptions.map(status => ({
+                value: statuses[status],
+                text: t(statuses[status])
+            }));
+            setStatusesOptionsFormatted(optionsFormatted);
+            testsServices.testsSubject.subscribe(() => mount && search());
+            mount && search();
+        });
+
+        return () => {
+            mount = false
+        };
     }, []);
 
     // On search controls update
-    useEffect(search, [page, statusFilter]);
+    useEffect(() => {
+        if (statusesOptionsFormatted.length) {
+            search();
+        }
+    }, [page, statusFilter]);
+
+    const onActionClick = (testId, action) => {
+        const test = tests.find(t => t._id === testId);
+        if (test) {
+            setSelectedTest(test);
+            toggleModal(action);
+        }
+    };
+
+    const toggleModal = action => {
+        const newIsModalOpen = Object.assign({}, isModalOpen);
+        newIsModalOpen[action] = !isModalOpen[action];
+        setIsModalOpen(newIsModalOpen);
+    };
 
     return (
         <>
@@ -67,8 +102,9 @@ const TestListWithControls = props => {
                     <div className="float-right text-center w-sm-100 w-md-auto text-center mt-3 mt-md-0">
                         <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
                             <DropdownSelect
-                                options={statusesOptions} placeholder={'Filtrer par Status'} value={statusFilter}
-                                onChange={(e) => setStatusFilter(e.target.value)} name={'statusFilter'}/>
+                                options={statusesOptionsFormatted} placeholder={'Filtrer par Status'}
+                                value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
+                                name={'statusFilter'}/>
                         </div>
                     </div>
                 </CardHeader>
@@ -80,7 +116,10 @@ const TestListWithControls = props => {
                             <th scope="col">Produit</th>
                             <th scope='col'>Prix</th>
                             <th scope='col'>Final</th>
-                            <th scope="col">Testeur</th>
+                            <th scope="col">
+                                {userRole === USER_ROLES.TESTER ? 'Vendeur' : null}
+                                {userRole === USER_ROLES.SELLER ? 'Testeur' : null}
+                            </th>
                             <th scope="col">Date</th>
                             <th scope="col">Status</th>
                             <th scope="col">Actions</th>
@@ -90,13 +129,13 @@ const TestListWithControls = props => {
                         {!tests || loading ? (
                             <>
                                 {(new Array(ITEMS_PER_PAGE)).fill(null).map((row, i) => (
-                                    <RowSkeleton key={'skeleton'+i} colNumber={7}/>
+                                    <RowSkeleton key={'skeleton' + i} colNumber={7}/>
                                 ))}
                             </>) : (
                             <>
-                                {tests.map(test => (
-                                    <ReceivedDemandRow key={'test' + test._id} test={test} loading={loading}
-                                                       onShowButtonClick={() => console.log("click")}/>
+                                {tests.map((test, i) => (
+                                    <TestRow test={test} userRole={userRole} globalStatus={globalStatus}
+                                             key={'test-row' + i} onClick={onActionClick}/>
                                 ))}
                             </>)}
 
@@ -134,16 +173,20 @@ const TestListWithControls = props => {
                     </nav>
                 </CardFooter>
             </Card>
+
+            <TestRequestModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST]}
+                              onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
+                              test={selectedTest} userType={userRole}
+            />
         </>
     );
 };
 
 TestListWithControls.propTypes = {
     title: PropTypes.string.isRequired,
-    statusesOptions: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired
-    })).isRequired
+    statusesOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    userRole: PropTypes.string.isRequired,
+    globalStatus: PropTypes.string.isRequired
 };
 
 export default withTranslation()(TestListWithControls);

@@ -6,7 +6,6 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';
-import SkeletonProductRow from "./SkeletonProductRow";
 import {Link} from "react-router-dom";
 import TestStatusIcon from "../TestStatusIcon";
 import ShowTestRequestButton from "../Buttons/ShowTestRequestButton";
@@ -16,9 +15,6 @@ class ReceivedDemandRow extends React.Component {
     render() {
         const {test} = this.props;
 
-        if (this.props.loading) {
-            return (<SkeletonProductRow/>)
-        }
         return (
             <tr>
                 <td scope="row">
@@ -67,7 +63,6 @@ class ReceivedDemandRow extends React.Component {
 
 ReceivedDemandRow.propTypes = {
     test: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
     onShowButtonClick: PropTypes.func.isRequired
 };
 

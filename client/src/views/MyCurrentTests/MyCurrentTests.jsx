@@ -4,20 +4,16 @@ import {Container, Row} from "reactstrap";
 import TestListWithControls from "../../components/TestListWithControls";
 import testsServices from "../../services/test.services";
 import {withTranslation} from "react-i18next";
+import Col from "reactstrap/es/Col";
+import constants from "../../helpers/constants";
+
+const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
 
 const MyCurrentTests = (props) => {
 
     const {t} = props;
 
-    const [statusesOptions, setStatusesOptions] = useState([]);
-
-    useEffect(() => {
-        testsServices.getTestStatuses().then(statuses => {
-            const statusesOptions = ['requested', 'requestCancelled', 'requestDeclined', 'requestAccepted']
-                .map(status => ({value: statuses[status], text: t(statuses[status])}));
-            setStatusesOptions(statusesOptions);
-        });
-    }, []);
+    const statusesOptions = ['requested', 'requestCancelled', 'requestDeclined', 'requestAccepted'];
 
     return (
         <>
@@ -27,9 +23,11 @@ const MyCurrentTests = (props) => {
             {/* Page content */}
             <Container className="mt--7" fluid>
                 <Row>
-                    <div className="col">
-                        <TestListWithControls title="Mes Tests en Cours" statusesOptions={statusesOptions}/>
-                    </div>
+                    <Col xs={12}>
+                        <TestListWithControls title="Mes Tests en Cours" statusesOptions={statusesOptions}
+                                              userRole={USER_ROLES.TESTER}
+                                              globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}/>
+                    </Col>
                 </Row>
             </Container>
         </>
