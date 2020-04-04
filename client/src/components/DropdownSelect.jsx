@@ -38,7 +38,7 @@ class DropdownSelect extends React.Component {
     render() {
         const {t} = this.props;
         return (
-            <UncontrolledDropdown group className={'w-100 dropdown-select ' + this.props.className}>
+            <UncontrolledDropdown group className={'w-100 dropdown-select ' + (this.props.className ?? '')}>
                 <DropdownToggle caret color="secondary"
                                 className={"w-100 text-right bg-white input-group-alternative rounded"}
                                 style={{'height': '46px'}}>
@@ -48,14 +48,12 @@ class DropdownSelect extends React.Component {
                     </span>
                 </DropdownToggle>
                 <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
-                    {
-                        this.props.placeholder ? (
-                            <DropdownItem onClick={() => this.onSelectItem(null)}
-                                          key={'option.null'} className={"cursor-pointer text-muted"}>
-                                {t(this.props.placeholder)}
-                            </DropdownItem>
-                        ) : null
-                    }
+                    {this.props.placeholder ? (
+                        <DropdownItem onClick={() => this.onSelectItem(null)}
+                                      key={'option.null'} className={"cursor-pointer text-muted"}>
+                            {t(this.props.placeholder)}
+                        </DropdownItem>
+                    ) : null}
 
                     {this.props.options.map((option, i) => (
                         <DropdownItem onClick={() => this.onSelectItem(option)}
@@ -76,11 +74,11 @@ DropdownSelect.propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string,
-        text: PropTypes.string
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        text: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })).isRequired,
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default withTranslation()(DropdownSelect);

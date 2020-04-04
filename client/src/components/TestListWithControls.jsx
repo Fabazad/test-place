@@ -41,6 +41,8 @@ const TestListWithControls = props => {
             asTester: userRole === USER_ROLES.TESTER
         };
 
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         testsServices.find({searchData})
             .then(testSearch => {
                 setTests(testSearch.hits);
@@ -167,13 +169,16 @@ const TestListWithControls = props => {
 
                 </CardBody>
                 <CardFooter className="py-4">
-                    <div className="float-left">
+                    <div className="d-none d-md-block float-left">
                         <DropdownSelect onChange={(e) => setItemsPerPage(e.target.value)} name="itemsPerPage"
                                         options={ITEMS_PER_PAGE_OPTIONS} value={itemsPerPage}/>
                     </div>
-                    <PaginationBis page={page}
-                                   totalPage={Math.ceil(totalCount / itemsPerPage)}
+                    <PaginationBis page={page} totalPage={Math.ceil(totalCount / itemsPerPage)}
                                    onPageClick={page => setPage(page)}/>
+                    <div className="d-md-none w-fit-content m-auto">
+                        <DropdownSelect onChange={(e) => setItemsPerPage(e.target.value)} name="itemsPerPage"
+                                        options={ITEMS_PER_PAGE_OPTIONS} value={itemsPerPage}/>
+                    </div>
                 </CardFooter>
             </Card>
 

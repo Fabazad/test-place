@@ -12,10 +12,12 @@ import Alert from "reactstrap/es/Alert";
 import AnswerTestRequestForm from "../Forms/AnswerTestRequestForm";
 import constants from "../../helpers/constants";
 
+const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
+
 const TestRequestModal = (props) => {
     const {isOpen, onToggle, test, userType, t} = props;
 
-    const userTypes = constants.USER_ROLES;
+    const userTypes = USER_ROLES;
 
     const [statuses, setStatuses] = useState({});
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
@@ -108,7 +110,7 @@ const TestRequestModal = (props) => {
                     <div className="col-6 text-center">
                         <Label>Status de la demande</Label>
                         <div>
-                            <TestStatusIcon status={test.status}/>
+                            <TestStatusIcon status={test.status} globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}/>
                             <span className="ml-2">{t(test.status)}</span>
                         </div>
                     </div>

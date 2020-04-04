@@ -9,6 +9,9 @@ import {textSlice, formatDate} from '../../helpers/textHelpers';
 import {Link} from "react-router-dom";
 import TestStatusIcon from "../TestStatusIcon";
 import ShowTestRequestButton from "../Buttons/ShowTestRequestButton";
+import constants from "../../helpers/constants";
+
+const {TEST_GLOBAL_STATUSES} = constants;
 
 class ReceivedDemandRow extends React.Component {
 
@@ -49,7 +52,7 @@ class ReceivedDemandRow extends React.Component {
                     </Badge>
                 </td>
                 <td>
-                    <TestStatusIcon status={test.status}/>
+                    <TestStatusIcon status={test.status} globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}/>
                 </td>
                 <td>
                     <div className="avatar-group pl-3">

@@ -12,6 +12,9 @@ import testServices from "../../services/test.services";
 import ShowTestRequestButton from "../Buttons/ShowTestRequestButton";
 import {withTranslation} from "react-i18next";
 import TestStatusIcon from "../TestStatusIcon";
+import constants from "../../helpers/constants";
+
+const {TEST_GLOBAL_STATUSES} = constants;
 
 class SentDemandRow extends React.Component {
 
@@ -69,7 +72,7 @@ class SentDemandRow extends React.Component {
                     </Badge>
                 </td>
                 <td>
-                    <TestStatusIcon status={test.status}/>
+                    <TestStatusIcon status={test.status} globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}/>
                 </td>
                 <td>
                     <div className="avatar-group pl-3">
