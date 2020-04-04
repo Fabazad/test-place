@@ -15,7 +15,7 @@ import CardSkeleton from "./Cards/CardSkeleton";
 import TestRow from "./Rows/TestRow";
 import TestRequestModal from "./Modals/TestRequestModal";
 
-const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS} = constants;
+const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
 const TestListWithControls = props => {
     const {title, t, statusesOptions, userRole, globalStatus} = props;
@@ -28,13 +28,14 @@ const TestListWithControls = props => {
     const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState({});
     const [statusesOptionsFormatted, setStatusesOptionsFormatted] = useState([]);
+    const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE);
 
     const search = () => {
         setLoading(true);
         const searchData = {
             seller: userServices.getCurrentUserId(),
             statuses: statusFilter ? [statusFilter] : statusesOptionsFormatted.map(opt => opt.value),
-            itemsPerPage: ITEMS_PER_PAGE,
+            itemsPerPage: itemsPerPage,
             page: page,
             asSeller: userRole === USER_ROLES.SELLER,
             asTester: userRole === USER_ROLES.TESTER
@@ -73,7 +74,7 @@ const TestListWithControls = props => {
         if (statusesOptionsFormatted.length) {
             search();
         }
-    }, [page, statusFilter]);
+    }, [page, statusFilter, itemsPerPage]);
 
     const onActionClick = (testId, action) => {
         const test = tests.find(t => t._id === testId);
@@ -128,7 +129,7 @@ const TestListWithControls = props => {
                         <tbody>
                         {!tests || loading ? (
                             <>
-                                {(new Array(ITEMS_PER_PAGE)).fill(null).map((row, i) => (
+                                {(new Array(itemsPerPage)).fill(null).map((row, i) => (
                                     <RowSkeleton key={'skeleton' + i} colNumber={7}/>
                                 ))}
                             </>) : (
@@ -146,7 +147,7 @@ const TestListWithControls = props => {
                         <div className="row">
                             {!tests || loading ? (
                                 <>
-                                    {(new Array(ITEMS_PER_PAGE)).fill(null).map((row, i) => (
+                                    {(new Array(itemsPerPage)).fill(null).map((row, i) => (
                                         <div className="col-12 col-md-6 my-2" key={"card-skeleton" + i}>
                                             <CardSkeleton/>
                                         </div>
@@ -166,11 +167,13 @@ const TestListWithControls = props => {
 
                 </CardBody>
                 <CardFooter className="py-4">
-                    <nav aria-label="...">
-                        <PaginationBis page={page}
-                                       totalPage={Math.ceil(totalCount / ITEMS_PER_PAGE)}
-                                       onPageClick={page => setPage(page)}/>
-                    </nav>
+                    <div className="float-left">
+                        <DropdownSelect onChange={(e) => setItemsPerPage(e.target.value)} name="itemsPerPage"
+                                        options={ITEMS_PER_PAGE_OPTIONS} value={itemsPerPage}/>
+                    </div>
+                    <PaginationBis page={page}
+                                   totalPage={Math.ceil(totalCount / itemsPerPage)}
+                                   onPageClick={page => setPage(page)}/>
                 </CardFooter>
             </Card>
 

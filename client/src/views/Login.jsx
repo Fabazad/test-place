@@ -21,7 +21,6 @@ import {
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
-import { setCookie } from "../helpers/cookies";
 import { toast } from "react-toastify";
 import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
 import Loading from "components/Loading";

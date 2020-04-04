@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Header from "../../components/Headers/Header";
 import {Container, Row} from "reactstrap";
 import TestListWithControls from "../../components/TestListWithControls";
-import testsServices from "../../services/test.services";
 import {withTranslation} from "react-i18next";
 import Col from "reactstrap/es/Col";
 import constants from "../../helpers/constants";

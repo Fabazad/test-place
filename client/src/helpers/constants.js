@@ -25,5 +25,6 @@ export default {
     TEST_ROW_CLICK_ACTIONS: {
         SHOW_TEST_REQUEST: "SHOW_TEST_REQUEST",
         SHOW_PROCESSING_TEST: "SHOW_PROCESSING_TEST"
-    }
+    },
+    ITEMS_PER_PAGE_OPTIONS: [2, 5, 10, 20, 50].map(n => ({value: n, text: n}))
 }
