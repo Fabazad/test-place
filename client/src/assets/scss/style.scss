@@ -110,3 +110,13 @@ img.selected {
 .modal-content {
     overflow: hidden;
 }
+
+.w-sm-100 {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .w-md-auto {
+        width: auto !important;
+    }
+}
