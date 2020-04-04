@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import testsServices from "../services/test.services";
-import {Card, CardFooter, CardHeader} from "reactstrap";
+import {Card, CardFooter, CardHeader, Table} from "reactstrap";
 import Badge from "reactstrap/es/Badge";
 import DropdownSelect from "./DropdownSelect";
 import PaginationBis from "./PaginationBis";
@@ -8,6 +8,9 @@ import constants from "../helpers/constants";
 import PropTypes from "prop-types";
 import {withTranslation} from "react-i18next";
 import userServices from "../services/user.services";
+import CardBody from "reactstrap/es/CardBody";
+import ReceivedDemandRow from "./Rows/ReceivedDemandRow";
+import RowSkeleton from "./Rows/RowSkeleton";
 
 const {ITEMS_PER_PAGE} = constants;
 
@@ -19,8 +22,10 @@ const TestListWithControls = props => {
     const [selectedTest, setSelectedTest] = useState(null);
     const [statusFilter, setStatusFilter] = useState(null);
     const [tests, setTests] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const search = () => {
+        setLoading(true);
         const searchData = {
             seller: userServices.getCurrentUserId(),
             statuses: statusFilter ? [statusFilter] : statusesOptions.map(opt => opt.value),
@@ -33,7 +38,9 @@ const TestListWithControls = props => {
             .then(testSearch => {
                 setTests(testSearch.hits);
                 setTotalCount(testSearch.totalCount);
-            });
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
     };
 
     // On component init
@@ -63,6 +70,36 @@ const TestListWithControls = props => {
                         </div>
                     </div>
                 </CardHeader>
+                <CardBody className="p-0">
+                    <Table className="align-items-center table-flush d-none d-lg-table" responsive>
+                        <thead className="thead-light">
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope='col'>Prix</th>
+                            <th scope='col'>Final</th>
+                            <th scope="col">Testeur</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {!tests || loading ? (
+                            <>
+                                {(new Array(ITEMS_PER_PAGE)).fill(null).map((row, i) => (
+                                    <RowSkeleton key={'skeleton'+i} colNumber={7}/>
+                                ))}
+                            </>) : (
+                            <>
+                                {tests.map(test => (
+                                    <ReceivedDemandRow key={'test' + test._id} test={test} loading={loading}
+                                                       onShowButtonClick={() => console.log("click")}/>
+                                ))}
+                            </>)}
+
+                        </tbody>
+                    </Table>
+                </CardBody>
                 <CardFooter className="py-4">
                     <nav aria-label="...">
                         <PaginationBis page={page}
