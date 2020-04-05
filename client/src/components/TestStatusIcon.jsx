@@ -11,6 +11,7 @@ const TestStatusIcon = (props) => {
     const {status, globalStatus, t} = props;
 
     const [statusMapping, setStatusMapping] = useState({});
+    const [statuses, setStatuses] = useState({});
 
     useEffect(() => {
         testServices.getTestStatuses().then(statuses => {
@@ -19,23 +20,35 @@ const TestStatusIcon = (props) => {
                     [statuses['requested']]: { color: 'warning', icon: 'fa-hourglass' },
                     [statuses['requestCancelled']]: { color: 'default', icon: 'fa-times' },
                     [statuses['requestDeclined']]: { color: 'danger', icon: 'fa-hand-paper' },
-                    [statuses['requestAccepted']]: { color: 'success', icon: 'fa-check' },
+                    [statuses['requestAccepted']]: { color: 'success', icon: 'fa-check' }
+                },
+                [TEST_GLOBAL_STATUSES.PROCESSING]: {
+                    [statuses['requestAccepted']]: { color: 'warning', icon: 'fa-shopping-cart' }
                 }
             };
+            setStatuses(statuses);
             setStatusMapping(statusMapping);
         });
     }, []);
 
     const getStatusColor = () => {
-        return Object.keys(statusMapping).length && statusMapping[globalStatus] && statusMapping[globalStatus][status]
-            && statusMapping[globalStatus][status].color ?
-            statusMapping[globalStatus][status].color : '';
+        if (Object.keys(statusMapping).length && statusMapping[globalStatus]) {
+            if (statusMapping[globalStatus][status] && statusMapping[globalStatus][status].color) {
+                return statusMapping[globalStatus][status].color;
+            }
+            return 'success';
+        }
+        return '';
     };
 
     const getIconClass = () => {
-        return Object.keys(statusMapping).length && statusMapping[globalStatus] && statusMapping[globalStatus][status]
-        && statusMapping[globalStatus][status].icon ?
-            statusMapping[globalStatus][status].icon : '';
+        if (Object.keys(statusMapping).length && statusMapping[globalStatus]) {
+            if (statusMapping[globalStatus][status] && statusMapping[globalStatus][status].icon) {
+                return statusMapping[globalStatus][status].icon;
+            }
+            return 'fa-check';
+        }
+        return '';
     };
 
     const tooltipId = Math.ceil(Math.random() * 10000);
@@ -45,7 +58,12 @@ const TestStatusIcon = (props) => {
             <Badge pill className="badge-circle" color={getStatusColor()} id={'status-' + tooltipId}>
                 <i className={"fa m-auto " + getIconClass()}/>
             </Badge>
-            <UncontrolledTooltip delay={0} target={"status-" + tooltipId}>{t(status)}</UncontrolledTooltip>
+            <UncontrolledTooltip delay={0} target={"status-" + tooltipId} placement="auto">
+                {t(status)}
+                {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING && status === statuses['requestAccepted'] ? (
+                    <span>,<br/>En attente de Commande</span>
+                ) : null}
+            </UncontrolledTooltip>
         </>
     );
 };

@@ -89,6 +89,7 @@ const TestListWithControls = props => {
     const toggleModal = action => {
         const newIsModalOpen = Object.assign({}, isModalOpen);
         newIsModalOpen[action] = !isModalOpen[action];
+
         setIsModalOpen(newIsModalOpen);
     };
 
