@@ -10,7 +10,7 @@ import {withTranslation} from "react-i18next";
 import userServices from "../services/user.services";
 import CardBody from "reactstrap/es/CardBody";
 import RowSkeleton from "./Rows/RowSkeleton";
-import TestRequestCard from "./Cards/TestRequestCard";
+import TestCard from "./Cards/TestCard";
 import CardSkeleton from "./Cards/CardSkeleton";
 import TestRow from "./Rows/TestRow";
 import TestRequestModal from "./Modals/TestRequestModal";
@@ -41,7 +41,7 @@ const TestListWithControls = props => {
             asTester: userRole === USER_ROLES.TESTER
         };
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
 
         testsServices.find({searchData})
             .then(testSearch => {
@@ -159,8 +159,8 @@ const TestListWithControls = props => {
                                 <>
                                     {tests.map(test => (
                                         <div className="col-12 col-md-6 my-2" key={"testCard" + test._id}>
-                                            <TestRequestCard test={test} userType={USER_ROLES.SELLER}
-                                                             onShowButtonClick={() => console.log("click")}/>
+                                            <TestCard test={test} userRole={userRole} globalStatus={globalStatus}
+                                                      onActionClick={onActionClick}/>
                                         </div>
                                     ))}
                                 </>)}

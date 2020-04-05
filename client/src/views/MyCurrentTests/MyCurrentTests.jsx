@@ -12,7 +12,7 @@ const MyCurrentTests = (props) => {
 
     const {t} = props;
 
-    const statusesOptions = ['requested', 'requestCancelled', 'requestDeclined', 'requestAccepted'];
+    const statusesOptions = ['requestAccepted'];
 
     return (
         <>
