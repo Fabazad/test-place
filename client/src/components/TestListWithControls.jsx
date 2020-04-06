@@ -63,7 +63,6 @@ const TestListWithControls = props => {
             }));
             setStatusesOptionsFormatted(optionsFormatted);
             testsServices.testsSubject.subscribe(() => mount && search());
-            mount && search();
         });
 
         return () => {
@@ -76,7 +75,7 @@ const TestListWithControls = props => {
         if (statusesOptionsFormatted.length) {
             search();
         }
-    }, [page, statusFilter, itemsPerPage]);
+    }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]);
 
     const onActionClick = (testId, action) => {
         const test = tests.find(t => t._id === testId);

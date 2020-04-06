@@ -6,8 +6,9 @@ import {Badge, Media} from "reactstrap";
 import {formatDate, textSlice} from "../../helpers/textHelpers";
 import TestStatusIcon from "../TestStatusIcon";
 import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
-import RowActionButtons from "../Buttons/RowActionButton";
+import RowActionButton from "../Buttons/RowActionButton";
 import testServices from "../../services/test.services";
+import {getProductAmazonUrl} from "../../helpers/urlHelpers";
 
 const {USER_ROLES, TEST_GLOBAL_STATUSES, TEST_ROW_CLICK_ACTIONS} = constants;
 
@@ -71,17 +72,22 @@ const TestRow = props => {
                         <>
                             {test.status === statuses.requested && userRole === USER_ROLES.TESTER ? (
                                 <CancelTestRequestButton testId={test._id}/>) : null}
-                            <RowActionButtons
-                                title={"Voir"} icon={"fa-eye"} color={"info"}
+                            <RowActionButton
+                                title={"Voir"} icon="fa fa-eye" color={"info"}
                                 onClick={() => handleClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}/>
                         </>
                     ) : null}
 
                     {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING ? (
                         <>
-                            <RowActionButtons
-                                color={'info'} icon={'fa-eye'} title={'Voir'}
+                            <RowActionButton
+                                color={'info'} icon='fa fa-eye' title={'Voir'}
                                 onClick={() => handleClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
+                            {userRole === USER_ROLES.TESTER ? (
+                                <RowActionButton title="Lien Amazon" icon="fab fa-amazon" color="default"
+                                                 onClick={() => window.open(getProductAmazonUrl(test.product.asin), '_blank')}/>
+                            ) : null}
+
                         </>
                     ) : null}
 

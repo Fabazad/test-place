@@ -17,3 +17,7 @@ export function updateURLParameter(url, param, paramVal) {
     const rows_txt = temp + "" + param + "=" + paramVal;
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
+
+export function getProductAmazonUrl(asin) {
+    return 'https://www.amazon.fr/dp/' + asin;
+}

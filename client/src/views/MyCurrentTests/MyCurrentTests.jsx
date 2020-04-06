@@ -12,7 +12,8 @@ const MyCurrentTests = (props) => {
 
     const {t} = props;
 
-    const statusesOptions = ['requestAccepted'];
+    const statusesOptions = ['requestAccepted', 'productBought', 'productReviewed', 'reviewValidated', 'reviewRefused',
+        'moneySent', 'moneyReceived'];
 
     return (
         <>

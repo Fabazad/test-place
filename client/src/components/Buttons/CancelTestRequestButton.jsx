@@ -2,7 +2,7 @@ import React from "react";
 // reactstrap components
 import PropTypes from "prop-types";
 import CancelTestRequestModal from "../Modals/CancelTestRequestModal";
-import RowActionButtons from "./RowActionButton";
+import RowActionButton from "./RowActionButton";
 
 class CancelTestRequestButton extends React.Component {
 
@@ -22,7 +22,7 @@ class CancelTestRequestButton extends React.Component {
         const testId = this.props.testId;
         return (
             <>
-                <RowActionButtons title="Annuler" icon="fa-times" color="danger" onClick={this.toggleModal}/>
+                <RowActionButton title="Annuler" icon="fa fa-times" color="danger" onClick={this.toggleModal}/>
                 <CancelTestRequestModal isOpen={this.state.isOpen} onClose={this.toggleModal} testId={testId}/>
             </>
         );

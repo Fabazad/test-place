@@ -8,7 +8,7 @@ import TestStatusIcon from "../TestStatusIcon";
 import {withTranslation} from "react-i18next";
 import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
 import testServices from "../../services/test.services";
-import RowActionButtons from "../Buttons/RowActionButton";
+import RowActionButton from "../Buttons/RowActionButton";
 const {USER_ROLES, TEST_GLOBAL_STATUSES, TEST_ROW_CLICK_ACTIONS} = constants;
 
 const TestCard = (props) => {
@@ -105,16 +105,16 @@ const TestCard = (props) => {
                         <>
                             {test.status === statuses.requested && userRole === USER_ROLES.TESTER ? (
                                 <CancelTestRequestButton testId={test._id}/>) : null}
-                            <RowActionButtons
-                                title={"Voir"} icon={"fa-eye"} color={"info"}
+                            <RowActionButton
+                                title={"Voir"} icon={"fa fa-eye"} color={"info"}
                                 onClick={() => onActionClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}/>
                         </>
                     ) : null}
 
                     {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING ? (
                         <>
-                            <RowActionButtons
-                                color={'info'} icon={'fa-eye'} title={'Voir'}
+                            <RowActionButton
+                                color={'info'} icon={'fa fa-eye'} title={'Voir'}
                                 onClick={() => onActionClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
                         </>
                     ) : null}
