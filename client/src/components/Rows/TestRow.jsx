@@ -84,8 +84,12 @@ const TestRow = props => {
                                 color={'info'} icon='fa fa-eye' title={'Voir'}
                                 onClick={() => handleClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
                             {userRole === USER_ROLES.TESTER ? (
-                                <RowActionButton title="Lien Amazon" icon="fab fa-amazon" color="default"
-                                                 onClick={() => window.open(getProductAmazonUrl(test.product.asin), '_blank')}/>
+                                <>
+                                    <RowActionButton title="Acheter le produit" icon="fab fa-amazon" color="default"
+                                                     onClick={() => window.open(getProductAmazonUrl(test.product.asin), '_blank')}/>
+                                    <RowActionButton title="Produit commandé" icon="fa fa-shopping-cart" color="warning"
+                                                     onClick={() => handleClick(test._id, TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+                                </>
                             ) : null}
 
                         </>
