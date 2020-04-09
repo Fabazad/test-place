@@ -15,6 +15,7 @@
   "REQUEST_DECLINED": "Demande refusée",
   "REQUEST_ACCEPTED": "Demande acceptée",
   "PRODUCT_ORDERED": "Produit commandé",
+  "PRODUCT_RECEIVED": "Produit reçu",
   "TESTER": "Testeur",
   "SELLER": "Vendeur"
 }

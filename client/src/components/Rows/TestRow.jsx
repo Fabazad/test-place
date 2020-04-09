@@ -95,6 +95,11 @@ const TestRow = props => {
                                             title="Produit commandé" icon="fa fa-shopping-cart" color="warning"
                                             onClick={() => handleClick(test._id, TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
                                     ) : null}
+                                    {test.status === statuses["productOrdered"] ? (
+                                        <RowActionButton
+                                            title="Produit reçu" icon="fa fa-box-open" color="warning"
+                                            onClick={() => handleClick(test._id, TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED)}/>
+                                    ) : null}
                                 </>
                             ) : null}
 

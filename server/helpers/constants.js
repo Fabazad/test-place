@@ -48,6 +48,7 @@ const constants = {
         requestDeclined: "REQUEST_DECLINED",
         requestAccepted: "REQUEST_ACCEPTED",
         productOrdered: "PRODUCT_ORDERED",
+        productReceived: "PRODUCT_RECEIVED",
         productReviewed: "PRODUCT_REVIEWED",
         reviewValidated: "REVIEW_VALIDATED",
         reviewRefused: "REVIEW_REFUSED",

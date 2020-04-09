@@ -15,6 +15,7 @@ import CardSkeleton from "./Cards/CardSkeleton";
 import TestRow from "./Rows/TestRow";
 import TestRequestModal from "./Modals/TestRequestModal";
 import OrderedProductModal from "./Modals/OrderedProductModal";
+import ProductReceivedModal from "./Modals/ProductReceivedModal";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -185,13 +186,18 @@ const TestListWithControls = props => {
 
             {selectedTest ? (
                 <>
-                    <TestRequestModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST]}
-                                      onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
-                                      test={selectedTest} userType={userRole}
-                    />
-                    <OrderedProductModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]}
-                                         test={selectedTest}
-                                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+                    <TestRequestModal
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST]}
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
+                        test={selectedTest} userType={userRole}/>
+                    <OrderedProductModal
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]}
+                        test={selectedTest}
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+                    <ProductReceivedModal
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED]}
+                        testId={selectedTest._id}
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED)}/>
                 </>
             ) : null}
         </>
