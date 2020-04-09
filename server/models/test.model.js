@@ -18,7 +18,8 @@ const testObject = {
     testerMessage: { type: String },
     cancelRequestReason: { type: String },
     declineRequestReason: { type: String },
-    sellerMessage: { type: String }
+    sellerMessage: { type: String },
+    estimatedDeliveryDate: { type: Date }
 };
 
 const testSchema = new mongoose.Schema(testObject);

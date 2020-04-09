@@ -1,8 +1,8 @@
 const constants = require("../helpers/constants");
-
 const TestModel = require('../models/test.model');
 const ProductModel = require('../models/product.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
+const moment = require("moment");
 
 class TestController {
 
@@ -197,6 +197,40 @@ class TestController {
             if (sellerMessage) {
                 test.sellerMessage = sellerMessage;
             }
+
+            test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
+        });
+    }
+
+    static async productOrdered(currentUserId, testId, estimatedDeliveryDate) {
+        return new Promise(async (resolve, reject) => {
+            if (!currentUserId || !testId || !estimatedDeliveryDate) {
+                return reject({status: 400, message: "Missing arguments."});
+            }
+
+            if (moment(estimatedDeliveryDate).isBefore()) {
+                return reject({status: 400, message: "The estimated delivery time can't be in the past."});
+            }
+
+            const test = await TestModel.findById(testId);
+
+            if (!test) {
+                return reject({status: 400, message: "Couldn't find the test from the given id."});
+            }
+
+            if (test.tester.toString() !== currentUserId) {
+                return reject({status: 400, message: "You need to be the seller to decline the test request."});
+            }
+
+            if (test.status !== constants.TEST_STATUSES.requestAccepted) {
+                return reject({
+                    status: 400,
+                    message: "The test status has to be 'requested' in order to decline the request."
+                });
+            }
+
+            test.status = constants.TEST_STATUSES.productOrdered;
+            test.estimatedDeliveryDate = estimatedDeliveryDate;
 
             test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
         });

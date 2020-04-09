@@ -1,20 +1,31 @@
 import PropTypes from "prop-types";
 import {Button, Modal} from "reactstrap";
-import React from "react";
+import React, {useState} from "react";
 import Form from "reactstrap/es/Form";
 import Alert from "reactstrap/es/Alert";
 import FormGroup from "reactstrap/es/FormGroup";
 import InputGroup from "reactstrap/es/InputGroup";
 import ReactDatetime from "react-datetime";
-import InputGroupAddon from "reactstrap/es/InputGroupAddon";
-import InputGroupText from "reactstrap/es/InputGroupText";
 import {getProductAmazonUrl} from "../../helpers/urlHelpers";
 import Label from "reactstrap/es/Label";
+import testServices from "../../services/test.services";
+import {toast} from "react-toastify";
 
 const OrderedProductModal = props => {
     const {isOpen, onToggle, test} = props;
 
+    const [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState(null);
+
     if (!test) return null;
+
+    const handleConfirm = () => {
+        testServices.productOrdered(test._id, estimatedDeliveryDate.toDate())
+            .then(() => {
+                testServices.testsSubject.next();
+                onToggle();
+                toast.success("Produit enregistré comme commandé.")
+            })
+    };
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
@@ -41,16 +52,13 @@ const OrderedProductModal = props => {
                     </a>
                 </div>
 
-                <Form className="mt-4 px-0 px-md-5 mx-0 mx-md-4">
-                    <Label>Date de livraison estimée</Label>
+                <Form className="mt-4 px-0 px-md-5 mx-0 mx-md-4 bg-secondary rounded py-3 shadow">
+                    <Label><h3>Date de livraison estimée</h3></Label>
                     <FormGroup>
                         <InputGroup className="input-group-alternative">
                             <ReactDatetime
-                                inputProps={{
-                                    placeholder: "Date de livraison estimée"
-                                }}
-                                input={false}
-                                timeFormat={false}
+                                inputProps={{ placeholder: "Date de livraison estimée" }} input={false}
+                                timeFormat={false} onChange={date => setEstimatedDeliveryDate(date)}
                             />
                         </InputGroup>
                     </FormGroup>
@@ -60,6 +68,7 @@ const OrderedProductModal = props => {
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
                     Fermer
                 </Button>
+                <Button color="primary" disabled={!estimatedDeliveryDate} onClick={handleConfirm}>Confirmer</Button>
             </div>
         </Modal>
     )

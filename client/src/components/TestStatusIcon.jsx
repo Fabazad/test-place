@@ -23,7 +23,8 @@ const TestStatusIcon = (props) => {
                     [statuses['requestAccepted']]: { color: 'success', icon: 'fa-check' }
                 },
                 [TEST_GLOBAL_STATUSES.PROCESSING]: {
-                    [statuses['requestAccepted']]: { color: 'warning', icon: 'fa-shopping-cart' }
+                    [statuses['requestAccepted']]: { color: 'warning', icon: 'fa-shopping-cart' },
+                    [statuses['productOrdered']]: { color: 'warning', icon: 'fa-truck' }
                 }
             };
             setStatuses(statuses);

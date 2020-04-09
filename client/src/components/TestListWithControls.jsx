@@ -183,12 +183,17 @@ const TestListWithControls = props => {
                 </CardFooter>
             </Card>
 
-            <TestRequestModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST]}
-                              onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
-                              test={selectedTest} userType={userRole}
-            />
-            <OrderedProductModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
-                                 onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+            {selectedTest ? (
+                <>
+                    <TestRequestModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST]}
+                                      onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
+                                      test={selectedTest} userType={userRole}
+                    />
+                    <OrderedProductModal isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]}
+                                         test={selectedTest}
+                                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+                </>
+            ) : null}
         </>
     );
 };

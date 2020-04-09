@@ -34,6 +34,10 @@ class TestServices extends BaseService {
     async acceptTestRequest(testId, sellerMessage) {
         return axios.post(this.baseURL + "/acceptRequest", {testId, sellerMessage}).then(serviceResolve);
     }
+
+    async productOrdered(testId, estimatedDeliveryDate) {
+        return axios.post(this.baseURL + "/productOrdered", {testId, estimatedDeliveryDate}).then(serviceResolve);
+    }
 }
 
 export default new TestServices();

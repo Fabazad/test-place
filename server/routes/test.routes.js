@@ -45,4 +45,11 @@ router.post('/acceptRequest', withAuth(ROLES.SELLER), async (request, reply) => 
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/productOrdered', withAuth(ROLES.TESTER), async (request, reply) => {
+    const { testId, estimatedDeliveryDate } = request.body;
+    TestController.productOrdered(request.decoded.userId, testId, estimatedDeliveryDate)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;
