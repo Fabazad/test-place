@@ -16,6 +16,7 @@ import rootReducer from "./reducers";
 import thunkMiddleware from "redux-thunk";
 import Search from "./views/Search";
 import ProductDetail from "./views/ProductDetail";
+import ConfirmModal from "./components/Modals/ConfirmModal";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
@@ -26,6 +27,7 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <ToastContainer/>
+                <ConfirmModal/>
                 <BrowserRouter>
                     <Switch>
                         <Route path="/" exact component={anyAuth(Landing)}/>

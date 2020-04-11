@@ -9,6 +9,8 @@ import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
 import RowActionButton from "../Buttons/RowActionButton";
 import testServices from "../../services/test.services";
 import {getProductAmazonUrl} from "../../helpers/urlHelpers";
+import confirmHelper from "../../helpers/confirmHelper";
+import {toast} from "react-toastify";
 
 const {USER_ROLES, TEST_GLOBAL_STATUSES, TEST_ROW_CLICK_ACTIONS} = constants;
 
@@ -24,6 +26,29 @@ const TestRow = props => {
     const handleClick = (testId, action) => {
         if (onClick) {
             onClick(testId, action);
+        }
+    };
+
+    const actionService = (serviceMethod, successToast) => {
+        serviceMethod(test._id)
+            .then(() => {
+                testServices.testsSubject.next();
+                toast.success(successToast)
+            })
+    };
+
+    const confirmAction = action => {
+        const actionsMapping = {
+            [TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED]: {
+                text: "Vous êtes sur le point de confirmer que vous avez bien reçu le produit. Vous êtes donc actuellement en sa possession.",
+                serviceMethod: testServices.productReceived,
+                successTest: "Produit enregistré comme reçu."
+            }
+        };
+
+        const actionData = actionsMapping[action];
+        if (actionData) {
+            confirmHelper.confirm(actionData.text, () => actionService(actionData.serviceMethod, actionData.successTest));
         }
     };
 
@@ -98,7 +123,7 @@ const TestRow = props => {
                                     {test.status === statuses["productOrdered"] ? (
                                         <RowActionButton
                                             title="Produit reçu" icon="fa fa-box-open" color="warning"
-                                            onClick={() => handleClick(test._id, TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED)}/>
+                                            onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED)}/>
                                     ) : null}
                                 </>
                             ) : null}

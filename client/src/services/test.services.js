@@ -14,6 +14,7 @@ class TestServices extends BaseService {
         super('/test');
         this.testStatuses = [];
         this.testsSubject = new Subject();
+        this.productReceived = this.productReceived.bind(this);
     }
 
     async getTestStatuses() {
@@ -37,6 +38,10 @@ class TestServices extends BaseService {
 
     async productOrdered(testId, estimatedDeliveryDate) {
         return axios.post(this.baseURL + "/productOrdered", {testId, estimatedDeliveryDate}).then(serviceResolve);
+    }
+
+    async productReceived(testId) {
+        return axios.post(this.baseURL + "/productReceived", {testId}).then(serviceResolve);
     }
 }
 
