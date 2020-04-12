@@ -4,6 +4,8 @@ const ProductModel = require('../models/product.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
 
+const {TEST_STATUS_PROCESSES, ROLES} = constants;
+
 class TestController {
 
     static async create(testData, userId, amazonId) {
@@ -100,115 +102,21 @@ class TestController {
         });
     }
 
-    static async cancelRequest(currentUserId, testId, cancelReason) {
+    static async updateStatus(currentUserId, testId, status, params = {}) {
         return new Promise(async (resolve, reject) => {
-            if (!currentUserId || !testId || !cancelReason) {
+
+            const statusProcess = TEST_STATUS_PROCESSES[status];
+
+            if (!statusProcess) {
+                return reject({status: 400, message: "Wrong status."});
+            }
+
+            if (!currentUserId || !testId || (statusProcess.param && !params[statusProcess.param])) {
                 return reject({status: 400, message: "Missing arguments."});
             }
 
-            const test = await TestModel.findById(testId);
-
-            if (!test) {
-                return reject({status: 400, message: "Couldn't find the test from the given id."});
-            }
-
-            if (test.tester.toString() !== currentUserId) {
-                return reject({status: 400, message: "You need to be the tester to cancel the test request."});
-            }
-
-            if (test.status !== constants.TEST_STATUSES.requested) {
-                return reject({
-                    status: 400,
-                    message: "The test status has to be 'requested' in order to cancel the request."
-                });
-            }
-
-            test.status = constants.TEST_STATUSES.requestCancelled;
-            test.cancelRequestReason = cancelReason;
-
-            test.save().then(() => {
-                ProductModel.findByIdAndUpdate(test.product._id, {$inc: {remainingRequests: 1}})
-                    .then(() => resolve(test))
-                    .catch(err => reject(ErrorResponses.mongoose(err)))
-            })
-                .catch(err => reject(ErrorResponses.mongoose(err)));
-        });
-    }
-
-    static async declineRequest(currentUserId, testId, declineReason) {
-        return new Promise(async (resolve, reject) => {
-            if (!currentUserId || !testId || !declineReason) {
-                return reject({status: 400, message: "Missing arguments."});
-            }
-
-            const test = await TestModel.findById(testId);
-
-            if (!test) {
-                return reject({status: 400, message: "Couldn't find the test from the given id."});
-            }
-
-            if (test.seller.toString() !== currentUserId) {
-                return reject({status: 400, message: "You need to be the seller to decline the test request."});
-            }
-
-            if (test.status !== constants.TEST_STATUSES.requested) {
-                return reject({
-                    status: 400,
-                    message: "The test status has to be 'requested' in order to decline the request."
-                });
-            }
-
-            test.status = constants.TEST_STATUSES.requestDeclined;
-            test.declineRequestReason = declineReason;
-
-            test.save().then(() => {
-                ProductModel.findByIdAndUpdate(test.product._id, {$inc: {remainingRequests: 1}})
-                    .then(() => resolve(test))
-                    .catch(err => reject(ErrorResponses.mongoose(err)))
-            })
-                .catch(err => reject(ErrorResponses.mongoose(err)));
-        });
-    }
-
-    static async acceptRequest(currentUserId, testId, sellerMessage) {
-        return new Promise(async (resolve, reject) => {
-            if (!currentUserId || !testId) {
-                return reject({status: 400, message: "Missing arguments."});
-            }
-
-            const test = await TestModel.findById(testId);
-
-            if (!test) {
-                return reject({status: 400, message: "Couldn't find the test from the given id."});
-            }
-
-            if (test.seller.toString() !== currentUserId) {
-                return reject({status: 400, message: "You need to be the seller to decline the test request."});
-            }
-
-            if (test.status !== constants.TEST_STATUSES.requested) {
-                return reject({
-                    status: 400,
-                    message: "The test status has to be 'requested' in order to decline the request."
-                });
-            }
-
-            test.status = constants.TEST_STATUSES.requestAccepted;
-            if (sellerMessage) {
-                test.sellerMessage = sellerMessage;
-            }
-
-            test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
-        });
-    }
-
-    static async productOrdered(currentUserId, testId, estimatedDeliveryDate) {
-        return new Promise(async (resolve, reject) => {
-            if (!currentUserId || !testId || !estimatedDeliveryDate) {
-                return reject({status: 400, message: "Missing arguments."});
-            }
-
-            if (moment(estimatedDeliveryDate).isBefore()) {
+            if (statusProcess.param && statusProcess.param.estimatedDeliveryDate
+                && (statusProcess.param.estimatedDeliveryDate).isBefore()) {
                 return reject({status: 400, message: "The estimated delivery time can't be in the past."});
             }
 
@@ -218,19 +126,25 @@ class TestController {
                 return reject({status: 400, message: "Couldn't find the test from the given id."});
             }
 
-            if (test.tester.toString() !== currentUserId) {
-                return reject({status: 400, message: "You need to be the seller to decline the test request."});
+            if (statusProcess.role === ROLES.TESTER && test.tester.toString() !== currentUserId) {
+                return reject({status: 400, message: "You need to be the tester."});
+            }
+            if (statusProcess.role === ROLES.SELLER && test.seller.toString() !== currentUserId) {
+                return reject({status: 400, message: "You need to be the seller."});
             }
 
-            if (test.status !== constants.TEST_STATUSES.requestAccepted) {
+            if (test.status !== statusProcess.previous) {
                 return reject({
                     status: 400,
-                    message: "The test status has to be 'requested' in order to decline the request."
+                    message: `The test status has to be ${statusProcess.previous} in order to update to ${status}.`
                 });
             }
 
-            test.status = constants.TEST_STATUSES.productOrdered;
-            test.estimatedDeliveryDate = estimatedDeliveryDate;
+            test.status = status;
+
+            if (statusProcess.param && params[statusProcess.param]) {
+                test[statusProcess.param] = params[statusProcess.param];
+            }
 
             test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
         });

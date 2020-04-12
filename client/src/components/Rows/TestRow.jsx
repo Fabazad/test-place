@@ -29,8 +29,8 @@ const TestRow = props => {
         }
     };
 
-    const actionService = (serviceMethod, successToast) => {
-        serviceMethod(test._id)
+    const actionService = (status, successToast) => {
+        testServices.updateStatus(test._id, status)
             .then(() => {
                 testServices.testsSubject.next();
                 toast.success(successToast)
@@ -41,14 +41,14 @@ const TestRow = props => {
         const actionsMapping = {
             [TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED]: {
                 text: "Vous êtes sur le point de confirmer que vous avez bien reçu le produit. Vous êtes donc actuellement en sa possession.",
-                serviceMethod: testServices.productReceived,
+                status: statuses['productReceived'],
                 successTest: "Produit enregistré comme reçu."
             }
         };
 
         const actionData = actionsMapping[action];
         if (actionData) {
-            confirmHelper.confirm(actionData.text, () => actionService(actionData.serviceMethod, actionData.successTest));
+            confirmHelper.confirm(actionData.text, () => actionService(actionData.status, actionData.successTest));
         }
     };
 
@@ -124,6 +124,12 @@ const TestRow = props => {
                                         <RowActionButton
                                             title="Produit reçu" icon="fa fa-box-open" color="warning"
                                             onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED)}/>
+                                    ) : null}
+
+                                    {test.status === statuses["productReceived"] ? (
+                                        <RowActionButton
+                                            title="Produit noté" icon="fa fa-star" color="warning"
+                                            onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}/>
                                     ) : null}
                                 </>
                             ) : null}

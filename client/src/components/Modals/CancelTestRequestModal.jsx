@@ -34,7 +34,10 @@ class CancelTestRequestModal extends React.Component {
 
     onSubmit = async (e) => {
             e.preventDefault();
-            const loadingPromise = testServices.cancelRequest(this.props.testId, this.state.cancelReason);
+            const statuses = await testServices.getTestStatuses();
+            const loadingPromise = testServices.updateStatus(this.props.testId, statuses['requestCancelled'],
+                { cancelRequestReason: this.state.cancelReason }
+            );
             this.setState({loadingPromise});
             await loadingPromise.then(() => {
                 testServices.testsSubject.next();

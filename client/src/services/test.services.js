@@ -24,24 +24,12 @@ class TestServices extends BaseService {
         return Promise.resolve(this.testStatuses);
     }
 
-    async cancelRequest(testId, cancelReason) {
-        return axios.post(this.baseURL + "/cancelRequest", {testId, cancelReason}).then(serviceResolve);
-    }
-
-    async declineTestRequest(testId, declineReason) {
-        return axios.post(this.baseURL + "/declineRequest", {testId, declineReason}).then(serviceResolve);
-    }
-
-    async acceptTestRequest(testId, sellerMessage) {
-        return axios.post(this.baseURL + "/acceptRequest", {testId, sellerMessage}).then(serviceResolve);
-    }
-
-    async productOrdered(testId, estimatedDeliveryDate) {
-        return axios.post(this.baseURL + "/productOrdered", {testId, estimatedDeliveryDate}).then(serviceResolve);
-    }
-
     async productReceived(testId) {
-        return axios.post(this.baseURL + "/productReceived", {testId}).then(serviceResolve);
+        return axios.post(this.baseURL + "/updateStatus", {testId}).then(serviceResolve);
+    }
+
+    async updateStatus(testId, status, params = {}) {
+        return axios.post(this.baseURL + "/updateStatus", { testId, status, params }).then(serviceResolve);
     }
 }
 

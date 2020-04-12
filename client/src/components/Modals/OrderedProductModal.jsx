@@ -18,8 +18,10 @@ const OrderedProductModal = props => {
 
     if (!test) return null;
 
-    const handleConfirm = () => {
-        testServices.productOrdered(test._id, estimatedDeliveryDate.toDate())
+    const handleConfirm = async () => {
+        const statuses = await testServices.getTestStatuses();
+        testServices.updateStatus(test._id, statuses['productOrdered'],
+            {estimatedDeliveryDate: estimatedDeliveryDate.toDate()})
             .then(() => {
                 testServices.testsSubject.next();
                 onToggle();
@@ -57,7 +59,7 @@ const OrderedProductModal = props => {
                     <FormGroup>
                         <InputGroup className="input-group-alternative">
                             <ReactDatetime
-                                inputProps={{ placeholder: "Date de livraison estimée" }} input={false}
+                                inputProps={{placeholder: "Date de livraison estimée"}} input={false}
                                 timeFormat={false} onChange={date => setEstimatedDeliveryDate(date)}
                             />
                         </InputGroup>

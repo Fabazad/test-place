@@ -39,21 +39,25 @@ class AnswerTestRequestForm extends React.Component {
         });
     };
 
-    declineRequest(e) {
+    async declineRequest(e) {
         e.preventDefault();
         if (!this.state.declineReason) {
             toast.error("Veuillez donner une raison au refus de la demande")
         }
-        testServices.declineTestRequest(this.props.testId, this.state.declineReason)
+        const statuses = await testServices.getTestStatuses();
+        testServices.updateStatus(this.props.testId, statuses['requestDeclined'],
+            {declineRequestReason: this.state.declineReason})
             .then(() => {
                 this.props.onSubmit();
                 toast.success("Demande de test refusée");
             });
     }
 
-    acceptRequest(e) {
+    async acceptRequest(e) {
         e.preventDefault();
-        testServices.acceptTestRequest(this.props.testId, this.state.sellerMessage)
+        const statuses = await testServices.getTestStatuses();
+        testServices.updateStatus(this.props.testId, statuses['requestAccepted'],
+            { sellerMessage: this.state.sellerMessage})
             .then(() => {
                 this.props.onSubmit();
                 toast.success("Demande de test acceptée");

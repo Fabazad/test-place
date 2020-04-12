@@ -57,4 +57,36 @@ const constants = {
     }
 };
 
+const {TEST_STATUSES, ROLES} = constants;
+
+constants.TEST_STATUS_PROCESSES = {
+    [TEST_STATUSES.requestCancelled]: {
+        previous: TEST_STATUSES.requested,
+        role: ROLES.TESTER,
+        param: "cancelRequestReason"
+    },
+    [TEST_STATUSES.requestDeclined]: {
+        previous: TEST_STATUSES.requested,
+        role: ROLES.SELLER,
+        param: "declineRequestReason"
+    },
+    [TEST_STATUSES.requestAccepted]: {
+        previous: TEST_STATUSES.requested,
+        role: ROLES.SELLER
+    },
+    [TEST_STATUSES.productOrdered]: {
+        previous: TEST_STATUSES.requestAccepted,
+        role: ROLES.TESTER,
+        param: "estimatedDeliveryDate"
+    },
+    [TEST_STATUSES.productReceived]: {
+        previous: TEST_STATUSES.productOrdered,
+        role: ROLES.TESTER
+    },
+    [TEST_STATUSES.productReviewed]: {
+        previous: TEST_STATUSES.productReceived,
+        role: ROLES.TESTER
+    }
+};
+
 module.exports = constants;

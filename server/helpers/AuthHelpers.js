@@ -1,4 +1,5 @@
 const constants = require("./constants");
+const {ROLES} = constants;
 
 const AUTH = constants.AUTH_CONDITIONS;
 
@@ -58,6 +59,10 @@ class AuthHelpers {
             }
         }
         return true;
+    }
+
+    hasRoleAuth(userRole, role) {
+        return userRole === ROLES.ADMIN || userRole === role;
     }
 }
 

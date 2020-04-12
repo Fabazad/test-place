@@ -2,7 +2,7 @@ const TestController = require('../controllers/test.controller');
 const withAuth = require('../middlewares/withAuth');
 const express = require('express');
 const router = express.Router();
-const {ROLES} = require("../helpers/constants");
+const {ROLES, TEST_STATUSES} = require("../helpers/constants");
 
 router.post('/create', withAuth(ROLES.TESTER), async (request, reply) => {
     const {item} = request.body;
@@ -24,30 +24,9 @@ router.get('/find', withAuth(), async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
-router.post('/cancelRequest', withAuth(ROLES.TESTER), async (request, reply) => {
-    const { testId, cancelReason } = request.body;
-    TestController.cancelRequest(request.decoded.userId, testId, cancelReason)
-        .then((res) => reply.send(res))
-        .catch(err => reply.status(err.status).send(err.message));
-});
-
-router.post('/declineRequest', withAuth(ROLES.SELLER), async (request, reply) => {
-    const { testId, declineReason } = request.body;
-    TestController.declineRequest(request.decoded.userId, testId, declineReason)
-        .then((res) => reply.send(res))
-        .catch(err => reply.status(err.status).send(err.message));
-});
-
-router.post('/acceptRequest', withAuth(ROLES.SELLER), async (request, reply) => {
-    const { testId, sellerMessage } = request.body;
-    TestController.acceptRequest(request.decoded.userId, testId, sellerMessage)
-        .then((res) => reply.send(res))
-        .catch(err => reply.status(err.status).send(err.message));
-});
-
-router.post('/productOrdered', withAuth(ROLES.TESTER), async (request, reply) => {
-    const { testId, estimatedDeliveryDate } = request.body;
-    TestController.productOrdered(request.decoded.userId, testId, estimatedDeliveryDate)
+router.post('/updateStatus', async (request, reply) => {
+    const { testId, status, params } = request.body;
+    TestController.updateStatus(request.decoded.userId, testId, status, params)
         .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
