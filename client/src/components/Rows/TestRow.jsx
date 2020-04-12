@@ -43,6 +43,11 @@ const TestRow = props => {
                 text: "Vous êtes sur le point de confirmer que vous avez bien reçu le produit. Vous êtes donc actuellement en sa possession.",
                 status: statuses['productReceived'],
                 successTest: "Produit enregistré comme reçu."
+            },
+            [TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED]: {
+                text: "Vous êtes sur le point de confirmer que vous avez bien noté le produit sur Amazon.",
+                status: statuses['productReviewed'],
+                successTest: "Produit enregistré comme noté."
             }
         };
 

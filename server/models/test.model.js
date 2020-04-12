@@ -1,7 +1,5 @@
 const constants = require("../helpers/constants");
-const {TEST_STATUSES} = constants;
 const mongoose = require('mongoose');
-const ProductModel = require("./product.model");
 
 const updateObject = {
     date: { type: Date, required: true, default: new Date() },
