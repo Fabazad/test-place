@@ -52,10 +52,16 @@ router.post('/emailValidation', async (request, reply) => {
 });
 
 router.post('/amazonLogin', withAuth(), async (request, reply) => {
-
     const {amazonToken} = request.body;
     const {userId} = request.decoded;
     UserController.amazonLogin(userId, amazonToken)
+        .then(res => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/amazonLogout', withAuth(), async (request, reply) => {
+    const {userId, roles} = request.decoded;
+    UserController.amazonLogout(userId, roles)
         .then(res => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
@@ -70,7 +76,7 @@ router.post('/validationMail', async (request, reply) => {
 router.post('/updateUserInfo', withAuth(), async (request, reply) => {
     const { userId, data } = request.body;
     const {decoded} = request;
-    UserController.updateUserInfo(decoded.userId, decoded.amazonId, userId, data)
+    UserController.updateUserInfo(decoded.userId, decoded.amazonId, decoded.roles, userId, data)
         .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });

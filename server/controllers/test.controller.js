@@ -67,7 +67,7 @@ class TestController {
     }
 
     static async find(currentUserId, searchData) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const {itemsPerPage, page, statuses, asSeller, asTester} = searchData;
             if (!currentUserId) {
                 return reject({status: 500, message: 'Should have currentUserId.'});
@@ -93,12 +93,12 @@ class TestController {
                 populateList.push('seller');
             }
 
-            TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit).populate(populateList)
-                .then(res => {
-                    TestModel.count(searchQuery).then(count => {
-                        resolve({hits: res, totalCount: count});
-                    }).catch(err => reject(ErrorResponses.mongoose(err)))
-                }).catch(err => reject(ErrorResponses.mongoose(err)))
+            const [hits, totalCount] = await Promise.all([
+                TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit).populate(populateList),
+                TestModel.count(searchQuery)
+            ]).catch(err => reject(ErrorResponses.mongoose(err)));
+
+            return resolve({ hits, totalCount });
         });
     }
 

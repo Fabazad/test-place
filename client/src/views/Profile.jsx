@@ -76,7 +76,7 @@ class Profile extends React.Component {
             roles: this.state.roles
         })
             .catch(err => this.setState({loading: false}))
-            .then(() => {
+            .then(res => {
                 this.setState({loading: false});
                 toast.success("Modifications Enregistrées");
             });

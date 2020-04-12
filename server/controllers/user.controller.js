@@ -1,4 +1,5 @@
 const UserModel = require('../models/user.model');
+const TestModel = require('../models/test.model');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const randomToken = require('random-token');
@@ -7,7 +8,7 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
-const {ROLES} = require('../helpers/constants');
+const {ROLES, TEST_STATUSES} = require('../helpers/constants');
 
 
 const createToken = (user, time) => {
@@ -192,6 +193,19 @@ class UserController {
         });
     }
 
+    static async amazonLogout(userId, roles) {
+        return new Promise(async (resolve, reject) => {
+
+            if (roles.includes(ROLES.TESTER)) {
+                return reject({status: 403, message: "You can't logout from Amazon and stay Tester."});
+            }
+
+            const user = await UserModel.findByIdAndUpdate(userId, { $unset: { amazonId: 1 } }, { new: true });
+
+            return resolve({ user });
+        });
+    }
+
     static async validationMail(email) {
         return new Promise((resolve, reject) => {
             if (!email) {
@@ -212,14 +226,31 @@ class UserController {
         });
     }
 
-    static async updateUserInfo(currentUserId, currentUserAmazonId, userId, data) {
-        return new Promise((resolve, reject) => {
+    static async updateUserInfo(currentUserId, currentUserAmazonId, currentUserRoles, userId, data) {
+        return new Promise(async (resolve, reject) => {
             if (currentUserId !== userId || data.roles.includes(ROLES.ADMIN)) {
                 return reject({status: 403, message: "Unauthorized"});
             }
 
             if (data.roles.includes(ROLES.TESTER) && !currentUserAmazonId) {
                 return reject({status: 403, message: "Unauthorized"});
+            }
+
+            if(currentUserRoles.includes(ROLES.TESTER) && !data.roles.includes(ROLES.TESTER)) {
+                const processingTestNumber = await TestModel.count({
+                    status: {
+                        $in: [
+                            TEST_STATUSES.requested,
+                            TEST_STATUSES.requestAccepted,
+                            TEST_STATUSES.productOrdered,
+                            TEST_STATUSES.productReceived,
+                        ]
+                    }
+                });
+
+                if (processingTestNumber) {
+                    return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                }
             }
 
             const authorizedData = {

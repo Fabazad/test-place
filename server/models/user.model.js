@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     amazonId: { type: String, unique: true, sparse: true },
     testerMessage: String,
     sellerMessage: String,
-    roles: { type: [String], enum: Object.values(ROLES), default: [ROLES.TESTER] }
+    roles: { type: [String], enum: Object.values(ROLES), default: [] }
 });
 
 UserSchema.pre('save', function(next) {

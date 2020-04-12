@@ -6,6 +6,7 @@ import Loading from "../Loading";
 import userServices from "../../services/user.services";
 import {toast} from "react-toastify";
 import PropTypes from "prop-types";
+const {USER_ROLES} = constants;
 
 class AmazonLoginButton extends React.Component {
 
@@ -54,7 +55,7 @@ class AmazonLoginButton extends React.Component {
 
     onAmazonLogout() {
         this.setState({loading: true});
-        userServices.update(userServices.getCurrentUserId(), {amazonId: null})
+        userServices.amazonLogout(userServices.getCurrentUserId())
             .then(() => {
                 userServices.currentUser.amazonId = null;
                 this.setState({
@@ -62,7 +63,8 @@ class AmazonLoginButton extends React.Component {
                     loading: false
                 });
                 toast.success('Compte Amazon déconnecté');
-            });
+            })
+            .catch(() => this.setState({ loading: false }));
     }
 
     render() {
