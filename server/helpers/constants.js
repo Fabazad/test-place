@@ -51,7 +51,7 @@ const constants = {
         productReceived: "PRODUCT_RECEIVED",
         productReviewed: "PRODUCT_REVIEWED",
         reviewValidated: "REVIEW_VALIDATED",
-        reviewRefused: "REVIEW_REFUSED",
+        reviewDeclined: "REVIEW_REFUSED",
         moneySent: "MONEY_SENT",
         moneyReceived: "MONEY_RECEIVED"
     }
@@ -86,6 +86,15 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.productReviewed]: {
         previous: TEST_STATUSES.productReceived,
         role: ROLES.TESTER
+    },
+    [TEST_STATUSES.reviewValidated]: {
+        previous: TEST_STATUSES.productReviewed,
+        role: ROLES.SELLER
+    },
+    [TEST_STATUSES.reviewDeclined]: {
+        previous: TEST_STATUSES.productReviewed,
+        role: ROLES.SELLER,
+        param: 'declineReviewReason'
     }
 };
 

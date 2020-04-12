@@ -7,6 +7,8 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
+const {ROLES} = require('../helpers/constants');
+
 
 const createToken = (user, time) => {
     const payload = {userId: user._id, amazonId: user.amazonId, roles: user.roles};
@@ -210,9 +212,13 @@ class UserController {
         });
     }
 
-    static async updateUserInfo(currentUserId, userId, data) {
+    static async updateUserInfo(currentUserId, currentUserAmazonId, userId, data) {
         return new Promise((resolve, reject) => {
-            if (currentUserId !== userId) {
+            if (currentUserId !== userId || data.roles.includes(ROLES.ADMIN)) {
+                return reject({status: 403, message: "Unauthorized"});
+            }
+
+            if (data.roles.includes(ROLES.TESTER) && !currentUserAmazonId) {
                 return reject({status: 403, message: "Unauthorized"});
             }
 

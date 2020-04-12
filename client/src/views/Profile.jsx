@@ -23,6 +23,10 @@ import AmazonLoginButton from "../components/Buttons/AmazonLoginButton";
 import InfoPopover from "../components/InfoPopover";
 import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Label from "reactstrap/es/Label";
+import constants from "../helpers/constants";
+import {scrollTo} from "../helpers/scrollHelpers";
+
+const {USER_ROLES} = constants;
 
 class Profile extends React.Component {
 
@@ -58,6 +62,14 @@ class Profile extends React.Component {
     async handleSubmit(e) {
         e.preventDefault();
         this.setState({loading: true});
+
+        if (this.state.roles.includes(USER_ROLES.TESTER) && !userService.getAmazonId()) {
+            toast.error('Pour devenir Testeur, vous devez d\'abord lier votre compte Test-Place à un compte Amazon.');
+            scrollTo('actions-section');
+            this.setState({loading: false});
+            return;
+        }
+
         userService.updateUserInfo(userService.currentUser._id, {
             testerMessage: this.state.testerMessage,
             sellerMessage: this.state.sellerMessage,
@@ -236,7 +248,7 @@ class Profile extends React.Component {
                                             </Row>
                                         </div>
                                     </Form>
-                                    <hr className="my-4"/>
+                                    <hr className="my-4" id='actions-section'/>
                                     {/* Actions */}
                                     <h6 className="heading-small text-muted mb-4">
                                         Actions

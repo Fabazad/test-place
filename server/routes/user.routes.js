@@ -70,7 +70,7 @@ router.post('/validationMail', async (request, reply) => {
 router.post('/updateUserInfo', withAuth(), async (request, reply) => {
     const { userId, data } = request.body;
     const {decoded} = request;
-    UserController.updateUserInfo(decoded.userId, userId, data)
+    UserController.updateUserInfo(decoded.userId, decoded.amazonId, userId, data)
         .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });

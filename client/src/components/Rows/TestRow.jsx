@@ -110,9 +110,9 @@ const TestRow = props => {
 
                     {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING ? (
                         <>
-                            <RowActionButton
-                                color={'info'} icon='fa fa-eye' title={'Voir'}
+                            <RowActionButton color={'info'} icon='fa fa-eye' title={'Voir'}
                                 onClick={() => handleClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
+
                             {userRole === USER_ROLES.TESTER ? (
                                 <>
                                     {test.status === statuses["requestAccepted"] ? (
