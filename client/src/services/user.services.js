@@ -102,14 +102,6 @@ class UserService extends BaseService {
         return false;
     }
 
-    amazonLogin(amazonToken) {
-        return axios.post(this.baseURL + "/amazonLogin", {amazonToken}).then(this.currentUserResolve);
-    }
-
-    amazonLogout(amazonToken) {
-        return axios.post(this.baseURL + "/amazonLogout").then(this.currentUserResolve);
-    }
-
     resendValidationMail(email) {
         return axios.post(this.baseURL + "/validationMail", {email}).then(serviceResolve);
     }

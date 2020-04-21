@@ -9,7 +9,6 @@ import {
 } from "reactstrap";
 import userServices from '../../services/user.services';
 import testServices from '../../services/test.services';
-import AmazonLoginButton from "../Buttons/AmazonLoginButton";
 import {Link} from "react-router-dom";
 import AnimatedError from "../AnimatedError";
 import PropTypes from "prop-types";
@@ -44,10 +43,6 @@ class NewTestRequestModal extends React.Component {
             testerMessage: userServices.isAuth() ? userServices.currentUser.testerMessage : '',
             requestSent: false
         });
-    }
-
-    onAmazonLogin() {
-        this.setState({amazonId: userServices.currentUser.amazonId});
     }
 
     async confirmRequest() {
@@ -113,7 +108,6 @@ class NewTestRequestModal extends React.Component {
                                             {/* Missing amazon link case*/}
                                             <AnimatedError/>
                                             <p>Vous devez lier un compte Amazon pour demander à tester un produit.</p>
-                                            <AmazonLoginButton onLogin={() => this.onAmazonLogin()}/>
                                         </div>
                                     )
                                     : (

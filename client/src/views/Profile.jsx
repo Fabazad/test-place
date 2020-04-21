@@ -19,7 +19,6 @@ import UserHeader from "../components/Headers/UserHeader.jsx";
 import Loading from "../components/Loading";
 import UpdatePasswordModal from "../components/Modals/UpdatePasswordModal";
 import {toast} from "react-toastify";
-import AmazonLoginButton from "../components/Buttons/AmazonLoginButton";
 import InfoPopover from "../components/InfoPopover";
 import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Label from "reactstrap/es/Label";
@@ -258,11 +257,6 @@ class Profile extends React.Component {
                                             <Col md="6">
                                                 <FormGroup className="text-center">
                                                     <UpdatePasswordModal/>
-                                                </FormGroup>
-                                            </Col>
-                                            <Col md="6">
-                                                <FormGroup className="text-center">
-                                                    <AmazonLoginButton/>
                                                 </FormGroup>
                                             </Col>
                                         </Row>

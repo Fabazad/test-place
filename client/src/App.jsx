@@ -10,22 +10,15 @@ import ResetPassword from "./views/ResetPassword";
 import EmailValidation from "./views/EmailValidation";
 import withAuth from "./helpers/withAuth";
 import DashboardLayout from "./layouts/Dashboard";
-import {Provider} from "react-redux";
-import {applyMiddleware, compose, createStore} from "redux";
-import rootReducer from "./reducers";
-import thunkMiddleware from "redux-thunk";
 import Search from "./views/Search";
 import ProductDetail from "./views/ProductDetail";
 import ConfirmModal from "./components/Modals/ConfirmModal";
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 class App extends React.Component {
 
     render() {
         return (
-            <Provider store={store}>
+            <>
                 <ToastContainer/>
                 <ConfirmModal/>
                 <BrowserRouter>
@@ -41,7 +34,7 @@ class App extends React.Component {
                         <Redirect to="/"/>
                     </Switch>
                 </BrowserRouter>
-            </Provider>
+            </>
         );
     }
 }
