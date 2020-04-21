@@ -21,3 +21,7 @@ export function updateURLParameter(url, param, paramVal) {
 export function getProductAmazonUrl(asin) {
     return 'https://www.amazon.fr/dp/' + asin;
 }
+
+export function getAmazonProfileUrl(amazonId) {
+    return 'https://www.amazon.fr/gp/profile/' + amazonId;
+}

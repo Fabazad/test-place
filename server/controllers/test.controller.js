@@ -116,7 +116,7 @@ class TestController {
             }
 
             if (statusProcess.param && statusProcess.param.estimatedDeliveryDate
-                && (statusProcess.param.estimatedDeliveryDate).isBefore()) {
+                && moment(statusProcess.param.estimatedDeliveryDate).isBefore()) {
                 return reject({status: 400, message: "The estimated delivery time can't be in the past."});
             }
 

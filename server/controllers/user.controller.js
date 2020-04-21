@@ -243,9 +243,30 @@ class UserController {
                             TEST_STATUSES.requested,
                             TEST_STATUSES.requestAccepted,
                             TEST_STATUSES.productOrdered,
-                            TEST_STATUSES.productReceived,
+                            TEST_STATUSES.productReceived
                         ]
-                    }
+                    },
+                    tester: currentUserId
+                });
+
+                if (processingTestNumber) {
+                    return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                }
+            }
+
+            if(currentUserRoles.includes(ROLES.SELLER) && !data.roles.includes(ROLES.SELLER)) {
+                const processingTestNumber = await TestModel.count({
+                    status: {
+                        $in: [
+                            TEST_STATUSES.requested,
+                            TEST_STATUSES.requestAccepted,
+                            TEST_STATUSES.productOrdered,
+                            TEST_STATUSES.productReceived,
+                            TEST_STATUSES.productReviewed,
+                            TEST_STATUSES.reviewValidated
+                        ]
+                    },
+                    seller: currentUserId
                 });
 
                 if (processingTestNumber) {

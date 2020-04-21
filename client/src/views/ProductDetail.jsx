@@ -222,10 +222,13 @@ class ProductDetail extends React.Component {
                                     </div>
                                     {product && product.asin ? (
                                         <div className="mt-5 text-center">
-                                            <span className="mr-2">Plus de détails sur la</span>
+                                            <span className="mr-3">Plus de détails sur la</span>
                                             <a href={'https://www.amazon.fr/dp/' + product.asin} target='_blank'
                                                rel="noopener noreferrer">
-                                                <Button color="primary">Page Amazon du Produit</Button>
+                                                <Button color="primary">
+                                                    <i className="fab fa-amazon mr-3"/>
+                                                    Page Amazon du Produit
+                                                </Button>
                                             </a>
                                         </div>
                                     ) : null}

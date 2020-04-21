@@ -6,7 +6,7 @@ import Loading from "../Loading";
 import userServices from "../../services/user.services";
 import {toast} from "react-toastify";
 import PropTypes from "prop-types";
-const {USER_ROLES} = constants;
+import AmazonLoginModal from "../Modals/AmazonLoginModal";
 
 class AmazonLoginButton extends React.Component {
 
@@ -14,12 +14,14 @@ class AmazonLoginButton extends React.Component {
         super(props);
         this.state = {
             loading: false,
-            amazonId: ''
+            amazonId: '',
+            isOpen: false
         };
         this.onAmazonLogin = this.onAmazonLogin.bind(this);
         this.onAmazonFailure = this.onAmazonFailure.bind(this);
         this.onStart = this.onStart.bind(this);
         this.onAmazonLogout = this.onAmazonLogout.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -67,11 +69,25 @@ class AmazonLoginButton extends React.Component {
             .catch(() => this.setState({ loading: false }));
     }
 
+    getButtonColor(type, linked) {
+        if (type === "login" && linked) return "default";
+        if (type === "login" && !linked) return "primary";
+        if (type === "switch") return "primary";
+        if (type === "logout") return "danger";
+    }
+
+    toggleModal() {
+        this.setState({ isOpen: !this.state.isOpen });
+    }
+
     render() {
 
         const {...props} = this.props;
         props.onLoginSuccess = this.onAmazonLogin;
         props.onLoginFailure = this.onAmazonFailure;
+        const type = this.props.type ?? 'login';
+        const linked = !!this.state.amazonId;
+
         return (
             <>
                 <SocialButton
@@ -82,29 +98,46 @@ class AmazonLoginButton extends React.Component {
                     onLogoutSuccess={this.onAmazonLogout}
                     onLogoutClick={this.onAmazonLogout}
                     onStart={this.onStart}
-                    className={"btn " + (this.state.amazonId ? 'btn-default' : 'btn-primary')}
-                    linked={this.state.amazonId ? 1 : 0}
+                    className={"btn btn-" + this.getButtonColor(type, linked)}
+                    linked={linked}
+                    type={type}
+                    onOpenModalClick={this.toggleModal}
                 >
                     <Loading loading={this.state.loading}/>
-                    {this.state.amazonId ? (
+                    {type === "login" && linked ? (
                         <>
                             <AnimatedCheck className={"m-0 d-inline-block"} style={{"width": "20px"}}/>
                             <span className="ml-2">Compte Amazon Lié</span>
                         </>
-                    ) : (
+                    ) : null }
+                    {type === "login" && !linked ? (
                         <>
                             <i className="fab fa-amazon size-lg text-yellow"/>
                             <span className="btn-inner--text">Lier un compte Amazon</span>
                         </>
-                    )}
+                    ) : null}
+                    {type === "switch" ? (
+                        <>
+                            <i className="fab fa-amazon size-lg text-yellow"/>
+                            <span className="btn-inner--text">Lier un autre compte Amazon</span>
+                        </>
+                    ) : null}
+                    {type === "logout" ? (
+                        <>
+                            <i className="fab fa-amazon size-lg text-yellow"/>
+                            <span className="btn-inner--text">Retirer le compte Amazon</span>
+                        </>
+                    ) : null}
                 </SocialButton>
+                <AmazonLoginModal toggleModal={this.toggleModal} isOpen={this.state.isOpen} amazonId={this.state.amazonId}/>
             </>
         );
     }
 }
 
 AmazonLoginButton.propTypes = {
-    onLogin: PropTypes.func
+    onLogin: PropTypes.func,
+    type: PropTypes.string
 };
 
 export default AmazonLoginButton;
