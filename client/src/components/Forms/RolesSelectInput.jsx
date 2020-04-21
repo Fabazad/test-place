@@ -10,7 +10,7 @@ const {USER_ROLES} = constants;
 
 const RolesSelectInput = (props) => {
 
-    const {onChange, defaultValue, name, t} = props;
+    const {onChange, defaultValue, t} = props;
 
     const [values, setValues] = useState(defaultValue);
 
@@ -20,12 +20,7 @@ const RolesSelectInput = (props) => {
         if (newValues.length) {
             newValues.sort();
             setValues(newValues);
-            onChange({
-                target: {
-                    name,
-                    value: newValues
-                }
-            });
+            onChange(newValues);
         }
     };
 

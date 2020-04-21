@@ -1,5 +1,5 @@
 import React from "react";
-import userService from "../services/user.services";
+import userService from "../../services/user.services";
 
 // reactstrap components
 import {
@@ -8,23 +8,19 @@ import {
     CardHeader,
     CardBody,
     FormGroup,
-    Form,
     Input,
     Container,
     Row,
     Col
 } from "reactstrap";
 // core components
-import UserHeader from "../components/Headers/UserHeader.jsx";
-import Loading from "../components/Loading";
-import UpdatePasswordModal from "../components/Modals/UpdatePasswordModal";
-import {toast} from "react-toastify";
-import InfoPopover from "../components/InfoPopover";
-import RolesSelectInput from "../components/Forms/RolesSelectInput";
-import Label from "reactstrap/es/Label";
-import constants from "../helpers/constants";
-import {scrollTo} from "../helpers/scrollHelpers";
-
+import UserHeader from "../../components/Headers/UserHeader.jsx";
+import Loading from "../../components/Loading";
+import UpdatePasswordModal from "../../components/Modals/UpdatePasswordModal";
+import MyInfoForm from "./MyInfoForm";
+import MySellerInfoForm from "./MySellerInfoForm";
+import constants from "../../helpers/constants";
+import MyTesterInfoForm from "./MyTesterInfoForm";
 const {USER_ROLES} = constants;
 
 class Profile extends React.Component {
@@ -33,12 +29,8 @@ class Profile extends React.Component {
         super(props);
         this.state = {
             user: undefined,
-            testerMessage: "",
-            sellerMessage: "",
-            loading: false,
-            roles: []
+            loading: false
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -58,29 +50,6 @@ class Profile extends React.Component {
         });
     };
 
-    async handleSubmit(e) {
-        e.preventDefault();
-        this.setState({loading: true});
-
-        if (this.state.roles.includes(USER_ROLES.TESTER) && !userService.getAmazonId()) {
-            toast.error('Pour devenir Testeur, vous devez d\'abord lier votre compte Test-Place à un compte Amazon.');
-            scrollTo('actions-section');
-            this.setState({loading: false});
-            return;
-        }
-
-        userService.updateUserInfo(userService.currentUser._id, {
-            testerMessage: this.state.testerMessage,
-            sellerMessage: this.state.sellerMessage,
-            roles: this.state.roles
-        })
-            .catch(err => this.setState({loading: false}))
-            .then(res => {
-                this.setState({loading: false});
-                toast.success("Modifications Enregistrées");
-            });
-    }
-
     render() {
         if (!this.state.user) {
             return (<Loading/>);
@@ -88,9 +57,8 @@ class Profile extends React.Component {
 
         const {user} = this.state;
 
-        const disabledSave = user.testerMessage === this.state.testerMessage
-            && user.sellerMessage === this.state.sellerMessage
-            && user.roles.join(',') === this.state.roles.join(',');
+        const isUserSeller = user.roles.includes(USER_ROLES.SELLER);
+        const isUserTester = user.roles.includes(USER_ROLES.TESTER);
 
         return (
             <>
@@ -178,75 +146,15 @@ class Profile extends React.Component {
                                     </Row>
                                 </CardHeader>
                                 <CardBody>
-                                    <Form onSubmit={this.handleSubmit} className="position-relative">
-                                        <Loading loading={this.state.loading}/>
-                                        <div>
-                                            <h6 className="heading-small text-muted mb-4 d-inline-block">
-                                                Mes Informations
-                                            </h6>
-                                            <Button size="sm" color="info" className="float-right" type="submit"
-                                                    disabled={disabledSave}>
-                                                Enregister
-                                            </Button>
-                                        </div>
-                                        <div className="pl-lg-4">
-                                            <Row>
-                                                <Col xs="12">
-                                                    <FormGroup>
-                                                        <Label className="form-control-label">Vous êtes ?</Label>
-                                                        <RolesSelectInput defaultValue={userService.currentUser.roles}
-                                                                          onChange={this.handleInputChange}
-                                                                          name="roles"/>
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col xs="12">
-                                                    <FormGroup>
-                                                        <label className="form-control-label"
-                                                               htmlFor="input-tester-message">
-                                                            Message Testeur
-                                                            <InfoPopover className="ml-3">
-                                                                Le champ texte <b><i>Message au Vendeur</i></b> à
-                                                                fournir lors
-                                                                d'une demande de test sera pré-rempli avec ce <b><i>Message
-                                                                Testeur</i></b>.
-                                                            </InfoPopover>
-                                                        </label>
-                                                        <Input className="form-control-alternative"
-                                                               defaultValue={user.testerMessage}
-                                                               id="input-tester-message"
-                                                               placeholder={"Bonjour, je suis " + user.name + "..."}
-                                                               type="textarea" name="testerMessage"
-                                                               onChange={this.handleInputChange}
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col xs="12">
-                                                    <FormGroup>
-                                                        <label className="form-control-label"
-                                                               htmlFor="input-seller-message">
-                                                            Message Vendeur
-                                                            <InfoPopover className="ml-3">
-                                                                <b>Message Vendeur</b> sera utilisé comme message par
-                                                                défault lorsque vous <b>accepterez des demandes de
-                                                                test</b>.<br/>
-                                                                C'est aussi le message que recevront vos testeurs
-                                                                lorsqu'ils passeront par l'<b>acceptaion
-                                                                automatique</b> des demandes (<i
-                                                                className="fa fa-bolt text-yellow"/>).
-                                                            </InfoPopover>
-                                                        </label>
-                                                        <Input className="form-control-alternative"
-                                                               defaultValue={user.sellerMessage}
-                                                               id="input-seller-message"
-                                                               placeholder={"Merci d'avoir choisi notre produit, ..."}
-                                                               type="textarea" name="sellerMessage"
-                                                               onChange={this.handleInputChange}
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Form>
+                                    <MyInfoForm user={user}/>
+                                    
+                                    <hr className="my-4" id='actions-section'/>
+
+                                    {isUserTester ? <MyTesterInfoForm user={user}/> : null}
+
+                                    <hr className="my-4" id='actions-section'/>
+
+                                    {isUserSeller ? <MySellerInfoForm user={user}/> : null}
                                     <hr className="my-4" id='actions-section'/>
                                     {/* Actions */}
                                     <h6 className="heading-small text-muted mb-4">

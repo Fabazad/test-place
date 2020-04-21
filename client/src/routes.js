@@ -1,5 +1,5 @@
 import Index from "views/Index.jsx";
-import Profile3 from "views/Profile.jsx";
+import Profile from "./views/Profile/Profile.jsx";
 import MyProducts from "./views/MyProducts";
 import SentDemands from "./views/SentDemands";
 import ReceivedDemands from "./views/ReceivedDemands";
@@ -53,7 +53,7 @@ const routes = [
     path: "/my-profile",
     name: "Mon Profil",
     icon: "fa fa-user text-green",
-    component: Profile3,
+    component: Profile,
     layout: "/dashboard"
   }
 ];

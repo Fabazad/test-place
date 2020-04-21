@@ -196,59 +196,61 @@ class UserController {
 
     static async updateUserInfo(currentUserId, currentUserAmazonId, currentUserRoles, userId, data) {
         return new Promise(async (resolve, reject) => {
-            if (currentUserId !== userId || data.roles.includes(ROLES.ADMIN)) {
+            if (currentUserId !== userId && !currentUserRoles.includes(ROLES.ADMIN)) {
                 return reject({status: 403, message: "Unauthorized"});
             }
 
-            if (data.roles.includes(ROLES.TESTER) && !currentUserAmazonId) {
+            // TODO
+            /*if (data.roles.includes(ROLES.TESTER) && !currentUserAmazonId) {
                 return reject({status: 403, message: "Unauthorized"});
-            }
+            }*/
 
-            if(currentUserRoles.includes(ROLES.TESTER) && !data.roles.includes(ROLES.TESTER)) {
-                const processingTestNumber = await TestModel.count({
-                    status: {
-                        $in: [
-                            TEST_STATUSES.requested,
-                            TEST_STATUSES.requestAccepted,
-                            TEST_STATUSES.productOrdered,
-                            TEST_STATUSES.productReceived
-                        ]
-                    },
-                    tester: currentUserId
-                });
+            if ('roles' in data) {
+                if(currentUserRoles.includes(ROLES.TESTER) && !data.roles.includes(ROLES.TESTER)) {
+                    const processingTestNumber = await TestModel.count({
+                        status: {
+                            $in: [
+                                TEST_STATUSES.requested,
+                                TEST_STATUSES.requestAccepted,
+                                TEST_STATUSES.productOrdered,
+                                TEST_STATUSES.productReceived
+                            ]
+                        },
+                        tester: currentUserId
+                    });
 
-                if (processingTestNumber) {
-                    return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                    if (processingTestNumber) {
+                        return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                    }
+                }
+
+                if(currentUserRoles.includes(ROLES.SELLER) && !data.roles.includes(ROLES.SELLER)) {
+                    const processingTestNumber = await TestModel.count({
+                        status: {
+                            $in: [
+                                TEST_STATUSES.requested,
+                                TEST_STATUSES.requestAccepted,
+                                TEST_STATUSES.productOrdered,
+                                TEST_STATUSES.productReceived,
+                                TEST_STATUSES.productReviewed,
+                                TEST_STATUSES.reviewValidated
+                            ]
+                        },
+                        seller: currentUserId
+                    });
+
+                    if (processingTestNumber) {
+                        return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                    }
                 }
             }
 
-            if(currentUserRoles.includes(ROLES.SELLER) && !data.roles.includes(ROLES.SELLER)) {
-                const processingTestNumber = await TestModel.count({
-                    status: {
-                        $in: [
-                            TEST_STATUSES.requested,
-                            TEST_STATUSES.requestAccepted,
-                            TEST_STATUSES.productOrdered,
-                            TEST_STATUSES.productReceived,
-                            TEST_STATUSES.productReviewed,
-                            TEST_STATUSES.reviewValidated
-                        ]
-                    },
-                    seller: currentUserId
-                });
+            const authorizedData = [ 'testerMessage', 'sellerMessage', 'roles' ];
+            Object.keys(data).forEach(key => {
+                if (!authorizedData.includes(key)) delete data[key]
+            });
 
-                if (processingTestNumber) {
-                    return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
-                }
-            }
-
-            const authorizedData = {
-                testerMessage: data.testerMessage,
-                sellerMessage: data.sellerMessage,
-                roles: data.roles
-            };
-
-            UserModel.findByIdAndUpdate(userId, authorizedData, {new: true})
+            UserModel.findByIdAndUpdate(userId, data, {new: true})
                 .then(user => {
                     const token = createToken(user, '1h');
                     resolve({user, token});

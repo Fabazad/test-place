@@ -1,0 +1,20 @@
+{
+  "usesTypeScript": false,
+  "usesCssModule": false,
+  "testLibrary": "None",
+  "component": {
+    "path": "src/views/Profile",
+    "withStyle": true,
+    "withTest": false,
+    "withStory": false,
+    "withLazy": false
+  },
+  "cssPreprocessor": "css",
+  "page": {
+    "path": "src",
+    "withStyle": false,
+    "withTest": false,
+    "withStory": false,
+    "withLazy": false
+  }
+}
