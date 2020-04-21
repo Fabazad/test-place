@@ -174,38 +174,6 @@ class UserController {
         });
     }
 
-    static async amazonLogin(userId, amazonToken) {
-        return new Promise((resolve, reject) => {
-            if (!userId) {
-                return reject({status: 403, message: "Wrong user token."});
-            }
-            if (!amazonToken) {
-                return reject({status: 400, message: "Missing token."});
-            }
-            axios.get("https://api.amazon.com/user/profile?access_token=" + amazonToken).then(res => {
-                UserModel.findByIdAndUpdate(userId, {amazonId: res.data.user_id}, {new: true})
-                    .then(user => {
-                        const token = createToken(user, '1h');
-                        resolve({user, token});
-                    })
-                    .catch(err => reject(ErrorResponses.mongoose(err)));
-            }).catch(err => reject({status: 403, message: "Wrong token."}));
-        });
-    }
-
-    static async amazonLogout(userId, roles) {
-        return new Promise(async (resolve, reject) => {
-
-            if (roles.includes(ROLES.TESTER)) {
-                return reject({status: 403, message: "You can't logout from Amazon and stay Tester."});
-            }
-
-            const user = await UserModel.findByIdAndUpdate(userId, { $unset: { amazonId: 1 } }, { new: true });
-
-            return resolve({ user });
-        });
-    }
-
     static async validationMail(email) {
         return new Promise((resolve, reject) => {
             if (!email) {
