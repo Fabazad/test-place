@@ -65,8 +65,7 @@ const RolesSelectInput = (props) => {
 
 RolesSelectInput.propTypes = {
     onChange: PropTypes.func.isRequired,
-    defaultValue: PropTypes.array.isRequired,
-    name: PropTypes.string.isRequired
+    defaultValue: PropTypes.array.isRequired
 };
 
 export default withTranslation()(RolesSelectInput);

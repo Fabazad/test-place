@@ -21,6 +21,7 @@ import MyInfoForm from "./MyInfoForm";
 import MySellerInfoForm from "./MySellerInfoForm";
 import constants from "../../helpers/constants";
 import MyTesterInfoForm from "./MyTesterInfoForm";
+
 const {USER_ROLES} = constants;
 
 class Profile extends React.Component {
@@ -147,14 +148,18 @@ class Profile extends React.Component {
                                 </CardHeader>
                                 <CardBody>
                                     <MyInfoForm user={user}/>
-                                    
-                                    <hr className="my-4" id='actions-section'/>
+                                    {isUserTester ? (
+                                        <>
+                                            <hr className="my-4" id='actions-section'/>
+                                            <MyTesterInfoForm user={user}/>
+                                        </>) : null}
 
-                                    {isUserTester ? <MyTesterInfoForm user={user}/> : null}
+                                    {isUserSeller ? (
+                                        <>
+                                            <hr className="my-4" id='actions-section'/>
+                                            <MySellerInfoForm user={user}/>
+                                        </>) : null}
 
-                                    <hr className="my-4" id='actions-section'/>
-
-                                    {isUserSeller ? <MySellerInfoForm user={user}/> : null}
                                     <hr className="my-4" id='actions-section'/>
                                     {/* Actions */}
                                     <h6 className="heading-small text-muted mb-4">
