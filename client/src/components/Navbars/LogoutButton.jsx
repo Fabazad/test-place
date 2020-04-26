@@ -19,6 +19,7 @@ class LogoutButton extends React.Component {
                 className="btn-neutral btn-icon"
                 color="default"
                 onClick={() => this.onLogout()}
+                data-testid="logout-button"
             >
             <span className="nav-link-inner--text ml-1">
                 Déconnexion

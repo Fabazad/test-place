@@ -19,7 +19,7 @@ class App extends React.Component {
     render() {
         return (
             <>
-                <ToastContainer/>
+                <ToastContainer data-testid="toast-container"/>
                 <ConfirmModal/>
                 <BrowserRouter>
                     <Switch>

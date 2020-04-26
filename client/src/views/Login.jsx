@@ -51,7 +51,6 @@ class Login extends React.Component {
     const loadingPromise = userService.login(this.state.email, this.state.password).then(res => {
       this.setState({loading: false});
       this.props.history.push('/');
-      toast.success("Connecté !");
     }).catch(() => this.setState({loading: false, password: ''}));
     this.setState({loadingPromise});
   };
@@ -135,6 +134,7 @@ class Login extends React.Component {
                               name="email"
                               value={this.state.email} 
                               onChange={this.handleInputChange}
+                              data-testid="login-email-input"
                               required
                             />
                           </InputGroup>
@@ -153,6 +153,7 @@ class Login extends React.Component {
                               autoComplete="off"
                               value={this.state.password}
                               onChange={this.handleInputChange}
+                              data-testid="login-password-input"
                               required
                             />
                           </InputGroup>
@@ -171,11 +172,7 @@ class Login extends React.Component {
                           </label>
                         </div>
                         <div className="text-center">
-                          <Button
-                            className="my-4"
-                            color="primary"
-                            type="submit"
-                          >
+                          <Button className="my-4" color="primary" type="submit" data-testid="submit-login-button">
                             Connexion
                           </Button>
                         </div>
