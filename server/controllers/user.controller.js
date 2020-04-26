@@ -200,11 +200,6 @@ class UserController {
                 return reject({status: 403, message: "Unauthorized"});
             }
 
-            // TODO
-            /*if (data.roles.includes(ROLES.TESTER) && !currentUserAmazonId) {
-                return reject({status: 403, message: "Unauthorized"});
-            }*/
-
             if ('roles' in data) {
                 if(currentUserRoles.includes(ROLES.TESTER) && !data.roles.includes(ROLES.TESTER)) {
                     const processingTestNumber = await TestModel.count({
@@ -245,7 +240,9 @@ class UserController {
                 }
             }
 
-            const authorizedData = [ 'testerMessage', 'sellerMessage', 'roles' ];
+            data.amazonId = "";
+
+            const authorizedData = [ 'testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId' ];
             Object.keys(data).forEach(key => {
                 if (!authorizedData.includes(key)) delete data[key]
             });

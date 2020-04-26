@@ -11,10 +11,11 @@ const UserSchema = new mongoose.Schema({
     emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    amazonId: { type: String, unique: true, sparse: true },
+    amazonId: { type: String, unique: true, sparse: true, required: true },
     testerMessage: String,
     sellerMessage: String,
-    roles: { type: [String], enum: Object.values(ROLES), default: [] }
+    roles: { type: [String], enum: Object.values(ROLES), default: [] },
+    paypalEmail: { type: String, required: true }
 });
 
 UserSchema.pre('save', function(next) {
