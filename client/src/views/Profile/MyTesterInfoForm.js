@@ -20,13 +20,10 @@ const MyTesterInfoForm = props => {
         e.preventDefault();
         setLoading(true);
 
-        const params = { testerMessage, paypalEmail };
-
-        if (amazonId) {
-            params.amazonId = amazonId.replace(/.*(amzn1\.account\.[A-Z0-9]{28}).*/, "$1");
-        }
-
-        userService.updateUserInfo(userService.currentUser._id, params)
+        userService.updateUserInfo(userService.currentUser._id, {
+            testerMessage,
+            amazonId: amazonId.replace(/.*(amzn1\.account\.[A-Z0-9]{28}).*/, "$1")
+        })
             .catch(() => setLoading(false))
             .then(() => {
                 setLoading(false);
@@ -99,7 +96,7 @@ const MyTesterInfoForm = props => {
                            placeholder="amzn1.account.AHANP57CG4WHEOPW64THE75XXXXX"
                            defaultValue={user.amazonId}
                            onChange={e => setAmazonId(e.target.value)}
-                           id="input-amazon-id"
+                           id="input-amazon-id" required
                     />
                 </FormGroup>
             </div>

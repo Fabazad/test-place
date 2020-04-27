@@ -240,8 +240,6 @@ class UserController {
                 }
             }
 
-            data.amazonId = "";
-
             const authorizedData = [ 'testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId' ];
             Object.keys(data).forEach(key => {
                 if (!authorizedData.includes(key)) delete data[key]

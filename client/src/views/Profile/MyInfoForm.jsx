@@ -1,67 +1,73 @@
-import {Button, Col, Form, FormGroup, Input, Row} from "reactstrap";
+import {Button, Form, FormGroup} from "reactstrap";
 import Loading from "../../components/Loading";
 import Label from "reactstrap/es/Label";
 import RolesSelectInput from "../../components/Forms/RolesSelectInput";
 import userService from "../../services/user.services";
-import InfoPopover from "../../components/InfoPopover";
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {toast} from "react-toastify";
+import TesterInfoModal from "../../components/Modals/TesterInfoModal";
+import constants from "../../helpers/constants";
+
+const {USER_ROLES} = constants;
 
 const MyInfoForm = props => {
-    
+
     const {user} = props;
 
-    const [testerMessage, setTesterMessage] = useState(user.testerMessage);
     const [roles, setRoles] = useState(user.roles);
     const [loading, setLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalCallback, setModalCallback] = useState(null);
 
-    const disabledSave = user.testerMessage === testerMessage && user.roles.join(',') === roles.join(',');
+    const toggleModal = (callback = null) => {
+        setIsOpen(!isOpen);
+        if (callback) {
+            setModalCallback(() => callback);
+        }
+    };
 
-    const handleSubmit = async (e) => {
+    const disabledSave = user.roles.join(',') === roles.join(',');
+
+    const onRoleChange = val => {
+        if (val.includes(USER_ROLES.TESTER) && (!user.paypalEmail || !user.amazonId)) {
+            toggleModal(() => setRoles(val));
+            return;
+        }
+        setRoles(val);
+    };
+
+    const onSubmit = e => {
         e.preventDefault();
         setLoading(true);
 
-        // TODO
-        /*if (roles.includes(USER_ROLES.TESTER) && !userService.getAmazonId()) {
-            toast.error('Pour devenir Testeur, vous devez d\'abord lier votre compte Test-Place à un compte Amazon.');
-            scrollTo('actions-section');
-            setLoading(false);
-            return;
-        }*/
-
-        userService.updateUserInfo(userService.currentUser._id, { testerMessage, roles })
+        userService.updateUserInfo(userService.currentUser._id, {roles})
             .catch(() => setLoading(false))
             .then(() => {
                 setLoading(false);
                 toast.success("Modifications Enregistrées");
             });
     };
-    
+
     return (
-        <Form onSubmit={handleSubmit} className="position-relative">
-            <Loading loading={loading}/>
-            <div>
+        <>
+            <Form onSubmit={onSubmit} className="position-relative">
+                <Loading loading={loading}/>
                 <h6 className="heading-small text-muted mb-4 d-inline-block">
                     Mes Informations
                 </h6>
-                <Button size="sm" color="info" className="float-right" type="submit"
-                        disabled={disabledSave}>
+                <Button size="sm" color="info" className="float-right" type="submit" disabled={disabledSave}>
                     Enregister
                 </Button>
-            </div>
-            <div className="pl-lg-4">
-                <Row>
-                    <Col xs="12">
-                        <FormGroup>
-                            <Label className="form-control-label">Vous êtes ?</Label>
-                            <RolesSelectInput defaultValue={userService.currentUser.roles}
-                                              onChange={val => setRoles(val)} />
-                        </FormGroup>
-                    </Col>
-                </Row>
-            </div>
-        </Form>
+                <div className="pl-lg-4">
+                    <FormGroup>
+                        <Label className="form-control-label">Vous êtes ?</Label>
+                        <RolesSelectInput value={roles} onChange={onRoleChange}/>
+                    </FormGroup>
+                </div>
+            </Form>
+            <TesterInfoModal isOpen={isOpen} toggleModal={toggleModal} onSave={modalCallback}/>
+        </>
     )
 };
 
