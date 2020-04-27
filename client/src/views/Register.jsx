@@ -136,6 +136,7 @@ class Register extends React.Component {
                                                             value={this.state.name}
                                                             onChange={this.handleInputChange}
                                                             required
+                                                            data-testid="signin-name-input"
                                                         />
                                                     </InputGroup>
                                                 </FormGroup>
@@ -153,6 +154,7 @@ class Register extends React.Component {
                                                             value={this.state.email}
                                                             onChange={this.handleInputChange}
                                                             required
+                                                            data-testid="signin-email-input"
                                                         />
                                                     </InputGroup>
                                                 </FormGroup>
@@ -171,6 +173,7 @@ class Register extends React.Component {
                                                             value={this.state.password}
                                                             onChange={this.handleInputChange}
                                                             required
+                                                            data-testid="signin-password-input"
                                                         />
                                                     </InputGroup>
                                                 </FormGroup>
@@ -189,6 +192,7 @@ class Register extends React.Component {
                                                             value={this.state.password2}
                                                             onChange={this.handleInputChange}
                                                             required
+                                                            data-testid="signin-password2-input"
                                                         />
                                                     </InputGroup>
                                                 </FormGroup>
@@ -208,6 +212,7 @@ class Register extends React.Component {
                                                                 id="customCheckRegister"
                                                                 type="checkbox"
                                                                 required
+                                                                data-testid="signin-agree-input"
                                                             />
                                                             <label
                                                                 className="custom-control-label"
@@ -226,6 +231,7 @@ class Register extends React.Component {
                                                         className="mt-4"
                                                         color="primary"
                                                         type="submit"
+                                                        data-testid="signin-submit-button"
                                                     >
                                                         Create account
                                                     </Button>

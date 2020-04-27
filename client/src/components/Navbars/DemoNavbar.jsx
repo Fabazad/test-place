@@ -135,7 +135,7 @@ class DemoNavbar extends React.Component {
                                         }
                                         {!isAuth ? (
                                             <NavItem>
-                                                <NavLink to='/register' tag={Link}
+                                                <NavLink to='/register' tag={Link} data-testid="signin-button"
                                                          className="nav-link-inner--text text-white cursor-pointer">Inscription</NavLink>
                                             </NavItem>) : null
                                         }
