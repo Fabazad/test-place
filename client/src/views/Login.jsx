@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import userService from "services/user.services";
 
 // reactstrap components
 import {
@@ -8,12 +7,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Row,
   Col
@@ -23,7 +16,7 @@ import {
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
 import ResendValidationMailModal from "../components/Modals/ResendValidationMailModal";
-import LoginForm from "../components/Modals/NewTestRequestModal/LoginForm";
+import LoginForm from "../components/Forms/LoginForm";
 
 
 class Login extends React.Component {

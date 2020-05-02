@@ -66,7 +66,7 @@ const MyInfoForm = props => {
                     </FormGroup>
                 </div>
             </Form>
-            <TesterInfoModal isOpen={isOpen} toggleModal={toggleModal} onSave={modalCallback}/>
+            <TesterInfoModal isOpen={isOpen} toggleModal={toggleModal} onSaved={modalCallback}/>
         </>
     )
 };

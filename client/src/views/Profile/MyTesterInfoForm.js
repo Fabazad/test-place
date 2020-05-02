@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Form from "reactstrap/es/Form";
 import Loading from "../../components/Loading";
-import {Button, Col, FormGroup, Input, Row} from "reactstrap";
+import {Button, FormGroup, Input} from "reactstrap";
 import userService from "../../services/user.services";
 import InfoPopover from "../../components/InfoPopover";
 import {toast} from "react-toastify";
@@ -22,6 +22,7 @@ const MyTesterInfoForm = props => {
 
         userService.updateUserInfo(userService.currentUser._id, {
             testerMessage,
+            paypalEmail,
             amazonId: amazonId.replace(/.*(amzn1\.account\.[A-Z0-9]{28}).*/, "$1")
         })
             .catch(() => setLoading(false))
@@ -86,7 +87,9 @@ const MyTesterInfoForm = props => {
                         Identifiant Amazon
                         <InfoPopover className="ml-3">
                             Pour trouver votre identifiant Amazon, allez premièrement sur la page Amazon:<br/>
-                            <a href="https://www.amazon.fr/gp/profile" target="_blank">www.amazon.fr/gp/profile</a>.<br/><br/>
+                            <a href="https://www.amazon.fr/gp/profile" target="_blank" rel="noopener noreferrer">
+                                www.amazon.fr/gp/profile
+                            </a>.<br/><br/>
                             Connectez vous si vous ne l'êtes pas.<br/><br/>
                             Copiez collez dans le champ suivant l'url de la page obtenue.<br/><br/>
                             Ou bien seulement la fin de l'url correspondant à votre identifiant : amzn1.account.XXXXXXXXXXXXXXXXXXXXXXXXXXXX.

@@ -6,12 +6,12 @@ import {
 } from "reactstrap";
 import userServices from '../../../services/user.services';
 import testServices from '../../../services/test.services';
-import {Link} from "react-router-dom";
-import AnimatedError from "../../AnimatedError";
 import constants from "../../../helpers/constants";
 import SentRequest from "./SentRequest";
 import PropTypes from "prop-types";
 import SendRequestForm from "./SendRequestForm";
+import LoginBody from "./LoginBody";
+import BecomeTesterBody from "./BecomeTesterBody";
 
 const {USER_ROLES} = constants;
 
@@ -21,22 +21,34 @@ const NewTestRequestModal = props => {
 
     const {productId, disabled} = props;
 
+    const [isLogged, setIsLogged] = useState(userServices.isAuth());
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [testerMessage, setTesterMessage] = useState(userServices.isAuth() ? currentUser.testerMessage : null);
+    const [testerMessage, setTesterMessage] = useState(isLogged ? currentUser.testerMessage : null);
     const [requestSent, setRequestSent] = useState(false);
+    const [isTester, setIsTester] = useState(isLogged && currentUser.roles.includes(USER_ROLES.TESTER));
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
-        setTesterMessage(userServices.isAuth() ? currentUser.testerMessage : null);
+        setTesterMessage(isLogged ? currentUser.testerMessage : null);
         setRequestSent(false);
     };
 
     const confirmRequest = async () => {
+        if (disabled) return;
         await testServices.create({
-            product: this.props.productId,
-            testerMessage: this.state.testerMessage
+            product: productId,
+            testerMessage
         });
         setRequestSent(true);
+    };
+
+    const renderModalBody = () => {
+        if (requestSent) return <SentRequest/>;
+        if (isLogged) {
+            if (isTester) return <SendRequestForm value={testerMessage} onChange={val => setTesterMessage(val)}/>;
+            return <BecomeTesterBody onSaved={() => setIsTester(true)}/>;
+        }
+        return <LoginBody onLogin={() => setIsLogged(true)}/>;
     };
 
     return (
@@ -56,31 +68,13 @@ const NewTestRequestModal = props => {
                     </button>
                 </div>
                 <div className="modal-body text-center">
-                    {requestSent ? <SentRequest/> : (
-                        <>
-                            {userServices.isAuth() ?
-                                currentUser.roles.includes(USER_ROLES.TESTER) ? (
-                                    <SendRequestForm value={testerMessage} onChange={val => setTesterMessage(val)}/>
-                                ) : null
-                                : (
-                                    <div>
-                                        {/* Logged out case*/}
-                                        <AnimatedError/>
-                                        <p>Vous devez être connecté pour demander à tester un produit.</p>
-                                        <Button color={'primary'} to={'/login'} tag={Link}>Se Connecter</Button>
-                                        <Link to={'/register'} className="ml-3">Créer un compte</Link>
-                                    </div>
-                                )}
-                        </>
-                    )}
-
+                    {renderModalBody()}
                 </div>
                 <div className="modal-footer">
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
                         Fermer
                     </Button>
-                    {userServices.isAuth() && currentUser.amazonId && currentUser.paypalEmail && !requestSent ? (
-                        //TODO add true on local
+                    {isLogged && isTester && !requestSent ? (
                         <Button color={'primary'} type='button' onClick={confirmRequest}>
                             Confirmer la Demande
                         </Button>

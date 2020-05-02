@@ -11,7 +11,7 @@ class InfoPopover extends React.Component {
         return (
             <>
                 <i className={"fa fa-question-circle cursor-pointer " + className } id={"popover" + popoverId}/>
-                <UncontrolledPopover placement="auto" target={"popover" + popoverId}>
+                <UncontrolledPopover placement="auto" target={"popover" + popoverId} trigger="legacy">
                     <PopoverBody className="p-3">
                         { children }
                     </PopoverBody>

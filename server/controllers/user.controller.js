@@ -242,15 +242,18 @@ class UserController {
 
             const authorizedData = [ 'testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId' ];
             Object.keys(data).forEach(key => {
-                if (!authorizedData.includes(key)) delete data[key]
+                if (!authorizedData.includes(key)) delete data[key];
+                if (['paypalEmail', 'amazonId'].includes(key) && !data[key]) {
+                    return reject({status: 400, message: "Can't remove paypalEmail or Amazon Id."});
+                }
             });
 
-            UserModel.findByIdAndUpdate(userId, data, {new: true})
+            UserModel.findByIdAndUpdate(userId, data, { new: true })
                 .then(user => {
                     const token = createToken(user, '1h');
                     resolve({user, token});
                 })
-                .catch(err => ErrorResponses.mongoose(err));
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 

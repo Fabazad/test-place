@@ -1,7 +1,7 @@
 import {Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import React, {useState} from "react";
-import Loading from "../../Loading";
-import userServices from "../../../services/user.services";
+import Loading from "../Loading";
+import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 
 const LoginForm = props => {
@@ -59,7 +59,7 @@ const LoginForm = props => {
                 </label>
             </div>
             <div className="text-center">
-                <Button className="my-4" color="primary" type="submit" data-testid="submit-login-button">
+                <Button className="mt-4" color="primary" type="submit" data-testid="submit-login-button">
                     Connexion
                 </Button>
             </div>
