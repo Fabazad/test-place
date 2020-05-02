@@ -17,6 +17,7 @@ import NewTestRequestModal from "../components/Modals/NewTestRequestModal/NewTes
 import Button from "reactstrap/es/Button";
 import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
+import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 
 class ProductDetail extends React.Component {
 
@@ -211,9 +212,12 @@ class ProductDetail extends React.Component {
                             <Row>
                                 <div className="col-12 mt-5">
                                     <div className="bg-white rounded border p-4">
-                                        <Badge color={'primary'} pill className='badge-lg float-right mb-3'>
-                                            Publication : {product ? formatDate(product.createdAt) : ''}
+                                        <Badge color={'primary'} pill className='badge-lg float-right mb-3' id='publication-badge'>
+                                            {product ? formatDate(product.createdAt) : ''}
                                         </Badge>
+                                        <UncontrolledTooltip placement="top" target="publication-badge">
+                                            Date de Publication
+                                        </UncontrolledTooltip>
                                         <h2>Description</h2>
                                         <p className="text-left mb-0">
                                             <small
