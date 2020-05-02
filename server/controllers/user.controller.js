@@ -58,7 +58,7 @@ class UserController {
                 } else if (!user.emailValidation) {
                     reject({status: 400, message: "The email needs to be validate before."});
                 } else {
-                    user.isCorrectPassword(password, function (err, same) {
+                    user.isCorrectPassword(password, async function (err, same) {
                         if (err) {
                             reject(ErrorResponses.mongoose(err));
                         } else if (!same) {
@@ -66,6 +66,7 @@ class UserController {
                         } else {
                             // Issue token
                             const token = createToken(user, '1h');
+                            await UserModel.findByIdAndUpdate(user._id, { lastLogin: new Date() });
                             resolve({user, token});
                         }
                     });
