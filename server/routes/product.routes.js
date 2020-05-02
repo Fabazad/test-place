@@ -41,7 +41,7 @@ router.get('/:productId', async (request, reply) => {
 
 router.post('/update', withAuth(ROLES.SELLER), async (request, reply) => {
     const { itemId, fields } = request.body;
-    ProductController.update(itemId, fields, request.decoded.userId)
+    ProductController.update(itemId, fields, request.decoded)
         .then((res) => reply.status(200).send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
