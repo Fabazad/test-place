@@ -11,16 +11,13 @@ import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import SeeProductButton from "../Buttons/SeeProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
-import SkeletonProductRow from "./SkeletonProductRow";
 import productServices from "../../services/product.service";
 
 const ProductRow = props => {
-    const {product, loading} = props;
+    const {product} = props;
 
     const published = productServices.isPublished(product);
-    if (loading) {
-        return (<SkeletonProductRow/>)
-    }
+
     return (
         <tr>
             <th scope="row">
@@ -85,8 +82,7 @@ const ProductRow = props => {
 };
 
 ProductRow.propTypes = {
-    product: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
+    product: PropTypes.object.isRequired
 };
 
 export default ProductRow;

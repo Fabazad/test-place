@@ -18,16 +18,14 @@ import productServices from "../../services/product.service";
 
 class MyProductCard extends React.Component {
 
-    componentDidMount() {
-    }
-
     render() {
-        const {product, loading} = this.props;
+        const {product} = this.props;
+
         const published = productServices.isPublished(product);
+
         return (
             <Card className={"card-lift--hover shadow border-0 cursor-pointer"}>
                 <CardBody>
-                    <Loading loading={loading}/>
                     <div style={{'height': '200px'}} className={"text-center"}>
                         <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL} alt=""
                              className={"mw-100 shadow-lg rounded"}
@@ -119,8 +117,7 @@ class MyProductCard extends React.Component {
 }
 
 MyProductCard.propTypes = {
-    product: PropTypes.object.isRequired,
-    loading: PropTypes.bool
+    product: PropTypes.object.isRequired
 };
 
 export default MyProductCard;

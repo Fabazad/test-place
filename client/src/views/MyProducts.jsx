@@ -140,10 +140,7 @@ class MyProducts extends React.Component {
                                     </thead>
                                     <tbody>
                                     {this.state.products.map(product => (
-                                        <ProductRow product={product}
-                                                    loading={this.state.loading}
-                                                    key={'product' + product._id}
-                                        />
+                                        <ProductRow product={product} key={'product' + product._id} />
                                     ))}
                                     </tbody>
                                 </Table>
@@ -151,7 +148,7 @@ class MyProducts extends React.Component {
                                     <div className="row">
                                         {this.state.products.map(product => (
                                             <div className="col-12 col-md-6 my-2" key={"productCard" + product._id}>
-                                                <MyProductCard product={product} loading={this.state.loading}/>
+                                                <MyProductCard product={product}/>
                                             </div>
                                         ))}
                                     </div>
