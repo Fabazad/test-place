@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Button from "reactstrap/es/Button";
 import PropTypes from "prop-types";
-import NewTestRequestModal from "../Modals/NewTestRequestModal";
+import NewTestRequestModal from "../Modals/NewTestRequestModal/NewTestRequestModal";
 import testServices from "../../services/test.services";
 import NewTestModal from "../Modals/NewTestModal";
 import Loading from "../Loading";

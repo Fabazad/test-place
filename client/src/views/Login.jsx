@@ -21,39 +21,12 @@ import {
 
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
-import { toast } from "react-toastify";
 import ForgottenPasswordModal from "components/Modals/ForgottenPasswordModal";
-import Loading from "components/Loading";
 import ResendValidationMailModal from "../components/Modals/ResendValidationMailModal";
+import LoginForm from "../components/Modals/NewTestRequestModal/LoginForm";
 
 
 class Login extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      email : '',
-      password: '',
-      loadingPromise: null
-    };
-  }
-
-  handleInputChange = (event) => {
-    const { value, name } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  onSubmit = (event) => {
-    event.preventDefault();
-    this.setState({loading: true});
-    const loadingPromise = userService.login(this.state.email, this.state.password).then(res => {
-      this.setState({loading: false});
-      this.props.history.push('/');
-    }).catch(() => this.setState({loading: false, password: ''}));
-    this.setState({loadingPromise});
-  };
 
   componentDidMount() {
     document.documentElement.scrollTop = 0;
@@ -80,7 +53,6 @@ class Login extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-                    <Loading promise={this.state.loadingPromise} />
                     <CardHeader className="bg-white pb-5">
                       <div className="text-muted text-center mb-3">
                         <small>Sign in with</small>
@@ -120,63 +92,7 @@ class Login extends React.Component {
                       <div className="text-center text-muted mb-4">
                         <small>Or sign in with credentials</small>
                       </div>
-                      <Form role="form" onSubmit={this.onSubmit}>
-                        <FormGroup className="mb-3">
-                          <InputGroup className="input-group-alternative">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>
-                                <i className="ni ni-email-83" />
-                              </InputGroupText>
-                            </InputGroupAddon>
-                            <Input 
-                              placeholder="Email" 
-                              type="email" 
-                              name="email"
-                              value={this.state.email} 
-                              onChange={this.handleInputChange}
-                              data-testid="login-email-input"
-                              required
-                            />
-                          </InputGroup>
-                        </FormGroup>
-                        <FormGroup>
-                          <InputGroup className="input-group-alternative">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>
-                                <i className="ni ni-lock-circle-open" />
-                              </InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              placeholder="Password"
-                              type="password"
-                              name="password"
-                              autoComplete="off"
-                              value={this.state.password}
-                              onChange={this.handleInputChange}
-                              data-testid="login-password-input"
-                              required
-                            />
-                          </InputGroup>
-                        </FormGroup>
-                        <div className="custom-control custom-control-alternative custom-checkbox">
-                          <input
-                            className="custom-control-input"
-                            id=" customCheckLogin"
-                            type="checkbox"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor=" customCheckLogin"
-                          >
-                            <span>Remember me</span>
-                          </label>
-                        </div>
-                        <div className="text-center">
-                          <Button className="my-4" color="primary" type="submit" data-testid="submit-login-button">
-                            Connexion
-                          </Button>
-                        </div>
-                      </Form>
+                      <LoginForm onLogin={() => this.props.history.push('/')}/>
                       <Row className="mt-2">
                         <Col xs="6">
                           <ForgottenPasswordModal/>

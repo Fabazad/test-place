@@ -13,7 +13,7 @@ import constants from "../helpers/constants";
 import {Link} from "react-router-dom";
 import {formatDate} from "../helpers/textHelpers";
 import Carousel from "../components/Carousel";
-import NewTestRequestModal from "../components/Modals/NewTestRequestModal.jsx";
+import NewTestRequestModal from "../components/Modals/NewTestRequestModal/NewTestRequestModal";
 import Button from "reactstrap/es/Button";
 import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
