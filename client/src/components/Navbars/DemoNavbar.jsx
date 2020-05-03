@@ -147,7 +147,7 @@ class DemoNavbar extends React.Component {
                                             <NavItem>
                                                 <UncontrolledDropdown>
                                                     <DropdownToggle nav>
-                                                        <Badge color="primary" pill>
+                                                        <Badge color="primary" pill className="shadow--hover">
                                                             <i className="ni ni-circle-08 ni-2x"/>
                                                             <div className="mr-2 d-inline-block ml-2 ml-md-0"
                                                                  style={{fontSize: '1.2em', verticalAlign: "super"}}>

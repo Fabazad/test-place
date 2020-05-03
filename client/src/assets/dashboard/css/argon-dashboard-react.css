@@ -9567,9 +9567,6 @@ button.section-darker:focus {
 .shadow-sm--hover:hover {
   box-shadow: 0 0 0.5rem rgba(136, 152, 170, 0.075) !important; }
 
-.shadow--hover:hover {
-  box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important; }
-
 .shadow-lg--hover:hover {
   box-shadow: 0 0 3rem rgba(136, 152, 170, 0.175) !important; }
 

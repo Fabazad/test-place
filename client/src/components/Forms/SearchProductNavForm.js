@@ -11,7 +11,7 @@ const SearchProductNavForm = props => {
 
     const onSubmit = e => {
         e.preventDefault();
-        props.history.push("/search?keyWords=" + searchText)
+        props.history.push("/search?keyWords=" + searchText);
     };
 
     return (
@@ -23,7 +23,7 @@ const SearchProductNavForm = props => {
                     </InputGroupText>
                 </InputGroupAddon>
                 <Input className="form-control-alternative" placeholder="Rechercher un Produit" type="text"
-                       defaultValue={searchText} onChange={e => setSearchText(e.target.value)}/>
+                       defaultValue={searchText} onChange={e => setSearchText(e.target.value)} name="search"/>
             </InputGroup>
         </Form>
     )
