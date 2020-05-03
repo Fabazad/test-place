@@ -31,7 +31,7 @@ class App extends React.Component {
                         <Route path="/dashboard" component={withAuth(DashboardLayout)}/>
                         <Route path="/search" component={anyAuth(Search)}/>
                         <Route path="/ad/:productId" component={anyAuth(ProductDetail)}/>
-                        <Redirect to="/"/>
+                        <Redirect to="/404"/>
                     </Switch>
                 </BrowserRouter>
             </>

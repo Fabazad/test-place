@@ -25,14 +25,13 @@ app.use(decode, function (req, res, next) {
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
-
 const routes = require('./routes');
 routes(app);
 dbConnection();
 
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
 
 app.use(function (req, res, next) {
     console.log(req.url + ' : ' + Date.now());
