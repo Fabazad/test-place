@@ -22,20 +22,27 @@ import MySellerInfoForm from "./MySellerInfoForm";
 import constants from "../../helpers/constants";
 import MyTesterInfoForm from "./MyTesterInfoForm";
 import {toast} from "react-toastify";
+import {scrollTo} from "../../helpers/scrollHelpers";
 
 const {USER_ROLES} = constants;
 
 const Profile = () => {
 
     const [user, setUser] = useState(userService.currentUser);
+    const [firstLogin, setFirstLogin] = useState(!user.lastLogin);
 
     useEffect(() => {
         userService.currentUserSubject.subscribe(setUser);
-        //toast.info("Commencez par indiquer si vous voulez Tester ou Vendre.");
     }, []);
 
     if (!user) {
         return (<Loading/>);
+    }
+
+    if (firstLogin && user.roles.length === 0) {
+        toast.info("Commencez par indiquer si vous voulez Tester ou Vendre.");
+        scrollTo('profile-info-section');
+        setFirstLogin(false);
     }
 
     const isUserSeller = user.roles.includes(USER_ROLES.SELLER);
@@ -117,7 +124,7 @@ const Profile = () => {
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col className="order-xl-1" xl="8" id="profile-info-forms">
+                    <Col className="order-xl-1" xl="8" id="profile-info-section">
                         <Card className="bg-secondary shadow">
                             <CardHeader className="bg-white border-0">
                                 <Row className="align-items-center">
@@ -130,13 +137,13 @@ const Profile = () => {
                                 <MyInfoForm user={user}/>
                                 {isUserTester ? (
                                     <>
-                                        <hr className="my-4" id='actions-section'/>
+                                        <hr className="my-4"/>
                                         <MyTesterInfoForm user={user}/>
                                     </>) : null}
 
                                 {isUserSeller ? (
                                     <>
-                                        <hr className="my-4" id='actions-section'/>
+                                        <hr className="my-4"/>
                                         <MySellerInfoForm user={user}/>
                                     </>) : null}
 

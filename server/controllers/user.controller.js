@@ -267,7 +267,7 @@ class UserController {
                     .then(user => resolve({user, check: true}))
                     .catch(err => reject(ErrorResponses.mongoose(err)))
             } else {
-                resolve({check: true});
+                resolve({ check: true });
             }
         });
     }
