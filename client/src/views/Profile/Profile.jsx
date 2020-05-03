@@ -161,22 +161,6 @@ const Profile = () => {
                                         </Col>
                                     </Row>
                                 </div>
-                                <hr className="my-4"/>
-                                {/* Description */}
-                                <h6 className="heading-small text-muted mb-4">About me</h6>
-                                <div className="pl-lg-4">
-                                    <FormGroup>
-                                        <label>About Me</label>
-                                        <Input
-                                            className="form-control-alternative"
-                                            placeholder="A few words about you ..."
-                                            rows="4"
-                                            defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                          Open Source."
-                                            type="textarea"
-                                        />
-                                    </FormGroup>
-                                </div>
                             </CardBody>
                         </Card>
                     </Col>

@@ -11,6 +11,9 @@ import Button from "reactstrap/es/Button";
 import Alert from "reactstrap/es/Alert";
 import AnswerTestRequestForm from "../Forms/AnswerTestRequestForm";
 import constants from "../../helpers/constants";
+import {getAmazonProfileUrl} from "../../helpers/urlHelpers";
+import Row from "reactstrap/es/Row";
+import Col from "reactstrap/es/Col";
 
 const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
 
@@ -97,13 +100,25 @@ const TestRequestModal = (props) => {
                             </div>
                         </div>
                     </div> : null}
-                    {userType === userTypes.SELLER ? <div className="col-12 col-md-6 mt-3 text-center">
-                        <Label>Testeur</Label>
-                        <a href={'/profile/' + test.tester.id} target='_blank' className='d-block'
-                           rel="noopener noreferrer">
-                            {test.tester.name}
-                        </a>
-                    </div> : null}
+                    {userType === userTypes.SELLER ? (
+                        <div className="col-12 col-md-6 mt-3 text-center">
+                            <Row>
+                                <Col xs={6} className="text-center">
+                                    <Label>Testeur</Label>
+                                    <a href={'/profile/' + test.tester._id} target='_blank' className='d-block'
+                                       rel="noopener noreferrer">
+                                        {test.tester.name}
+                                    </a>
+                                </Col>
+                                <Col xs={6} className="text-center">
+                                    <Label>Amazon</Label>
+                                    <a href={getAmazonProfileUrl(test.tester.amazonId)} target='_blank'
+                                       className='d-block' rel="noopener noreferrer">
+                                        Profile
+                                    </a>
+                                </Col>
+                            </Row>
+                        </div>) : null}
                 </div>
 
                 <div className="row mt-3 bg-white border rounded py-4 shadow">

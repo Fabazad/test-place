@@ -209,7 +209,10 @@ class UserController {
                                 TEST_STATUSES.requested,
                                 TEST_STATUSES.requestAccepted,
                                 TEST_STATUSES.productOrdered,
-                                TEST_STATUSES.productReceived
+                                TEST_STATUSES.productReceived,
+                                TEST_STATUSES.productReviewed,
+                                TEST_STATUSES.reviewValidated
+                                //TODO complete
                             ]
                         },
                         tester: currentUserId
@@ -230,6 +233,7 @@ class UserController {
                                 TEST_STATUSES.productReceived,
                                 TEST_STATUSES.productReviewed,
                                 TEST_STATUSES.reviewValidated
+                                //TODO complete
                             ]
                         },
                         seller: currentUserId

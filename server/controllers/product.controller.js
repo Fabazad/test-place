@@ -1,8 +1,9 @@
 const constants = require("../helpers/constants");
 const Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
+const TestModel = require('../models/test.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
-const {ROLES} = constants;
+const {ROLES, TEST_STATUSES} = constants;
 
 class ProductController {
 
@@ -225,7 +226,13 @@ class ProductController {
     static async update(productId, fields, user) {
         return new Promise((resolve, reject) => {
 
-            if (!user.roles.includes(ROLES.ADMIN)) return reject({status: 403, message: "Unauthorized"});
+            if (!user.roles.includes(ROLES.ADMIN)) {
+                if (!'published' in fields) {
+                    return reject({status: 403, message: "Unauthorized"});
+                } else {
+                    fields = { published: fields.published };
+                }
+            }
 
             ProductModel.findById(productId)
                 .then(product => {
@@ -237,9 +244,7 @@ class ProductController {
                         fields.publishExpirationDate = null;
                         delete fields.published;
                     }
-                    if (!product.updateAuth(user._id, fields, null)) {
-                        return reject({status: 403, message: "Unauthorized"});
-                    }
+
                     ProductModel.findByIdAndUpdate(productId, fields)
                         .then(resolve)
                         .catch(err => reject(ErrorResponses.mongoose(err)));
@@ -248,19 +253,41 @@ class ProductController {
     }
 
     static async delete(productId, userId) {
-        return new Promise((resolve, reject) => {
-            ProductModel.findById(productId)
-                .then(product => {
-                    if (!product) {
-                        return reject({status: 400, message: "Wrong product id"});
-                    }
-                    if (product.seller.toString() !== userId) {
-                        return reject({status: 401, message: "Unauthorized"});
-                    }
-                    ProductModel.findByIdAndDelete(productId)
-                        .then(resolve)
-                        .catch(err => reject(ErrorResponses.mongoose(err)));
-                }).catch(err => reject(ErrorResponses.mongoose(err)));
+        return new Promise(async (resolve, reject) => {
+
+            const [inProgressTestsNumber, product] = await Promise.all([
+                TestModel.count({
+                    product: productId,
+                    status: {
+                        $in: [
+                            TEST_STATUSES.requested,
+                            TEST_STATUSES.requestAccepted,
+                            TEST_STATUSES.productOrdered,
+                            TEST_STATUSES.productReceived,
+                            TEST_STATUSES.productReviewed,
+                            TEST_STATUSES.reviewValidated
+                            //TODO complete (put in constant, like IN_PROGRESS_TEST_STATUSES)
+                        ]
+                    },
+                }),
+                ProductModel.findById(productId)
+            ]);
+
+            if (inProgressTestsNumber) {
+                return reject({status: 403, message: "You have to finish to precess all your tests before removing the product."});
+            }
+
+            if (!product) {
+                return reject({status: 400, message: "Wrong product id"});
+            }
+
+            if (product.seller.toString() !== userId) {
+                return reject({status: 401, message: "Unauthorized"});
+            }
+
+            ProductModel.findByIdAndDelete(productId)
+                .then(resolve)
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 }

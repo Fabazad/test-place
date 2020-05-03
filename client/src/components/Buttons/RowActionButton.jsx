@@ -17,8 +17,7 @@ const RowActionButton = props => {
     return (
         <>
             <Button color={color} className="d-block d-lg-none w-100 text-center mx-0 my-1" onClick={handleClick}>
-                <i className={"m-auto fa-lg " + icon}/>
-                <span className="ml-2">{title}</span>
+                <span>{title}</span>
             </Button>
             <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
                 <Badge pill className="badge-circle w-100 h-100" color={color} id={"show-" + tooltipId} tag={Link}
