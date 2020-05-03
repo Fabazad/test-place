@@ -61,7 +61,7 @@ class Dashboard extends React.Component {
                     routes={this.state.routes}
                 />
                 <div className="main-content" ref="mainContent">
-                    <Switch>{this.getRoutes(this.state.routes)}</Switch>
+                    <Switch>{this.getRoutes(routes)}</Switch>
                     <Container fluid>
                         <SimpleFooter/>
                     </Container>

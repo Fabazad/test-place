@@ -6,7 +6,9 @@ import PropTypes from "prop-types";
 
 const LoginBody = props => {
 
-    const {onLogin}= props;
+    const onLogin = () => {
+        if (props.onLogin) props.onLogin();
+    };
 
     return (
         <>
@@ -22,7 +24,7 @@ const LoginBody = props => {
 };
 
 LoginBody.propTypes = {
-    onLogin: PropTypes.func.isRequired
+    onLogin: PropTypes.func
 };
 
 export default LoginBody;

@@ -89,10 +89,6 @@ class UserService extends BaseService {
         return this.currentUser !== undefined;
     }
 
-    getAmazonId() {
-        return this.currentUser.amazonId;
-    }
-
     hasRole(role) {
         if (this.isAuth() && this.currentUser.roles) {
             return this.currentUser.roles.reduce((prev, currentRole) => {

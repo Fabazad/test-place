@@ -18,24 +18,20 @@ const MyInfoForm = props => {
     const [roles, setRoles] = useState(user.roles);
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [modalCallback, setModalCallback] = useState(null);
 
-    const toggleModal = (callback = null) => {
-        setIsOpen(!isOpen);
-        if (callback) {
-            setModalCallback(() => callback);
-        }
-    };
+    const toggleModal = () => setIsOpen(!isOpen);
 
     const disabledSave = user.roles.join(',') === roles.join(',');
 
     const onRoleChange = val => {
         if (val.includes(USER_ROLES.TESTER) && (!user.paypalEmail || !user.amazonId)) {
-            toggleModal(() => setRoles(val));
+            toggleModal();
             return;
         }
         setRoles(val);
     };
+
+    const onTesterInfoSaved = () => setRoles(roles.concat([USER_ROLES.TESTER]));
 
     const onSubmit = e => {
         e.preventDefault();
@@ -62,11 +58,11 @@ const MyInfoForm = props => {
                 <div className="pl-lg-4">
                     <FormGroup>
                         <Label className="form-control-label">Vous êtes ?</Label>
-                        <RolesSelectInput value={roles} onChange={onRoleChange}/>
+                        <RolesSelectInput defaultValue={roles} onChange={onRoleChange}/>
                     </FormGroup>
                 </div>
             </Form>
-            <TesterInfoModal isOpen={isOpen} toggleModal={toggleModal} onSaved={modalCallback}/>
+            <TesterInfoModal isOpen={isOpen} toggleModal={toggleModal} onSaved={onTesterInfoSaved}/>
         </>
     )
 };

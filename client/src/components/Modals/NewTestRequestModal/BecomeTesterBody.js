@@ -10,7 +10,9 @@ const {USER_ROLES} = constants;
 
 const BecomeTesterBody = props => {
 
-    const {onSaved} = props;
+    const onSaved = () => {
+        if(props.onSaved) props.onSaved();
+    };
 
     const [loading, setLoading] = useState(false);
 
@@ -39,7 +41,7 @@ const BecomeTesterBody = props => {
                         Vous devez d'abord remplir une première fois ces informations pour pouvoir tester.
                     </p>
                     <div className="bg-secondary rounded p-3 shadow">
-                        <TesterInfoForm onSaved={onSaved} btnText="Devenir Testeur"/>
+                        <TesterInfoForm onSaved={onSaved} btnText="Devenir Testeur" addRole={true}/>
                     </div>
                 </>
             )}
@@ -48,7 +50,7 @@ const BecomeTesterBody = props => {
 };
 
 BecomeTesterBody.propTypes = {
-    onSaved: PropTypes.func.isRequired
+    onSaved: PropTypes.func
 };
 
 export default BecomeTesterBody;

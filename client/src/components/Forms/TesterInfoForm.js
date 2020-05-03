@@ -12,6 +12,7 @@ const {USER_ROLES} = constants;
 const TesterInfoForm = props => {
 
     const btnText = props.btnText ? props.btnText : "Enregistrer";
+    const addRole = !!props.addRole;
     const user = userService.currentUser;
 
     const [paypalEmail, setPaypalEmail] = useState(user.paypalEmail);
@@ -21,11 +22,13 @@ const TesterInfoForm = props => {
     const onSubmit = async e => {
         e.preventDefault();
         setLoading(true);
-        userService.updateUserInfo(user._id, {
+        const params = {
             paypalEmail,
-            amazonId: amazonId.replace(/.*(amzn1\.account\.[A-Z0-9]{28}).*/, "$1"),
-            roles: user.roles.concat([USER_ROLES.TESTER])
-        })
+            amazonId: amazonId.replace(/.*(amzn1\.account\.[A-Z0-9]{28}).*/, "$1")
+        };
+        if (addRole) params.roles =  user.roles.concat([USER_ROLES.TESTER]);
+
+        userService.updateUserInfo(user._id, params)
             .then(() => {
                 setLoading(false);
                 props.onSaved();
@@ -84,7 +87,8 @@ const TesterInfoForm = props => {
 
 TesterInfoForm.propTypes = {
     onSaved: PropTypes.func.isRequired,
-    btnText: PropTypes.string
+    btnText: PropTypes.string,
+    addRole: PropTypes.bool
 };
 
 export default TesterInfoForm;

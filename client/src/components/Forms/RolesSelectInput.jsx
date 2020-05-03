@@ -10,7 +10,9 @@ const {USER_ROLES} = constants;
 
 const RolesSelectInput = (props) => {
 
-    const {onChange, t, value} = props;
+    const {onChange, t, defaultValue} = props;
+
+    const [value, setValue] = useState(defaultValue);
 
     const togglePill = (e, val) => {
         e.preventDefault();
@@ -18,6 +20,7 @@ const RolesSelectInput = (props) => {
         if (newValues.length) {
             newValues.sort();
         }
+        setValue(newValues);
         onChange(newValues);
     };
 
@@ -62,7 +65,7 @@ const RolesSelectInput = (props) => {
 
 RolesSelectInput.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.array.isRequired
+    defaultValue: PropTypes.array
 };
 
 export default withTranslation()(RolesSelectInput);

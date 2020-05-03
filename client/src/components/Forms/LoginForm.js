@@ -47,7 +47,7 @@ const LoginForm = props => {
                         </InputGroupText>
                     </InputGroupAddon>
                     <Input placeholder="Password" type="password" name="password" autoComplete="off"
-                           defaultValue={password} onChange={e => setPassword(e.target.value)}
+                           value={password} onChange={e => setPassword(e.target.value)}
                            data-testid="login-password-input" required
                     />
                 </InputGroup>
@@ -55,7 +55,7 @@ const LoginForm = props => {
             <div className="custom-control custom-control-alternative custom-checkbox">
                 <input className="custom-control-input" id=" customCheckLogin" type="checkbox"/>
                 <label className="custom-control-label" htmlFor=" customCheckLogin">
-                    <span>Remember me</span>
+                    <span>Se souvenir de moi</span>
                 </label>
             </div>
             <div className="text-center">

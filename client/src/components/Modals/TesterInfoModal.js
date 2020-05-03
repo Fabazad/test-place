@@ -8,7 +8,7 @@ const TesterInfoModal = props => {
 
     const {isOpen, toggleModal} = props;
 
-    const onSaved = async e => {
+    const onSaved = () => {
         props.onSaved();
         toggleModal();
     };

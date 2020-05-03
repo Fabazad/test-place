@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import userServices from "../services/user.services";
 
 // reactstrap components
 import {
@@ -25,6 +26,14 @@ class Login extends React.Component {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+  }
+
+  onLogin() {
+    if (userServices.currentUser && userServices.currentUser.lastLogin) {
+      this.props.history.push('/');
+    } else {
+      this.props.history.push('/dashboard/my-profile#first-login');
+    }
   }
 
   render() {
@@ -85,7 +94,7 @@ class Login extends React.Component {
                       <div className="text-center text-muted mb-4">
                         <small>Or sign in with credentials</small>
                       </div>
-                      <LoginForm onLogin={() => this.props.history.push('/')}/>
+                      <LoginForm onLogin={() => this.onLogin()}/>
                       <Row className="mt-2">
                         <Col xs="6">
                           <ForgottenPasswordModal/>

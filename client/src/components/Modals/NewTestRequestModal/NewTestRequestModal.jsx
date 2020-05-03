@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 // reactstrap components
 import {
     Button,
@@ -17,19 +17,24 @@ const {USER_ROLES} = constants;
 
 const NewTestRequestModal = props => {
 
-    const currentUser = userServices.currentUser;
-
     const {productId, disabled} = props;
 
-    const [isLogged, setIsLogged] = useState(userServices.isAuth());
+    const isLogged = userServices.isAuth();
+
+    const [user, setUser] = useState(userServices.currentUser);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [testerMessage, setTesterMessage] = useState(isLogged ? currentUser.testerMessage : null);
+    const [testerMessage, setTesterMessage] = useState(isLogged ? user.testerMessage : null);
     const [requestSent, setRequestSent] = useState(false);
-    const [isTester, setIsTester] = useState(isLogged && currentUser.roles.includes(USER_ROLES.TESTER));
+
+    const isTester = isLogged && user.roles.includes(USER_ROLES.TESTER);
+
+    useEffect(() => {
+        userServices.currentUserSubject.subscribe(setUser);
+    }, []);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
-        setTesterMessage(isLogged ? currentUser.testerMessage : null);
+        setTesterMessage(isLogged ? user.testerMessage : null);
         setRequestSent(false);
     };
 
@@ -45,10 +50,10 @@ const NewTestRequestModal = props => {
     const renderModalBody = () => {
         if (requestSent) return <SentRequest/>;
         if (isLogged) {
-            if (isTester) return <SendRequestForm value={testerMessage} onChange={val => setTesterMessage(val)}/>;
-            return <BecomeTesterBody onSaved={() => setIsTester(true)}/>;
+            if (isTester) return <SendRequestForm value={testerMessage ?? ''} onChange={val => setTesterMessage(val)}/>;
+            return <BecomeTesterBody/>;
         }
-        return <LoginBody onLogin={() => setIsLogged(true)}/>;
+        return <LoginBody/>;
     };
 
     return (
