@@ -34,11 +34,7 @@ class Search extends React.Component {
         this.searchProducts = this.searchProducts.bind(this);
     }
 
-    componentDidMount() {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.refs.main.scrollTop = 0;
-
+    getSearchParamsFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const searchEngineData = {
             minPrice: urlParams.has('minPrice') ? urlParams.get('minPrice') : '',
@@ -51,6 +47,22 @@ class Search extends React.Component {
         };
         searchEngineData.page = this.state.searchEngineData.page;
         this.setState({searchEngineData}, this.searchProducts);
+    }
+
+    componentDidMount() {
+        document.documentElement.scrollTop = 0;
+        document.scrollingElement.scrollTop = 0;
+        this.refs.main.scrollTop = 0;
+
+        this.getSearchParamsFromUrl();
+    }
+
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.location.search !== this.props.location.search) {
+            this.getSearchParamsFromUrl();
+        }
     }
 
     onSearch(searchData) {

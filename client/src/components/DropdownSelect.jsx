@@ -57,7 +57,7 @@ class DropdownSelect extends React.Component {
 
                     {this.props.options.map((option, i) => (
                         <DropdownItem onClick={() => this.onSelectItem(option)}
-                                      key={option.value}
+                                      key={option.value + i}
                                       className={"cursor-pointer" + (this.state.option && this.state.option.value === option.value ? ' selected' : '')}>
                             {t(option.text)}
                         </DropdownItem>

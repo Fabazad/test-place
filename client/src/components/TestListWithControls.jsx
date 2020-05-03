@@ -15,6 +15,7 @@ import CardSkeleton from "./Cards/CardSkeleton";
 import TestRow from "./Rows/TestRow";
 import TestRequestModal from "./Modals/TestRequestModal";
 import OrderedProductModal from "./Modals/OrderedProductModal";
+import {scrollTop} from "../helpers/scrollHelpers";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -42,7 +43,7 @@ const TestListWithControls = props => {
             asTester: userRole === USER_ROLES.TESTER
         };
 
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        scrollTop();
 
         testsServices.find({searchData})
             .then(testSearch => {
@@ -139,7 +140,7 @@ const TestListWithControls = props => {
                             <>
                                 {tests.map((test, i) => (
                                     <TestRow test={test} userRole={userRole} globalStatus={globalStatus}
-                                             key={'test-row' + i} onClick={onActionClick}/>
+                                             key={'test-row-' + i} onClick={onActionClick}/>
                                 ))}
                             </>)}
 
@@ -167,8 +168,8 @@ const TestListWithControls = props => {
 
                         </div>
                     </div>
-
                 </CardBody>
+
                 <CardFooter className="py-4">
                     <div className="d-none d-md-block float-left">
                         <DropdownSelect onChange={(e) => setItemsPerPage(e.target.value)} name="itemsPerPage"
@@ -190,8 +191,7 @@ const TestListWithControls = props => {
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
                         test={selectedTest} userType={userRole}/>
                     <OrderedProductModal
-                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]}
-                        test={selectedTest}
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
                 </>
             ) : null}

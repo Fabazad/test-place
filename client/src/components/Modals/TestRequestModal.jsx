@@ -164,7 +164,7 @@ const TestRequestModal = (props) => {
                                    rel="noopener noreferrer"> Lien
                                     Produit</a>.<br/>
                                 Indiquez au vendeur lorsque vous commandez sur votre page
-                                <Link to='' target='_blank' rel="noopener noreferrer"> Mes Tests en Cours</Link>.<br/>
+                                <Link to='/dashboard/my-current-tests'> Mes Tests en Cours</Link>.<br/>
                                 Recevez votre colis, testez le, notez le et recevez votre compensation financière de la
                                 part du vendeur.
                             </Alert>
@@ -175,7 +175,7 @@ const TestRequestModal = (props) => {
                             <Alert color="success">
                                 Attendez que le testeur achète et test le produit.<br/>
                                 Vous pouvez suivre l'avancer du test sur votre page
-                                <Link to='' target='_blank' rel="noopener noreferrer"> Mes Tests en Cours</Link>.
+                                <Link to={'/dashboard/my-current-tests'}> Mes Tests en Cours</Link>.
                             </Alert>
                         </div> : null}
                     {test.status === statuses['requested'] && userTypes.TESTER === userType ?

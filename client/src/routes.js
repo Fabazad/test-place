@@ -43,7 +43,7 @@ const routes = [
   },
   {
     path: "/my-current-tests",
-    name: "Demandes en Cours",
+    name: "Mes Tests en Cours",
     icon: "far fa-arrow-alt-circle-right text-pink",
     component: MyCurrentTests,
     layout: "/dashboard",

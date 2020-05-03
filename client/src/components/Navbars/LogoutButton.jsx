@@ -1,7 +1,6 @@
 import React from "react";
 
 // reactstrap components
-import {Button} from "reactstrap";
 import {toast} from "react-toastify";
 import userServices from "services/user.services";
 
@@ -15,16 +14,9 @@ class LogoutButton extends React.Component {
 
     render() {
         return (
-            <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                onClick={() => this.onLogout()}
-                data-testid="logout-button"
-            >
-            <span className="nav-link-inner--text ml-1">
-                Déconnexion
+            <span className="nav-link-inner--text" onClick={() => this.onLogout()} data-testid="logout-button">
+                <i className="fa fa-sign-out-alt mr-3 text-danger"/>Déconnexion
             </span>
-            </Button>
         );
     }
 }

@@ -15,7 +15,7 @@ const DeleteProductButton = props => {
             productServices.delete(productId)
                 .then(() => {
                     productServices.productsUpdatedSubject.next();
-                    toast.success("Le produit a été supprimé");
+                    toast.success("Le produit a été supprimé.");
                 });
         });
     };

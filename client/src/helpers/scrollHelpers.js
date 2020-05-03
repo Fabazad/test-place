@@ -6,3 +6,7 @@ export const scrollTo = (elementId , rep = 0) => {
         setTimeout(() => scrollTo(elementId, rep++), 100);
     }
 };
+
+export const scrollTop = () => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+};

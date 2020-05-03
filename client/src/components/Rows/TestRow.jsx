@@ -127,13 +127,13 @@ const TestRow = props => {
                                     ) : null}
                                     {test.status === statuses["productOrdered"] ? (
                                         <RowActionButton
-                                            title="Produit reçu" icon="fa fa-box-open" color="warning"
+                                            title="Produit Reçu" icon="fa fa-box-open" color="warning"
                                             onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED)}/>
                                     ) : null}
 
                                     {test.status === statuses["productReceived"] ? (
                                         <RowActionButton
-                                            title="Produit noté" icon="fa fa-star" color="warning"
+                                            title="Produit Noté" icon="fa fa-star" color="warning"
                                             onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}/>
                                     ) : null}
                                 </>
