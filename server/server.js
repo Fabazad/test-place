@@ -23,7 +23,7 @@ app.use(decode, function (req, res, next) {
     next();
 });
 
-app.use('/*', express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 const routes = require('./routes');
 routes(app);
