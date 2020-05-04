@@ -125,7 +125,7 @@ const DemoNavbar = props => {
                                                         </div>
                                                     </Badge>
                                                 </DropdownToggle>
-                                                <DropdownMenu className='w-200px'>
+                                                <DropdownMenu className='w-250px'>
                                                     {routes.map(route => (
                                                         <DropdownItem to={route.layout + route.path} tag={Link}
                                                                       key={'route' + route.path}>

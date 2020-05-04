@@ -8,7 +8,7 @@ import TestStatusIcon from "../TestStatusIcon";
 import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
 import RowActionButton from "../Buttons/RowActionButton";
 import testServices from "../../services/test.services";
-import {getProductAmazonUrl} from "../../helpers/urlHelpers";
+import {getAmazonProfileUrl, getProductAmazonUrl} from "../../helpers/urlHelpers";
 import confirmHelper from "../../helpers/confirmHelper";
 import {toast} from "react-toastify";
 
@@ -34,7 +34,7 @@ const TestRow = props => {
             .then(() => {
                 testServices.testsSubject.next();
                 toast.success(successToast)
-            })
+            });
     };
 
     const confirmAction = action => {
@@ -48,6 +48,11 @@ const TestRow = props => {
                 text: "Vous êtes sur le point de confirmer que vous avez bien noté le produit sur Amazon.",
                 status: statuses['productReviewed'],
                 successTest: "Produit enregistré comme noté."
+            },
+            [TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED]: {
+                text: "Vous allez confirmer que le Testeur a bien laissé un avis validé par Amazon et qu'il correspond à vos attentes.",
+                status: statuses['reviewValidated'],
+                successTest: "Avis Validé."
             }
         };
 
@@ -111,7 +116,7 @@ const TestRow = props => {
                     {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING ? (
                         <>
                             <RowActionButton color={'info'} icon='fa fa-eye' title={'Voir'}
-                                onClick={() => handleClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
+                                             onClick={() => handleClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
 
                             {userRole === USER_ROLES.TESTER ? (
                                 <>
@@ -139,9 +144,25 @@ const TestRow = props => {
                                 </>
                             ) : null}
 
+                            {userRole === USER_ROLES.SELLER ? (
+                                <>
+                                    {test.status === statuses["productReviewed"] ? (
+                                        <>
+                                            <RowActionButton
+                                                title="Profil Amazon" icon="fab fa-amazon" color="default"
+                                                onClick={() => window.open(getAmazonProfileUrl(test.tester.amazonId), '_blank')}/>
+                                            <RowActionButton title="Refuser l'Avis" icon="fa fa-thumbs-down"
+                                                             color="danger" onClick={() => console.log("test")}/>
+                                            <RowActionButton
+                                                title="Valider l'Avis" icon="fa fa-thumbs-up" color="success"
+                                                onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED)}/>
+                                        </>
+                                    ) : null}
+                                </>
+                            ) : null}
+
                         </>
                     ) : null}
-
 
                 </div>
             </td>

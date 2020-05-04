@@ -9526,7 +9526,7 @@ textarea[resize="horizontal"] {
       display: block;
       height: 16px;
       width: 16px;
-      left: 20px;
+      left: 80px;
       position: absolute;
       bottom: 100%;
       transform: rotate(-45deg) translateY(1rem);
