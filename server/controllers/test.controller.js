@@ -25,6 +25,7 @@ class TestController {
             }
             testData.tester = userId;
             testData.seller = product.seller._id.toString();
+            testData.product = product;
 
             // Automatic Acceptance
             if ('status' in testData && testData.status === constants.TEST_STATUSES.requestAccepted) {
@@ -80,7 +81,7 @@ class TestController {
             const sort = {'createdAt': 1};
 
             const searchQuery = {};
-            const populateList = ['product'];
+            const populateList = [];
             if (statuses && statuses.length) {
                 searchQuery.status = {$in: statuses};
             }

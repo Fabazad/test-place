@@ -1,5 +1,6 @@
 const constants = require("../helpers/constants");
 const mongoose = require('mongoose');
+const productModel = require("../models/product.model");
 
 const updateObject = {
     date: { type: Date, required: true, default: new Date() },
@@ -7,7 +8,7 @@ const updateObject = {
 };
 
 const testObject = {
-    product: { type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'Product'},
+    product: productModel.schema,
     seller: { type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User' },
     tester: { type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User' },
     status: { type: String, enum: Object.values(constants.TEST_STATUSES), required: true },

@@ -255,27 +255,7 @@ class ProductController {
     static async delete(productId, userId) {
         return new Promise(async (resolve, reject) => {
 
-            const [inProgressTestsNumber, product] = await Promise.all([
-                TestModel.count({
-                    product: productId,
-                    status: {
-                        $in: [
-                            TEST_STATUSES.requested,
-                            TEST_STATUSES.requestAccepted,
-                            TEST_STATUSES.productOrdered,
-                            TEST_STATUSES.productReceived,
-                            TEST_STATUSES.productReviewed,
-                            TEST_STATUSES.reviewValidated
-                            //TODO complete (put in constant, like IN_PROGRESS_TEST_STATUSES)
-                        ]
-                    },
-                }),
-                ProductModel.findById(productId)
-            ]);
-
-            if (inProgressTestsNumber) {
-                return reject({status: 403, message: "You have to finish to precess all your tests before removing the product."});
-            }
+            const product = await ProductModel.findById(productId);
 
             if (!product) {
                 return reject({status: 400, message: "Wrong product id"});

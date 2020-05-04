@@ -9,9 +9,9 @@ import {textSlice, formatDate} from '../../helpers/textHelpers';
 import PublishProductButton from "../Buttons/PublishProductButton";
 import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
-import SeeProductButton from "../Buttons/SeeProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 import productServices from "../../services/product.service";
+import {Link} from "react-router-dom";
 
 const ProductRow = props => {
     const {product} = props;
@@ -28,9 +28,9 @@ const ProductRow = props => {
                         />
                     </div>
                     <Media>
-                            <span className="mb-0 text-sm">
-                                {textSlice(product.title, 25)}
-                            </span>
+                        <Link className="mb-0 text-sm" to={'/ad/' + product._id}>
+                            {textSlice(product.title, 25)}
+                        </Link>
                     </Media>
                 </Media>
             </th>
@@ -45,16 +45,14 @@ const ProductRow = props => {
             <th>
                 {published ? (
                     <>
-                        <Badge color={'success'}
-                               className={'badge-circle badge-lg text-center p-0'} pill>
+                        <Badge color='success' className={'badge-circle badge-lg text-center p-0'} pill>
                             <i className="ni ni-check-bold m-auto"/>
                         </Badge>
                         <span
                             className="ml-2 text-muted">{formatDate(product.publishExpirationDate)}</span>
                     </>
                 ) : (
-                    <Badge color={'danger'}
-                           className={'badge-circle badge-lg text-center p-0'} pill>
+                    <Badge color='danger' className={'badge-circle badge-lg text-center p-0'} pill>
                         <i className="ni ni-fat-remove m-auto ni-lg"/>
                     </Badge>
                 )}
@@ -65,7 +63,6 @@ const ProductRow = props => {
                     {published ? (
                         <>
                             <UnpublishProductButton productId={product._id}/>
-                            <SeeProductButton productId={product._id}/>
                         </>
                     ) : (
                         <>

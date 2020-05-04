@@ -7,14 +7,13 @@ import {
 import PropTypes from "prop-types";
 import {textSlice, formatDate} from '../../helpers/textHelpers';
 import constants from "../../helpers/constants";
-import Loading from "../Loading";
 import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import PublishProductButton from "../Buttons/PublishProductButton";
 import EditProductModal from "../Modals/EditProductModal";
-import SeeProductButton from "../Buttons/SeeProductButton";
 import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 import productServices from "../../services/product.service";
+import {Link} from "react-router-dom";
 
 class MyProductCard extends React.Component {
 
@@ -32,9 +31,11 @@ class MyProductCard extends React.Component {
                              style={{'maxHeight': '200px'}}/>
                     </div>
                     <div style={{height: '58px'}}>
-                        <h5 className="text-primary mt-4">
-                            {product ? textSlice(product.title, 80) : ''}
-                        </h5>
+                        <Link to={'/ad/' + product._id}>
+                            <h5 className="text-primary mt-4">
+                                {product ? textSlice(product.title, 80) : ''}
+                            </h5>
+                        </Link>
                     </div>
                     <Row className='mt-3'>
                         <div className="col-6 text-center">
@@ -99,7 +100,6 @@ class MyProductCard extends React.Component {
                         {published ? (
                             <>
                                 <div className="col-6 pr-1"><UnpublishProductButton productId={product._id}/></div>
-                                <div className="col-6 pl-1"><SeeProductButton productId={product._id}/></div>
                             </>
                         ) : (
                             <>
