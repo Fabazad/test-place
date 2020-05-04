@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 // reactstrap components
 import {Container} from "reactstrap";
 // core components
@@ -61,7 +61,10 @@ class Dashboard extends React.Component {
                     routes={this.state.routes}
                 />
                 <div className="main-content" ref="mainContent">
-                    <Switch>{this.getRoutes(routes)}</Switch>
+                    <Switch>
+                        {this.getRoutes(routes)}
+                        <Redirect to="/404"/>
+                    </Switch>
                     <Container fluid>
                         <SimpleFooter/>
                     </Container>
