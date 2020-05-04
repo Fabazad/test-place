@@ -1,12 +1,11 @@
 const constants = require("../helpers/constants");
 const Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
-const TestModel = require('../models/test.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
-const {ROLES, TEST_STATUSES} = constants;
+const {ROLES} = constants;
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class ProductController {
-
     static async scrapFromAsin(asin) {
         return new Promise(async (resolve, reject) => {
             const product = await ProductModel.findOne({asin});
@@ -217,8 +216,14 @@ class ProductController {
 
     static async getOne(productId, userId) {
         return new Promise((resolve, reject) => {
+            if (!ObjectId.isValid(productId)) {
+                return reject({status: 400, message: 'Not a product id'});
+            }
             ProductModel.findById(productId).populate('seller')
-                .then(resolve)
+                .then(product => {
+                    if (product) resolve(product);
+                    else return reject({status: 404, message: 'Couldn\'t find product'});
+                })
                 .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }

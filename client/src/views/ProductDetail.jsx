@@ -31,7 +31,9 @@ class ProductDetail extends React.Component {
 
     componentDidMount() {
         const {productId} = this.props.match.params;
-        productServices.getOne(productId).then(product => this.setState({product}));
+        productServices.getOne(productId)
+            .then(product => this.setState({product}))
+            .catch(() => this.props.history.push("/404"));
         productServices.getProductCategories().then(categories => this.setState({categories}));
     }
 

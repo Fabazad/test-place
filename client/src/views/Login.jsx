@@ -57,7 +57,7 @@ class Login extends React.Component {
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white pb-5">
                       <div className="text-muted text-center mb-3">
-                        <small>Se connecter avec</small>
+                        <small>Se connecter</small>
                       </div>
                       <div className="btn-wrapper text-center">
                         <Button
@@ -91,11 +91,8 @@ class Login extends React.Component {
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
-                      <div className="text-center text-muted mb-4">
-                        <small>Ou se connecter avec ses identifiants</small>
-                      </div>
                       <LoginForm onLogin={() => this.onLogin()}/>
-                      <Row className="mt-2">
+                      <Row className="mt-4">
                         <Col xs="6">
                           <ForgottenPasswordModal/>
                         </Col>

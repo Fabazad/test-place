@@ -16,6 +16,7 @@ import TestRow from "./Rows/TestRow";
 import TestRequestModal from "./Modals/TestRequestModal";
 import OrderedProductModal from "./Modals/OrderedProductModal";
 import {scrollTop} from "../helpers/scrollHelpers";
+import Col from "reactstrap/es/Col";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -147,6 +148,13 @@ const TestListWithControls = props => {
                         </tbody>
                     </Table>
 
+
+                    {tests && !tests.length && !loading ? (
+                        <div className="p-5 w-100 text-center">
+                            <img src={require('assets/img/undraws/empty.svg')} alt="" style={{maxWidth: "300px"}} className="w-100"/>
+                        </div>
+                    ) : null}
+
                     <div className="container d-block d-lg-none">
                         <div className="row">
                             {!tests || loading ? (
@@ -165,7 +173,6 @@ const TestListWithControls = props => {
                                         </div>
                                     ))}
                                 </>)}
-
                         </div>
                     </div>
                 </CardBody>
