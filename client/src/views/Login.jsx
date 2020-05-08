@@ -55,7 +55,7 @@ class Login extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-white pb-5">
+                    <CardHeader className="bg-white pb-4">
                       <div className="text-muted text-center mb-3">
                         <small>Se connecter</small>
                       </div>
@@ -90,7 +90,7 @@ class Login extends React.Component {
                         </Button>
                       </div>
                     </CardHeader>
-                    <CardBody className="px-lg-5 py-lg-5">
+                    <CardBody className="p-lg-4">
                       <LoginForm onLogin={() => this.onLogin()}/>
                       <Row className="mt-4">
                         <Col xs="6">

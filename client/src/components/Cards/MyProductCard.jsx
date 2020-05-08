@@ -96,19 +96,19 @@ class MyProductCard extends React.Component {
                             <h4 className="mt-1">{product.maxDemands - product.remainingRequests} / {product.maxDemands}</h4>
                         </div>
                     </div>
-                    <div className="row mt-3">
+                    <div className="row mt-3 px-3">
                         {published ? (
                             <>
-                                <div className="col-6 pr-1"><UnpublishProductButton productId={product._id}/></div>
+                                <div className="col-6 px-1"><UnpublishProductButton productId={product._id}/></div>
                             </>
                         ) : (
                             <>
-                                <div className="col-6 pr-1"><DeleteProductButton productId={product._id}/></div>
-                                <div className="col-6 pl-1"><PublishProductButton productId={product._id}/></div>
+                                <div className="col-6 px-1"><DeleteProductButton productId={product._id}/></div>
+                                <div className="col-6 px-1"><PublishProductButton productId={product._id}/></div>
                             </>
                         )}
-                        <div className="col-6 pr-1"><EditProductModal product={product}/></div>
-                        <div className="col-6 pl-1"><UpgradeProductButton productId={product._id}/></div>
+                        <div className="col-6 px-1"><EditProductModal product={product}/></div>
+                        <div className="col-6 px-1"><UpgradeProductButton productId={product._id}/></div>
                     </div>
                 </CardBody>
             </Card>

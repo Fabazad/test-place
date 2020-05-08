@@ -22,6 +22,7 @@ import DropdownSelect from "../DropdownSelect";
 import MultiImageUploader from "../MultiImageUploader";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import RowActionButton from "../Buttons/RowActionButton";
 
 class EditProductModal extends React.Component {
 
@@ -115,19 +116,8 @@ class EditProductModal extends React.Component {
         return (
             <>
                 {/* Button trigger modal */}
-                <Button color="warning" className="d-block d-lg-none w-100 text-center mx-0 my-1"
-                        onClick={() => this.toggleModal("exampleModal")}>
-                    <i className="fa fa-edit m-auto fa-lg"/>
-                    <span className="ml-2">Editer</span>
-                </Button>
-                <div className="cursor-pointer avatar avatar-sm bg-transparent d-none d-lg-inline-block">
-                    <Badge pill onClick={() => this.toggleModal("exampleModal")}
-                           className="badge-circle w-100 h-100" color={'warning'}
-                           tag={Link} to={'#'} id={"edit" + product._id}>
-                        <i className="fa fa-edit m-auto fa-lg"/>
-                    </Badge>
-                    <UncontrolledTooltip delay={0} target={"edit" + product._id}>Editer</UncontrolledTooltip>
-                </div>
+                <RowActionButton title="Editer" icon="fa fa-edit" color="warning"
+                                 onClick={() => this.toggleModal("exampleModal")}/>
                 {/* Modal */}
                 <Modal
                     className="modal-dialog-centered"
