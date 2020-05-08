@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Input, Modal} from "reactstrap";
+import {Button, Modal} from "reactstrap";
 import PropTypes from "prop-types";
 import TesterInfoForm from "../Forms/TesterInfoForm";
 import Alert from "reactstrap/es/Alert";

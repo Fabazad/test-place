@@ -1,5 +1,7 @@
 import React from "react";
 import SimpleFooter from "../components/Footers/SimpleFooter";
+import Button from "reactstrap/es/Button";
+import {Link} from "react-router-dom";
 
 const NotFound = () => {
     return (
@@ -22,7 +24,8 @@ const NotFound = () => {
                         <div className="w-100 p-5 text-center">
                             <img src={require("assets/img/undraws/page_not_found.svg")}
                                  alt="" className="w-100" style={{maxWidth: "600px"}}/>
-                            <div className="text-white display-4 mt-5 mb-md-5">Oups ! Cette page n'éxiste pas.</div>
+                            <div className="text-white display-4 mt-5 mb-md-5">Oups ! Cette page n'existe pas.</div>
+                            <Button color="secondary" className="mt-3" tag={Link} to="/">Retour à l'Accueil</Button>
                         </div>
                         <div className="separator separator-bottom separator-skew mt-md-5">
                             <svg

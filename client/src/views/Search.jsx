@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 // reactstrap components
 import {
@@ -10,33 +10,27 @@ import {
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import SearchEngine from "../components/SearchEngine";
 import productServices from "../services/product.service";
-import Loading from "../components/Loading";
 import {updateURLParameter} from "../helpers/urlHelpers"
 import ProductCard from "../components/Cards/ProductCard";
 import constants from "../helpers/constants";
 import PaginationBis from "../components/PaginationBis";
 import DropdownSelect from "../components/DropdownSelect";
+import {scrollTo} from "../helpers/scrollHelpers";
+import ProductCardSkeleton from "../components/Cards/ProductCardSkeleton";
 
-class Search extends React.Component {
+const Search = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false,
-            validate: null,
-            searchEngineData: {},
-            products: [null, null, null, null],
-            totalCount: 0,
-            page: 1,
-            sortBy: constants.SORT_BY_OPTIONS[0].value
-        };
-        this.onSearch = this.onSearch.bind(this);
-        this.searchProducts = this.searchProducts.bind(this);
-    }
+    const [loading, setLoading] = useState(false);
+    const [searchEngineData, setSearchEngineData] = useState({});
+    const [totalCount, setTotalCount] = useState(0);
+    const [page, setPage] = useState(1);
+    const [sortBy, setSortBy] = useState(constants.SORT_BY_OPTIONS[0].value);
+    const itemsPerPage = constants.ITEMS_PER_PAGE;
+    const [products, setProducts] = useState(null);
 
-    getSearchParamsFromUrl() {
+    const getSearchParamsFromUrl = () => {
         const urlParams = new URLSearchParams(window.location.search);
-        const searchEngineData = {
+        setSearchEngineData({
             minPrice: urlParams.has('minPrice') ? urlParams.get('minPrice') : '',
             maxPrice: urlParams.has('maxPrice') ? urlParams.get('maxPrice') : '',
             free: urlParams.get('free') === 'true',
@@ -44,28 +38,18 @@ class Search extends React.Component {
             prime: urlParams.get('prime') === 'true',
             category: urlParams.has('category') ? urlParams.get('category') : '',
             keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : '',
-        };
-        searchEngineData.page = this.state.searchEngineData.page;
-        this.setState({searchEngineData}, this.searchProducts);
-    }
+        });
+    };
 
-    componentDidMount() {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.refs.main.scrollTop = 0;
+    useEffect(getSearchParamsFromUrl, []);
 
-        this.getSearchParamsFromUrl();
-    }
+    useEffect(() => {
 
+        setTimeout(() => scrollTo("results"), 100);
+        searchProducts();
+    }, [searchEngineData, page, sortBy]);
 
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.location.search !== this.props.location.search) {
-            this.getSearchParamsFromUrl();
-        }
-    }
-
-    onSearch(searchData) {
+    const onSearch = (searchData) => {
         let url = window.location.href;
 
         Object.keys(searchData).forEach(dataKey => {
@@ -73,122 +57,127 @@ class Search extends React.Component {
         });
         window.history.pushState({}, "", url);
 
-        this.setState({searchEngineData: searchData, page: 1}, () => this.goToPage(1));
-    }
+        setSearchEngineData(searchData);
+        goToPage(1);
+    };
 
-    searchProducts() {
-        const searchData = this.state.searchEngineData;
-        searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
-        searchData.sortBy = this.state.sortBy;
-        searchData.page = this.state.page;
-        searchData.published = true;
-        searchData.remainingRequests = true;
-        this.setState({products: this.state.products.map(() => null)});
+    const searchProducts = () => {
+        setLoading(true);
+
+        const searchData = {
+            ...searchEngineData,
+            itemsPerPage,
+            sortBy,
+            page,
+            published: true,
+            remainingRequests: true
+        };
+
         productServices.find({searchData}).then(products => {
-            this.setState({products: products.hits, totalCount: products.totalCount});
+            setProducts(products.hits);
+            setTotalCount(products.totalCount);
+            setLoading(false);
         });
 
-    }
+    };
 
-    goToPage(page) {
+    const goToPage = page => {
         let url = window.location.href;
         url = updateURLParameter(url, 'page', page);
         window.history.pushState({}, "", url);
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.refs.main.scrollTop = 0;
-        this.setState({page}, this.searchProducts);
-    }
+        setPage(page);
+    };
 
-    onSortByChange(sortBy) {
-        this.setState({sortBy}, () => {
-            let url = window.location.href;
-            url = updateURLParameter(url, 'sortBy', sortBy);
-            window.history.pushState({}, "", url);
-            this.goToPage(1);
-        });
-    }
+    const onSortByChange = sortBy => {
+        setSortBy(sortBy);
+        let url = window.location.href;
+        url = updateURLParameter(url, 'sortBy', sortBy);
+        window.history.pushState({}, "", url);
+        goToPage(1);
+    };
 
-    render() {
-        return (
-            <>
-                <main ref="main">
-                    <section className="section section-shaped section-lg">
-                        <div className="shape shape-style-1 bg-gradient-default">
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                        </div>
-                        <Container className="pt-lg-md mb-5">
-                            <Row className="mt-3">
-                                <div className="col-12">
-                                    <SearchEngine onSearch={this.onSearch} data={this.state.searchEngineData}/>
+    return (
+        <>
+            <main>
+                <section className="section section-shaped section-lg">
+                    <div className="shape shape-style-1 bg-gradient-default">
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                    </div>
+                    <Container className="pt-lg-md mb-5">
+                        <Row className="mt-3">
+                            <div className="col-12">
+                                <SearchEngine onSearch={onSearch} data={searchEngineData}/>
+                            </div>
+                        </Row>
+                        <Row className="pt-5" id="results">
+                            <div className="col-12 col-md-8 col-lg-9">
+                                <h2 className="text-secondary display-4">
+                                    {totalCount} Résultat{totalCount > 1 ? 's' : ''}
+                                </h2>
+                            </div>
+                            <div className="col-12 col-md-4 col-lg-3 text-right">
+                                <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS}
+                                                onChange={e => onSortByChange(e.target.value)}
+                                                value={sortBy} placeholder={'Trier le Résultat'}/>
+                            </div>
+                        </Row>
+                    </Container>
+                    <div className="separator separator-bottom separator-skew">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            preserveAspectRatio="none"
+                            version="1.1"
+                            viewBox="0 0 2560 100"
+                            x="0"
+                            y="0"
+                            className={"w-100"}
+                        >
+                            <polygon
+                                className="fill-secondary"
+                                points="2560 0 2560 100 0 100"
+                            />
+                        </svg>
+                    </div>
+                </section>
+                <section className="section section-lg pt-0 mt--100">
+                    <Container>
+                        <Row>
+                            {!loading && products && products.length && products.map(product => (
+                                <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2"
+                                     key={product ? product._id : Math.ceil(Math.random() * 1000)}>
+                                    <ProductCard product={product}/>
                                 </div>
-                            </Row>
-                            <Row className="mt-5">
-                                <div className="col-12 col-md-8 col-lg-9">
-                                    <h2 className="text-secondary display-4">
-                                        {this.state.totalCount} Résultat{this.state.totalCount > 1 ? 's' : ''}
-                                    </h2>
+                            ))}
+
+                            {loading && (new Array(itemsPerPage)).fill(null).map((product, index) => (
+                                <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2" key={index}>
+                                    <ProductCardSkeleton/>
                                 </div>
-                                <div className="col-12 col-md-4 col-lg-3 text-right">
-                                    <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS}
-                                                    onChange={e => this.onSortByChange(e.target.value)}
-                                                    value={this.state.sortBy} placeholder={'Trier le Résultat'}/>
-                                </div>
-                            </Row>
-                        </Container>
-                        <div className="separator separator-bottom separator-skew">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                preserveAspectRatio="none"
-                                version="1.1"
-                                viewBox="0 0 2560 100"
-                                x="0"
-                                y="0"
-                                className={"w-100"}
-                            >
-                                <polygon
-                                    className="fill-secondary"
-                                    points="2560 0 2560 100 0 100"
-                                />
-                            </svg>
-                        </div>
-                    </section>
-                    <section className="section section-lg pt-0 mt--100">
-                        <Container>
-                            <Loading loading={this.state.loading}/>
-                            <Row>
-                                {this.state.products.map(product => (
-                                    <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2"
-                                         key={product ? product._id : Math.ceil(Math.random() * 1000)}>
-                                        <ProductCard product={product}/>
-                                    </div>
-                                ))}
-                            </Row>
-                        </Container>
-                    </section>
-                    <section>
-                        <Container>
-                            <Row>
-                                <div className="col-12">
-                                    <PaginationBis page={this.state.page}
-                                                   onPageClick={page => this.goToPage(page)}
-                                                   totalPage={Math.ceil(this.state.totalCount / constants.ITEMS_PER_PAGE)}/>
-                                </div>
-                            </Row>
-                        </Container>
-                    </section>
-                </main>
-                <SimpleFooter/>
-            </>
-        );
-    }
-}
+                            ))}
+                        </Row>
+                    </Container>
+                </section>
+                <section>
+                    <Container>
+                        <Row>
+                            <div className="col-12">
+                                <PaginationBis page={page} onPageClick={goToPage}
+                                               totalPage={Math.ceil(totalCount / itemsPerPage)}/>
+                            </div>
+                        </Row>
+                    </Container>
+                </section>
+            </main>
+            <SimpleFooter/>
+        </>
+    );
+};
 
 export default Search;
