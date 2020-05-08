@@ -8,14 +8,12 @@ import {
     CardHeader,
     CardBody,
     FormGroup,
-    Input,
     Container,
     Row,
     Col
 } from "reactstrap";
 // core components
 import UserHeader from "../../components/Headers/UserHeader.jsx";
-import Loading from "../../components/Loading";
 import UpdatePasswordModal from "../../components/Modals/UpdatePasswordModal";
 import MyInfoForm from "./MyInfoForm";
 import MySellerInfoForm from "./MySellerInfoForm";
@@ -34,10 +32,6 @@ const Profile = () => {
     useEffect(() => {
         userService.currentUserSubject.subscribe(setUser);
     }, []);
-
-    if (!user) {
-        return (<Loading/>);
-    }
 
     if (firstLogin && user.roles.length === 0) {
         toast.info("Commencez par indiquer si vous voulez Tester ou Vendre.");

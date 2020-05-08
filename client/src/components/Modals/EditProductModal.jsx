@@ -12,7 +12,7 @@ import {
     PopoverBody,
     Row,
     UncontrolledPopover,
-    Label, Badge, UncontrolledTooltip
+    Label
 } from "reactstrap";
 import {toast} from "react-toastify";
 import Loading from "components/Loading";
@@ -21,7 +21,6 @@ import s3Services from "services/s3.services";
 import DropdownSelect from "../DropdownSelect";
 import MultiImageUploader from "../MultiImageUploader";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
 import RowActionButton from "../Buttons/RowActionButton";
 
 class EditProductModal extends React.Component {
@@ -112,7 +111,7 @@ class EditProductModal extends React.Component {
     };
 
     render() {
-        const {product} = this.props;
+
         return (
             <>
                 {/* Button trigger modal */}

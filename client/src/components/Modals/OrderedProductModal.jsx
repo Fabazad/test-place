@@ -10,6 +10,7 @@ import {getProductAmazonUrl} from "../../helpers/urlHelpers";
 import Label from "reactstrap/es/Label";
 import testServices from "../../services/test.services";
 import {toast} from "react-toastify";
+require('moment/locale/fr');
 
 const OrderedProductModal = props => {
     const {isOpen, onToggle, test} = props;

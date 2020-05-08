@@ -16,7 +16,7 @@ import TestRow from "./Rows/TestRow";
 import TestRequestModal from "./Modals/TestRequestModal";
 import OrderedProductModal from "./Modals/OrderedProductModal";
 import {scrollTop} from "../helpers/scrollHelpers";
-import Col from "reactstrap/es/Col";
+import ProcessingTestModal from "./Modals/ProcessingTestModal";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -81,6 +81,7 @@ const TestListWithControls = props => {
     }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]);
 
     const onActionClick = (testId, action) => {
+
         const test = tests.find(t => t._id === testId);
         if (test) {
             setSelectedTest(test);
@@ -132,26 +133,22 @@ const TestListWithControls = props => {
                         </tr>
                         </thead>
                         <tbody>
-                        {!tests || loading ? (
-                            <>
-                                {(new Array(itemsPerPage)).fill(null).map((row, i) => (
-                                    <RowSkeleton key={'skeleton' + i} colNumber={7}/>
-                                ))}
-                            </>) : (
-                            <>
-                                {tests.map((test, i) => (
-                                    <TestRow test={test} userRole={userRole} globalStatus={globalStatus}
-                                             key={'test-row-' + i} onClick={onActionClick}/>
-                                ))}
-                            </>)}
+                        {loading && (new Array(itemsPerPage)).fill(null).map((row, i) => (
+                            <RowSkeleton key={'skeleton' + i} colNumber={7}/>
+                        ))}
 
+                        {!loading && tests && tests.length && tests.map((test, i) => (
+                            <TestRow test={test} userRole={userRole} globalStatus={globalStatus}
+                                     key={'test-row-' + i} onClick={onActionClick}/>
+                        ))}
                         </tbody>
                     </Table>
 
 
                     {tests && !tests.length && !loading ? (
                         <div className="p-5 w-100 text-center">
-                            <img src={require('assets/img/undraws/empty.svg')} alt="" style={{maxWidth: "300px"}} className="w-100"/>
+                            <img src={require('assets/img/undraws/empty.svg')} alt="" style={{maxWidth: "300px"}}
+                                 className="w-100"/>
                         </div>
                     ) : null}
 
@@ -200,6 +197,9 @@ const TestListWithControls = props => {
                     <OrderedProductModal
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+                    <ProcessingTestModal
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST]} test={selectedTest}
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
                 </>
             ) : null}
         </>

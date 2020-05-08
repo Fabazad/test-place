@@ -1,8 +1,6 @@
 import React from "react";
 // reactstrap components
-import {Badge, Button, UncontrolledTooltip} from "reactstrap";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
 import RowActionButton from "./RowActionButton";
 
 class UpgradeProductButton extends React.Component {

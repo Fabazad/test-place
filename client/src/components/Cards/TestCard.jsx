@@ -6,10 +6,10 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import TestStatusIcon from "../TestStatusIcon";
 import {withTranslation} from "react-i18next";
-import CancelTestRequestButton from "../Buttons/CancelTestRequestButton";
 import testServices from "../../services/test.services";
-import RowActionButton from "../Buttons/RowActionButton";
-const {USER_ROLES, TEST_GLOBAL_STATUSES, TEST_ROW_CLICK_ACTIONS} = constants;
+import TestListButtons from "../Buttons/TestListButtons";
+
+const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
 
 const TestCard = (props) => {
     const {test, t, userRole, onActionClick, globalStatus} = props;
@@ -71,13 +71,13 @@ const TestCard = (props) => {
                     </div>
                     {userRole === USER_ROLES.TESTER ?
                         <div className="col-6 text-center">
-                        <small>Vendeur</small>
-                        <Link to={'#'}>
-                            <h4 className='mt-2'>
-                                {seller.name ? seller.name : '-'}
-                            </h4>
-                        </Link>
-                    </div> : null}
+                            <small>Vendeur</small>
+                            <Link to={'#'}>
+                                <h4 className='mt-2'>
+                                    {seller.name ? seller.name : '-'}
+                                </h4>
+                            </Link>
+                        </div> : null}
                     {userRole === USER_ROLES.SELLER ?
                         <div className="col-6 text-center">
                             <small>Testeur</small>
@@ -101,23 +101,8 @@ const TestCard = (props) => {
 
                 </div>
                 <div className="row mt-3">
-                    {globalStatus === TEST_GLOBAL_STATUSES.REQUESTED ? (
-                        <>
-                            {test.status === statuses.requested && userRole === USER_ROLES.TESTER ? (
-                                <CancelTestRequestButton testId={test._id}/>) : null}
-                            <RowActionButton
-                                title={"Voir"} icon={"fa fa-eye"} color={"info"}
-                                onClick={() => onActionClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}/>
-                        </>
-                    ) : null}
-
-                    {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING ? (
-                        <>
-                            <RowActionButton
-                                color={'info'} icon={'fa fa-eye'} title={'Voir'}
-                                onClick={() => onActionClick(test.id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
-                        </>
-                    ) : null}
+                    <TestListButtons test={test} userRole={userRole} globalStatus={globalStatus} onClick={onActionClick}
+                                     statuses={statuses}/>
                 </div>
             </CardBody>
         </Card>

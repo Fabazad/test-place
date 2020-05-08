@@ -14,11 +14,11 @@ const testObject = {
     status: { type: String, enum: Object.values(constants.TEST_STATUSES), required: true },
     createdAt: { type: Date, default: new Date(), required: true, index: true },
     updates: { type: [updateObject], default: [] },
-    testerMessage: { type: String },
-    cancelRequestReason: { type: String },
-    declineRequestReason: { type: String },
-    sellerMessage: { type: String },
-    estimatedDeliveryDate: { type: Date }
+    testerMessage: String,
+    cancelRequestReason: String,
+    declineRequestReason: String,
+    sellerMessage: String,
+    estimatedDeliveryDate: Date
 };
 
 const testSchema = new mongoose.Schema(testObject);
