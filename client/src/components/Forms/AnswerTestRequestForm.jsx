@@ -60,7 +60,7 @@ class AnswerTestRequestForm extends React.Component {
             { sellerMessage: this.state.sellerMessage})
             .then(() => {
                 this.props.onSubmit();
-                toast.success("Demande de test acceptée");
+                toast.success("Demande de test acceptée.");
             });
     }
 

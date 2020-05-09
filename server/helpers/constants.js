@@ -72,7 +72,8 @@ constants.TEST_STATUS_PROCESSES = {
     },
     [TEST_STATUSES.requestAccepted]: {
         previous: TEST_STATUSES.requested,
-        role: ROLES.SELLER
+        role: ROLES.SELLER,
+        param: "sellerMessage"
     },
     [TEST_STATUSES.productOrdered]: {
         previous: TEST_STATUSES.requestAccepted,

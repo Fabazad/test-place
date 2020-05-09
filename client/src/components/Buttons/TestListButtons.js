@@ -54,7 +54,7 @@ const TestListButtons = props => {
                         <CancelTestRequestButton testId={test._id}/>) : null}
                     <RowActionButton
                         title="Voir" icon="fa fa-eye" color="info"
-                        onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}/>
+                        onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
                 </>
             ) : null}
 
@@ -62,7 +62,7 @@ const TestListButtons = props => {
                 <>
                     <RowActionButton
                         color='info' icon='fa fa-eye' title='Voir'
-                        onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
+                        onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
 
                     {userRole === USER_ROLES.TESTER ? (
                         <>

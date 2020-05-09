@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
                 <div className="main-content" ref="mainContent">
                     <Switch>
                         {this.getRoutes(routes)}
-                        <Redirect to="/404"/>
+                        <Redirect to="/not-found"/>
                     </Switch>
                     <Container fluid>
                         <SimpleFooter/>

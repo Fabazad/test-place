@@ -33,7 +33,7 @@ class ProductDetail extends React.Component {
         const {productId} = this.props.match.params;
         productServices.getOne(productId)
             .then(product => this.setState({product}))
-            .catch(() => this.props.history.push("/404"));
+            .catch(() => this.props.history.replace("/not-found"));
         productServices.getProductCategories().then(categories => this.setState({categories}));
     }
 

@@ -13,10 +13,12 @@ import RowSkeleton from "./Rows/RowSkeleton";
 import TestCard from "./Cards/TestCard";
 import CardSkeleton from "./Cards/CardSkeleton";
 import TestRow from "./Rows/TestRow";
-import TestRequestModal from "./Modals/TestRequestModal";
 import OrderedProductModal from "./Modals/OrderedProductModal";
 import {scrollTop} from "../helpers/scrollHelpers";
-import ProcessingTestModal from "./Modals/ProcessingTestModal";
+import TestModal from "./Modals/TestModal/TestModal";
+import Container from "reactstrap/es/Container";
+import Row from "reactstrap/es/Row";
+import Col from "reactstrap/es/Col";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -68,20 +70,15 @@ const TestListWithControls = props => {
             testsServices.testsSubject.subscribe(() => mount && search());
         });
 
-        return () => {
-            mount = false
-        };
+        return () => mount = false;
     }, []);
 
     // On search controls update
     useEffect(() => {
-        if (statusesOptionsFormatted.length) {
-            search();
-        }
+        if (statusesOptionsFormatted.length) search();
     }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]);
 
     const onActionClick = (testId, action) => {
-
         const test = tests.find(t => t._id === testId);
         if (test) {
             setSelectedTest(test);
@@ -92,7 +89,6 @@ const TestListWithControls = props => {
     const toggleModal = action => {
         const newIsModalOpen = Object.assign({}, isModalOpen);
         newIsModalOpen[action] = !isModalOpen[action];
-
         setIsModalOpen(newIsModalOpen);
     };
 
@@ -137,7 +133,7 @@ const TestListWithControls = props => {
                             <RowSkeleton key={'skeleton' + i} colNumber={7}/>
                         ))}
 
-                        {!loading && tests && tests.length && tests.map((test, i) => (
+                        {!loading && tests && !!tests.length && tests.map((test, i) => (
                             <TestRow test={test} userRole={userRole} globalStatus={globalStatus}
                                      key={'test-row-' + i} onClick={onActionClick}/>
                         ))}
@@ -152,26 +148,26 @@ const TestListWithControls = props => {
                         </div>
                     ) : null}
 
-                    <div className="container d-block d-lg-none">
-                        <div className="row">
+                    <Container className="d-lg-none">
+                        <Row>
                             {!tests || loading ? (
                                 <>
-                                    {(new Array(itemsPerPage)).fill(null).map((row, i) => (
-                                        <div className="col-12 col-md-6 my-2" key={"card-skeleton" + i}>
+                                    {(new Array(itemsPerPage)).fill(null).map((row, index) => (
+                                        <Col xs={12} md={6} className="my-2" key={index}>
                                             <CardSkeleton/>
-                                        </div>
+                                        </Col>
                                     ))}
                                 </>) : (
                                 <>
-                                    {tests.map(test => (
-                                        <div className="col-12 col-md-6 my-2" key={"testCard" + test._id}>
+                                    {tests.map((test, index) => (
+                                        <Col xs={12} md={6} className="my-2" key={index}>
                                             <TestCard test={test} userRole={userRole} globalStatus={globalStatus}
                                                       onActionClick={onActionClick}/>
-                                        </div>
+                                        </Col>
                                     ))}
                                 </>)}
-                        </div>
-                    </div>
+                        </Row>
+                    </Container>
                 </CardBody>
 
                 <CardFooter className="py-4">
@@ -190,16 +186,12 @@ const TestListWithControls = props => {
 
             {selectedTest ? (
                 <>
-                    <TestRequestModal
-                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST]}
-                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST_REQUEST)}
-                        test={selectedTest} userType={userRole}/>
                     <OrderedProductModal
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
-                    <ProcessingTestModal
-                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST]} test={selectedTest}
-                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_PROCESSING_TEST)}/>
+                    <TestModal userType={userRole} globalStatus={globalStatus}
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} test={selectedTest}
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
                 </>
             ) : null}
         </>
