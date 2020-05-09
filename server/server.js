@@ -1,26 +1,49 @@
-const constants = require('./helpers/constants');
-const path = require('path');
-const fastify = require('fastify')({logger: true});
+const decode = require('./middlewares/decode');
+const express = require('express');
+const app = express();
+const dbConnection = require("./db-connection");
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require("path");
 
-fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, '/../client/build/'),
-    prefix: "/"
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
-fastify.register(require('fastify-cors'), {
-    origin: process.env.PROD ? constants.FRONTEND_URL : constants.FRONTEND_LOCAL_URL,
-    credentials: true
+app.use(cors());
+
+app.use(decode, function (req, res, next) {
+    console.log(req.method + ' : '  +req.url + ' [' + Date.now() + ']');
+    next();
 });
 
-fastify.register(require('./routes'));
-fastify.register(require('./db-connection'));
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+const routes = require('./routes');
+routes(app);
+dbConnection();
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
+
+app.use(function (req, res, next) {
+    console.log(req.url + ' : ' + Date.now());
+    next();
+});
 
 // Run the server!
 const start = () => {
-    fastify.listen(process.env.PORT || 5000, '0.0.0.0')
-        .catch(err => {
-            fastify.log.error(err);
-            process.exit(1)
-        });
+    const port = process.env.PORT || 5000;
+    app.listen(port, function () {
+        console.log(`Example app listening on port ${port}!`)
+    })
 };
+
 start();

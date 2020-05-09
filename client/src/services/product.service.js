@@ -1,5 +1,6 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
+import { Subject } from 'rxjs';
 
 function serviceResolve(res) {
     if (res.status !== 200) {
@@ -13,20 +14,24 @@ class ProductService extends BaseService {
     constructor() {
         super('/product');
         this.categories =  [];
-        this.getProductCategories().then(categories => this.categories = categories);
+        this.productsUpdatedSubject = new Subject();
     }
 
-    scrapFromAsin(asin) {
+    async scrapFromAsin(asin) {
         return axios.get(this.baseURL + "/srapFromAsin/" + asin).then(serviceResolve);
     }
 
-    getProductCategories() {
-        if (this.categories && this.categories.length > 0) {
-            return Promise.resolve(this.categories);
-        } else {
-            return axios.get(this.baseURL + '/categories').then(serviceResolve);
+    async getProductCategories() {
+        if (!this.categories || !this.categories.length > 0) {
+            this.categories = await axios.get(this.baseURL + '/categories').then(serviceResolve);
         }
+        return Promise.resolve(this.categories);
+    }
 
+    isPublished(product) {
+        return product && product.publishExpirationDate
+            && new Date(product.publishExpirationDate).getTime() > Date.now()
+            && 'remainingRequests' in product && product.remainingRequests > 0;
     }
 }
 

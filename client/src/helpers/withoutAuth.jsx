@@ -23,7 +23,7 @@ export default function withoutAuth(ComponentToProtect) {
     render() {
       const { redirect } = this.state;
       if (redirect) {
-        return <Redirect to="/landing" />;
+        return <Redirect to="/" />;
       }
       return (
         <React.Fragment>

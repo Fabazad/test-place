@@ -1,82 +1,69 @@
 const UserController = require('../controllers/user.controller');
 const withAuth = require('../middlewares/withAuth');
-const middlewares = require("../middlewares/middlewares");
+const express = require('express');
+const router = express.Router();
 
-async function userRoutes (fastify) {
-    const path = "/api/user/";
+router.post('/register', async (request, reply) => {
+    const {name, email, password, captcha} = request.body;
+    UserController.register(name, email, password, captcha)
+        .then(user => reply.send())
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'register', async (request, reply) => {
-        const { name, email, password, captcha } = request.body;
-        UserController.register(name, email, password, captcha)
-            .then(() => reply.code(200).send())
-            .catch(err => reply.code(err.status).send(err.message));
-    });
+router.post('/login', async (request, reply) => {
+    const {email, password} = request.body;
+    UserController.login(email, password)
+        .then(res => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'login', async (request, reply) => {
-        const { email, password } = request.body;
-        UserController.login(email, password)
-            .then(res => reply.send(res))
-            .catch(err => reply.code(err.status).send(err.message));
-    });
+router.get('/checkToken', async (request, res) => {
+    UserController.checkToken(request.query.logged, request.decoded)
+        .then(data => res.send(data));
+});
 
-    fastify.get(path + 'checkToken', async (request, reply) => {
-        middlewares(request, reply, [withAuth], () => {
-            reply.send({ userId: request.userId, amazonId: request.amazonId });
-        });
-    });
+router.post('/resetPasswordMail', async (request, reply) => {
+    const {email} = request.body;
+    UserController.resetPasswordMail(email)
+        .then(() => reply.send())
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'resetPasswordMail', async (request, reply) => {
-        const { email } = request.body;
-        UserController.resetPasswordMail(email)
-            .then(() => reply.send())
-            .catch(err => reply.code(err.status).send(err.message));
-    });
+router.post('/resetPassword', async (request, reply) => {
+    const {password, resetPasswordToken} = request.body;
+    UserController.resetPassword(password, resetPasswordToken)
+        .then(() => reply.send())
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'resetPassword', async (request, reply) => {
-        const { password, resetPasswordToken } = request.body;
-        UserController.resetPassword(password, resetPasswordToken)
-            .then(() => reply.send())
-            .catch(err => reply.code(err.status).send(err.message));
-    });
+router.post('/updatePassword', withAuth(), async (request, reply) => {
+    const {previousPassword, password} = request.body;
+    const {userId} = request.decoded;
+    UserController.updatePassword(previousPassword, password, userId)
+        .then(res => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'updatePassword', async (request, reply) => {
-        middlewares(request, reply, [withAuth], () => {
-            const { previousPassword, password } = request.body;
-            const { userId } = request;
-            UserController.updatePassword(previousPassword, password, userId)
-                .then(() => reply.send())
-                .catch(err => reply.code(err.status).send(err.message));
-        });
-    });
+router.post('/emailValidation', async (request, reply) => {
+    const {userId} = request.body;
+    UserController.emailValidation(userId)
+        .then(() => reply.send())
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'emailValidation', async (request, reply) => {
-        const { userId } = request.body;
-        UserController.emailValidation(userId)
-            .then(() => reply.send())
-            .catch(err => reply.code(err.status).send(err.message));
-    });
+router.post('/validationMail', async (request, reply) => {
+    const {email} = request.body;
+    UserController.validationMail(email)
+        .then(() => reply.send())
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-    fastify.post(path + 'amazonLogin', async (request, reply) => {
-        middlewares(request, reply, [withAuth], () => {
+router.post('/updateUserInfo', withAuth(), async (request, reply) => {
+    const { userId, data } = request.body;
+    const {decoded} = request;
+    UserController.updateUserInfo(decoded.userId, decoded.amazonId, decoded.roles, userId, data)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
 
-            const { amazonToken } = request.body;
-            const { userId } = request;
-            UserController.amazonLogin(userId, amazonToken)
-                .then(user => reply.send(user))
-                .catch(err => reply.code(err.status).send(err.message));
-        });
-    });
-
-    fastify.post(path + 'update', async (request, reply) => {
-        middlewares(request, reply, [withAuth], () => {
-
-            const { itemId, fields } = request.body;
-            const { userId } = request;
-            UserController.update(userId, itemId, fields)
-                .then(user => reply.send(user))
-                .catch(err => reply.code(err.status).send(err.message));
-        });
-    });
-}
-
-module.exports = userRoutes;
+module.exports = router;

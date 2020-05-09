@@ -8,8 +8,9 @@ const constants = {
     },
     FROM_MAIL_ADDRESS: 'review@test-place.com',
     ROLES: {
-        REVIEWER: "reviewer",
-        SELLER: "seller"
+        TESTER: "TESTER",
+        SELLER: "SELLER",
+        ADMIN: "ADMIN"
     },
     PRODUCT_CATEGORIES: [
         { text: 'Animalerie', value: 'pet-shop' },
@@ -36,7 +37,66 @@ const constants = {
         { text: 'Montres', value: 'watch' },
         { text: 'Sports et Loisirs', value: 'sports' },
         { text: 'Vêtements et accessoires', value: 'cloths' },
-    ]
+    ],
+    AUTH_CONDITIONS: {
+        IS_SELLER: "IS_SELLER",
+        ANY: "ANY"
+    },
+    TEST_STATUSES: {
+        requested: "REQUESTED",
+        requestCancelled: "REQUEST_CANCELLED",
+        requestDeclined: "REQUEST_DECLINED",
+        requestAccepted: "REQUEST_ACCEPTED",
+        productOrdered: "PRODUCT_ORDERED",
+        productReceived: "PRODUCT_RECEIVED",
+        productReviewed: "PRODUCT_REVIEWED",
+        reviewValidated: "REVIEW_VALIDATED",
+        reviewDeclined: "REVIEW_REFUSED",
+        moneySent: "MONEY_SENT",
+        moneyReceived: "MONEY_RECEIVED"
+    }
+};
+
+const {TEST_STATUSES, ROLES} = constants;
+
+constants.TEST_STATUS_PROCESSES = {
+    [TEST_STATUSES.requestCancelled]: {
+        previous: TEST_STATUSES.requested,
+        role: ROLES.TESTER,
+        param: "cancelRequestReason"
+    },
+    [TEST_STATUSES.requestDeclined]: {
+        previous: TEST_STATUSES.requested,
+        role: ROLES.SELLER,
+        param: "declineRequestReason"
+    },
+    [TEST_STATUSES.requestAccepted]: {
+        previous: TEST_STATUSES.requested,
+        role: ROLES.SELLER,
+        param: "sellerMessage"
+    },
+    [TEST_STATUSES.productOrdered]: {
+        previous: TEST_STATUSES.requestAccepted,
+        role: ROLES.TESTER,
+        param: "estimatedDeliveryDate"
+    },
+    [TEST_STATUSES.productReceived]: {
+        previous: TEST_STATUSES.productOrdered,
+        role: ROLES.TESTER
+    },
+    [TEST_STATUSES.productReviewed]: {
+        previous: TEST_STATUSES.productReceived,
+        role: ROLES.TESTER
+    },
+    [TEST_STATUSES.reviewValidated]: {
+        previous: TEST_STATUSES.productReviewed,
+        role: ROLES.SELLER
+    },
+    [TEST_STATUSES.reviewDeclined]: {
+        previous: TEST_STATUSES.productReviewed,
+        role: ROLES.SELLER,
+        param: 'declineReviewReason'
+    }
 };
 
 module.exports = constants;

@@ -2,6 +2,7 @@ import React from "react";
 import '../assets/scss/animated-checks.scss';
 import PropTypes from "prop-types";
 import {UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
+import {withTranslation} from "react-i18next";
 
 class DropdownSelect extends React.Component {
 
@@ -20,47 +21,48 @@ class DropdownSelect extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if ('value' in this.props) {
+            const option = this.props.options.find(o => o.value === this.props.value);
+            this.setState({option})
+        }
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
         if ('value' in nextProps) {
-            //const options = this.props.options ? this.props.options : nextProps.options;
             const option = this.props.options.find(o => o.value === nextProps.value);
             this.setState({option})
         }
     }
 
     render() {
+        const {t} = this.props;
         return (
-            <UncontrolledDropdown group className={'w-100 '+this.props.className}>
+            <UncontrolledDropdown group className={'w-100 dropdown-select ' + (this.props.className ?? '')}>
                 <DropdownToggle caret color="secondary"
                                 className={"w-100 text-right bg-white input-group-alternative rounded"}
                                 style={{'height': '46px'}}>
                     <span
                         className={"text-left w-100 d-inline-block font-weight-normal" + (this.state.option ? '' : ' text-muted')}>
-                        {this.state.option ? this.state.option.text : this.props.placeholder}
+                        {t(this.state.option ? this.state.option.text : this.props.placeholder)}
                     </span>
                 </DropdownToggle>
-                <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px'}}>
-                    {
-                        this.props.placeholder ? (
-                            <DropdownItem onClick={() => this.onSelectItem(null)}
-                                          key={'option.null'} className={"cursor-pointer text-muted"}>
-                                {this.props.placeholder}
-                            </DropdownItem>
-                        ) : null
-                    }
+                <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
+                    {this.props.placeholder ? (
+                        <DropdownItem onClick={() => this.onSelectItem(null)}
+                                      key={'option.null'} className={"cursor-pointer text-muted"}>
+                            {t(this.props.placeholder)}
+                        </DropdownItem>
+                    ) : null}
 
-                    {
-                        this.props.options.map((option, i) =>
-                            !this.state.option || (this.state.option && this.state.option.value !== option.value) ?
-                                (
-                                    <DropdownItem onClick={() => this.onSelectItem(option)}
-                                                  key={option.value} className={"cursor-pointer"}>
-                                        {option.text}
-                                    </DropdownItem>
-                                )
-                             : null
-                        )
-                    }
+                    {this.props.options.map((option, i) => (
+                        <DropdownItem onClick={() => this.onSelectItem(option)}
+                                      key={option.value + i}
+                                      className={"cursor-pointer" + (this.state.option && this.state.option.value === option.value ? ' selected' : '')}>
+                            {t(option.text)}
+                        </DropdownItem>
+                    ))}
+
                 </DropdownMenu>
             </UncontrolledDropdown>
         );
@@ -72,11 +74,11 @@ DropdownSelect.propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string,
-        text: PropTypes.string
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        text: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })).isRequired,
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-export default DropdownSelect;
+export default withTranslation()(DropdownSelect);

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const {ROLES} = require("../helpers/constants");
 
 const saltRounds = 10;
 
@@ -10,7 +11,12 @@ const UserSchema = new mongoose.Schema({
     emailValidation: { type: Boolean, default: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    amazonId: String
+    amazonId: { type: String, unique: true, sparse: true },
+    testerMessage: String,
+    sellerMessage: String,
+    roles: { type: [String], enum: Object.values(ROLES), default: [] },
+    paypalEmail: String,
+    lastLogin: Date
 });
 
 UserSchema.pre('save', function(next) {
@@ -41,6 +47,13 @@ UserSchema.methods.isCorrectPassword = function(password, callback){
             callback(err, same);
         }
     });
-}
+};
+
+UserSchema.methods.toJSON = function() {
+    var obj = this.toObject();
+    delete obj.password;
+    delete obj.email;
+    return obj;
+};
 
 module.exports = mongoose.model('User', UserSchema);

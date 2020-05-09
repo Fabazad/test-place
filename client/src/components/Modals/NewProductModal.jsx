@@ -11,7 +11,8 @@ import {
     Modal,
     PopoverBody,
     Row,
-    UncontrolledPopover
+    UncontrolledPopover,
+    Label
 } from "reactstrap";
 import {toast} from "react-toastify";
 import Loading from "components/Loading";
@@ -31,14 +32,14 @@ class NewProductModal extends React.Component {
             asin: null,
             title: '',
             price: '',
-            finalPrice: '',
+            finalPrice: 0,
             images: [],
             description: '',
             isPrime: false,
             afterNote: '',
             beforeNote: '',
             maxDemands: '',
-            automaticAcceptance: false,
+            automaticAcceptance: true,
             exampleModal: false,
             loadingPromise: null,
             pictures: [null],
@@ -76,8 +77,8 @@ class NewProductModal extends React.Component {
     };
 
     scrapAsin() {
-        if (this.state.asin === '') {
-            toast.error("Veuillez forunir l'identifiant ASIN ou l'url du produit.");
+        if (this.state.asinInput === '') {
+            toast.error("Veuillez fournir l'identifiant ASIN ou l'url du produit.");
             return;
         }
         const match = this.state.asinInput.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
@@ -86,9 +87,9 @@ class NewProductModal extends React.Component {
             return;
         }
         const asin = match[1];
-        this.setState({asin});
         const loadingPromise = productService.scrapFromAsin(asin).then(res => {
             this.setState({
+                asin,
                 title: res.title,
                 price: res.price,
                 description: res.description,
@@ -105,7 +106,7 @@ class NewProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {asin, title, price, finalPrice, images, description, isPrime, afterNote, beforeNote, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
+            const {asin, title, price, finalPrice, images, description, isPrime, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
             const product = {
                 asin,
                 title,
@@ -113,8 +114,6 @@ class NewProductModal extends React.Component {
                 finalPrice,
                 description,
                 isPrime,
-                afterNote,
-                beforeNote,
                 maxDemands,
                 automaticAcceptance,
                 category,
@@ -137,9 +136,7 @@ class NewProductModal extends React.Component {
             return productService.create(product).then(() => {
                 toast.success("Product added");
                 this.setState(this.initialState);
-                if (this.props.onNewProduct) {
-                    this.props.onNewProduct();
-                }
+                productService.productsUpdatedSubject.next();
             }).catch(reject);
         });
 
@@ -150,10 +147,8 @@ class NewProductModal extends React.Component {
         return (
             <>
                 {/* Button trigger modal */}
-                <Button
-                    color="primary"
-                    onClick={() => this.toggleModal("exampleModal")}
-                >
+                <Button color="primary" onClick={() => this.toggleModal("exampleModal")}>
+                    <i className="ni ni-bag-17 mr-2"/>
                     Nouveau Produit
                 </Button>
                 {/* Modal */}
@@ -169,18 +164,13 @@ class NewProductModal extends React.Component {
                             <h2 className="modal-title" id="exampleModalLabel">
                                 Nouveau Produit
                             </h2>
-                            <button
-                                aria-label="Close"
-                                className="close"
-                                data-dismiss="modal"
-                                type="button"
-                                onClick={() => this.toggleModal("exampleModal")}
-                            >
+                            <button aria-label="Close" className="close" data-dismiss="modal"
+                                type="button" onClick={() => this.toggleModal("exampleModal")}>
                                 <span aria-hidden={true}>×</span>
                             </button>
                         </div>
                         <div className="modal-body white-space-pre-line bg-secondary">
-                            <div className="border-bottom">
+                            <div>
                                 <Row>
                                     <div className="col-12 col-md-8 col-lg-9">
                                         <FormGroup className="mb-3">
@@ -190,13 +180,9 @@ class NewProductModal extends React.Component {
                                                         <i className="fa fa-hashtag"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input
-                                                    placeholder="ASIN ou Lien amazon du produit"
-                                                    type="text"
-                                                    name="asinInput"
-                                                    value={this.state.asinInput}
-                                                    onChange={this.handleInputChange}
-                                                />
+                                                <Input placeholder="ASIN ou Lien amazon du produit" type="text"
+                                                    name="asinInput" value={this.state.asinInput}
+                                                    onChange={this.handleInputChange}/>
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
@@ -207,203 +193,193 @@ class NewProductModal extends React.Component {
 
                                 </Row>
                             </div>
-                            <div className="border-bottom">
-                                <div className="w-100 my-3">
-                                    <MultiImageUploader images={this.state.images} maxFile={6}
-                                                        onChange={images => this.setState({images})}/>
+                            {this.state.asin ? (
+                                <>
+                                    <div className="border-top">
+                                        <div className="w-100 my-3">
+                                            <MultiImageUploader images={this.state.images} maxFile={6}
+                                                                onChange={images => this.setState({images})}/>
 
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <FormGroup className="mb-3">
-                                            <InputGroup className="input-group-alternative">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="fa fa-angle-right"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input
-                                                    placeholder="Titre"
-                                                    type="text"
-                                                    name="title"
-                                                    value={this.state.title}
-                                                    onChange={this.handleInputChange}
-                                                    required
-                                                />
-                                            </InputGroup>
-                                        </FormGroup>
+                                        </div>
                                     </div>
-                                </div>
-                                <Row className="mb-3">
-                                    <div className="col-6">
-                                        <DropdownSelect name={"category"} options={this.state.categories}
-                                                        className={"w-100"} value={this.state.category}
-                                                        onChange={this.handleInputChange} placeholder={"Catégorie"}/>
-                                    </div>
-                                    <div className="col-6 text-center d-flex">
-                                        <label className="custom-toggle mt-2">
-                                            <input type="checkbox" name="isPrime" checked={this.state.isPrime}
-                                                   onChange={this.handleCheckChange} id="isPrimeInput"/>
-                                            <span className="custom-toggle-slider rounded-circle"/>
-                                        </label>
-                                        <label htmlFor="isPrimeInput" className="mt-2 ml-2">
-                                            <img src={require("assets/img/icons/prime.png")} alt="prime"
-                                                 style={{"height": "18px"}}/>
-                                        </label>
-                                    </div>
-                                </Row>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <FormGroup className="mb-3">
-                                            <InputGroup className="input-group-alternative">
-                                                <Input
-                                                    placeholder="Prix"
-                                                    type="number"
-                                                    step="0.01"
-                                                    min="0.01"
-                                                    name="price"
-                                                    value={this.state.price}
-                                                    onChange={this.handleInputChange}
-                                                    required
-                                                />
-                                                <InputGroupAddon addonType="append">
-                                                    <InputGroupText>
-                                                        <i className="fa fa-euro"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                            </InputGroup>
-                                        </FormGroup>
-                                    </div>
-                                    <div className="col-6">
-                                        <FormGroup className="mb-3">
-                                            <InputGroup className="input-group-alternative">
-                                                <Input
-                                                    placeholder="Prix Final"
-                                                    type="number"
-                                                    step="0.01"
-                                                    min="0"
-                                                    name="finalPrice"
-                                                    value={this.state.finalPrice}
-                                                    onChange={this.handleInputChange}
-                                                    required
-                                                />
-                                                <InputGroupAddon addonType="append">
-                                                    <InputGroupText>
-                                                        <i className="fa fa-euro"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                            </InputGroup>
-                                        </FormGroup>
-                                    </div>
-                                </div>
+                                    <div className="border-top border-bottom">
+                                        <Row>
+                                            <div className="col-12">
+                                                <FormGroup className="mb-3">
+                                                    <Label>ASIN</Label>
+                                                    <InputGroup className="input-group-alternative">
+                                                        <InputGroupAddon addonType="prepend">
+                                                            <InputGroupText className={"bg-light"}>
+                                                                <i className="fa fa-hashtag"/>
+                                                            </InputGroupText>
+                                                        </InputGroupAddon>
+                                                        <Input
+                                                            className="pl-2"
+                                                            placeholder="ASIN"
+                                                            type="text"
+                                                            name="asin"
+                                                            value={this.state.asin}
+                                                            required disabled
+                                                        />
+                                                    </InputGroup>
+                                                </FormGroup>
+                                            </div>
+                                        </Row>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <FormGroup className="mb-3">
+                                                    <InputGroup className="input-group-alternative">
+                                                        <InputGroupAddon addonType="prepend">
+                                                            <InputGroupText>
+                                                                <i className="fa fa-angle-right"/>
+                                                            </InputGroupText>
+                                                        </InputGroupAddon>
+                                                        <Input
+                                                            placeholder="Titre"
+                                                            type="text"
+                                                            name="title"
+                                                            value={this.state.title}
+                                                            onChange={this.handleInputChange}
+                                                            required
+                                                        />
+                                                    </InputGroup>
+                                                </FormGroup>
+                                            </div>
+                                        </div>
+                                        <Row className="mb-3">
+                                            <div className="col-6">
+                                                <DropdownSelect name={"category"} options={this.state.categories}
+                                                                className={"w-100"} value={this.state.category}
+                                                                onChange={this.handleInputChange} placeholder={"Catégorie"}/>
+                                            </div>
+                                            <div className="col-6 text-center d-flex">
+                                                <label className="custom-toggle mt-2">
+                                                    <input type="checkbox" name="isPrime" checked={this.state.isPrime}
+                                                           onChange={this.handleCheckChange} id="isPrimeInput"/>
+                                                    <span className="custom-toggle-slider rounded-circle"/>
+                                                </label>
+                                                <label htmlFor="isPrimeInput" className="mt-2 ml-2">
+                                                    <img src={require("assets/img/icons/prime.png")} alt="prime"
+                                                         style={{"height": "18px"}}/>
+                                                </label>
+                                            </div>
+                                        </Row>
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <FormGroup className="mb-3">
+                                                    <InputGroup className="input-group-alternative">
+                                                        <Input placeholder="Prix" type="number" step="0.01"
+                                                            min="0.01" name="price" value={this.state.price}
+                                                            onChange={this.handleInputChange} required/>
+                                                        <InputGroupAddon addonType="append">
+                                                            <InputGroupText>
+                                                                <i className="fa fa-euro"/>
+                                                            </InputGroupText>
+                                                        </InputGroupAddon>
+                                                    </InputGroup>
+                                                </FormGroup>
+                                            </div>
+                                            <div className="col-6">
+                                                <FormGroup className="mb-3">
+                                                    <InputGroup className="input-group-alternative">
+                                                        <Input
+                                                            placeholder="Prix Final"
+                                                            type="number"
+                                                            step="0.01"
+                                                            min="0"
+                                                            name="finalPrice"
+                                                            value={this.state.finalPrice}
+                                                            onChange={this.handleInputChange}
+                                                            required
+                                                        />
+                                                        <InputGroupAddon addonType="append">
+                                                            <InputGroupText>
+                                                                <i className="fa fa-euro"/>
+                                                            </InputGroupText>
+                                                        </InputGroupAddon>
+                                                    </InputGroup>
+                                                </FormGroup>
+                                            </div>
+                                        </div>
 
-                                <FormGroup className="mb-3">
-                                    <Input
-                                        className="form-control-alternative"
-                                        placeholder="Description"
-                                        rows="10"
-                                        type="textarea"
-                                        name="description"
-                                        value={this.state.description}
-                                        onChange={this.handleInputChange}
-                                        required
-                                    />
-                                </FormGroup>
-                            </div>
-                            <div className="mt-3">
-                                <div className="row">
-                                    <FormGroup className="col-md-6 col-12">
-                                        <Input
-                                            className="form-control-alternative"
-                                            placeholder="Note visible AVANT une demande"
-                                            rows="3"
-                                            type="textarea"
-                                            name="beforeNote"
-                                            value={this.state.beforeNote}
-                                            onChange={this.handleInputChange}
-                                            required
-                                        />
-                                    </FormGroup>
-                                    <FormGroup className="col-md-6 col-12">
-                                        <Input
-                                            className="form-control-alternative"
-                                            placeholder="Note visible APRES une demande"
-                                            rows="3"
-                                            type="textarea"
-                                            name="afterNote"
-                                            value={this.state.afterNote}
-                                            onChange={this.handleInputChange}
-                                            required
-                                        />
-                                    </FormGroup>
-                                    <FormGroup className="col-md-6 col-12">
-                                        <InputGroup className="input-group-alternative">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>
-                                                    <i className="fa fa-user"/>
-                                                </InputGroupText>
-                                            </InputGroupAddon>
+                                        <FormGroup className="mb-3">
                                             <Input
-                                                placeholder="Nombre maximum de demande"
-                                                type="number"
-                                                step="1"
-                                                min="1"
-                                                name="maxDemands"
-                                                value={this.state.maxDemands}
+                                                className="form-control-alternative"
+                                                placeholder="Description"
+                                                rows="10"
+                                                type="textarea"
+                                                name="description"
+                                                value={this.state.description}
                                                 onChange={this.handleInputChange}
                                                 required
                                             />
-                                        </InputGroup>
-                                    </FormGroup>
-                                    <FormGroup className="col-md-6 col-12">
-                                        <div className="custom-control custom-control-alternative custom-checkbox mt-2">
-                                            <input
-                                                className="custom-control-input"
-                                                id="customCheck6"
-                                                type="checkbox"
-                                                name="automaticAcceptance"
-                                                checked={this.state.automaticAcceptance}
-                                                onChange={this.handleCheckChange}
-                                            />
-                                            <label className="custom-control-label" htmlFor="customCheck6">
-                                                Acceptation automatique des demandes
-                                            </label>
-                                            <i className="fa fa-question-circle ml-3 cursor-pointer"
-                                               id="tooltip348236073"/>
-                                            <UncontrolledPopover
-                                                placement="top"
-                                                target="tooltip348236073"
-                                                className="popover-default"
-                                            >
-                                                <PopoverBody className="text-center">
-                                                    Permet d'afficher le bouton qui permet aux testeurs d'avoir
-                                                    directement leur demande validée sans action de la part du
-                                                    vendeur.<br/>
-                                                    Seulement les testeurs ayants souscrits à l'option premium auront la
-                                                    possibilité de faire des demandes automatiques.
-                                                </PopoverBody>
-                                            </UncontrolledPopover>
+                                        </FormGroup>
+                                    </div>
+                                    <div className="mt-3">
+                                        <div className="row">
+                                            <FormGroup className="col-md-6 col-12">
+                                                <InputGroup className="input-group-alternative">
+                                                    <InputGroupAddon addonType="prepend">
+                                                        <InputGroupText>
+                                                            <i className="fa fa-user"/>
+                                                        </InputGroupText>
+                                                    </InputGroupAddon>
+                                                    <Input
+                                                        placeholder="Nombre maximum de demande"
+                                                        type="number"
+                                                        step="1"
+                                                        min="1"
+                                                        name="maxDemands"
+                                                        value={this.state.maxDemands}
+                                                        onChange={this.handleInputChange}
+                                                        required
+                                                    />
+                                                </InputGroup>
+                                            </FormGroup>
+                                            <FormGroup className="col-md-6 col-12">
+                                                <div className="custom-control custom-control-alternative custom-checkbox mt-2">
+                                                    <input
+                                                        className="custom-control-input"
+                                                        id="customCheck6"
+                                                        type="checkbox"
+                                                        name="automaticAcceptance"
+                                                        checked={this.state.automaticAcceptance}
+                                                        onChange={this.handleCheckChange}
+                                                    />
+                                                    <label className="custom-control-label" htmlFor="customCheck6">
+                                                        Acceptation automatique des demandes
+                                                    </label>
+                                                    <i className="fa fa-question-circle ml-3 cursor-pointer"
+                                                       id="tooltip348236073"/>
+                                                    <UncontrolledPopover
+                                                        placement="top"
+                                                        target="tooltip348236073"
+                                                        className="popover-default"
+                                                    >
+                                                        <PopoverBody className="text-center">
+                                                            Permet d'afficher le bouton qui permet aux testeurs d'avoir
+                                                            directement leur demande validée sans action de la part du
+                                                            vendeur.<br/>
+                                                            Seulement les testeurs ayants souscrits à l'option premium auront la
+                                                            possibilité de faire des demandes automatiques.
+                                                        </PopoverBody>
+                                                    </UncontrolledPopover>
+                                                </div>
+                                            </FormGroup>
                                         </div>
-                                    </FormGroup>
-                                </div>
-                            </div>
+                                    </div>
+                                </>
+                            ) : null}
                         </div>
+
                         <div className="modal-footer bg-secondary ">
-                            <Button
-                                color="secondary"
-                                data-dismiss="modal"
-                                type="button"
-                                onClick={() => this.toggleModal("exampleModal")}
-                            >
+                            <Button color="secondary" data-dismiss="modal" type="button"
+                                onClick={() => this.toggleModal("exampleModal")}>
                                 Fermer
                             </Button>
-                            <Button
-                                color="primary"
-                                data-dismiss="modal"
-                                type="submit"
-                            >
-                                Ajouter
-                            </Button>
+                            {this.state.asin ? (
+                                <Button color="primary" data-dismiss="modal" type="submit">Ajouter</Button>
+                            ) : null}
                         </div>
                     </Form>
                 </Modal>

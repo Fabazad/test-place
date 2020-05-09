@@ -1,11 +1,14 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
-import { eraseCookie } from "helpers/cookies.js";
+import {eraseCookie} from "../helpers/cookies.js";
+import {Subject} from "rxjs";
+import constants from "../helpers/constants";
+import {setCookie} from "../helpers/cookies";
+const {USER_ROLES} = constants;
 
 function serviceResolve(res) {
-    if (res.status !== 200) {
-        const error = new Error(res.error);
-        throw error;
+    if (!res || res.status !== 200) {
+        return Promise.reject(new Error(res.error));
     }
     return Promise.resolve(res.data);
 }
@@ -13,32 +16,43 @@ function serviceResolve(res) {
 class UserService extends BaseService {
     constructor() {
         super('/user');
-        this.currentUserId = undefined;
-        this.amazonId = undefined;
+        this.currentUser = undefined;
+        this.currentUserSubject = new Subject();
+        this.currentUserResolve = this.currentUserResolve.bind(this);
+    }
+
+    async currentUserResolve(res) {
+        return new Promise((resolve, reject) => {
+            serviceResolve(res)
+                .then(data => {
+                    if (typeof data === "object" && "user" in data) {
+                        this.currentUser = data.user;
+                        this.currentUserSubject.next(this.currentUser);
+                    } else if (this.isAuth() && !data.check) {
+                        this.logout();
+                    }
+                    if (typeof data === "object" && "token" in data) {
+                        setCookie("token", data.token, 7);
+                    }
+                    return resolve(data);
+                })
+                .catch(err => reject(err));
+        });
+
     }
 
     login(email, password) {
-        return axios.post(this.baseURL + '/login', {email, password}).then(serviceResolve);
+        return axios.post(this.baseURL + '/login', {email, password}).then(this.currentUserResolve);
     }
 
     register(user) {
         return axios.post(this.baseURL + '/register', user).then(serviceResolve);
     }
 
-    checkToken(required = true) {
-        return new Promise((resolve, reject) => {
-            axios.get(this.baseURL + '/checkToken', { params: { required } } ).then(res => {
-                if (res.data.userId) {
-                    this.currentUserId = res.data.userId;
-                    this.amazonId = res.data.amazonId;
-                    resolve();
-                }
-                reject();
-            }).catch(() => {
-                this.logout();
-                reject();
-            });
-        });   
+    checkToken() {
+        return axios.get(this.baseURL + '/checkToken', {
+            params: {logged: this.isAuth()}
+        }).then(this.currentUserResolve);
     }
 
     sendResetPasswordMail(email) {
@@ -57,29 +71,39 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + "/emailValidation", {userId}).then(serviceResolve);
     }
 
-    getCurrentUserId(){
-        return this.currentUserId;
+    getCurrentUserId() {
+        return this.isAuth() ? this.currentUser._id : null;
     }
 
     isAuth() {
-        return !!this.currentUserId;
+        return !!this.currentUser;
     }
 
     logout() {
         eraseCookie("token");
-        this.currentUserId = null;
+        this.currentUser = undefined;
+        this.currentUserSubject.next();
     }
 
     isAlreadyChecked() {
-        return this.currentUserId !== undefined;
+        return this.currentUser !== undefined;
     }
 
-    getAmazonId() {
-        return this.amazonId;
+    hasRole(role) {
+        if (this.isAuth() && this.currentUser.roles) {
+            return this.currentUser.roles.reduce((prev, currentRole) => {
+                return prev || currentRole === role || currentRole === USER_ROLES.ADMIN;
+            }, false);
+        }
+        return false;
     }
 
-    amazonLogin(amazonToken) {
-        return axios.post(this.baseURL + "/amazonLogin", { amazonToken }).then(serviceResolve);
+    resendValidationMail(email) {
+        return axios.post(this.baseURL + "/validationMail", {email}).then(serviceResolve);
+    }
+
+    updateUserInfo(userId, data) {
+        return  axios.post(this.baseURL + "/updateUserInfo", {userId, data}).then(this.currentUserResolve);
     }
 }
 

@@ -32,8 +32,7 @@ class S3Service extends BaseService {
                 };
                 axios.put(signedRequest, file, options)
                     .then(result => {
-                        console.log("Response from s3")
-                        console.log(result);
+                        console.log("Response from s3");
                         resolve(url);
                     })
                     .catch(error => {

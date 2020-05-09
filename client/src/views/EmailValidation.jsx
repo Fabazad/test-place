@@ -65,7 +65,7 @@ class EmailValidation extends React.Component {
                         <AnimatedCheck/>
                         <p className="success">Email validée.</p>
                         <p className="text-center text-primary">
-                          <Link to='/#/login'><small>Se connecter</small></Link>
+                          <Link to='/login'><small>Se connecter</small></Link>
                         </p>
                       </div> : null}
                       {this.state.validate === false ? 

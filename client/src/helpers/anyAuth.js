@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DemoNavbar from 'components/Navbars/DemoNavbar';
 import userService from 'services/user.services';
-import { eraseCookie, getCookie } from './cookies';
+import { getCookie } from './cookies';
 import Loading from 'components/Loading';
 
 export default function withAuth(ComponentToProtect) {
@@ -22,12 +22,8 @@ export default function withAuth(ComponentToProtect) {
         this.setState({ checked: true });
       }
       else {
-        const loadingPromise = userService.checkToken(false)
-        .then(() => this.setState({ checked: true }))
-        .catch(err => {
-          eraseCookie("token");
-          this.setState({ checked: true })
-        });
+        const loadingPromise = userService.checkToken()
+        .then(() => this.setState({ checked: true }));
         this.setState({ loadingPromise });
       }
     }

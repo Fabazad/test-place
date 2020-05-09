@@ -9,5 +9,15 @@
   "FORGOTTEN_PASSWORD": "Mot de passe oublié",
   "ACCOUNT_EMAIL": "Adresse mail du compte",
   "CLOSE": "Fermer",
-  "SEND": "Envoyer"
+  "SEND": "Envoyer",
+  "REQUESTED": "Demande envoyée",
+  "REQUEST_CANCELLED": "Demande annulée",
+  "REQUEST_DECLINED": "Demande refusée",
+  "REQUEST_ACCEPTED": "Demande acceptée",
+  "PRODUCT_ORDERED": "Produit commandé",
+  "PRODUCT_RECEIVED": "Produit reçu",
+  "PRODUCT_REVIEWED": "Produit noté",
+  "REVIEW_VALIDATED": "Avis validé",
+  "TESTER": "Testeur",
+  "SELLER": "Vendeur"
 }

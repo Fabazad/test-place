@@ -30,6 +30,10 @@ class BaseService {
     find(query = {}) {
         return axios.get(this.baseURL + "/find", { params: query }).then(serviceResolve);
     }
+
+    delete(itemId) {
+        return axios.delete(this.baseURL + '/' + itemId).then(serviceResolve);
+    }
 }
 
 export default BaseService;

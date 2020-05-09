@@ -1,8 +1,13 @@
 import Index from "views/Index.jsx";
-import Profile from "views/examples/Profile.jsx";
-import Maps from "views/examples/Maps.jsx";
-import Tables from "views/examples/Tables.jsx";
+import Profile from "./views/Profile/Profile.jsx";
 import MyProducts from "./views/MyProducts";
+import SentDemands from "./views/SentDemands";
+import ReceivedDemands from "./views/ReceivedDemands";
+import constants from "./helpers/constants";
+import MyCurrentTests from "./views/MyCurrentTests/MyCurrentTests";
+import CustomerCurrentTests from "./views/CustomerCurrentTests/CustomerCurrentTests";
+
+const {USER_ROLES} = constants;
 
 const routes = [
   {
@@ -10,35 +15,56 @@ const routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
-    layout: "/dashboard"
+    layout: "/dashboard",
   },
   {
     path: "/my-products",
     name: "Mes Produits",
     icon: "ni ni-bag-17 text-blue",
     component: MyProducts,
-    layout: "/dashboard"
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/dashboard"
+    path: "/sent-requests",
+    name: "Demandes Envoyées",
+    icon: "fa fa-hand-paper text-orange",
+    component: SentDemands,
+    layout: "/dashboard",
+    role: USER_ROLES.TESTER
+
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
+    path: "/received-requests",
+    name: "Demandes Reçues",
+    icon: "far fa-hand-paper text-yellow",
+    component: ReceivedDemands,
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER
+  },
+  {
+    path: "/my-current-tests",
+    name: "Mes Tests en Cours",
+    icon: "far fa-arrow-alt-circle-right text-pink",
+    component: MyCurrentTests,
+    layout: "/dashboard",
+    role: USER_ROLES.TESTER
+  },
+  {
+    path: "/customer-current-tests",
+    name: "Tests Clients en Cours",
+    icon: "far fa-arrow-alt-circle-right text-pink",
+    component: CustomerCurrentTests,
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER
+  },
+  {
+    path: "/my-profile",
+    name: "Mon Profil",
+    icon: "fa fa-user text-green",
     component: Profile,
-    layout: "/dashboard"
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
     layout: "/dashboard"
   }
 ];
+
 export default routes;

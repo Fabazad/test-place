@@ -8,11 +8,7 @@ export function textSlice(text, max) {
             <>
                 { text.slice(0, max) }
                 <span id={"tooltip" + tooltipId}>...</span>
-                <UncontrolledTooltip
-                    delay={0}
-                    placement="top"
-                    target={"tooltip" + tooltipId}
-                >
+                <UncontrolledTooltip delay={0} flip={false} placement="auto" target={"tooltip" + tooltipId}>
                     {text}
                 </UncontrolledTooltip>
             </>
@@ -27,5 +23,5 @@ export function formatDate(d) {
     const months = date.getMonth() + 1;
     const years = date.getFullYear();
 
-    return `${days}/${months}/${years}`;
+    return `${days > 10 ? days : '0' + days}/${months > 10 ? months : '0' + months}/${years}`;
 }

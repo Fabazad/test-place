@@ -1,4 +1,5 @@
 import React from "react";
+import $ from "jquery";
 // reactstrap components
 import {
     UncontrolledCarousel
@@ -12,6 +13,7 @@ class Carousel extends React.Component {
         this.state = {
             selectedIndex: 0
         };
+        this.carouselRef = React.createRef();
     }
 
     nextImage() {
@@ -34,15 +36,20 @@ class Carousel extends React.Component {
         this.setState({selectedIndex: index});
     }
 
+    componentDidMount() {
+        const $carouselSlide = $(".carousel.slide");
+        const width = $carouselSlide.width();
+        $carouselSlide.height(width);
+    }
+
     render() {
         return (
             <>
                 <div className='rounded overflow-hidden shadow'>
-                    <UncontrolledCarousel items={this.props.imageUrls.map(imageUrl => {
-                        return {'src': imageUrl};
-                    })} activeIndex={this.state.selectedIndex} next={() => this.nextImage()}
-                                          previous={() => this.prevImage()}
-                                          indicators={false}/>
+                    <UncontrolledCarousel ref={this.carouselRef}
+                        items={this.props.imageUrls.map(imageUrl => { return {src: imageUrl} })}
+                        activeIndex={this.state.selectedIndex} next={() => this.nextImage()}
+                        previous={() => this.prevImage()} indicators={false}/>
                 </div>
 
                 <div className="w-100 overflow-x-auto white-space-nowrap">
