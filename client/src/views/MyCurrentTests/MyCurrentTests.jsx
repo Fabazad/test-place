@@ -10,7 +10,7 @@ const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
 
 const MyCurrentTests = (props) => {
 
-    const {t} = props;
+    const {t} = props; // eslint-disable-line no-unused-vars
 
     const statusesOptions = ['requestAccepted', 'productOrdered', 'productReceived', 'productReviewed',
         'reviewValidated', 'reviewRefused', 'moneySent', 'moneyReceived'];

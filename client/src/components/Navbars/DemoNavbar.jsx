@@ -40,7 +40,7 @@ const DemoNavbar = props => {
 
     const toggle = (open = !isOpen) => setIsOpen(open);
 
-    useEffect(() => toggle(false), [props.location.pathname]);
+    useEffect(() => toggle(false), [props.location.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
     const isAuth = userServices.isAuth();
     return (
         <>

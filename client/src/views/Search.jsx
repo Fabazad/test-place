@@ -47,7 +47,7 @@ const Search = () => {
 
         setTimeout(() => scrollTo("results"), 100);
         searchProducts();
-    }, [searchEngineData, page, sortBy]);
+    }, [searchEngineData, page, sortBy]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onSearch = (searchData) => {
         let url = window.location.href;

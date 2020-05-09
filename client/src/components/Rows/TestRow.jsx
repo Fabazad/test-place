@@ -27,7 +27,7 @@ const TestRow = props => {
 
     return (
         <tr>
-            <td scope="row">
+            <td>
                 <Link to={'/ad/' + test.product._id}>
                     <Media className="align-items-center">
                         <div className="avatar rounded-circle mr-3 bg-transparent shadow">

@@ -15,7 +15,7 @@ const ConfirmModal = () => {
             setCallback(() => callback);
             toggleModal();
         });
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const toggleModal = () => {
         setIsOpen(!isOpen);

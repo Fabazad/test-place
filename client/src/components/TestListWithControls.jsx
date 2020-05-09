@@ -71,12 +71,12 @@ const TestListWithControls = props => {
         });
 
         return () => mount = false;
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // On search controls update
     useEffect(() => {
         if (statusesOptionsFormatted.length) search();
-    }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]);
+    }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onActionClick = (testId, action) => {
         const test = tests.find(t => t._id === testId);

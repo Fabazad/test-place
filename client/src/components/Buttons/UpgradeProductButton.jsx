@@ -6,7 +6,7 @@ import RowActionButton from "./RowActionButton";
 class UpgradeProductButton extends React.Component {
 
     render() {
-        const productId = this.props.productId;
+        //const productId = this.props.productId;
         return (
             <>
                 <RowActionButton title="Upgrade" icon="far fa-gem" color="primary"
