@@ -3,6 +3,7 @@ const TestModel = require('../models/test.model');
 const ProductModel = require('../models/product.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
+const ObjectId = require('mongoose').Types.ObjectId;
 
 const {TEST_STATUS_PROCESSES, ROLES} = constants;
 
@@ -95,7 +96,7 @@ class TestController {
                 TestModel.count(searchQuery)
             ]).catch(err => reject(ErrorResponses.mongoose(err)));
 
-            return resolve({ hits, totalCount });
+            return resolve({hits, totalCount});
         });
     }
 
@@ -145,6 +146,24 @@ class TestController {
 
             test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
         });
+    }
+
+    static async getTest(testId, userId) {
+        if (!ObjectId.isValid(testId)) {
+            return Promise.reject({status: 400, message: "Wrong test id."});
+        }
+
+        const test = await TestModel.findById(testId).populate(['seller', 'tester']);
+
+        if (!test) {
+            return Promise.reject({status: 404, message: "Couldn't find test."});
+        }
+
+        if (test.seller._id.toString() !== userId && test.tester._id.toString() !== userId) {
+            return Promise.reject({status: 403, message: "You are neither the tester or the seller of this test."});
+        }
+
+        return Promise.resolve(test);
     }
 }
 

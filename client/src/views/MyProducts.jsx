@@ -16,7 +16,7 @@ import productServices from '../services/product.service';
 import userServices from '../services/user.services';
 import PaginationBis from "../components/PaginationBis";
 import constants from "../helpers/constants";
-import {updateURLParameter} from "../helpers/urlHelpers";
+import {updateURLParameters} from "../helpers/urlHelpers";
 import NewProductModal from "../components/Modals/NewProductModal";
 import DropdownSelect from "../components/DropdownSelect";
 import ProductRow from "../components/Rows/ProductRow.jsx";
@@ -72,17 +72,13 @@ class MyProducts extends React.Component {
     onSortChange(e) {
         const sortBy = e.target.value;
         this.setState({sortBy}, () => {
-            let url = window.location.href;
-            url = updateURLParameter(url, 'sortBy', sortBy);
-            window.history.pushState({}, "", url);
-            this.goToPage(1);
+            updateURLParameters({sortBy, page: 1});
+            this.setState({page: 1}, this.findProducts);
         });
     }
 
     goToPage(page) {
-        let url = window.location.href;
-        url = updateURLParameter(url, 'page', page);
-        window.history.pushState({}, "", url);
+        updateURLParameters({page});
 
         this.setState({page}, this.findProducts);
     }

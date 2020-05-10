@@ -25,7 +25,7 @@ import CardsFooter from "components/Footers/CardsFooter.jsx";
 // index page sections
 import Download from "./IndexSections/Download.jsx";
 import SearchEngine from "../components/SearchEngine";
-import {updateURLParameter} from "../helpers/urlHelpers";
+import {updateURLParameters} from "../helpers/urlHelpers";
 
 class Landing extends React.Component {
 
@@ -42,11 +42,7 @@ class Landing extends React.Component {
     }
 
     onSearch(searchData) {
-        let url = '/search';
-        Object.keys(searchData).forEach(dataKey => {
-            url = updateURLParameter(url, dataKey, searchData[dataKey]);
-        });
-        this.props.history.push(url);
+        updateURLParameters(searchData);
     }
 
     render() {

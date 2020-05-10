@@ -10,13 +10,14 @@ import {
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import SearchEngine from "../components/SearchEngine";
 import productServices from "../services/product.service";
-import {updateURLParameter} from "../helpers/urlHelpers"
+import {updateURLParameters} from "../helpers/urlHelpers"
 import ProductCard from "../components/Cards/ProductCard";
 import constants from "../helpers/constants";
 import PaginationBis from "../components/PaginationBis";
 import DropdownSelect from "../components/DropdownSelect";
 import {scrollTo} from "../helpers/scrollHelpers";
 import ProductCardSkeleton from "../components/Cards/ProductCardSkeleton";
+import history from "../history";
 
 const Search = () => {
 
@@ -30,7 +31,8 @@ const Search = () => {
 
     const getSearchParamsFromUrl = () => {
         const urlParams = new URLSearchParams(window.location.search);
-        setSearchEngineData({
+
+        const params = {
             minPrice: urlParams.has('minPrice') ? urlParams.get('minPrice') : '',
             maxPrice: urlParams.has('maxPrice') ? urlParams.get('maxPrice') : '',
             free: urlParams.get('free') === 'true',
@@ -38,37 +40,33 @@ const Search = () => {
             prime: urlParams.get('prime') === 'true',
             category: urlParams.has('category') ? urlParams.get('category') : '',
             keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : '',
-        });
-    };
+        };
 
-    useEffect(getSearchParamsFromUrl, []);
+        setSearchEngineData(Object.assign({}, params));
+
+        if (urlParams.has('page')) {
+            params.page = (parseInt(urlParams.get('page')));
+            setPage(params.page);
+        }
+        if (urlParams.has('sortBy')) {
+            params.sortBy = urlParams.get('sortBy');
+            setSortBy(params.sortBy);
+        }
+
+        return params;
+    };
 
     useEffect(() => {
-
         setTimeout(() => scrollTo("results"), 100);
-        searchProducts();
-    }, [searchEngineData, page, sortBy]); // eslint-disable-line react-hooks/exhaustive-deps
+        searchProducts(getSearchParamsFromUrl());
+    }, [history.location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const onSearch = (searchData) => {
-        let url = window.location.href;
-
-        Object.keys(searchData).forEach(dataKey => {
-            url = updateURLParameter(url, dataKey, searchData[dataKey]);
-        });
-        window.history.pushState({}, "", url);
-
-        setSearchEngineData(searchData);
-        goToPage(1);
-    };
-
-    const searchProducts = () => {
+    const searchProducts = (searchParams) => {
         setLoading(true);
 
         const searchData = {
-            ...searchEngineData,
+            ...searchParams,
             itemsPerPage,
-            sortBy,
-            page,
             published: true,
             remainingRequests: true
         };
@@ -82,18 +80,11 @@ const Search = () => {
     };
 
     const goToPage = page => {
-        let url = window.location.href;
-        url = updateURLParameter(url, 'page', page);
-        window.history.pushState({}, "", url);
-        setPage(page);
+        updateURLParameters({page});
     };
 
     const onSortByChange = sortBy => {
-        setSortBy(sortBy);
-        let url = window.location.href;
-        url = updateURLParameter(url, 'sortBy', sortBy);
-        window.history.pushState({}, "", url);
-        goToPage(1);
+        updateURLParameters({sortBy, page: 1});
     };
 
     return (
@@ -113,7 +104,8 @@ const Search = () => {
                     <Container className="pt-lg-md mb-5">
                         <Row className="mt-3">
                             <div className="col-12">
-                                <SearchEngine onSearch={onSearch} data={searchEngineData}/>
+                                <SearchEngine onSearch={data => updateURLParameters({...data, page: 1})}
+                                              data={searchEngineData}/>
                             </div>
                         </Row>
                         <Row className="pt-5" id="results">

@@ -20,6 +20,7 @@ import Container from "reactstrap/es/Container";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import DeclineReviewModal from "./Modals/DeclineReviewModal";
+import {updateURLParameters} from "../helpers/urlHelpers";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -83,11 +84,14 @@ const TestListWithControls = props => {
         const test = tests.find(t => t._id === testId);
         if (test) {
             setSelectedTest(test);
-            toggleModal(action);
+            toggleModal(action, test._id);
         }
     };
 
-    const toggleModal = action => {
+    const toggleModal = (action, testId = null) => {
+        if (action === TEST_ROW_CLICK_ACTIONS.SHOW_TEST && !isModalOpen[action] && testId) {
+            updateURLParameters({testId});
+        }
         const newIsModalOpen = Object.assign({}, isModalOpen);
         newIsModalOpen[action] = !isModalOpen[action];
         setIsModalOpen(newIsModalOpen);
@@ -191,7 +195,7 @@ const TestListWithControls = props => {
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
                     <TestModal userType={userRole} globalStatus={globalStatus}
-                               isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} test={selectedTest}
+                               isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} testId={selectedTest._id}
                                onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
                     <DeclineReviewModal
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED]} testId={selectedTest._id}

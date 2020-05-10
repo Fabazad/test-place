@@ -1,6 +1,6 @@
 import React from "react";
 import {ToastContainer} from "react-toastify";
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import withoutAuth from "./helpers/withoutAuth";
 import Login from "./views/Login";
 import Register from "./views/Register";
@@ -14,6 +14,8 @@ import Search from "./views/Search";
 import ProductDetail from "./views/ProductDetail";
 import ConfirmModal from "./components/Modals/ConfirmModal";
 import NotFound from "./views/NotFound";
+import {Router} from "react-router";
+import history from './history';
 
 class App extends React.Component {
 
@@ -22,7 +24,7 @@ class App extends React.Component {
             <>
                 <ToastContainer data-testid="toast-container"/>
                 <ConfirmModal/>
-                <BrowserRouter>
+                <Router history={history}>
                     <Switch>
                         <Route path="/" exact component={anyAuth(Landing)}/>
                         <Route path="/login" component={withoutAuth(Login)}/>
@@ -35,7 +37,7 @@ class App extends React.Component {
                         <Route path="/not-found" component={anyAuth(NotFound)}/>
                         <Redirect to="/not-found"/>
                     </Switch>
-                </BrowserRouter>
+                </Router>
             </>
         );
     }

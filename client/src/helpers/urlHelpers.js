@@ -1,3 +1,5 @@
+import history from "../history";
+
 export function updateURLParameter(url, param, paramVal) {
     let newAdditionalURL = "";
     let tempArray = url.split("?");
@@ -16,6 +18,14 @@ export function updateURLParameter(url, param, paramVal) {
 
     const rows_txt = temp + "" + param + "=" + paramVal;
     return baseURL + "?" + newAdditionalURL + rows_txt;
+}
+
+export function updateURLParameters(params) {
+    const newUrl = Object.keys(params).reduce((acc, key) => {
+        return updateURLParameter(acc, key, params[key])
+    }, history.location.pathname + history.location.search);
+
+    history.push(newUrl);
 }
 
 export function getProductAmazonUrl(asin) {

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {Button, Modal} from "reactstrap";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Label from "reactstrap/lib/Label";
 import {formatDate} from "../../../helpers/textHelpers";
 import {Link} from "react-router-dom";
@@ -14,10 +14,19 @@ import TestStatusIcon from "../../TestStatusIcon";
 import {withTranslation} from "react-i18next";
 import TestProcessInfo from "./TestProcessInfo";
 import Container from "reactstrap/es/Container";
+import testServices from "../../../services/test.services";
 
 const TestModal = props => {
 
-    const {isOpen, onToggle, test, userType, globalStatus, t} = props;
+    const {isOpen, onToggle, userType, globalStatus, testId, t} = props;
+
+    const [test, setTest] = useState(null);
+
+    useEffect(() => {
+        testServices.getOne(testId).then(setTest);
+    }, [testId]);
+
+    if (!test) return null;
 
     const lastUpdate = test.updates && test.updates.length ? test.updates[test.updates.length - 1] : {};
 
@@ -96,7 +105,7 @@ const TestModal = props => {
 TestModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
-    test: PropTypes.object.isRequired,
+    testId: PropTypes.string.isRequired,
     userType: PropTypes.string.isRequired,
     globalStatus: PropTypes.string.isRequired
 };
