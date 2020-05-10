@@ -18,9 +18,9 @@ const ProductCard = props => {
         <Card className={"card-lift--hover shadow border-0 cursor-pointer"}
               to={(product ? 'ad/' + product._id : '#')} tag={Link}>
             <CardHeader className="p-1">
-                <div className="w-100 text-center">
-                <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL} alt=""
-                     className="shadow rounded" style={{maxWidth: "300px", maxHeight: "250px"}}/>
+                <div className="w-100 text-center" style={{height: "250px"}}>
+                    <img src={product ? product.imageUrls[0] : constants.BASE_PRODUCT_PICTURE_URL} alt=""
+                         className="shadow rounded mw-100" style={{maxHeight: "250px"}}/>
                 </div>
             </CardHeader>
             <CardBody>
