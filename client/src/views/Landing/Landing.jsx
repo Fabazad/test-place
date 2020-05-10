@@ -75,8 +75,7 @@ class Landing extends React.Component {
                                         <img src={require("assets/img/brand/logo_test_place.png")}
                                              style={{height: "150px"}} alt="test place logo" className="my-3"/>
                                         <p className="lead text-white">
-                                            Faites vous rembourser vos produits Amazon après avoir publié votre avis sur
-                                            le celui-ci<br/>
+                                            Vous êtes remboursé après avoir publié votre avis
                                         </p>
                                     </Col>
                                 </Row>
