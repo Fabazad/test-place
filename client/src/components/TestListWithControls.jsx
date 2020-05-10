@@ -90,7 +90,7 @@ const TestListWithControls = props => {
         } else {
             toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST, false);
         }
-    }, [history.location.search]);
+    }, [history.location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onActionClick = (testId, action) => {
         if (action === TEST_ROW_CLICK_ACTIONS.SHOW_TEST) {
