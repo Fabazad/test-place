@@ -28,7 +28,7 @@ const TestStatusIcon = (props) => {
                     [statuses['productReceived']]:  { color: 'warning', icon: 'fa-box-open' },
                     [statuses['productReviewed']]:  { color: 'warning', icon: 'fa-star' },
                     [statuses['reviewValidated']]:  { color: 'success', icon: 'fa-star' },
-                    [statuses['productDeclined']]:  { color: 'danger', icon: 'fa-star' }
+                    [statuses['reviewDeclined']]:  { color: 'danger', icon: 'fa-star' }
                 }
             };
             setStatuses(statuses);

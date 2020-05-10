@@ -18,6 +18,7 @@
   "PRODUCT_RECEIVED": "Produit reçu",
   "PRODUCT_REVIEWED": "Produit noté",
   "REVIEW_VALIDATED": "Avis validé",
+  "REVIEW_REFUSED": "Avis refusé",
   "TESTER": "Testeur",
   "SELLER": "Vendeur"
 }

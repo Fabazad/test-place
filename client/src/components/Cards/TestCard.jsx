@@ -101,8 +101,8 @@ const TestCard = (props) => {
 
                 </div>
                 <div className="row mt-3">
-                    <TestListButtons test={test} userRole={userRole} globalStatus={globalStatus} onClick={onActionClick}
-                                     statuses={statuses}/>
+                    <TestListButtons test={test} userRole={userRole} globalStatus={globalStatus}
+                                     onClick={action => onActionClick(test._id, action)} statuses={statuses}/>
                 </div>
             </CardBody>
         </Card>

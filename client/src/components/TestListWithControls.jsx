@@ -19,6 +19,7 @@ import TestModal from "./Modals/TestModal/TestModal";
 import Container from "reactstrap/es/Container";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
+import DeclineReviewModal from "./Modals/DeclineReviewModal";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -190,8 +191,11 @@ const TestListWithControls = props => {
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
                     <TestModal userType={userRole} globalStatus={globalStatus}
-                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} test={selectedTest}
-                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+                               isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} test={selectedTest}
+                               onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+                    <DeclineReviewModal
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED]} testId={selectedTest._id}
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED)}/>
                 </>
             ) : null}
         </>

@@ -19,9 +19,9 @@ const TestRow = props => {
 
     if (!test || !userRole || !globalStatus) return null;
 
-    const handleClick = (testId, action) => {
+    const handleClick = (action) => {
         if (onClick) {
-            onClick(testId, action);
+            onClick(test._id, action);
         }
     };
 

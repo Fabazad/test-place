@@ -106,16 +106,39 @@ const TestProcessInfo = props => {
                 </NextStepAdvice> : null}
             {isStatus('productReviewed') && USER_ROLES.TESTER === userRole ?
                 <NextStepAdvice color="success">
-                    Vous n'avez plus qu'à attendre que le vendeur accepte votre avis Amazon pour recevoir votre remboursement.
+                    Vous n'avez plus qu'à attendre que le vendeur accepte votre avis Amazon pour recevoir votre
+                    remboursement.
                 </NextStepAdvice> : null}
             {isStatus('productReviewed') && USER_ROLES.SELLER === userRole ?
                 <NextStepAdvice color="success">
                     Le testeur a indiqué avoir laissé un avis sur le produit le&nbsp;
-                    {formatDate(test.updates[test.updates.length-1].date)}.<br/>
+                    {formatDate(test.updates[test.updates.length - 1].date)}.<br/>
                     Vous pouvez facilement le vérifier sur son&nbsp;
                     <a href={getAmazonProfileUrl(test.tester.amazonId)}>Profile Amazon</a>.<br/>
-                    Attention, l'avis peut mettre plusieurs jours pour être validé par Amazon et donc apparaître sur le profile de l'acheteur.
+                    Attention, l'avis peut mettre plusieurs jours pour être validé par Amazon et donc apparaître sur le
+                    profile de l'acheteur.
                 </NextStepAdvice> : null}
+            {isStatus("reviewDeclined") && test.declineReviewReason ?
+                <>
+                    <div className="text-left w-100">
+                        <div className="mb-3">
+                            <Label>Raison du Refus - <Link to={'#'}>{test.seller.name}</Link></Label>
+                            <Alert color="danger">
+                                {test.declineReviewReason}
+                            </Alert>
+                        </div>
+                    </div>
+                    {userRole === USER_ROLES.SELLER ?
+                        <NextStepAdvice color="info">
+                            Un administrateur va s'occuper du litige.<br/>
+                            Si la raison est considérée comme valable, vous serez remboursé.
+                        </NextStepAdvice> : null}
+                    {userRole === USER_ROLES.TESTER ?
+                        <NextStepAdvice color="info">
+                            Un administrateur va s'occuper du litige.<br/>
+                            Si la raison du refus n'est pas considérée comme valable, vous recevrez tout de même votre compensation.
+                        </NextStepAdvice> : null}
+                </> : null}
         </>
     )
 };

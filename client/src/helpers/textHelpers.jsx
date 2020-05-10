@@ -23,5 +23,5 @@ export function formatDate(d) {
     const months = date.getMonth() + 1;
     const years = date.getFullYear();
 
-    return `${days > 10 ? days : '0' + days}/${months > 10 ? months : '0' + months}/${years}`;
+    return `${days > 9 ? days : '0' + days}/${months > 9 ? months : '0' + months}/${years}`;
 }

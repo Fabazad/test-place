@@ -7,6 +7,7 @@ import constants from "../../helpers/constants";
 import testServices from "../../services/test.services";
 import {toast} from "react-toastify";
 import confirmHelper from "../../helpers/confirmHelper";
+
 const {TEST_GLOBAL_STATUSES, TEST_ROW_CLICK_ACTIONS, USER_ROLES} = constants;
 
 const TestListButtons = props => {
@@ -54,7 +55,7 @@ const TestListButtons = props => {
                         <CancelTestRequestButton testId={test._id}/>) : null}
                     <RowActionButton
                         title="Voir" icon="fa fa-eye" color="info"
-                        onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+                        onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
                 </>
             ) : null}
 
@@ -62,7 +63,7 @@ const TestListButtons = props => {
                 <>
                     <RowActionButton
                         color='info' icon='fa fa-eye' title='Voir'
-                        onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+                        onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
 
                     {userRole === USER_ROLES.TESTER ? (
                         <>
@@ -74,7 +75,7 @@ const TestListButtons = props => {
                             {test.status === statuses["requestAccepted"] ? (
                                 <RowActionButton
                                     title="Produit Commandé" icon="fa fa-shopping-cart" color="warning"
-                                    onClick={() => onClick(test._id, TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
+                                    onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
                             ) : null}
                             {test.status === statuses["productOrdered"] ? (
                                 <RowActionButton
@@ -97,8 +98,9 @@ const TestListButtons = props => {
                                     <RowActionButton
                                         title="Profil Amazon" icon="fab fa-amazon" color="default"
                                         onClick={() => window.open(getAmazonProfileUrl(test.tester.amazonId), '_blank')}/>
-                                    <RowActionButton title="Refuser l'Avis" icon="fa fa-thumbs-down"
-                                                     color="danger" onClick={() => console.log("test")}/>
+                                    <RowActionButton
+                                        title="Refuser l'Avis" icon="fa fa-thumbs-down"
+                                        color="danger" onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED)}/>
                                     <RowActionButton
                                         title="Valider l'Avis" icon="fa fa-thumbs-up" color="success"
                                         onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED)}/>

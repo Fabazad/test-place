@@ -81,18 +81,14 @@ class TestController {
             const sort = {'createdAt': 1};
 
             const searchQuery = {};
-            const populateList = [];
-            if (statuses && statuses.length) {
-                searchQuery.status = {$in: statuses};
-            }
-            if (asSeller) {
-                searchQuery.seller = currentUserId;
-                populateList.push('tester');
-            }
-            if (asTester) {
-                searchQuery.tester = currentUserId;
-                populateList.push('seller');
-            }
+
+            const populateList = ['tester', 'seller'];
+
+            if (statuses && statuses.length) searchQuery.status = {$in: statuses};
+
+            if (asSeller) searchQuery.seller = currentUserId;
+
+            if (asTester) searchQuery.tester = currentUserId;
 
             const [hits, totalCount] = await Promise.all([
                 TestModel.find(searchQuery).sort(sort).skip(skip).limit(limit).populate(populateList),

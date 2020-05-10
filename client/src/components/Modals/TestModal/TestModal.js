@@ -86,7 +86,7 @@ const TestModal = props => {
 
             <ModalFooter>
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    Close
+                    Fermer
                 </Button>
             </ModalFooter>
         </Modal>

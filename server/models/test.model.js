@@ -18,7 +18,8 @@ const testObject = {
     cancelRequestReason: String,
     declineRequestReason: String,
     sellerMessage: String,
-    estimatedDeliveryDate: Date
+    estimatedDeliveryDate: Date,
+    declineReviewReason: String
 };
 
 const testSchema = new mongoose.Schema(testObject);

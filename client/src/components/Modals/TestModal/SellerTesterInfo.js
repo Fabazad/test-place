@@ -56,7 +56,7 @@ SellerTesterInfo.propTypes = {
     userRole: PropTypes.string.isRequired,
     tester: PropTypes.object.isRequired,
     seller: PropTypes.object.isRequired,
-    amazonSeller: PropTypes.object.isRequired
+    amazonSeller: PropTypes.object
 };
 
 export default SellerTesterInfo;
