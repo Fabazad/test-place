@@ -20,10 +20,11 @@ export function updateURLParameter(url, param, paramVal) {
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
 
-export function updateURLParameters(params) {
+export function updateURLParameters(params, pathname = history.location.pathname) {
+    console.log(history.location)
     const newUrl = Object.keys(params).reduce((acc, key) => {
         return updateURLParameter(acc, key, params[key])
-    }, history.location.pathname + history.location.search);
+    }, pathname + history.location.search);
 
     history.push(newUrl);
 }

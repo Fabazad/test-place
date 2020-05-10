@@ -5,7 +5,7 @@ import withoutAuth from "./helpers/withoutAuth";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import anyAuth from "./helpers/anyAuth";
-import Landing from "./views/Landing";
+import Landing from "./views/Landing/Landing";
 import ResetPassword from "./views/ResetPassword";
 import EmailValidation from "./views/EmailValidation";
 import withAuth from "./helpers/withAuth";
