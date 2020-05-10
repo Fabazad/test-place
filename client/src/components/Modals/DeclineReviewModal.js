@@ -9,7 +9,6 @@ import FormGroup from "reactstrap/es/FormGroup";
 import Input from "reactstrap/es/Input";
 import Alert from "reactstrap/es/Alert";
 import testServices from "../../services/test.services";
-import {toast} from "react-toastify";
 
 const DeclineReviewModal = props => {
 
