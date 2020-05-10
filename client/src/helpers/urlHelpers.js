@@ -28,6 +28,13 @@ export function updateURLParameters(params) {
     history.push(newUrl);
 }
 
+export function removeUrlParameters(key) {
+    let params = new URLSearchParams(history.location.search.slice(1));
+    params.delete(key); //Query string is now: 'bar=2'
+    const newSearch = params.toString();
+    history.push(history.location.pathname + (newSearch ? "/" + newSearch : ""));
+}
+
 export function getProductAmazonUrl(asin) {
     return 'https://www.amazon.fr/dp/' + asin;
 }

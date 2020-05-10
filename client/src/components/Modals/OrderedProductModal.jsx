@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {Button, Modal} from "reactstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Form from "reactstrap/es/Form";
 import Alert from "reactstrap/es/Alert";
 import FormGroup from "reactstrap/es/FormGroup";
@@ -13,9 +13,14 @@ import {toast} from "react-toastify";
 require('moment/locale/fr');
 
 const OrderedProductModal = props => {
-    const {isOpen, onToggle, test} = props;
+    const {isOpen, onToggle, testId} = props;
 
     const [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState(null);
+    const [test, setTest] = useState(null);
+
+    useEffect(() => {
+        testServices.getOne(testId).then(setTest);
+    }, [testId]);
 
     if (!test) return null;
 
@@ -81,7 +86,7 @@ const OrderedProductModal = props => {
 OrderedProductModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
-    test: PropTypes.object.isRequired
+    testId: PropTypes.string.isRequired
 };
 
 export default OrderedProductModal;

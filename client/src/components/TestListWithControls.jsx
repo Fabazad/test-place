@@ -20,7 +20,8 @@ import Container from "reactstrap/es/Container";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import DeclineReviewModal from "./Modals/DeclineReviewModal";
-import {updateURLParameters} from "../helpers/urlHelpers";
+import {removeUrlParameters, updateURLParameters} from "../helpers/urlHelpers";
+import history from "../history";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -29,7 +30,7 @@ const TestListWithControls = props => {
 
     const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(1);
-    const [selectedTest, setSelectedTest] = useState(null);
+    const [selectedTestId, setSelectedTestId] = useState(null);
     const [statusFilter, setStatusFilter] = useState(null);
     const [tests, setTests] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -80,20 +81,30 @@ const TestListWithControls = props => {
         if (statusesOptionsFormatted.length) search();
     }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const onActionClick = (testId, action) => {
-        const test = tests.find(t => t._id === testId);
-        if (test) {
-            setSelectedTest(test);
-            toggleModal(action, test._id);
+    // On testId in url
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('testId')) {
+            setSelectedTestId(urlParams.get("testId"));
+            toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST, true);
+        } else {
+            toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST, false);
         }
+    }, [history.location.search]);
+
+    const onActionClick = (testId, action) => {
+        if (action === TEST_ROW_CLICK_ACTIONS.SHOW_TEST) {
+            updateURLParameters({testId});
+            return;
+        }
+
+        setSelectedTestId(testId);
+        toggleModal(action);
     };
 
-    const toggleModal = (action, testId = null) => {
-        if (action === TEST_ROW_CLICK_ACTIONS.SHOW_TEST && !isModalOpen[action] && testId) {
-            updateURLParameters({testId});
-        }
+    const toggleModal = (action, isOpen = !isModalOpen[action]) => {
         const newIsModalOpen = Object.assign({}, isModalOpen);
-        newIsModalOpen[action] = !isModalOpen[action];
+        newIsModalOpen[action] = isOpen;
         setIsModalOpen(newIsModalOpen);
     };
 
@@ -189,16 +200,16 @@ const TestListWithControls = props => {
                 </CardFooter>
             </Card>
 
-            {selectedTest ? (
+            {selectedTestId ? (
                 <>
                     <OrderedProductModal
-                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} test={selectedTest}
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} testId={selectedTestId}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
                     <TestModal userType={userRole} globalStatus={globalStatus}
-                               isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} testId={selectedTest._id}
-                               onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+                               isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} testId={selectedTestId}
+                               onToggle={() => removeUrlParameters('testId')}/>
                     <DeclineReviewModal
-                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED]} testId={selectedTest._id}
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED]} testId={selectedTestId}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED)}/>
                 </>
             ) : null}
