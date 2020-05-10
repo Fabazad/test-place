@@ -105,7 +105,7 @@ class Landing extends React.Component {
                         </section>
                         {/* 1st Hero Variation */}
                     </div>
-                    <section className="section section-lg mt--200 pt-0 pb-5">
+                    <section className="section section-lg mt--200 mt--60px pt-0 pb-5">
                         <ProductDisplay/>
                     </section>
                     <section className="section section-lg py-5 my-3 bg-gradient-success">

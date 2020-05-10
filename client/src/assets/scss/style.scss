@@ -123,6 +123,12 @@ img.selected {
     }
 }
 
+@media (max-width: 768px) {
+    .mt--60px {
+        margin-top: -60px;
+    }
+}
+
 .dropdown-select .selected, .dropdown-select .selected:hover {
     background-color: #5e72e4;
     color: white;
