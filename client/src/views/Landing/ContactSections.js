@@ -20,10 +20,20 @@ const ContactSections = () => {
     const [nameFocused, setNameFocused] = useState(false);
     const [emailFocused, setEmailFocused] = useState(false);
 
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+
+    const onSubmit = e => {
+        e.preventDefault();
+        console.log(name, email, message);
+
+    };
+
     return (
         <>
             <section className="section section-lg bg-gradient-default">
-                <Container className="pt-lg" style={{paddingBottom: "150px"}}>
+                <Container className="pt-5 pb-md-8" id="contact-us">
                     <Row className="text-center justify-content-center">
                         <Col lg="10">
                             <h2 className="display-3 text-white">Vous avez des questions ou des remarques ?</h2>
@@ -49,7 +59,7 @@ const ContactSections = () => {
                         <Col lg="8">
                             <Card className="bg-gradient-secondary shadow">
                                 <CardBody className="p-lg-5">
-                                    <Form>
+                                    <Form onSubmit={onSubmit}>
                                         <FormGroup className={classnames({focused: nameFocused})}>
                                             <InputGroup className="input-group-alternative">
                                                 <InputGroupAddon addonType="prepend">
@@ -57,9 +67,10 @@ const ContactSections = () => {
                                                         <i className="ni ni-user-run"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input placeholder="Votre nom" type="text"
+                                                <Input placeholder="Votre nom" type="text" value={name} required
                                                        onFocus={() => setNameFocused(true)}
                                                        onBlur={() => setNameFocused(false)}
+                                                       onChange={e => setName(e.target.value)}
                                                 />
                                             </InputGroup>
                                         </FormGroup>
@@ -70,14 +81,16 @@ const ContactSections = () => {
                                                         <i className="ni ni-email-83"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input placeholder="Votre adresse mail" type="email"
-                                                       onFocus={() => setEmailFocused(true)}
+                                                <Input placeholder="Votre adresse mail" type="email" value={email}
+                                                       onFocus={() => setEmailFocused(true)} required
                                                        onBlur={() => setEmailFocused(false)}
+                                                       onChange={e => setEmail(e.target.value)}
                                                 />
                                             </InputGroup>
                                         </FormGroup>
                                         <FormGroup className="mb-4">
-                                            <Input className="form-control-alternative" cols="80" name="name"
+                                            <Input className="form-control-alternative" cols="80" value={message}
+                                                   onChange={e => setMessage(e.target.value)} required
                                                    placeholder="Dites-nous tout..." rows="4" type="textarea"/>
                                         </FormGroup>
                                         <div>

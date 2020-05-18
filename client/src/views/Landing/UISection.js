@@ -1,4 +1,4 @@
-import {Badge, Col, Container, Row} from "reactstrap";
+import {Col, Container, Row} from "reactstrap";
 import React from "react";
 
 const UISection = () => {

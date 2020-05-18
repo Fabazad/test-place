@@ -9,7 +9,6 @@ import {
 } from "reactstrap";
 
 // core components
-import CardsFooter from "../../components/Footers/CardsFooter.jsx";
 
 // index page sections
 import SearchEngine from "../../components/SearchEngine";
@@ -20,6 +19,7 @@ import UISection from "./UISection";
 import CommunityCard from "./CommunityCard";
 import ContactSections from "./ContactSections";
 import SimpleFooter from "../../components/Footers/SimpleFooter";
+import {scrollTo} from "../../helpers/scrollHelpers";
 
 class Landing extends React.Component {
 
@@ -30,9 +30,15 @@ class Landing extends React.Component {
     }
 
     componentDidMount() {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.refs.main.scrollTop = 0;
+        if (this.props.location.hash) {
+            setTimeout(() => {
+                scrollTo(this.props.location.hash.slice(1));
+            }, 200);
+        } else {
+            document.documentElement.scrollTop = 0;
+            document.scrollingElement.scrollTop = 0;
+            this.refs.main.scrollTop = 0;
+        }
     }
 
     onSearch(searchData) {
@@ -65,7 +71,7 @@ class Landing extends React.Component {
                                             <span>Testez gratuitement des produits Amazon</span>
                                         </h1>
                                         <img src={require("assets/img/brand/logo_test_place.png")}
-                                             style={{height: "150px"}} alt="test place logo" className="my-3"/>
+                                             style={{height: "150px"}} alt="test place logo" className="my-3 floating"/>
                                         <p className="lead text-white">
                                             Vous êtes remboursé après avoir publié votre avis
                                         </p>

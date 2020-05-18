@@ -11,6 +11,7 @@ import {
   Col,
   UncontrolledTooltip
 } from "reactstrap";
+import {Link} from "react-router-dom";
 
 class SimpleFooter extends React.Component {
   render() {
@@ -62,10 +63,7 @@ class SimpleFooter extends React.Component {
               <Col md="6">
                 <Nav className=" nav-footer justify-content-end">
                   <NavItem>
-                    <NavLink
-                      href="http://www.test-place.fr//Landkit-1.1.0/src/contact.html"
-                      target="_blank"
-                    >
+                    <NavLink tag={Link} to={'/#contact-us'}>
                       Contactez-nous
                     </NavLink>
                   </NavItem>

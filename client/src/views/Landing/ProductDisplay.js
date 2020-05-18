@@ -2,6 +2,7 @@ import {Col, Container, Row} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import ProductCard from "../../components/Cards/ProductCard";
 import productServices from "../../services/product.service";
+import ProductCardSkeleton from "../../components/Cards/ProductCardSkeleton";
 
 const ProductDisplay = () => {
 
@@ -32,6 +33,11 @@ const ProductDisplay = () => {
                         <ProductCard product={product}/>
                     </Col>
                 )}
+                {loading && (new Array(6)).fill(null).map((_,index) => (
+                    <Col xs={12} md={6} lg={4} xl={3} key={index} className="my-2">
+                        <ProductCardSkeleton/>
+                    </Col>
+                ))}
             </Row>
         </Container>
     )
