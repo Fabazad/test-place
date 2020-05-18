@@ -4,7 +4,8 @@ const constants = {
     FRONTEND_URL: 'https://test-place.herokuapp.com',
     MAIL_TEMPLATES_IDS: {
         RESET_PASSWORD: "d-d4d5481b37e648b0ad6583ef88d572d6",
-        VALIDATE_EMAIL: "d-d1da8fb375f742619f281f9b661f2d05"
+        VALIDATE_EMAIL: "d-d1da8fb375f742619f281f9b661f2d05",
+        CONTACT_US: "d-f6c3402ef59f461a8657f3b3c3cde90f"
     },
     FROM_MAIL_ADDRESS: 'review@test-place.com',
     ROLES: {

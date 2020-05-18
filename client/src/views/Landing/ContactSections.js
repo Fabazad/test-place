@@ -14,6 +14,10 @@ import {
 import React, {useState} from "react";
 import classnames from "classnames";
 import Form from "reactstrap/es/Form";
+import MessageSentMessage from "./MessageSentModal";
+import userServices from "../../services/user.services";
+import {toast} from "react-toastify";
+import Loading from "../../components/Loading";
 
 const ContactSections = () => {
 
@@ -23,11 +27,27 @@ const ContactSections = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const onToggle = () => setIsOpen(!isOpen);
 
     const onSubmit = e => {
         e.preventDefault();
         console.log(name, email, message);
 
+        if (!name || !email || !message) {
+            toast.error("Veuillez remplir tous les champs.");
+        }
+
+        setLoading(true);
+        userServices.sendContactUsMessage(name, email, message).then(() => {
+            onToggle();
+            setName("");
+            setEmail("");
+            setMessage("");
+            setLoading(false);
+        });
     };
 
     return (
@@ -60,6 +80,7 @@ const ContactSections = () => {
                             <Card className="bg-gradient-secondary shadow">
                                 <CardBody className="p-lg-5">
                                     <Form onSubmit={onSubmit}>
+                                        <Loading loading={loading}/>
                                         <FormGroup className={classnames({focused: nameFocused})}>
                                             <InputGroup className="input-group-alternative">
                                                 <InputGroupAddon addonType="prepend">
@@ -68,7 +89,7 @@ const ContactSections = () => {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input placeholder="Votre nom" type="text" value={name} required
-                                                       onFocus={() => setNameFocused(true)}
+                                                       onFocus={() => setNameFocused(true)} name="name"
                                                        onBlur={() => setNameFocused(false)}
                                                        onChange={e => setName(e.target.value)}
                                                 />
@@ -84,13 +105,13 @@ const ContactSections = () => {
                                                 <Input placeholder="Votre adresse mail" type="email" value={email}
                                                        onFocus={() => setEmailFocused(true)} required
                                                        onBlur={() => setEmailFocused(false)}
-                                                       onChange={e => setEmail(e.target.value)}
+                                                       onChange={e => setEmail(e.target.value)} name="email"
                                                 />
                                             </InputGroup>
                                         </FormGroup>
                                         <FormGroup className="mb-4">
                                             <Input className="form-control-alternative" cols="80" value={message}
-                                                   onChange={e => setMessage(e.target.value)} required
+                                                   onChange={e => setMessage(e.target.value)} required name="message"
                                                    placeholder="Dites-nous tout..." rows="4" type="textarea"/>
                                         </FormGroup>
                                         <div>
@@ -105,6 +126,7 @@ const ContactSections = () => {
                     </Row>
                 </Container>
             </section>
+            <MessageSentMessage isOpen={isOpen} onToggle={onToggle}/>
         </>
     )
 };

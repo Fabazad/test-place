@@ -66,4 +66,11 @@ router.post('/updateUserInfo', withAuth(), async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/contact-us', async (request, reply) => {
+    const { name, email, message } = request.body;
+    UserController.sendContactUsEmail(name, email, message)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;

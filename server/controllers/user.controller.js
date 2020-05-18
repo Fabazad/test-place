@@ -8,8 +8,7 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
-const {ROLES, TEST_STATUSES} = require('../helpers/constants');
-
+const {ROLES, TEST_STATUSES, MAIL_TEMPLATES_IDS} = require('../helpers/constants');
 
 const createToken = (user, time) => {
     const payload = {userId: user._id, amazonId: user.amazonId, roles: user.roles};
@@ -273,6 +272,17 @@ class UserController {
             } else {
                 resolve({ check: true });
             }
+        });
+    }
+
+    static async sendContactUsEmail(name, email, message) {
+        if (!name || !email || !message) {
+            return Promise.reject({status: 400, message: "Missing fields."});
+        }
+
+        return EmailController.sendEmail("fabien.turgut@gmail.com", email, MAIL_TEMPLATES_IDS.CONTACT_US, {
+            name: name,
+            message: message
         });
     }
 }
