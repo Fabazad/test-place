@@ -40,18 +40,18 @@ const MarketingCards = () => {
                                 <i className="fa fa-shield-alt"/>
                             </div>
                             <h4 className="text-success text-uppercase">
-                                Encadrement
+                                Démarches encadrées
                             </h4>
                             <p className="description mt-4 mb-5">
                                 N'ayez plus <b>peur de vous faire arnaquer</b><br/>
                                 ou de vous <b>perdre dans les démarches</b>.<br/><br/>
-                                Vous testez les articles <b>zenement</b><br/>
+                                Vous testez les articles <b>sereinement</b><br/>
                                 comme pour n'importe quel <b>simple achat</b>.
                             </p>
                             <div>
                                 <Badge color="success" pill className="mr-1">Simple</Badge>
                                 <Badge color="success" pill className="mr-1">Tranquille</Badge>
-                                <Badge color="success" pill className="mr-1">Sécure</Badge>
+                                <Badge color="success" pill className="mr-1">Sécurisé</Badge>
                             </div>
                             <Button tag={Link} to="/register" className="mt-4" color="success">
                                 Créer un compte
@@ -67,12 +67,12 @@ const MarketingCards = () => {
                                 <i className="fa fa-euro-sign"/>
                             </div>
                             <h4 className="text-warning text-uppercase">
-                                Profitable
+                                Articles remboursés
                             </h4>
                             <p className="description mt-4 mb-5">
                                 Ne vous privez plus à cause de<br/>
                                 votre <b>faible budget</b>.<br/><br/>
-                                Profitez de produit pour la majorité<br/>
+                                Profitez de produit, pour la majorité,<br/>
                                 <b>entièrement gratuits</b>.
                             </p>
                             <div>
