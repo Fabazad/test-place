@@ -2,8 +2,9 @@ const constants = require("../helpers/constants");
 const Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
-const {ROLES} = constants;
+const {ROLES, VALID_TEST_STATUSES} = constants;
 const ObjectId = require('mongoose').Types.ObjectId;
+
 
 class ProductController {
     static async scrapFromAsin(asin) {
@@ -61,8 +62,9 @@ class ProductController {
                         if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
                             scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
-                        const $price = $('td.a-span12 span.a-size-medium');
+                        const $price = $('#priceblock_ourprice');
                         if ($price.length) {
+                            console.log($price.text());
                             scrapRes.price += parseFloat($price.text().slice(0, -1).trim().replace(/,/, '.'));
                         }
 
@@ -114,7 +116,6 @@ class ProductController {
             const product = new ProductModel(productObj);
             product.publishDate = new Date();
             product.publishExpirationDate = (new Date()).setMonth((new Date()).getMonth() + 1);
-            product.remainingRequests = product.maxDemands;
             product.save().then(resolve).catch(err => {
                 if (err.code === 11000) {
                     reject({status: 400, message: 'Un produit avec le même asin a déjà été publié.'});
@@ -128,6 +129,7 @@ class ProductController {
         return new Promise((resolve, reject) => {
             const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests, seller} = searchData;
 
+            const pipeline = [];
             const query = {};
             if (category && category !== 'undefined' && category !== 'null') {
                 query.category = category;
@@ -154,23 +156,50 @@ class ProductController {
                 query.isPrime = true;
             }
             if (remainingRequests) {
-                query.remainingRequests = {$gt: 0};
+                pipeline.push({
+                    $lookup: {
+                        from: "tests",
+                        as: "tests",
+                        let: { productId: "$_id" },
+                        pipeline: [{
+                            $match: {
+                                $expr: { $eq: ["$product._id", "$$productId"] },
+                                expirationDate: { $gt: new Date() },
+                                status: { $in: VALID_TEST_STATUSES }
+                            }
+                        }]
+                    }
+                });
+                pipeline.push({
+                    $addFields: {
+                        testsCount: { $cond: { if: { $isArray: "$tests" }, then: { $size: "$tests" }, else: 0} }
+                    }
+                });
+                pipeline.push({
+                    $match: {
+                        $expr: { "$lt": ["$testsCount", "$maxDemands"] }
+                    }
+                });
             }
             if (seller) {
-                query.seller = seller;
+                query.seller = ObjectId(seller);
             }
-
-            const score = {score: {'$meta': "textScore"}};
 
             let sort;
             switch (sortBy) {
+                case 'createdAt':
                 default:
+                    sort = {createdAt: -1};
+                    break;
                 case 'score':
-                    sort = {score: {$meta: "textScore"}};
+                    if (keyWords) {
+                        sort = {score: {$meta: "textScore"}};
+                    } else {
+                        sort = {createdAt: -1};
+                    }
                     break;
                 case 'price':
                 case 'finalPrice':
-                case 'createdAt':
                     sort = {[sortBy]: 1};
                     break;
             }
@@ -178,8 +207,8 @@ class ProductController {
             if (published === undefined && decoded && decoded.userId) {
                 // No published field and user logged case : user can see its product and the published ones
                 query.$or = [
-                    {publishExpirationDate: {$gte: new Date()}},
-                    {seller: decoded.userId}
+                    { publishExpirationDate: {$gte: new Date()} },
+                    { seller: ObjectId(decoded.userId) }
                 ];
             } else if (published !== undefined) {
                 // Publish field case
@@ -189,17 +218,16 @@ class ProductController {
                     query.publishExpirationDate = {$gte: new Date()};
                 } else if (published === false) {
                     //No published products and connected user case : user need to be the seller
-                    query.seller = decoded.userId;
+                    query.seller = ObjectId(decoded.userId);
                 }
             }
 
-            ProductModel.find(query, score).sort(sort).skip(itemsPerPage * (page - 1)).limit(itemsPerPage)
-                .then(res => {
-                    ProductModel.count(query).then(count => {
-                        resolve({hits: res, totalCount: count});
-                    }).catch(err => reject(ErrorResponses.mongoose(err)))
+            pipeline.unshift({ $match: query });
 
-                }).catch(err => reject(ErrorResponses.mongoose(err)))
+            const aggregate = ProductModel.aggregate(pipeline);
+            ProductModel.aggregatePaginate(aggregate, {page, limit: itemsPerPage, sort})
+                .then(res => resolve({hits: res.docs, totalCount: res.totalDocs}))
+                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
     }
 
@@ -235,7 +263,7 @@ class ProductController {
                 if (!'published' in fields) {
                     return reject({status: 403, message: "Unauthorized"});
                 } else {
-                    fields = { published: fields.published };
+                    fields = {published: fields.published};
                 }
             }
 

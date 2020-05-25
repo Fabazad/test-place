@@ -141,14 +141,14 @@ const Search = () => {
                 <section className="section section-lg pt-0 mt--100">
                     <Container>
                         <Row>
-                            {!loading && products && products.length && products.map(product => (
+                            {!loading && !!products && !!products.length && products.map(product => (
                                 <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2"
                                      key={product ? product._id : Math.ceil(Math.random() * 1000)}>
                                     <ProductCard product={product}/>
                                 </div>
                             ))}
 
-                            {loading && (new Array(itemsPerPage)).fill(null).map((product, index) => (
+                            {!!loading && (new Array(itemsPerPage)).fill(null).map((product, index) => (
                                 <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-2" key={index}>
                                     <ProductCardSkeleton/>
                                 </div>

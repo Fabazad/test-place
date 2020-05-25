@@ -5,7 +5,7 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const {TEST_STATUS_PROCESSES, ROLES} = constants;
+const {TEST_STATUS_PROCESSES, ROLES, VALID_TEST_STATUSES} = constants;
 
 class TestController {
 
@@ -18,7 +18,7 @@ class TestController {
             if (!product) {
                 return reject({status: 400, message: "Couldn't find product."});
             }
-            if (product.remainingRequests < 1) {
+            if ("testsCount" in product && product.testsCount >= product.maxDemands) {
                 return reject({status: 400, message: "Not enough remaining requests on this product."});
             }
             if (product.seller.toString() === userId) {
@@ -81,7 +81,13 @@ class TestController {
             const limit = itemsPerPage;
             const sort = {'createdAt': 1};
 
-            const searchQuery = {};
+            const searchQuery = {
+                $or: [
+                    { expirationDate: { $gt: new Date() } },
+                    { status: { $nin: VALID_TEST_STATUSES } }
+                ]
+
+            };
 
             const populateList = ['tester', 'seller'];
 
@@ -143,6 +149,8 @@ class TestController {
             if (statusProcess.param && params[statusProcess.param]) {
                 test[statusProcess.param] = params[statusProcess.param];
             }
+
+            test.expirationDate = moment().add(7, 'd').toDate();
 
             test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
         });

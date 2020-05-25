@@ -1,6 +1,6 @@
 const constants = require("../helpers/constants");
 const AuthHelpers = require("../helpers/AuthHelpers");
-
+const mongoosePaginate = require('mongoose-aggregate-paginate-v2');
 const mongoose = require('mongoose');
 
 //Authorization management
@@ -36,8 +36,7 @@ const productObject = {
     },
     amazonSeller: { type: amazonSellerSchema, auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ]} },
     publishDate: { type: Date, default: Date.now(), auth: basicProductAuth },
-    publishExpirationDate: { type: Date, auth: basicProductAuth },
-    remainingRequests: { type: Number, required: true, auth: { update: [], read: [ AUTH.ANY ]} }
+    publishExpirationDate: { type: Date, auth: basicProductAuth }
 };
 
 const productSchema = new mongoose.Schema(productObject);
@@ -47,5 +46,7 @@ productSchema.methods.updateAuth = function(userId, fields, userRole) {
 };
 
 productSchema.index({'title': 'text'});
+
+productSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Product', productSchema);

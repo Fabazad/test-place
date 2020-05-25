@@ -100,4 +100,13 @@ constants.TEST_STATUS_PROCESSES = {
     }
 };
 
+constants.VALID_TEST_STATUSES = [
+    TEST_STATUSES.requested,
+    TEST_STATUSES.requestAccepted,
+    TEST_STATUSES.productOrdered,
+    TEST_STATUSES.productReceived,
+    TEST_STATUSES.productReviewed,
+    TEST_STATUSES.reviewValidated
+];
+
 module.exports = constants;
