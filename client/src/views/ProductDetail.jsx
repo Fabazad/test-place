@@ -47,12 +47,12 @@ class ProductDetail extends React.Component {
 
     render() {
         const {product} = this.state;
-        const currentUserId = userServices.getCurrentUserId();
+        const currentUser = userServices.currentUser;
         if (!product) {
             return <Loading/>;
         }
 
-        const newTestButtonDisabled = currentUserId === product.seller._id || product.remainingRequests < 1;
+        const newTestButtonDisabled = currentUser.roles.includes(constants.USER_ROLES.SELLER) || product.remainingRequests < 1;
 
         return (
             <>

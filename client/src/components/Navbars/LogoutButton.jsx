@@ -9,7 +9,6 @@ class LogoutButton extends React.Component {
     onLogout() {
         userServices.logout();
         this.props.history.push("/");
-        toast.success("Deconnecté !");
     }
 
     render() {

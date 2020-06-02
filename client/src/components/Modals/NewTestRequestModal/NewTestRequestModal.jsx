@@ -50,7 +50,9 @@ const NewTestRequestModal = props => {
     const renderModalBody = () => {
         if (requestSent) return <SentRequest/>;
         if (isLogged) {
-            if (isTester) return <SendRequestForm value={testerMessage ?? ''} onChange={val => setTesterMessage(val)}/>;
+            if (user.paypalEmail && user.amazonId) {
+                return <SendRequestForm value={testerMessage ?? ''} onChange={val => setTesterMessage(val)}/>;
+            }
             return <BecomeTesterBody/>;
         }
         return <LoginBody/>;
@@ -79,7 +81,7 @@ const NewTestRequestModal = props => {
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
                         Fermer
                     </Button>
-                    {isLogged && isTester && !requestSent ? (
+                    {isLogged && isTester && !requestSent && user.paypalEmail && user.amazonId ? (
                         <Button color={'primary'} type='button' onClick={confirmRequest}>
                             Confirmer la Demande
                         </Button>

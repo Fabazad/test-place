@@ -11,7 +11,7 @@ const {USER_ROLES} = constants;
 const BecomeTesterBody = props => {
 
     const onSaved = () => {
-        if(props.onSaved) props.onSaved();
+        if (props.onSaved) props.onSaved();
     };
 
     const [loading, setLoading] = useState(false);
@@ -30,21 +30,12 @@ const BecomeTesterBody = props => {
     return (
         <>
             <Loading loading={loading}/>
-            {currentUser.amazonId && currentUser.paypalEmail ? (
-                <>
-                    <p className="mb-3">Vous n'êtes pas encore Testeur.</p>
-                    <Button color="primary" onClick={onBecomeTesterClick}>Devenir Testeur</Button>
-                </>
-            ) : (
-                <>
-                    <p className="mb-3">
-                        Vous devez d'abord remplir une première fois ces informations pour pouvoir tester.
-                    </p>
-                    <div className="bg-secondary rounded p-3 shadow">
-                        <TesterInfoForm onSaved={onSaved} btnText="Devenir Testeur" addRole={true}/>
-                    </div>
-                </>
-            )}
+            <p className="mb-3">
+                Vous devez d'abord remplir une première fois ces informations pour pouvoir tester.
+            </p>
+            <div className="bg-secondary rounded p-3 shadow">
+                <TesterInfoForm onSaved={onSaved} btnText="Enregistrer" addRole={true}/>
+            </div>
         </>
     )
 };

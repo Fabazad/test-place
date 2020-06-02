@@ -16,7 +16,8 @@ const UserSchema = new mongoose.Schema({
     sellerMessage: String,
     roles: { type: [String], enum: Object.values(ROLES), default: [] },
     paypalEmail: String,
-    lastLogin: Date
+    lastLogin: Date,
+    createdAt: {type: Date, default: new Date(), required: true},
 });
 
 UserSchema.pre('save', function(next) {

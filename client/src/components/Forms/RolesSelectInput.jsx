@@ -16,15 +16,11 @@ const RolesSelectInput = (props) => {
 
     const togglePill = (e, val) => {
         e.preventDefault();
-        const newValues = value.includes(val) ? value.filter(v => v !== val) : value.concat([val]);
-        if (newValues.length) {
-            newValues.sort();
-        }
-        setValue(newValues);
-        onChange(newValues);
+        setValue(val);
+        onChange(val);
     };
 
-    const isSelected = val => value.includes(val);
+    const isSelected = val => value === val;
 
     return (
         <>

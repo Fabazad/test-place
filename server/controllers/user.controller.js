@@ -17,16 +17,21 @@ const createToken = (user, time) => {
 
 class UserController {
 
-    static async register(name, email, password, captcha) {
+    static async register(roles, name, email, password, captcha) {
         return new Promise((resolve, reject) => {
+            if (!name || !roles.length || !Object.keys(ROLES).includes(roles[0]) || !email) {
+                reject({status: 400, message: "Missing fields."});
+            }
+
             if (password.length < 8) {
                 reject({status: 400, message: "The password is too short."});
             }
+
             const secret = process.env.SECRET_RECAPTCHA;
             axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`)
                 .then(response => {
                     if (response.data.success) {
-                        const user = new UserModel({name, email, password});
+                        const user = new UserModel({name, email, password, roles});
                         user.save(function (err) {
                             if (err) {
                                 reject(ErrorResponses.mongoose(err));
@@ -37,7 +42,7 @@ class UserController {
                             }
                         });
                     } else {
-                        reject({status: 401, message: "ReCAPTCHA failed."})
+                        reject({status: 400, message: "ReCAPTCHA failed."})
                     }
                 })
                 .catch(error => {

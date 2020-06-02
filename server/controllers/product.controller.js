@@ -64,7 +64,6 @@ class ProductController {
                         }
                         const $price = $('#priceblock_ourprice');
                         if ($price.length) {
-                            console.log($price.text());
                             scrapRes.price += parseFloat($price.text().slice(0, -1).trim().replace(/,/, '.'));
                         }
 

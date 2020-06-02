@@ -40,9 +40,9 @@ class PasswordStrength extends React.Component {
     }
 
     formatPasswordStrength() {
-        const { t } = this.props;
-        const score = this.scorePassword(this.props.password);
-        if (this.props.password.length < this.props.min) {
+        const { t, password } = this.props;
+        const score = this.scorePassword(password);
+        if (!password || password.length < this.props.min) {
             return (<span className="text-danger font-weight-700">{t("TOO_SHORT")}</span>);
         } else if (score > 70) {
             return (<span className="text-success font-weight-700">{t("STRONG")}</span>);

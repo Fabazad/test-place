@@ -33,8 +33,8 @@ const Profile = () => {
         userService.currentUserSubject.subscribe(setUser);
     }, []);
 
-    if (firstLogin && user.roles.length === 0) {
-        toast.info("Commencez par indiquer si vous voulez Tester ou Vendre.");
+    if (firstLogin && user.roles.includes(USER_ROLES.TESTER)) {
+        toast.info("Commencez par indiquer votre email paypal et votre identifiant Amazon.");
         scrollTo('profile-info-section');
         setFirstLogin(false);
     }
@@ -128,18 +128,10 @@ const Profile = () => {
                                 </Row>
                             </CardHeader>
                             <CardBody>
-                                <MyInfoForm user={user}/>
-                                {isUserTester ? (
-                                    <>
-                                        <hr className="my-4"/>
-                                        <MyTesterInfoForm user={user}/>
-                                    </>) : null}
+                                {/*<MyInfoForm user={user}/>*/}
+                                {isUserTester ? <MyTesterInfoForm user={user}/>  : null}
 
-                                {isUserSeller ? (
-                                    <>
-                                        <hr className="my-4"/>
-                                        <MySellerInfoForm user={user}/>
-                                    </>) : null}
+                                {isUserSeller ?  <MySellerInfoForm user={user}/> : null}
 
                                 <hr className="my-4" id='actions-section'/>
                                 {/* Actions */}
