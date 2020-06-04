@@ -1,8 +1,7 @@
 import React from "react";
 
 // reactstrap components
-import {toast} from "react-toastify";
-import userServices from "services/user.services";
+import userServices from "../../services/user.services";
 
 class LogoutButton extends React.Component {
 

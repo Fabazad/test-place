@@ -1,4 +1,3 @@
-import AnimatedError from "../../AnimatedError";
 import LoginForm from "../../Forms/LoginForm";
 import {Link} from "react-router-dom";
 import React from "react";
@@ -12,7 +11,6 @@ const LoginBody = props => {
 
     return (
         <>
-            <AnimatedError/>
             <p className="mb-3">Vous devez être connecté pour demander à tester un produit.</p>
             <div className="bg-secondary rounded p-3 shadow">
                 <LoginForm onLogin={onLogin}/>

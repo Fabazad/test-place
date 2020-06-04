@@ -15,7 +15,6 @@ import {
 // core components
 import UserHeader from "../../components/Headers/UserHeader.jsx";
 import UpdatePasswordModal from "../../components/Modals/UpdatePasswordModal";
-import MyInfoForm from "./MyInfoForm";
 import MySellerInfoForm from "./MySellerInfoForm";
 import constants from "../../helpers/constants";
 import MyTesterInfoForm from "./MyTesterInfoForm";
