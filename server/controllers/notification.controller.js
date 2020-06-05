@@ -1,9 +1,6 @@
-const constants = require("../helpers/constants");
 const NotificationModel = require('../models/notification.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
-
-const {} = constants;
 
 class NotificationController {
 
@@ -23,6 +20,20 @@ class NotificationController {
             return ErrorResponses.mongoose(err);
         }
 
+    }
+
+    static async setNotificationsViewed(userId, notificationsIds) {
+        try {
+            return await NotificationModel.updateMany({
+                _id: {$in: notificationsIds}
+            }, {
+                $set: {
+                    viewDate: new Date()
+                }
+            });
+        } catch (err) {
+            return ErrorResponses.mongoose(err);
+        }
     }
 }
 

@@ -37,6 +37,10 @@ class BaseService {
     delete(itemId) {
         return axios.delete(this.baseURL + '/' + itemId).then(this.serviceResolve);
     }
+
+    post(path, params) {
+        return axios.post(this.baseURL + '/' + path, params).then(this.serviceResolve);
+    }
 }
 
 export default BaseService;

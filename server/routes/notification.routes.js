@@ -9,4 +9,11 @@ router.get('/user-notifications', withAuth(), async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/set-notifications-viewed', withAuth(), async (request, reply) => {
+    const {notificationsIds} = request.body;
+    NotificationController.setNotificationsViewed(request.decoded.userId, notificationsIds)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;

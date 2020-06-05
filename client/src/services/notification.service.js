@@ -22,6 +22,10 @@ class NotificationServices extends BaseService {
             this.notificationsSubject.next();
         }
     }
+
+    async setNotificationsViewed(notificationsIds) {
+        return this.post('set-notifications-viewed', { notificationsIds });
+    }
 }
 
 const notificationServices = new NotificationServices();

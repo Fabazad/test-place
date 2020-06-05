@@ -34,12 +34,14 @@ const Notifications = () => {
         }
     };
 
-    const clearNotifications = () => {
+    const clearNotifications = async () => {
         const justViewedNotificationsIds = notificationServices.getUserNotifications()
             .filter(notif => !notif.viewDate).map(notif => notif._id);
-        if (justViewedNotificationsIds.length){
+
+        if (justViewedNotificationsIds.length) {
             console.log("clear notifications", justViewedNotificationsIds);
-            notificationServices.refreshUserNotifications().then(() => {});
+            notificationServices.setNotificationsViewed(justViewedNotificationsIds)
+                .then(notificationServices.refreshUserNotifications);
         }
     };
 
@@ -68,7 +70,7 @@ const Notifications = () => {
                 <DropdownToggle nav onClick={clearNotifications}>
                     <NotificationsButton newNotifications={newNotifications}/>
                 </DropdownToggle>
-                <DropdownMenu className='w-400px position-absolute' >
+                <DropdownMenu className='w-400px position-absolute'>
                     <div className="px-3 py-2">
                         <i className="fa fa-bell text-primary mr-3"/>Notifications
                     </div>
