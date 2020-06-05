@@ -1,6 +1,7 @@
 import BaseService from "./base.service.js";
 import axios from "axios";
 import {Subject} from "rxjs";
+import userServices from "./user.services";
 
 class NotificationServices extends BaseService {
     constructor() {
@@ -15,15 +16,17 @@ class NotificationServices extends BaseService {
     }
 
     async refreshUserNotifications() {
-        this.notifications = null;
-        this.notifications = await axios.get(this.baseURL + "/user-notifications").then(this.serviceResolve);
-        this.notificationsSubject.next();
+        if (userServices.isAuth()) {
+            this.notifications = null;
+            this.notifications = await axios.get(this.baseURL + "/user-notifications").then(this.serviceResolve);
+            this.notificationsSubject.next();
+        }
     }
 }
 
 const notificationServices = new NotificationServices();
 
-setTimeout(notificationServices.refreshUserNotifications, 0);
+userServices.currentUserSubject.subscribe(notificationServices.refreshUserNotifications);
 setInterval(notificationServices.refreshUserNotifications, 60000);
 
 export default notificationServices;

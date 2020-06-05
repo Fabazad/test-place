@@ -61,9 +61,9 @@ const DemoNavbar = props => {
                             <span className="h3 text-light ml-3 my-auto"
                                   style={{lineHeight: "60px"}}>Test Place</span>
                         </NavbarBrand>
-                        <div className="d-md-none">
+                        {isAuth ? (<div className="d-md-none">
                             <Notifications/>
-                        </div>
+                        </div>) : null}
                         <button className="navbar-toggler" id="navbar_global" onClick={() => toggle()}>
                             <span className="navbar-toggler-icon"/>
                         </button>
@@ -121,7 +121,7 @@ const DemoNavbar = props => {
                                         <NavItem className="d-none d-md-block">
                                             <Notifications/>
                                         </NavItem>
-                                    ): null}
+                                    ) : null}
                                     {isAuth ? (
                                         <NavItem>
                                             <UncontrolledDropdown>
@@ -134,7 +134,8 @@ const DemoNavbar = props => {
                                                         </div>
                                                     </Badge>
                                                 </DropdownToggle>
-                                                <DropdownMenu className='w-250px position-xs-static position-md-absolute'>
+                                                <DropdownMenu
+                                                    className='w-250px position-xs-static position-md-absolute'>
                                                     {routes.map(route => (
                                                         <DropdownItem to={route.layout + route.path} tag={Link}
                                                                       key={'route' + route.path}>
