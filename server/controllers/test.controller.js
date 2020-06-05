@@ -1,11 +1,12 @@
 const constants = require("../helpers/constants");
 const TestModel = require('../models/test.model');
 const ProductModel = require('../models/product.model');
+const NotificationModel = require('../models/notification.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const {TEST_STATUS_PROCESSES, ROLES, VALID_TEST_STATUSES} = constants;
+const {TEST_STATUS_PROCESSES, ROLES, VALID_TEST_STATUSES, NOTIFICATION_TYPES} = constants;
 
 class TestController {
 
@@ -42,11 +43,17 @@ class TestController {
             const test = new TestModel(testData);
 
             test.save()
-                .then(() => {
-                    product.remainingRequests--;
-                    product.save()
-                        .then(() => resolve(test))
-                        .catch(err => reject(ErrorResponses.mongoose(err)))
+                .then(async () => {
+                    try {
+                        product.remainingRequests--;
+                        await Promise.all([
+                            product.save(),
+                            NotificationModel.create({user: test.seller, type: NOTIFICATION_TYPES.NEW_REQUEST, test})
+                            ]);
+                        return resolve(test)
+                    } catch (err) {
+                        reject(ErrorResponses.mongoose(err))
+                    }
                 })
                 .catch(err => {
                     if (err.code === 11000) {

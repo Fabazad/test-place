@@ -52,7 +52,7 @@ class ProductDetail extends React.Component {
             return <Loading/>;
         }
 
-        const newTestButtonDisabled = currentUser && currentUser.roles.includes(constants.USER_ROLES.SELLER) || product.remainingRequests < 1;
+        const newTestButtonDisabled = (currentUser && currentUser.roles.includes(constants.USER_ROLES.SELLER)) || product.remainingRequests < 1;
 
         return (
             <>

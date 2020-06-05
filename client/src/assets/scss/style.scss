@@ -45,7 +45,7 @@
 }
 
 .dropdown-menu.show {
-    position: absolute!important;
+    position: absolute;
     min-width: 100%;
 }
 
@@ -121,11 +121,19 @@ img.selected {
     .w-md-75 {
         width: 75% !important;
     }
+    .position-md-absolute {
+        position: absolute!important;
+    }
 }
 
 @media (max-width: 768px) {
     .mt--60px {
         margin-top: -60px;
+    }
+    .position-xs-absolute {
+        position: absolute !important;
+    }.position-xs-static {
+        position: static !important;
     }
 }
 
@@ -139,4 +147,12 @@ img.selected {
 
 .input-group-alternative {
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08) !important;
+}
+
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
+
+.notifications .dropdown-menu:before {
+    left: 110px !important;
 }

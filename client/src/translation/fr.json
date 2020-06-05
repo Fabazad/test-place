@@ -20,5 +20,6 @@
   "REVIEW_VALIDATED": "Avis validé",
   "REVIEW_REFUSED": "Avis refusé",
   "TESTER": "Testeur",
-  "SELLER": "Vendeur"
+  "SELLER": "Vendeur",
+  "NEW_REQUEST": "Nouvelle demande de test"
 }

@@ -55,6 +55,11 @@ const constants = {
         reviewDeclined: "REVIEW_REFUSED",
         moneySent: "MONEY_SENT",
         moneyReceived: "MONEY_RECEIVED"
+    },
+    // Need to match front ones
+    NOTIFICATION_TYPES: {
+        REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
+        NEW_REQUEST: "NEW_REQUEST"
     }
 };
 

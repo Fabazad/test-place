@@ -21,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/Fabazad/test-place/issues"
   },
-  "homepage": "https://github.com/Fabazad/test-place#readme"
+  "homepage": "https://github.com/Fabazad/test-place#readme",
+  "dependencies": {}
 }

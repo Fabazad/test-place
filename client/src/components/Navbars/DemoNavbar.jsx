@@ -24,6 +24,7 @@ import userServices from "../../services/user.services";
 import Badge from "reactstrap/es/Badge";
 import SearchProductNavForm from "../Forms/SearchProductNavForm";
 import Collapse from "reactstrap/es/Collapse";
+import Notifications from "../Notifications/Notifications";
 
 const DemoNavbar = props => {
 
@@ -60,6 +61,9 @@ const DemoNavbar = props => {
                             <span className="h3 text-light ml-3 my-auto"
                                   style={{lineHeight: "60px"}}>Test Place</span>
                         </NavbarBrand>
+                        <div className="d-md-none">
+                            <Notifications/>
+                        </div>
                         <button className="navbar-toggler" id="navbar_global" onClick={() => toggle()}>
                             <span className="navbar-toggler-icon"/>
                         </button>
@@ -114,6 +118,11 @@ const DemoNavbar = props => {
                                         </>) : null
                                     }
                                     {isAuth ? (
+                                        <NavItem className="d-none d-md-block">
+                                            <Notifications/>
+                                        </NavItem>
+                                    ): null}
+                                    {isAuth ? (
                                         <NavItem>
                                             <UncontrolledDropdown>
                                                 <DropdownToggle nav>
@@ -125,7 +134,7 @@ const DemoNavbar = props => {
                                                         </div>
                                                     </Badge>
                                                 </DropdownToggle>
-                                                <DropdownMenu className='w-250px'>
+                                                <DropdownMenu className='w-250px position-xs-static position-md-absolute'>
                                                     {routes.map(route => (
                                                         <DropdownItem to={route.layout + route.path} tag={Link}
                                                                       key={'route' + route.path}>
