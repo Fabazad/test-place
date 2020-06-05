@@ -163,7 +163,20 @@ class TestController {
 
             test.expirationDate = moment().add(7, 'd').toDate();
 
-            test.save().then(resolve).catch(err => reject(ErrorResponses.mongoose(err)));
+            try {
+                const [newTest,_] = await Promise.all([
+                    test.save(),
+                    NotificationModel.create({
+                        user: statusProcess.role === ROLES.TESTER ? test.seller : test.tester,
+                        type: statusProcess.notificationType,
+                        test: Object.assign({}, test)
+                    })
+                ]);
+
+                resolve(newTest);
+            } catch (err) {
+                reject(ErrorResponses.mongoose(err))
+            }
         });
     }
 

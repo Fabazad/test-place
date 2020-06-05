@@ -63,7 +63,7 @@ const constants = {
     }
 };
 
-const {TEST_STATUSES, ROLES} = constants;
+const {TEST_STATUSES, ROLES, NOTIFICATION_TYPES} = constants;
 
 constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.requestCancelled]: {
@@ -79,7 +79,8 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.requestAccepted]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.SELLER,
-        param: "sellerMessage"
+        param: "sellerMessage",
+        notificationType: NOTIFICATION_TYPES.REQUEST_ACCEPTED
     },
     [TEST_STATUSES.productOrdered]: {
         previous: TEST_STATUSES.requestAccepted,

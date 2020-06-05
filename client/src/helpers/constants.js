@@ -30,5 +30,21 @@ export default {
         REVIEW_VALIDATED: "REVIEW_VALIDATED",
         REVIEW_DECLINED: "REVIEW_DECLINED"
     },
-    ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map(n => ({value: n, text: n}))
+    ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map(n => ({value: n, text: n})),
+    NOTIFICATION_TYPES: {
+        REQUEST_ACCEPTED: {
+            value: "REQUEST_ACCEPTED",
+            text: "Votre demande de test a été acceptée pour le produit :",
+            icon: "fa-thumbs-up",
+            color: "success",
+            to: "/dashboard/sent-requests"
+        },
+        NEW_REQUEST: {
+            value: "NEW_REQUEST",
+            text: "Vous avez une nouvelle demande de test pour le produit :",
+            icon: "fa fa-question",
+            color: "primary",
+            to: "/dashboard/received-requests"
+        }
+    }
 }

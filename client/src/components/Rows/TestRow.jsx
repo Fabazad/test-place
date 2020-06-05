@@ -57,7 +57,7 @@ const TestRow = props => {
                 {userRole === USER_ROLES.SELLER ? test.tester.name : null}
             </td>
             <td>
-                <Badge color={'info'} className={'badge-circle badge-lg text-center p-0'} pill>
+                <Badge color='info' className='badge-circle badge-lg text-center p-0 bg-white' pill>
                     {formatDate(test.createdAt)}
                 </Badge>
             </td>

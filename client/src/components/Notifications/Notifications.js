@@ -10,7 +10,7 @@ const Notifications = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
-    const [newNotifications, setNewNotifications] = useState(false);
+    const [newNotificationsNumber, setNewNotificationsNumber] = useState(0);
 
     const refreshNotifications = () => {
         setNotifications(notificationServices.getUserNotifications());
@@ -24,7 +24,10 @@ const Notifications = () => {
     }, []);
 
     useEffect(() => {
-        setNewNotifications(!!notifications && notifications.some(notification => !notification.viewDate))
+        if (notifications && notifications.length) {
+            const newNotifications = notifications.filter(notification => !notification.viewDate);
+            setNewNotificationsNumber(newNotifications.length);
+        }
     }, [notifications]);
 
     const toggleModal = () => {
@@ -46,7 +49,7 @@ const Notifications = () => {
     return (
         <div className="notifications">
             <div className="d-block d-md-none">
-                <NotificationsButton onClick={toggleModal} newNotifications={newNotifications}/>
+                <NotificationsButton onClick={toggleModal} newNotificationsNumber={newNotificationsNumber}/>
                 <Modal className="modal-dialog-centered" toggle={toggleModal} isOpen={isOpen}>
                     <div className="modal-header">
                         <h4 className="modal-title" id="exampleModalLabel">
@@ -66,7 +69,7 @@ const Notifications = () => {
             </div>
             <UncontrolledDropdown className="d-none d-md-block">
                 <DropdownToggle nav onClick={clearNotifications}>
-                    <NotificationsButton newNotifications={newNotifications}/>
+                    <NotificationsButton newNotificationsNumber={newNotificationsNumber}/>
                 </DropdownToggle>
                 <DropdownMenu className='w-400px position-absolute'>
                     <div className="px-3 py-2">

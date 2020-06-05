@@ -8,6 +8,9 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import {withTranslation} from "react-i18next";
 import {textSlice} from "../../helpers/textHelpers";
+import constants from "../../helpers/constants";
+
+const {NOTIFICATION_TYPES} = constants;
 
 const NotificationItem = props => {
 
@@ -23,12 +26,15 @@ const NotificationItem = props => {
         return days + 'j';
     };
 
+    const notificationType = NOTIFICATION_TYPES[notification.type];
+
     return (
-        <ListGroupItem className="list-group-item-action" tag={Link} to="/dashboard/received-requests">
+        <ListGroupItem className="list-group-item-action" tag={Link} to={notificationType.to}>
             <Row className="align-items-center">
                 <Col className="col-auto">
-                    <Badge color="primary" pill className="icon icon-xs icon-shape shadow rounded-circle">
-                        <i className="fa fa-question fa-2x"/>
+                    <Badge color={notificationType.color} pill
+                           className="icon icon-xs icon-shape shadow rounded-circle">
+                        <i className={"fa fa-2x " + notificationType.icon}/>
                     </Badge>
                 </Col>
                 <div className="col ml--2">
@@ -41,7 +47,8 @@ const NotificationItem = props => {
                         </div>
                     </div>
                     <p className="text-sm mb-0 mt-1 text-left">
-                        Vous avez une nouvelle demande de test pour le produit <b>{textSlice(notification.test.product.title, 25)}</b>.
+                        {notificationType.text}&nbsp;
+                        <b>{textSlice(notification.test.product.title, 25)}</b>.
                     </p>
                 </div>
             </Row>

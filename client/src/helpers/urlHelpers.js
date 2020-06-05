@@ -21,7 +21,6 @@ export function updateURLParameter(url, param, paramVal) {
 }
 
 export function updateURLParameters(params, pathname = history.location.pathname) {
-    console.log(history.location)
     const newUrl = Object.keys(params).reduce((acc, key) => {
         return updateURLParameter(acc, key, params[key])
     }, pathname + history.location.search);

@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Badge from "reactstrap/es/Badge";
 
 const NotificationsButton = props => {
 
-    const {newNotifications} = props;
+    const {newNotificationsNumber} = props;
 
     const onClick = () => {
         if (props.onClick) props.onClick();
@@ -11,9 +12,12 @@ const NotificationsButton = props => {
 
     return (
         <div className="position-relative">
-            <i className="fa fa-bell text-white" onClick={onClick}/>
-            {newNotifications ?
-                <i className="fa fa-circle fa-xs text-warning position-absolute" style={{right: '-5px'}}/>
+            <i className="fa fa-bell text-white fa-lg" onClick={onClick}/>
+            {newNotificationsNumber ?
+                <Badge className="text-white bg-danger position-absolute" pill
+                       style={{right: "-5px", top: "-10px"}}>
+                    {newNotificationsNumber}
+                </Badge>
                 : null}
         </div>
     );
@@ -21,7 +25,7 @@ const NotificationsButton = props => {
 
 NotificationsButton.propTypes = {
     onClick: PropTypes.func,
-    newNotifications: PropTypes.bool.isRequired
+    newNotificationsNumber: PropTypes.number.isRequired
 };
 
 export default NotificationsButton;

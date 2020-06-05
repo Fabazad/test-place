@@ -29,7 +29,8 @@ const NewTestRequestModal = props => {
     const isTester = isLogged && user.roles.includes(USER_ROLES.TESTER);
 
     useEffect(() => {
-        userServices.currentUserSubject.subscribe(setUser);
+        const subscriber = userServices.currentUserSubject.subscribe(setUser);
+        return subscriber.unsubscribe();
     }, []);
 
     const toggleModal = () => {

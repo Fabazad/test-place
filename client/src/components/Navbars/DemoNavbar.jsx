@@ -34,9 +34,12 @@ const DemoNavbar = props => {
     useEffect(() => {
         let headroom = new Headroom(document.getElementById("navbar-main"));
         headroom.init();
-        userServices.currentUserSubject.subscribe(() => {
+        const subscriber = userServices.currentUserSubject.subscribe(() => {
             setRoutes(routesJson.filter(route => !route.role || userServices.hasRole(route.role)));
         });
+
+        return subscriber.unsubscribe();
+
     }, []);
 
     const toggle = (open = !isOpen) => setIsOpen(open);

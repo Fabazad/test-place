@@ -29,7 +29,8 @@ const Profile = () => {
     const [firstLogin, setFirstLogin] = useState(!user.lastLogin);
 
     useEffect(() => {
-        userService.currentUserSubject.subscribe(setUser);
+        const subscriber = userService.currentUserSubject.subscribe(setUser);
+        return subscriber.unsubscribe();
     }, []);
 
     if (firstLogin && user.roles.includes(USER_ROLES.TESTER)) {
