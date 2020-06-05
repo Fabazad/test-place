@@ -31,7 +31,7 @@ const productObject = {
         auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ] }
     },
     category: { type: String, enum: categoryValues, required: true, index: true, auth: basicProductAuth },
-    createdAt: { type: Date, default: new Date(), required: true, index: true,
+    createdAt: { type: Date, default: Date.now, required: true, index: true,
         auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ] }
     },
     amazonSeller: { type: amazonSellerSchema, auth: { create: isSellerAuth, update: [], read: [ AUTH.ANY ]} },

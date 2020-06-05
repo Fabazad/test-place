@@ -34,14 +34,12 @@ const Notifications = () => {
         }
     };
 
-    const clearNotifications = async () => {
+    const clearNotifications = () => {
         const justViewedNotificationsIds = notificationServices.getUserNotifications()
             .filter(notif => !notif.viewDate).map(notif => notif._id);
 
         if (justViewedNotificationsIds.length) {
-            console.log("clear notifications", justViewedNotificationsIds);
             notificationServices.setNotificationsViewed(justViewedNotificationsIds)
-                .then(notificationServices.refreshUserNotifications);
         }
     };
 

@@ -24,7 +24,8 @@ class NotificationServices extends BaseService {
     }
 
     async setNotificationsViewed(notificationsIds) {
-        return this.post('set-notifications-viewed', { notificationsIds });
+        await this.post('set-notifications-viewed', { notificationsIds });
+        this.refreshUserNotifications();
     }
 }
 

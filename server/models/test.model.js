@@ -3,17 +3,24 @@ const mongoose = require('mongoose');
 const productModel = require("../models/product.model");
 const moment = require("moment");
 
+const productObject = Object.assign({}, productModel.schema.obj);
+
+productObject.asin.unique = false;
+Object.keys(productObject).forEach(key => {
+    productObject[key].index = false;
+});
+
 const updateObject = {
-    date: {type: Date, required: true, default: new Date()},
+    date: {type: Date, required: true, default: Date.now},
     status: {type: String, enum: Object.values(constants.TEST_STATUSES), required: true}
 };
 
 const testObject = {
-    product: productModel.schema,
+    product: new mongoose.Schema(productObject),
     seller: {type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User'},
     tester: {type: mongoose.Schema.Types.ObjectId, required: true, index: true, ref: 'User'},
     status: {type: String, enum: Object.values(constants.TEST_STATUSES), required: true},
-    createdAt: {type: Date, default: new Date(), required: true, index: true},
+    createdAt: {type: Date, default: Date.now, required: true, index: true},
     updates: {type: [updateObject], default: []},
     testerMessage: String,
     cancelRequestReason: String,

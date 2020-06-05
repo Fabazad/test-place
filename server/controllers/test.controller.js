@@ -48,7 +48,11 @@ class TestController {
                         product.remainingRequests--;
                         await Promise.all([
                             product.save(),
-                            NotificationModel.create({user: test.seller, type: NOTIFICATION_TYPES.NEW_REQUEST, test})
+                            NotificationModel.create({
+                                user: test.seller,
+                                type: NOTIFICATION_TYPES.NEW_REQUEST,
+                                test: Object.assign({}, test)
+                            })
                             ]);
                         return resolve(test)
                     } catch (err) {

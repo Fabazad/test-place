@@ -15,7 +15,7 @@ class NotificationController {
                         $gte: moment().subtract(1, 'day').toDate()
                     }
                 }]
-            });
+            }).sort({createdAt: -1});
         } catch (err) {
             return ErrorResponses.mongoose(err);
         }
