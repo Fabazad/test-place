@@ -32,6 +32,13 @@ export default {
     },
     ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map(n => ({value: n, text: n})),
     NOTIFICATION_TYPES: {
+        NEW_REQUEST: {
+            value: "NEW_REQUEST",
+            text: "Vous avez une nouvelle demande de test pour le produit :",
+            icon: "fa fa-question",
+            color: "primary",
+            to: "/dashboard/received-requests"
+        },
         REQUEST_ACCEPTED: {
             value: "REQUEST_ACCEPTED",
             text: "Votre demande de test a été acceptée pour le produit :",
@@ -39,12 +46,54 @@ export default {
             color: "success",
             to: "/dashboard/sent-requests"
         },
-        NEW_REQUEST: {
-            value: "NEW_REQUEST",
-            text: "Vous avez une nouvelle demande de test pour le produit :",
-            icon: "fa fa-question",
-            color: "primary",
+        REQUEST_DECLINED: {
+            value: "REQUEST_DECLINED",
+            text: "Votre demande de test a été refusée pour le produit :",
+            icon: "fa-thumbs-down",
+            color: "danger",
+            to: "/dashboard/sent-requests"
+        },
+        REQUEST_CANCELLED: {
+            value: "REQUEST_CANCELLED",
+            text: "La demande de test a été annulée pour le produit :",
+            icon: "fa-cross",
+            color: "danger",
             to: "/dashboard/received-requests"
+        },
+        PRODUCT_ORDERED: {
+            value: "PRODUCT_ORDERED",
+            text: "Le produit a été commandé :",
+            icon: "fa-truck",
+            color: "primary",
+            to: "/dashboard/customer-current-tests"
+        },
+        PRODUCT_RECEIVED: {
+            value: "PRODUCT_RECEIVED",
+            text: "Le produit a été indiqué comme reçu :",
+            icon: "fa-box-open",
+            color: "primary",
+            to: "/dashboard/customer-current-tests"
+        },
+        PRODUCT_REVIEWED: {
+            value: "PRODUCT_REVIEWED",
+            text: "Le produit a été indiqué comme noté et commenté :",
+            icon: "fa-star",
+            color: "primary",
+            to: "/dashboard/customer-current-tests"
+        },
+        REVIEW_VALIDATED: {
+            value: "REVIEW_VALIDATED",
+            text: "Le vendeur a confirmé le commentaire du produit :",
+            icon: "fa-star",
+            color: "success",
+            to: "/dashboard/my-current-tests"
+        },
+        REVIEW_REFUSED: {
+            value: "REVIEW_REFUSED",
+            text: "Le vendeur a refusé le commentaire du produit :",
+            icon: "fa-star",
+            color: "danger",
+            to: "/dashboard/my-current-tests"
         }
     }
 }

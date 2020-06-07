@@ -58,8 +58,15 @@ const constants = {
     },
     // Need to match front ones
     NOTIFICATION_TYPES: {
+        NEW_REQUEST: "NEW_REQUEST",
         REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
-        NEW_REQUEST: "NEW_REQUEST"
+        REQUEST_DECLINED: "REQUEST_DECLINED",
+        REQUEST_CANCELLED: "REQUEST_CANCELLED",
+        PRODUCT_ORDERED: "PRODUCT_ORDERED",
+        PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
+        PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
+        REVIEW_VALIDATED: "REVIEW_VALIDATED",
+        REVIEW_REFUSED: "REVIEW_REFUSED"
     }
 };
 
@@ -69,12 +76,14 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.requestCancelled]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.TESTER,
-        param: "cancelRequestReason"
+        param: "cancelRequestReason",
+        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED
     },
     [TEST_STATUSES.requestDeclined]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.SELLER,
-        param: "declineRequestReason"
+        param: "declineRequestReason",
+        notificationType: NOTIFICATION_TYPES.REQUEST_DECLINED
     },
     [TEST_STATUSES.requestAccepted]: {
         previous: TEST_STATUSES.requested,
@@ -85,24 +94,29 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.productOrdered]: {
         previous: TEST_STATUSES.requestAccepted,
         role: ROLES.TESTER,
-        param: "estimatedDeliveryDate"
+        param: "estimatedDeliveryDate",
+        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED
     },
     [TEST_STATUSES.productReceived]: {
         previous: TEST_STATUSES.productOrdered,
-        role: ROLES.TESTER
+        role: ROLES.TESTER,
+        notificationType: NOTIFICATION_TYPES.PRODUCT_RECEIVED
     },
     [TEST_STATUSES.productReviewed]: {
         previous: TEST_STATUSES.productReceived,
-        role: ROLES.TESTER
+        role: ROLES.TESTER,
+        notificationType: NOTIFICATION_TYPES.PRODUCT_REVIEWED
     },
     [TEST_STATUSES.reviewValidated]: {
         previous: TEST_STATUSES.productReviewed,
-        role: ROLES.SELLER
+        role: ROLES.SELLER,
+        notificationType: NOTIFICATION_TYPES.REVIEW_VALIDATED
     },
     [TEST_STATUSES.reviewDeclined]: {
         previous: TEST_STATUSES.productReviewed,
         role: ROLES.SELLER,
-        param: 'declineReviewReason'
+        param: 'declineReviewReason',
+        notificationType: NOTIFICATION_TYPES.REVIEW_REFUSED
     }
 };
 
