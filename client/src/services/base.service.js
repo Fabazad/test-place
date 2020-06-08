@@ -7,6 +7,7 @@ class BaseService {
     baseURL;
 
     constructor(path) {
+        console.log(process.env);
         this.baseURL =
             (process.env.NODE_ENV === 'PROD' ? constants.SERVER_PROD_URL :
                 (process.env.NODE_ENV === 'STAGE' ? constants.SERVER_STAGE_URL :
