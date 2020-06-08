@@ -26,7 +26,7 @@ const testObject = {
     cancelRequestReason: String,
     declineRequestReason: String,
     sellerMessage: String,
-    estimatedDeliveryDate: Date,
+    orderId: String,
     declineReviewReason: String,
     expirationDate: { type: Date, default: moment().add(7, "days").toDate() }
 };

@@ -4,19 +4,18 @@ import React, {useEffect, useState} from "react";
 import Form from "reactstrap/es/Form";
 import Alert from "reactstrap/es/Alert";
 import FormGroup from "reactstrap/es/FormGroup";
-import InputGroup from "reactstrap/es/InputGroup";
-import ReactDatetime from "react-datetime";
 import {getProductAmazonUrl} from "../../helpers/urlHelpers";
 import Label from "reactstrap/es/Label";
 import testServices from "../../services/test.services";
 import {toast} from "react-toastify";
-require('moment/locale/fr');
+import Input from "reactstrap/es/Input";
+import InfoPopover from "../InfoPopover";
 
 const OrderedProductModal = props => {
     const {isOpen, onToggle, testId} = props;
 
-    const [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState(null);
     const [test, setTest] = useState(null);
+    const [orderId, setOrderId] = useState(null);
 
     useEffect(() => {
         testServices.getOne(testId).then(setTest);
@@ -26,14 +25,15 @@ const OrderedProductModal = props => {
 
     const handleConfirm = async () => {
         const statuses = await testServices.getTestStatuses();
-        testServices.updateStatus(test._id, statuses['productOrdered'],
-            {estimatedDeliveryDate: estimatedDeliveryDate.toDate()})
+        testServices.updateStatus(test._id, statuses['productOrdered'], {orderId})
             .then(() => {
                 testServices.testsSubject.next();
                 onToggle();
                 toast.success("Produit enregistré comme commandé.")
             })
     };
+
+    const disabled = !orderId || !orderId.match(/^\w{3}-\w{7}-\w{7}$/);
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
@@ -61,14 +61,19 @@ const OrderedProductModal = props => {
                 </div>
 
                 <Form className="mt-4 px-0 px-md-5 mx-0 mx-md-4 bg-secondary rounded py-3 shadow">
-                    <Label><h3>Date de livraison estimée</h3></Label>
                     <FormGroup>
-                        <InputGroup className="input-group-alternative">
-                            <ReactDatetime
-                                inputProps={{placeholder: "Date de livraison estimée"}} input={false}
-                                timeFormat={false} onChange={date => setEstimatedDeliveryDate(date)}
-                            />
-                        </InputGroup>
+                        <Label>
+                            Numéro de commande
+                            <InfoPopover className="ml-3">
+                                Vous pouvez facilement retrouver ce numéro sur la&nbsp;
+                                <a href="https://www.amazon.fr/gp/css/order-history" target="_blank">
+                                    page de vos commandes
+                                </a>.<br/>
+                                Sous le titre <b>N° DE COMMANDE</b>.
+                            </InfoPopover>
+                        </Label>
+                        <Input type="text" name="orderId" className="form-control-alternative"
+                               placeholder="405-9455016-XXXXXXX" onChange={e => setOrderId(e.target.value)}/>
                     </FormGroup>
                 </Form>
             </div>
@@ -76,7 +81,7 @@ const OrderedProductModal = props => {
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
                     Fermer
                 </Button>
-                <Button color="primary" disabled={!estimatedDeliveryDate} onClick={handleConfirm}>Confirmer</Button>
+                <Button color="primary" disabled={disabled} onClick={handleConfirm}>Confirmer</Button>
             </div>
         </Modal>
     )

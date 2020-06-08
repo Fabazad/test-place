@@ -94,7 +94,7 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.productOrdered]: {
         previous: TEST_STATUSES.requestAccepted,
         role: ROLES.TESTER,
-        param: "estimatedDeliveryDate",
+        param: "orderId",
         notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED
     },
     [TEST_STATUSES.productReceived]: {
