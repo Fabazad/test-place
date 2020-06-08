@@ -18,6 +18,7 @@ import Button from "reactstrap/es/Button";
 import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
+import {getProductAmazonUrl} from "../helpers/urlHelpers";
 
 class ProductDetail extends React.Component {
 
@@ -229,7 +230,7 @@ class ProductDetail extends React.Component {
                                     {product && product.asin ? (
                                         <div className="mt-5 text-center">
                                             <span className="mr-3">Plus de détails sur la</span>
-                                            <a href={'https://www.amazon.fr/dp/' + product.asin} target='_blank'
+                                            <a href={getProductAmazonUrl(product.asin)} target='_blank'
                                                rel="noopener noreferrer">
                                                 <Button color="primary">
                                                     <i className="fab fa-amazon mr-3"/>

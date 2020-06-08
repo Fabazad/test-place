@@ -6,6 +6,7 @@ export default {
     BASE_PRODUCT_PICTURE_URL: require("assets/img/theme/shopping-bag.png"),
     AMAZON_APP_ID: 'amzn1.application-oa2-client.1dc653b5a0d74449b587f561ea23589a',
     ITEMS_PER_PAGE: 5,
+    AMAZON_PARTNER_ID: "fabazad06-21",
     SORT_BY_OPTIONS: [
         { text: 'Pertinence', value: 'score' },
         { text: 'Prix Initial', value: 'price' },

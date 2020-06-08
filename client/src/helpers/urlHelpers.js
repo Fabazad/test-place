@@ -1,4 +1,6 @@
 import history from "../history";
+import constants from "./constants";
+const {AMAZON_PARTNER_ID} = constants;
 
 export function updateURLParameter(url, param, paramVal) {
     let newAdditionalURL = "";
@@ -36,7 +38,7 @@ export function removeUrlParameters(key) {
 }
 
 export function getProductAmazonUrl(asin) {
-    return 'https://www.amazon.fr/dp/' + asin;
+    return `https://www.amazon.fr/dp/${asin}?tag=${AMAZON_PARTNER_ID}` ;
 }
 
 export function getAmazonProfileUrl(amazonId) {
