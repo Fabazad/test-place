@@ -19,7 +19,8 @@ const Notifications = () => {
     useEffect(() => {
         if (userServices.currentUser) {
             refreshNotifications();
-            notificationServices.notificationsSubject.subscribe(refreshNotifications);
+            const subscriber = notificationServices.notificationsSubject.subscribe(refreshNotifications);
+            return () => subscriber.unsubscribe();
         }
     }, []);
 

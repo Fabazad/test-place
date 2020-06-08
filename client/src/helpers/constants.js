@@ -78,7 +78,7 @@ export default {
             value: "PRODUCT_REVIEWED",
             text: "Le produit a été indiqué comme noté et commenté :",
             icon: "fa-star",
-            color: "primary",
+            color: "success",
             to: "/dashboard/customer-current-tests"
         },
         REVIEW_VALIDATED: {

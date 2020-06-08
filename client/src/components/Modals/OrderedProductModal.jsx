@@ -66,7 +66,8 @@ const OrderedProductModal = props => {
                             Numéro de commande
                             <InfoPopover className="ml-3">
                                 Vous pouvez facilement retrouver ce numéro sur la&nbsp;
-                                <a href="https://www.amazon.fr/gp/css/order-history" target="_blank">
+                                <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"
+                                   rel="noopener noreferrer">
                                     page de vos commandes
                                 </a>.<br/>
                                 Sous le titre <b>N° DE COMMANDE</b>.

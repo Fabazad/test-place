@@ -30,7 +30,7 @@ const Profile = () => {
 
     useEffect(() => {
         const subscriber = userService.currentUserSubject.subscribe(setUser);
-        return subscriber.unsubscribe();
+        return () => subscriber.unsubscribe();
     }, []);
 
     if (firstLogin && user.roles.includes(USER_ROLES.TESTER)) {

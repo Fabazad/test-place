@@ -4,11 +4,7 @@ import {Link} from "react-router-dom";
 import Headroom from "headroom.js";
 // reactstrap components
 import {
-    DropdownMenu,
     Button,
-    DropdownToggle,
-    UncontrolledDropdown,
-    DropdownItem,
     NavbarBrand,
     Navbar,
     NavItem,
@@ -18,13 +14,12 @@ import {
     Row,
     Col
 } from "reactstrap";
-import LogoutButton from "./LogoutButton";
 import routesJson from "../../routes";
 import userServices from "../../services/user.services";
-import Badge from "reactstrap/es/Badge";
 import SearchProductNavForm from "../Forms/SearchProductNavForm";
 import Collapse from "reactstrap/es/Collapse";
 import Notifications from "../Notifications/Notifications";
+import ProfileDropdownBadge from "./ProfileDropdownBadge";
 
 const DemoNavbar = props => {
 
@@ -38,7 +33,7 @@ const DemoNavbar = props => {
             setRoutes(routesJson.filter(route => !route.role || userServices.hasRole(route.role)));
         });
 
-        return subscriber.unsubscribe();
+        return () => subscriber.unsubscribe();
 
     }, []);
 
@@ -127,30 +122,7 @@ const DemoNavbar = props => {
                                     ) : null}
                                     {isAuth ? (
                                         <NavItem>
-                                            <UncontrolledDropdown>
-                                                <DropdownToggle nav>
-                                                    <Badge color="primary" pill className="shadow--hover">
-                                                        <i className="ni ni-circle-08 ni-2x"/>
-                                                        <div className="mr-2 d-inline-block ml-2 ml-md-0"
-                                                             style={{fontSize: '1.2em', verticalAlign: "super"}}>
-                                                            {userServices.currentUser.name}
-                                                        </div>
-                                                    </Badge>
-                                                </DropdownToggle>
-                                                <DropdownMenu
-                                                    className='w-250px position-xs-static position-md-absolute'>
-                                                    {routes.map(route => (
-                                                        <DropdownItem to={route.layout + route.path} tag={Link}
-                                                                      key={'route' + route.path}>
-                                                            <i className={route.icon}/>
-                                                            {route.name}
-                                                        </DropdownItem>
-                                                    ))}
-                                                    <DropdownItem className="cursor-pointer">
-                                                        <LogoutButton history={props.history}/>
-                                                    </DropdownItem>
-                                                </DropdownMenu>
-                                            </UncontrolledDropdown>
+                                            <ProfileDropdownBadge routes={routes}/>
                                         </NavItem>
                                     ) : null}
                                 </Nav>

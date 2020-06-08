@@ -30,7 +30,7 @@ const NewTestRequestModal = props => {
 
     useEffect(() => {
         const subscriber = userServices.currentUserSubject.subscribe(setUser);
-        return subscriber.unsubscribe();
+        return () => subscriber.unsubscribe();
     }, []);
 
     const toggleModal = () => {

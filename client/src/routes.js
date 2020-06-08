@@ -6,6 +6,7 @@ import ReceivedDemands from "./views/ReceivedDemands";
 import constants from "./helpers/constants";
 import MyCurrentTests from "./views/MyCurrentTests/MyCurrentTests";
 import CustomerCurrentTests from "./views/CustomerCurrentTests/CustomerCurrentTests";
+import FinishedTests from "./views/FinishedTests";
 
 const {USER_ROLES} = constants;
 
@@ -28,7 +29,7 @@ const routes = [
   {
     path: "/sent-requests",
     name: "Demandes Envoyées",
-    icon: "fa fa-hand-paper text-orange",
+    icon: "far fa-hand-paper text-yellow",
     component: SentDemands,
     layout: "/dashboard",
     role: USER_ROLES.TESTER
@@ -45,7 +46,7 @@ const routes = [
   {
     path: "/my-current-tests",
     name: "Mes Tests en Cours",
-    icon: "far fa-arrow-alt-circle-right text-pink",
+    icon: "far fa-arrow-alt-circle-right text-red",
     component: MyCurrentTests,
     layout: "/dashboard",
     role: USER_ROLES.TESTER
@@ -53,15 +54,31 @@ const routes = [
   {
     path: "/customer-current-tests",
     name: "Tests Clients en Cours",
-    icon: "far fa-arrow-alt-circle-right text-pink",
+    icon: "far fa-arrow-alt-circle-right text-red",
     component: CustomerCurrentTests,
     layout: "/dashboard",
     role: USER_ROLES.SELLER
   },
   {
+    path: "/finished-tests",
+    name: "Les Tests Terminés",
+    icon: "far fa-check-circle text-green",
+    component: FinishedTests,
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER
+  },
+  {
+    path: "/my-finished-tests",
+    name: "Mes Tests Terminés",
+    icon: "far fa-check-circle text-green",
+    component: MyCurrentTests,
+    layout: "/dashboard",
+    role: USER_ROLES.TESTER
+  },
+  {
     path: "/my-profile",
     name: "Mon Profil",
-    icon: "fa fa-user text-green",
+    icon: "fa fa-user text-info",
     component: Profile,
     layout: "/dashboard"
   }
