@@ -7,7 +7,10 @@ class BaseService {
     baseURL;
 
     constructor(path) {
-        this.baseURL = (process.env.NODE_ENV === 'development' ? constants.SERVER_DEV_URL : constants.SERVER_PROD_URL) + "/api" + path;
+        this.baseURL =
+            (process.env.NODE_ENV === 'PROD' ? constants.SERVER_PROD_URL :
+                (process.env.NODE_ENV === 'STAGE' ? constants.SERVER_STAGE_URL :
+                constants.SERVER_DEV_URL)) + "/api" + path;
     }
 
     serviceResolve(res) {
