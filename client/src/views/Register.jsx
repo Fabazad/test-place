@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import userService from "services/user.services";
+import userService from "../services/user.services";
+import ReactGA from 'react-ga';
 
 // reactstrap components
 import {
@@ -30,6 +31,8 @@ import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Label from "reactstrap/es/Label";
 
 const Register = props => {
+
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);

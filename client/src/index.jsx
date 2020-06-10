@@ -14,6 +14,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './translation/i18n';
 import App from "./App";
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-153363667-2');
+
+
 ReactDOM.render( <App/>,
     document.getElementById("root")
 );
