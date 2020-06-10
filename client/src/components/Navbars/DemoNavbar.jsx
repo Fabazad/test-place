@@ -122,7 +122,7 @@ const DemoNavbar = props => {
                                     ) : null}
                                     {isAuth ? (
                                         <NavItem>
-                                            <ProfileDropdownBadge routes={routes}/>
+                                            <ProfileDropdownBadge routes={routes} history={props.history}/>
                                         </NavItem>
                                     ) : null}
                                 </Nav>

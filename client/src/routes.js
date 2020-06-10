@@ -12,13 +12,6 @@ const {USER_ROLES} = constants;
 
 const routes = [
   {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/dashboard",
-  },
-  {
     path: "/my-products",
     name: "Mes Produits",
     icon: "ni ni-bag-17 text-blue",
