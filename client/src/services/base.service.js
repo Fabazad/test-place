@@ -19,7 +19,7 @@ class BaseService {
 
     serviceResolve(res) {
         if (res.status !== 200) {
-            throw new Error(res.error);
+            return Promise.reject(new Error(res.error));
         }
         return Promise.resolve(res.data);
     }
@@ -45,8 +45,8 @@ class BaseService {
         return axios.delete(this.baseURL + '/' + itemId).then(this.serviceResolve);
     }
 
-    post(path, params) {
-        return axios.post(this.baseURL + '/' + path, params).then(this.serviceResolve);
+    post(path, params, serviceResolve = this.serviceResolve) {
+        return axios.post(this.baseURL + '/' + path, params).then(serviceResolve);
     }
 }
 

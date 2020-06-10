@@ -67,7 +67,11 @@ const constants = {
         PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
         REVIEW_VALIDATED: "REVIEW_VALIDATED",
         REVIEW_REFUSED: "REVIEW_REFUSED"
-    }
+    },
+    GENDERS: {
+        MALE: "MALE",
+        FEMALE: "FEMALE"
+    },
 };
 
 const {TEST_STATUSES, ROLES, NOTIFICATION_TYPES} = constants;

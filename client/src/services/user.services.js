@@ -6,13 +6,6 @@ import constants from "../helpers/constants";
 import {setCookie} from "../helpers/cookies";
 const {USER_ROLES} = constants;
 
-function serviceResolve(res) {
-    if (!res || res.status !== 200) {
-        return Promise.reject(new Error(res.error));
-    }
-    return Promise.resolve(res.data);
-}
-
 class UserService extends BaseService {
     constructor() {
         super('/user');
@@ -23,7 +16,7 @@ class UserService extends BaseService {
 
     async currentUserResolve(res) {
         return new Promise((resolve, reject) => {
-            serviceResolve(res)
+            this.serviceResolve(res)
                 .then(data => {
                     if (typeof data === "object" && "user" in data) {
                         this.currentUser = data.user;
@@ -46,7 +39,7 @@ class UserService extends BaseService {
     }
 
     register(user) {
-        return axios.post(this.baseURL + '/register', user).then(serviceResolve);
+        return axios.post(this.baseURL + '/register', user).then(this.serviceResolve);
     }
 
     checkToken() {
@@ -56,19 +49,19 @@ class UserService extends BaseService {
     }
 
     sendResetPasswordMail(email) {
-        return axios.post(this.baseURL + "/resetPasswordMail", {email}).then(serviceResolve);
+        return axios.post(this.baseURL + "/resetPasswordMail", {email}).then(this.serviceResolve);
     }
 
     resetPassword(password, resetPasswordToken) {
-        return axios.post(this.baseURL + "/resetPassword", {password, resetPasswordToken}).then(serviceResolve);
+        return axios.post(this.baseURL + "/resetPassword", {password, resetPasswordToken}).then(this.serviceResolve);
     }
 
     updatePassword(previousPassword, password) {
-        return axios.post(this.baseURL + "/updatePassword", {previousPassword, password}).then(serviceResolve);
+        return axios.post(this.baseURL + "/updatePassword", {previousPassword, password}).then(this.serviceResolve);
     }
 
     emailValidation(userId) {
-        return axios.post(this.baseURL + "/emailValidation", {userId}).then(serviceResolve);
+        return axios.post(this.baseURL + "/emailValidation", {userId}).then(this.serviceResolve);
     }
 
     getCurrentUserId() {
@@ -99,7 +92,7 @@ class UserService extends BaseService {
     }
 
     resendValidationMail(email) {
-        return axios.post(this.baseURL + "/validationMail", {email}).then(serviceResolve);
+        return axios.post(this.baseURL + "/validationMail", {email}).then(this.serviceResolve);
     }
 
     updateUserInfo(userId, data) {
@@ -107,7 +100,11 @@ class UserService extends BaseService {
     }
 
     sendContactUsMessage(name, email, message) {
-        return axios.post(this.baseURL + "/contact-us", {name, email, message}).then(serviceResolve);
+        return axios.post(this.baseURL + "/contact-us", {name, email, message}).then(this.serviceResolve);
+    }
+
+    changeGender(gender) {
+        return this.post("change-gender", { gender }, this.currentUserResolve);
     }
 }
 

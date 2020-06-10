@@ -20,8 +20,9 @@ import constants from "../../helpers/constants";
 import MyTesterInfoForm from "./MyTesterInfoForm";
 import {toast} from "react-toastify";
 import {scrollTo} from "../../helpers/scrollHelpers";
+import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 
-const {USER_ROLES} = constants;
+const {USER_ROLES, GENDERS} = constants;
 
 const Profile = () => {
 
@@ -42,6 +43,11 @@ const Profile = () => {
     const isUserSeller = user.roles.includes(USER_ROLES.SELLER);
     const isUserTester = user.roles.includes(USER_ROLES.TESTER);
 
+    const changeGender = async () => {
+        const newGender = user.gender === GENDERS.MALE ? GENDERS.FEMALE : GENDERS.MALE;
+        await userService.changeGender(newGender);
+    };
+
     return (
         <>
             <UserHeader/>
@@ -55,9 +61,13 @@ const Profile = () => {
                                     <div className="card-profile-image">
                                         <img
                                             alt="..."
-                                            className="rounded-circle"
-                                            src={require("assets/img/undraws/male_avatar.svg")}
+                                            className="rounded-circle cursor-pointer"
+                                            src={require("assets/img/undraws/"+ user.gender.toLowerCase() + "_avatar.svg")}
+                                            onClick={changeGender} id="profile-img"
                                         />
+                                        <UncontrolledTooltip placement="top" target="profile-img">
+                                            Cliquer pour changer
+                                        </UncontrolledTooltip>
                                     </div>
                                 </Col>
                             </Row>

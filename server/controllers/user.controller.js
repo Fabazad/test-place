@@ -290,6 +290,19 @@ class UserController {
             message: message
         });
     }
+
+    static async changeGender (userId, gender) {
+        if (!userId || !gender) {
+            return Promise.reject({status: 400, message: "Missing fields."});
+        }
+
+        try {
+            const user = await UserModel.findByIdAndUpdate(userId, { gender }, {new: true});
+            return { user };
+        } catch (err) {
+            return Promise.reject(ErrorResponses.mongoose(err));
+        }
+    }
 }
 
 module.exports = UserController;

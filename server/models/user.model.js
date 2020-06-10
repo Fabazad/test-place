@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const {ROLES} = require("../helpers/constants");
+const {ROLES, GENDERS} = require("../helpers/constants");
 
 const saltRounds = 10;
 
@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema({
     paypalEmail: String,
     lastLogin: Date,
     createdAt: {type: Date, default: new Date(), required: true},
+    gender: { type: String, default: GENDERS.MALE, enum: Object.values(GENDERS) }
 });
 
 UserSchema.pre('save', function(next) {

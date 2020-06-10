@@ -73,4 +73,12 @@ router.post('/contact-us', async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/change-gender', withAuth(), async (request, reply) => {
+    const { gender } = request.body;
+    const {decoded} = request;
+    UserController.changeGender(decoded.userId, gender)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;
