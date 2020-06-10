@@ -11,7 +11,6 @@ import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import PublishProductButton from "../Buttons/PublishProductButton";
 import EditProductModal from "../Modals/EditProductModal";
-import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 import productServices from "../../services/product.service";
 import {Link} from "react-router-dom";
 
@@ -93,7 +92,7 @@ class MyProductCard extends React.Component {
                         </div>
                         <div className="text-center col-6">
                             <small>Demandes</small>
-                            <h4 className="mt-1">{product.maxDemands - product.remainingRequests} / {product.maxDemands}</h4>
+                            <h4 className="mt-1">{product.testsCount} / {product.maxDemands}</h4>
                         </div>
                     </div>
                     <div className="row mt-3 px-3">
@@ -108,7 +107,6 @@ class MyProductCard extends React.Component {
                             </>
                         )}
                         <div className="col-6 px-1"><EditProductModal product={product}/></div>
-                        <div className="col-6 px-1"><UpgradeProductButton productId={product._id}/></div>
                     </div>
                 </CardBody>
             </Card>

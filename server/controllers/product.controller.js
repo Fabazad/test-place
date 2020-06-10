@@ -154,26 +154,27 @@ class ProductController {
             if (prime) {
                 query.isPrime = true;
             }
+            pipeline.push({
+                $lookup: {
+                    from: "tests",
+                    as: "tests",
+                    let: { productId: "$_id" },
+                    pipeline: [{
+                        $match: {
+                            $expr: { $eq: ["$product._id", "$$productId"] },
+                            expirationDate: { $gt: new Date() },
+                            status: { $in: VALID_TEST_STATUSES }
+                        }
+                    }]
+                }
+            });
+            pipeline.push({
+                $addFields: {
+                    testsCount: { $cond: { if: { $isArray: "$tests" }, then: { $size: "$tests" }, else: 0} }
+                }
+            });
+
             if (remainingRequests) {
-                pipeline.push({
-                    $lookup: {
-                        from: "tests",
-                        as: "tests",
-                        let: { productId: "$_id" },
-                        pipeline: [{
-                            $match: {
-                                $expr: { $eq: ["$product._id", "$$productId"] },
-                                expirationDate: { $gt: new Date() },
-                                status: { $in: VALID_TEST_STATUSES }
-                            }
-                        }]
-                    }
-                });
-                pipeline.push({
-                    $addFields: {
-                        testsCount: { $cond: { if: { $isArray: "$tests" }, then: { $size: "$tests" }, else: 0} }
-                    }
-                });
                 pipeline.push({
                     $match: {
                         $expr: { "$lt": ["$testsCount", "$maxDemands"] }
@@ -224,6 +225,7 @@ class ProductController {
             pipeline.unshift({ $match: query });
 
             const aggregate = ProductModel.aggregate(pipeline);
+            console.log(aggregate);
             ProductModel.aggregatePaginate(aggregate, {page, limit: itemsPerPage, sort})
                 .then(res => resolve({hits: res.docs, totalCount: res.totalDocs}))
                 .catch(err => reject(ErrorResponses.mongoose(err)));

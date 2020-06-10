@@ -9,7 +9,6 @@ import {textSlice, formatDate} from '../../helpers/textHelpers';
 import PublishProductButton from "../Buttons/PublishProductButton";
 import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
-import UpgradeProductButton from "../Buttons/UpgradeProductButton";
 import productServices from "../../services/product.service";
 import {Link} from "react-router-dom";
 
@@ -57,7 +56,7 @@ const ProductRow = props => {
                     </Badge>
                 )}
             </th>
-            <td>{product.maxDemands - product.remainingRequests} / {product.maxDemands}</td>
+            <td>{product.testsCount} / {product.maxDemands}</td>
             <td>
                 <div className="avatar-group pl-3">
                     {published ? (
@@ -71,7 +70,6 @@ const ProductRow = props => {
                         </>
                     )}
                     {/*TODO add admin role*/ /*<EditProductModal product={product}/>*/}
-                    <UpgradeProductButton productId={product._id}/>
                 </div>
             </td>
         </tr>

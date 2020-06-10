@@ -31,7 +31,7 @@ class ProductService extends BaseService {
     isPublished(product) {
         return product && product.publishExpirationDate
             && new Date(product.publishExpirationDate).getTime() > Date.now()
-            && 'remainingRequests' in product && product.remainingRequests > 0;
+            && 'testsCount' in product && product.testsCount < product.maxDemands;
     }
 }
 
