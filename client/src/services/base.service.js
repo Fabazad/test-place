@@ -7,11 +7,14 @@ class BaseService {
     baseURL;
 
     constructor(path) {
-        console.log(process.env);
-        this.baseURL =
-            (process.env.NODE_ENV === 'PROD' ? constants.SERVER_PROD_URL :
-                (process.env.NODE_ENV === 'STAGE' ? constants.SERVER_STAGE_URL :
-                constants.SERVER_DEV_URL)) + "/api" + path;
+        this.baseURL = (() => {
+            if (process.env.NODE_ENV === "production") {
+                return "https://" + window.location.hostname + "/api" + path;
+            }
+            else {
+                return constants.SERVER_DEV_URL + "/api" + path;
+            }
+        })();
     }
 
     serviceResolve(res) {
