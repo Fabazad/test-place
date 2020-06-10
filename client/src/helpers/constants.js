@@ -6,7 +6,7 @@ export default {
     CLIENT_PROD_URL: 'https://stage-test-place.herokuapp.com',
     BASE_PRODUCT_PICTURE_URL: require("assets/img/theme/shopping-bag.png"),
     AMAZON_APP_ID: 'amzn1.application-oa2-client.1dc653b5a0d74449b587f561ea23589a',
-    ITEMS_PER_PAGE: 5,
+    ITEMS_PER_PAGE: 20,
     AMAZON_PARTNER_ID: "fabazad06-21",
     GENDERS: {
         MALE: "MALE",
