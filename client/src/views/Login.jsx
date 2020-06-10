@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import userServices from "../services/user.services";
-v
+import ReactGA from 'react-ga';
 
 // reactstrap components
 import {
