@@ -53,23 +53,16 @@ const Profile = () => {
                             <Row className="justify-content-center">
                                 <Col className="order-lg-2" lg="3">
                                     <div className="card-profile-image">
-                                        <a href="#pablo" onClick={e => e.preventDefault()}>
-                                            <img
-                                                alt="..."
-                                                className="rounded-circle"
-                                                src={require("assets/img/theme/team-4-800x800.jpg")}
-                                            />
-                                        </a>
+                                        <img
+                                            alt="..."
+                                            className="rounded-circle"
+                                            src={require("assets/img/undraws/male_avatar.svg")}
+                                        />
                                     </div>
                                 </Col>
                             </Row>
                             <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                                 <div className="d-flex justify-content-between">
-                                    <Button className="float-right" color="default" href="#pablo"
-                                            onClick={e => e.preventDefault()}
-                                            size="sm">
-                                        Message
-                                    </Button>
                                 </div>
                             </CardHeader>
                             <CardBody className="pt-0 pt-md-4">
@@ -77,16 +70,16 @@ const Profile = () => {
                                     <div className="col">
                                         <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                                             <div>
-                                                <span className="heading">22</span>
-                                                <span className="description">Friends</span>
+                                                <span className="heading">#</span>
+                                                <span className="description">Terminés</span>
                                             </div>
                                             <div>
-                                                <span className="heading">10</span>
-                                                <span className="description">Photos</span>
+                                                <span className="heading">#</span>
+                                                <span className="description">Annulés</span>
                                             </div>
                                             <div>
-                                                <span className="heading">89</span>
-                                                <span className="description">Comments</span>
+                                                <span className="heading">#</span>
+                                                <span className="description">En cours</span>
                                             </div>
                                         </div>
                                     </div>
@@ -95,25 +88,8 @@ const Profile = () => {
                                     <h3>{user.name}</h3>
                                     <div className="h5 font-weight-300">
                                         <i className="ni location_pin mr-2"/>
-                                        Bucharest, Romania
+                                        {user.email}
                                     </div>
-                                    <div className="h5 mt-4">
-                                        <i className="ni business_briefcase-24 mr-2"/>
-                                        Solution Manager - Creative Tim Officer
-                                    </div>
-                                    <div>
-                                        <i className="ni education_hat mr-2"/>
-                                        University of Computer Science
-                                    </div>
-                                    <hr className="my-4"/>
-                                    <p>
-                                        Ryan — the name taken by Melbourne-raised, Brooklyn-based
-                                        Nick Murphy — writes, performs and records all of his own
-                                        music.
-                                    </p>
-                                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                                        Show more
-                                    </a>
                                 </div>
                             </CardBody>
                         </Card>
@@ -129,9 +105,9 @@ const Profile = () => {
                             </CardHeader>
                             <CardBody>
                                 {/*<MyInfoForm user={user}/>*/}
-                                {isUserTester ? <MyTesterInfoForm user={user}/>  : null}
+                                {isUserTester ? <MyTesterInfoForm user={user}/> : null}
 
-                                {isUserSeller ?  <MySellerInfoForm user={user}/> : null}
+                                {isUserSeller ? <MySellerInfoForm user={user}/> : null}
 
                                 <hr className="my-4" id='actions-section'/>
                                 {/* Actions */}
