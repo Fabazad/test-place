@@ -1,4 +1,3 @@
-import Index from "views/Index.jsx";
 import Profile from "./views/Profile/Profile.jsx";
 import MyProducts from "./views/MyProducts";
 import SentDemands from "./views/SentDemands";

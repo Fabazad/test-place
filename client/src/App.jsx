@@ -14,7 +14,7 @@ import Search from "./views/Search";
 import ProductDetail from "./views/ProductDetail";
 import ConfirmModal from "./components/Modals/ConfirmModal";
 import NotFound from "./views/NotFound";
-import {Router} from "react-router";
+import {Router} from "react-router-dom";
 import history from './history';
 import ReactGA from 'react-ga';
 
