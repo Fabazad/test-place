@@ -13,7 +13,7 @@ const ProductDisplay = () => {
         setLoading(true);
         productServices.find({
             searchData: {
-                itemsPerPage: 6,
+                itemsPerPage: 8,
                 page: 1,
                 published: true,
                 remainingRequests: true
