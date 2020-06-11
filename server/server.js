@@ -29,6 +29,10 @@ const routes = require('./routes');
 routes(app);
 dbConnection();
 
+app.get('*', function(req, res) {
+    res.redirect('https://' + req.headers.host + req.url);
+});
+
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
