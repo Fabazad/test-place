@@ -5,6 +5,7 @@ const dbConnection = require("./db-connection");
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require("path");
+const httpsRedirect = require('express-https-redirect');
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -29,9 +30,7 @@ const routes = require('./routes');
 routes(app);
 dbConnection();
 
-app.get('*', function(req, res) {
-    res.redirect('https://' + req.headers.host + req.url);
-});
+app.use('/', httpsRedirect(true));
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
