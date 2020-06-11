@@ -1,7 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import userServices from "../services/user.services";
-import ReactGA from 'react-ga';
 
 // reactstrap components
 import {
@@ -25,7 +24,6 @@ class Login extends React.Component {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
         this.refs.main.scrollTop = 0;
-        ReactGA.pageview(window.location.pathname + window.location.search);
     }
 
     onLogin() {

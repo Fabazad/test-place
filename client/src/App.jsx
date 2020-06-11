@@ -16,6 +16,12 @@ import ConfirmModal from "./components/Modals/ConfirmModal";
 import NotFound from "./views/NotFound";
 import {Router} from "react-router";
 import history from './history';
+import ReactGA from 'react-ga';
+
+history.listen(location => {
+    ReactGA.set({ page: location.pathname }); // Update the user's current page
+    ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
 
 class App extends React.Component {
 

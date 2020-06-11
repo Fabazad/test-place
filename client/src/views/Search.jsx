@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import ReactGA from 'react-ga';
 
 // reactstrap components
 import {
@@ -21,7 +20,6 @@ import ProductCardSkeleton from "../components/Cards/ProductCardSkeleton";
 import history from "../history";
 
 const Search = () => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
 
     const [loading, setLoading] = useState(false);
     const [searchEngineData, setSearchEngineData] = useState({});

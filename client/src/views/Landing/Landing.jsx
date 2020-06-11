@@ -20,7 +20,6 @@ import CommunityCard from "./CommunityCard";
 import ContactSections from "./ContactSections";
 import SimpleFooter from "../../components/Footers/SimpleFooter";
 import {scrollTo} from "../../helpers/scrollHelpers";
-import ReactGA from 'react-ga';
 
 class Landing extends React.Component {
 
@@ -40,7 +39,6 @@ class Landing extends React.Component {
             document.scrollingElement.scrollTop = 0;
             this.refs.main.scrollTop = 0;
         }
-        ReactGA.pageview(window.location.pathname + window.location.search);
     }
 
     onSearch(searchData) {
