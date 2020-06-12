@@ -14,6 +14,8 @@ class ProductController {
                 return reject({status: 400, message: "Un produit avec ce même ASIN a déjà été ajouté."});
             }
 
+            const url = `https://www.amazon.fr/dp/${asin}`;
+
             let c = new Crawler({
                 maxConnections: 10,
                 // This will be called for each crawled page
@@ -52,7 +54,7 @@ class ProductController {
                         }
 
                         //Title
-                        const $title = $('h1.a-size-large');
+                        const $title = $('#comparison_title .a-size-base.a-color-base:not(.a-text-bold)');
                         if ($title.length) {
                             scrapRes.title = $title.text().trim();
                         }
@@ -62,9 +64,9 @@ class ProductController {
                         if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
                             scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
                         }
-                        const $price = $('#priceblock_ourprice');
+                        const $price = $('#cerberus-data-metrics');
                         if ($price.length) {
-                            scrapRes.price += parseFloat($price.text().slice(0, -1).trim().replace(/,/, '.'));
+                            scrapRes.price += parseFloat($price.attr("data-asin-price").trim().replace(/,/, '.'));
                         }
 
                         //Description
@@ -100,11 +102,15 @@ class ProductController {
                             };
                         }
 
-                        resolve(scrapRes);
+                        if (!scrapRes.title) {
+                            c.queue(url)
+                        } else {
+                            resolve(scrapRes);
+                        }
                     }
                 }
             });
-            const url = `https://www.amazon.fr/dp/${asin}`;
+
             c.queue(url);
         });
     }
