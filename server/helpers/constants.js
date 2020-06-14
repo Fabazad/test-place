@@ -5,7 +5,8 @@ const constants = {
     MAIL_TEMPLATES_IDS: {
         RESET_PASSWORD: "d-d4d5481b37e648b0ad6583ef88d572d6",
         VALIDATE_EMAIL: "d-d1da8fb375f742619f281f9b661f2d05",
-        CONTACT_US: "d-f6c3402ef59f461a8657f3b3c3cde90f"
+        CONTACT_US: "d-f6c3402ef59f461a8657f3b3c3cde90f",
+        NOTIFICATION: "d-141262cf223c4349955b40f956003808"
     },
     FROM_MAIL_ADDRESS: 'review@test-place.com',
     ROLES: {
@@ -56,22 +57,67 @@ const constants = {
         moneySent: "MONEY_SENT",
         moneyReceived: "MONEY_RECEIVED"
     },
-    // Need to match front ones
-    NOTIFICATION_TYPES: {
-        NEW_REQUEST: "NEW_REQUEST",
-        REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
-        REQUEST_DECLINED: "REQUEST_DECLINED",
-        REQUEST_CANCELLED: "REQUEST_CANCELLED",
-        PRODUCT_ORDERED: "PRODUCT_ORDERED",
-        PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
-        PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
-        REVIEW_VALIDATED: "REVIEW_VALIDATED",
-        REVIEW_REFUSED: "REVIEW_REFUSED"
-    },
     GENDERS: {
         MALE: "MALE",
         FEMALE: "FEMALE"
     },
+    // Need to match front ones
+    NOTIFICATION_TYPES: {
+        NEW_REQUEST: {
+            value: "NEW_REQUEST",
+            title: "Nouvelle demande de test.",
+            text: "Vous avez une nouvelle demande de test pour le produit :",
+            to: "/dashboard/received-requests"
+        },
+        REQUEST_ACCEPTED: {
+            value: "REQUEST_ACCEPTED",
+            title: "Demande de test acceptée.",
+            text: "Votre demande de test a été acceptée pour le produit :",
+            to: "/dashboard/sent-requests"
+        },
+        REQUEST_DECLINED: {
+            value: "REQUEST_DECLINED",
+            title: "Demande de test refusée.",
+            text: "Votre demande de test a été refusée pour le produit :",
+            to: "/dashboard/sent-requests"
+        },
+        REQUEST_CANCELLED: {
+            value: "REQUEST_CANCELLED",
+            title: "Demande de test annulée.",
+            text: "La demande de test a été annulée pour le produit :",
+            to: "/dashboard/received-requests"
+        },
+        PRODUCT_ORDERED: {
+            value: "PRODUCT_ORDERED",
+            title: "Produit commandé.",
+            text: "Le produit a été commandé :",
+            to: "/dashboard/customer-current-tests"
+        },
+        PRODUCT_RECEIVED: {
+            value: "PRODUCT_RECEIVED",
+            title: "Produit reçu.",
+            text: "Le produit a été indiqué comme reçu :",
+            to: "/dashboard/customer-current-tests"
+        },
+        PRODUCT_REVIEWED: {
+            value: "PRODUCT_REVIEWED",
+            title: "Produit commenté.",
+            text: "Le produit a été indiqué comme noté et commenté :",
+            to: "/dashboard/customer-current-tests"
+        },
+        REVIEW_VALIDATED: {
+            value: "REVIEW_VALIDATED",
+            title: "Commentaire confirmé.",
+            text: "Le vendeur a confirmé le commentaire du produit :",
+            to: "/dashboard/my-current-tests"
+        },
+        REVIEW_REFUSED: {
+            value: "REVIEW_REFUSED",
+            title: "Commentaire refusé.",
+            text: "Le vendeur a refusé le commentaire du produit :",
+            to: "/dashboard/my-current-tests"
+        }
+    }
 };
 
 const {TEST_STATUSES, ROLES, NOTIFICATION_TYPES} = constants;
@@ -81,46 +127,46 @@ constants.TEST_STATUS_PROCESSES = {
         previous: TEST_STATUSES.requested,
         role: ROLES.TESTER,
         param: "cancelRequestReason",
-        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED
+        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED.value
     },
     [TEST_STATUSES.requestDeclined]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.SELLER,
         param: "declineRequestReason",
-        notificationType: NOTIFICATION_TYPES.REQUEST_DECLINED
+        notificationType: NOTIFICATION_TYPES.REQUEST_DECLINED.value
     },
     [TEST_STATUSES.requestAccepted]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.SELLER,
         param: "sellerMessage",
-        notificationType: NOTIFICATION_TYPES.REQUEST_ACCEPTED
+        notificationType: NOTIFICATION_TYPES.REQUEST_ACCEPTED.value
     },
     [TEST_STATUSES.productOrdered]: {
         previous: TEST_STATUSES.requestAccepted,
         role: ROLES.TESTER,
         param: "orderId",
-        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED
+        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED.value
     },
     [TEST_STATUSES.productReceived]: {
         previous: TEST_STATUSES.productOrdered,
         role: ROLES.TESTER,
-        notificationType: NOTIFICATION_TYPES.PRODUCT_RECEIVED
+        notificationType: NOTIFICATION_TYPES.PRODUCT_RECEIVED.value
     },
     [TEST_STATUSES.productReviewed]: {
         previous: TEST_STATUSES.productReceived,
         role: ROLES.TESTER,
-        notificationType: NOTIFICATION_TYPES.PRODUCT_REVIEWED
+        notificationType: NOTIFICATION_TYPES.PRODUCT_REVIEWED.value
     },
     [TEST_STATUSES.reviewValidated]: {
         previous: TEST_STATUSES.productReviewed,
         role: ROLES.SELLER,
-        notificationType: NOTIFICATION_TYPES.REVIEW_VALIDATED
+        notificationType: NOTIFICATION_TYPES.REVIEW_VALIDATED.value
     },
     [TEST_STATUSES.reviewDeclined]: {
         previous: TEST_STATUSES.productReviewed,
         role: ROLES.SELLER,
         param: 'declineReviewReason',
-        notificationType: NOTIFICATION_TYPES.REVIEW_REFUSED
+        notificationType: NOTIFICATION_TYPES.REVIEW_REFUSED.value
     }
 };
 

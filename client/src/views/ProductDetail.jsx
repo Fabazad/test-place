@@ -14,11 +14,9 @@ import {Link} from "react-router-dom";
 import {formatDate} from "../helpers/textHelpers";
 import Carousel from "../components/Carousel";
 import NewTestRequestModal from "../components/Modals/NewTestRequestModal/NewTestRequestModal";
-import Button from "reactstrap/es/Button";
 import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
-import {getProductAmazonUrl} from "../helpers/urlHelpers";
 
 class ProductDetail extends React.Component {
 
@@ -227,7 +225,7 @@ class ProductDetail extends React.Component {
                                                 style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
                                         </p>
                                     </div>
-                                    {product && product.asin ? (
+                                    {/*product && product.asin ? (
                                         <div className="mt-5 text-center">
                                             <span className="mr-3">Plus de détails sur la</span>
                                             <a href={getProductAmazonUrl(product.asin)} target='_blank'
@@ -238,7 +236,7 @@ class ProductDetail extends React.Component {
                                                 </Button>
                                             </a>
                                         </div>
-                                    ) : null}
+                                    ) : null*/}
                                 </div>
                             </Row>
                         </Container>

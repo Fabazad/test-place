@@ -50,7 +50,7 @@ class TestController {
                             product.save(),
                             NotificationModel.create({
                                 user: test.seller,
-                                type: NOTIFICATION_TYPES.NEW_REQUEST,
+                                type: NOTIFICATION_TYPES.NEW_REQUEST.value,
                                 test: Object.assign({}, test)
                             })
                             ]);
