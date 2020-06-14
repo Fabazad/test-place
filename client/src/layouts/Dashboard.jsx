@@ -37,9 +37,8 @@ class Dashboard extends React.Component {
     }
 
     getRoutes = routes => {
-        const currentUser = userServices.currentUser;
         return routes.map((route, key) => {
-            if (route.layout === "/dashboard" && currentUser && currentUser.roles.includes(route.role)) {
+            if (route.layout === "/dashboard" && (!route.role || userServices.hasRole(route.role)) ) {
                 return (
                     <Route
                         path={route.layout + route.path}

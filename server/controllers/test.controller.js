@@ -45,7 +45,6 @@ class TestController {
             test.save()
                 .then(async () => {
                     try {
-                        product.remainingRequests--;
                         await Promise.all([
                             product.save(),
                             NotificationModel.create({
