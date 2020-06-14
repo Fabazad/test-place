@@ -9,11 +9,12 @@ const LoginForm = props => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [keepConnection, setKeepConnection] = useState(false);
 
     const onSubmit = e => {
         e.preventDefault();
         setLoading(true);
-        userServices.login(email, password).then(res => {
+        userServices.login(email, password, keepConnection).then(res => {
             setLoading(false);
             if (res && res.user) {
                 props.onLogin();
@@ -57,8 +58,9 @@ const LoginForm = props => {
                 </InputGroup>
             </FormGroup>
             <div className="custom-control custom-control-alternative custom-checkbox">
-                <input className="custom-control-input" id=" customCheckLogin" type="checkbox"/>
-                <label className="custom-control-label" htmlFor=" customCheckLogin">
+                <input className="custom-control-input" id="customCheckLogin" type="checkbox"
+                       onChange={e => setKeepConnection(e.target.checked)}/>
+                <label className="custom-control-label" htmlFor="customCheckLogin">
                     <span>Se souvenir de moi</span>
                 </label>
             </div>

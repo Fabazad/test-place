@@ -11,8 +11,8 @@ router.post('/register', async (request, reply) => {
 });
 
 router.post('/login', async (request, reply) => {
-    const {email, password} = request.body;
-    UserController.login(email, password)
+    const {email, password, keepConnection} = request.body;
+    UserController.login(email, password, keepConnection)
         .then(res => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });

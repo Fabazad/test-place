@@ -52,7 +52,7 @@ class UserController {
         });
     }
 
-    static async login(email, password) {
+    static async login(email, password, keepConnection) {
         return new Promise((resolve, reject) => {
             UserModel.findOne({email}, function (err, user) {
                 if (err) {
@@ -69,7 +69,7 @@ class UserController {
                             reject({status: 400, message: "Incorrect email or password"});
                         } else {
                             // Issue token
-                            const token = createToken(user, '1h');
+                            const token = createToken(user, keepConnection ? '7d' : '1h');
                             await UserModel.findByIdAndUpdate(user._id, { lastLogin: new Date() });
                             resolve({user, token});
                         }
