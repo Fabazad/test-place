@@ -71,7 +71,7 @@ const TestProcessInfo = props => {
                     <div className="text-left w-100">
                         {test.sellerMessage ?
                             <div className="mb-3">
-                                <Label>Message du Vendeur - <Link to={'#'}>{test.seller.name}</Link></Label>
+                                <Label>Message du Vendeur - {test.seller.name}</Label>
                                 <Alert color="success">
                                     {test.sellerMessage}
                                 </Alert>

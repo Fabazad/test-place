@@ -47,6 +47,15 @@ const OrderedProductModal = props => {
                 <Alert className="alert-info">
                     Vous êtes sur le point de confirmer que vous avez bien commandé le produit sur le site Amazon.
                 </Alert>
+                <div className="text-left w-100">
+                    {test.sellerMessage ?
+                        <div className="mb-3">
+                            <Label>Message du Vendeur - {test.seller.name}</Label>
+                            <Alert color="success">
+                                {test.sellerMessage}
+                            </Alert>
+                        </div> : null}
+                </div>
                 <div className="mt-3 mb-0">
                     Si ce n'est pas le cas,<br/>
                     Veuillez d'abord commander le produit.
