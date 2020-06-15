@@ -11,6 +11,7 @@ import UnpublishProductButton from "../Buttons/UnpublishProductButton";
 import DeleteProductButton from "../Buttons/DeleteProductButton";
 import productServices from "../../services/product.service";
 import {Link} from "react-router-dom";
+import EditProductModal from "../Modals/EditProductModal";
 
 const ProductRow = props => {
     const {product} = props;
@@ -69,7 +70,7 @@ const ProductRow = props => {
                             <PublishProductButton productId={product._id}/>
                         </>
                     )}
-                    {/*TODO add admin role*/ /*<EditProductModal product={product}/>*/}
+                    <EditProductModal product={product}/>
                 </div>
             </td>
         </tr>

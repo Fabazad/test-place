@@ -266,16 +266,12 @@ class ProductController {
     static async update(productId, fields, user) {
         return new Promise((resolve, reject) => {
 
-            if (!user.roles.includes(ROLES.ADMIN)) {
-                if (!'published' in fields) {
-                    return reject({status: 403, message: "Unauthorized"});
-                } else {
-                    fields = {published: fields.published};
-                }
-            }
-
             ProductModel.findById(productId)
                 .then(product => {
+                    if (product.seller.toString() !== user.userId && !user.roles.includes(ROLES.ADMIN)) {
+                        return reject({status: 400, message: 'You\'re not the seller of this product.'})
+                    }
+
                     if (fields.published || fields.publishExpirationDate) {
                         fields.publishExpirationDate = (new Date()).setMonth((new Date()).getMonth() + 1);
                         delete fields.published;
