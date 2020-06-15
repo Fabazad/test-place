@@ -2,6 +2,7 @@ const constants = {
     MONGO_LOCAL_URL: 'mongodb://127.0.0.1:27017/test-place',
     FRONTEND_LOCAL_URL: 'http://localhost:3000',
     FRONTEND_URL: 'https://www.testplace.fr',
+    S3_BUCKET: "test-place",
     MAIL_TEMPLATES_IDS: {
         RESET_PASSWORD: "d-d4d5481b37e648b0ad6583ef88d572d6",
         VALIDATE_EMAIL: "d-d1da8fb375f742619f281f9b661f2d05",
@@ -126,25 +127,25 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.requestCancelled]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.TESTER,
-        param: "cancelRequestReason",
+        params: ["cancelRequestReason"],
         notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED.value
     },
     [TEST_STATUSES.requestDeclined]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.SELLER,
-        param: "declineRequestReason",
+        params: ["declineRequestReason"],
         notificationType: NOTIFICATION_TYPES.REQUEST_DECLINED.value
     },
     [TEST_STATUSES.requestAccepted]: {
         previous: TEST_STATUSES.requested,
         role: ROLES.SELLER,
-        param: "sellerMessage",
+        params: ["sellerMessage"],
         notificationType: NOTIFICATION_TYPES.REQUEST_ACCEPTED.value
     },
     [TEST_STATUSES.productOrdered]: {
         previous: TEST_STATUSES.requestAccepted,
         role: ROLES.TESTER,
-        param: "orderId",
+        params: ["orderId", "orderScreenshotUrl"],
         notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED.value
     },
     [TEST_STATUSES.productReceived]: {
@@ -165,7 +166,7 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.reviewDeclined]: {
         previous: TEST_STATUSES.productReviewed,
         role: ROLES.SELLER,
-        param: 'declineReviewReason',
+        params: ['declineReviewReason'],
         notificationType: NOTIFICATION_TYPES.REVIEW_REFUSED.value
     }
 };

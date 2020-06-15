@@ -1,15 +1,16 @@
-var aws = require('aws-sdk'); 
+const constants = require("../helpers/constants");
+var aws = require('aws-sdk');
 require('dotenv').config(); // Configure dotenv to load in the .env file
 // Configure aws with your accessKeyId and your secretAccessKey
 
 aws.config.update({
   region: 'eu-west-3', // Put your aws region here
   signatureVersion: 'v4',
-  accessKeyId: process.env.AWSAccessKeyId,
-  secretAccessKey: process.env.AWSSecretKey
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_KEY
 });
 
-const S3_BUCKET = process.env.bucket;
+const S3_BUCKET = constants.S3_BUCKET;
 
 class S3Controller {
     static async signS3(fileName, fileType) {

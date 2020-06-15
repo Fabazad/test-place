@@ -156,8 +156,12 @@ class TestController {
 
             test.status = status;
 
-            if (statusProcess.param && params[statusProcess.param]) {
-                test[statusProcess.param] = params[statusProcess.param];
+            if (statusProcess.params && statusProcess.params.length /*params[statusProcess.param]*/) {
+                statusProcess.params.forEach(paramKey => {
+                    if (params[paramKey]) {
+                        test[paramKey] = params[paramKey];
+                    }
+                });
             }
 
             test.expirationDate = moment().add(7, 'd').toDate();

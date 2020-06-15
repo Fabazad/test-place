@@ -10,12 +10,19 @@ import testServices from "../../services/test.services";
 import {toast} from "react-toastify";
 import Input from "reactstrap/es/Input";
 import InfoPopover from "../InfoPopover";
+import ImageUploader from "../ImageUploader";
+import constants from "../../helpers/constants";
+import s3Services from "../../services/s3.services";
+import Loading from "../Loading";
 
 const OrderedProductModal = props => {
     const {isOpen, onToggle, testId} = props;
 
     const [test, setTest] = useState(null);
     const [orderId, setOrderId] = useState(null);
+    const [orderScreenshotUrl, setOrderScreenshotUrl] = useState(null);
+    const [orderScreenshot, setOrderScreenshot] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         testServices.getOne(testId).then(setTest);
@@ -24,13 +31,38 @@ const OrderedProductModal = props => {
     if (!test) return null;
 
     const handleConfirm = async () => {
-        const statuses = await testServices.getTestStatuses();
-        testServices.updateStatus(test._id, statuses['productOrdered'], {orderId})
-            .then(() => {
-                testServices.testsSubject.next();
-                onToggle();
-                toast.success("Produit enregistré comme commandé.")
-            })
+        if (!orderScreenshot) {
+            toast.error("Veuillez ajouter la capture d'écran de votre commande.");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const statuses = await testServices.getTestStatuses();
+
+            const finalScreenshotUrl = await s3Services.upload(orderScreenshot);
+
+            await testServices.updateStatus(test._id, statuses['productOrdered'], {
+                orderId,
+                orderScreenshotUrl: finalScreenshotUrl
+            });
+
+            testServices.testsSubject.next();
+            onToggle();
+            toast.success("Produit enregistré comme commandé.");
+        } catch (err) {
+            console.log(err);
+            toast.error(err.toString);
+        }
+
+        setLoading(false);
+    };
+
+    const retrieveAndSetScreenshotUrl = file => {
+        const fileUrl = URL.createObjectURL(file);
+        setOrderScreenshot(file);
+        setOrderScreenshotUrl(fileUrl);
     };
 
     const disabled = !orderId || !orderId.match(/^\w{3}-\w{7}-\w{7}$/);
@@ -44,6 +76,7 @@ const OrderedProductModal = props => {
                 </button>
             </div>
             <div className="modal-body text-center pb-0">
+                <Loading loading={loading}/>
                 <Alert className="alert-info">
                     Vous êtes sur le point de confirmer que vous avez bien commandé le produit sur le site Amazon.
                 </Alert>
@@ -69,7 +102,24 @@ const OrderedProductModal = props => {
                     </a>
                 </div>
 
+                <hr/>
+
                 <Form className="mt-4 px-0 px-md-5 mx-0 mx-md-4 bg-secondary rounded py-3 shadow">
+                    <FormGroup>
+                        <Label>
+                            Capture d'écran de la commande
+                            <InfoPopover className="ml-3">
+                                Prenez une photo de votre commande sur la&nbsp;
+                                <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"
+                                   rel="noopener noreferrer">
+                                    page de vos commandes
+                                </a>.
+                            </InfoPopover>
+                        </Label>
+                        <ImageUploader onChange={file => retrieveAndSetScreenshotUrl(file)}
+                                       baseUrl={constants.BASE_PRODUCT_PICTURE_URL}
+                                       src={orderScreenshotUrl}/>
+                    </FormGroup>
                     <FormGroup>
                         <Label>
                             Numéro de commande

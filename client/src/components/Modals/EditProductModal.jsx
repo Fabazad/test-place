@@ -22,7 +22,7 @@ const EditProductModal = props => {
 
     useEffect(() => {
         setDefaultData({images: product.imageUrls, ...product});
-    }, [props.product]);
+    }, [product]);
 
     const toggleModal = () => setIsOpen(!isOpen);
 
@@ -30,7 +30,6 @@ const EditProductModal = props => {
 
     const onSubmit = (formData) => {
         const loadingPromise = new Promise(async (resolve, reject) => {
-            console.log(formData);
             const newProduct = formData;
 
             const s3promises = [];

@@ -6,7 +6,7 @@ router.post('/sign-s3', async (request, reply) => {
     const {fileName, fileType} = request.body;
     S3Controller.signS3(fileName, fileType)
         .then((res) => reply.status(200).send(res))
-        .catch(err => reply.status(err.status).send(err.message));
+        .catch(err => reply.status(err.status).send(err));
 });
 
 module.exports = router;
