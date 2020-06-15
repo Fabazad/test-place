@@ -38,11 +38,13 @@ class Dashboard extends React.Component {
 
     getRoutes = routes => {
         return routes.map((route, key) => {
-            if (route.layout === "/dashboard" && (!route.role || userServices.hasRole(route.role)) ) {
+            if (route.layout === "/dashboard") {
+                const component = (!route.role || userServices.hasRole(route.role)) ?
+                    route.component : () => (<Redirect to="/login"/>);
                 return (
                     <Route
                         path={route.layout + route.path}
-                        component={route.component}
+                        component={component}
                         key={key}
                     />
                 );

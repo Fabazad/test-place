@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import userServices from "../services/user.services";
 
 // reactstrap components
 import {
@@ -16,44 +15,37 @@ import SimpleFooter from "../components/Footers/SimpleFooter.jsx";
 import ForgottenPasswordModal from "../components/Modals/ForgottenPasswordModal";
 import ResendValidationMailModal from "../components/Modals/ResendValidationMailModal";
 import LoginForm from "../components/Forms/LoginForm";
+import Alert from "reactstrap/es/Alert";
+import {useLastLocation} from 'react-router-last-location';
+import history from "../history";
 
+const Login = () => {
 
-class Login extends React.Component {
+    const lastLocation = useLastLocation();
 
-    componentDidMount() {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.refs.main.scrollTop = 0;
-    }
+    const onLogin = () => {
+        history.push(lastLocation.pathname ?? "/");
+    };
 
-    onLogin() {
-        if (userServices.currentUser && userServices.currentUser.lastLogin) {
-            this.props.history.push('/');
-        } else {
-            this.props.history.push('/dashboard/my-profile#first-login');
-        }
-    }
-
-    render() {
-        return (
-            <>
-                <main ref="main" id="login">
-                    <section className="section section-shaped section-lg">
-                        <div className="shape shape-style-1 bg-gradient-default">
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                            <span/>
-                        </div>
-                        <Container className="pt-lg-md">
-                            <Row className="justify-content-center">
-                                <Col lg="5">
-                                    <Card className="bg-secondary shadow border-0">
-                                        {/*<CardHeader className="bg-white pb-4">
+    return (
+        <>
+            <main id="login">
+                <section className="section section-shaped section-lg">
+                    <div className="shape shape-style-1 bg-gradient-default">
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                        <span/>
+                    </div>
+                    <Container className="pt-lg-md">
+                        <Row className="justify-content-center">
+                            <Col lg="5">
+                                <Card className="bg-secondary shadow border-0">
+                                    {/*<CardHeader className="bg-white pb-4">
                       <div className="text-muted text-center mb-3">
                         <small>Se connecter</small>
                       </div>
@@ -88,37 +80,41 @@ class Login extends React.Component {
                         </Button>
                       </div>
                     </CardHeader>*/}
-                                        <CardBody className="p-lg-4">
-                                            <div className="mt-3">
-                                                <LoginForm onLogin={() => this.onLogin()}/>
+                                    <CardBody className="p-lg-4">
+                                        <div className="mt-3">
+                                            <LoginForm onLogin={onLogin}/>
+                                        </div>
+                                        <div className="mt-3">
+                                            <Alert color="info">
+                                                Pensez à ajouter le site à vos favoris pour facilement le retrouver.
+                                            </Alert>
+                                        </div>
+                                        <Row className="mt-4">
+                                            <Col xs="6">
+                                                <ForgottenPasswordModal/>
+                                            </Col>
+                                            <Col className="text-right" xs="6">
+                                                <Link to="/register" className="text-primary">
+                                                    <small>Nouveau compte</small>
+                                                </Link>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-3">
+                                            <div className="col-12 text-center">
+                                                <ResendValidationMailModal/>
                                             </div>
-                                            <Row className="mt-4">
-                                                <Col xs="6">
-                                                    <ForgottenPasswordModal/>
-                                                </Col>
-                                                <Col className="text-right" xs="6">
-                                                    <Link to="/register" className="text-primary">
-                                                        <small>Nouveau compte</small>
-                                                    </Link>
-                                                </Col>
-                                            </Row>
-                                            <Row className="mt-3">
-                                                <div className="col-12 text-center">
-                                                    <ResendValidationMailModal/>
-                                                </div>
-                                            </Row>
-                                        </CardBody>
-                                    </Card>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
 
-                                </Col>
-                            </Row>
-                        </Container>
-                    </section>
-                </main>
-                <SimpleFooter/>
-            </>
-        );
-    }
-}
+                            </Col>
+                        </Row>
+                    </Container>
+                </section>
+            </main>
+            <SimpleFooter/>
+        </>
+    );
+};
 
 export default Login;

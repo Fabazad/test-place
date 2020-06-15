@@ -2,13 +2,18 @@ import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "
 import Badge from "reactstrap/es/Badge";
 import userServices from "../../services/user.services";
 import {Link} from "react-router-dom";
-import LogoutButton from "./LogoutButton";
 import React from "react";
 import PropTypes from "prop-types";
+import history from "../../history";
 
 const ProfileDropdownBadge = props => {
 
     const {routes} = props;
+
+    const onLogout = () => {
+        userServices.logout();
+        history.push("/");
+    };
 
     return (
         <UncontrolledDropdown className="profile-dropdown-badge">
@@ -30,8 +35,10 @@ const ProfileDropdownBadge = props => {
                         {route.name}
                     </DropdownItem>
                 ))}
-                <DropdownItem className="cursor-pointer">
-                    <LogoutButton history={props.history}/>
+                <DropdownItem className="cursor-pointer" onClick={onLogout}>
+                    <span className="nav-link-inner--text" data-testid="logout-button">
+                        <i className="fa fa-sign-out-alt mr-3 text-danger"/>Déconnexion
+                    </span>
                 </DropdownItem>
             </DropdownMenu>
         </UncontrolledDropdown>

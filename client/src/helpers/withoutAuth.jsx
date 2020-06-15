@@ -24,6 +24,14 @@ export default function withoutAuth(ComponentToProtect) {
             }
         }
 
+        componentDidUpdate(prevProps, prevState, snapshot) {
+            if (getCookie("token")) {
+                this.setState({redirect: true});
+            } else {
+                userServices.logout();
+            }
+        }
+
         componentWillUnmount() {
           this._mount = false;
         }
