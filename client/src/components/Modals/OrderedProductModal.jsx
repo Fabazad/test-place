@@ -65,7 +65,7 @@ const OrderedProductModal = props => {
         setOrderScreenshotUrl(fileUrl);
     };
 
-    const disabled = !orderId || !orderId.match(/^\w{3}-\w{7}-\w{7}$/);
+    const disabled = !orderId || !orderId.match(/^\w{3}-\w{7}-\w{7}$/) || !orderScreenshot;
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
