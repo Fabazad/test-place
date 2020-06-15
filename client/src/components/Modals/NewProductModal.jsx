@@ -53,7 +53,10 @@ const NewProductModal = () => {
         setLoadingPromise(loadingPromise);
     };
 
-    const resetForm = () => setDefaultData({});
+    const resetForm = () => {
+        setAsinInput(null);
+        setDefaultData({});
+    };
 
     const onSubmit = (formData) => {
         const loadingPromise = new Promise(async (resolve, reject) => {
@@ -77,6 +80,7 @@ const NewProductModal = () => {
                 toast.success("Product added");
                 toggleModal();
                 resetForm();
+                resolve();
                 productService.productsUpdatedSubject.next();
             }).catch(reject);
         });
