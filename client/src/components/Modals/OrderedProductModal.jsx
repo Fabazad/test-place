@@ -60,9 +60,15 @@ const OrderedProductModal = props => {
     };
 
     const retrieveAndSetScreenshotUrl = file => {
-        const fileUrl = URL.createObjectURL(file);
-        setOrderScreenshot(file);
-        setOrderScreenshotUrl(fileUrl);
+        try {
+            const fileUrl = URL.createObjectURL(file);
+            setOrderScreenshot(file);
+            setOrderScreenshotUrl(fileUrl);
+        } catch(err) {
+            console.log(err);
+            toast.error("Impossible d'importer cette image.");
+        }
+
     };
 
     const disabled = !orderId || !orderId.match(/^\w{3}-\w{7}-\w{7}$/) || !orderScreenshot;

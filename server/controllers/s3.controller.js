@@ -1,5 +1,6 @@
 const constants = require("../helpers/constants");
-var aws = require('aws-sdk');
+const aws = require('aws-sdk');
+const randomToken = require('random-token');
 require('dotenv').config(); // Configure dotenv to load in the .env file
 // Configure aws with your accessKeyId and your secretAccessKey
 
@@ -19,7 +20,7 @@ class S3Controller {
         // Set up the payload of what we are sending to the S3 api
             const s3Params = {
                 Bucket: S3_BUCKET,
-                Key: 'product-pictures/' + fileName,
+                Key: 'product-pictures/' + randomToken(16),
                 Expires: 500,
                 ContentType: fileType,
                 ACL: 'public-read'
@@ -33,7 +34,7 @@ class S3Controller {
             // Data payload of what we are sending back, the url of the signedRequest and a URL where we can access the content after its saved. 
             const returnData = {
                 signedRequest: data,
-                url: `https://${S3_BUCKET}.s3.amazonaws.com/product-pictures/${fileName}`
+                url: `https://${S3_BUCKET}.s3.amazonaws.com/${s3Params.Key}`
             };
             // Send it all back
             return resolve({success:true, data:{returnData}});
