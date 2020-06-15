@@ -70,7 +70,7 @@ const TestListButtons = props => {
                             {test.status === statuses["requestAccepted"] ? (
                                 <RowActionButton
                                     title="Acheter le Produit" icon="fab fa-amazon" color="default"
-                                    onClick={() => window.open(getProductAmazonUrl(test.product.asin), '_blank')}/>
+                                    onClick={() => window.open(getProductAmazonUrl(test.product.asin, test.product.keywords), '_blank')}/>
                             ) : null}
                             {test.status === statuses["requestAccepted"] ? (
                                 <RowActionButton

@@ -15,13 +15,14 @@ import {
     Label
 } from "reactstrap";
 import {toast} from "react-toastify";
-import Loading from "components/Loading";
-import productService from "services/product.service";
-import s3Services from "services/s3.services";
+import Loading from "../../components/Loading";
+import productService from "../../services/product.service";
+import s3Services from "../../services/s3.services";
 import DropdownSelect from "../DropdownSelect";
 import MultiImageUploader from "../MultiImageUploader";
 import SearchEngine from "../SearchEngine";
 import PropTypes from "prop-types";
+import TagsInput from "react-tagsinput";
 
 class NewProductModal extends React.Component {
 
@@ -44,7 +45,8 @@ class NewProductModal extends React.Component {
             loadingPromise: null,
             pictures: [null],
             category: '',
-            seller: undefined
+            seller: undefined,
+            keywords: []
         };
         this.state = {
             categories: [],
@@ -106,7 +108,7 @@ class NewProductModal extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const loadingPromise = new Promise(async (resolve, reject) => {
-            const {asin, title, price, finalPrice, images, description, isPrime, maxDemands, automaticAcceptance, category, amazonSeller} = this.state;
+            const {asin, title, price, finalPrice, images, description, isPrime, maxDemands, automaticAcceptance, category, amazonSeller, keywords} = this.state;
             const product = {
                 asin,
                 title,
@@ -117,7 +119,8 @@ class NewProductModal extends React.Component {
                 maxDemands,
                 automaticAcceptance,
                 category,
-                amazonSeller
+                amazonSeller,
+                keywords
             };
 
             const s3promises = [];
@@ -143,6 +146,10 @@ class NewProductModal extends React.Component {
         this.setState({loadingPromise});
     };
 
+    handleKeywords = keywords => {
+        this.setState({keywords});
+    };
+
     render() {
         return (
             <>
@@ -165,7 +172,7 @@ class NewProductModal extends React.Component {
                                 Nouveau Produit
                             </h2>
                             <button aria-label="Close" className="close" data-dismiss="modal"
-                                type="button" onClick={() => this.toggleModal("exampleModal")}>
+                                    type="button" onClick={() => this.toggleModal("exampleModal")}>
                                 <span aria-hidden={true}>×</span>
                             </button>
                         </div>
@@ -181,8 +188,8 @@ class NewProductModal extends React.Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input placeholder="ASIN ou Lien amazon du produit" type="text"
-                                                    name="asinInput" value={this.state.asinInput}
-                                                    onChange={this.handleInputChange}/>
+                                                       name="asinInput" value={this.state.asinInput}
+                                                       onChange={this.handleInputChange}/>
                                             </InputGroup>
                                         </FormGroup>
                                     </div>
@@ -246,11 +253,35 @@ class NewProductModal extends React.Component {
                                                 </FormGroup>
                                             </div>
                                         </div>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <FormGroup className="mb-3">
+                                                    <InputGroup className="input-group-alternative">
+                                                        <InputGroupAddon addonType="prepend">
+                                                            <InputGroupText className="position-absolute"
+                                                                            style={{top: "5px"}}>
+                                                                <i className="ni ni-key-25"/>
+                                                            </InputGroupText>
+                                                        </InputGroupAddon>
+                                                        <TagsInput
+                                                            className="bootstrap-tagsinput w-100"
+                                                            onChange={this.handleKeywords}
+                                                            tagProps={{className: "tag badge mr-1"}}
+                                                            value={this.state.keywords}
+                                                            inputProps={{ placeholder: "Ajouter des mots clés" }}
+                                                            addOnPaste={true}
+                                                            addKeys={[9, 13, 44, 32, 188, 190]}
+                                                        />
+                                                    </InputGroup>
+                                                </FormGroup>
+                                            </div>
+                                        </div>
                                         <Row className="mb-3">
                                             <div className="col-6">
                                                 <DropdownSelect name={"category"} options={this.state.categories}
                                                                 className={"w-100"} value={this.state.category}
-                                                                onChange={this.handleInputChange} placeholder={"Catégorie"}/>
+                                                                onChange={this.handleInputChange}
+                                                                placeholder={"Catégorie"}/>
                                             </div>
                                             <div className="col-6 text-center d-flex">
                                                 <label className="custom-toggle mt-2">
@@ -269,8 +300,8 @@ class NewProductModal extends React.Component {
                                                 <FormGroup className="mb-3">
                                                     <InputGroup className="input-group-alternative">
                                                         <Input placeholder="Prix" type="number" step="0.01"
-                                                            min="0.01" name="price" value={this.state.price}
-                                                            onChange={this.handleInputChange} required/>
+                                                               min="0.01" name="price" value={this.state.price}
+                                                               onChange={this.handleInputChange} required/>
                                                         <InputGroupAddon addonType="append">
                                                             <InputGroupText>
                                                                 <i className="fa fa-euro"/>
@@ -337,7 +368,8 @@ class NewProductModal extends React.Component {
                                                 </InputGroup>
                                             </FormGroup>
                                             <FormGroup className="col-md-6 col-12">
-                                                <div className="custom-control custom-control-alternative custom-checkbox mt-2">
+                                                <div
+                                                    className="custom-control custom-control-alternative custom-checkbox mt-2">
                                                     <input
                                                         className="custom-control-input"
                                                         id="customCheck6"
@@ -360,7 +392,8 @@ class NewProductModal extends React.Component {
                                                             Permet d'afficher le bouton qui permet aux testeurs d'avoir
                                                             directement leur demande validée sans action de la part du
                                                             vendeur.<br/>
-                                                            Seulement les testeurs ayants souscrits à l'option premium auront la
+                                                            Seulement les testeurs ayants souscrits à l'option premium
+                                                            auront la
                                                             possibilité de faire des demandes automatiques.
                                                         </PopoverBody>
                                                     </UncontrolledPopover>
@@ -374,7 +407,7 @@ class NewProductModal extends React.Component {
 
                         <div className="modal-footer bg-secondary ">
                             <Button color="secondary" data-dismiss="modal" type="button"
-                                onClick={() => this.toggleModal("exampleModal")}>
+                                    onClick={() => this.toggleModal("exampleModal")}>
                                 Fermer
                             </Button>
                             {this.state.asin ? (

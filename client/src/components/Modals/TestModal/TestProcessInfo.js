@@ -79,7 +79,7 @@ const TestProcessInfo = props => {
                     </div>
                     <NextStepAdvice color="success">
                         Commandez le produit sur le site amazon en suivant ce lien :&nbsp;
-                        <a href={getProductAmazonUrl(test.product.asin)} target='_blank' rel="noopener noreferrer">
+                        <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)} target='_blank' rel="noopener noreferrer">
                             Lien Produit
                         </a>.<br/>
                         Indiquez au vendeur lorsque vous commandez sur votre page

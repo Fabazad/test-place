@@ -61,7 +61,7 @@ const OrderedProductModal = props => {
                     Veuillez d'abord commander le produit.
                 </div>
                 <div className="mt-3">
-                    <a href={getProductAmazonUrl(test.product.asin)}>
+                    <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)}>
                         <Button color="default">
                             <i className="fab fa-amazon mr-3"/>
                             Accèder au Produit Amazon

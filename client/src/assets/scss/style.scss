@@ -160,3 +160,61 @@ img.selected {
 .profile-dropdown-badge .dropdown-menu:before {
     left: 80px !important;
 }
+
+
+// For tagsInput
+.bootstrap-tagsinput .badge {
+    position: relative;
+    padding: .625rem .625rem .5rem;
+    margin: .125rem;
+    border-radius: .25rem;
+    background: #172b4d;
+    color: #fff;
+    line-height: 1.5;
+    box-shadow: 0 1px 2px rgba(68,68,68,.25);
+    -webkit-transition: all .15s ease;
+    transition: all .15s ease;
+}
+
+.bootstrap-tagsinput {
+    background-color: #fff;
+    border: 0 solid transparent;
+    display: inline-block;
+    color: #8898aa;
+    vertical-align: middle;
+    border-radius: .25rem;
+    max-width: 100%;
+    cursor: text;
+    padding-left: 40px;
+}
+
+.bootstrap-tagsinput input {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: initial;
+    padding: 0 6px;
+    margin: 0;
+    width: auto;
+    max-width: inherit;
+    height: 46px;
+}
+
+.bootstrap-tagsinput .badge:hover {
+    padding-right: 1.5rem;
+}
+
+.bootstrap-tagsinput .tag a:after {
+    font-size: 16px;
+    content: "×";
+}
+
+.bootstrap-tagsinput .tag a {
+    position: absolute;
+    top: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #fff;
+}
