@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const path = require("path");
 const httpsRedirect = require('express-https-redirect');
 
+app.use('/', httpsRedirect(true));
+
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -30,7 +32,6 @@ const routes = require('./routes');
 routes(app);
 dbConnection();
 
-app.use('/', httpsRedirect(true));
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

@@ -50,7 +50,7 @@ export default {
             text: "Votre demande de test a été acceptée pour le produit :",
             icon: "fa-thumbs-up",
             color: "success",
-            to: "/dashboard/sent-requests"
+            to: "/dashboard/my-current-tests"
         },
         REQUEST_DECLINED: {
             value: "REQUEST_DECLINED",
