@@ -1,73 +1,58 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import '../assets/scss/animated-checks.scss';
 import PropTypes from "prop-types";
 import {UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
 import {withTranslation} from "react-i18next";
 
-class DropdownSelect extends React.Component {
+const DropdownSelect = props => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            option: undefined
-        };
-    }
+    const {name, options, t, className, placeholder} = props;
 
-    onSelectItem(option) {
-        const currentValue = this.state.option ? this.state.option.value : null;
-        const value = option ? option.value : null;
+    const [option, setOption] = useState(null);
+
+    const onSelectItem = (newOption) => {
+        const currentValue = option ? option.value : null;
+        const value = newOption ? newOption.value : null;
         if (value !== currentValue) {
-            this.props.onChange({target: {name: this.props.name, value}});
+            props.onChange({target: {name, value}});
         }
-    }
+    };
 
-    componentDidMount() {
-        if ('value' in this.props) {
-            const option = this.props.options.find(o => o.value === this.props.value);
-            this.setState({option})
-        }
-    }
+    useEffect(() => {
+        const option = options.find(o => o.value === props.value);
+        setOption(option);
+    }, [props.value]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if ('value' in nextProps) {
-            const option = this.props.options.find(o => o.value === nextProps.value);
-            this.setState({option})
-        }
-    }
-
-    render() {
-        const {t} = this.props;
-        return (
-            <UncontrolledDropdown group className={'w-100 dropdown-select ' + (this.props.className ?? '')}>
-                <DropdownToggle caret color="secondary"
-                                className={"w-100 text-right bg-white input-group-alternative rounded"}
-                                style={{'height': '46px'}}>
+    return (
+        <UncontrolledDropdown group className={'w-100 dropdown-select ' + (className ?? '')}>
+            <DropdownToggle caret color="secondary"
+                            className={"w-100 text-right bg-white input-group-alternative rounded"}
+                            style={{'height': '46px'}}>
                     <span
-                        className={"text-left w-100 d-inline-block font-weight-normal" + (this.state.option ? '' : ' text-muted')}>
-                        {t(this.state.option ? this.state.option.text : this.props.placeholder)}
+                        className={"text-left w-100 d-inline-block font-weight-normal" + (option ? '' : ' text-muted')}>
+                        {t(option ? option.text : placeholder)}
                     </span>
-                </DropdownToggle>
-                <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
-                    {this.props.placeholder ? (
-                        <DropdownItem onClick={() => this.onSelectItem(null)}
-                                      key={'option.null'} className={"cursor-pointer text-muted"}>
-                            {t(this.props.placeholder)}
-                        </DropdownItem>
-                    ) : null}
+            </DropdownToggle>
+            <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
+                {placeholder ? (
+                    <DropdownItem onClick={() => onSelectItem(null)}
+                                  key={'option.null'} className={"cursor-pointer text-muted"}>
+                        {t(placeholder)}
+                    </DropdownItem>
+                ) : null}
 
-                    {this.props.options.map((option, i) => (
-                        <DropdownItem onClick={() => this.onSelectItem(option)}
-                                      key={option.value + i}
-                                      className={"cursor-pointer" + (this.state.option && this.state.option.value === option.value ? ' selected' : '')}>
-                            {t(option.text)}
-                        </DropdownItem>
-                    ))}
+                {options.map((opt, i) => (
+                    <DropdownItem onClick={() => onSelectItem(opt)}
+                                  key={opt.value + i}
+                                  className={"cursor-pointer" + (option && option.value === opt.value ? ' selected' : '')}>
+                        {t(opt.text)}
+                    </DropdownItem>
+                ))}
 
-                </DropdownMenu>
-            </UncontrolledDropdown>
-        );
-    }
-}
+            </DropdownMenu>
+        </UncontrolledDropdown>
+    );
+};
 
 DropdownSelect.propTypes = {
     className: PropTypes.string,

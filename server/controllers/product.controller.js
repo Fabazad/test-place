@@ -16,6 +16,9 @@ class ProductController {
 
             const url = `https://www.amazon.fr/dp/${asin}`;
 
+            const maxTest = 10;
+            let currentTest = 0;
+
             let c = new Crawler({
                 maxConnections: 10,
                 // This will be called for each crawled page
@@ -57,6 +60,11 @@ class ProductController {
                         const $title = $('#comparison_title .a-size-base.a-color-base:not(.a-text-bold)');
                         if ($title.length) {
                             scrapRes.title = $title.text().trim();
+                        } else {
+                            const $titleMeta = $('meta[name=title]');
+                            if ($titleMeta.length) {
+                                scrapRes.title = $titleMeta.attr("content");
+                            }
                         }
 
                         //Price
@@ -102,7 +110,8 @@ class ProductController {
                             };
                         }
 
-                        if (!scrapRes.title) {
+                        if (!scrapRes.description && currentTest < maxTest) {
+                            currentTest++;
                             c.queue(url)
                         } else {
                             resolve(scrapRes);
@@ -231,7 +240,6 @@ class ProductController {
             pipeline.unshift({ $match: query });
 
             const aggregate = ProductModel.aggregate(pipeline);
-            console.log(aggregate);
             ProductModel.aggregatePaginate(aggregate, {page, limit: itemsPerPage, sort})
                 .then(res => resolve({hits: res.docs, totalCount: res.totalDocs}))
                 .catch(err => reject(ErrorResponses.mongoose(err)));

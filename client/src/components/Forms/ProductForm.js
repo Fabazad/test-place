@@ -24,21 +24,27 @@ const ProductForm = props => {
 
         const asin = defaultData.asin ?? null;
 
-        const [title, setTitle] = useState(defaultData.title ?? null);
-        const [price, setPrice] = useState(defaultData.price ?? null);
-        const [finalPrice, setFinalPrice] = useState(defaultData.finalPrice ?? null);
+        const [title, setTitle] = useState(defaultData.title ?? undefined);
+        const [price, setPrice] = useState(defaultData.price ?? '');
+        const [finalPrice, setFinalPrice] = useState(defaultData.finalPrice ?? '');
         const [images, setImages] = useState(defaultData.images ?? []);
-        const [description, setDescription] = useState(defaultData.description ?? null);
+        const [description, setDescription] = useState(defaultData.description ?? undefined);
         const [isPrime, setIsPrime] = useState(defaultData.isPrime ?? false);
-        const [maxDemands, setMaxDemands] = useState(defaultData.maxDemands ?? null);
+        const [maxDemands, setMaxDemands] = useState(defaultData.maxDemands ?? '');
         const [automaticAcceptance, setAutomaticAcceptance] = useState(defaultData.automaticAcceptance ?? false);
-        const [category, setCategory] = useState(defaultData.category ?? null);
+        const [category, setCategory] = useState(undefined);
         const [keywords, setKeywords] = useState(defaultData.keywords ?? []);
         const [categories, setCategories] = useState([]);
 
         useEffect(() => {
             productService.getProductCategories().then(categories => setCategories(categories));
         }, []);
+
+        useEffect(() => {
+            if (categories.length) {
+                setCategory(defaultData.category);
+            }
+        }, [defaultData.category, categories]);
 
         const onSubmit = e => {
             e.preventDefault();
@@ -57,9 +63,7 @@ const ProductForm = props => {
             });
         };
 
-
         return (
-
             <Form role="form" onSubmit={onSubmit}>
                 <div className="border-top">
                     <div className="w-100 my-3">

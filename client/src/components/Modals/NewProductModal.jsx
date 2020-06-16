@@ -21,7 +21,7 @@ const NewProductModal = () => {
 
     const [defaultData, setDefaultData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
-    const [asinInput, setAsinInput] = useState(null);
+    const [asinInput, setAsinInput] = useState("");
     const [loadingPromise, setLoadingPromise] = useState(null);
 
     const toggleModal = () => setIsOpen(!isOpen);
