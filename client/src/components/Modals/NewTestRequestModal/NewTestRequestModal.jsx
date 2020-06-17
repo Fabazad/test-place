@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import SendRequestForm from "./SendRequestForm";
 import LoginBody from "./LoginBody";
 import BecomeTesterBody from "./BecomeTesterBody";
+import Loading from "../../Loading";
 
 const {USER_ROLES} = constants;
 
@@ -25,6 +26,7 @@ const NewTestRequestModal = props => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [testerMessage, setTesterMessage] = useState(isLogged ? user.testerMessage : null);
     const [requestSent, setRequestSent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const isTester = isLogged && user.roles.includes(USER_ROLES.TESTER);
 
@@ -41,11 +43,17 @@ const NewTestRequestModal = props => {
 
     const confirmRequest = async () => {
         if (disabled) return;
-        await testServices.create({
-            product: productId,
-            testerMessage
-        });
-        setRequestSent(true);
+        setLoading(true);
+        try {
+            await testServices.create({
+                product: productId,
+                testerMessage
+            });
+            setRequestSent(true);
+        } catch(err) {
+            console.error(err);
+        }
+        setLoading(false);
     };
 
     const renderModalBody = () => {
@@ -76,6 +84,7 @@ const NewTestRequestModal = props => {
                     </button>
                 </div>
                 <div className="modal-body text-center">
+                    <Loading loading={loading}/>
                     {renderModalBody()}
                 </div>
                 <div className="modal-footer">

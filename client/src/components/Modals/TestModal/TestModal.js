@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {Button, Modal} from "reactstrap";
+import {Badge, Button, Modal} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import Label from "reactstrap/lib/Label";
 import {formatDate} from "../../../helpers/textHelpers";
@@ -15,6 +15,9 @@ import {withTranslation} from "react-i18next";
 import TestProcessInfo from "./TestProcessInfo";
 import Container from "reactstrap/es/Container";
 import testServices from "../../../services/test.services";
+import constants from "../../../helpers/constants";
+
+const {USER_ROLES} = constants;
 
 const TestModal = props => {
 
@@ -70,6 +73,44 @@ const TestModal = props => {
                                               amazonSeller={test.product.amazonSeller}/>
                         </Col>
                     </Row>
+
+                    {userType === USER_ROLES.SELLER ? (
+                        <Row className="mt-3">
+                            <Col xs={12} md={4} className="text-center">
+                                <Label>Paypal Email</Label>
+                                <div>
+                                    {test.tester.paypalEmail}
+                                </div>
+                            </Col>
+                            {test.orderId ? (
+                                <Col xs={12} md={4} className="text-center">
+                                    <Label>Numéro de Commande</Label>
+                                    <div>
+                                        <Badge color='info'>{test.orderId}</Badge>
+                                    </div>
+                                </Col>
+                            ) : null}
+                            {test.orderScreenshotUrl ? (
+                                <Col xs={12} md={4} className="text-center">
+                                    <Label>Capture d'écran</Label>
+                                    <div>
+                                        <a href={test.orderScreenshotUrl} target="_blank" rel="noopener noreferrer">
+                                            Image</a>
+                                    </div>
+                                </Col>
+                            ) : null}
+                            {test.reviewUrl ? (
+                                <Col xs={12} md={4} className="text-center">
+                                    <Label>Lien du commentaire</Label>
+                                    <div>
+                                        <a href={test.reviewUrl} target="_blank" rel="noopener noreferrer">
+                                            Lien
+                                        </a>
+                                    </div>
+                                </Col>
+                            ) : null}
+                        </Row>
+                    ) : null}
 
                     <Row className="mt-3 bg-white border rounded py-4 shadow">
                         <Col xs={6} className="text-center">

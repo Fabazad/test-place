@@ -29,7 +29,7 @@ const NotificationItem = props => {
     const notificationType = NOTIFICATION_TYPES[notification.type];
 
     return (
-        <ListGroupItem className="list-group-item-action" tag={Link} to={notificationType.to}>
+        <ListGroupItem className="list-group-item-action" tag={Link} to={notificationType.to + "?testId=" + notification.test._id}>
             <Row className="align-items-center">
                 <Col className="col-auto">
                     <Badge color={notificationType.color} pill
