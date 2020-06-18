@@ -16,6 +16,8 @@ import TestProcessInfo from "./TestProcessInfo";
 import Container from "reactstrap/es/Container";
 import testServices from "../../../services/test.services";
 import constants from "../../../helpers/constants";
+import Card from "reactstrap/es/Card";
+import CardBody from "reactstrap/es/CardBody";
 
 const {USER_ROLES} = constants;
 
@@ -109,6 +111,18 @@ const TestModal = props => {
                                     </div>
                                 </Col>
                             ) : null}
+                            {test.product.privateNote ? (
+                                <Col xs={12} className="mt-3">
+                                    <Card>
+                                        <CardBody>
+                                            <Label>Notes privées</Label>
+                                            <small className="d-block">
+                                                {test.product.privateNote}
+                                            </small>
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            ): null}
                         </Row>
                     ) : null}
 
