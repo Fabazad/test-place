@@ -18,6 +18,7 @@ import testServices from "../../../services/test.services";
 import constants from "../../../helpers/constants";
 import Card from "reactstrap/es/Card";
 import CardBody from "reactstrap/es/CardBody";
+import Linkify from 'react-linkify';
 
 const {USER_ROLES} = constants;
 
@@ -117,12 +118,14 @@ const TestModal = props => {
                                         <CardBody>
                                             <Label>Notes privées</Label>
                                             <small className="d-block">
-                                                {test.product.privateNote}
+                                                <Linkify properties={{target: '_blank'}}>
+                                                    {test.product.privateNote}
+                                                </Linkify>
                                             </small>
                                         </CardBody>
                                     </Card>
                                 </Col>
-                            ): null}
+                            ) : null}
                         </Row>
                     ) : null}
 
