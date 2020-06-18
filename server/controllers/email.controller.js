@@ -75,7 +75,7 @@ class EmailController {
       text: notificationType.text,
       productTitle: notification.test.product.title,
       baseUrl,
-      path: notificationType.to
+      path: notificationType.to + '?testId=' + notification.test._id
     };
 
     return this.sendEmail(toUser.email, from_email, templateId, params);
