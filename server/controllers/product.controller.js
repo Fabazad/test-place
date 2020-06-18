@@ -16,8 +16,8 @@ class ProductController {
 
             const url = `https://www.amazon.fr/dp/${asin}`;
 
-            const maxTest = 10;
-            let currentTest = 0;
+            const maxTest = 2;
+            let currentTest = 1;
 
             let c = new Crawler({
                 maxConnections: 10,
