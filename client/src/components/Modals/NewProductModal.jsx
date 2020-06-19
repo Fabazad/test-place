@@ -62,19 +62,13 @@ const NewProductModal = () => {
         const loadingPromise = new Promise(async (resolve, reject) => {
             const product = formData;
 
-            const s3promises = [];
-            product.images.forEach((image, index) => {
+            product.imageUrls = await Promise.all(product.images.map((image, index) => {
                 if (typeof image === 'object') {
-                    s3promises.push(
-                        new Promise(async resolve => {
-                            product.images[index] = await s3Services.upload(image);
-                            resolve();
-                        })
-                    );
+                    return s3Services.upload(image);
                 }
-            });
-            await Promise.all(s3promises);
-            product.imageUrls = product.images;
+                return image;
+            }));
+
             delete product.images;
             return productService.create(product).then(() => {
                 toast.success("Product added");

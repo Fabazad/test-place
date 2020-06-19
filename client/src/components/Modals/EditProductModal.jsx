@@ -32,19 +32,13 @@ const EditProductModal = props => {
         const loadingPromise = new Promise(async (resolve, reject) => {
             const newProduct = formData;
 
-            const s3promises = [];
-            newProduct.images.forEach((image, index) => {
+            newProduct.imageUrls = await Promise.all(newProduct.images.map((image, index) => {
                 if (typeof image === 'object') {
-                    s3promises.push(
-                        new Promise(async resolve => {
-                            newProduct.images[index] = await s3Services.upload(image);
-                            resolve();
-                        })
-                    );
+                    return s3Services.upload(image);
                 }
-            });
-            await Promise.all(s3promises);
-            newProduct.imageUrls = product.images;
+                return image;
+            }));
+
             delete newProduct.images;
             return productService.update(product._id, newProduct).then(() => {
                 toast.success("Product updated");

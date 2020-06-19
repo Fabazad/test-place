@@ -18,6 +18,7 @@ import React, {useEffect, useState} from "react";
 import Button from "reactstrap/es/Button";
 import productService from "../../services/product.service";
 import Col from "reactstrap/es/Col";
+import {toast} from "react-toastify";
 
 const ProductForm = props => {
 
@@ -50,6 +51,10 @@ const ProductForm = props => {
 
         const onSubmit = e => {
             e.preventDefault();
+            if (!category) {
+                toast.error("Veuillez choisir une catégorie.");
+                return;
+            }
             props.onSubmit({
                 asin,
                 title,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 // reactstrap components
 import {
     Badge
@@ -8,81 +8,63 @@ import ImageUploader from "./ImageUploader";
 import constants from "../helpers/constants";
 import {Link} from "react-router-dom";
 
-class MultiImageUploader extends React.Component {
+const MultiImageUploader = props => {
 
-    constructor(props) {
-        super(props);
-        this.lastUploaderRef = React.createRef();
-        this.state = {
-            images: []
-        }
-    }
+    const lastUploaderRef = useRef(null);
 
-    componentDidMount() {
-        this.setState({ images : this.props.images });
-    }
+    const onChange = (image, index) => {
+        const newImages = props.images.slice(0);
+        newImages[index] = image;
+        props.onChange(newImages);
+    };
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if ('images' in nextProps) {
-            this.setState({ images: nextProps.images });
-        }
-    }
-
-    onChange(image, index) {
-        const {images} = this.props;
-        images[index] = image;
-        this.props.onChange(images);
-    }
-
-    removeImage(e, index) {
+    const removeImage = (e, index) => {
         e.preventDefault();
-        const {images} = this.props;
-        images.splice(index, 1);
-        this.props.onChange(images);
-    }
+        const newImages = props.images.slice(0);
+        newImages.splice(index, 1);
+        props.onChange(newImages);
+    };
 
-    onNewImage(image) {
-        const {images} = this.props;
-        images.push(image);
-        this.props.onChange(images);
-    }
+    const onNewImage = image => {
+        const newImages = props.images.slice(0);
+        newImages.push(image);
+        props.onChange(newImages);
+    };
 
-    render() {
-        return (
-            <div className="w-100 text-center overflow-x-auto white-space-nowrap">
-                {
-                    this.props.images.map((image, index) => {
-                        let imageUrl = '';
-                        if (typeof image === 'object') {
-                            imageUrl = URL.createObjectURL(image);
-                        } else {
-                            imageUrl = image;
-                        }
-                        return (
-                            <div className="d-inline-block mx-2 mt-3 position-relative" key={imageUrl}>
-                                <ImageUploader onChange={(file) => this.onChange(file, index)} src={imageUrl}
-                                               baseUrl={constants.BASE_PRODUCT_PICTURE_URL}/>
-                                <Badge pill className="badge-circle cursor-pointer position-absolute" color={'danger'}
-                                       tag={Link} style={{top: '-12px', right: '-12px'}} to={'#'}
-                                       onClick={e => this.removeImage(e, index)}>
-                                    <i className="fa fa-times"/>
-                                </Badge>
-                            </div>
-                        )
-                    })
-                }
-
-                {
-                    this.props.images.length < this.props.maxFile ? (
-                        <div className="d-inline-block mx-2 mt-3 position-relative">
-                            <ImageUploader onChange={(file) => this.onNewImage(file)}
-                                           baseUrl={constants.BASE_PRODUCT_PICTURE_URL} ref={this.lastUploaderRef}/>
+    return (
+        <div className="w-100 text-center overflow-x-auto white-space-nowrap">
+            {
+                props.images.map((image, index) => {
+                    let imageUrl = '';
+                    if (typeof image === 'object') {
+                        imageUrl = URL.createObjectURL(image);
+                    } else {
+                        imageUrl = image;
+                    }
+                    return (
+                        <div className="d-inline-block mx-2 mt-3 position-relative" key={imageUrl}>
+                            <ImageUploader onChange={file => onChange(file, index)} src={imageUrl}
+                                           baseUrl={constants.BASE_PRODUCT_PICTURE_URL}/>
+                            <Badge pill className="badge-circle cursor-pointer position-absolute" color={'danger'}
+                                   tag={Link} style={{top: '-12px', right: '-12px'}} to={'#'}
+                                   onClick={e => removeImage(e, index)}>
+                                <i className="fa fa-times"/>
+                            </Badge>
                         </div>
-                    ) : null
-                }
-            </div>
-        );
-    }
+                    )
+                })
+            }
+
+            {
+                props.images.length < props.maxFile ? (
+                    <div className="d-inline-block mx-2 mt-3 position-relative">
+                        <ImageUploader onChange={onNewImage}
+                                       baseUrl={constants.BASE_PRODUCT_PICTURE_URL} ref={lastUploaderRef}/>
+                    </div>
+                ) : null
+            }
+        </div>
+    );
 }
 
 MultiImageUploader.propTypes = {
