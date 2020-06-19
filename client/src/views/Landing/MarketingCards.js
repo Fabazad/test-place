@@ -1,8 +1,14 @@
 import {Badge, Button, Card, CardBody, Col, Container, Row} from "reactstrap";
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
+import ShareModal from "../../components/Modals/ShareModal";
 
 const MarketingCards = () => {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleModal = () => setIsOpen(!isOpen);
+
     return (
         <Container className="py-3">
             <Row className="justify-content-center">
@@ -81,13 +87,14 @@ const MarketingCards = () => {
                                 <Badge color="warning" pill className="mr-1">Caméras</Badge>
                                 <Badge color="warning" pill className="mr-1">...</Badge>
                             </div>
-                            <Button className="mt-4" color="warning" onClick={e => e.preventDefault()}>
+                            <Button className="mt-4" color="warning" onClick={toggleModal}>
                                 Partager
                             </Button>
                         </CardBody>
                     </Card>
                 </Col>
             </Row>
+            <ShareModal onToggle={toggleModal} isOpen={isOpen}/>
         </Container>
     )
 };

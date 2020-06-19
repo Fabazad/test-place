@@ -64,7 +64,7 @@ class Landing extends React.Component {
                                 <span/>
                             </div>
                             <Container className="py-lg-4">
-                                <Row className="py-3">
+                                <Row>
                                     <Col lg="12 text-center">
                                         <h1 className="display-3 text-white">Test Place</h1>
                                         <h1 className="display-4 text-white">
@@ -72,12 +72,9 @@ class Landing extends React.Component {
                                         </h1>
                                         <img src={require("assets/img/brand/logo_test_place.png")}
                                              style={{height: "150px"}} alt="test place logo" className="my-3 floating"/>
-                                        <p className="lead text-white">
-                                            Vous êtes remboursé après avoir publié votre avis
-                                        </p>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mt-5">
                                     <Col>
                                         <SearchEngine onSearch={this.onSearch} data={{}}/>
                                     </Col>
