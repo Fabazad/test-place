@@ -26,10 +26,12 @@ import {
     Row,
     Col
 } from "reactstrap";
+import ShareModal from "../Modals/ShareModal";
 
 class Sidebar extends React.Component {
     state = {
-        collapseOpen: false
+        collapseOpen: false,
+        isOpen: false
     };
 
     constructor(props) {
@@ -72,6 +74,10 @@ class Sidebar extends React.Component {
             );
         });
     };
+
+    toggleModal() {
+        this.setState({ isOpen: !this.state.isOpen })
+    }
 
     render() {
         const {bgColor, routes, logo} = this.props;
@@ -225,6 +231,12 @@ class Sidebar extends React.Component {
                         {/* Navigation */}
                         <Nav className="mb-md-3" navbar>
                             <NavItem>
+                                <NavLink onClick={() => this.toggleModal()} className="cursor-pointer">
+                                    <i className="ni ni-curved-next"/>
+                                    Partager
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
                                 <NavLink to="/#contact-us" tag={Link}>
                                     <i className="ni ni-email-83"/>
                                     Nous contacter
@@ -233,6 +245,7 @@ class Sidebar extends React.Component {
                         </Nav>
                     </Collapse>
                 </Container>
+                <ShareModal onToggle={() => this.toggleModal()} isOpen={this.state.isOpen}/>
             </Navbar>
         );
     }
