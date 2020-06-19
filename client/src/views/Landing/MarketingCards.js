@@ -11,7 +11,7 @@ const MarketingCards = () => {
 
     return (
         <Container className="py-3">
-            <Row className="justify-content-center">
+            <Row className="justify-content-center mt-5">
                 <Col md={6} lg={4} className="my-3">
                     <Card className="card-lift--hover shadow border-0">
                         <CardBody className="py-5">

@@ -20,6 +20,7 @@ import CommunityCard from "./CommunityCard";
 import ContactSections from "./ContactSections";
 import SimpleFooter from "../../components/Footers/SimpleFooter";
 import {scrollTo} from "../../helpers/scrollHelpers";
+import TestProcess from "./TestProcess";
 
 class Landing extends React.Component {
 
@@ -104,6 +105,7 @@ class Landing extends React.Component {
                         <ProductDisplay/>
                     </section>
                     <section className="section section-lg py-5 my-3 bg-gradient-success">
+                        <TestProcess/>
                         <MarketingCards/>
                     </section>
                     <section className="section section-lg">
