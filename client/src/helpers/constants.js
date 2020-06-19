@@ -34,7 +34,8 @@ export default {
         PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
         PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
         REVIEW_VALIDATED: "REVIEW_VALIDATED",
-        REVIEW_DECLINED: "REVIEW_DECLINED"
+        REVIEW_DECLINED: "REVIEW_DECLINED",
+        MONEY_SENT: "MONEY_SENT"
     },
     ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map(n => ({value: n, text: n})),
     NOTIFICATION_TYPES: {
@@ -100,6 +101,13 @@ export default {
             icon: "fa-star",
             color: "danger",
             to: "/dashboard/my-current-tests"
+        },
+        MONEY_SENT: {
+            value: "MONEY_SENT",
+            text: "Le vendeur vous a remboursé suite à votre test produit :",
+            icon: "fa-dollar-sign",
+            color: "success",
+            to: "/dashboard/my-finished-tests"
         }
     }
 }

@@ -37,8 +37,9 @@ const TestListWithControls = props => {
     const [isModalOpen, setIsModalOpen] = useState({});
     const [statusesOptionsFormatted, setStatusesOptionsFormatted] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE);
+    const [triggerSearch, setTriggerSearch] = useState(false);
 
-    const search = () => {
+    const search = async () => {
         setLoading(true);
         const searchData = {
             seller: userServices.getCurrentUserId(),
@@ -51,35 +52,48 @@ const TestListWithControls = props => {
 
         scrollTop();
 
-        testsServices.find({searchData})
-            .then(testSearch => {
-                setTests(testSearch.hits);
-                setTotalCount(testSearch.totalCount);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+        try {
+            const testSearch = await testsServices.find({searchData});
+            setTests(testSearch.hits);
+            setTotalCount(testSearch.totalCount);
+        } catch (err) {
+            console.error(err);
+        }
+
+        setLoading(false);
     };
 
     // On component init
     useEffect(() => {
-        let mount = true;
+        (async () => {
+            try {
+                const statuses = await testsServices.getTestStatuses();
+                const optionsFormatted = statusesOptions.map(status => ({
+                    value: statuses[status],
+                    text: t(statuses[status])
+                }));
 
-        testsServices.getTestStatuses().then(statuses => {
-            const optionsFormatted = statusesOptions.map(status => ({
-                value: statuses[status],
-                text: t(statuses[status])
-            }));
-            setStatusesOptionsFormatted(optionsFormatted);
-            testsServices.testsSubject.subscribe(() => mount && search());
-        });
+                setStatusesOptionsFormatted(optionsFormatted);
+                const subscriber = testsServices.testsSubject.subscribe(() => setTriggerSearch(true));
 
-        return () => mount = false;
+                return () => subscriber.unsubscribe();
+            } catch (e) {
+                console.error(e);
+            }
+        })();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // On search controls update
     useEffect(() => {
         if (statusesOptionsFormatted.length) search();
     }, [page, statusFilter, itemsPerPage, statusesOptionsFormatted]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if (triggerSearch) {
+            search();
+            setTriggerSearch(false);
+        }
+    }, [triggerSearch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // On testId in url
     useEffect(() => {
@@ -93,6 +107,7 @@ const TestListWithControls = props => {
     }, [history.location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onActionClick = (testId, action) => {
+        console.log(testId, action);
         if (action === TEST_ROW_CLICK_ACTIONS.SHOW_TEST) {
             updateURLParameters({testId});
             return;
@@ -121,9 +136,9 @@ const TestListWithControls = props => {
                     <div className="float-right text-center w-sm-100 w-md-auto text-center mt-3 mt-md-0">
                         <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
                             <DropdownSelect
-                                options={statusesOptionsFormatted} placeholder={'Filtrer par Status'}
+                                options={statusesOptionsFormatted} placeholder='Filtrer par Status'
                                 value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
-                                name={'statusFilter'}/>
+                                name='statusFilter'/>
                         </div>
                     </div>
                 </CardHeader>

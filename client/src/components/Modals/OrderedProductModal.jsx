@@ -75,6 +75,7 @@ const OrderedProductModal = props => {
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
+            <Loading loading={loading}/>
             <div className="modal-header">
                 <h2 className="modal-title">Produit commandé</h2>
                 <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
@@ -82,7 +83,6 @@ const OrderedProductModal = props => {
                 </button>
             </div>
             <div className="modal-body text-center pb-0">
-                <Loading loading={loading}/>
                 <Alert className="alert-info">
                     Vous êtes sur le point de confirmer que vous avez bien commandé le produit sur le site Amazon.
                 </Alert>

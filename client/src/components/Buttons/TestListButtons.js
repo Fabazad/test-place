@@ -30,14 +30,19 @@ const TestListButtons = props => {
                 successTest: "Produit enregistré comme reçu."
             },
             [TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED]: {
-                text: "Vous êtes sur le point de confirmer que vous avez bien noté le produit sur Amazon. Vous recevrez votre remboursement lorque le Vendeur aura confirmé votre avis.",
+                text: "Vous êtes sur le point de confirmer que vous avez bien noté le produit sur Amazon.",
                 status: statuses['productReviewed'],
                 successTest: "Produit enregistré comme noté."
             },
             [TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED]: {
-                text: "Vous allez confirmer que le Testeur a bien laissé un avis validé par Amazon et qu'il correspond à vos attentes. Il recevra ainsi son remboursement.",
+                text: "Vous allez confirmer que le Testeur a bien laissé un avis validé par Amazon et qu'il correspond à vos attentes.",
                 status: statuses['reviewValidated'],
-                successTest: "Avis Validé."
+                successTest: "Avis validé."
+            },
+            [TEST_ROW_CLICK_ACTIONS.MONEY_SENT]: {
+                text: "Vous allez confirmer que vous avez bien envoyé le remboursement sur le compte paypal du testeur.",
+                status: statuses['moneySent'],
+                successTest: "Remboursement effectué."
             }
         };
 
@@ -104,6 +109,27 @@ const TestListButtons = props => {
                                     <RowActionButton
                                         title="Valider l'Avis" icon="fa fa-thumbs-up" color="success"
                                         onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED)}/>
+                                </>
+                            ) : null}
+                        </>
+                    ) : null}
+
+                </>
+            ) : null}
+
+            {globalStatus === TEST_GLOBAL_STATUSES.COMPLETED ? (
+                <>
+                    <RowActionButton
+                        color='info' icon='fa fa-eye' title='Voir'
+                        onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+
+                    {userRole === USER_ROLES.SELLER ? (
+                        <>
+                            {test.status === statuses["reviewValidated"] ? (
+                                <>
+                                    <RowActionButton
+                                        title="Remboursé" icon="fa fa-dollar-sign" color="success"
+                                        onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.MONEY_SENT)}/>
                                 </>
                             ) : null}
                         </>

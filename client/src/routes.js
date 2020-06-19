@@ -6,6 +6,7 @@ import constants from "./helpers/constants";
 import MyCurrentTests from "./views/MyCurrentTests/MyCurrentTests";
 import CustomerCurrentTests from "./views/CustomerCurrentTests/CustomerCurrentTests";
 import FinishedTests from "./views/FinishedTests";
+import MyFinishedTests from "./views/MyFinishedTests";
 
 const {USER_ROLES} = constants;
 
@@ -63,7 +64,7 @@ const routes = [
     path: "/my-finished-tests",
     name: "Mes Tests Terminés",
     icon: "far fa-check-circle text-green",
-    component: MyCurrentTests,
+    component: MyFinishedTests,
     layout: "/dashboard",
     role: USER_ROLES.TESTER
   },

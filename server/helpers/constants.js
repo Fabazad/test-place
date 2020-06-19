@@ -117,6 +117,12 @@ const constants = {
             title: "Commentaire refusé.",
             text: "Le vendeur a refusé le commentaire du produit :",
             to: "/dashboard/my-current-tests"
+        },
+        MONEY_SENT: {
+            value: "MONEY_SENT",
+            title: "Remboursement envoyé.",
+            text: "Le vendeur vous a envoyé de l'argent suite au test du produit :",
+            to: "/dashboard/my-finished-tests"
         }
     }
 };
@@ -168,6 +174,11 @@ constants.TEST_STATUS_PROCESSES = {
         role: ROLES.SELLER,
         params: ['declineReviewReason'],
         notificationType: NOTIFICATION_TYPES.REVIEW_REFUSED.value
+    },
+    [TEST_STATUSES.moneySent]: {
+        previous: TEST_STATUSES.reviewValidated,
+        role: ROLES.SELLER,
+        notificationType: NOTIFICATION_TYPES.MONEY_SENT.value
     }
 };
 
