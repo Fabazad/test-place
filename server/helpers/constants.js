@@ -9,7 +9,7 @@ const constants = {
         CONTACT_US: "d-f6c3402ef59f461a8657f3b3c3cde90f",
         NOTIFICATION: "d-141262cf223c4349955b40f956003808"
     },
-    FROM_MAIL_ADDRESS: 'review@test-place.com',
+    FROM_MAIL_ADDRESS: 'testplace.fr@gmail.com',
     ROLES: {
         TESTER: "TESTER",
         SELLER: "SELLER",
@@ -162,6 +162,7 @@ constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.productReviewed]: {
         previous: TEST_STATUSES.productReceived,
         role: ROLES.TESTER,
+        params: ['reviewId'],
         notificationType: NOTIFICATION_TYPES.PRODUCT_REVIEWED.value
     },
     [TEST_STATUSES.reviewValidated]: {

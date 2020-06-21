@@ -22,6 +22,7 @@ import Col from "reactstrap/es/Col";
 import DeclineReviewModal from "./Modals/DeclineReviewModal";
 import {removeUrlParameters, updateURLParameters} from "../helpers/urlHelpers";
 import history from "../history";
+import ProductReviewedModal from "./Modals/ProductReviewedModal";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
@@ -107,7 +108,6 @@ const TestListWithControls = props => {
     }, [history.location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onActionClick = (testId, action) => {
-        console.log(testId, action);
         if (action === TEST_ROW_CLICK_ACTIONS.SHOW_TEST) {
             updateURLParameters({testId});
             return;
@@ -226,6 +226,10 @@ const TestListWithControls = props => {
                     <DeclineReviewModal
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED]} testId={selectedTestId}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED)}/>
+                    <ProductReviewedModal
+                        onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}
+                        testId={selectedTestId}
+                        isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED]}/>
                 </>
             ) : null}
         </>

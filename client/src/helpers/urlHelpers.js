@@ -50,3 +50,7 @@ export function getProductAmazonUrl(asin, keywords = []) {
 export function getAmazonProfileUrl(amazonId) {
     return 'https://www.amazon.fr/gp/profile/' + amazonId;
 }
+
+export function getAmazonReviewUrl(reviewId) {
+    return 'https://www.amazon.fr/gp/customer-reviews/' + reviewId;
+}

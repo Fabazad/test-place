@@ -19,6 +19,7 @@ import constants from "../../../helpers/constants";
 import Card from "reactstrap/es/Card";
 import CardBody from "reactstrap/es/CardBody";
 import Linkify from 'react-linkify';
+import {getAmazonReviewUrl} from "../../../helpers/urlHelpers";
 
 const {USER_ROLES} = constants;
 
@@ -67,11 +68,11 @@ const TestModal = props => {
                     </Row>
 
                     <Row>
-                        <Col xs={12} md={6} className="d-flex mt-3">
+                        <Col xs={12} md={6} className="d-flex mt-3 p-0">
                             <TestPrices price={test.product.price} finalPrice={test.product.finalPrice}/>
                         </Col>
 
-                        <Col xs="12" md="6" className="d-flex mt-3">
+                        <Col xs="12" md="6" className="d-flex mt-3 p-0">
                             <SellerTesterInfo userRole={userType} tester={test.tester} seller={test.seller}
                                               amazonSeller={test.product.amazonSeller}/>
                         </Col>
@@ -79,14 +80,14 @@ const TestModal = props => {
 
                     {userType === USER_ROLES.SELLER ? (
                         <Row className="mt-3">
-                            <Col xs={12} md={4} className="text-center">
+                            <Col xs={12} md={3} className="text-center">
                                 <Label>Paypal Email</Label>
                                 <div>
                                     {test.tester.paypalEmail}
                                 </div>
                             </Col>
                             {test.orderId ? (
-                                <Col xs={12} md={4} className="text-center">
+                                <Col xs={12} md={3} className="text-center">
                                     <Label>Numéro de Commande</Label>
                                     <div>
                                         <Badge color='info'>{test.orderId}</Badge>
@@ -94,7 +95,7 @@ const TestModal = props => {
                                 </Col>
                             ) : null}
                             {test.orderScreenshotUrl ? (
-                                <Col xs={12} md={4} className="text-center">
+                                <Col xs={12} md={3} className="text-center">
                                     <Label>Capture d'écran</Label>
                                     <div>
                                         <a href={test.orderScreenshotUrl} target="_blank" rel="noopener noreferrer">
@@ -102,11 +103,11 @@ const TestModal = props => {
                                     </div>
                                 </Col>
                             ) : null}
-                            {test.reviewUrl ? (
-                                <Col xs={12} md={4} className="text-center">
-                                    <Label>Lien du commentaire</Label>
+                            {test.reviewId ? (
+                                <Col xs={12} md={3} className="text-center">
+                                    <Label>Lien de l'avis</Label>
                                     <div>
-                                        <a href={test.reviewUrl} target="_blank" rel="noopener noreferrer">
+                                        <a href={getAmazonReviewUrl(test.reviewId)} target="_blank" rel="noopener noreferrer">
                                             Lien
                                         </a>
                                     </div>

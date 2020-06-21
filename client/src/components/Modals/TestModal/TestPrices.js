@@ -10,7 +10,7 @@ const TestPrices = props => {
     const {price, finalPrice} = props;
 
     return (
-        <Row className='w-100'>
+        <Row className='w-100 m-0'>
             <Col xs={6} className="text-center">
                 <Label>Prix initial</Label>
                 <h3>

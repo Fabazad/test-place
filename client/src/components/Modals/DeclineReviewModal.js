@@ -9,6 +9,7 @@ import FormGroup from "reactstrap/es/FormGroup";
 import Input from "reactstrap/es/Input";
 import Alert from "reactstrap/es/Alert";
 import testServices from "../../services/test.services";
+import Loading from "../Loading";
 
 const DeclineReviewModal = props => {
 
@@ -16,14 +17,21 @@ const DeclineReviewModal = props => {
 
     const [declineReviewReason, setDeclineReviewReason] = useState("");
     const [statuses, setStatuses] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const declineReviewReasonInput = useRef(null);
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
         if (!declineReviewReason) return null;
-        testServices.updateStatus(testId, statuses['reviewDeclined'], {declineReviewReason})
-            .then(onToggle);
+        setLoading(true);
+        try {
+            await testServices.updateStatus(testId, statuses['reviewDeclined'], {declineReviewReason});
+        } catch (e) {
+            console.error(e);
+        }
+        setLoading(false);
+        onToggle();
     };
 
     useEffect(() => {
@@ -38,6 +46,7 @@ const DeclineReviewModal = props => {
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
+            <Loading loading={loading}/>
             <Form onSubmit={onSubmit}>
                 <div className="modal-header">
                     <h3 className="modal-title mb-0">

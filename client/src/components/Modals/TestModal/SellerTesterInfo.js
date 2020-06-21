@@ -31,7 +31,7 @@ const SellerTesterInfo = props => {
     if (!user) return null;
 
     return (
-        <Row className="w-100">
+        <Row className="w-100 m-0">
             <Col xs={6} className="text-center">
                 <Label>{userLabel}</Label>
                 <div>

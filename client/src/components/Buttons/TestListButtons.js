@@ -29,11 +29,6 @@ const TestListButtons = props => {
                 status: statuses['productReceived'],
                 successTest: "Produit enregistré comme reçu."
             },
-            [TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED]: {
-                text: "Vous êtes sur le point de confirmer que vous avez bien noté le produit sur Amazon.",
-                status: statuses['productReviewed'],
-                successTest: "Produit enregistré comme noté."
-            },
             [TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED]: {
                 text: "Vous allez confirmer que le Testeur a bien laissé un avis validé par Amazon et qu'il correspond à vos attentes.",
                 status: statuses['reviewValidated'],
@@ -91,7 +86,7 @@ const TestListButtons = props => {
                             {test.status === statuses["productReceived"] ? (
                                 <RowActionButton
                                     title="Produit Noté" icon="fa fa-star" color="warning"
-                                    onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}/>
+                                    onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}/>
                             ) : null}
                         </>
                     ) : null}
@@ -123,16 +118,10 @@ const TestListButtons = props => {
                         color='info' icon='fa fa-eye' title='Voir'
                         onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
 
-                    {userRole === USER_ROLES.SELLER ? (
-                        <>
-                            {test.status === statuses["reviewValidated"] ? (
-                                <>
-                                    <RowActionButton
-                                        title="Remboursé" icon="fa fa-dollar-sign" color="success"
-                                        onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.MONEY_SENT)}/>
-                                </>
-                            ) : null}
-                        </>
+                    {userRole === USER_ROLES.SELLER && test.status === statuses["reviewValidated"] ? (
+                        <RowActionButton
+                            title="Remboursé" icon="fa fa-dollar-sign" color="success"
+                            onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.MONEY_SENT)}/>
                     ) : null}
 
                 </>

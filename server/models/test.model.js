@@ -29,7 +29,8 @@ const testObject = {
     orderId: String,
     declineReviewReason: String,
     expirationDate: { type: Date, default: moment().add(7, "days").toDate() },
-    orderScreenshotUrl: String
+    orderScreenshotUrl: String,
+    reviewId: String
 };
 
 const testSchema = new mongoose.Schema(testObject);
