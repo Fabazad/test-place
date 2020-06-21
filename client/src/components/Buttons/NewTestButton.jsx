@@ -5,6 +5,7 @@ import NewTestRequestModal from "../Modals/NewTestRequestModal/NewTestRequestMod
 import testServices from "../../services/test.services";
 import NewTestModal from "../Modals/NewTestModal";
 import Loading from "../Loading";
+import confirmHelper from "../../helpers/confirmHelper";
 
 const NewTestButton = (props) => {
     const {productId, disabled} = props;
@@ -15,17 +16,19 @@ const NewTestButton = (props) => {
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
 
     const handleClick = async () => {
-        setLoading(true);
-
-        testServices.create({
-            product: productId,
-            status: statuses['requestAccepted']
-        })
-            .then(() => {
-                setLoading(false);
+        confirmHelper.confirm("Êtes vous sûr de vouloir tester ce produit ?", async () => {
+            setLoading(true);
+            try {
+                await testServices.create({
+                    product: productId,
+                    status: statuses['requestAccepted']
+                });
                 onToggle();
-            })
-            .catch(err => setLoading(false));
+            } catch (e) {
+                console.error(e);
+            }
+            setLoading(false)
+        });
     };
 
     const onToggle = () => setIsOpen(!isOpen);

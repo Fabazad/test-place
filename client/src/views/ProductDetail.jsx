@@ -51,7 +51,9 @@ class ProductDetail extends React.Component {
             return <Loading/>;
         }
 
-        const newTestButtonDisabled = (currentUser && currentUser.roles.includes(constants.USER_ROLES.SELLER)) || product.remainingRequests < 1;
+        const newTestRequestButtonDisabled = (currentUser && currentUser.roles.includes(constants.USER_ROLES.SELLER)) || product.remainingRequests < 1;
+
+        const newTestButtonDisabled = newTestRequestButtonDisabled && currentUser.amazonId && currentUser.paypalEmail;
 
         return (
             <>
@@ -120,9 +122,8 @@ class ProductDetail extends React.Component {
                                         {/* Desktop view */}
                                         {product._id ? (
                                             <div className={"d-none d-md-block"}>
-                                                <NewTestRequestModal sellerNote={product.beforeNote}
-                                                                     productId={product._id}
-                                                                     disabled={newTestButtonDisabled}
+                                                <NewTestRequestModal productId={product._id}
+                                                                     disabled={newTestRequestButtonDisabled}
                                                 />
                                             </div>
                                         ) : null}
@@ -130,9 +131,8 @@ class ProductDetail extends React.Component {
                                     {/* Mobile view */}
                                     {product._id ? (
                                         <div className={"d-block d-md-none"}>
-                                            <NewTestRequestModal sellerNote={product.beforeNote}
-                                                                 productId={product._id}
-                                                                 disabled={newTestButtonDisabled}
+                                            <NewTestRequestModal productId={product._id}
+                                                                 disabled={newTestRequestButtonDisabled}
                                             />
                                         </div>
                                     ) : null}
@@ -225,18 +225,6 @@ class ProductDetail extends React.Component {
                                                 style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
                                         </p>
                                     </div>
-                                    {/*product && product.asin ? (
-                                        <div className="mt-5 text-center">
-                                            <span className="mr-3">Plus de détails sur la</span>
-                                            <a href={getProductAmazonUrl(product.asin)} target='_blank'
-                                               rel="noopener noreferrer">
-                                                <Button color="primary">
-                                                    <i className="fab fa-amazon mr-3"/>
-                                                    Page Amazon du Produit
-                                                </Button>
-                                            </a>
-                                        </div>
-                                    ) : null*/}
                                 </div>
                             </Row>
                         </Container>

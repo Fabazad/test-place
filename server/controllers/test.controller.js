@@ -89,7 +89,7 @@ class TestController {
             }
             const skip = itemsPerPage * (page - 1);
             const limit = itemsPerPage;
-            const sort = {'createdAt': 1};
+            const sort = {'createdAt': -1};
 
             const searchQuery = {
                 $or: [

@@ -21,7 +21,7 @@ const NewTestModal = (props) => {
                     Votre demande de test a bien été envoyée et acceptée.<br/>
                     Il ne vous reste plus qu'à commander le produit.<br/><br/>
                     Vous pouvez suivre et mette à jour l'état d'avancement de votre test la page&nbsp;
-                    <Link to="/dashboard/processing-tests">Mes Tests en Cours</Link>
+                    <Link to="/dashboard/my-current-tests">Mes Tests en Cours</Link>
                 </p>
             </div>
             <div className="modal-footer">
