@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import CancelTestRequestButton from "./CancelTestRequestButton";
 import RowActionButton from "./RowActionButton";
-import {getAmazonProfileUrl, getProductAmazonUrl} from "../../helpers/urlHelpers";
+import {getAmazonReviewUrl, getProductAmazonUrl} from "../../helpers/urlHelpers";
 import React from "react";
 import constants from "../../helpers/constants";
 import testServices from "../../services/test.services";
@@ -96,13 +96,13 @@ const TestListButtons = props => {
                             {test.status === statuses["productReviewed"] ? (
                                 <>
                                     <RowActionButton
-                                        title="Profil Amazon" icon="fab fa-amazon" color="default"
-                                        onClick={() => window.open(getAmazonProfileUrl(test.tester.amazonId), '_blank')}/>
+                                        title="Lien de l'avis" icon="fab fa-amazon" color="default"
+                                        onClick={() => window.open(getAmazonReviewUrl(test.reviewId), '_blank')}/>
                                     <RowActionButton
-                                        title="Refuser l'Avis" icon="fa fa-thumbs-down"
+                                        title="Refuser l'avis" icon="fa fa-thumbs-down"
                                         color="danger" onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.REVIEW_DECLINED)}/>
                                     <RowActionButton
-                                        title="Valider l'Avis" icon="fa fa-thumbs-up" color="success"
+                                        title="Valider l'avis" icon="fa fa-thumbs-up" color="success"
                                         onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED)}/>
                                 </>
                             ) : null}

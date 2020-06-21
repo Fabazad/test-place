@@ -10,6 +10,9 @@ import {Button, Modal} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import testServices from "../../services/test.services";
 import Loading from "../Loading";
+import InfoPopover from "../InfoPopover";
+import {getAmazonProfileUrl} from "../../helpers/urlHelpers";
+import userServices from "../../services/user.services";
 
 const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
 
@@ -39,10 +42,12 @@ const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
 
     const handleInput = e => {
         if (!e.target.value) return;
-        const match = e.target.value.match(/(?:[\/gp\/customer\-reviews\/]|$)?([A-Z0-9]{14})/);
+        const match = e.target.value.match(/(?:[/gp/customer\-reviews/]|$)?([A-Z0-9]{14})/);
         if (!match) setReviewId("");
         else setReviewId(match[1]);
     };
+
+    const currentUser = userServices.currentUser;
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
@@ -65,6 +70,12 @@ const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
                     <div className="p-3 bg-secondary rounded mt-3">
                         <FormGroup>
                             <Label for="declineReviewReason">Lien de l'avis :</Label>
+                            <InfoPopover className="ml-3">
+                                Sur votre <a href={getAmazonProfileUrl(currentUser.amazonId)} target="_blank"
+                                             rel="noopener noreferrer">Profil Amazon</a>.<br/>
+                                Trouver l'avis du produit et cliquez dessus.<br/>
+                                Copiez alors l'url sur laquelle vous vous trouvez.
+                            </InfoPopover>
                             <Input
                                 type="text" id="declineReviewReason" required={true}
                                 className="form-control-alternative"
