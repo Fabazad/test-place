@@ -18,6 +18,7 @@ import {Router} from "react-router-dom";
 import history from './history';
 import ReactGA from 'react-ga';
 import {LastLocationProvider} from 'react-router-last-location';
+import ScrollToTop from "./components/ScrollTop";
 
 history.listen(location => {
     ReactGA.set({page: location.pathname}); // Update the user's current page
@@ -32,13 +33,14 @@ class App extends React.Component {
                 <ToastContainer data-testid="toast-container"/>
                 <ConfirmModal/>
                 <Router history={history}>
+                    <ScrollToTop/>
                     <LastLocationProvider>
                         <Switch>
                             <Route path="/" exact component={anyAuth(Landing)}/>
                             <Route path="/login" component={withoutAuth(Login)}/>
                             <Route path="/register" component={withoutAuth(Register)}/>,
                             <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)}/>
-                            <Route path="/email-validation/:userId" component={anyAuth(EmailValidation)}/>
+                            <Route path="/email-validation/:userId" component={withoutAuth(EmailValidation)}/>
                             <Route path="/dashboard" component={withAuth(DashboardLayout)}/>
                             <Route path="/search" component={anyAuth(Search)}/>
                             <Route path="/ad/:productId" component={anyAuth(ProductDetail)}/>
