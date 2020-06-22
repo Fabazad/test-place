@@ -35,7 +35,7 @@ const Profile = () => {
     }, []);
 
     if (firstLogin && user.roles.includes(USER_ROLES.TESTER)) {
-        toast.info("Commencez par indiquer votre email paypal et votre identifiant Amazon.");
+        toast.info("Commencez par indiquer votre email Paypal et votre identifiant Amazon.");
         scrollTo('profile-info-section');
         setFirstLogin(false);
     }
