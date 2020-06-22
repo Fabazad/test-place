@@ -51,11 +51,11 @@ const TestListButtons = props => {
         <>
             {globalStatus === TEST_GLOBAL_STATUSES.REQUESTED ? (
                 <>
-                    {test.status === statuses.requested && userRole === USER_ROLES.TESTER ? (
-                        <CancelTestRequestButton testId={test._id}/>) : null}
                     <RowActionButton
                         title="Voir" icon="fa fa-eye" color="info"
                         onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.SHOW_TEST)}/>
+                    {test.status === statuses.requested && userRole === USER_ROLES.TESTER ? (
+                        <CancelTestRequestButton testId={test._id}/>) : null}
                 </>
             ) : null}
 

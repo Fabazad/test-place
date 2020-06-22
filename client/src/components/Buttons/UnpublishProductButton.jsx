@@ -21,7 +21,7 @@ const UnpublishProductButton = props => {
         });
     };
 
-    return <RowActionButton title="Retirer" icon="fa fa-times" color="danger" onClick={unpublishProduct}/>;
+    return <RowActionButton title="Dépublier" icon="fa fa-globe" color="danger" onClick={unpublishProduct}/>;
 };
 
 UnpublishProductButton.propTypes = {

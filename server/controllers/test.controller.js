@@ -171,7 +171,7 @@ class TestController {
                 });
             }
 
-            test.expirationDate = moment().add(7, 'd').toDate();
+            test.expirationDate = moment().add(14, 'd').toDate();
 
             try {
                 const newTest = await test.save();

@@ -16,6 +16,8 @@ import {toast} from "react-toastify";
 import testServices from "../../services/test.services";
 import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
+import NextStepAdvice from "../Modals/TestModal/NextStepAdvice";
+import ReviewAdvices from "../ReviewAdvices";
 
 class AnswerTestRequestForm extends React.Component {
 
@@ -118,12 +120,16 @@ class AnswerTestRequestForm extends React.Component {
                                            rows="3" type="textarea" name='sellerMessage'
                                            defaultValue={userServices.currentUser.sellerMessage ?? ''}/>
                                 </FormGroup>
-                                <Alert color={'warning'} className='text-left'>
+                                <Alert color='warning' className='text-left'>
                                     <strong>Attention !</strong><br/>
                                     Le testeur aura accès au produit grâce à un lien qui lui sera fourni.<br/>
-                                    Il est interdit de donner des indications sur comment retrouver le produit sur le
-                                    site Amazon.<br/>
-                                    La survie de Test-Place en dépend.
+                                    Ce lien contiendra les mots clés donnés au produit et donnera l'impression à Amazon que l'utilisateur aura tapé ces mots pour le trouver.<br/>
+                                    Il est fortement déconseillé de donner des indications sur le moyen retrouver le produit sur le site Amazon.<br/>
+                                    La survie de Test-Place en dépend :*
+                                </Alert>
+                                <Alert color="info" className="text-left">
+                                    Le Testeur sera informé par l'application des conseils suivants :<br/>
+                                    <ReviewAdvices/>
                                 </Alert>
                                 <Button color='success' type='submit'>Accepter</Button>
                             </Form>

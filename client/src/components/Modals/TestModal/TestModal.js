@@ -30,8 +30,10 @@ const TestModal = props => {
     const [test, setTest] = useState(null);
 
     useEffect(() => {
-        testServices.getOne(testId).then(setTest);
-    }, [testId]);
+        if (testId && isOpen) {
+            testServices.getOne(testId).then(setTest);
+        }
+    }, [testId, isOpen]);
 
     if (!test) return null;
 
