@@ -57,7 +57,7 @@ const DemoNavbar = props => {
                                 src={require("assets/img/brand/logo_test_place.png")}
                             />
                             <span className="h3 text-light ml-3 my-auto"
-                                  style={{lineHeight: "60px"}}>Test Place</span>
+                                  style={{lineHeight: "60px"}}>testplace.fr</span>
                         </NavbarBrand>
                         {isAuth ? (<div className="d-md-none">
                             <Notifications/>

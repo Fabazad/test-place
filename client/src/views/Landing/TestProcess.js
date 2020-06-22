@@ -5,6 +5,9 @@ const TestProcess = () => {
 
     return (
         <Container>
+            <div className="w-100 text-center mt-3">
+                <h1 className="text-white display-3">Comment ça marche ?</h1>
+            </div>
             <div className="justify-content-around pt-5 d-block d-md-flex">
                 <div className="text-center flex-grow-1">
                     <div className="icon icon-shape bg-gradient-white text-primary rounded-circle shadow">

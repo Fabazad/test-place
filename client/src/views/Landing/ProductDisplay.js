@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 import ProductCard from "../../components/Cards/ProductCard";
 import productServices from "../../services/product.service";
 import ProductCardSkeleton from "../../components/Cards/ProductCardSkeleton";
+import Button from "reactstrap/es/Button";
+import {Link} from "react-router-dom";
 
 const ProductDisplay = () => {
 
@@ -39,6 +41,9 @@ const ProductDisplay = () => {
                     </Col>
                 ))}
             </Row>
+            <div className="w-100 text-center mt-5">
+                <Button color="primary" tag={Link} to="/search">Plus de Produits...</Button>
+            </div>
         </Container>
     )
 };

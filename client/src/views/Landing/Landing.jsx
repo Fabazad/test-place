@@ -67,12 +67,9 @@ class Landing extends React.Component {
                             <Container className="py-lg-4">
                                 <Row>
                                     <Col lg="12 text-center">
-                                        <h1 className="display-3 text-white">Test Place</h1>
                                         <h1 className="display-4 text-white">
-                                            <span>Testez gratuitement des produits Amazon</span>
+                                            <span>Testez puis faites vous rembourser vos achats Amazon</span>
                                         </h1>
-                                        <img src={require("assets/img/brand/logo_test_place.png")}
-                                             style={{height: "150px"}} alt="test place logo" className="my-3 floating"/>
                                     </Col>
                                 </Row>
                                 <Row className="mt-5">
