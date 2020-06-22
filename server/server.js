@@ -8,16 +8,15 @@ const path = require("path");
 const httpsRedirect = require('express-https-redirect');
 require('dotenv').config();
 
-if (process.env.NODE_ENV === 'production') {
-    app.use('/', httpsRedirect(true));
-}
+console.log(process.env.NODE_ENV)
+app.use('/', httpsRedirect(true));
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
@@ -25,7 +24,7 @@ app.use(function(err, req, res, next) {
 app.use(cors());
 
 app.use(decode, function (req, res, next) {
-    console.log(req.method + ' : '  +req.url + ' [' + Date.now() + ']');
+    console.log(req.method + ' : ' + req.url + ' [' + Date.now() + ']');
     next();
 });
 
