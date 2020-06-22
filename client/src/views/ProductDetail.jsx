@@ -53,7 +53,7 @@ class ProductDetail extends React.Component {
 
         const newTestRequestButtonDisabled = (currentUser && currentUser.roles.includes(constants.USER_ROLES.SELLER)) || product.remainingRequests < 1;
 
-        const newTestButtonDisabled = newTestRequestButtonDisabled && currentUser.amazonId && currentUser.paypalEmail;
+        const newTestButtonDisabled = !(!newTestRequestButtonDisabled && currentUser && currentUser.amazonId && currentUser.paypalEmail);
 
         return (
             <>
