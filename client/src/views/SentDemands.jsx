@@ -17,7 +17,7 @@ class SentDemands extends React.Component {
 
     constructor(props) {
         super(props);
-        this.statusesFilterOptions = ['requested', 'requestCancelled', 'requestDeclined', 'requestAccepted'];
+        this.statusesFilterOptions = ['requested', 'requestCancelled', 'requestDeclined'];
     }
 
     render() {

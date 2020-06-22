@@ -25,33 +25,31 @@ history.listen(location => {
     ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
 
-class App extends React.Component {
+const App = () => {
 
-    render() {
-        return (
-            <>
-                <ToastContainer data-testid="toast-container"/>
-                <ConfirmModal/>
-                <Router history={history}>
-                    <ScrollToTop/>
-                    <LastLocationProvider>
-                        <Switch>
-                            <Route path="/" exact component={anyAuth(Landing)}/>
-                            <Route path="/login" component={withoutAuth(Login)}/>
-                            <Route path="/register" component={withoutAuth(Register)}/>,
-                            <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)}/>
-                            <Route path="/email-validation/:userId" component={withoutAuth(EmailValidation)}/>
-                            <Route path="/dashboard" component={withAuth(DashboardLayout)}/>
-                            <Route path="/search" component={anyAuth(Search)}/>
-                            <Route path="/ad/:productId" component={anyAuth(ProductDetail)}/>
-                            <Route path="/not-found" component={anyAuth(NotFound)}/>
-                            <Redirect to="/not-found"/>
-                        </Switch>
-                    </LastLocationProvider>
-                </Router>
-            </>
-        );
-    }
-}
+    return (
+        <>
+            <ToastContainer data-testid="toast-container"/>
+            <ConfirmModal/>
+            <Router history={history}>
+                <ScrollToTop/>
+                <LastLocationProvider>
+                    <Switch>
+                        <Route path="/" exact component={anyAuth(Landing)}/>
+                        <Route path="/login" component={withoutAuth(Login)}/>
+                        <Route path="/register" component={withoutAuth(Register)}/>,
+                        <Route path="/reset-password/:resetPasswordToken" component={withoutAuth(ResetPassword)}/>
+                        <Route path="/email-validation/:userId" component={withoutAuth(EmailValidation)}/>
+                        <Route path="/dashboard" component={withAuth(DashboardLayout)}/>
+                        <Route path="/search" component={anyAuth(Search)}/>
+                        <Route path="/ad/:productId" component={anyAuth(ProductDetail)}/>
+                        <Route path="/not-found" component={anyAuth(NotFound)}/>
+                        <Redirect to="/not-found"/>
+                    </Switch>
+                </LastLocationProvider>
+            </Router>
+        </>
+    );
+};
 
 export default App;

@@ -2,6 +2,7 @@ import BaseService from "./base.service.js";
 import axios from "axios";
 import {Subject} from "rxjs";
 import userServices from "./user.services";
+import testServices from "./test.services";
 
 class NotificationServices extends BaseService {
     constructor() {
@@ -18,7 +19,14 @@ class NotificationServices extends BaseService {
     async refreshUserNotifications() {
         if (userServices.isAuth()) {
             this.notifications = null;
-            this.notifications = await axios.get(this.baseURL + "/user-notifications").then(this.serviceResolve);
+            const notificationsResponse = await axios.get(this.baseURL + "/user-notifications").then(this.serviceResolve);
+            this.notifications = notificationsResponse.notifications;
+            if ('requestedTestsCount' in notificationsResponse
+                || 'processingTestsCount' in notificationsResponse
+                || 'completedTestsCount' in notificationsResponse
+            ) {
+                testServices.testGlobalStatusesCountSubject.next(notificationsResponse);
+            }
             this.notificationsSubject.next();
         }
     }

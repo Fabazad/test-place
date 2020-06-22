@@ -9,6 +9,9 @@ const EmailController = require('../controllers/email.controller');
 require('dotenv').config();
 const secret = process.env.JWT_KEY;
 const {ROLES, TEST_STATUSES, MAIL_TEMPLATES_IDS} = require('../helpers/constants');
+const TestController = require('../controllers/test.controller');
+const constants = require('../helpers/constants');
+const {GLOBAL_TEST_STATUSES} = constants;
 
 const createToken = (user, time) => {
     const payload = {userId: user._id, amazonId: user.amazonId, roles: user.roles};
@@ -70,8 +73,14 @@ class UserController {
                         } else {
                             // Issue token
                             const token = createToken(user, keepConnection ? '7d' : '1h');
-                            await UserModel.findByIdAndUpdate(user._id, { lastLogin: new Date() });
-                            resolve({user, token});
+
+                            const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount] = await Promise.all([
+                                UserModel.findByIdAndUpdate(user._id, {lastLogin: new Date()}),
+                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.REQUESTED),
+                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.PROCESSING),
+                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.COMPLETED)
+                            ]);
+                            resolve({user: newUser, token, requestedTestsCount, processingTestsCount, completedTestsCount});
                         }
                     });
                 }
@@ -206,7 +215,7 @@ class UserController {
             }
 
             if ('roles' in data) {
-                if(currentUserRoles.includes(ROLES.TESTER) && !data.roles.includes(ROLES.TESTER)) {
+                if (currentUserRoles.includes(ROLES.TESTER) && !data.roles.includes(ROLES.TESTER)) {
                     const processingTestNumber = await TestModel.count({
                         status: {
                             $in: [
@@ -223,11 +232,14 @@ class UserController {
                     });
 
                     if (processingTestNumber) {
-                        return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                        return reject({
+                            status: 403,
+                            message: "You have to stay tester until you finish to precess all your tests."
+                        });
                     }
                 }
 
-                if(currentUserRoles.includes(ROLES.SELLER) && !data.roles.includes(ROLES.SELLER)) {
+                if (currentUserRoles.includes(ROLES.SELLER) && !data.roles.includes(ROLES.SELLER)) {
                     const processingTestNumber = await TestModel.count({
                         status: {
                             $in: [
@@ -244,12 +256,15 @@ class UserController {
                     });
 
                     if (processingTestNumber) {
-                        return reject({status: 403, message: "You have to stay tester until you finish to precess all your tests."});
+                        return reject({
+                            status: 403,
+                            message: "You have to stay tester until you finish to precess all your tests."
+                        });
                     }
                 }
             }
 
-            const authorizedData = [ 'testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId' ];
+            const authorizedData = ['testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId'];
             Object.keys(data).forEach(key => {
                 if (!authorizedData.includes(key)) delete data[key];
                 if (['paypalEmail', 'amazonId'].includes(key) && !data[key]) {
@@ -257,7 +272,7 @@ class UserController {
                 }
             });
 
-            UserModel.findByIdAndUpdate(userId, data, { new: true })
+            UserModel.findByIdAndUpdate(userId, data, {new: true})
                 .then(user => {
                     const token = createToken(user, '1h');
                     resolve({user, token});
@@ -267,17 +282,24 @@ class UserController {
     }
 
     static async checkToken(logged, decoded) {
-        return new Promise((resolve, reject) => {
-            if (!decoded || !decoded.userId) {
-                resolve({user: null, check: false});
-            } else if (!logged || logged === "false") {
-                UserModel.findById(decoded.userId)
-                    .then(user => resolve({user, check: true}))
-                    .catch(err => reject(ErrorResponses.mongoose(err)))
-            } else {
-                resolve({ check: true });
+        if (!decoded || !decoded.userId) {
+            return ({user: null, check: false});
+        } else if (!logged || logged === "false") {
+            try {
+                const [user, requestedTestsCount, processingTestsCount, completedTestsCount] = await Promise.all([
+                    UserModel.findById(decoded.userId),
+                    TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.REQUESTED),
+                    TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.PROCESSING),
+                    TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.COMPLETED)
+                ]);
+
+                return {user, requestedTestsCount, processingTestsCount, completedTestsCount, check: true};
+            } catch (e) {
+                return Promise.reject(ErrorResponses.mongoose(e));
             }
-        });
+        } else {
+            return {check: true};
+        }
     }
 
     static async sendContactUsEmail(name, email, message) {
@@ -291,14 +313,14 @@ class UserController {
         });
     }
 
-    static async changeGender (userId, gender) {
+    static async changeGender(userId, gender) {
         if (!userId || !gender) {
             return Promise.reject({status: 400, message: "Missing fields."});
         }
 
         try {
-            const user = await UserModel.findByIdAndUpdate(userId, { gender }, {new: true});
-            return { user };
+            const user = await UserModel.findByIdAndUpdate(userId, {gender}, {new: true});
+            return {user};
         } catch (err) {
             return Promise.reject(ErrorResponses.mongoose(err));
         }

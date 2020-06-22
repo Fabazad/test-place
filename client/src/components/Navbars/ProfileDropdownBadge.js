@@ -2,13 +2,25 @@ import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "
 import Badge from "reactstrap/es/Badge";
 import userServices from "../../services/user.services";
 import {Link} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import history from "../../history";
+import testServices from "../../services/test.services";
 
 const ProfileDropdownBadge = props => {
 
     const {routes} = props;
+
+    const [testGlobalStatusesCount, setTestGlobalStatusesCount] = useState(null);
+
+    useEffect(() => {
+        setTestGlobalStatusesCount(testServices.testGlobalStatusesCount);
+        const subscriber = testServices.testCountSubject.subscribe(res => {
+            setTestGlobalStatusesCount(res);
+        });
+
+        return () => subscriber.unsubscribe();
+    }, []);
 
     const onLogout = () => {
         userServices.logout();
@@ -31,8 +43,13 @@ const ProfileDropdownBadge = props => {
                 {routes.map(route => (
                     <DropdownItem to={route.layout + route.path} tag={Link}
                                   key={'route' + route.path}>
-                        <i className={route.icon}/>
+                        <i className={route.icon + " text-" + route.color}/>
                         {route.name}
+                        {testGlobalStatusesCount && route.testCount ? (
+                            <Badge color={route.color} className="position-absolute" style={{right: '15px'}}>
+                                {testGlobalStatusesCount[route.testCount]}
+                            </Badge>
+                        ) : null}
                     </DropdownItem>
                 ))}
                 <DropdownItem className="cursor-pointer" onClick={onLogout}>

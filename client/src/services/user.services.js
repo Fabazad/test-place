@@ -1,3 +1,4 @@
+import testServices from './test.services';
 import BaseService from "./base.service.js";
 import axios from "axios";
 import {eraseCookie} from "../helpers/cookies.js";
@@ -21,6 +22,11 @@ class UserService extends BaseService {
                     if (typeof data === "object" && "user" in data) {
                         this.currentUser = data.user;
                         this.currentUserSubject.next(this.currentUser);
+                        if ('requestedTestsCount' in data
+                            || 'processingTestsCount' in data
+                            || 'completedTestsCount' in data) {
+                            testServices.testGlobalStatusesCountSubject.next(data);
+                        }
                     } else if (this.isAuth() && !data.check) {
                         this.logout();
                     }

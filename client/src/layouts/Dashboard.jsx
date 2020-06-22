@@ -59,7 +59,8 @@ class Dashboard extends React.Component {
         return (
             <>
                 <Sidebar
-                    {...this.props}
+                    location={this.props.location}
+                    bgColor={this.props.bgColor} logo={this.props.logo}
                     routes={this.state.routes}
                 />
                 <div className="main-content" ref="mainContent">

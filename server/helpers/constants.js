@@ -192,4 +192,29 @@ constants.VALID_TEST_STATUSES = [
     TEST_STATUSES.reviewValidated
 ];
 
+constants.GLOBAL_TEST_STATUSES = {
+    REQUESTED: [
+        TEST_STATUSES.requested,
+        TEST_STATUSES.requestCancelled,
+        TEST_STATUSES.requestDeclined
+    ],
+    PROCESSING: [
+        TEST_STATUSES.requestAccepted,
+        TEST_STATUSES.productOrdered,
+        TEST_STATUSES.productReceived,
+        TEST_STATUSES.productReviewed,
+        TEST_STATUSES.requestDeclined,
+        TEST_STATUSES.reviewValidated,
+        TEST_STATUSES.reviewDeclined
+    ],
+    COMPLETED: [
+        TEST_STATUSES.moneySent
+    ],
+    CANCELLED: [
+        TEST_STATUSES.requestDeclined,
+        TEST_STATUSES.requestCancelled,
+        TEST_STATUSES.reviewDeclined
+    ]
+};
+
 module.exports = constants;

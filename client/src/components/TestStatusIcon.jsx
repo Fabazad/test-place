@@ -17,21 +17,21 @@ const TestStatusIcon = (props) => {
         testServices.getTestStatuses().then(statuses => {
             const statusMapping = {
                 [TEST_GLOBAL_STATUSES.REQUESTED]: {
-                    [statuses['requested']]:        { color: 'warning', icon: 'fa-hourglass' },
-                    [statuses['requestCancelled']]: { color: 'default', icon: 'fa-times' },
-                    [statuses['requestDeclined']]:  { color: 'danger', icon: 'fa-hand-paper' },
-                    [statuses['requestAccepted']]:  { color: 'success', icon: 'fa-check' }
+                    [statuses['requested']]: {color: 'warning', icon: 'fa-hourglass'},
+                    [statuses['requestCancelled']]: {color: 'default', icon: 'fa-times'},
+                    [statuses['requestDeclined']]: {color: 'danger', icon: 'fa-hand-paper'},
+                    [statuses['requestAccepted']]: {color: 'success', icon: 'fa-check'}
                 },
                 [TEST_GLOBAL_STATUSES.PROCESSING]: {
-                    [statuses['requestAccepted']]:  { color: 'warning', icon: 'fa-shopping-cart' },
-                    [statuses['productOrdered']]:   { color: 'warning', icon: 'fa-truck' },
-                    [statuses['productReceived']]:  { color: 'warning', icon: 'fa-box-open' },
-                    [statuses['productReviewed']]:  { color: 'warning', icon: 'fa-star' }
+                    [statuses['requestAccepted']]: {color: 'warning', icon: 'fa-shopping-cart'},
+                    [statuses['productOrdered']]: {color: 'warning', icon: 'fa-truck'},
+                    [statuses['productReceived']]: {color: 'warning', icon: 'fa-box-open'},
+                    [statuses['productReviewed']]: {color: 'warning', icon: 'fa-star'},
+                    [statuses['reviewValidated']]: {color: 'success', icon: 'fa-star'},
+                    [statuses['reviewDeclined']]: {color: 'danger', icon: 'fa-star'},
                 },
                 [TEST_GLOBAL_STATUSES.COMPLETED]: {
-                    [statuses['reviewValidated']]:  { color: 'success', icon: 'fa-star' },
-                    [statuses['reviewDeclined']]:   { color: 'danger',  icon: 'fa-star' },
-                    [statuses['moneySent']]:        { color: 'success', icon: 'fa-dollar-sign' }
+                    [statuses['moneySent']]: {color: 'success', icon: 'fa-dollar-sign'}
                 }
             };
             setStatuses(statuses);

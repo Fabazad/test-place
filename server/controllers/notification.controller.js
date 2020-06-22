@@ -1,12 +1,15 @@
 const NotificationModel = require('../models/notification.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
+const TestController = require('../controllers/test.controller');
+const constants = require('../helpers/constants');
+const {GLOBAL_TEST_STATUSES} = constants;
 
 class NotificationController {
 
     static async getUserNotifications(userId) {
         try {
-            return await NotificationModel.find({
+            const notifications = await NotificationModel.find({
                 user: userId,
                 $or: [{
                     viewDate: null
@@ -16,6 +19,21 @@ class NotificationController {
                     }
                 }]
             }).sort({createdAt: -1}).limit(20);
+
+            const hasNewNotifications = notifications.some(notification => notification.viewDate === null);
+
+            if (hasNewNotifications) {
+                const [requestedTestsCount, processingTestsCount, completedTestsCount] = await Promise.all([
+                    TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.REQUESTED),
+                    TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
+                    TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED)
+                ]);
+
+                return {notifications, requestedTestsCount, processingTestsCount, completedTestsCount};
+            }
+
+            return {notifications};
+
         } catch (err) {
             return ErrorResponses.mongoose(err);
         }

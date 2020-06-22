@@ -6,7 +6,7 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const {TEST_STATUS_PROCESSES, ROLES, VALID_TEST_STATUSES, NOTIFICATION_TYPES} = constants;
+const {TEST_STATUS_PROCESSES, ROLES, VALID_TEST_STATUSES, NOTIFICATION_TYPES, GLOBAL_TEST_STATUSES} = constants;
 
 class TestController {
 
@@ -52,7 +52,7 @@ class TestController {
                                 type: NOTIFICATION_TYPES.NEW_REQUEST.value,
                                 test: Object.assign({}, test)
                             })
-                            ]);
+                        ]);
                         return resolve(test)
                     } catch (err) {
                         reject(ErrorResponses.mongoose(err))
@@ -93,8 +93,8 @@ class TestController {
 
             const searchQuery = {
                 $or: [
-                    { expirationDate: { $gt: new Date() } },
-                    { status: { $nin: VALID_TEST_STATUSES } }
+                    {expirationDate: {$gt: new Date()}},
+                    {status: {$nin: VALID_TEST_STATUSES}}
                 ]
 
             };
@@ -113,6 +113,13 @@ class TestController {
             ]).catch(err => reject(ErrorResponses.mongoose(err)));
 
             return resolve({hits, totalCount});
+        });
+    }
+
+    static async countTestWithStatues(userId, statuses) {
+        return TestModel.count({
+            $or: [{seller: userId}, {tester: userId}],
+            status: statuses
         });
     }
 
@@ -167,8 +174,11 @@ class TestController {
             test.expirationDate = moment().add(7, 'd').toDate();
 
             try {
-                const [newTest,_] = await Promise.all([
-                    test.save(),
+                const newTest = await test.save();
+                const [requestedTestsCount, processingTestsCount, completedTestsCount, _] = await Promise.all([
+                    this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.REQUESTED),
+                    this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.PROCESSING),
+                    this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.COMPLETED),
                     NotificationModel.create({
                         user: statusProcess.role === ROLES.TESTER ? test.seller : test.tester,
                         type: statusProcess.notificationType,
@@ -176,7 +186,7 @@ class TestController {
                     })
                 ]);
 
-                resolve(newTest);
+                resolve({test: newTest, requestedTestsCount, processingTestsCount, completedTestsCount});
             } catch (err) {
                 reject(ErrorResponses.mongoose(err))
             }
@@ -200,6 +210,7 @@ class TestController {
 
         return Promise.resolve(test);
     }
+
 }
 
 module.exports = TestController;

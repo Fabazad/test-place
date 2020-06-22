@@ -19,7 +19,8 @@ router.post('/login', async (request, reply) => {
 
 router.get('/checkToken', async (request, res) => {
     UserController.checkToken(request.query.logged, request.decoded)
-        .then(data => res.send(data));
+        .then(data => res.send(data))
+        .catch(err => res.status(err.status).send(err.message));
 });
 
 router.post('/resetPasswordMail', async (request, reply) => {

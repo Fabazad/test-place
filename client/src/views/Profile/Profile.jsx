@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import userService from "../../services/user.services";
+import testServices from "../../services/test.services";
 
 // reactstrap components
 import {
@@ -47,6 +48,8 @@ const Profile = () => {
         await userService.changeGender(newGender);
     };
 
+    const testGlobalStatusesCount = testServices.testGlobalStatusesCount ?? {requested: 0, processing: 0, completed: 0};
+
     return (
         <>
             <UserHeader/>
@@ -79,7 +82,7 @@ const Profile = () => {
                                     <div className="col">
                                         <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                                             <div>
-                                                <span className="heading">#</span>
+                                                <span className="heading">{testGlobalStatusesCount.completed}</span>
                                                 <span className="description">Terminés</span>
                                             </div>
                                             <div>
@@ -87,7 +90,7 @@ const Profile = () => {
                                                 <span className="description">Annulés</span>
                                             </div>
                                             <div>
-                                                <span className="heading">#</span>
+                                                <span className="heading">{testGlobalStatusesCount.processing}</span>
                                                 <span className="description">En cours</span>
                                             </div>
                                         </div>

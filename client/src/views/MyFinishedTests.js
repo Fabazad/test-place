@@ -12,7 +12,7 @@ const MyFinishedTests = (props) => {
 
     const {t} = props; // eslint-disable-line no-unused-vars
 
-    const statusesOptions = ['reviewValidated', 'reviewDeclined', 'moneySent'];
+    const statusesOptions = ['moneySent'];
 
     return (
         <>
