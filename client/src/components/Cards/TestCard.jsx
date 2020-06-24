@@ -92,7 +92,7 @@ const TestCard = (props) => {
                     <div className="text-center col-12">
                         <small>Status</small>
                         <div>
-                            <TestStatusIcon status={test.status} globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}/>
+                            <TestStatusIcon status={test.status} globalStatus={globalStatus}/>
                             <small className="text-muted ml-2">
                                 {test.status ? t(test.status) : '-'}
                             </small>
