@@ -78,7 +78,15 @@ class EmailController {
       path: notificationType.to + '?testId=' + notification.test._id
     };
 
-    return this.sendEmail(toUser.email, from_email, templateId, params);
+    const emailPromises = [this.sendEmail(toUser.email, from_email, templateId, params)];
+
+    if (notification.type === NOTIFICATION_TYPES.TEST_CANCELLED.value) {
+      const adminParams = Object.assign({}, params);
+      adminParams.text = "test._id: " + notification.test._id.toString() + ". " + adminParams.text;
+      emailPromises.push(this.sendEmail(from_email, from_email, templateId, adminParams));
+    }
+
+    return Promise.all(emailPromises);
   }
 
 }
