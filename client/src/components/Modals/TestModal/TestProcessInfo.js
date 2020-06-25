@@ -167,6 +167,14 @@ const TestProcessInfo = props => {
                     Soit {test.product.price - test.product.finalPrice}€.
                 </NextStepAdvice> : null
             }
+            {isStatus("testCancelled") && test.cancelReason ?
+                <Alert color="danger">
+                    Raison de l'annulation ou la réclamation :<br/>
+                    <i>{test.cancelReason}</i><br/><br/>
+                    Un administrateur va juger la raison.<br/>
+                    Vous serez informés par les décisions prises.
+                </Alert> : null
+            }
         </>
     )
 };

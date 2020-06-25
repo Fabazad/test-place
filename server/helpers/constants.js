@@ -217,6 +217,7 @@ constants.TEST_STATUS_PROCESSES = {
     },
     [TEST_STATUSES.testCancelled]: {
         previous: constants.GLOBAL_TEST_STATUSES.PROCESSING,
+        params: ['cancelReason'],
         notificationType: NOTIFICATION_TYPES.TEST_CANCELLED.value
     }
 };
