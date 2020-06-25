@@ -56,7 +56,8 @@ const constants = {
         reviewValidated: "REVIEW_VALIDATED",
         reviewDeclined: "REVIEW_REFUSED",
         moneySent: "MONEY_SENT",
-        moneyReceived: "MONEY_RECEIVED"
+        moneyReceived: "MONEY_RECEIVED",
+        testCancelled: "TEST_CANCELLED"
     },
     GENDERS: {
         MALE: "MALE",
@@ -123,11 +124,44 @@ const constants = {
             title: "Remboursement envoyé.",
             text: "Le vendeur vous a envoyé de l'argent suite au test du produit :",
             to: "/dashboard/my-finished-tests"
+        },
+        TEST_CANCELLED: {
+            value: "TEST_CANCELLED",
+            title: "Annulation ou Réclamation.",
+            text: "Une annulation ou une réclamation a été faite sur le produit :",
+            to: "/dashboard/customer-current-tests"
         }
     }
 };
 
 const {TEST_STATUSES, ROLES, NOTIFICATION_TYPES} = constants;
+
+constants.GLOBAL_TEST_STATUSES = {
+    REQUESTED: [
+        TEST_STATUSES.requested,
+        TEST_STATUSES.requestCancelled,
+        TEST_STATUSES.requestDeclined
+    ],
+    PROCESSING: [
+        TEST_STATUSES.requestAccepted,
+        TEST_STATUSES.productOrdered,
+        TEST_STATUSES.productReceived,
+        TEST_STATUSES.productReviewed,
+        TEST_STATUSES.requestDeclined,
+        TEST_STATUSES.reviewValidated,
+        TEST_STATUSES.reviewDeclined,
+        TEST_STATUSES.testCancelled
+    ],
+    COMPLETED: [
+        TEST_STATUSES.moneySent
+    ],
+    CANCELLED: [
+        TEST_STATUSES.requestDeclined,
+        TEST_STATUSES.requestCancelled,
+        TEST_STATUSES.reviewDeclined,
+        TEST_STATUSES.testCancelled
+    ]
+};
 
 constants.TEST_STATUS_PROCESSES = {
     [TEST_STATUSES.requestCancelled]: {
@@ -180,6 +214,10 @@ constants.TEST_STATUS_PROCESSES = {
         previous: TEST_STATUSES.reviewValidated,
         role: ROLES.SELLER,
         notificationType: NOTIFICATION_TYPES.MONEY_SENT.value
+    },
+    [TEST_STATUSES.testCancelled]: {
+        previous: constants.GLOBAL_TEST_STATUSES.PROCESSING,
+        notificationType: NOTIFICATION_TYPES.TEST_CANCELLED.value
     }
 };
 
@@ -191,30 +229,5 @@ constants.VALID_TEST_STATUSES = [
     TEST_STATUSES.productReviewed,
     TEST_STATUSES.reviewValidated
 ];
-
-constants.GLOBAL_TEST_STATUSES = {
-    REQUESTED: [
-        TEST_STATUSES.requested,
-        TEST_STATUSES.requestCancelled,
-        TEST_STATUSES.requestDeclined
-    ],
-    PROCESSING: [
-        TEST_STATUSES.requestAccepted,
-        TEST_STATUSES.productOrdered,
-        TEST_STATUSES.productReceived,
-        TEST_STATUSES.productReviewed,
-        TEST_STATUSES.requestDeclined,
-        TEST_STATUSES.reviewValidated,
-        TEST_STATUSES.reviewDeclined
-    ],
-    COMPLETED: [
-        TEST_STATUSES.moneySent
-    ],
-    CANCELLED: [
-        TEST_STATUSES.requestDeclined,
-        TEST_STATUSES.requestCancelled,
-        TEST_STATUSES.reviewDeclined
-    ]
-};
 
 module.exports = constants;

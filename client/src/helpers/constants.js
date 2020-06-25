@@ -35,7 +35,8 @@ export default {
         PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
         REVIEW_VALIDATED: "REVIEW_VALIDATED",
         REVIEW_DECLINED: "REVIEW_DECLINED",
-        MONEY_SENT: "MONEY_SENT"
+        MONEY_SENT: "MONEY_SENT",
+        CANCEL_TEST: "CANCEL_TEST"
     },
     ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map(n => ({value: n, text: n})),
     NOTIFICATION_TYPES: {
@@ -108,6 +109,13 @@ export default {
             icon: "fa-dollar-sign",
             color: "success",
             to: "/dashboard/my-finished-tests"
+        },
+        TEST_CANCELLED: {
+            value: "TEST_CANCELLED",
+            text: "Une annulation ou une réclamation a été faite sur le produit :",
+            icon: "fa-times",
+            color: "danger",
+            to: "/dashboard/my-current-tests"
         }
     }
 }

@@ -27,6 +27,7 @@ const DeclineReviewModal = props => {
         setLoading(true);
         try {
             await testServices.updateStatus(testId, statuses['reviewDeclined'], {declineReviewReason});
+            testServices.testsSubject.next();
         } catch (e) {
             console.error(e);
         }

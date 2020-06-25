@@ -114,6 +114,12 @@ const TestListButtons = props => {
                         </>
                     ) : null}
 
+                    {test.status !== statuses["testCancelled"] ?
+                        <RowActionButton title="Annuler ou Réclamer" icon="fa fa-times" color="danger"
+                                         onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.CANCEL_TEST)}/> : null
+                    }
+
+
                 </>
             ) : null}
 

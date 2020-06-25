@@ -8,7 +8,6 @@ import testServices from "../../../services/test.services";
 import constants from "../../../helpers/constants";
 import NextStepAdvice from "./NextStepAdvice";
 import {getAmazonReviewUrl, getProductAmazonUrl} from "../../../helpers/urlHelpers";
-import {formatDate} from "../../../helpers/textHelpers";
 import ReviewAdvices from "../../ReviewAdvices";
 
 const {USER_ROLES} = constants;

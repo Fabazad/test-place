@@ -16,7 +16,6 @@ import {toast} from "react-toastify";
 import testServices from "../../services/test.services";
 import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
-import NextStepAdvice from "../Modals/TestModal/NextStepAdvice";
 import ReviewAdvices from "../ReviewAdvices";
 
 class AnswerTestRequestForm extends React.Component {

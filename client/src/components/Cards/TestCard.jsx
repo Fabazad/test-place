@@ -9,7 +9,7 @@ import {withTranslation} from "react-i18next";
 import testServices from "../../services/test.services";
 import TestListButtons from "../Buttons/TestListButtons";
 
-const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
+const {USER_ROLES} = constants;
 
 const TestCard = (props) => {
     const {test, t, userRole, onActionClick, globalStatus} = props;

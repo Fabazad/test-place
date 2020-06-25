@@ -6,7 +6,7 @@ const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const {TEST_STATUS_PROCESSES, ROLES, VALID_TEST_STATUSES, NOTIFICATION_TYPES, GLOBAL_TEST_STATUSES} = constants;
+const {TEST_STATUS_PROCESSES, ROLES, TEST_STATUSES, NOTIFICATION_TYPES, GLOBAL_TEST_STATUSES} = constants;
 
 class TestController {
 
@@ -94,7 +94,7 @@ class TestController {
             const searchQuery = {
                 $or: [
                     {expirationDate: {$gt: new Date()}},
-                    {status: {$nin: VALID_TEST_STATUSES}}
+                    {expirationDate: {$eq: null}}
                 ]
 
             };
@@ -154,7 +154,7 @@ class TestController {
                 return reject({status: 400, message: "You need to be the seller."});
             }
 
-            if (test.status !== statusProcess.previous) {
+            if (test.status !== statusProcess.previous && !statusProcess.previous.includes(test.status)) {
                 return reject({
                     status: 400,
                     message: `The test status has to be ${statusProcess.previous} in order to update to ${status}.`
@@ -171,7 +171,7 @@ class TestController {
                 });
             }
 
-            test.expirationDate = moment().add(14, 'd').toDate();
+            if (status !== TEST_STATUSES.requestAccepted) test.expirationDate = null;
 
             try {
                 const newTest = await test.save();
@@ -180,7 +180,9 @@ class TestController {
                     this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.PROCESSING),
                     this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.COMPLETED),
                     NotificationModel.create({
-                        user: statusProcess.role === ROLES.TESTER ? test.seller : test.tester,
+                        user: statusProcess.role ?
+                            (statusProcess.role === ROLES.TESTER ? test.seller : test.tester) :
+                            (currentUserId === test.seller.toString() ? test.tester : test.seller),
                         type: statusProcess.notificationType,
                         test: Object.assign({}, test)
                     })

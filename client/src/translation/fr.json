@@ -22,5 +22,6 @@
   "MONEY_SENT": "Remboursement effectué",
   "TESTER": "Testeur",
   "SELLER": "Vendeur",
-  "NEW_REQUEST": "Nouvelle demande de test"
+  "NEW_REQUEST": "Nouvelle demande de test",
+  "TEST_CANCELLED": "Annulé ou en Réclamation"
 }
