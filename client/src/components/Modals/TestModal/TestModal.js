@@ -85,7 +85,7 @@ const TestModal = props => {
                             <Col xs={12} md={3} className="text-center">
                                 <Label>Paypal Email</Label>
                                 <div>
-                                    {test.tester.paypalEmail}
+                                    <small>{test.tester.paypalEmail}</small>
                                 </div>
                             </Col>
                             {test.orderId ? (

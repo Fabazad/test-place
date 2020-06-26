@@ -1,4 +1,3 @@
-const helper = require('sendgrid').mail;
 const constants = require("../helpers/constants");
 require('dotenv').config();
 
