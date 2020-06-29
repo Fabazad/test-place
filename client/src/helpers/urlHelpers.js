@@ -38,13 +38,14 @@ export function removeUrlParameters(key) {
 }
 
 export function getProductAmazonUrl(asin, keywords = []) {
-    const getKeywordsPath = (keywords) => {
+    /*const getKeywordsPath = (keywords) => {
         if (keywords && keywords.length) {
             return "?k=" + keywords.join("+");
         }
         return "";
-    };
-    return `https://www.amazon.fr/dp/${asin}?tag=${AMAZON_PARTNER_ID}${getKeywordsPath(keywords)}` ;
+    };*/
+    //return `https://www.amazon.fr/dp/${asin}?tag=${AMAZON_PARTNER_ID}${getKeywordsPath(keywords)}`;
+    return `https://www.amazon.fr/dp/${asin}?tag=${AMAZON_PARTNER_ID}` ;
 }
 
 export function getAmazonProfileUrl(amazonId) {

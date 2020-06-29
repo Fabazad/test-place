@@ -38,14 +38,14 @@ const TestProcessInfo = props => {
             {isStatus('requestCancelled') && test.cancelRequestReason ?
                 <div className="text-center w-100">
                     <Label>Raison de l'annulation</Label>
-                    <Alert color="default">
+                    <Alert color="default" className="white-space-pre-line">
                         {test.cancelRequestReason}
                     </Alert>
                 </div> : null}
             {isStatus('requestDeclined') && test.declineRequestReason ?
                 <div className="text-center w-100">
                     <Label>Raison du refus</Label>
-                    <Alert color="danger">
+                    <Alert color="danger" className="white-space-pre-line">
                         {test.declineRequestReason}
                     </Alert>
                 </div> : null}
@@ -58,7 +58,7 @@ const TestProcessInfo = props => {
             {USER_ROLES.SELLER === userRole && test.testerMessage ?
                 <div className="text-left w-100">
                     <Label>Message du Testeur</Label>
-                    <Alert color="success">
+                    <Alert color="success" className="white-space-pre-line">
                         {test.testerMessage}
                     </Alert>
                 </div> : null}
@@ -71,7 +71,7 @@ const TestProcessInfo = props => {
                     {test.sellerMessage ?
                         <div className="mb-3">
                             <Label>Message du Vendeur - {test.seller.name}</Label>
-                            <Alert color="success">
+                            <Alert color="success" className="white-space-pre-line">
                                 {test.sellerMessage}
                             </Alert>
                         </div> : null}
@@ -127,7 +127,7 @@ const TestProcessInfo = props => {
                 <div className="text-left w-100">
                     <div className="mb-3">
                         <Label>Raison du Refus - <Link to={'#'}>{test.seller.name}</Link></Label>
-                        <Alert color="danger">
+                        <Alert color="danger" className="white-space-pre-line">
                             {test.declineReviewReason}
                         </Alert>
                     </div>
@@ -170,9 +170,15 @@ const TestProcessInfo = props => {
             {isStatus("testCancelled") && test.cancelReason ?
                 <Alert color="danger">
                     Raison de l'annulation ou la réclamation :<br/>
-                    <i>{test.cancelReason}</i><br/><br/>
+                    <i className="white-space-pre-line">{test.cancelReason}</i><br/><br/>
                     Un administrateur va juger la raison.<br/>
                     Vous serez informés par les décisions prises.
+                </Alert> : null
+            }
+            {test.adminMessage ?
+                <Alert color="warning">
+                    Message de l'Admin :<br/>
+                    <span className="white-space-pre-line">{test.adminMessage}</span>
                 </Alert> : null
             }
         </>
