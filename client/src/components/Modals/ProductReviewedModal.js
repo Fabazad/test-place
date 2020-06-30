@@ -42,7 +42,8 @@ const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
 
     const handleInput = e => {
         if (!e.target.value) return;
-        const match = e.target.value.match(/(?:[/gp/customer\-reviews/]|$)?([A-Z0-9]{14})/);
+        const match = e.target.value.match(/(?:[/gp/customer\-reviews/]|$)?([A-Z0-9]{13,14})/);
+        console.log(match);
         if (!match) setReviewId("");
         else setReviewId(match[1]);
     };
