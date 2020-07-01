@@ -177,7 +177,11 @@ class ProductController {
                     pipeline: [{
                         $match: {
                             $expr: { $eq: ["$product._id", "$$productId"] },
-                            expirationDate: { $gt: new Date() },
+                            $or: [{
+                                expirationDate: { $gt: new Date() }
+                            }, {
+                                expirationDate: { $eq: null }
+                            }],
                             status: { $in: VALID_TEST_STATUSES }
                         }
                     }]
