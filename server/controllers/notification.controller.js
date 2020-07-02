@@ -23,13 +23,14 @@ class NotificationController {
             const hasNewNotifications = notifications.some(notification => notification.viewDate === null);
 
             if (hasNewNotifications) {
-                const [requestedTestsCount, processingTestsCount, completedTestsCount] = await Promise.all([
+                const [requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount] = await Promise.all([
                     TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.REQUESTED),
                     TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
-                    TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED)
+                    TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
+                    TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED)
                 ]);
 
-                return {notifications, requestedTestsCount, processingTestsCount, completedTestsCount};
+                return {notifications, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount};
             }
 
             return {notifications};

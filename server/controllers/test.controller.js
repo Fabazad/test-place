@@ -175,10 +175,11 @@ class TestController {
 
             try {
                 const newTest = await test.save();
-                const [requestedTestsCount, processingTestsCount, completedTestsCount, _] = await Promise.all([
+                const [requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, _] = await Promise.all([
                     this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.REQUESTED),
                     this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.PROCESSING),
                     this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.COMPLETED),
+                    this.countTestWithStatues(currentUserId, GLOBAL_TEST_STATUSES.CANCELLED),
                     NotificationModel.create({
                         user: statusProcess.role ?
                             (statusProcess.role === ROLES.TESTER ? test.seller : test.tester) :
@@ -188,7 +189,7 @@ class TestController {
                     })
                 ]);
 
-                resolve({test: newTest, requestedTestsCount, processingTestsCount, completedTestsCount});
+                resolve({test: newTest, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount});
             } catch (err) {
                 reject(ErrorResponses.mongoose(err))
             }

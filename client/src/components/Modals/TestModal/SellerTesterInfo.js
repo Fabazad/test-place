@@ -5,6 +5,7 @@ import {getAmazonProfileUrl} from "../../../helpers/urlHelpers";
 import Row from "reactstrap/es/Row";
 import React from "react";
 import constants from "../../../helpers/constants";
+import UserProfilePopover from "../../UserProfilePopover";
 
 const {USER_ROLES} = constants;
 
@@ -35,9 +36,10 @@ const SellerTesterInfo = props => {
             <Col xs={6} className="text-center">
                 <Label>{userLabel}</Label>
                 <div>
-                    <a href={'/profile/' + user._id} target='_blank' rel="noopener noreferrer">
+                    <a href="#" id={user.name + "popover"}>
                         {user.name}
                     </a>
+                    <UserProfilePopover userId={user._id} target={user.name + "popover"}/>
                 </div>
             </Col>
             <Col xs={6} className="text-center">

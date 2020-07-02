@@ -17,6 +17,7 @@ import NewTestRequestModal from "../components/Modals/NewTestRequestModal/NewTes
 import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
+import UserProfilePopover from "../components/UserProfilePopover";
 
 class ProductDetail extends React.Component {
 
@@ -191,9 +192,13 @@ class ProductDetail extends React.Component {
                                                 <Row>
                                                     <div className="col text-center">
                                                         <Label className='d-block'>Test Place</Label>
-                                                        {product ? (
-                                                            <Link to={'#'}>{product.seller.name}</Link>
-                                                        ) : null}
+                                                        {product ?
+                                                            <>
+                                                                <span className="cursor-pointer text-primary" id="seller-link">{product.seller.name}</span>
+                                                                <UserProfilePopover target="seller-link"
+                                                                                    userId={product.seller._id}/>
+                                                            </> : null
+                                                        }
                                                     </div>
                                                     {product && product.amazonSeller ? (
                                                         <div className="col-6 text-center">
@@ -213,7 +218,8 @@ class ProductDetail extends React.Component {
                             <Row>
                                 <div className="col-12 mt-5">
                                     <div className="bg-white rounded border p-4">
-                                        <Badge color={'primary'} pill className='badge-lg float-right mb-3' id='publication-badge'>
+                                        <Badge color={'primary'} pill className='badge-lg float-right mb-3'
+                                               id='publication-badge'>
                                             {product ? formatDate(product.createdAt) : ''}
                                         </Badge>
                                         <UncontrolledTooltip placement="top" target="publication-badge">

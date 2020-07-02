@@ -24,7 +24,8 @@ class UserService extends BaseService {
                         this.currentUserSubject.next(this.currentUser);
                         if ('requestedTestsCount' in data
                             || 'processingTestsCount' in data
-                            || 'completedTestsCount' in data) {
+                            || 'completedTestsCount' in data
+                            || 'cancelledTestsCount' in data) {
                             testServices.testGlobalStatusesCountSubject.next(data);
                         }
                     } else if (this.isAuth() && !data.check) {

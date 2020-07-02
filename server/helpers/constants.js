@@ -156,7 +156,6 @@ constants.GLOBAL_TEST_STATUSES = {
         TEST_STATUSES.moneySent
     ],
     CANCELLED: [
-        TEST_STATUSES.requestDeclined,
         TEST_STATUSES.requestCancelled,
         TEST_STATUSES.reviewDeclined,
         TEST_STATUSES.testCancelled

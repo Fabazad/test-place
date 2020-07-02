@@ -86,7 +86,7 @@ const Profile = () => {
                                                 <span className="description">Terminés</span>
                                             </div>
                                             <div>
-                                                <span className="heading">#</span>
+                                                <span className="heading">{testGlobalStatusesCount.cancelled}</span>
                                                 <span className="description">Annulés</span>
                                             </div>
                                             <div>

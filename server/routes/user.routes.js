@@ -82,4 +82,11 @@ router.post('/change-gender', withAuth(), async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.get('/:userId', async (request, reply) => {
+    const { userId } = request.params;
+    UserController.getOne(userId)
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;
