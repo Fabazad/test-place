@@ -36,10 +36,7 @@ const SellerTesterInfo = props => {
             <Col xs={6} className="text-center">
                 <Label>{userLabel}</Label>
                 <div>
-                    <a href="#" id={user._id + "popover"}>
-                        {user.name}
-                    </a>
-                    <UserProfilePopover userId={user._id} target={user._id + "popover"}/>
+                    <UserProfilePopover userId={user._id} userName={user.name}/>
                 </div>
             </Col>
             <Col xs={6} className="text-center">

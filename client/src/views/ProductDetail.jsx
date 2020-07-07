@@ -10,7 +10,6 @@ import SimpleFooter from "../components/Footers/SimpleFooter.jsx";
 import productServices from '../services/product.service';
 import userServices from '../services/user.services';
 import constants from "../helpers/constants";
-import {Link} from "react-router-dom";
 import {formatDate} from "../helpers/textHelpers";
 import Carousel from "../components/Carousel";
 import NewTestRequestModal from "../components/Modals/NewTestRequestModal/NewTestRequestModal";
@@ -193,11 +192,7 @@ class ProductDetail extends React.Component {
                                                     <div className="col text-center">
                                                         <Label className='d-block'>Test Place</Label>
                                                         {product ?
-                                                            <>
-                                                                <span className="cursor-pointer text-primary" id="seller-link">{product.seller.name}</span>
-                                                                <UserProfilePopover target="seller-link"
-                                                                                    userId={product.seller._id}/>
-                                                            </> : null
+                                                                <UserProfilePopover userName={product.seller.name} userId={product.seller._id}/>: null
                                                         }
                                                     </div>
                                                     {product && product.amazonSeller ? (

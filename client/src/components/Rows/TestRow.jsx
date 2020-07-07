@@ -7,6 +7,7 @@ import {formatDate, textSlice} from "../../helpers/textHelpers";
 import TestStatusIcon from "../TestStatusIcon";
 import testServices from "../../services/test.services";
 import TestListButtons from "../Buttons/TestListButtons";
+import UserProfilePopover from "../UserProfilePopover";
 
 const {USER_ROLES} = constants;
 
@@ -53,8 +54,8 @@ const TestRow = props => {
                 </h3>
             </td>
             <td>
-                {userRole === USER_ROLES.TESTER ? test.seller.name : null}
-                {userRole === USER_ROLES.SELLER ? test.tester.name : null}
+                {userRole === USER_ROLES.TESTER ? <UserProfilePopover userId={test.seller._id} userName={test.seller.name}/> : null}
+                {userRole === USER_ROLES.SELLER ? <UserProfilePopover userId={test.tester._id} userName={test.tester.name}/> : null}
             </td>
             <td>
                 <Badge color='info' className='badge-circle badge-lg text-center p-0 bg-white' pill>
