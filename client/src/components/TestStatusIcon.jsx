@@ -62,7 +62,7 @@ const TestStatusIcon = (props) => {
     };
 
     const tooltipId = Math.ceil(Math.random() * 10000);
-te
+
     return (
         <>
             <Badge pill className="badge-circle" color={getStatusColor()} id={'status-' + tooltipId}>

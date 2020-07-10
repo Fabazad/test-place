@@ -14,6 +14,7 @@ const UserProfilePopover = ({userId, t, userName}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    // eslint-disable-next-line
     const [target, _] = useState(IdHelper.newId('user-popover').toString());
 
     useEffect(() => {
