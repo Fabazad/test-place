@@ -12,7 +12,7 @@ const FinishedTests = (props) => {
 
     const {t} = props; // eslint-disable-line no-unused-vars
 
-    const statusesOptions = ['moneySent'];
+    const statusesOptions = ['moneyReceived'];
 
     return (
         <>

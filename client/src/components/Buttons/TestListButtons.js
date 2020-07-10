@@ -38,6 +38,11 @@ const TestListButtons = props => {
                 text: "Vous allez confirmer que vous avez bien envoyé le remboursement sur le compte Paypal du Testeur.",
                 status: statuses['moneySent'],
                 successTest: "Remboursement effectué."
+            },
+            [TEST_ROW_CLICK_ACTIONS.MONEY_RECEIVED]: {
+                text: "Vous allez confirmer que vous avez bien reçu le remboursement sur votre compte Paypal.",
+                status: statuses['moneyReceived'],
+                successTest: "Remboursement indiqué comme reçu."
             }
         };
 
@@ -87,6 +92,11 @@ const TestListButtons = props => {
                                 <RowActionButton
                                     title="Produit Noté" icon="fa fa-star" color="warning"
                                     onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}/>
+                            ) : null}
+                            {[statuses["reviewValidated"], statuses["moneySent"]].includes(test.status) ? (
+                                <RowActionButton
+                                    title="Remboursement Reçu" icon="fa fa-dollar-sign" color="success"
+                                    onClick={() => confirmAction(TEST_ROW_CLICK_ACTIONS.MONEY_RECEIVED)}/>
                             ) : null}
                         </>
                     ) : null}

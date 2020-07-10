@@ -36,6 +36,7 @@ export default {
         REVIEW_VALIDATED: "REVIEW_VALIDATED",
         REVIEW_DECLINED: "REVIEW_DECLINED",
         MONEY_SENT: "MONEY_SENT",
+        MONEY_RECEIVED: "MONEY_RECEIVED",
         CANCEL_TEST: "CANCEL_TEST"
     },
     ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map(n => ({value: n, text: n})),
@@ -106,6 +107,13 @@ export default {
         MONEY_SENT: {
             value: "MONEY_SENT",
             text: "Le vendeur vous a remboursé suite à votre test produit :",
+            icon: "fa-dollar-sign",
+            color: "success",
+            to: "/dashboard/my-current-tests"
+        },
+        MONEY_RECEIVED: {
+            value: "MONEY_SENT",
+            text: "Le Testeur a indiqué avoir reçu le remboursement pour le produit :",
             icon: "fa-dollar-sign",
             color: "success",
             to: "/dashboard/my-finished-tests"

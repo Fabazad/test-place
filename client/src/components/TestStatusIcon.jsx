@@ -27,12 +27,13 @@ const TestStatusIcon = (props) => {
                     [statuses['productOrdered']]: {color: 'warning', icon: 'fa-truck'},
                     [statuses['productReceived']]: {color: 'warning', icon: 'fa-box-open'},
                     [statuses['productReviewed']]: {color: 'warning', icon: 'fa-star'},
-                    [statuses['reviewValidated']]: {color: 'success', icon: 'fa-star'},
+                    [statuses['reviewValidated']]: {colorad: 'success', icon: 'fa-star'},
                     [statuses['reviewDeclined']]: {color: 'danger', icon: 'fa-star'},
                     [statuses['testCancelled']]: {color: 'danger', icon: 'fa-times'},
+                    [statuses['moneySent']]: {color: 'success', icon: 'fa-dollar-sign'}
                 },
                 [TEST_GLOBAL_STATUSES.COMPLETED]: {
-                    [statuses['moneySent']]: {color: 'success', icon: 'fa-dollar-sign'}
+                    [statuses['moneyReceived']]: {color: 'success', icon: 'fa-dollar-sign'}
                 }
             };
             setStatuses(statuses);

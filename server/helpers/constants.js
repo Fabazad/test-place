@@ -150,10 +150,11 @@ constants.GLOBAL_TEST_STATUSES = {
         TEST_STATUSES.requestDeclined,
         TEST_STATUSES.reviewValidated,
         TEST_STATUSES.reviewDeclined,
-        TEST_STATUSES.testCancelled
+        TEST_STATUSES.testCancelled,
+        TEST_STATUSES.moneySent
     ],
     COMPLETED: [
-        TEST_STATUSES.moneySent
+        TEST_STATUSES.moneyReceived
     ],
     CANCELLED: [
         TEST_STATUSES.requestCancelled,
@@ -218,6 +219,10 @@ constants.TEST_STATUS_PROCESSES = {
         previous: constants.GLOBAL_TEST_STATUSES.PROCESSING,
         params: ['cancelReason'],
         notificationType: NOTIFICATION_TYPES.TEST_CANCELLED.value
+    },
+    [TEST_STATUSES.moneyReceived]: {
+        previous: [TEST_STATUSES.moneySent, TEST_STATUSES.reviewValidated],
+        notificationType: NOTIFICATION_TYPES.REVIEW_VALIDATED.value
     }
 };
 
