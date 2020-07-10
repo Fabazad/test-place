@@ -123,13 +123,19 @@ const constants = {
             value: "MONEY_SENT",
             title: "Remboursement envoyé.",
             text: "Le vendeur vous a envoyé de l'argent suite au test du produit :",
-            to: "/dashboard/my-finished-tests"
+            to: "/dashboard/my-current-tests"
         },
         TEST_CANCELLED: {
             value: "TEST_CANCELLED",
             title: "Annulation ou Réclamation.",
             text: "Une annulation ou une réclamation a été faite sur le produit :",
             to: "/dashboard/customer-current-tests"
+        },
+        MONEY_RECEIVED: {
+            value: "MONEY_RECEIVED",
+            title: "Remboursement reçu.",
+            text: "Le tester a indiqué avoir reçu le remboursement sur le produit :",
+            to: "/dashboard/finished-tests"
         }
     }
 };
@@ -222,7 +228,7 @@ constants.TEST_STATUS_PROCESSES = {
     },
     [TEST_STATUSES.moneyReceived]: {
         previous: [TEST_STATUSES.moneySent, TEST_STATUSES.reviewValidated],
-        notificationType: NOTIFICATION_TYPES.REVIEW_VALIDATED.value
+        notificationType: NOTIFICATION_TYPES.MONEY_RECEIVED.value
     }
 };
 
