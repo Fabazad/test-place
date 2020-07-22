@@ -134,14 +134,15 @@ const TestListWithControls = props => {
                             <h4 className="m-0">{totalCount}</h4>
                         </Badge>
                     </h3>
-                    <div className="float-right text-center w-sm-100 w-md-auto text-center mt-3 mt-md-0">
-                        <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
-                            <DropdownSelect
-                                options={statusesOptionsFormatted} placeholder='Filtrer par Status'
-                                value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
-                                name='statusFilter'/>
-                        </div>
-                    </div>
+                    {statusesOptionsFormatted.length > 1 ?
+                        <div className="float-right text-center w-sm-100 w-md-auto text-center mt-3 mt-md-0">
+                            <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
+                                <DropdownSelect
+                                    options={statusesOptionsFormatted} placeholder='Filtrer par Status'
+                                    value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
+                                    name='statusFilter'/>
+                            </div>
+                        </div> : null}
                 </CardHeader>
                 <CardBody className="p-0">
 

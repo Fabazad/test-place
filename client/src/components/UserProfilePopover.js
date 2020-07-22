@@ -43,7 +43,7 @@ const UserProfilePopover = ({userId, t, userName}) => {
         <>
             <span id={target}  className="cursor-pointer text-primary">{userName}</span>
             <Popover placement="auto" trigger="legacy" target={target} toggle={toggle} isOpen={isOpen}>
-                <PopoverBody className="p-0" style={{width: "200px", height: "320px"}}>
+                <PopoverBody className="p-0" style={{width: "200px", height: "300px"}}>
                     <Loading loading={loading}/>
                     {!loading ?
                         <Card className="card-profile">

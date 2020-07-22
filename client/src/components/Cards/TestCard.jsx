@@ -8,6 +8,7 @@ import TestStatusIcon from "../TestStatusIcon";
 import {withTranslation} from "react-i18next";
 import testServices from "../../services/test.services";
 import TestListButtons from "../Buttons/TestListButtons";
+import UserProfilePopover from "../UserProfilePopover";
 
 const {USER_ROLES} = constants;
 
@@ -72,20 +73,16 @@ const TestCard = (props) => {
                     {userRole === USER_ROLES.TESTER ?
                         <div className="col-6 text-center">
                             <small>Vendeur</small>
-                            <Link to={'#'}>
-                                <h4 className='mt-2'>
-                                    {seller.name ? seller.name : '-'}
-                                </h4>
-                            </Link>
+                            <h4 className='mt-2'>
+                                <UserProfilePopover userId={seller._id} userName={seller.name}/>
+                            </h4>
                         </div> : null}
                     {userRole === USER_ROLES.SELLER ?
                         <div className="col-6 text-center">
                             <small>Testeur</small>
-                            <Link to={'#'}>
-                                <h4 className='mt-2'>
-                                    {tester.name ? tester.name : '-'}
-                                </h4>
-                            </Link>
+                            <h4 className='mt-2'>
+                                <UserProfilePopover userId={tester._id} userName={tester.name}/>
+                            </h4>
                         </div> : null}
                 </Row>
                 <div className="mt-3 row">
