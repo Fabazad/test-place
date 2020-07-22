@@ -12,9 +12,7 @@ import ReviewAdvices from "../../ReviewAdvices";
 
 const {USER_ROLES} = constants;
 
-const TestProcessInfo = props => {
-
-    const {test, userRole, onToggle} = props;
+const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
 
     const [statuses, setStatuses] = useState({});
     useEffect(() => {
@@ -49,24 +47,24 @@ const TestProcessInfo = props => {
                         {test.declineRequestReason}
                     </Alert>
                 </div> : null}
-            {isStatus('requested') && USER_ROLES.TESTER === userRole ?
+            {isStatus('requested') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
                     En attente d'acceptation de la demande de test.<br/>
                     Pour l'instant, tout ce que vous avez à faire est d'attendre la réponse du vendeur.<br/>
                     N'achetez donc pas encore le produit.
                 </NextStepAdvice> : null}
-            {USER_ROLES.SELLER === userRole && test.testerMessage ?
+            {(USER_ROLES.SELLER === userRole || adminView) && test.testerMessage ?
                 <div className="text-left w-100">
                     <Label>Message du Testeur</Label>
                     <Alert color="success" className="white-space-pre-line">
                         {test.testerMessage}
                     </Alert>
                 </div> : null}
-            {isStatus('requested') && USER_ROLES.SELLER === userRole ?
+            {isStatus('requested') && (USER_ROLES.SELLER === userRole || adminView) ?
                 <div className="text-center bg-secondary p-3 w-100 rounded">
                     <AnswerTestRequestForm onSubmit={onAnswerTestSubmit} testId={test._id}/>
                 </div> : null}
-            {USER_ROLES.TESTER === userRole && test.sellerMessage ?
+            {(USER_ROLES.TESTER === userRole || adminView) && test.sellerMessage ?
                 <div className="text-left w-100">
                     {test.sellerMessage ?
                         <div className="mb-3">
@@ -77,7 +75,7 @@ const TestProcessInfo = props => {
                         </div> : null}
                 </div> : null
             }
-            {isStatus('requestAccepted') && USER_ROLES.TESTER === userRole ?
+            {isStatus('requestAccepted') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="success">
                     Commandez le produit sur le site Amazon en suivant ce lien :&nbsp;
                     <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)} target='_blank'
@@ -89,7 +87,7 @@ const TestProcessInfo = props => {
                     Recevez votre colis, testez le, laissez un avis et recevez votre remboursement.
                 </NextStepAdvice> : null
             }
-            {isStatus(['requestAccepted', 'productOrdered', 'productReceived']) && USER_ROLES.SELLER === userRole ?
+            {isStatus(['requestAccepted', 'productOrdered', 'productReceived']) && (USER_ROLES.SELLER === userRole ||adminView) ?
                 <NextStepAdvice color="info">
                     Attendez que le Testeur achète et test le produit.<br/>
                     Le Testeur est informé par l'application des conseils suivants :<br/>
@@ -98,12 +96,12 @@ const TestProcessInfo = props => {
                     <Link to={'/dashboard/my-current-tests'}> Mes Tests en Cours</Link>.<br/>
                     Vous serez aussi notifié de l'avancée.
                 </NextStepAdvice> : null}
-            {isStatus('productOrdered') && USER_ROLES.TESTER === userRole ?
+            {isStatus('productOrdered') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
                     Dès que vous recevez le colis, indiquez le.<br/>
                     Ensuite testez le et laissez un avis pour recevoir votre remboursement.
                 </NextStepAdvice> : null}
-            {isStatus('productReceived') && USER_ROLES.TESTER === userRole ?
+            {isStatus('productReceived') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
                     Testez votre produit et laissez un avis sur Amazon.<br/>
                     Attention, voici quelques conseils pour garder vos notes Amazon :<br/>
@@ -112,12 +110,12 @@ const TestProcessInfo = props => {
                     Lorsque celui est validé, vous pouvez passer à l'étape suivante.<br/>
                     Vous recevrez votre remboursement dès que le Vendeur aura validé votre avis Amazon.
                 </NextStepAdvice> : null}
-            {isStatus('productReviewed') && USER_ROLES.TESTER === userRole ?
+            {isStatus('productReviewed') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
                     Vous n'avez plus qu'à attendre que le Vendeur accepte votre avis Amazon.<br/>
                     Il vous enverra ensuite le remboursement.
                 </NextStepAdvice> : null}
-            {isStatus('productReviewed') && USER_ROLES.SELLER === userRole && test.reviewId ?
+            {isStatus('productReviewed') && (USER_ROLES.SELLER === userRole || adminView) && test.reviewId ?
                 <NextStepAdvice color="info">
                     Le Testeur a indiqué avoir laissé un avis sur le produit.<br/>
                     Vous trouverez ici le <a href={getAmazonReviewUrl(test.reviewId)}>Lien de l'avis</a>.<br/>
@@ -135,20 +133,20 @@ const TestProcessInfo = props => {
             }
             {isStatus("reviewDeclined") ?
                 <>
-                    {userRole === USER_ROLES.SELLER ?
+                    {(userRole === USER_ROLES.SELLER || adminView) ?
                         <NextStepAdvice color="info">
                             Un administrateur va s'occuper du litige.<br/>
                             Si la raison est considérée comme valable, vous n'aurez pas à rembourser le produit et aucun
                             préjudice ne vous sera fait.
                         </NextStepAdvice> : null}
-                    {userRole === USER_ROLES.TESTER ?
+                    {(userRole === USER_ROLES.TESTER || adminView) ?
                         <NextStepAdvice color="info">
                             Un administrateur va s'occuper du litige.<br/>
                             Si la raison du refus n'est pas considérée comme valable, vous recevrez tout de même votre
                             compensation.
                         </NextStepAdvice> : null}
                 </> : null}
-            {isStatus("reviewValidated") && userRole === USER_ROLES.TESTER ?
+            {isStatus("reviewValidated") && (userRole === USER_ROLES.TESTER || adminView) ?
                 <NextStepAdvice color="info">
                     Félicitations, votre avis a été validé par le Vendeur !<br/>
                     Il va maintenant procéder au remboursement sur votre compte Paypal.<br/>
@@ -158,7 +156,7 @@ const TestProcessInfo = props => {
                     prend plus d'une semaine.
                 </NextStepAdvice> : null
             }
-            {isStatus("reviewValidated") && userRole === USER_ROLES.SELLER ?
+            {isStatus("reviewValidated") && (userRole === USER_ROLES.SELLER || adminView) ?
                 <NextStepAdvice color="info">
                     Nous sommes heureux que tout ce soit bien passé !<br/>
                     Maintenant, c'est à vous de remplir votre part du marché.<br/>
@@ -188,7 +186,8 @@ const TestProcessInfo = props => {
 TestProcessInfo.propTypes = {
     test: PropTypes.object.isRequired,
     userRole: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired
+    onToggle: PropTypes.func.isRequired,
+    adminView: PropTypes.bool
 };
 
 export default TestProcessInfo;

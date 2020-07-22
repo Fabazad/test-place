@@ -129,6 +129,20 @@ const routes = [
     testCount: 'cancelled'
   },
   {
+    path: "/admin-cancelled-tests",
+    name: "Tests en Conflits",
+    icon: "fa fa-heart-broken",
+    color: 'danger',
+    component: () => <TestList
+        statuses={['testCancelled']}
+        globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
+        title="Tests Annulés"
+        adminView={true}
+        userRole={USER_ROLES.ADMIN}/>,
+    layout: "/dashboard",
+    role: USER_ROLES.ADMIN
+  },
+  {
     path: "/my-profile",
     name: "Mon Profil",
     icon: "fa fa-user",

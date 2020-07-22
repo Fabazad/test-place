@@ -94,7 +94,7 @@ class UserService extends BaseService {
     hasRole(role) {
         if (this.isAuth() && this.currentUser.roles) {
             return this.currentUser.roles.reduce((prev, currentRole) => {
-                return prev || currentRole === role || currentRole === USER_ROLES.ADMIN;
+                return prev || currentRole === role;
             }, false);
         }
         return false;

@@ -11,7 +11,7 @@ import Col from "reactstrap/es/Col";
 import TestListWithControls from "../components/TestListWithControls";
 import PropTypes from "prop-types";
 
-const TestList = ({title, statuses, globalStatus, userRole}) => {
+const TestList = ({title, statuses, globalStatus, userRole, adminView}) => {
 
     return (
         <>
@@ -22,7 +22,7 @@ const TestList = ({title, statuses, globalStatus, userRole}) => {
             <Container className="mt--7" fluid>
                 <Row>
                     <Col xs={12}>
-                        <TestListWithControls title={title}
+                        <TestListWithControls title={title} adminView={!!adminView}
                                               statusesOptions={statuses}
                                               globalStatus={globalStatus}
                                               userRole={userRole}/>
@@ -37,7 +37,8 @@ TestList.propTypes = {
     title: PropTypes.string.isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     globalStatus: PropTypes.string.isRequired,
-    userRole: PropTypes.string.isRequired
+    userRole: PropTypes.string.isRequired,
+    adminView: PropTypes.bool
 };
 
 export default TestList;

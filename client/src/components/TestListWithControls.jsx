@@ -27,8 +27,7 @@ import CancelTestModal from "./Modals/CancelTestModal";
 
 const {USER_ROLES, ITEMS_PER_PAGE, TEST_ROW_CLICK_ACTIONS, ITEMS_PER_PAGE_OPTIONS} = constants;
 
-const TestListWithControls = props => {
-    const {title, t, statusesOptions, userRole, globalStatus} = props;
+const TestListWithControls = ({title, t, statusesOptions, userRole, globalStatus, adminView}) => {
 
     const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(1);
@@ -222,7 +221,7 @@ const TestListWithControls = props => {
                     <OrderedProductModal
                         isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED]} testId={selectedTestId}
                         onToggle={() => toggleModal(TEST_ROW_CLICK_ACTIONS.PRODUCT_ORDERED)}/>
-                    <TestModal userType={userRole} globalStatus={globalStatus}
+                    <TestModal userType={userRole} globalStatus={globalStatus} adminView={!!adminView}
                                isOpen={!!isModalOpen[TEST_ROW_CLICK_ACTIONS.SHOW_TEST]} testId={selectedTestId}
                                onToggle={() => removeUrlParameters('testId')}/>
                     <DeclineReviewModal
@@ -245,7 +244,8 @@ TestListWithControls.propTypes = {
     title: PropTypes.string.isRequired,
     statusesOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
     userRole: PropTypes.string.isRequired,
-    globalStatus: PropTypes.string.isRequired
+    globalStatus: PropTypes.string.isRequired,
+    adminView: PropTypes.bool.isRequired
 };
 
 export default withTranslation()(TestListWithControls);

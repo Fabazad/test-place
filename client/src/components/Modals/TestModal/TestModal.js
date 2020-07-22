@@ -23,9 +23,7 @@ import {getAmazonReviewUrl} from "../../../helpers/urlHelpers";
 
 const {USER_ROLES} = constants;
 
-const TestModal = props => {
-
-    const {isOpen, onToggle, userType, globalStatus, testId, t} = props;
+const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminView}) => {
 
     const [test, setTest] = useState(null);
 
@@ -148,7 +146,7 @@ const TestModal = props => {
 
                     <Row className="mt-3">
                         <Col xs={12}>
-                            <TestProcessInfo test={test} userRole={userType} onToggle={onToggle}/>
+                            <TestProcessInfo test={test} userRole={userType} onToggle={onToggle} adminView={adminView}/>
                         </Col>
                     </Row>
                 </Container>
@@ -168,7 +166,8 @@ TestModal.propTypes = {
     onToggle: PropTypes.func.isRequired,
     testId: PropTypes.string.isRequired,
     userType: PropTypes.string.isRequired,
-    globalStatus: PropTypes.string.isRequired
+    globalStatus: PropTypes.string.isRequired,
+    adminView: PropTypes.bool.isRequired
 };
 
 export default withTranslation()(TestModal);
