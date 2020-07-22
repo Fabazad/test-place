@@ -74,14 +74,15 @@ class UserController {
                             // Issue token
                             const token = createToken(user, keepConnection ? '7d' : '1h');
 
-                            const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount] = await Promise.all([
+                            const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount] = await Promise.all([
                                 UserModel.findByIdAndUpdate(user._id, {lastLogin: new Date()}),
                                 TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.REQUESTED),
                                 TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.PROCESSING),
                                 TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.COMPLETED),
-                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED)
+                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED),
+                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED, true)
                             ]);
-                            resolve({user: newUser, token, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount});
+                            resolve({user: newUser, token, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount});
                         }
                     });
                 }
@@ -287,15 +288,16 @@ class UserController {
             return ({user: null, check: false});
         } else if (!logged || logged === "false") {
             try {
-                const [user, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount] = await Promise.all([
+                const [user, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount] = await Promise.all([
                     UserModel.findById(decoded.userId),
                     TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.REQUESTED),
                     TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.PROCESSING),
                     TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.COMPLETED),
-                    TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.CANCELLED)
+                    TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.CANCELLED),
+                    TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.CANCELLED, true)
                 ]);
 
-                return {user, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, check: true};
+                return {user, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount, check: true};
             } catch (e) {
                 return Promise.reject(ErrorResponses.mongoose(e));
             }
@@ -334,13 +336,13 @@ class UserController {
         }
 
         try {
-            const [user, processingTestsCount, completedTestsCount, cancelledTestsCount] = await Promise.all([
+            const [user, processingTestsCount, completedTestsCount, guiltyTestsCount] = await Promise.all([
                 UserModel.findById(userId),
                 TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
                 TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
-                TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED)
+                TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED, true)
             ]);
-            return {user, processingTestsCount, completedTestsCount, cancelledTestsCount};
+            return {user, processingTestsCount, completedTestsCount, guiltyTestsCount};
         } catch (e) {
             return Promise.reject(ErrorResponses.mongoose(e));
         }

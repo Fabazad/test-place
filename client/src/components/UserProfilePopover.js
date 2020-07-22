@@ -22,11 +22,11 @@ const UserProfilePopover = ({userId, t, userName}) => {
             (async () => {
                 setLoading(true);
                 try {
-                    const {user, processingTestsCount, completedTestsCount, cancelledTestsCount} = await userServices.getOne(userId);
+                    const {user, processingTestsCount, completedTestsCount, guiltyTestsCount} = await userServices.getOne(userId);
                     user.testsCount = {
                         processing: processingTestsCount,
                         completed: completedTestsCount,
-                        cancelled: cancelledTestsCount
+                        guilty: guiltyTestsCount
                     };
                     setUser(user);
                 } catch (e) {
@@ -96,11 +96,11 @@ const UserProfilePopover = ({userId, t, userName}) => {
                                             </Col>
                                             <Col xs={4} className="m-0">
                                                 <Badge color="danger" pill className="badge-lg"
-                                                       id={'cancelled-tests-' + userId}>
+                                                       id={'guilty-tests-' + userId}>
                                                     <span
-                                                        className="heading">{user ? user.testsCount.cancelled : 0}</span>
+                                                        className="heading">{user ? user.testsCount.guilty : 0}</span>
                                                 </Badge>
-                                                <UncontrolledTooltip target={'cancelled-tests-' + userId}>
+                                                <UncontrolledTooltip target={'guilty-tests-' + userId}>
                                                     Annulés ou en Reclamation
                                                 </UncontrolledTooltip>
                                             </Col>

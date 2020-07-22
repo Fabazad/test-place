@@ -48,7 +48,7 @@ const Profile = () => {
         await userService.changeGender(newGender);
     };
 
-    const testGlobalStatusesCount = testServices.testGlobalStatusesCount ?? {requested: 0, processing: 0, completed: 0};
+    const testGlobalStatusesCount = testServices.testGlobalStatusesCount ?? {cancelled: 0, processing: 0, completed: 0};
 
     return (
         <>
@@ -96,7 +96,7 @@ const Profile = () => {
                                             </div>
                                             <div>
                                                 <Badge color="danger" pill className="badge-lg d-block">
-                                                    <span className="heading">{testGlobalStatusesCount.cancelled}</span>
+                                                    <span className="heading">{testGlobalStatusesCount.guilty}</span>
                                                 </Badge>
                                                 <span className="description">Annulés</span>
                                             </div>

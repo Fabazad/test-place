@@ -18,7 +18,8 @@ class TestServices extends BaseService {
                 requested: val.requestedTestsCount,
                 processing: val.processingTestsCount,
                 completed: val.completedTestsCount,
-                cancelled: val.cancelledTestsCount
+                cancelled: val.cancelledTestsCount,
+                guilty: val.guiltyTestsCount
             };
             this.testCountSubject.next(this.testGlobalStatusesCount);
         })
@@ -41,6 +42,7 @@ class TestServices extends BaseService {
             || 'processingTestsCount' in response
             || 'completedTestsCount' in response
             || 'cancelledTestsCount' in response
+            || 'guiltyTestsCount' in response
         ) {
             this.testGlobalStatusesCountSubject.next(response);
         }

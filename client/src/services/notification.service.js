@@ -25,6 +25,7 @@ class NotificationServices extends BaseService {
                 || 'processingTestsCount' in notificationsResponse
                 || 'completedTestsCount' in notificationsResponse
                 || 'cancelledTestsCount' in notificationsResponse
+                || 'guiltyTestsCount' in notificationsResponse
             ) {
                 testServices.testGlobalStatusesCountSubject.next(notificationsResponse);
             }

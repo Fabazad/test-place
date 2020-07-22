@@ -33,7 +33,7 @@ const testObject = {
     reviewId: String,
     cancelReason: String,
     adminMessage: String,
-    cancellationGuilty: String
+    cancellationGuilty: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 };
 
 const testSchema = new mongoose.Schema(testObject);
