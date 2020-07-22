@@ -20,6 +20,7 @@ import SearchProductNavForm from "../Forms/SearchProductNavForm";
 import Collapse from "reactstrap/es/Collapse";
 import Notifications from "../Notifications/Notifications";
 import ProfileDropdownBadge from "./ProfileDropdownBadge";
+import NavItems from "./NavItems";
 
 const DemoNavbar = props => {
 
@@ -49,7 +50,7 @@ const DemoNavbar = props => {
                     expand="lg" id="navbar-main"
                     style={{"zIndex": "10"}}
                 >
-                    <Container className='ml-2 mw-100 mr-5'>
+                    <Container className='mx-2 mw-100'>
                         <NavbarBrand className="mr-lg-5 d-flex" to="/" tag={Link}>
                             <img
                                 style={{height: "50px"}}
@@ -121,9 +122,12 @@ const DemoNavbar = props => {
                                         </NavItem>
                                     ) : null}
                                     {isAuth ? (
-                                        <NavItem>
-                                            <ProfileDropdownBadge routes={routes} history={props.history}/>
-                                        </NavItem>
+                                        <>
+                                            <NavItem className="d-none d-md-block">
+                                                <ProfileDropdownBadge routes={routes} history={props.history}/>
+                                            </NavItem>
+                                            <NavItems routes={routes}/>
+                                        </>
                                     ) : null}
                                 </Nav>
                             </Collapse>
