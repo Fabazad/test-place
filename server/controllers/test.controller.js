@@ -117,10 +117,16 @@ class TestController {
     }
 
     static async countTestWithStatues(userId, statuses) {
-        return TestModel.count({
+        const query = {
             $or: [{seller: userId}, {tester: userId}],
             status: statuses
-        });
+        };
+
+        if (statuses.includes(TEST_STATUSES.testCancelled)) {
+            query.cancellationGuilty = userId;
+        }
+
+        return TestModel.count(query);
     }
 
     static async updateStatus(currentUserId, testId, status, params = {}) {
@@ -172,6 +178,7 @@ class TestController {
             }
 
             if (status !== TEST_STATUSES.requestAccepted) test.expirationDate = null;
+            if (status === TEST_STATUSES.testCancelled) test.cancellationGuilty = currentUserId;
 
             try {
                 const newTest = await test.save();

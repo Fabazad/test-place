@@ -32,7 +32,8 @@ const testObject = {
     orderScreenshotUrl: String,
     reviewId: String,
     cancelReason: String,
-    adminMessage: String
+    adminMessage: String,
+    cancellationGuilty: String
 };
 
 const testSchema = new mongoose.Schema(testObject);
