@@ -12,8 +12,8 @@ const CustomerCurrentTests = (props) => {
 
     const {t} = props; // eslint-disable-line no-unused-vars
 
-    const statusesOptions = ['requestAccepted', 'productOrdered', 'productReceived', 'productReviewed', 'reviewDeclined',
-        'reviewValidated', 'reviewDeclined', 'testCancelled', 'moneySent'];
+    const statusesOptions = ['requestAccepted', 'productOrdered', 'productReceived', 'productReviewed',
+        'reviewValidated', 'moneySent'];
 
     return (
         <>

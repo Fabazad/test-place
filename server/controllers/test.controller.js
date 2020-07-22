@@ -116,13 +116,13 @@ class TestController {
         });
     }
 
-    static async countTestWithStatues(userId, statuses) {
+    static async countTestWithStatues(userId, statuses, withGuilty = false) {
         const query = {
             $or: [{seller: userId}, {tester: userId}],
             status: statuses
         };
 
-        if (statuses.includes(TEST_STATUSES.testCancelled)) {
+        if (statuses.includes(TEST_STATUSES.testCancelled) && withGuilty) {
             query.cancellationGuilty = userId;
         }
 

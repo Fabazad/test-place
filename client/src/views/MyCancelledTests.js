@@ -1,19 +1,18 @@
 import React from "react";
-import Header from "../../components/Headers/Header";
+import Header from "../components/Headers/Header";
 import {Container, Row} from "reactstrap";
-import TestListWithControls from "../../components/TestListWithControls";
+import TestListWithControls from "../components/TestListWithControls";
 import {withTranslation} from "react-i18next";
 import Col from "reactstrap/es/Col";
-import constants from "../../helpers/constants";
+import constants from "../helpers/constants";
 
 const {USER_ROLES, TEST_GLOBAL_STATUSES} = constants;
 
-const MyCurrentTests = (props) => {
+const MyCancelledTests = (props) => {
 
     const {t} = props; // eslint-disable-line no-unused-vars
 
-    const statusesOptions = ['requestAccepted', 'productOrdered', 'productReceived', 'productReviewed',
-        'reviewValidated', 'moneySent'];
+    const statusesOptions = ['testCancelled'];
 
     return (
         <>
@@ -24,7 +23,7 @@ const MyCurrentTests = (props) => {
             <Container className="mt--7" fluid>
                 <Row>
                     <Col xs={12}>
-                        <TestListWithControls title="Mes Tests en Cours" statusesOptions={statusesOptions}
+                        <TestListWithControls title="Mes Tests Annulés" statusesOptions={statusesOptions}
                                               userRole={USER_ROLES.TESTER}
                                               globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}/>
                     </Col>
@@ -34,4 +33,4 @@ const MyCurrentTests = (props) => {
     )
 };
 
-export default withTranslation()(MyCurrentTests);
+export default withTranslation()(MyCancelledTests);

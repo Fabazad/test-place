@@ -7,6 +7,8 @@ import MyCurrentTests from "./views/MyCurrentTests/MyCurrentTests";
 import CustomerCurrentTests from "./views/CustomerCurrentTests/CustomerCurrentTests";
 import FinishedTests from "./views/FinishedTests";
 import MyFinishedTests from "./views/MyFinishedTests";
+import MyCancelledTests from "./views/MyCancelledTests";
+import CancelledTests from "./views/CancelledTests";
 
 const {USER_ROLES} = constants;
 
@@ -44,7 +46,7 @@ const routes = [
     path: "/my-current-tests",
     name: "Mes Tests en Cours",
     icon: "far fa-arrow-alt-circle-right",
-    color: 'danger',
+    color: 'primary',
     component: MyCurrentTests,
     layout: "/dashboard",
     role: USER_ROLES.TESTER,
@@ -54,7 +56,7 @@ const routes = [
     path: "/customer-current-tests",
     name: "Tests Clients en Cours",
     icon: "far fa-arrow-alt-circle-right",
-    color: 'danger',
+    color: 'primary',
     component: CustomerCurrentTests,
     layout: "/dashboard",
     role: USER_ROLES.SELLER,
@@ -79,6 +81,26 @@ const routes = [
     layout: "/dashboard",
     role: USER_ROLES.TESTER,
     testCount: 'completed'
+  },
+  {
+    path: "/cancelled-tests",
+    name: "Les Tests Annulés",
+    icon: "fa fa-ban",
+    color: 'danger',
+    component: CancelledTests,
+    layout: "/dashboard",
+    role: USER_ROLES.SELLER,
+    testCount: 'cancelled'
+  },
+  {
+    path: "/my-cancelled-tests",
+    name: "Mes Tests Annulés",
+    icon: "fa fa-ban",
+    color: 'danger',
+    component: MyCancelledTests,
+    layout: "/dashboard",
+    role: USER_ROLES.TESTER,
+    testCount: 'cancelled'
   },
   {
     path: "/my-profile",

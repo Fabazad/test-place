@@ -153,17 +153,13 @@ constants.GLOBAL_TEST_STATUSES = {
         TEST_STATUSES.productOrdered,
         TEST_STATUSES.productReceived,
         TEST_STATUSES.productReviewed,
-        TEST_STATUSES.requestDeclined,
         TEST_STATUSES.reviewValidated,
-        TEST_STATUSES.reviewDeclined,
-        TEST_STATUSES.testCancelled,
         TEST_STATUSES.moneySent
     ],
     COMPLETED: [
         TEST_STATUSES.moneyReceived
     ],
     CANCELLED: [
-        TEST_STATUSES.requestCancelled,
         TEST_STATUSES.reviewDeclined,
         TEST_STATUSES.testCancelled
     ]

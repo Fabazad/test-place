@@ -10,7 +10,7 @@ import {
     FormGroup,
     Container,
     Row,
-    Col
+    Col, Badge
 } from "reactstrap";
 // core components
 import UserHeader from "../../components/Headers/UserHeader.jsx";
@@ -64,7 +64,7 @@ const Profile = () => {
                                         <img
                                             alt="..."
                                             className="rounded-circle cursor-pointer"
-                                            src={require("assets/img/undraws/"+ user.gender.toLowerCase() + "_avatar.svg")}
+                                            src={require("assets/img/undraws/" + user.gender.toLowerCase() + "_avatar.svg")}
                                             onClick={changeGender} id="profile-img"
                                         />
                                         <UncontrolledTooltip placement="top" target="profile-img">
@@ -82,16 +82,23 @@ const Profile = () => {
                                     <div className="col">
                                         <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                                             <div>
-                                                <span className="heading">{testGlobalStatusesCount.completed}</span>
+                                                <Badge color="primary" pill className="badge-lg d-block">
+                                                    <span
+                                                        className="heading">{testGlobalStatusesCount.processing}</span>
+                                                </Badge>
+                                                <span className="description">En cours</span>
+                                            </div>
+                                            <div>
+                                                <Badge color="success" pill className="badge-lg d-block">
+                                                    <span className="heading">{testGlobalStatusesCount.completed}</span>
+                                                </Badge>
                                                 <span className="description">Terminés</span>
                                             </div>
                                             <div>
-                                                <span className="heading">{testGlobalStatusesCount.cancelled}</span>
+                                                <Badge color="danger" pill className="badge-lg d-block">
+                                                    <span className="heading">{testGlobalStatusesCount.cancelled}</span>
+                                                </Badge>
                                                 <span className="description">Annulés</span>
-                                            </div>
-                                            <div>
-                                                <span className="heading">{testGlobalStatusesCount.processing}</span>
-                                                <span className="description">En cours</span>
                                             </div>
                                         </div>
                                     </div>

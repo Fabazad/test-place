@@ -75,6 +75,16 @@ const UserProfilePopover = ({userId, t, userName}) => {
                                     <div className="col">
                                         <Row className="card-profile-stats">
                                             <Col xs={4} className="m-0">
+                                                <Badge color="primary" pill className="badge-lg"
+                                                       id={'prcessing-tests-' + userId}>
+                                                    <span
+                                                        className="heading">{user ? user.testsCount.processing : 0}</span>
+                                                </Badge>
+                                                <UncontrolledTooltip target={'prcessing-tests-' + userId}>
+                                                    En cours
+                                                </UncontrolledTooltip>
+                                            </Col>
+                                            <Col xs={4} className="m-0">
                                                 <Badge color="success" pill className="badge-lg"
                                                        id={'completed-tests-' + userId}>
                                                     <span
@@ -92,16 +102,6 @@ const UserProfilePopover = ({userId, t, userName}) => {
                                                 </Badge>
                                                 <UncontrolledTooltip target={'cancelled-tests-' + userId}>
                                                     Annulés ou en Reclamation
-                                                </UncontrolledTooltip>
-                                            </Col>
-                                            <Col xs={4} className="m-0">
-                                                <Badge color="warning" pill className="badge-lg"
-                                                       id={'prcessing-tests-' + userId}>
-                                                    <span
-                                                        className="heading">{user ? user.testsCount.processing : 0}</span>
-                                                </Badge>
-                                                <UncontrolledTooltip target={'prcessing-tests-' + userId}>
-                                                    En cours
                                                 </UncontrolledTooltip>
                                             </Col>
                                         </Row>
