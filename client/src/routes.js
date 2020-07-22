@@ -129,20 +129,6 @@ const routes = [
     testCount: 'cancelled'
   },
   {
-    path: "/my-cancelled-tests",
-    name: "Tests Annulés",
-    icon: "fa fa-ban",
-    color: 'danger',
-    component: () => <TestList
-        statuses={['testCancelled']}
-        globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
-        title="Tests Annulés"
-        userRole={USER_ROLES.SELLER}/>,
-    layout: "/dashboard",
-    role: USER_ROLES.SELLER,
-    testCount: 'cancelled'
-  },
-  {
     path: "/my-profile",
     name: "Mon Profil",
     icon: "fa fa-user",
