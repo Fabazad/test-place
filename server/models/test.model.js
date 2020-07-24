@@ -28,7 +28,7 @@ const testObject = {
     sellerMessage: String,
     orderId: String,
     declineReviewReason: String,
-    expirationDate: { type: Date, default: moment().add(7, "days").toDate() },
+    expirationDate: Date,
     orderScreenshotUrl: String,
     reviewId: String,
     cancelReason: String,

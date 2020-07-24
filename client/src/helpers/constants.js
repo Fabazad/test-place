@@ -112,11 +112,11 @@ export default {
             to: "/dashboard/my-current-tests"
         },
         MONEY_RECEIVED: {
-            value: "MONEY_SENT",
+            value: "MONEY_RECEIVED",
             text: "Le Testeur a indiqué avoir reçu le remboursement pour le produit :",
             icon: "fa-dollar-sign",
             color: "success",
-            to: "/dashboard/my-finished-tests"
+            to: "/dashboard/finished-tests"
         },
         TEST_CANCELLED: {
             value: "TEST_CANCELLED",

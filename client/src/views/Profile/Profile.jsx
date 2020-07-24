@@ -48,7 +48,7 @@ const Profile = () => {
         await userService.changeGender(newGender);
     };
 
-    const testGlobalStatusesCount = testServices.testGlobalStatusesCount ?? {cancelled: 0, processing: 0, completed: 0};
+    const testGlobalStatusesCount = testServices.testGlobalStatusesCount ?? {guilty: 0, processing: 0, completed: 0};
 
     return (
         <>

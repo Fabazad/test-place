@@ -35,8 +35,10 @@ class TestController {
                     return reject({status: 400, message: "This product doesn't have automatic acceptance."})
                 }
                 testData.sellerMessage = product.seller.sellerMessage;
+                testData.expirationDate = null;
             } else {
                 testData.status = constants.TEST_STATUSES.requested;
+                testData.expirationDate = moment().add(7, 'days').toDate();
             }
 
             testData.createdAt = new Date();
@@ -127,7 +129,7 @@ class TestController {
         }
 
         return TestModel.count(query);
-    }
+    }z
 
     static async updateStatus(currentUserId, testId, status, params = {}) {
         return new Promise(async (resolve, reject) => {
@@ -177,7 +179,7 @@ class TestController {
                 });
             }
 
-            if (status !== TEST_STATUSES.requestAccepted) test.expirationDate = null;
+            if (status !== TEST_STATUSES.requested) test.expirationDate = null;
             if (status === TEST_STATUSES.testCancelled) test.cancellationGuilty = currentUserId;
 
             try {
