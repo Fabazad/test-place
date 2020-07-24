@@ -33,7 +33,7 @@ router.post('/updateStatus', async (request, reply) => {
 
 router.get('/:testId', withAuth(), async (req, res) => {
     const {testId} = req.params;
-    TestController.getTest(testId, req.decoded.userId)
+    TestController.getTest(testId, req.decoded.userId, req.decoded.roles)
         .then(test => res.send(test))
         .catch(err => res.status(err.status).send(err.message));
 });

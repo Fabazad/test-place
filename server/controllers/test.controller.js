@@ -129,7 +129,7 @@ class TestController {
         }
 
         return TestModel.count(query);
-    }z
+    }
 
     static async updateStatus(currentUserId, testId, status, params = {}) {
         return new Promise(async (resolve, reject) => {
@@ -205,7 +205,7 @@ class TestController {
         });
     }
 
-    static async getTest(testId, userId) {
+    static async getTest(testId, userId, roles) {
         if (!ObjectId.isValid(testId)) {
             return Promise.reject({status: 400, message: "Wrong test id."});
         }
@@ -216,7 +216,7 @@ class TestController {
             return Promise.reject({status: 404, message: "Couldn't find test."});
         }
 
-        if (test.seller._id.toString() !== userId && test.tester._id.toString() !== userId) {
+        if (test.seller._id.toString() !== userId && test.tester._id.toString() !== userId && !roles.includes(ROLES.ADMIN)) {
             return Promise.reject({status: 403, message: "You are neither the tester or the seller of this test."});
         }
 

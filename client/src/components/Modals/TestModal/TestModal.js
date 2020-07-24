@@ -20,16 +20,25 @@ import Card from "reactstrap/es/Card";
 import CardBody from "reactstrap/es/CardBody";
 import Linkify from 'react-linkify';
 import {getAmazonReviewUrl} from "../../../helpers/urlHelpers";
+import Loading from "../../Loading";
 
 const {USER_ROLES} = constants;
 
 const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminView}) => {
 
     const [test, setTest] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (testId && isOpen) {
-            testServices.getOne(testId).then(setTest);
+            setLoading(true);
+            testServices.getOne(testId).then(newTest => {
+                setTest(newTest);
+                setLoading(false);
+            }).catch(e => {
+                console.log(e);
+                setLoading(false);
+            });
         }
     }, [testId, isOpen]);
 
@@ -39,6 +48,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle} size="lg">
+            <Loading loading={loading}/>
             <div className="modal-header">
                 <h3 className="modal-title mb-0">
                     Test Détails
