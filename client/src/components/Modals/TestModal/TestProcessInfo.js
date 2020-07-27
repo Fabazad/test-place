@@ -53,9 +53,9 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
                     Pour l'instant, tout ce que vous avez à faire est d'attendre la réponse du vendeur.<br/>
                     N'achetez donc pas encore le produit.
                 </NextStepAdvice> : null}
-            {(USER_ROLES.SELLER === userRole || adminView) && test.testerMessage ?
+            {test.testerMessage ?
                 <div className="text-left w-100">
-                    <Label>Message du Testeur</Label>
+                    <Label>Message du Testeur - {test.tester.name}</Label>
                     <Alert color="success" className="white-space-pre-line">
                         {test.testerMessage}
                     </Alert>
@@ -64,7 +64,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
                 <div className="text-center bg-secondary p-3 w-100 rounded">
                     <AnswerTestRequestForm onSubmit={onAnswerTestSubmit} testId={test._id}/>
                 </div> : null}
-            {(USER_ROLES.TESTER === userRole || adminView) && test.sellerMessage ?
+            {test.sellerMessage ?
                 <div className="text-left w-100">
                     {test.sellerMessage ?
                         <div className="mb-3">
@@ -82,12 +82,12 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
                        rel="noopener noreferrer">
                         Lien Produit
                     </a>.<br/>
-                    Indiquez sur votre page <Link to='/dashboard/my-current-tests'> Mes Tests en Cours</Link> lorsque
+                    Indiquez sur votre page <Link to='/dashboard/my-current-tests'>Mes Tests en Cours</Link> lorsque
                     vous commandez.<br/>
                     Recevez votre colis, testez le, laissez un avis et recevez votre remboursement.
                 </NextStepAdvice> : null
             }
-            {isStatus(['requestAccepted', 'productOrdered', 'productReceived']) && (USER_ROLES.SELLER === userRole ||adminView) ?
+            {isStatus(['requestAccepted', 'productOrdered', 'productReceived']) && (USER_ROLES.SELLER === userRole || adminView) ?
                 <NextStepAdvice color="info">
                     Attendez que le Testeur achète et test le produit.<br/>
                     Le Testeur est informé par l'application des conseils suivants :<br/>
@@ -131,21 +131,10 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
                     </div>
                 </div> : null
             }
-            {isStatus("reviewDeclined") ?
-                <>
-                    {(userRole === USER_ROLES.SELLER || adminView) ?
-                        <NextStepAdvice color="info">
-                            Un administrateur va s'occuper du litige.<br/>
-                            Si la raison est considérée comme valable, vous n'aurez pas à rembourser le produit et aucun
-                            préjudice ne vous sera fait.
-                        </NextStepAdvice> : null}
-                    {(userRole === USER_ROLES.TESTER || adminView) ?
-                        <NextStepAdvice color="info">
-                            Un administrateur va s'occuper du litige.<br/>
-                            Si la raison du refus n'est pas considérée comme valable, vous recevrez tout de même votre
-                            compensation.
-                        </NextStepAdvice> : null}
-                </> : null}
+            {isStatus("reviewDeclined") && !test.adminMessage ?
+                <NextStepAdvice color="info">
+                    Un administrateur va s'occuper du litige.
+                </NextStepAdvice> : null}
             {isStatus("reviewValidated") && (userRole === USER_ROLES.TESTER || adminView) ?
                 <NextStepAdvice color="info">
                     Félicitations, votre avis a été validé par le Vendeur !<br/>
@@ -158,27 +147,31 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
             }
             {isStatus("reviewValidated") && (userRole === USER_ROLES.SELLER || adminView) ?
                 <NextStepAdvice color="info">
-                    Nous sommes heureux que tout ce soit bien passé !<br/>
+                    Nous sommes heureux que tout se soit bien passé !<br/>
                     Maintenant, c'est à vous de remplir votre part du marché.<br/>
-                    C'est le moment de remboursé par Paypal le Testeur.<br/>
+                    C'est le moment de rembourser par Paypal le Testeur.<br/>
                     Somme à rembourser : {test.product.price}€ - {test.product.finalPrice}€.<br/>
                     Soit {test.product.price - test.product.finalPrice}€.
                 </NextStepAdvice> : null
             }
             {isStatus("testCancelled") && test.cancelReason ?
-                <Alert color="danger">
-                    Raison de l'annulation ou la réclamation :<br/>
-                    <i className="white-space-pre-line">{test.cancelReason}</i><br/><br/>
-                    Un administrateur va juger la raison.<br/>
-                    Vous serez informés par les décisions prises.
-                </Alert> : null
+                <>
+                    <Label>Raison de l'annulation ou la réclamation :</Label>
+                    <Alert color="danger">
+                        <br/>
+                        <i className="white-space-pre-line">{test.cancelReason}</i><br/><br/>
+                        Un administrateur va juger la raison.<br/>
+                        Vous serez informés par les décisions prises.
+                    </Alert>
+                </> : null
             }
             {test.adminMessage ?
-                <Alert color="warning">
-                    Message de l'Admin :<br/>
-                    <span className="white-space-pre-line">{test.adminMessage}</span>
-                </Alert> : null
-            }
+                <>
+                    <Label>Message de l'Admin :</Label>
+                    <Alert color="warning">
+                        <span className="white-space-pre-line">{test.adminMessage}</span>
+                    </Alert>
+                </> : null}
         </>
     )
 };
