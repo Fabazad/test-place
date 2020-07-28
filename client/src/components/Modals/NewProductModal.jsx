@@ -71,7 +71,7 @@ const NewProductModal = () => {
 
             delete product.images;
             return productService.create(product).then(() => {
-                toast.success("Product added");
+                toast.success("Produit ajouté et publié.");
                 toggleModal();
                 resetForm();
                 resolve();

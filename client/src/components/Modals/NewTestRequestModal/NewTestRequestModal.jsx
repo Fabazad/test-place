@@ -13,6 +13,7 @@ import SendRequestForm from "./SendRequestForm";
 import LoginBody from "./LoginBody";
 import BecomeTesterBody from "./BecomeTesterBody";
 import Loading from "../../Loading";
+import {toast} from "react-toastify";
 
 const {USER_ROLES} = constants;
 
@@ -43,6 +44,10 @@ const NewTestRequestModal = props => {
 
     const confirmRequest = async () => {
         if (disabled) return;
+        if (!testerMessage) {
+            toast.error("Veuillez laisser un message au Vendeur.");
+            return;
+        }
         setLoading(true);
         try {
             await testServices.create({

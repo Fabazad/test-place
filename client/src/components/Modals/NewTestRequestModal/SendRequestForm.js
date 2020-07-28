@@ -11,7 +11,7 @@ const SendRequestForm = props => {
             {/* It's all good case */}
             <Label for="sellerMessage">Message au Vendeur</Label>
             <Input className="form-control-alternative" id="testerMessage"
-                   defaultValue={value}
+                   defaultValue={value} required
                    placeholder="Je serai très fier de tester votre produit..."
                    type="textarea" name="testerMessage"
                    onChange={e => onChange(e.target.value)}/>
