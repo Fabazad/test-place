@@ -11,7 +11,7 @@ const secret = process.env.JWT_KEY;
 const {ROLES, TEST_STATUSES, MAIL_TEMPLATES_IDS} = require('../helpers/constants');
 const TestController = require('../controllers/test.controller');
 const constants = require('../helpers/constants');
-const {GLOBAL_TEST_STATUSES} = constants;
+const {GLOBAL_TEST_STATUSES, FROM_MAIL_ADDRESS} = constants;
 
 const createToken = (user, time) => {
     const payload = {userId: user._id, amazonId: user.amazonId, roles: user.roles};
@@ -311,7 +311,7 @@ class UserController {
             return Promise.reject({status: 400, message: "Missing fields."});
         }
 
-        return EmailController.sendEmail("fabien.turgut@gmail.com", email, MAIL_TEMPLATES_IDS.CONTACT_US, {
+        return EmailController.sendEmail(FROM_MAIL_ADDRESS, email, MAIL_TEMPLATES_IDS.CONTACT_US, {
             name: name,
             message: message
         });
