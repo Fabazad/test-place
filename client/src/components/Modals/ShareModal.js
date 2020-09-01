@@ -17,7 +17,7 @@ import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 
 const ShareModal = ({onToggle, isOpen}) => {
 
-    const url = "testplace.fr";
+    const url = "testplace.io";
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>

@@ -1,7 +1,7 @@
 const constants = {
     MONGO_LOCAL_URL: 'mongodb://127.0.0.1:27017/test-place',
     FRONTEND_LOCAL_URL: 'http://localhost:3000',
-    FRONTEND_URL: 'https://www.testplace.fr',
+    FRONTEND_URL: 'https://www.testplace.io',
     S3_BUCKET: "test-place",
     MAIL_TEMPLATES_IDS: {
         RESET_PASSWORD: "d-d4d5481b37e648b0ad6583ef88d572d6",

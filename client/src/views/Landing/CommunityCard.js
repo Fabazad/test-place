@@ -1,5 +1,6 @@
 import {Button, Card, Col, Row} from "reactstrap";
 import React from "react";
+import {Link} from "react-router-dom";
 
 const CommunityCard = () => {
     return (
@@ -15,9 +16,11 @@ const CommunityCard = () => {
                         </p>
                     </Col>
                     <Col className="ml-lg-auto" lg="3">
-                        <Button block className="btn-white" color="default" size="lg">
-                            Rejoindre
-                        </Button>
+                        <Link to="/register">
+                            <Button block className="btn-white" color="default" size="lg">
+                                Rejoindre
+                            </Button>
+                        </Link>
                     </Col>
                 </Row>
             </div>
