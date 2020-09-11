@@ -9,7 +9,7 @@ import {withTranslation} from "react-i18next";
 import IdHelper from "../helpers/IdHelper";
 import Popover from "reactstrap/es/Popover";
 
-const UserProfilePopover = ({userId, t, userName}) => {
+const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
@@ -43,7 +43,7 @@ const UserProfilePopover = ({userId, t, userName}) => {
         <>
             <span id={target}  className="cursor-pointer text-primary">{userName}</span>
             <Popover placement="auto" trigger="legacy" target={target} toggle={toggle} isOpen={isOpen}>
-                <PopoverBody className="p-0" style={{width: "200px", height: "300px"}}>
+                <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "300px" : "200px"}}>
                     <Loading loading={loading}/>
                     {!loading ?
                         <Card className="card-profile">
@@ -109,10 +109,10 @@ const UserProfilePopover = ({userId, t, userName}) => {
                                 </Row>
                                 <div className="text-center">
                                     <h3>{user ? user.name : ''}</h3>
-                                    <div className="h5 font-weight-300">
+                                    { showMail ? <div className="h5 font-weight-300">
                                         <i className="ni location_pin mr-2"/>
-                                        {user ? user.email : ''}
-                                    </div>
+                                         {user ? user.email : ''}
+                                    </div> : null }
                                 </div>
                             </CardBody>
                         </Card> : null
@@ -125,7 +125,8 @@ const UserProfilePopover = ({userId, t, userName}) => {
 
 UserProfilePopover.propTypes = {
     userId: PropTypes.string.isRequired,
-    userName: PropTypes.string.isRequired
+    userName: PropTypes.string.isRequired,
+    showMail: PropTypes.bool
 };
 
 export default withTranslation()(UserProfilePopover);

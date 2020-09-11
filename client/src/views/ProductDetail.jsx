@@ -192,7 +192,9 @@ class ProductDetail extends React.Component {
                                                     <div className="col text-center">
                                                         <Label className='d-block'>Test Place</Label>
                                                         {product ?
-                                                                <UserProfilePopover userName={product.seller.name} userId={product.seller._id}/>: null
+                                                            <UserProfilePopover userName={product.seller.name}
+                                                                                userId={product.seller._id}
+                                                                                showMail={false}/> : null
                                                         }
                                                     </div>
                                                     {product && product.amazonSeller ? (
