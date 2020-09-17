@@ -14,7 +14,6 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
-    // eslint-disable-next-line
     const [target, _] = useState(IdHelper.newId('user-popover').toString());
 
     useEffect(() => {
@@ -39,9 +38,13 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
     const toggle = () => setIsOpen(!isOpen);
 
+    const onClick = e => {
+        e.preventDefault()
+    };
+
     return (
         <>
-            <span id={target}  className="cursor-pointer text-primary">{userName}</span>
+            <span id={target}  className="cursor-pointer text-primary" onClick={onClick}>{userName}</span>
             <Popover placement="auto" trigger="legacy" target={target} toggle={toggle} isOpen={isOpen}>
                 <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "300px" : "200px"}}>
                     <Loading loading={loading}/>
@@ -126,7 +129,8 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 UserProfilePopover.propTypes = {
     userId: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
-    showMail: PropTypes.bool
+    showMail: PropTypes.bool,
+    onClick: PropTypes.func
 };
 
 export default withTranslation()(UserProfilePopover);

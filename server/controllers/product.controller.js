@@ -1,6 +1,7 @@
 const constants = require("../helpers/constants");
 const Crawler = require("crawler");
 const ProductModel = require('../models/product.model');
+const UserModel = require('../models/user.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const {ROLES, VALID_TEST_STATUSES} = constants;
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -140,114 +141,121 @@ class ProductController {
     }
 
     static async find(decoded, searchData) {
-        return new Promise((resolve, reject) => {
-            const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests, seller} = searchData;
+        const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests, seller} = searchData;
 
-            const pipeline = [];
-            const query = {};
-            if (category && category !== 'undefined' && category !== 'null') {
-                query.category = category;
+        const pipeline = [];
+        const query = {};
+        if (category && category !== 'undefined' && category !== 'null') {
+            query.category = category;
+        }
+        if (keyWords) {
+            query.$text = {'$search': keyWords.toLowerCase()};
+        }
+        if (minPrice !== '' && minPrice !== undefined || maxPrice !== '' && maxPrice !== undefined) {
+            query.price = {};
+            if (minPrice) {
+                query.price.$gte = minPrice;
             }
-            if (keyWords) {
-                query.$text = {'$search': keyWords.toLowerCase()};
+            if (maxPrice) {
+                query.price.$lte = maxPrice;
             }
-            if (minPrice !== '' && minPrice !== undefined || maxPrice !== '' && maxPrice !== undefined) {
-                query.price = {};
-                if (minPrice) {
-                    query.price.$gte = minPrice;
-                }
-                if (maxPrice) {
-                    query.price.$lte = maxPrice;
-                }
-            }
-            if (free) {
-                query.finalPrice = '0';
-            }
-            if (automaticAcceptance) {
-                query.automaticAcceptance = true;
-            }
-            if (prime) {
-                query.isPrime = true;
-            }
-            pipeline.push({
-                $lookup: {
-                    from: "tests",
-                    as: "tests",
-                    let: { productId: "$_id" },
-                    pipeline: [{
-                        $match: {
-                            $expr: { $eq: ["$product._id", "$$productId"] },
-                            $or: [{
-                                expirationDate: { $gt: new Date() }
-                            }, {
-                                expirationDate: { $eq: null }
-                            }],
-                            status: { $in: VALID_TEST_STATUSES }
-                        }
-                    }]
-                }
-            });
-            pipeline.push({
-                $addFields: {
-                    testsCount: { $cond: { if: { $isArray: "$tests" }, then: { $size: "$tests" }, else: 0} }
-                }
-            });
-
-            if (remainingRequests) {
-                pipeline.push({
+        }
+        if (free) {
+            query.finalPrice = '0';
+        }
+        if (automaticAcceptance) {
+            query.automaticAcceptance = true;
+        }
+        if (prime) {
+            query.isPrime = true;
+        }
+        pipeline.push({
+            $lookup: {
+                from: "tests",
+                as: "tests",
+                let: {productId: "$_id"},
+                pipeline: [{
                     $match: {
-                        $expr: { "$lt": ["$testsCount", "$maxDemands"] }
+                        $expr: {$eq: ["$product._id", "$$productId"]},
+                        $or: [{
+                            expirationDate: {$gt: new Date()}
+                        }, {
+                            expirationDate: {$eq: null}
+                        }],
+                        status: {$in: VALID_TEST_STATUSES}
                     }
-                });
+                }]
             }
-            if (seller) {
-                query.seller = ObjectId(seller);
-            }
-
-            let sort;
-            switch (sortBy) {
-                case 'createdAt':
-                default:
-                    sort = {createdAt: -1};
-                    break;
-                case 'score':
-                    if (keyWords) {
-                        sort = {score: {$meta: "textScore"}};
-                    } else {
-                        sort = {createdAt: -1};
-                    }
-                    break;
-                case 'price':
-                case 'finalPrice':
-                    sort = {[sortBy]: 1};
-                    break;
-            }
-
-            if (published === undefined && decoded && decoded.userId) {
-                // No published field and user logged case : user can see its product and the published ones
-                query.$or = [
-                    { publishExpirationDate: {$gte: new Date()} },
-                    { seller: ObjectId(decoded.userId) }
-                ];
-            } else if (published !== undefined) {
-                // Publish field case
-                query.publishExpirationDate = published ? {$gte: new Date()} : undefined;
-                if (!decoded || !decoded.userId) {
-                    // If no logged user then only the published ones
-                    query.publishExpirationDate = {$gte: new Date()};
-                } else if (published === false) {
-                    //No published products and connected user case : user need to be the seller
-                    query.seller = ObjectId(decoded.userId);
-                }
-            }
-
-            pipeline.unshift({ $match: query });
-
-            const aggregate = ProductModel.aggregate(pipeline);
-            ProductModel.aggregatePaginate(aggregate, {page, limit: itemsPerPage, sort})
-                .then(res => resolve({hits: res.docs, totalCount: res.totalDocs}))
-                .catch(err => reject(ErrorResponses.mongoose(err)));
         });
+        pipeline.push({
+            $addFields: {
+                testsCount: {$cond: {if: {$isArray: "$tests"}, then: {$size: "$tests"}, else: 0}}
+            }
+        });
+
+        if (remainingRequests) {
+            pipeline.push({
+                $match: {
+                    $expr: {"$lt": ["$testsCount", "$maxDemands"]}
+                }
+            });
+        }
+        if (seller) {
+            query.seller = ObjectId(seller);
+        }
+
+        let sort;
+        switch (sortBy) {
+            case 'createdAt':
+            default:
+                sort = {createdAt: -1};
+                break;
+            case 'score':
+                if (keyWords) {
+                    sort = {score: {$meta: "textScore"}};
+                } else {
+                    sort = {createdAt: -1};
+                }
+                break;
+            case 'price':
+            case 'finalPrice':
+                sort = {[sortBy]: 1};
+                break;
+        }
+
+        if (published === undefined && decoded && decoded.userId) {
+            // No published field and user logged case : user can see its product and the published ones
+            query.$or = [
+                {publishExpirationDate: {$gte: new Date()}},
+                {seller: ObjectId(decoded.userId)}
+            ];
+        } else if (published !== undefined) {
+            // Publish field case
+            query.publishExpirationDate = published ? {$gte: new Date()} : undefined;
+            if (!decoded || !decoded.userId) {
+                // If no logged user then only the published ones
+                query.publishExpirationDate = {$gte: new Date()};
+            } else if (published === false) {
+                //No published products and connected user case : user need to be the seller
+                query.seller = ObjectId(decoded.userId);
+            }
+        }
+
+        pipeline.unshift({$match: query});
+
+        const aggregate = ProductModel.aggregate(pipeline);
+        try {
+            const res = await ProductModel.aggregatePaginate(aggregate, {page, limit: itemsPerPage, sort});
+            const hits = await Promise.all(
+                res.docs.map(async doc => {
+                    doc.seller = await UserModel.findById(doc.seller);
+                    return doc;
+                })
+            );
+            return {hits, totalCount: res.totalDocs};
+        } catch (e) {
+            return ErrorResponses.mongoose(e)
+        }
     }
 
     static async getCategories() {

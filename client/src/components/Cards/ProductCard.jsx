@@ -9,10 +9,13 @@ import {textSlice, formatDate} from '../../helpers/textHelpers';
 import constants from "../../helpers/constants";
 import {Link} from "react-router-dom";
 import CardHeader from "reactstrap/es/CardHeader";
+import Col from "reactstrap/es/Col";
+import UserProfilePopover from "../UserProfilePopover";
 
 const ProductCard = props => {
 
     const {product} = props;
+    console.log(product);
 
     return (
         <Card className={"card-lift--hover shadow border-0 cursor-pointer"}
@@ -76,9 +79,17 @@ const ProductCard = props => {
                     }
 
                 </div>
-                <div className="mt-3">
-                    <small className="text-muted">{product ? formatDate(product.createdAt) : '  /  /  '}</small>
-                </div>
+                <Row className="mt-3">
+                    <Col xs={6}>
+                        <small className="text-muted">{product ? formatDate(product.createdAt) : '  /  /  '}</small>
+                    </Col>
+                    <Col xs={6} className="text-right">
+                        <small>
+                            <UserProfilePopover userId={product.seller._id} userName={product.seller.name}
+                                                showMail={false}/>
+                        </small>
+                    </Col>
+                </Row>
             </CardBody>
         </Card>
     );
