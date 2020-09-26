@@ -1,4 +1,5 @@
 import React from "react";
+import { withTranslation } from 'react-i18next';
 // nodejs library that concatenates classes
 
 // reactstrap components
@@ -47,6 +48,7 @@ class Landing extends React.Component {
     }
 
     render() {
+        const { t } = this.props;
         return (
             <>
                 <main ref="main">
@@ -68,7 +70,7 @@ class Landing extends React.Component {
                                 <Row>
                                     <Col lg="12 text-center">
                                         <h1 className="display-4 text-white">
-                                            <span>Testez puis faites vous rembourser vos achats Amazon</span>
+                                            <span>{t("LANDING_PAGE_TITLE_1")}</span>
                                         </h1>
                                     </Col>
                                 </Row>
@@ -123,4 +125,4 @@ class Landing extends React.Component {
     }
 }
 
-export default Landing;
+export default withTranslation()(Landing);

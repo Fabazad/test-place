@@ -18,8 +18,11 @@ import MessageSentMessage from "./MessageSentModal";
 import userServices from "../../services/user.services";
 import {toast} from "react-toastify";
 import Loading from "../../components/Loading";
+import { withTranslation } from "react-i18next";
 
-const ContactSections = () => {
+const ContactSections = (props) => {
+
+    const { t } = props;
 
     const [nameFocused, setNameFocused] = useState(false);
     const [emailFocused, setEmailFocused] = useState(false);
@@ -34,10 +37,9 @@ const ContactSections = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(name, email, message);
 
         if (!name || !email || !message) {
-            toast.error("Veuillez remplir tous les champs.");
+            toast.error(t("MISSING_FIELDS"));
         }
 
         setLoading(true);
@@ -56,11 +58,9 @@ const ContactSections = () => {
                 <Container className="pt-5 pb-md-8" id="contact-us">
                     <Row className="text-center justify-content-center">
                         <Col lg="10">
-                            <h2 className="display-3 text-white">Vous avez des questions ou des remarques ?</h2>
-                            <p className="lead text-white">
-                                N'hésitez pas à nous contacter que ce soit pour des questions, des remarques ou bien des
-                                idées.<br/>
-                                Ce sera avec grand plaisir que nous vous répondrons.
+                            <h2 className="display-3 text-white">{t("QUESTIONS_OR_REMARKS")}</h2>
+                            <p className="lead text-white white-space-pre-line">
+                                {t("DONT_HESITATE_TO_CONTACT")}
                             </p>
                         </Col>
                     </Row>
@@ -88,7 +88,7 @@ const ContactSections = () => {
                                                         <i className="ni ni-user-run"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input placeholder="Votre nom" type="text" value={name} required
+                                                <Input placeholder={t("YOUR_NAME")} type="text" value={name} required
                                                        onFocus={() => setNameFocused(true)} name="name"
                                                        onBlur={() => setNameFocused(false)}
                                                        onChange={e => setName(e.target.value)}
@@ -102,7 +102,7 @@ const ContactSections = () => {
                                                         <i className="ni ni-email-83"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input placeholder="Votre adresse mail" type="email" value={email}
+                                                <Input placeholder={t("YOUR_MAIL_ADDRESS")} type="email" value={email}
                                                        onFocus={() => setEmailFocused(true)} required
                                                        onBlur={() => setEmailFocused(false)}
                                                        onChange={e => setEmail(e.target.value)} name="email"
@@ -112,11 +112,11 @@ const ContactSections = () => {
                                         <FormGroup className="mb-4">
                                             <Input className="form-control-alternative" cols="80" value={message}
                                                    onChange={e => setMessage(e.target.value)} required name="message"
-                                                   placeholder="Dites-nous tout..." rows="4" type="textarea"/>
+                                                   placeholder={t("TELL_US_EVERYTHING")} rows="4" type="textarea"/>
                                         </FormGroup>
                                         <div>
                                             <Button block className="btn-round" color="default" size="lg" type="submit">
-                                                Envoyer votre message
+                                                {t("SEND_YOUR_MESSAGE")}
                                             </Button>
                                         </div>
                                     </Form>
@@ -131,4 +131,4 @@ const ContactSections = () => {
     )
 };
 
-export default ContactSections;
+export default withTranslation()(ContactSections);

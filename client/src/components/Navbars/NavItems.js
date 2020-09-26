@@ -1,4 +1,3 @@
-import {DropdownItem} from "reactstrap";
 import Badge from "reactstrap/es/Badge";
 import userServices from "../../services/user.services";
 import {Link} from "react-router-dom";

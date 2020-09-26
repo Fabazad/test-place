@@ -2,12 +2,15 @@ import {Badge, Button, Card, CardBody, Col, Container, Row} from "reactstrap";
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import ShareModal from "../../components/Modals/ShareModal";
+import {Trans, withTranslation} from "react-i18next";
 
-const MarketingCards = () => {
+const MarketingCards = (props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleModal = () => setIsOpen(!isOpen);
+
+    const { t } = props;
 
     return (
         <Container className="py-3">
@@ -19,22 +22,18 @@ const MarketingCards = () => {
                                 <i className="fa fa-search"/>
                             </div>
                             <h4 className="text-primary text-uppercase">
-                                Moteur de recherche
+                                {t("SEARCH_ENGINE_TITLE")}
                             </h4>
                             <p className="description mt-4 mb-5">
-                                Ne perdez plus de temps à<br/>
-                                <b>scroller indéfiniement</b> les pages Facebook.<br/><br/>
-
-                                Trouvez en <b>une minute</b><br/>
-                                le produit qui vous <b>intéresse</b>.
+                                <Trans i18nKey="SEARCH_ENGINE_TEXT" default="test<bold>gye</bold>" components={{ b: <b /> }}/>
                             </p>
                             <div>
-                                <Badge color="primary" pill className="mr-1">Rapide</Badge>
-                                <Badge color="primary" pill className="mr-1">Efficace</Badge>
-                                <Badge color="primary" pill className="mr-1">Complet</Badge>
+                                <Badge color="primary" pill className="mr-1">{t("FAST")}</Badge>
+                                <Badge color="primary" pill className="mr-1">{t("EFFICIENT")}</Badge>
+                                <Badge color="primary" pill className="mr-1">{t("COMPLETE")}</Badge>
                             </div>
                             <Button tag={Link} to="/search" className="mt-4" color="primary">
-                                Rechercher
+                                {t("SEARCH")}
                             </Button>
                         </CardBody>
                     </Card>
@@ -46,21 +45,18 @@ const MarketingCards = () => {
                                 <i className="fa fa-shield-alt"/>
                             </div>
                             <h4 className="text-success text-uppercase">
-                                Démarches encadrées
+                                {t("SUPERVISED_PROCEDURES_TITLE")}
                             </h4>
                             <p className="description mt-4 mb-5">
-                                N'ayez plus <b>peur de vous faire arnaquer</b><br/>
-                                ou de vous <b>perdre dans les démarches</b>.<br/><br/>
-                                Vous testez les articles <b>sereinement</b><br/>
-                                comme pour n'importe quel <b>simple achat</b>.
+                                <Trans i18nKey="SUPERVISED_PROCEDURES_TEXT" components={{b: <b/>}}/>
                             </p>
                             <div>
-                                <Badge color="success" pill className="mr-1">Simple</Badge>
-                                <Badge color="success" pill className="mr-1">Tranquille</Badge>
-                                <Badge color="success" pill className="mr-1">Sécurisé</Badge>
+                                <Badge color="success" pill className="mr-1">{t("EASY")}</Badge>
+                                <Badge color="success" pill className="mr-1">{t("CHILL")}</Badge>
+                                <Badge color="success" pill className="mr-1">{t("SAFE")}</Badge>
                             </div>
                             <Button tag={Link} to="/register" className="mt-4" color="success">
-                                Créer un compte
+                                {t("CREATE_AN_ACCOUNT")}
                             </Button>
                         </CardBody>
                     </Card>
@@ -73,22 +69,19 @@ const MarketingCards = () => {
                                 <i className="fa fa-euro-sign"/>
                             </div>
                             <h4 className="text-warning text-uppercase">
-                                Articles remboursés
+                                {t("REFUNDED_ITEMS_TITLE")}
                             </h4>
                             <p className="description mt-4 mb-5">
-                                Ne vous privez plus à cause de<br/>
-                                votre <b>faible budget</b>.<br/><br/>
-                                Profitez de produit, pour la majorité,<br/>
-                                <b>entièrement gratuits</b>.
+                                <Trans i18nKey="REFUNDED_ITEMS_TEXT" components={{ b: <b/> }}/>
                             </p>
                             <div>
-                                <Badge color="warning" pill className="mr-1">Ecouteurs</Badge>
-                                <Badge color="warning" pill className="mr-1">Enceintes</Badge>
-                                <Badge color="warning" pill className="mr-1">Caméras</Badge>
+                                <Badge color="warning" pill className="mr-1">{t("HEADPHONES")}</Badge>
+                                <Badge color="warning" pill className="mr-1">{t("SPEAKERS")}</Badge>
+                                <Badge color="warning" pill className="mr-1">{t("CAMERAS")}</Badge>
                                 <Badge color="warning" pill className="mr-1">...</Badge>
                             </div>
                             <Button className="mt-4" color="warning" onClick={toggleModal}>
-                                Partager
+                                {t("SHARE")}
                             </Button>
                         </CardBody>
                     </Card>
@@ -99,4 +92,4 @@ const MarketingCards = () => {
     )
 };
 
-export default MarketingCards;
+export default withTranslation()(MarketingCards);

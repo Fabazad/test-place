@@ -3,9 +3,7 @@ import BaseService from "./base.service.js";
 import axios from "axios";
 import {eraseCookie} from "../helpers/cookies.js";
 import {Subject} from "rxjs";
-import constants from "../helpers/constants";
 import {setCookie} from "../helpers/cookies";
-const {USER_ROLES} = constants;
 
 class UserService extends BaseService {
     constructor() {

@@ -15,7 +15,6 @@ import UserProfilePopover from "../UserProfilePopover";
 const ProductCard = props => {
 
     const {product} = props;
-    console.log(product);
 
     return (
         <Card className={"card-lift--hover shadow border-0 cursor-pointer"}
