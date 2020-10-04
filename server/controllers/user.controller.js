@@ -57,7 +57,7 @@ class UserController {
 
     static async login(email, password, keepConnection) {
         return new Promise((resolve, reject) => {
-            UserModel.findOne({email: "franck.gtmnn@gmail.com"}, function (err, user) {
+            UserModel.findOne({email}, function (err, user) {
                 if (err) {
                     reject(ErrorResponses.mongoose(err));
                 } else if (!user) {
@@ -68,7 +68,7 @@ class UserController {
                     user.isCorrectPassword(password, async function (err, same) {
                         if (err) {
                             reject(ErrorResponses.mongoose(err));
-                        } else if (false) {
+                        } else if (!same) {
                             reject({status: 400, message: "Incorrect email or password"});
                         } else {
                             // Issue token
