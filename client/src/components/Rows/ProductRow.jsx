@@ -18,14 +18,15 @@ const ProductRow = props => {
 
     const published = productServices.isPublished(product);
 
+    const imgSrc = product && product.imageUrls && product.imageUrls[0] ?
+        product.imageUrls[0].replace(/^(.+)(\.jpg)/, "$1._SS40_$2") : false;
+
     return (
         <tr>
             <th scope="row">
                 <Media className="align-items-center">
                     <div className="avatar rounded-circle mr-3 bg-transparent shadow">
-                        <img className="shadow" alt="..."
-                             src={product.imageUrls[0].replace(/^(.+)(\.jpg)/, "$1._SS40_$2")}
-                        />
+                        {imgSrc ? <img className="shadow" alt="..." src={imgSrc} /> : null}
                     </div>
                     <Media>
                         <Link className="mb-0 text-sm" to={'/ad/' + product._id}>
