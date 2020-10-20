@@ -53,5 +53,15 @@
   "HEADPHONES": "Ecouteurs",
   "SPEAKERS": "Enceintes",
   "CAMERAS": "Caméras",
-  "SHARE": "Partager"
+  "SHARE": "Partager",
+  "MESSAGE_SENT": "Message envoyé !",
+  "YOUR_MESSAGE_HAS_BEEN_SENT": "Votre message a bien été expédié.\nMerci, et à très vite !",
+  "MORE_PRODUCTS": "Plus de Produits...",
+  "HOW_DOES_IT_WORK": "Comment ça marche ?",
+  "TEST_REQUEST": "Demande de Test",
+  "BUY_ON_AMAZON": "Achat sur Amazon",
+  "PRODUCT_REVIEW": "Notation du Produit",
+  "REFUND": "Remboursement",
+  "GREAT_DESIGN": "Une ergonomie agréable",
+  "GREAT_DESIGN_TEXT": "L'application a été pensée pour vous donner la <b>meilleure expérience utilisateur possible</b>.<br/><br/>Suivez vos tests de produits sur une interface<br/><b>fluide et visuelle</b>."
 }

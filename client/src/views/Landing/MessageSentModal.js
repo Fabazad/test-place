@@ -4,16 +4,17 @@ import {Button, Modal} from "reactstrap";
 import React from "react";
 import PropTypes from "prop-types";
 import AnimatedCheck from "../../components/AnimatedCheck";
+import {withTranslation} from "react-i18next";
 
 const MessageSentMessage = props => {
 
-    const {isOpen, onToggle} = props;
+    const { isOpen, onToggle, t } = props;
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
             <div className="modal-header">
                 <h3 className="modal-title mb-0">
-                    Message envoyé !
+                    {t("MESSAGE_SENT")}
                 </h3>
                 <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                     <span aria-hidden={true}>×</span>
@@ -22,15 +23,14 @@ const MessageSentMessage = props => {
 
             <ModalBody>
                 <AnimatedCheck/>
-                <p className="mb-0">
-                    Votre message a bien été expédié.<br/>
-                    Merci, et à très vite !
+                <p className="mb-0 white-space-pre-line">
+                    {t("YOUR_MESSAGE_HAS_BEEN_SENT")}
                 </p>
             </ModalBody>
 
             <ModalFooter>
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    Fermer
+                    {t("CLOSE")}
                 </Button>
             </ModalFooter>
         </Modal>
@@ -42,4 +42,4 @@ MessageSentMessage.propTypes = {
     onToggle: PropTypes.func.isRequired
 };
 
-export default MessageSentMessage;
+export default withTranslation()(MessageSentMessage);

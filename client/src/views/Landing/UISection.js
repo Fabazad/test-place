@@ -1,7 +1,11 @@
 import {Col, Container, Row} from "reactstrap";
 import React from "react";
+import {Trans, withTranslation} from "react-i18next";
 
-const UISection = () => {
+const UISection = props => {
+
+    const { t } = props;
+
     return (
         <Container>
             <Row className="row-grid align-items-center">
@@ -12,11 +16,9 @@ const UISection = () => {
                             <img src={require('assets/img/brand/creative-tim.png')} alt="creative tim logo"/>
                         </div>
                         <h4 className="d-inline-block ml-3">Creative Tim</h4>
-                        <h2>Une ergonomie agréable</h2>
+                        <h2>{t("GREAT_DESIGN")}</h2>
                         <p className="mt-5">
-                            L'application a été pensée pour vous donner la <b>meilleure expérience utilisateur possible</b>.<br/><br/>
-                            Suivez vos tests de produits sur une interface<br/>
-                            <b>fluide et visuelle</b>.
+                            <Trans i18nKey="GREAT_DESIGN_TEXT" components={{ b: <b /> }}/>
                         </p>
                     </div>
                 </Col>
@@ -32,4 +34,4 @@ const UISection = () => {
     );
 };
 
-export default UISection;
+export default withTranslation()(UISection);

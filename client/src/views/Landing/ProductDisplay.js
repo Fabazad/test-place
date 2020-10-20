@@ -5,8 +5,11 @@ import productServices from "../../services/product.service";
 import ProductCardSkeleton from "../../components/Cards/ProductCardSkeleton";
 import Button from "reactstrap/es/Button";
 import {Link} from "react-router-dom";
+import {withTranslation} from "react-i18next";
 
-const ProductDisplay = () => {
+const ProductDisplay = props => {
+
+    const { t } = props;
 
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -42,10 +45,10 @@ const ProductDisplay = () => {
                 ))}
             </Row>
             <div className="w-100 text-center mt-5">
-                <Button color="primary" tag={Link} to="/search">Plus de Produits...</Button>
+                <Button color="primary" tag={Link} to="/search">{t("MORE_PRODUCTS")}</Button>
             </div>
         </Container>
     )
 };
 
-export default ProductDisplay;
+export default withTranslation()(ProductDisplay);

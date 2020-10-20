@@ -25,7 +25,7 @@ const MarketingCards = (props) => {
                                 {t("SEARCH_ENGINE_TITLE")}
                             </h4>
                             <p className="description mt-4 mb-5">
-                                <Trans i18nKey="SEARCH_ENGINE_TEXT" default="test<bold>gye</bold>" components={{ b: <b /> }}/>
+                                <Trans i18nKey="SEARCH_ENGINE_TEXT" components={{ b: <b /> }}/>
                             </p>
                             <div>
                                 <Badge color="primary" pill className="mr-1">{t("FAST")}</Badge>
