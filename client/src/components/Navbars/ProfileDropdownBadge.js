@@ -31,7 +31,7 @@ const ProfileDropdownBadge = props => {
         <UncontrolledDropdown className="profile-dropdown-badge">
             <DropdownToggle nav>
                 <Badge color="primary" pill className="shadow--hover">
-                    <i className="ni ni-circle-08 ni-2x"/>
+                    <i className="ni ni-circle-08 ni-2x" style={{ top: "0px" }}/>
                     <div className="mr-2 d-inline-block ml-2 ml-md-0"
                          style={{fontSize: '1.2em', verticalAlign: "super", left: '80px'}}>
                         {userServices.currentUser.name}
