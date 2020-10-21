@@ -6,10 +6,11 @@ import userService from "../../services/user.services";
 import InfoPopover from "../../components/InfoPopover";
 import {toast} from "react-toastify";
 import PropTypes from "prop-types";
+import {withTranslation, Trans} from "react-i18next";
 
 const MySellerInfoForm = props => {
 
-    const {user} = props;
+    const {user, t} = props;
 
     const [loading, setLoading] = useState(false);
     const [sellerMessage, setSellerMessage] = useState(user.sellerMessage);
@@ -18,11 +19,11 @@ const MySellerInfoForm = props => {
         e.preventDefault();
         setLoading(true);
 
-        userService.updateUserInfo(userService.currentUser._id, { sellerMessage })
+        userService.updateUserInfo(userService.currentUser._id, {sellerMessage})
             .catch(() => setLoading(false))
             .then(() => {
                 setLoading(false);
-                toast.success("Modifications Enregistrées");
+                toast.success(t("UPDATES_SAVED"));
             });
     };
 
@@ -33,34 +34,27 @@ const MySellerInfoForm = props => {
             <Loading loading={loading}/>
             <div>
                 <h6 className="heading-small text-muted mb-4 d-inline-block">
-                    Mes Informations Vendeur
+                    {t("MY_SELLER_INFO")}
                 </h6>
-                <Button size="sm" color="info" className="float-right" type="submit"
-                        disabled={disabledSave}>
-                    Enregister
+                <Button size="sm" color="info" className="float-right" type="submit" disabled={disabledSave}>
+                    {t("SAVE")}
                 </Button>
             </div>
             <div className="pl-lg-4">
                 <Row>
                     <Col xs="12">
                         <FormGroup>
-                            <label className="form-control-label"
-                                   htmlFor="input-seller-message">
-                                Message Vendeur
+                            <label className="form-control-label" htmlFor="input-seller-message">
+                                {t("SELLER_MESSAGE")}
                                 <InfoPopover className="ml-3">
-                                    <b>Message Vendeur</b> sera utilisé comme message par
-                                    défault lorsque vous <b>accepterez des demandes de
-                                    test</b>.<br/>
-                                    C'est aussi le message que recevront vos testeurs
-                                    lorsqu'ils passeront par l'<b>acceptaion
-                                    automatique</b> des demandes (<i
-                                    className="fa fa-bolt text-yellow"/>).
+                                    <Trans i18nKey="SELLER_MESSAGE_EXPLAINED" components={{ b: <b />, i: <i /> }}/>
+
                                 </InfoPopover>
                             </label>
                             <Input className="form-control-alternative"
                                    defaultValue={user.sellerMessage}
                                    id="input-seller-message"
-                                   placeholder={"Merci d'avoir choisi notre produit, ..."}
+                                   placeholder={t("SELLER_MESSAGE_PLACEHOLDER")}
                                    type="textarea" name="sellerMessage"
                                    onChange={e => setSellerMessage(e.target.value)}
                             />
@@ -76,4 +70,4 @@ MySellerInfoForm.propTypes = {
     user: PropTypes.object.isRequired
 };
 
-export default MySellerInfoForm;
+export default withTranslation()(MySellerInfoForm);

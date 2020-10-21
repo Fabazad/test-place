@@ -21,10 +21,13 @@ import MyTesterInfoForm from "./MyTesterInfoForm";
 import {toast} from "react-toastify";
 import {scrollTo} from "../../helpers/scrollHelpers";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
+import {withTranslation} from "react-i18next";
 
 const {USER_ROLES, GENDERS} = constants;
 
-const Profile = () => {
+const Profile = props => {
+
+    const { t } = props;
 
     const [user, setUser] = useState(userService.currentUser);
     const [firstLogin, setFirstLogin] = useState(!user.lastLogin);
@@ -35,7 +38,7 @@ const Profile = () => {
     }, []);
 
     if (firstLogin && user.roles.includes(USER_ROLES.TESTER)) {
-        toast.info("Commencez par indiquer votre email Paypal et votre identifiant Amazon.");
+        toast.info(t("GIVE_PAYPAL_AND_AMAZON_ID"));
         scrollTo('profile-info-section');
         setFirstLogin(false);
     }
@@ -68,7 +71,7 @@ const Profile = () => {
                                             onClick={changeGender} id="profile-img"
                                         />
                                         <UncontrolledTooltip placement="top" target="profile-img">
-                                            Cliquer pour changer
+                                            {t("CLICK_TO_CHANGE")}
                                         </UncontrolledTooltip>
                                     </div>
                                 </Col>
@@ -86,19 +89,19 @@ const Profile = () => {
                                                     <span
                                                         className="heading">{testGlobalStatusesCount.processing}</span>
                                                 </Badge>
-                                                <span className="description">En cours</span>
+                                                <span className="description">{t("PROCESSING")}</span>
                                             </div>
                                             <div>
                                                 <Badge color="success" pill className="badge-lg d-block">
                                                     <span className="heading">{testGlobalStatusesCount.completed}</span>
                                                 </Badge>
-                                                <span className="description">Terminés</span>
+                                                <span className="description">{t("COMPLETED")}</span>
                                             </div>
                                             <div>
                                                 <Badge color="danger" pill className="badge-lg d-block">
                                                     <span className="heading">{testGlobalStatusesCount.guilty}</span>
                                                 </Badge>
-                                                <span className="description">Annulés</span>
+                                                <span className="description">{t("CANCELLED")}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +121,7 @@ const Profile = () => {
                             <CardHeader className="bg-white border-0">
                                 <Row className="align-items-center">
                                     <Col xs="8">
-                                        <h3 className="mb-0">Mon Profil</h3>
+                                        <h3 className="mb-0">{t("MY_PROFILE")}</h3>
                                     </Col>
                                 </Row>
                             </CardHeader>
@@ -131,7 +134,7 @@ const Profile = () => {
                                 <hr className="my-4" id='actions-section'/>
                                 {/* Actions */}
                                 <h6 className="heading-small text-muted mb-4">
-                                    Actions
+                                    {t("ACTIONS")}
                                 </h6>
                                 <div className="pl-lg-4">
                                     <Row>
@@ -151,4 +154,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default withTranslation()(Profile);
