@@ -23,8 +23,11 @@ import ProductRow from "../components/Rows/ProductRow.jsx";
 import MyProductCard from "../components/Cards/MyProductCard";
 import Badge from "reactstrap/es/Badge";
 import Loading from "../components/Loading";
+import {withTranslation} from "react-i18next";
 
 const MyProducts = props => {
+
+    const { t } = props;
 
     const [products, setProducts] = useState([]);
     const [totalCount, setTotalCount] = useState(0);
@@ -105,17 +108,17 @@ const MyProducts = props => {
                                 <Loading loading={loading}/>
                                 <thead className="thead-light">
                                 <tr>
-                                    <th scope="col">Produit</th>
-                                    <th scope='col'>Prix</th>
-                                    <th scope='col'>Final</th>
-                                    <th scope="col">Publication</th>
+                                    <th scope="col">{t("PRODUCT")}</th>
+                                    <th scope='col'>{t("PRICE")}</th>
+                                    <th scope='col'>{t("FINAL")}</th>
+                                    <th scope="col">{t("PUBLISHED")}</th>
                                     <th scope="col">
-                                        <span id='demandsColumn' data-placement='top'>Demandes</span>
+                                        <span id='demandsColumn' data-placement='top'>{t("REQUESTS")}</span>
                                         <UncontrolledTooltip delay={0} target='demandsColumn' placement="top">
-                                            Nombre de Demandes Reçues / Nombre de Demande Max
+                                            {t("RECEIVED_ON_MAX_REQUESTS")}
                                         </UncontrolledTooltip>
                                     </th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col">{t("ACTIONS")}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -149,4 +152,4 @@ const MyProducts = props => {
     );
 };
 
-export default MyProducts;
+export default withTranslation()(MyProducts);

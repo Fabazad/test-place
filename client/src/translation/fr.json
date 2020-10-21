@@ -90,5 +90,13 @@
   "LOG_IN": "Se connecter",
   "EMAIL_NOT_CHECKED": "Email non validée.",
   "ADD_BOOKMARK": "Pensez à ajouter le site à vos favoris pour facilement le retrouver.",
-  "CREATE_ACCOUNT": "Nouveau compte"
+  "CREATE_ACCOUNT": "Nouveau compte",
+  "PRODUCT": "Produit",
+  "PRICE": "Prix",
+  "FINAL": "Final",
+  "PUBLISHED": "Publication",
+  "RECEIVED_ON_MAX_REQUESTS": "Nombre de Demandes Reçues / Nombre de Demande Max",
+  "REQUESTS": "Demandes",
+  "PAGE_DOES_NOT_EXIST": "Oups ! Cette page n'existe pas.",
+  "GO_BACK_HOME": "Retour à l'Accueil"
 }

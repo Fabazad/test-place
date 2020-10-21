@@ -2,8 +2,12 @@ import React from "react";
 import SimpleFooter from "../components/Footers/SimpleFooter";
 import Button from "reactstrap/es/Button";
 import {Link} from "react-router-dom";
+import {withTranslation} from "react-i18next";
 
-const NotFound = () => {
+const NotFound = props => {
+
+    const { t } = props;
+
     return (
         <>
             <main>
@@ -24,8 +28,8 @@ const NotFound = () => {
                         <div className="w-100 p-5 text-center">
                             <img src={require("assets/img/undraws/page_not_found.svg")}
                                  alt="" className="w-100" style={{maxWidth: "600px"}}/>
-                            <div className="text-white display-4 mt-5 mb-md-5">Oups ! Cette page n'existe pas.</div>
-                            <Button color="secondary" className="mt-3" tag={Link} to="/">Retour à l'Accueil</Button>
+                            <div className="text-white display-4 mt-5 mb-md-5">{t("PAGE_DOES_NOT_EXIST")}</div>
+                            <Button color="secondary" className="mt-3" tag={Link} to="/">{t("GO_BACK_HOME")}</Button>
                         </div>
                         <div className="separator separator-bottom separator-skew mt-md-5">
                             <svg
@@ -37,10 +41,7 @@ const NotFound = () => {
                                 x="0"
                                 y="0"
                             >
-                                <polygon
-                                    className="fill-secondary"
-                                    points="2560 0 2560 100 0 100"
-                                />
+                                <polygon className="fill-secondary" points="2560 0 2560 100 0 100"/>
                             </svg>
                         </div>
                     </section>
@@ -51,4 +52,4 @@ const NotFound = () => {
     )
 };
 
-export default NotFound;
+export default withTranslation()(NotFound);
