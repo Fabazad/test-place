@@ -18,8 +18,11 @@ import LoginForm from "../components/Forms/LoginForm";
 import Alert from "reactstrap/es/Alert";
 import {useLastLocation} from 'react-router-last-location';
 import history from "../history";
+import {withTranslation} from "react-i18next";
 
-const Login = () => {
+const Login = props => {
+
+    const { t } = props;
 
     const lastLocation = useLastLocation();
 
@@ -45,48 +48,13 @@ const Login = () => {
                         <Row className="justify-content-center">
                             <Col lg="5">
                                 <Card className="bg-secondary shadow border-0">
-                                    {/*<CardHeader className="bg-white pb-4">
-                      <div className="text-muted text-center mb-3">
-                        <small>Se connecter</small>
-                      </div>
-                      <div className="btn-wrapper text-center">
-                        <Button
-                          className="btn-neutral btn-icon"
-                          color="default"
-                          href="#pablo"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <img
-                              alt="..."
-                              src={require("assets/img/icons/common/github.svg")}
-                            />
-                          </span>
-                          <span className="btn-inner--text">Github</span>
-                        </Button>
-                        <Button
-                          className="btn-neutral btn-icon ml-1"
-                          color="default"
-                          href="#pablo"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <img
-                              alt="..."
-                              src={require("assets/img/icons/common/google.svg")}
-                            />
-                          </span>
-                          <span className="btn-inner--text">Google</span>
-                        </Button>
-                      </div>
-                    </CardHeader>*/}
                                     <CardBody className="p-lg-4">
                                         <div className="mt-3">
                                             <LoginForm onLogin={onLogin}/>
                                         </div>
                                         <div className="mt-3">
                                             <Alert color="info">
-                                                Pensez à ajouter le site à vos favoris pour facilement le retrouver.
+                                                {t("ADD_BOOKMARK")}
                                             </Alert>
                                         </div>
                                         <Row className="mt-4">
@@ -95,7 +63,7 @@ const Login = () => {
                                             </Col>
                                             <Col className="text-right" xs="6">
                                                 <Link to="/register" className="text-primary">
-                                                    <small>Nouveau compte</small>
+                                                    <small>{t("CREATE_ACCOUNT")}</small>
                                                 </Link>
                                             </Col>
                                         </Row>
@@ -117,4 +85,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default withTranslation()(Login);

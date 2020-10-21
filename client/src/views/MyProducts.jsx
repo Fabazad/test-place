@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 // reactstrap components
 import {
@@ -22,147 +22,131 @@ import DropdownSelect from "../components/DropdownSelect";
 import ProductRow from "../components/Rows/ProductRow.jsx";
 import MyProductCard from "../components/Cards/MyProductCard";
 import Badge from "reactstrap/es/Badge";
+import Loading from "../components/Loading";
 
-class MyProducts extends React.Component {
+const MyProducts = props => {
 
-    _isMount = true;
+    const [products, setProducts] = useState([]);
+    const [totalCount, setTotalCount] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [sortBy, setSortBy] = useState(null);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            products: [],
-            totalCount: 0,
-            loading: false,
-            page: 1,
-            sortBy: null
-        };
-    }
+    useEffect(() => {
+        productServices.productsUpdatedSubject.subscribe(() => findProducts());
+        return () => productServices.productsUpdatedSubject.unsubscribe();
+    }, []);
 
-    componentDidMount() {
-        productServices.productsUpdatedSubject.subscribe(() => this.findProducts());
-        productServices.productsUpdatedSubject.next();
-    }
-
-    componentWillUnmount() {
-        this._isMount = false;
-    }
-
-    findProducts() {
-        if (!this._isMount) {
-            return;
-        }
+    const findProducts = () => {
         const searchData = {
             seller: userServices.getCurrentUserId()
         };
 
         searchData.itemsPerPage = constants.ITEMS_PER_PAGE;
-        searchData.page = this.state.page;
-        searchData.sortBy = this.state.sortBy;
+        searchData.page = page;
+        searchData.sortBy = sortBy;
 
-        this.setState({loading: true});
+        setLoading(true);
         productServices.find({searchData})
-            .then(productSearch => this.setState({
-                    products: productSearch.hits,
-                    totalCount: productSearch.totalCount,
-                    loading: false
-                })
-            );
-    }
+            .then(productSearch => {
+                setProducts(productSearch.hits);
+                setTotalCount(productSearch.totalCount);
+                setLoading(false);
+            });
+    };
 
-    onSortChange(e) {
+    useEffect(() => {
+        findProducts();
+    }, [sortBy, page]);
+
+    const onSortChange = (e) => {
         const sortBy = e.target.value;
-        this.setState({sortBy}, () => {
-            updateURLParameters({sortBy, page: 1});
-            this.setState({page: 1}, this.findProducts);
-        });
-    }
+        setSortBy(e.target.value);
+        updateURLParameters({sortBy, page: 1});
+        setPage(1);
+    };
 
-    goToPage(page) {
+    const goToPage = (page) => {
         updateURLParameters({page});
+        setPage(page);
+    };
 
-        this.setState({page}, this.findProducts);
-    }
-
-    render() {
-        return (
-            <>
-                <Header>
-                    <div className="py-3"></div>
-                </Header>
-                {/* Page content */}
-                <Container className="mt--7" fluid>
-                    {/* Table */}
-                    <Row>
-                        <div className="col">
-                            <Card className="shadow">
-                                <CardHeader className="border-0">
-                                    <h3 className="mb-0 d-inline-block mt-2">
-                                        Mes Annonces Produits
-                                        <Badge color="primary" pill className="ml-3 badge-circle">
-                                            <h4 className="m-0">{this.state.totalCount}</h4>
-                                        </Badge>
-                                    </h3>
-                                    <div className="float-right text-center">
-                                        <div className="d-inline-block my-2 my-md-0">
-                                            <NewProductModal onNewProduct={() => this.findProducts()}/>
-                                        </div>
-                                        <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
-                                            <DropdownSelect
-                                                name={'sortBy'} options={constants.SORT_BY_OPTIONS}
-                                                placeholder={'Trier'} value={this.state.sortBy}
-                                                onChange={(e) => this.onSortChange(e)}/>
-                                        </div>
+    return (
+        <>
+            <Header>
+                <div className="py-3"></div>
+            </Header>
+            {/* Page content */}
+            <Container className="mt--7" fluid>
+                {/* Table */}
+                <Row>
+                    <div className="col">
+                        <Card className="shadow">
+                            <CardHeader className="border-0">
+                                <h3 className="mb-0 d-inline-block mt-2">
+                                    Mes Annonces Produits
+                                    <Badge color="primary" pill className="ml-3 badge-circle">
+                                        <h4 className="m-0">{totalCount}</h4>
+                                    </Badge>
+                                </h3>
+                                <div className="float-right text-center">
+                                    <div className="d-inline-block my-2 my-md-0">
+                                        <NewProductModal onNewProduct={findProducts}/>
                                     </div>
-                                </CardHeader>
-                                <Table className="align-items-center table-flush d-none d-lg-table" responsive>
-                                    <thead className="thead-light">
-                                    <tr>
-                                        <th scope="col">Produit</th>
-                                        <th scope='col'>Prix</th>
-                                        <th scope='col'>Final</th>
-                                        <th scope="col">Publication</th>
-                                        <th scope="col">
-                                            <span id='demandsColumn' data-placement='top'>Demandes</span>
-                                            <UncontrolledTooltip
-                                                delay={0}
-                                                target='demandsColumn'
-                                                placement="top"
-                                            >
-                                                Nombre de Demandes Reçues / Nombre de Demande Max
-                                            </UncontrolledTooltip>
-                                        </th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {this.state.products.map(product => (
-                                        <ProductRow product={product} key={'product' + product._id} />
-                                    ))}
-                                    </tbody>
-                                </Table>
-                                <div className="container d-block d-lg-none">
-                                    <div className="row">
-                                        {this.state.products.map(product => (
-                                            <div className="col-12 col-md-6 my-2" key={"productCard" + product._id}>
-                                                <MyProductCard product={product}/>
-                                            </div>
-                                        ))}
+                                    <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
+                                        <DropdownSelect
+                                            name={'sortBy'} options={constants.SORT_BY_OPTIONS}
+                                            placeholder={'Trier'} value={sortBy}
+                                            onChange={onSortChange}/>
                                     </div>
                                 </div>
-                                <CardFooter className="py-4">
-                                    <nav aria-label="...">
-                                        <PaginationBis page={this.state.page}
-                                                       totalPage={Math.ceil(this.state.totalCount / constants.ITEMS_PER_PAGE)}
-                                                       onPageClick={page => this.goToPage(page)}/>
-                                    </nav>
-                                </CardFooter>
-                            </Card>
-                        </div>
-                    </Row>
-                </Container>
-            </>
-        );
-    }
-}
+                            </CardHeader>
+                            <Table className="align-items-center table-flush d-none d-lg-table position-relative" responsive>
+                                <Loading loading={loading}/>
+                                <thead className="thead-light">
+                                <tr>
+                                    <th scope="col">Produit</th>
+                                    <th scope='col'>Prix</th>
+                                    <th scope='col'>Final</th>
+                                    <th scope="col">Publication</th>
+                                    <th scope="col">
+                                        <span id='demandsColumn' data-placement='top'>Demandes</span>
+                                        <UncontrolledTooltip delay={0} target='demandsColumn' placement="top">
+                                            Nombre de Demandes Reçues / Nombre de Demande Max
+                                        </UncontrolledTooltip>
+                                    </th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {products.map(product => (
+                                    <ProductRow product={product} key={'product' + product._id}/>
+                                ))}
+                                </tbody>
+                            </Table>
+                            <div className="container d-block d-lg-none">
+                                <Loading loading={loading}/>
+                                <div className="row">
+                                    {products.map(product => (
+                                        <div className="col-12 col-md-6 my-2" key={"productCard" + product._id}>
+                                            <MyProductCard product={product}/>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <CardFooter className="py-4">
+                                <nav aria-label="...">
+                                    <PaginationBis page={page}
+                                                   totalPage={Math.ceil(totalCount / constants.ITEMS_PER_PAGE)}
+                                                   onPageClick={goToPage}/>
+                                </nav>
+                            </CardFooter>
+                        </Card>
+                    </div>
+                </Row>
+            </Container>
+        </>
+    );
+};
 
 export default MyProducts;

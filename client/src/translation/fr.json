@@ -88,5 +88,7 @@
   "ACTIONS": "Actions",
   "EMAIL_CHECKED": "Email validée.",
   "LOG_IN": "Se connecter",
-  "EMAIL_NOT_CHECKED": "Email non validée."
+  "EMAIL_NOT_CHECKED": "Email non validée.",
+  "ADD_BOOKMARK": "Pensez à ajouter le site à vos favoris pour facilement le retrouver.",
+  "CREATE_ACCOUNT": "Nouveau compte"
 }
