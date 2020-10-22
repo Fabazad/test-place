@@ -49,7 +49,7 @@ const TestListButtons = props => {
 
         const actionData = actionsMapping[action];
         if (actionData) {
-            confirmHelper.confirm(actionData.text, () => actionService(actionData.status, actionData.successTest));
+            confirmHelper.confirm(actionData.text, () => actionService(actionData.status, actionData.successText));
         }
     };
 
