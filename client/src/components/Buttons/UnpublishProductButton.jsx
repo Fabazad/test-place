@@ -5,27 +5,28 @@ import productServices from "../../services/product.service";
 import {toast} from "react-toastify";
 import confirmHelper from "../../helpers/confirmHelper";
 import RowActionButton from "./RowActionButton";
+import {withTranslation} from "react-i18next";
 
 const UnpublishProductButton = props => {
 
-    const {productId} = props;
+    const {productId, t} = props;
 
     const unpublishProduct = () => {
-        confirmHelper.confirm("Etes vous sûr de vouloir enlever la publication de votre annonce produit ?", () => {
+        confirmHelper.confirm(t("CONFIRM_PUBLISH"), () => {
             productServices.update(productId, {published: false})
                 .then(() => {
                     productServices.productsUpdatedSubject.next();
-                    toast.success("Le produit n'est plus plublié");
+                    toast.success(t("PRODUCT_UNPUBLISHED"));
                 })
-                .catch(() => toast.error("Une erreur est survenue lors de la récupération des produits."));
+                .catch(() => toast.error(t("ISSUE_WHILE_UNPUBLISHING")));
         });
     };
 
-    return <RowActionButton title="Dépublier" icon="fa fa-globe" color="danger" onClick={unpublishProduct}/>;
+    return <RowActionButton title={t("UNPUBLISH")} icon="fa fa-globe" color="danger" onClick={unpublishProduct}/>;
 };
 
 UnpublishProductButton.propTypes = {
     productId: PropTypes.string.isRequired
 };
 
-export default UnpublishProductButton;
+export default withTranslation()(UnpublishProductButton);

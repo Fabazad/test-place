@@ -5,26 +5,27 @@ import productServices from "../../services/product.service";
 import {toast} from "react-toastify";
 import confirmHelper from "../../helpers/confirmHelper";
 import RowActionButton from "./RowActionButton";
+import {withTranslation} from "react-i18next";
 
 const DeleteProductButton = props => {
 
-    const {productId} = props;
+    const {productId, t} = props;
 
     const deleteProduct = () => {
-        confirmHelper.confirm("Etes vous sûr de vouloir supprimer votre produit ?", () => {
+        confirmHelper.confirm(t("CONFIRM_DELETE_PRODUCT"), () => {
             productServices.delete(productId)
                 .then(() => {
                     productServices.productsUpdatedSubject.next();
-                    toast.success("Le produit a été supprimé.");
+                    toast.success(t("PRODUCT_DELETED"));
                 });
         });
     };
 
-    return <RowActionButton title="Supprimer" icon="fa fa-trash" color="danger" onClick={deleteProduct}/>;
+    return <RowActionButton title={t("DELETE")} icon="fa fa-trash" color="danger" onClick={deleteProduct}/>;
 };
 
 DeleteProductButton.propTypes = {
     productId: PropTypes.string.isRequired
 };
 
-export default DeleteProductButton;
+export default withTranslation()(DeleteProductButton);

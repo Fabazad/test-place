@@ -5,27 +5,28 @@ import productServices from "../../services/product.service";
 import {toast} from "react-toastify";
 import confirmHelper from "../../helpers/confirmHelper";
 import RowActionButton from "./RowActionButton";
+import {withTranslation} from "react-i18next";
 
 const PublishProductButton = props => {
 
-    const {productId} = props;
+    const {productId, t} = props;
 
     const publishProduct = () => {
-        confirmHelper.confirm("Etes vous sûr de vouloir publier votre annonce produit ? Elle sera publiée pour un mois de plus maximum.", () => {
+        confirmHelper.confirm(t("CONFIRM_PUBLICATION"), () => {
             productServices.update(productId, {published: true})
                 .then(() => {
                     productServices.productsUpdatedSubject.next();
-                    toast.success("Le produit a été plublié");
+                    toast.success(t("PRODUCT_PUBLISHED"));
                 })
-                .catch(() => toast.error("Une erreur est survenue lors de la publication du produit."));
+                .catch(() => toast.error(t("ISSUE_HAPPENED_WHILE_PUBLISHING")));
         });
     };
 
-    return <RowActionButton title="Publier" icon="fa fa-globe" color="success" onClick={publishProduct}/>;
+    return <RowActionButton title={t("PUBLISH")} icon="fa fa-globe" color="success" onClick={publishProduct}/>;
 };
 
 PublishProductButton.propTypes = {
     productId: PropTypes.string.isRequired
 };
 
-export default PublishProductButton;
+export default withTranslation()(PublishProductButton);

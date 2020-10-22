@@ -6,9 +6,10 @@ import testServices from "../../services/test.services";
 import NewTestModal from "../Modals/NewTestModal";
 import Loading from "../Loading";
 import confirmHelper from "../../helpers/confirmHelper";
+import {withTranslation} from "react-i18next";
 
 const NewTestButton = (props) => {
-    const {productId, disabled} = props;
+    const {productId, disabled, t} = props;
     const [statuses, setStatuses] = useState({});
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const NewTestButton = (props) => {
     testServices.getTestStatuses().then(statuses => setStatuses(statuses));
 
     const handleClick = async () => {
-        confirmHelper.confirm("Êtes vous sûr de vouloir tester ce produit ?", async () => {
+        confirmHelper.confirm(t("CONFIRM_TEST_REQUEST"), async () => {
             setLoading(true);
             try {
                 await testServices.create({
@@ -38,7 +39,7 @@ const NewTestButton = (props) => {
             <Loading loading={loading}/>
             <Button color="info" size='lg' onClick={handleClick} disabled={disabled}>
                 <i className="fa fa-bolt text-yellow mr-2"/>
-                Tester le produit
+                {t("TEST_PRODUCT")}
             </Button>
             <NewTestModal isOpen={isOpen} onToggle={onToggle}/>
         </>
@@ -50,4 +51,4 @@ NewTestRequestModal.propTypes = {
     disabled: PropTypes.bool
 };
 
-export default NewTestButton;
+export default withTranslation()(NewTestButton);

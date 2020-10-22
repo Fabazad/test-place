@@ -1,36 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import PropTypes from "prop-types";
 import CancelTestRequestModal from "../Modals/CancelTestRequestModal";
 import RowActionButton from "./RowActionButton";
+import {withTranslation} from "react-i18next";
 
-class CancelTestRequestButton extends React.Component {
+const CancelTestRequestButton = props => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isOpen: false
-        };
-        this.toggleModal = this.toggleModal.bind(this);
-    }
+    const {t, testId} = props;
 
-    toggleModal() {
-        this.setState({ isOpen: !this.state.isOpen });
-    }
+    const [isOpen, setIsOpen] = useState(false);
 
-    render() {
-        const testId = this.props.testId;
-        return (
-            <>
-                <RowActionButton title="Annuler" icon="fa fa-times" color="danger" onClick={this.toggleModal}/>
-                <CancelTestRequestModal isOpen={this.state.isOpen} onClose={this.toggleModal} testId={testId}/>
-            </>
-        );
-    }
-}
+    const toggleModal = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <>
+            <RowActionButton title={t("CANCEL")} icon="fa fa-times" color="danger" onClick={toggleModal}/>
+            <CancelTestRequestModal isOpen={isOpen} onClose={toggleModal} testId={testId}/>
+        </>
+    );
+};
 
 CancelTestRequestButton.propTypes = {
     testId: PropTypes.string.isRequired
 };
 
-export default CancelTestRequestButton;
+export default withTranslation()(CancelTestRequestButton);
