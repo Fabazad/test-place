@@ -43,7 +43,7 @@ const TestCard = (props) => {
                 </div>
                 <Row className='mt-3'>
                     <div className="col-6 text-center">
-                        <small>Prix Amazon</small>
+                        <small>{t("AMAZON_PRICE")}</small>
                         <h1>
                             <Badge color="primary" pill className={'badge-xl'}>
                                 {product.price ? product.price : ' '} €
@@ -51,7 +51,7 @@ const TestCard = (props) => {
                         </h1>
                     </div>
                     <div className="col-6 text-center">
-                        <small>Coût Final</small>
+                        <small>{t("FINAL_PRICE")}</small>
                         <h1>
                             <Badge color={product && product.finalPrice > 0 ? "warning" : "success"} pill
                                    size={'xl'}>
@@ -72,14 +72,14 @@ const TestCard = (props) => {
                     </div>
                     {userRole === USER_ROLES.TESTER ?
                         <div className="col-6 text-center">
-                            <small>Vendeur</small>
+                            <small>{t("SELLER")}</small>
                             <h4 className='mt-2'>
                                 <UserProfilePopover userId={seller._id} userName={seller.name}/>
                             </h4>
                         </div> : null}
                     {userRole === USER_ROLES.SELLER ?
                         <div className="col-6 text-center">
-                            <small>Testeur</small>
+                            <small>{t("TESTER")}</small>
                             <h4 className='mt-2'>
                                 <UserProfilePopover userId={tester._id} userName={tester.name}/>
                             </h4>

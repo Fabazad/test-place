@@ -147,5 +147,8 @@
   "CONFIRM_PUBLISH": "Etes vous sûr de vouloir enlever la publication de votre annonce produit ?",
   "PRODUCT_UNPUBLISHED": "Le produit n'est plus plublié",
   "ISSUE_WHILE_UNPUBLISHING": "Une erreur est survenue lors de la récupération des produits.",
-  "UNPUBLISH": "Dépublier"
+  "UNPUBLISH": "Dépublier",
+  "AMAZON_PRICE": "Prix Amazon",
+  "AUTOMATIC": "Automatique",
+  "AUTOMATIC_ACCEPTANCE": "Acceptation Automatique"
 }

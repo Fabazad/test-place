@@ -11,10 +11,11 @@ import {Link} from "react-router-dom";
 import CardHeader from "reactstrap/es/CardHeader";
 import Col from "reactstrap/es/Col";
 import UserProfilePopover from "../UserProfilePopover";
+import {withTranslation} from "react-i18next";
 
 const ProductCard = props => {
 
-    const {product} = props;
+    const {product, t} = props;
 
     return (
         <Card className={"card-lift--hover shadow border-0 cursor-pointer"}
@@ -33,7 +34,7 @@ const ProductCard = props => {
                 </div>
                 <Row>
                     <div className="col-6 text-center">
-                        <small>Prix Amazon</small>
+                        <small>{t("AMAZON_PRICE")}</small>
                         <h1>
                             <Badge color="primary" pill className={'badge-xl'}>
                                 {product ? product.price : ' '} €
@@ -41,7 +42,7 @@ const ProductCard = props => {
                         </h1>
                     </div>
                     <div className="col-6 text-center">
-                        <small>Coût Final</small>
+                        <small>{t("FINAL_PRICE")}</small>
                         <h1>
                             <Badge color={product && product.finalPrice > 0 ? "warning" : "success"} pill
                                    size={'xl'}>
@@ -64,14 +65,14 @@ const ProductCard = props => {
                             <>
                                 <Badge color="info" pill className="mr-1 badge-lg"
                                        id={"automaticAcceptance" + product._id}>
-                                    Automatique
+                                    {t("AUTOMATIC")}
                                 </Badge>
                                 <UncontrolledTooltip
                                     delay={0}
                                     placement="top"
                                     target={"automaticAcceptance" + product._id}
                                 >
-                                    Acceptation Automatique
+                                    {t("AUTOMATIC_ACCEPTANCE")}
                                 </UncontrolledTooltip>
                             </>
                         ) : null
@@ -98,4 +99,4 @@ ProductCard.propTypes = {
     product: PropTypes.object
 };
 
-export default ProductCard;
+export default withTranslation()(ProductCard);

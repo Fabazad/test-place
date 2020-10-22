@@ -3,7 +3,7 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import Col from "reactstrap/es/Col";
 
-const CardSkeleton = props => {
+const CardSkeleton = () => {
 
     return (
         <Card className={"card-lift--hover shadow border-0"}>
