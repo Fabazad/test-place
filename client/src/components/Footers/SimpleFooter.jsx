@@ -13,8 +13,11 @@ import {
 } from "reactstrap";
 import {Link} from "react-router-dom";
 import ShareModal from "../Modals/ShareModal";
+import {withTranslation} from "react-i18next";
 
-const SimpleFooter = () => {
+const SimpleFooter = props => {
+
+    const { t } = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -27,7 +30,7 @@ const SimpleFooter = () => {
                     <Row className=" row-grid align-items-center mb-5">
                         <Col lg="6">
                             <h3 className=" text-primary font-weight-light mb-2">
-                                Merci de visiter notre site !
+                                {t("THANKS_FOR_VISITING")}
                             </h3>
                         </Col>
                     </Row>
@@ -36,10 +39,7 @@ const SimpleFooter = () => {
                         <Col md="6">
                             <div className=" copyright">
                                 © {new Date().getFullYear()}{" "}
-                                <a
-                                    href="http://www.test-place.fr/index.html"
-                                    target="_blank"
-                                >
+                                <a href="http://www.test-place.fr/index.html" target="_blank">
                                     Test Place
                                 </a>
                                 .
@@ -49,12 +49,12 @@ const SimpleFooter = () => {
                             <Nav className=" nav-footer justify-content-end">
                                 <NavItem>
                                     <NavLink onClick={toggleModal} className="cursor-pointer">
-                                        Partager
+                                        {t("SHARE")}
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink tag={Link} to={'/#contact-us'}>
-                                        Contactez-nous
+                                        {t("CONTACT_US")}
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -72,4 +72,4 @@ const SimpleFooter = () => {
     );
 };
 
-export default SimpleFooter;
+export default withTranslation()(SimpleFooter);
