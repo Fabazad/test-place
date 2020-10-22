@@ -18,8 +18,11 @@ import DropdownSelect from "../components/DropdownSelect";
 import {scrollTo} from "../helpers/scrollHelpers";
 import ProductCardSkeleton from "../components/Cards/ProductCardSkeleton";
 import history from "../history";
+import {withTranslation} from "react-i18next";
 
-const Search = () => {
+const Search = props => {
+
+    const { t } = props;
 
     const [loading, setLoading] = useState(false);
     const [searchEngineData, setSearchEngineData] = useState({});
@@ -111,13 +114,13 @@ const Search = () => {
                         <Row className="pt-5" id="results">
                             <div className="col-12 col-md-8 col-lg-9">
                                 <h2 className="text-secondary display-4">
-                                    {totalCount} Résultat{totalCount > 1 ? 's' : ''}
+                                    {totalCount} {t("RESULT")}{totalCount > 1 ? 's' : ''}
                                 </h2>
                             </div>
                             <div className="col-12 col-md-4 col-lg-3 text-right">
                                 <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS}
                                                 onChange={e => onSortByChange(e.target.value)}
-                                                value={sortBy} placeholder={'Trier le Résultat'}/>
+                                                value={sortBy} placeholder={t("SORT_RESULT")}/>
                             </div>
                         </Row>
                     </Container>
@@ -131,10 +134,7 @@ const Search = () => {
                             y="0"
                             className={"w-100"}
                         >
-                            <polygon
-                                className="fill-secondary"
-                                points="2560 0 2560 100 0 100"
-                            />
+                            <polygon className="fill-secondary" points="2560 0 2560 100 0 100"/>
                         </svg>
                     </div>
                 </section>
@@ -172,4 +172,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default withTranslation()(Search);

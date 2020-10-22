@@ -28,8 +28,11 @@ import Loading from "../components/Loading";
 import PrivacyPolicyModal from "../components/Modals/PrivacyPolicyModal";
 import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Label from "reactstrap/es/Label";
+import {withTranslation} from "react-i18next";
 
 const Register = props => {
+
+    const { t } = props;
 
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
@@ -43,20 +46,20 @@ const Register = props => {
         event.preventDefault();
 
         if (!role) {
-            toast.error("Indiquez si vous êtes testeur ou vendeur.");
+            toast.error(t("INDICATE_TESTER_OR_SELLER"));
             return;
         }
 
         if (password.length < 8) {
-            toast.error("Le mot de passe doit possèder au moins 8 caractères.");
+            toast.error(t("PASSWORD_SHOULD_MIN_CHARS"));
             return;
         }
         if (password !== password2) {
-            toast.error("Les deux mots de passe ne sont pas identiques.");
+            toast.error(t("DIFFERENT_PASSWORDS"));
             return;
         }
         if (!captcha) {
-            toast.error("Vérifiez que vous êtes Humain.");
+            toast.error(t("CHECK_YOUR_HUMAN"));
             return;
         }
 
@@ -65,7 +68,7 @@ const Register = props => {
         setLoading(true);
         userService.register(user).then(() => {
             props.history.push('/login');
-            toast.success("Un mail de validation vous a été envoyé.");
+            toast.success(t("CHECK_MAIL_SENT"));
             setLoading(false);
         }).catch(() => setLoading(false));
     };
@@ -89,14 +92,6 @@ const Register = props => {
                             <Col lg="5">
                                 <Card className="bg-secondary shadow border-0">
                                     <Loading loading={loading}/>
-                                    {/*<CardHeader className="bg-white pb-5">
-                                            <div className="text-muted text-center mb-3">
-                                                <small>Sign up with</small>
-                                            </div>
-                                            <div className="text-center">
-
-                                            </div>
-                                        </CardHeader>*/}
                                     <CardBody className="px-lg-5 py-lg-5">
                                         <div className="text-center mb-4">
                                             <img src={require('assets/img/undraws/register.svg')} alt=""
@@ -104,7 +99,7 @@ const Register = props => {
                                         </div>
                                         <Form role="form" onSubmit={onSubmit}>
                                             <FormGroup className="text-center">
-                                                <Label className="text-muted">Je veux devenir</Label>
+                                                <Label className="text-muted">{t("I_WANT_TO_BE")}</Label>
                                                 <RolesSelectInput defaultValue={null} onChange={val => setRole(val)}/>
                                             </FormGroup>
                                             <FormGroup>
@@ -115,7 +110,7 @@ const Register = props => {
                                                         </InputGroupText>
                                                     </InputGroupAddon>
                                                     <Input
-                                                        placeholder="Nom d'utilisateur"
+                                                        placeholder={t("USER_NAME")}
                                                         name="name"
                                                         onChange={e => setName(e.target.value)}
                                                         required
@@ -148,7 +143,7 @@ const Register = props => {
                                                         </InputGroupText>
                                                     </InputGroupAddon>
                                                     <Input
-                                                        placeholder="Password"
+                                                        placeholder={t("PASSWORD")}
                                                         type="password"
                                                         name="password"
                                                         autoComplete="off"
@@ -166,7 +161,7 @@ const Register = props => {
                                                         </InputGroupText>
                                                     </InputGroupAddon>
                                                     <Input
-                                                        placeholder="Password"
+                                                        placeholder={t("PASSWORD")}
                                                         type="password"
                                                         name="password2"
                                                         autoComplete="off"
@@ -197,7 +192,7 @@ const Register = props => {
                                                         <label className="custom-control-label"
                                                             htmlFor="customCheckRegister">
                                                             <span>
-                                                              J'accepte les{" "}
+                                                                {t("I_ACCEPT_THE")}{" "}
                                                                 <PrivacyPolicyModal/>
                                                             </span>
                                                         </label>
@@ -211,12 +206,12 @@ const Register = props => {
                                                     type="submit"
                                                     data-testid="signin-submit-button"
                                                 >
-                                                    Créer mon compte
+                                                    {t("CREATE_MY_ACCOUNT")}
                                                 </Button>
                                             </div>
                                             <div className="text-center mt-3">
                                                 <Link to='/login'>
-                                                    <small className="text-primary">J'ai déjà un compte</small>
+                                                    <small className="text-primary">{t("I_ALREADY_HAVE_ACCOUNT")}</small>
                                                 </Link>
                                             </div>
                                         </Form>
@@ -232,4 +227,4 @@ const Register = props => {
     );
 };
 
-export default Register;
+export default withTranslation()(Register);

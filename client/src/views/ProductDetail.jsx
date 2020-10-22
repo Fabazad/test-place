@@ -17,7 +17,7 @@ import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 import UserProfilePopover from "../components/UserProfilePopover";
-import {withTranslation} from "react-i18next";
+import {withTranslation, Trans} from "react-i18next";
 
 const ProductDetail = props => {
 
@@ -94,7 +94,7 @@ const ProductDetail = props => {
                             <div className="col-12 col-md-6 mt-3 mt-md-0">
                                 <div className="text-center mt-4 d-flex justify-content-around">
                                     <div>
-                                        <small className="text-muted d-block mb-1">Prix Initial</small>
+                                        <small className="text-muted d-block mb-1">{t("INITIAL_PRICE")}</small>
                                         <h1 className="d-inline-block">
                                             <Badge pill color={'primary'} className='badge-lg bg-secondary shadow'>
                                                 {product.price} €
@@ -102,7 +102,7 @@ const ProductDetail = props => {
                                         </h1>
                                     </div>
                                     <div>
-                                        <small className='text-muted d-block mb-1'>Coût Final</small>
+                                        <small className='text-muted d-block mb-1'>{t("FINAL_PRICE")}</small>
                                         <h1 className="d-inline-block">
                                             <Badge pill className='badge-lg bg-secondary shadow'
                                                    color={product.finalPrice === 0 ? 'success' : 'warning'}>
@@ -163,12 +163,7 @@ const ProductDetail = props => {
                                                             <i className="fa fa-bolt text-yellow"/>
                                                         </div>
                                                         <div className="col">
-                                                            Grâce à l'acceptation automatique, votre demande de test
-                                                            est&nbsp;
-                                                            <strong>automatiqement acceptée par le
-                                                                vendeur</strong>.<br/>
-                                                            Vous pouvez donc commencer à <strong>tester
-                                                            directement</strong>.
+                                                            <Trans i18nKey="AUTOMATIC_ACCEPTANCE_EXPLAINED" components={{ b: <b /> }}/>
                                                         </div>
                                                     </small>
                                                 </div> : null}
@@ -178,7 +173,7 @@ const ProductDetail = props => {
                                 <div className="mt-3">
                                     <Card>
                                         <CardBody>
-                                            <h2 className="text-center">Vendeur</h2>
+                                            <h2 className="text-center">{t("SELLER")}</h2>
                                             <Row>
                                                 <div className="col text-center">
                                                     <Label className='d-block'>Test Place</Label>
@@ -211,7 +206,7 @@ const ProductDetail = props => {
                                         {product ? formatDate(product.createdAt) : ''}
                                     </Badge>
                                     <UncontrolledTooltip placement="top" target="publication-badge">
-                                        Date de Publication
+                                        {t("PUBLISH_DATE")}
                                     </UncontrolledTooltip>
                                     <h2>Description</h2>
                                     <p className="text-left mb-0">
