@@ -80,10 +80,10 @@ const ProductCard = props => {
 
                 </div>
                 <Row className="mt-3">
-                    <Col xs={6}>
+                    <Col xs={5}>
                         <small className="text-muted">{product ? formatDate(product.createdAt) : '  /  /  '}</small>
                     </Col>
-                    <Col xs={6} className="text-right">
+                    <Col xs={7} className="text-right">
                         <small>
                             <UserProfilePopover userId={product.seller._id} userName={product.seller.name}
                                                 showMail={false}/>
