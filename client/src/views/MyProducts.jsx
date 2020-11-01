@@ -36,8 +36,8 @@ const MyProducts = props => {
     const [sortBy, setSortBy] = useState(null);
 
     useEffect(() => {
-        productServices.productsUpdatedSubject.subscribe(() => findProducts());
-        return () => productServices.productsUpdatedSubject.unsubscribe();
+        const subscriber = productServices.productsUpdatedSubject.subscribe(() => findProducts());
+        return () => subscriber.unsubscribe();
     }, []);
 
     const findProducts = () => {
