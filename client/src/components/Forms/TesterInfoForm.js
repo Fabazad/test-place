@@ -7,11 +7,14 @@ import React, {useState} from "react";
 import userService from "../../services/user.services";
 import PropTypes from "prop-types";
 import constants from "../../helpers/constants";
+import {withTranslation} from "react-i18next";
 const {USER_ROLES} = constants;
 
 const TesterInfoForm = props => {
 
-    const btnText = props.btnText ? props.btnText : "Enregistrer";
+    const { t } = props;
+
+    const btnText = props.btnText ? props.btnText : t("SAVE");
     const addRole = !!props.addRole;
     const user = userService.currentUser;
 
@@ -41,10 +44,9 @@ const TesterInfoForm = props => {
             <Loading loading={loading}/>
             <FormGroup>
                 <label className="form-control-label" htmlFor="input-paypal-email">
-                    Adresse mail Paypal
+                    {t("PAYPAL_EMAIL")}
                     <InfoPopover className="ml-3">
-                        L'adresse mail Paypal est utilisée par les vendeurs pour vous rembourser sur votre compte
-                        Paypal.
+                        {t("PAYPAL_EMAIL_EXPLAINED")}
                     </InfoPopover>
                 </label>
                 <Input className="form-control-alternative"
@@ -58,15 +60,13 @@ const TesterInfoForm = props => {
             </FormGroup>
             <FormGroup>
                 <label className="form-control-label" htmlFor="input-amazon-id">
-                    Identifiant Amazon
-                    <InfoPopover className="ml-3">
-                        Pour trouver votre identifiant Amazon, allez premièrement sur la page Amazon:<br/>
+                    {t("AMAZON_ID")}
+                    <InfoPopover className="ml-3 white-space-pre-line">
+                        {t("AMAZON_ID_EXPLAINED_1")}<br/>
                         <a href="https://www.amazon.fr/gp/profile" target="_blank" rel="noopener noreferrer">
                             www.amazon.fr/gp/profile
                         </a>.<br/><br/>
-                        Connectez vous si vous ne l'êtes pas.<br/><br/>
-                        Copiez collez dans le champ suivant l'url de la page obtenue.<br/><br/>
-                        Ou bien seulement la fin de l'url correspondant à votre identifiant :
+                        {t("AMAZON_ID_EXPLAINED_2")}
                         amzn1.account.XXXXXXXXXXXXXXXXXXXXXXXXXXXX.
                     </InfoPopover>
                 </label>
@@ -91,4 +91,4 @@ TesterInfoForm.propTypes = {
     addRole: PropTypes.bool
 };
 
-export default TesterInfoForm;
+export default withTranslation()(TesterInfoForm);

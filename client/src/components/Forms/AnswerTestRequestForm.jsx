@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import {
     NavItem,
@@ -17,131 +17,111 @@ import testServices from "../../services/test.services";
 import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 import ReviewAdvices from "../ReviewAdvices";
+import {withTranslation} from "react-i18next";
 
-class AnswerTestRequestForm extends React.Component {
+const AnswerTestRequestForm = props => {
 
-    constructor() {
-        super();
-        this.state = {
-            tabs: 0,
-            declineReason: '',
-            sellerMessage: ''
-        };
-        this.declineRequest = this.declineRequest.bind(this);
-        this.acceptRequest = this.acceptRequest.bind(this);
-    }
+    const {testId, t, onSubmit} = props;
 
-    toggleNavs = (e, state, index) => {
+    const [tabs, setTabs] = useState(0);
+    const [declineReason, setDeclineReason] = useState("");
+    const [sellerMessage, setSellerMessage] = useState("");
+
+    const toggleNavs = (e, index) => {
         e.preventDefault();
-        this.setState({
-            [state]: index,
-            declineReason: '',
-            sellerMessage: userServices.currentUser.sellerMessage ?? ''
-        });
+        setTabs(index);
+        setDeclineReason("");
+        setSellerMessage(userServices.currentUser.sellerMessage ?? '');
     };
 
-    async declineRequest(e) {
+    const declineRequest = async (e) => {
         e.preventDefault();
-        if (!this.state.declineReason) {
-            toast.error("Veuillez donner une raison au refus de la demande")
+        if (!declineReason) {
+            toast.error(t("MISSING_DECLINE_REASON"))
         }
         const statuses = await testServices.getTestStatuses();
-        testServices.updateStatus(this.props.testId, statuses['requestDeclined'],
-            {declineRequestReason: this.state.declineReason})
+        testServices.updateStatus(testId, statuses['requestDeclined'],
+            {declineRequestReason: declineReason})
             .then(() => {
-                this.props.onSubmit();
-                toast.success("Demande de test refusée");
+                onSubmit();
+                toast.success(t("TEST_REQUEST_DECLINED"));
             });
-    }
-
-    async acceptRequest(e) {
-        e.preventDefault();
-        const statuses = await testServices.getTestStatuses();
-        testServices.updateStatus(this.props.testId, statuses['requestAccepted'],
-            { sellerMessage: this.state.sellerMessage})
-            .then(() => {
-                this.props.onSubmit();
-                toast.success("Demande de test acceptée.");
-            });
-    }
-
-    handleInputChange = (event) => {
-        const {value, name} = event.target;
-        this.setState({
-            [name]: value
-        });
     };
 
-    render() {
-        return (
-            <>
-                <div className="nav-wrapper">
-                    <Nav className="nav-fill flex-column flex-md-row" id="tabs-icons-text" pills role="tablist">
-                        <NavItem>
-                            <NavLink
-                                aria-selected={this.state.tabs === 1}
-                                className={"mb-sm-3 mb-md-0 " + (this.state.tabs === 1 ? 'active bg-danger' : 'text-danger')}
-                                onClick={e => this.toggleNavs(e, "tabs", 1)} href="#pablo" role="tab"
-                            >
-                                <i className="fa fa-hand-paper mr-2"/>
-                                Refuser
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                aria-selected={this.state.tabs === 2}
-                                className={"mb-sm-3 mb-md-0 " + (this.state.tabs === 2 ? 'active bg-success' : 'text-success')}
-                                onClick={e => this.toggleNavs(e, "tabs", 2)} href="#pablo" role="tab"
-                            >
-                                <i className="fa fa-check mr-2"/>
-                                Accepter
-                            </NavLink>
-                        </NavItem>
-                    </Nav>
-                </div>
-                {this.state.tabs ?
-                    <TabContent activeTab={"tabs" + this.state.tabs}>
-                        <TabPane tabId="tabs1">
-                            <Form className='mt-3' onSubmit={this.declineRequest}>
-                                <FormGroup>
-                                    <Input className="form-control-alternative" onChange={this.handleInputChange}
-                                           placeholder="Expliquez la raison du refus..." rows="3" type="textarea"
-                                           name='declineReason'/>
-                                </FormGroup>
-                                <Button color='danger' type='submit'>Refuser</Button>
-                            </Form>
-                        </TabPane>
-                        <TabPane tabId="tabs2">
-                            <Form className='mt-3' onSubmit={this.acceptRequest}>
-                                <FormGroup>
-                                    <Input className="form-control-alternative" onChange={this.handleInputChange}
-                                           placeholder="Si besoin, donnez des indications au testeur pour la suite..."
-                                           rows="3" type="textarea" name='sellerMessage'
-                                           defaultValue={userServices.currentUser.sellerMessage ?? ''}/>
-                                </FormGroup>
-                                <Alert color='warning' className='text-left'>
-                                    <strong>Attention !</strong><br/>
-                                    Le testeur aura accès au produit grâce à un lien qui lui sera fourni.<br/>
-                                    Ce lien contiendra les mots clés donnés au produit et donnera l'impression à Amazon que l'utilisateur aura tapé ces mots pour le trouver.<br/>
-                                    Il est fortement déconseillé de donner des indications sur le moyen retrouver le produit sur le site Amazon.<br/>
-                                    La survie de Test-Place en dépend :*
-                                </Alert>
-                                <Alert color="info" className="text-left">
-                                    Le Testeur sera informé par l'application des conseils suivants :<br/>
-                                    <ReviewAdvices/>
-                                </Alert>
-                                <Button color='success' type='submit'>Accepter</Button>
-                            </Form>
-                        </TabPane>
-                    </TabContent> : null}
-            </>
-        );
-    }
-}
+    const acceptRequest = async (e) => {
+        e.preventDefault();
+        const statuses = await testServices.getTestStatuses();
+        testServices.updateStatus(testId, statuses['requestAccepted'],
+            {sellerMessage: sellerMessage})
+            .then(() => {
+                onSubmit();
+                toast.success(t("TEST_REQUEST_ACCEPTED"));
+            });
+    };
+    return (
+        <>
+            <div className="nav-wrapper">
+                <Nav className="nav-fill flex-column flex-md-row" id="tabs-icons-text" pills role="tablist">
+                    <NavItem>
+                        <NavLink
+                            aria-selected={tabs === 1}
+                            className={"mb-sm-3 mb-md-0 " + (tabs === 1 ? 'active bg-danger' : 'text-danger')}
+                            onClick={e => toggleNavs(e, 1)} href="#pablo" role="tab"
+                        >
+                            <i className="fa fa-hand-paper mr-2"/>
+                            {t("DECLINE")}
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            aria-selected={tabs === 2}
+                            className={"mb-sm-3 mb-md-0 " + (tabs === 2 ? 'active bg-success' : 'text-success')}
+                            onClick={e => toggleNavs(e, 2)} href="#pablo" role="tab"
+                        >
+                            <i className="fa fa-check mr-2"/>
+                            {t("ACCEPT")}
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+            </div>
+            {tabs ?
+                <TabContent activeTab={"tabs" + tabs}>
+                    <TabPane tabId="tabs1">
+                        <Form className='mt-3' onSubmit={declineRequest}>
+                            <FormGroup>
+                                <Input className="form-control-alternative" onChange={(e) => setDeclineReason(e.target.value)}
+                                       placeholder={t("DECLINE_REASON_PLACEHOLDER")} rows="3" type="textarea" minLength={30}/>
+                            </FormGroup>
+                            <Button color='danger' type='submit' disabled={!declineReason}>{t("DECLINE")}</Button>
+                        </Form>
+                    </TabPane>
+                    <TabPane tabId="tabs2">
+                        <Form className='mt-3' onSubmit={acceptRequest}>
+                            <FormGroup>
+                                <Input className="form-control-alternative" onChange={(e) => setSellerMessage(e.target.value)}
+                                       placeholder={t("SELLER_MESSAGE_PLACEHOLDER")}
+                                       rows="3" type="textarea"
+                                       defaultValue={userServices.currentUser.sellerMessage ?? ''}/>
+                            </FormGroup>
+                            <Alert color='warning' className='text-left white-space-pre-line'>
+                                <strong>{t("WARNING")}</strong><br/>
+                                {t("DONT_GIVE_INSTRUCTIONS_TO_FIND_PRODUCT")}
+                            </Alert>
+                            <Alert color="info" className="text-left">
+                                {t("TESTER_WILL_BE_ADVISED")}<br/>
+                                <ReviewAdvices/>
+                            </Alert>
+                            <Button color='success' type='submit'>{t("ACCEPT")}</Button>
+                        </Form>
+                    </TabPane>
+                </TabContent> : null}
+        </>
+    );
+};
 
 AnswerTestRequestForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     testId: PropTypes.string.isRequired
 };
 
-export default AnswerTestRequestForm;
+export default withTranslation()(AnswerTestRequestForm);

@@ -3,8 +3,11 @@ import React, {useState} from "react";
 import Loading from "../Loading";
 import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
+import {withTranslation} from "react-i18next";
 
 const LoginForm = props => {
+
+    const { onLogin, t} = props;
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,7 +20,7 @@ const LoginForm = props => {
         userServices.login(email, password, keepConnection).then(res => {
             setLoading(false);
             if (res && res.user) {
-                props.onLogin();
+                onLogin();
             }
         }).catch(() => {
             setLoading(false);
@@ -51,7 +54,7 @@ const LoginForm = props => {
                             <i className="ni ni-lock-circle-open"/>
                         </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" name="password" autoComplete="off"
+                    <Input placeholder={t("PASSWORD")} type="password" name="password" autoComplete="off"
                            value={password} onChange={e => setPassword(e.target.value)}
                            data-testid="login-password-input" required
                     />
@@ -61,12 +64,12 @@ const LoginForm = props => {
                 <input className="custom-control-input" id="customCheckLogin" type="checkbox"
                        onChange={e => setKeepConnection(e.target.checked)}/>
                 <label className="custom-control-label" htmlFor="customCheckLogin">
-                    <span>Se souvenir de moi</span>
+                    <span>{t("REMIND_ME")}</span>
                 </label>
             </div>
             <div className="text-center">
                 <Button className="mt-4" color="primary" type="submit" data-testid="submit-login-button">
-                    Connexion
+                    {t("LOGIN")}
                 </Button>
             </div>
         </Form>
@@ -77,4 +80,4 @@ LoginForm.propTypes = {
     onLogin: PropTypes.func.isRequired
 };
 
-export default LoginForm;
+export default withTranslation()(LoginForm);

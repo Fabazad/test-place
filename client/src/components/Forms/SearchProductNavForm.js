@@ -4,14 +4,17 @@ import InputGroupText from "reactstrap/es/InputGroupText";
 import Input from "reactstrap/es/Input";
 import InputGroup from "reactstrap/es/InputGroup";
 import React, {useState} from "react";
+import {withTranslation} from "react-i18next";
 
 const SearchProductNavForm = props => {
+
+    const { history, t} = props;
 
     const [searchText, setSearchText] = useState("");
 
     const onSubmit = e => {
         e.preventDefault();
-        props.history.push("/search?keyWords=" + searchText);
+        history.push("/search?keyWords=" + searchText);
     };
 
     return (
@@ -22,11 +25,11 @@ const SearchProductNavForm = props => {
                         <i className="fa fa-search" />
                     </InputGroupText>
                 </InputGroupAddon>
-                <Input className="form-control-alternative" placeholder="Rechercher un Produit" type="text"
+                <Input className="form-control-alternative" placeholder={t("SEARCH_FOR_PRODUCT")} type="text"
                        defaultValue={searchText} onChange={e => setSearchText(e.target.value)} name="search"/>
             </InputGroup>
         </Form>
     )
 };
 
-export default SearchProductNavForm;
+export default withTranslation()(SearchProductNavForm);

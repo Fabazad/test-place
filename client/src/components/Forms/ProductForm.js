@@ -19,10 +19,11 @@ import Button from "reactstrap/es/Button";
 import productService from "../../services/product.service";
 import Col from "reactstrap/es/Col";
 import {toast} from "react-toastify";
+import {withTranslation} from "react-i18next";
 
 const ProductForm = props => {
 
-        const {defaultData} = props;
+        const {defaultData, t} = props;
 
         const asin = defaultData.asin ?? null;
 
@@ -52,7 +53,7 @@ const ProductForm = props => {
         const onSubmit = e => {
             e.preventDefault();
             if (!category) {
-                toast.error("Veuillez choisir une catégorie.");
+                toast.error(t("MISSING_CATEGORY"));
                 return;
             }
             props.onSubmit({
@@ -109,7 +110,7 @@ const ProductForm = props => {
                                     </InputGroupText>
                                 </InputGroupAddon>
                                 <Input
-                                    placeholder="Titre"
+                                    placeholder={t("TITTLE")}
                                     type="text"
                                     name="title"
                                     defaultValue={title}
@@ -134,7 +135,7 @@ const ProductForm = props => {
                                     onChange={val => setKeywords(val)}
                                     tagProps={{className: "tag badge mr-1"}}
                                     value={keywords}
-                                    inputProps={{placeholder: "Ajouter des mots clés"}}
+                                    inputProps={{placeholder: t("KEYWORDS_PLACEHOLDER")}}
                                     addOnPaste={true}
                                     addKeys={[9, 13, 44, 32, 188, 190]}
                                 />
@@ -150,7 +151,7 @@ const ProductForm = props => {
                         <DropdownSelect name="category" options={categories}
                                         className="w-100" value={category}
                                         onChange={e => setCategory(e.target.value)}
-                                        placeholder="Catégorie"/>
+                                        placeholder={t("CATEGORY")}/>
                     </Col>
                     <div className="col-6 text-center d-flex">
                         <label className="custom-toggle mt-2">
@@ -168,7 +169,7 @@ const ProductForm = props => {
                     <Col xs={6}>
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <Input placeholder="Prix" type="number" step="0.01"
+                                <Input placeholder={t("PRICE")} type="number" step="0.01"
                                        min="0.01" name="price" defaultValue={price}
                                        onChange={e => setPrice(e.target.value)} required/>
                                 <InputGroupAddon addonType="append">
@@ -183,7 +184,7 @@ const ProductForm = props => {
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
                                 <Input
-                                    placeholder="Prix Final"
+                                    placeholder={t("FINAL_PRICE")}
                                     type="number"
                                     step="0.01"
                                     min="0"
@@ -207,7 +208,7 @@ const ProductForm = props => {
                         <FormGroup className="mb-3">
                             <Input
                                 className="form-control-alternative"
-                                placeholder="Description"
+                                placeholder={t("DESCRIPTION")}
                                 rows="10"
                                 type="textarea"
                                 name="description"
@@ -230,7 +231,7 @@ const ProductForm = props => {
                                 </InputGroupText>
                             </InputGroupAddon>
                             <Input
-                                placeholder="Nombre maximum de demande"
+                                placeholder={t("MAX_DEMANDS_PLACEHOLDER")}
                                 type="number"
                                 step="1"
                                 min="1"
@@ -253,7 +254,7 @@ const ProductForm = props => {
                                 onChange={e => setAutomaticAcceptance(e.target.checked)}
                             />
                             <label className="custom-control-label" htmlFor="customCheck6">
-                                Acceptation automatique des demandes
+                                {t("AUTOMATIC_ACCEPTANCE_LABEL")}
                             </label>
                             <i className="fa fa-question-circle ml-3 cursor-pointer"
                                id="tooltip348236073"/>
@@ -262,13 +263,8 @@ const ProductForm = props => {
                                 target="tooltip348236073"
                                 className="popover-default"
                             >
-                                <PopoverBody className="text-center">
-                                    Permet d'afficher le bouton qui permet aux testeurs d'avoir
-                                    directement leur demande validée sans action de la part du
-                                    vendeur.<br/>
-                                    Seulement les testeurs ayants souscrits à l'option premium
-                                    auront la
-                                    possibilité de faire des demandes automatiques.
+                                <PopoverBody className="text-center white-space-pre-line">
+                                    {t("AUTOMATIC_ACCEPTANCE_EXPLAINED_SELLER")}
                                 </PopoverBody>
                             </UncontrolledPopover>
                         </div>
@@ -280,7 +276,7 @@ const ProductForm = props => {
                         <FormGroup>
                             <Input
                                 className="form-control-alternative"
-                                placeholder="Notes privées sur le produit, visibles seulement par vous."
+                                placeholder={t("PRIVATE_NOTE_PLACEHOLDER")}
                                 rows="3"
                                 type="textarea"
                                 name="privateNote"
@@ -291,7 +287,7 @@ const ProductForm = props => {
                     </Col>
                 </Row>
                 <div className="mt-3">
-                    <Button type="submit" color="primary">Enregistrer</Button>
+                    <Button type="submit" color="primary">{t("SAVE")}</Button>
                 </div>
             </Form>
         );
@@ -303,4 +299,4 @@ ProductForm.propTypes = {
     defaultData: PropTypes.object.isRequired
 };
 
-export default ProductForm;
+export default withTranslation()(ProductForm);
