@@ -27,22 +27,22 @@ const TestListButtons = props => {
         const actionsMapping = {
             [TEST_ROW_CLICK_ACTIONS.PRODUCT_RECEIVED]: {
                 text: t("PRODUCT_RECEIVED_TEXT"),
-                status: t(statuses['productReceived']),
+                status: statuses['productReceived'],
                 successText: t("PRODUCT_RECEIVED_TEXT_SUCCESS_TEXT")
             },
             [TEST_ROW_CLICK_ACTIONS.REVIEW_VALIDATED]: {
                 text: t("REVIEW_VALIDATED_TEXT"),
-                status: t(statuses['reviewValidated']),
+                status: statuses['reviewValidated'],
                 successText: t("REVIEW_VALIDATED_SUCCESS_TEXT")
             },
             [TEST_ROW_CLICK_ACTIONS.MONEY_SENT]: {
                 text: t("MONEY_SENT_TEXT"),
-                status: t(statuses['moneySent']),
+                status: statuses['moneySent'],
                 successText: t("MONEY_SENT_SUCCESS_TEXT")
             },
             [TEST_ROW_CLICK_ACTIONS.MONEY_RECEIVED]: {
                 text: t("MONEY_RECEIVED_TEXT"),
-                status: t(statuses['moneyReceived']),
+                status: statuses['moneyReceived'],
                 successText: t("MONEY_RECEIVED_SUCCESS_TEXT")
             }
         };
