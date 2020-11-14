@@ -1,20 +1,21 @@
 import AnimatedCheck from "../../AnimatedCheck";
 import {Link} from "react-router-dom";
 import React from "react";
+import {withTranslation} from "react-i18next";
 
-const SentRequest = () => {
+const SentRequest = props => {
+
+    const {t} = props;
 
     return (
         <>
             <AnimatedCheck/>
-            <p className="mt-5 h4">
-                Votre demande de test a bien été envoyée.<br/>
-                Il ne vous reste plus qu'à attendre la réponse du vendeur.<br/><br/>
-                Vous pouvez suivre l'état de votre demande sur votre page<br/>
-                <Link to="/dashboard/sent-requests">Mes Demandes Envoyées</Link>
+            <p className="mt-5 h4 white-space-pre-line">
+                {t("TEST_REQUEST_HAS_BEEN_SENT")}<br/>
+                <Link to="/dashboard/sent-requests">{t("MY_SENT_REQUESTS")}</Link>
             </p>
         </>
     )
 };
 
-export default SentRequest;
+export default withTranslation()(SentRequest);

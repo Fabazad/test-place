@@ -14,12 +14,13 @@ import LoginBody from "./LoginBody";
 import BecomeTesterBody from "./BecomeTesterBody";
 import Loading from "../../Loading";
 import {toast} from "react-toastify";
+import {withTranslation} from "react-i18next";
 
 const {USER_ROLES} = constants;
 
 const NewTestRequestModal = props => {
 
-    const {productId, disabled} = props;
+    const {productId, disabled, t} = props;
 
     const isLogged = userServices.isAuth();
 
@@ -45,7 +46,7 @@ const NewTestRequestModal = props => {
     const confirmRequest = async () => {
         if (disabled) return;
         if (!testerMessage) {
-            toast.error("Veuillez laisser un message au Vendeur.");
+            toast.error(t("MISSING_MESSAGE_TO_SELLER"));
             return;
         }
         setLoading(true);
@@ -77,12 +78,12 @@ const NewTestRequestModal = props => {
             {/* Button trigger modal */}
             <Button className='mt-3 w-100' color="primary" type="button" size="lg" disabled={disabled}
                     onClick={toggleModal}>
-                Demander à Tester
+                {t("REQUEST_FOR_TESTING")}
             </Button>
             {/* Modal */}
             <Modal className="modal-dialog-centered" isOpen={isModalOpen} toggle={toggleModal}>
                 <div className="modal-header">
-                    <h2 className="modal-title">Demande de Test</h2>
+                    <h2 className="modal-title">{t("REQUEST_FOR_TESTING")}</h2>
                     <button aria-label="Close" className="close" data-dismiss="modal" type="button"
                             onClick={toggleModal}>
                         <span aria-hidden={true}>×</span>
@@ -94,11 +95,11 @@ const NewTestRequestModal = props => {
                 </div>
                 <div className="modal-footer">
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
-                        Fermer
+                        {t("CLOSE")}
                     </Button>
                     {isLogged && isTester && !requestSent && user.paypalEmail && user.amazonId ? (
                         <Button color={'primary'} type='button' onClick={confirmRequest}>
-                            Confirmer la Demande
+                            {t("CONFIRM_REQUEST")}
                         </Button>
                     ) : null}
                 </div>
@@ -112,4 +113,4 @@ NewTestRequestModal.propTypes = {
     disabled: PropTypes.bool
 };
 
-export default NewTestRequestModal;
+export default withTranslation()(NewTestRequestModal);

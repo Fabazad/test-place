@@ -1,18 +1,19 @@
 import {FormGroup, Input, Label} from "reactstrap";
 import React from "react";
 import PropTypes from "prop-types";
+import {withTranslation} from "react-i18next";
 
 const SendRequestForm = props => {
 
-    const {value, onChange} = props;
+    const {value, onChange, t} = props;
 
     return (
         <FormGroup className="text-left">
             {/* It's all good case */}
-            <Label for="sellerMessage">Message au Vendeur</Label>
+            <Label for="sellerMessage">{t("MESSAGE_TO_SELLER")}</Label>
             <Input className="form-control-alternative" id="testerMessage"
                    defaultValue={value} required
-                   placeholder="Je serai très fier de tester votre produit..."
+                   placeholder={t("TESTER_MESSAGE_PLACEHOLDER")}
                    type="textarea" name="testerMessage"
                    onChange={e => onChange(e.target.value)}/>
         </FormGroup>
@@ -24,4 +25,4 @@ SendRequestForm.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-export default SendRequestForm;
+export default withTranslation()(SendRequestForm);

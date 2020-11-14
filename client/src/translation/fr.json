@@ -74,7 +74,7 @@
   "MY_TESTER_INFO": "Mes Informations Testeur",
   "TESTER_MESSAGE": "Message Testeur",
   "TESTER_MESSAGE_EXPLAINED": "Le champ texte <b><i>Message au Vendeur</i></b> à fournir lors d'une demande de test sera pré-rempli avec ce <b><i>Message Testeur</i></b>.",
-  "TESTER_MESSAGE_PLACEHOLDER": "Bonjour, je suis ",
+  "TESTER_MESSAGE_PLACEHOLDER": "Je serai très fier de tester votre produit...",
   "PAYPAL_ADDRESS": "Adresse mail Paypal",
   "PAYPAL_ADDRESS_EXPLAINED": "L'adresse mail Paypal est utilisée par les vendeurs pour vous rembourser sur votre compte Paypal.",
   "AMAZON_ID": "Identifiant Amazon",
@@ -178,5 +178,13 @@
   "PAYPAL_EMAIL_EXPLAINED": "L'adresse mail Paypal est utilisée par les vendeurs pour vous rembourser sur votre compte Paypal.",
   "AMAZON_ID_EXPLAINED_1": "Pour trouver votre identifiant Amazon, allez premièrement sur la page Amazon:",
   "AMAZON_ID_EXPLAINED_2": "Connectez vous si vous ne l'êtes pas.\n\nCopiez collez dans le champ suivant l'url de la page obtenue.\n\nOu bien seulement la fin de l'url correspondant à votre identifiant :",
-  "PAYPAL_EMAIL": "Adresse mail Paypal"
+  "PAYPAL_EMAIL": "Adresse mail Paypal",
+  "FIll_THIS_INFO_FIRST": "Vous devez d'abord remplir une première fois ces informations pour pouvoir tester.",
+  "LOGIN_BEFORE_TESTING": "Vous devez être connecté pour demander à tester un produit.",
+  "MISSING_MESSAGE_TO_SELLER": "Veuillez laisser un message au Vendeur.",
+  "REQUEST_FOR_TESTING": "Demander à Tester",
+  "CONFIRM_REQUEST": "Confirmer la Demande",
+  "MESSAGE_TO_SELLER": "Message au Vendeur",
+  "TEST_REQUEST_HAS_BEEN_SENT": "Votre demande de test a bien été envoyée.\nIl ne vous reste plus qu'à attendre la réponse du vendeur.\n\nVous pouvez suivre l'état de votre demande sur votre page",
+  "MY_SENT_REQUESTS": "Mes Demandes Envoyées"
 }
