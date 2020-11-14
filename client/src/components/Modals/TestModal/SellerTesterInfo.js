@@ -6,26 +6,27 @@ import Row from "reactstrap/es/Row";
 import React from "react";
 import constants from "../../../helpers/constants";
 import UserProfilePopover from "../../UserProfilePopover";
+import {withTranslation} from "react-i18next";
 
 const {USER_ROLES} = constants;
 
 const SellerTesterInfo = props => {
 
-    const {userRole, tester, seller, amazonSeller} = props;
+    const {userRole, tester, seller, amazonSeller, t} = props;
 
     const user = userRole === USER_ROLES.SELLER ? tester
         : (userRole === USER_ROLES.TESTER ? seller
             : null);
 
-    const userLabel = userRole === USER_ROLES.SELLER ? "Testeur"
-        : (userRole === USER_ROLES.TESTER ? "Vendeur"
+    const userLabel = userRole === USER_ROLES.SELLER ? t("TESTER")
+        : (userRole === USER_ROLES.TESTER ? t("SELLER")
             : null);
 
     const amazonProfileUrl = userRole === USER_ROLES.SELLER ? getAmazonProfileUrl(tester.amazonId)
         : (userRole === USER_ROLES.TESTER && amazonSeller ? amazonSeller.url
             : '#');
 
-    const amazonTitle = userRole === USER_ROLES.SELLER ? "Profile"
+    const amazonTitle = userRole === USER_ROLES.SELLER ? t("PROFILE")
         : (userRole === USER_ROLES.TESTER && amazonSeller ? amazonSeller.name
             : '-');
 
@@ -58,4 +59,4 @@ SellerTesterInfo.propTypes = {
     amazonSeller: PropTypes.object
 };
 
-export default SellerTesterInfo;
+export default withTranslation()(SellerTesterInfo);

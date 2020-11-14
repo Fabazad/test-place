@@ -4,21 +4,22 @@ import Label from "reactstrap/lib/Label";
 import {Badge} from "reactstrap";
 import Row from "reactstrap/es/Row";
 import React from "react";
+import {withTranslation} from "react-i18next";
 
 const TestPrices = props => {
 
-    const {price, finalPrice} = props;
+    const {price, finalPrice, t} = props;
 
     return (
         <Row className='w-100 m-0'>
             <Col xs={6} className="text-center">
-                <Label>Prix initial</Label>
+                <Label>{t("INITIAL_PRICE")}</Label>
                 <h3>
                     <Badge color='primary'>{price}€</Badge>
                 </h3>
             </Col>
             <Col xs={6} className="text-center">
-                <Label>Prix Final</Label>
+                <Label>{t("FINAL_PRICE")}</Label>
                 <h3>
                     <Badge color={finalPrice > 0 ? 'warning' : 'success'}>
                         {finalPrice}€
@@ -34,4 +35,4 @@ TestPrices.propTypes = {
     finalPrice: PropTypes.number.isRequired
 };
 
-export default TestPrices;
+export default withTranslation()(TestPrices);

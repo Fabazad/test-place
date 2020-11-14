@@ -51,7 +51,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
             <Loading loading={loading}/>
             <div className="modal-header">
                 <h3 className="modal-title mb-0">
-                    Test Détails
+                    {t("TEST_DETAILS")}
                 </h3>
                 <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                     <span aria-hidden={true}>×</span>
@@ -67,7 +67,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
                         <Col xs={12} md={8} className="d-flex mt-3 mt-md-0">
                             <div className='my-auto'>
-                                <Label>Date de le demande :</Label> {formatDate(test.createdAt)}
+                                <Label>{t("TEST_REQUEST_DATE")} :</Label> {formatDate(test.createdAt)}
                                 <h4>
                                     <Link to={'/ad/' + test.product._id} target='_blank' rel="noopener noreferrer">
                                         {test.product.title}
@@ -91,14 +91,14 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                     {userType === USER_ROLES.SELLER ? (
                         <Row className="mt-3">
                             <Col xs={12} md={3} className="text-center">
-                                <Label>Paypal Email</Label>
+                                <Label>{t("PAYPAL_EMAIL")}</Label>
                                 <div>
                                     <small>{test.tester.paypalEmail}</small>
                                 </div>
                             </Col>
                             {test.orderId ? (
                                 <Col xs={12} md={3} className="text-center">
-                                    <Label>Numéro de Commande</Label>
+                                    <Label>{t("COMMAND_NUMBER")}</Label>
                                     <div>
                                         <Badge color='info'>{test.orderId}</Badge>
                                     </div>
@@ -106,7 +106,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                             ) : null}
                             {test.orderScreenshotUrl ? (
                                 <Col xs={12} md={3} className="text-center">
-                                    <Label>Capture d'écran</Label>
+                                    <Label>{t("SCREENSHOT")}</Label>
                                     <div>
                                         <a href={test.orderScreenshotUrl} target="_blank" rel="noopener noreferrer">
                                             Image</a>
@@ -115,10 +115,10 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                             ) : null}
                             {test.reviewId ? (
                                 <Col xs={12} md={3} className="text-center">
-                                    <Label>Lien de l'avis</Label>
+                                    <Label>{t("REVIEW_LINK")}</Label>
                                     <div>
                                         <a href={getAmazonReviewUrl(test.reviewId)} target="_blank" rel="noopener noreferrer">
-                                            Lien
+                                            {t("LINK")}
                                         </a>
                                     </div>
                                 </Col>
@@ -127,7 +127,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                                 <Col xs={12} className="mt-3">
                                     <Card>
                                         <CardBody>
-                                            <Label>Notes privées</Label>
+                                            <Label>{t("PRIVATE_NOTES")}</Label>
                                             <small className="d-block">
                                                 <Linkify properties={{target: '_blank'}}>
                                                     {test.product.privateNote}
@@ -142,14 +142,14 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
                     <Row className="mt-3 bg-white border rounded py-4 shadow">
                         <Col xs={6} className="text-center">
-                            <Label>Status de la demande</Label>
+                            <Label>{t("REQUEST_STATUS")}</Label>
                             <div>
                                 <TestStatusIcon status={test.status} globalStatus={globalStatus}/>
                                 <span className="ml-2">{t(test.status)}</span>
                             </div>
                         </Col>
                         <Col xs={6} className="text-center">
-                            <Label>Date du changement de status</Label>
+                            <Label>{t("STATUS_CHANGED_DATE")}</Label>
                             <div>{lastUpdate ? formatDate(lastUpdate.date) : '-'}</div>
                         </Col>
                     </Row>
@@ -164,7 +164,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
             <ModalFooter>
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    Fermer
+                    {t("CLOSE")}
                 </Button>
             </ModalFooter>
         </Modal>

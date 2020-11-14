@@ -9,10 +9,11 @@ import constants from "../../../helpers/constants";
 import NextStepAdvice from "./NextStepAdvice";
 import {getAmazonReviewUrl, getProductAmazonUrl} from "../../../helpers/urlHelpers";
 import ReviewAdvices from "../../ReviewAdvices";
+import {withTranslation} from "react-i18next";
 
 const {USER_ROLES} = constants;
 
-const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
+const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
 
     const [statuses, setStatuses] = useState({});
     useEffect(() => {
@@ -35,27 +36,25 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
         <>
             {isStatus('requestCancelled') && test.cancelRequestReason ?
                 <div className="text-center w-100">
-                    <Label>Raison de l'annulation</Label>
+                    <Label>{t("CANCELLATION_REASON")}</Label>
                     <Alert color="default" className="white-space-pre-line">
                         {test.cancelRequestReason}
                     </Alert>
                 </div> : null}
             {isStatus('requestDeclined') && test.declineRequestReason ?
                 <div className="text-center w-100">
-                    <Label>Raison du refus</Label>
+                    <Label>{t("DECLINE_REASON")}</Label>
                     <Alert color="danger" className="white-space-pre-line">
                         {test.declineRequestReason}
                     </Alert>
                 </div> : null}
             {isStatus('requested') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
-                    En attente d'acceptation de la demande de test.<br/>
-                    Pour l'instant, tout ce que vous avez à faire est d'attendre la réponse du vendeur.<br/>
-                    N'achetez donc pas encore le produit.
+                    {t("WAITING_FOR_TEST_REQUEST_ACCEPTATION")}
                 </NextStepAdvice> : null}
             {test.testerMessage ?
                 <div className="text-left w-100">
-                    <Label>Message du Testeur - {test.tester.name}</Label>
+                    <Label>{t("TESTER_MESSAGE")} - {test.tester.name}</Label>
                     <Alert color="success" className="white-space-pre-line">
                         {test.testerMessage}
                     </Alert>
@@ -68,7 +67,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
                 <div className="text-left w-100">
                     {test.sellerMessage ?
                         <div className="mb-3">
-                            <Label>Message du Vendeur - {test.seller.name}</Label>
+                            <Label>{t("SELLER_MESSAGE")} - {test.seller.name}</Label>
                             <Alert color="success" className="white-space-pre-line">
                                 {test.sellerMessage}
                             </Alert>
@@ -77,54 +76,43 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
             }
             {isStatus('requestAccepted') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="success">
-                    Commandez le produit sur le site Amazon en suivant ce lien :&nbsp;
+                    {t("ORDER_PRODUCT_FOLLOW_LINK")}{" "}
                     <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)} target='_blank'
                        rel="noopener noreferrer">
-                        Lien Produit
+                        {t("PRODUCT_LINK")}
                     </a>.<br/>
-                    Indiquez sur votre page <Link to='/dashboard/my-current-tests'>Mes Tests en Cours</Link> lorsque
-                    vous commandez.<br/>
-                    Recevez votre colis, testez le, laissez un avis et recevez votre remboursement.
+                    {t("INDICATE_ON_PRODUCT_ORDER")}
                 </NextStepAdvice> : null
             }
             {isStatus(['requestAccepted', 'productOrdered', 'productReceived']) && (USER_ROLES.SELLER === userRole || adminView) ?
                 <NextStepAdvice color="info">
-                    Attendez que le Testeur achète et test le produit.<br/>
-                    Le Testeur est informé par l'application des conseils suivants :<br/>
+                    {t("WAIT_FOR_TESTER_TO_BUY_PRODUCT")}<br/>
                     <ReviewAdvices/>
-                    Vous pouvez suivre l'avancer du test sur votre page
-                    <Link to={'/dashboard/my-current-tests'}> Mes Tests en Cours</Link>.<br/>
-                    Vous serez aussi notifié de l'avancée.
+                    {t("YOU_CAN_FOLLOW_THE_TEST_PROCESS")}
                 </NextStepAdvice> : null}
             {isStatus('productOrdered') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
-                    Dès que vous recevez le colis, indiquez le.<br/>
-                    Ensuite testez le et laissez un avis pour recevoir votre remboursement.
+                    {t("INDICATE_ON_PRODUCT_RECEPTION")}
                 </NextStepAdvice> : null}
             {isStatus('productReceived') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
-                    Testez votre produit et laissez un avis sur Amazon.<br/>
-                    Attention, voici quelques conseils pour garder vos notes Amazon :<br/>
+                    {t("TEST_AND_REVIEW_PRODUCT")}<br/>
                     <ReviewAdvices/>
-                    L'avis met plusieurs jours avant d'être validé par Amazon.<br/>
-                    Lorsque celui est validé, vous pouvez passer à l'étape suivante.<br/>
-                    Vous recevrez votre remboursement dès que le Vendeur aura validé votre avis Amazon.
+                    {t("REVIEW_INFO")}
                 </NextStepAdvice> : null}
             {isStatus('productReviewed') && (USER_ROLES.TESTER === userRole || adminView) ?
                 <NextStepAdvice color="info">
-                    Vous n'avez plus qu'à attendre que le Vendeur accepte votre avis Amazon.<br/>
-                    Il vous enverra ensuite le remboursement.
+                    {t("WAIT_FOR_REVIEW_TO_BE_ACCEPTED")}
                 </NextStepAdvice> : null}
             {isStatus('productReviewed') && (USER_ROLES.SELLER === userRole || adminView) && test.reviewId ?
                 <NextStepAdvice color="info">
-                    Le Testeur a indiqué avoir laissé un avis sur le produit.<br/>
-                    Vous trouverez ici le <a href={getAmazonReviewUrl(test.reviewId)}>Lien de l'avis</a>.<br/>
-                    C'est à vous maintenant de valider ou de rejeter l'avis.<br/>
+                    {t("TESTER_HAS_REVIEWED_PRODUCT")}<br/>
+                    {t("YOU_WILL_FIND_THE")}{" "}<a href={getAmazonReviewUrl(test.reviewId)}>{t("REVIEW_LINK")}</a>.<br/>
                 </NextStepAdvice> : null}
             {test.declineReviewReason ?
                 <div className="text-left w-100">
                     <div className="mb-3">
-                        <Label>Raison du Refus - <Link to={'#'}>{test.seller.name}</Link></Label>
+                        <Label>{t("DECLINE_REASON")} - <Link to={'#'}>{test.seller.name}</Link></Label>
                         <Alert color="danger" className="white-space-pre-line">
                             {test.declineReviewReason}
                         </Alert>
@@ -133,41 +121,35 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView}) => {
             }
             {isStatus("reviewDeclined") && !test.adminMessage ?
                 <NextStepAdvice color="info">
-                    Un administrateur va s'occuper du litige.
+                    {t("ADMIN_WILL_MANAGE")}
                 </NextStepAdvice> : null}
             {isStatus("reviewValidated") && (userRole === USER_ROLES.TESTER || adminView) ?
                 <NextStepAdvice color="info">
-                    Félicitations, votre avis a été validé par le Vendeur !<br/>
-                    Il va maintenant procéder au remboursement sur votre compte Paypal.<br/>
-                    Il faut compter parfois quelques jours chez certains Vendeurs.<br/>
-                    Vous serez notifié lorsque l'argent sera envoyé.<br/>
-                    N'hésitez pas à <Link to="/#contact-us">nous contacter</Link>, avec le numéro de commande, si cela
-                    prend plus d'une semaine.
+                    {t("REVIEW_HAS_BEEN_VALIDATED")}<br/>
+                    {t("DONT_HESITATE_TO")}{" "}<Link to="/#contact-us">{t("CONTACT_US")}</Link>, {(t("WITH_COMMAND_NUMBER"))}
                 </NextStepAdvice> : null
             }
             {isStatus("reviewValidated") && (userRole === USER_ROLES.SELLER || adminView) ?
                 <NextStepAdvice color="info">
-                    Nous sommes heureux que tout se soit bien passé !<br/>
-                    Maintenant, c'est à vous de remplir votre part du marché.<br/>
-                    C'est le moment de rembourser par Paypal le Testeur.<br/>
-                    Somme à rembourser : {test.product.price}€ - {test.product.finalPrice}€.<br/>
-                    Soit {test.product.price - test.product.finalPrice}€.
+                    {t("YOU_NEED_TO_REFUND")}<br/>
+                    {t("SUM_TO_REFUND")} : {test.product.price}€ - {test.product.finalPrice}€.<br/>
+                    {t("SO")} {test.product.price - test.product.finalPrice}€.<br/>
+                    {t("THINK_ABOUT_PAYPAL_FEES")}
                 </NextStepAdvice> : null
             }
             {isStatus("testCancelled") && test.cancelReason ?
                 <>
-                    <Label>Raison de l'annulation ou la réclamation :</Label>
+                    <Label>{t("CLAIM_CANCELLATION_REASON")} :</Label>
                     <Alert color="danger">
                         <br/>
                         <i className="white-space-pre-line">{test.cancelReason}</i><br/><br/>
-                        Un administrateur va juger la raison.<br/>
-                        Vous serez informés par les décisions prises.
+                        {t("ADMIN_WILL_MANAGE")}
                     </Alert>
                 </> : null
             }
             {test.adminMessage ?
                 <>
-                    <Label>Message de l'Admin :</Label>
+                    <Label>{t("ADMIN_MESSAGE")} :</Label>
                     <Alert color="warning">
                         <span className="white-space-pre-line">{test.adminMessage}</span>
                     </Alert>
@@ -183,4 +165,4 @@ TestProcessInfo.propTypes = {
     adminView: PropTypes.bool
 };
 
-export default TestProcessInfo;
+export default withTranslation()(TestProcessInfo);
