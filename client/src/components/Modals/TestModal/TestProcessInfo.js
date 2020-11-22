@@ -35,7 +35,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
     return (
         <>
             {isStatus('requestCancelled') && test.cancelRequestReason ?
-                <div className="text-center w-100">
+                <div className="w-100">
                     <Label>{t("CANCELLATION_REASON")}</Label>
                     <Alert color="default" className="white-space-pre-line">
                         {test.cancelRequestReason}

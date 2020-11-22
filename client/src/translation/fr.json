@@ -220,5 +220,17 @@
   "SO": "Soit",
   "CLAIM_CANCELLATION_REASON": "Raison de l'annulation ou la réclamation",
   "ADMIN_MESSAGE": "Message de l'Admin",
-  "THINK_ABOUT_PAYPAL_FEES": "Pensez aux frais Paypal."
+  "THINK_ABOUT_PAYPAL_FEES": "Pensez aux frais Paypal.",
+  "CANCELLATION_CLAIM": "Annulation / Réclamation",
+  "CANCELLATION_CLAIM_REASON": "Raison de l'annulation ou de la réclamation",
+  "EXPLAIN_THE_REASON": "Expliquez la raison.",
+  "CANCELLATION_CONSEQUENCES": "En refusant, vous allez créer un litige sur ce Test.\nUn administrateur s'occupera donc de vérifier si la raison est valable.\nVous serez informé de la suite des évènements par mail.",
+  "TEST_REQUEST_CANCELLED": "Demande de test annulée",
+  "CANCEL_TEST_REQUEST": "Annuler la Demande de Test",
+  "EXPLAIN_TEST_REQUEST_CANCELLATION": "Expliquez pourquoi vous désirez annuler la demande de test...",
+  "CONFIRM": "Confirmer",
+  "EXPLAIN_DECLINE_REASON": "Expliquez la raison du refus de l'avis.",
+  "DECLINE_REVIEW_CONSEQUENCES": "En refusant, vous allez créer un litige sur ce Test.\nUn administrateur s'occupera donc de vérifier si la raison est valable.\nSi c'est le cas, vous serez totalement rembourser sur la compensation donnée pour cet avis.",
+  "EDIT": "Editer",
+  "EDIT_PRODUCT": "Modifier le produit"
 }

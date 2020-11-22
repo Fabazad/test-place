@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import {
     Button,
@@ -17,118 +17,89 @@ import userServices from '../../services/user.services';
 
 //import PropTypes from 'prop-types';
 
-class ForgottenPasswordModal extends React.Component {
+const ForgottenPasswordModal = ({t}) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            exampleModal: false,
-            loadingPromise: null
-        };
-    }
+    const [email, setEmail] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const [loadingPromise, setLoadingPromise] = useState(null);
 
-    toggleModal = state => {
-        this.setState({
-            [state]: !this.state[state]
-        });
-    };
+    const toggleModal = () => setIsOpen(!isOpen);
 
-    handleInputChange = (event) => {
-        const {value, name} = event.target;
-        this.setState({
-            [name]: value
-        });
-    };
-
-    onSubmit = (e) => {
-        const {t} = this.props;
+    const onSubmit = (e) => {
         e.preventDefault();
-        const loadingPromise = userServices.sendResetPasswordMail(this.state.email)
+        const loadingPromise = userServices.sendResetPasswordMail(email)
             .then(() => {
                 toast.success(t("EMAIL_HAS_BEEN_SENT"));
-                this.setState({email: ''});
-                this.toggleModal("exampleModal");
+                setEmail("");
+                toggleModal();
             })
             .catch(() => toast.error("EMAIL_HAS_NOT_BEEN_SENT"));
-        this.setState({loadingPromise});
+        setLoadingPromise(loadingPromise);
     };
-
-    render() {
-        const { t } = this.props;
-        return (
-            <>
-                {/* Button trigger modal */}
-                <a
-                    className="text-primary"
-                    href="#pablo"
-                    onClick={() => this.toggleModal("exampleModal")}
-                >
-                    <small>{t("FORGOTTEN_PASSWORD")} ?</small>
-                </a>
-                {/* Modal */}
-                <Modal
-                    className="modal-dialog-centered"
-                    isOpen={this.state.exampleModal}
-                    toggle={() => this.toggleModal("exampleModal")}
-                >
-                    <Loading promise={this.state.loadingPromise}/>
-                    <Form role="form" onSubmit={this.onSubmit}>
-                        <div className="modal-header bg-secondary">
-                            <h5 className="modal-title" id="exampleModalLabel">
-                                {t("FORGOTTEN_PASSWORD")}
-                            </h5>
-                            <button
-                                aria-label="Close"
-                                className="close"
-                                data-dismiss="modal"
-                                type="button"
-                                onClick={() => this.toggleModal("exampleModal")}
-                            >
-                                <span aria-hidden={true}>×</span>
-                            </button>
-                        </div>
-                        <div className="modal-body white-space-pre-line bg-secondary">
-                            <FormGroup className="mb-3">
-                                <InputGroup className="input-group-alternative">
-                                    <InputGroupAddon addonType="prepend">
-                                        <InputGroupText>
-                                            <i className="ni ni-email-83"/>
-                                        </InputGroupText>
-                                    </InputGroupAddon>
-                                    <Input
-                                        placeholder={t("ACCOUNT_EMAIL")}
-                                        type="email"
-                                        name="email"
-                                        value={this.state.email}
-                                        onChange={this.handleInputChange}
-                                        required
-                                    />
-                                </InputGroup>
-                            </FormGroup>
-                        </div>
-                        <div className="modal-footer bg-secondary ">
-                            <Button
-                                color="secondary"
-                                data-dismiss="modal"
-                                type="button"
-                                onClick={() => this.toggleModal("exampleModal")}
-                            >
-                                {t("CLOSE")}
-                            </Button>
-                            <Button
-                                color="primary"
-                                data-dismiss="modal"
-                                type="submit"
-                            >
-                                {t("SEND")}
-                            </Button>
-                        </div>
-                    </Form>
-                </Modal>
-            </>
-        );
-    }
-}
+    return (
+        <>
+            {/* Button trigger modal */}
+            <a className="text-primary cursor-pointer" onClick={toggleModal}>
+                <small>{t("FORGOTTEN_PASSWORD")} ?</small>
+            </a>
+            {/* Modal */}
+            <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={toggleModal}>
+                <Loading promise={loadingPromise}/>
+                <Form role="form" onSubmit={onSubmit}>
+                    <div className="modal-header bg-secondary">
+                        <h5 className="modal-title" id="exampleModalLabel">
+                            {t("FORGOTTEN_PASSWORD")}
+                        </h5>
+                        <button
+                            aria-label="Close"
+                            className="close"
+                            data-dismiss="modal"
+                            type="button"
+                            onClick={toggleModal}
+                        >
+                            <span aria-hidden={true}>×</span>
+                        </button>
+                    </div>
+                    <div className="modal-body white-space-pre-line bg-secondary">
+                        <FormGroup className="mb-3">
+                            <InputGroup className="input-group-alternative">
+                                <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                        <i className="ni ni-email-83"/>
+                                    </InputGroupText>
+                                </InputGroupAddon>
+                                <Input
+                                    placeholder={t("ACCOUNT_EMAIL")}
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                    required
+                                />
+                            </InputGroup>
+                        </FormGroup>
+                    </div>
+                    <div className="modal-footer bg-secondary ">
+                        <Button
+                            color="secondary"
+                            data-dismiss="modal"
+                            type="button"
+                            onClick={toggleModal}
+                        >
+                            {t("CLOSE")}
+                        </Button>
+                        <Button
+                            color="primary"
+                            data-dismiss="modal"
+                            type="submit"
+                        >
+                            {t("SEND")}
+                        </Button>
+                    </div>
+                </Form>
+            </Modal>
+        </>
+    );
+};
 
 export default withTranslation()(ForgottenPasswordModal);

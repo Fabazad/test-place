@@ -10,10 +10,11 @@ import Input from "reactstrap/es/Input";
 import Alert from "reactstrap/es/Alert";
 import testServices from "../../services/test.services";
 import Loading from "../Loading";
+import {withTranslation} from "react-i18next";
 
 const DeclineReviewModal = props => {
 
-    const {isOpen, onToggle, testId} = props;
+    const {isOpen, onToggle, testId, t} = props;
 
     const [declineReviewReason, setDeclineReviewReason] = useState("");
     const [statuses, setStatuses] = useState({});
@@ -51,7 +52,7 @@ const DeclineReviewModal = props => {
             <Form onSubmit={onSubmit}>
                 <div className="modal-header">
                     <h3 className="modal-title mb-0">
-                        Refuser l'avis donné
+                        {t("DECLINE_REVIEW")}
                     </h3>
                     <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                         <span aria-hidden={true}>×</span>
@@ -61,25 +62,23 @@ const DeclineReviewModal = props => {
                 <ModalBody>
                     <div className="p-3 bg-secondary rounded">
                         <FormGroup>
-                            <Label for="declineReviewReason">Raison du refus :</Label>
+                            <Label for="declineReviewReason">{t("DECLINE_REASON")} :</Label>
                             <Input
                                 type="textarea" id="declineReviewReason" required={true}
                                 innerRef={declineReviewReasonInput}
                                 className="form-control-alternative" rows={3}
                                 onChange={e => setDeclineReviewReason(e.target.value)}
-                                placeholder="Expliquez la raison du refus de l'avis."/>
+                                placeholder={t("EXPLAIN_DECLINE_REASON")}/>
                         </FormGroup>
-                        <Alert color="warning">
-                            En refusant, vous allez créer un litige sur ce Test.<br/>
-                            Un administrateur s'occupera donc de vérifier si la raison est valable.<br/>
-                            Si c'est le cas, vous serez totalement rembourser sur la compensation donnée pour cet avis.
+                        <Alert color="warning" className="white-space-pre-line">
+                            {t("DECLINE_REVIEW_CONSEQUENCES")}
                         </Alert>
                     </div>
                 </ModalBody>
 
                 <ModalFooter>
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                        Fermer
+                        {t("CLOSE")}
                     </Button>
                     <Button type="submit" color='danger' disabled={!declineReviewReason}>Refuser l'avis</Button>
                 </ModalFooter>
@@ -94,4 +93,4 @@ DeclineReviewModal.propTypes = {
     testId: PropTypes.string.isRequired
 };
 
-export default DeclineReviewModal;
+export default withTranslation()(DeclineReviewModal);

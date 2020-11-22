@@ -11,10 +11,11 @@ import s3Services from "../../services/s3.services";
 import PropTypes from "prop-types";
 import RowActionButton from "../Buttons/RowActionButton";
 import ProductForm from "../Forms/ProductForm";
+import {withTranslation} from "react-i18next";
 
 const EditProductModal = props => {
 
-    const {product} = props;
+    const {product, t} = props;
 
     const [defaultData, setDefaultData] = useState({images: product.imageUrls, ...product});
     const [isOpen, setIsOpen] = useState(false);
@@ -55,13 +56,13 @@ const EditProductModal = props => {
     return (
         <>
             {/* Button trigger modal */}
-            <RowActionButton title="Editer" icon="fa fa-edit" color="warning" onClick={toggleModal}/>
+            <RowActionButton title={t("EDIT")} icon="fa fa-edit" color="warning" onClick={toggleModal}/>
             {/* Modal */}
             <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={toggleModal} size="lg">
                 <Loading promise={loadingPromise}/>
                 <div className="modal-header bg-secondary">
                     <h2 className="modal-title" id="exampleModalLabel">
-                        Editer Produit
+                        {t("EDIT_PRODUCT")}
                     </h2>
                     <button aria-label="Close" className="close" data-dismiss="modal" type="button"
                             onClick={toggleModal}>
@@ -74,7 +75,7 @@ const EditProductModal = props => {
 
                 <div className="modal-footer bg-secondary ">
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
-                        Fermer
+                        {t("CLOSE")}
                     </Button>
                 </div>
             </Modal>
@@ -86,4 +87,4 @@ EditProductModal.propTypes = {
     product: PropTypes.object.isRequired
 };
 
-export default EditProductModal;
+export default withTranslation()(EditProductModal);

@@ -2,8 +2,9 @@ import Alert from "reactstrap/es/Alert";
 import {Button, Modal} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import confirmHelper from "../../helpers/confirmHelper";
+import {withTranslation} from "react-i18next";
 
-const ConfirmModal = () => {
+const ConfirmModal = ({t}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [text, setText] = useState("");
@@ -43,12 +44,12 @@ const ConfirmModal = () => {
             </div>
             <div className="modal-footer">
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
-                    Fermer
+                    {t("CLOSE")}
                 </Button>
-                <Button color="primary" onClick={handleConfirm}>Confirmer</Button>
+                <Button color="primary" onClick={handleConfirm}>{t("CONFIRM")}</Button>
             </div>
         </Modal>
     )
 };
 
-export default ConfirmModal;
+export default withTranslation()(ConfirmModal);

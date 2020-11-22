@@ -10,8 +10,9 @@ import Alert from "reactstrap/es/Alert";
 import ModalFooter from "reactstrap/es/ModalFooter";
 import React, {useEffect, useRef, useState} from "react";
 import testServices from "../../services/test.services";
+import {withTranslation} from "react-i18next";
 
-const CancelTestModal = ({isOpen, onToggle, testId}) => {
+const CancelTestModal = ({isOpen, onToggle, testId, t}) => {
 
     const [loading, setLoading] = useState(false);
     const [cancelReason, setCancelReason] = useState("");
@@ -49,7 +50,7 @@ const CancelTestModal = ({isOpen, onToggle, testId}) => {
             <Form onSubmit={onSubmit}>
                 <div className="modal-header">
                     <h3 className="modal-title mb-0">
-                        Annulation / Réclamation
+                        {t("CANCELLATION_CLAIM")}
                     </h3>
                     <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                         <span aria-hidden={true}>×</span>
@@ -59,27 +60,25 @@ const CancelTestModal = ({isOpen, onToggle, testId}) => {
                 <ModalBody>
                     <div className="p-3 bg-secondary rounded">
                         <FormGroup>
-                            <Label for="declineReviewReason">Raison de l'annulation ou de la réclamation :</Label>
+                            <Label for="declineReviewReason">{t("CANCELLATION_CLAIM_REASON")} :</Label>
                             <Input
                                 type="textarea" id="declineReviewReason" required={true}
                                 innerRef={cancelReasonInput}
                                 className="form-control-alternative" rows={3}
                                 onChange={e => setCancelReason(e.target.value)}
-                                placeholder="Expliquez la raison."/>
+                                placeholder={t("EXPLAIN_THE_REASON")}/>
                         </FormGroup>
-                        <Alert color="danger">
-                            En refusant, vous allez créer un litige sur ce Test.<br/>
-                            Un administrateur s'occupera donc de vérifier si la raison est valable.<br/>
-                            Vous serez informé de la suite des évènements par mail.
+                        <Alert color="danger" className="white-space-pre-line">
+                            {t("CANCELLATION_CONSEQUENCES")}
                         </Alert>
                     </div>
                 </ModalBody>
 
                 <ModalFooter>
                     <Button color="secondary" data-dismisTs="modal" type="button" onClick={onToggle}>
-                        Fermer
+                        {t("CLOSE")}
                     </Button>
-                    <Button type="submit" color='danger' disabled={!cancelReason}>Envoyer</Button>
+                    <Button type="submit" color='danger' disabled={!cancelReason}>{t("SEND")}</Button>
                 </ModalFooter>
             </Form>
         </Modal>
@@ -92,4 +91,4 @@ CancelTestModal.propTypes = {
     testId: PropTypes.string.isRequired
 };
 
-export default CancelTestModal;
+export default withTranslation()(CancelTestModal);
