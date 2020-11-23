@@ -2,6 +2,7 @@ import {Button, Card, Col, Row} from "reactstrap";
 import React from "react";
 import {Link} from "react-router-dom";
 import { withTranslation } from "react-i18next";
+import ConfirmButton from "../../components/Buttons/ConfirmButton";
 
 const CommunityCard = (props) => {
     const { t } = props;
@@ -22,7 +23,7 @@ const CommunityCard = (props) => {
                             </Button>
                         </Link>
                     </Col>
-                </Row>
+                </Row>A
             </div>
         </Card>
     );

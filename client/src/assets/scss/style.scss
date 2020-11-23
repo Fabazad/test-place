@@ -1,228 +1,253 @@
 .loading {
-    z-index: 100;
-    opacity: 0.5;
+  z-index: 100;
+  opacity: 0.5;
 }
 
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .w-400px, .w-400px .popover {
-    width: 400px;
-    max-width: 400px;
+  width: 400px;
+  max-width: 400px;
 }
 
 .overlay-image-uploader {
-    background-color: black;
-    opacity: 0;
-    transition: 300ms;
-    &:hover {
-        opacity: 0.6;
-        transition: 400ms;
-    }
+  background-color: black;
+  opacity: 0;
+  transition: 300ms;
+
+  &:hover {
+    opacity: 0.6;
+    transition: 400ms;
+  }
 }
 
 .w-fit-content {
-    width: fit-content;
+  width: fit-content;
 }
 
-.filter-icon{
-    transition: 100ms;
-    &:hover {
-        color: white !important;
-        transition: 200ms;
-    }
+.filter-icon {
+  transition: 100ms;
+
+  &:hover {
+    color: white !important;
+    transition: 200ms;
+  }
 }
 
 .filter-popover .popover {
-    max-width: 98%;
+  max-width: 98%;
 }
 
 .badge-circle {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: small;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: small;
 }
 
 .dropdown-menu.show {
-    position: absolute;
-    min-width: 100%;
+  position: absolute;
+  min-width: 100%;
 }
 
 .mt--100 {
-    margin-top: -100px !important;
+  margin-top: -100px !important;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #5e72e4;
-    border-radius: 10px;
+  background: #5e72e4;
+  border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #5e72e4;
+  background: #5e72e4;
 }
 
 .overflow-x-auto {
-    overflow-x: auto;
+  overflow-x: auto;
 }
 
 .white-space-nowrap {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 img.selected {
-    box-shadow: 0 0 10px #5e72e4 !important;
+  box-shadow: 0 0 10px #5e72e4 !important;
 }
 
 .w-200px {
-    width: 200px;
+  width: 200px;
 }
+
 .w-250px {
-    width: 250px;
+  width: 250px;
 }
 
 .dropdown-select .dropdown-menu.show {
-    position: absolute !important;
+  position: absolute !important;
 }
 
 .main-content {
-    margin-left: 0 !important;
+  margin-left: 0 !important;
 }
+
 @media (min-width: 992px) {
-    .main-content {
-        margin-left: 250px !important;
-    }
+  .main-content {
+    margin-left: 250px !important;
+  }
 }
 
 .avatar-group .avatar {
-    margin-left: -1rem;
+  margin-left: -1rem;
 }
 
 .w-sm-100 {
-    width: 100%;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
-    .w-md-auto {
-        width: auto !important;
-    }
-    .w-md-75 {
-        width: 75% !important;
-    }
-    .position-md-absolute {
-        position: absolute!important;
-    }
+  .w-md-auto {
+    width: auto !important;
+  }
+  .w-md-75 {
+    width: 75% !important;
+  }
+  .position-md-absolute {
+    position: absolute !important;
+  }
 }
 
 @media (max-width: 768px) {
-    .mt--60px {
-        margin-top: -60px;
-    }
-    .position-xs-absolute {
-        position: absolute !important;
-    }.position-xs-static {
-        position: static !important;
-    }
+  .mt--60px {
+    margin-top: -60px;
+  }
+  .position-xs-absolute {
+    position: absolute !important;
+  }
+  .position-xs-static {
+    position: static !important;
+  }
 }
 
 .dropdown-select .selected, .dropdown-select .selected:hover {
-    background-color: #5e72e4;
-    color: white;
+  background-color: #5e72e4;
+  color: white;
 }
+
 .carousel-control-prev, .carousel-control-next {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .input-group-alternative {
-    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08) !important;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08) !important;
 }
 
 .overflow-y-scroll {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .notifications .dropdown-menu:before {
-    left: 120px !important;
+  left: 120px !important;
 }
 
 .profile-dropdown-badge .dropdown-menu:before {
-    left: 80px !important;
+  left: 80px !important;
 }
 
 .modal-content {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 
 // For tagsInput
 .bootstrap-tagsinput .badge {
-    position: relative;
-    padding: .625rem .625rem .5rem;
-    margin: .125rem;
-    border-radius: .25rem;
-    background: #172b4d;
-    color: #fff;
-    line-height: 1.5;
-    box-shadow: 0 1px 2px rgba(68,68,68,.25);
-    -webkit-transition: all .15s ease;
-    transition: all .15s ease;
+  position: relative;
+  padding: .625rem .625rem .5rem;
+  margin: .125rem;
+  border-radius: .25rem;
+  background: #172b4d;
+  color: #fff;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(68, 68, 68, .25);
+  -webkit-transition: all .15s ease;
+  transition: all .15s ease;
 }
 
 .bootstrap-tagsinput {
-    background-color: #fff;
-    border: 0 solid transparent;
-    display: inline-block;
-    color: #8898aa;
-    vertical-align: middle;
-    border-radius: .25rem;
-    max-width: 100%;
-    cursor: text;
-    padding-left: 40px;
+  background-color: #fff;
+  border: 0 solid transparent;
+  display: inline-block;
+  color: #8898aa;
+  vertical-align: middle;
+  border-radius: .25rem;
+  max-width: 100%;
+  cursor: text;
+  padding-left: 40px;
 }
 
 .bootstrap-tagsinput input {
-    border: none;
-    box-shadow: none;
-    outline: none;
-    background-color: initial;
-    padding: 0 6px;
-    margin: 0;
-    width: auto;
-    max-width: inherit;
-    height: 46px;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: initial;
+  padding: 0 6px;
+  margin: 0;
+  width: auto;
+  max-width: inherit;
+  height: 46px;
 }
 
 .bootstrap-tagsinput .badge:hover {
-    padding-right: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .bootstrap-tagsinput .tag a:after {
-    font-size: 16px;
-    content: "×";
+  font-size: 16px;
+  content: "×";
 }
 
 .bootstrap-tagsinput .tag a {
-    position: absolute;
-    top: 50%;
-    margin-left: 10px;
-    cursor: pointer;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    color: #fff;
+  position: absolute;
+  top: 50%;
+  margin-left: 10px;
+  cursor: pointer;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #fff;
 }
 
 .white-space-pre-line {
-    white-space: pre-line!important;
+  white-space: pre-line !important;
 }
+
+.confirm-button {
+  span {
+    position: absolute;
+    left: 20px;
+  }
+
+  .progress {
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    opacity: 0.25;
+    background-color: transparent;
+  }
+}
+

@@ -18,11 +18,12 @@ import MessageSentMessage from "./MessageSentModal";
 import userServices from "../../services/user.services";
 import {toast} from "react-toastify";
 import Loading from "../../components/Loading";
-import { withTranslation } from "react-i18next";
+import {withTranslation} from "react-i18next";
+import ConfirmButton from "../../components/Buttons/ConfirmButton";
 
 const ContactSections = (props) => {
 
-    const { t } = props;
+    const {t} = props;
 
     const [nameFocused, setNameFocused] = useState(false);
     const [emailFocused, setEmailFocused] = useState(false);
@@ -114,10 +115,11 @@ const ContactSections = (props) => {
                                                    onChange={e => setMessage(e.target.value)} required name="message"
                                                    placeholder={t("TELL_US_EVERYTHING")} rows="4" type="textarea"/>
                                         </FormGroup>
-                                        <div>
-                                            <Button block className="btn-round" color="default" size="lg" type="submit">
+                                        <div className="text-center">
+                                            <ConfirmButton color="default" type="submit"
+                                                           disabled={!name || !email || !message}>
                                                 {t("SEND_YOUR_MESSAGE")}
-                                            </Button>
+                                            </ConfirmButton>
                                         </div>
                                     </Form>
                                 </CardBody>

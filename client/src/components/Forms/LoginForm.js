@@ -4,6 +4,7 @@ import Loading from "../Loading";
 import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 import {withTranslation} from "react-i18next";
+import ConfirmButton from "../Buttons/ConfirmButton";
 
 const LoginForm = props => {
 
@@ -68,7 +69,7 @@ const LoginForm = props => {
                 </label>
             </div>
             <div className="text-center">
-                <Button className="mt-4" color="primary" type="submit" data-testid="submit-login-button">
+                <Button className="mt-4" color="primary" type="submit">
                     {t("LOGIN")}
                 </Button>
             </div>

@@ -42,7 +42,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                     </Alert>
                 </div> : null}
             {isStatus('requestDeclined') && test.declineRequestReason ?
-                <div className="text-center w-100">
+                <div className="w-100">
                     <Label>{t("DECLINE_REASON")}</Label>
                     <Alert color="danger" className="white-space-pre-line">
                         {test.declineRequestReason}

@@ -18,6 +18,8 @@ import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 import ReviewAdvices from "../ReviewAdvices";
 import {withTranslation} from "react-i18next";
+import ConfirmButton from "../Buttons/ConfirmButton";
+import Loading from "../Loading";
 
 const AnswerTestRequestForm = props => {
 
@@ -26,6 +28,7 @@ const AnswerTestRequestForm = props => {
     const [tabs, setTabs] = useState(0);
     const [declineReason, setDeclineReason] = useState("");
     const [sellerMessage, setSellerMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const toggleNavs = (e, index) => {
         e.preventDefault();
@@ -35,28 +38,32 @@ const AnswerTestRequestForm = props => {
     };
 
     const declineRequest = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         if (!declineReason) {
             toast.error(t("MISSING_DECLINE_REASON"))
         }
+        setLoading(true);
         const statuses = await testServices.getTestStatuses();
         testServices.updateStatus(testId, statuses['requestDeclined'],
             {declineRequestReason: declineReason})
             .then(() => {
                 onSubmit();
                 toast.success(t("TEST_REQUEST_DECLINED"));
-            });
+            })
+            .finally(() => setLoading(false));
     };
 
     const acceptRequest = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         const statuses = await testServices.getTestStatuses();
+        setLoading(true);
         testServices.updateStatus(testId, statuses['requestAccepted'],
             {sellerMessage: sellerMessage})
             .then(() => {
                 onSubmit();
                 toast.success(t("TEST_REQUEST_ACCEPTED"));
-            });
+            })
+            .finally(() => setLoading(false));
     };
     return (
         <>
@@ -88,15 +95,17 @@ const AnswerTestRequestForm = props => {
                 <TabContent activeTab={"tabs" + tabs}>
                     <TabPane tabId="tabs1">
                         <Form className='mt-3' onSubmit={declineRequest}>
+                            <Loading loading={loading}/>
                             <FormGroup>
                                 <Input className="form-control-alternative" onChange={(e) => setDeclineReason(e.target.value)}
                                        placeholder={t("DECLINE_REASON_PLACEHOLDER")} rows="3" type="textarea" minLength={30}/>
                             </FormGroup>
-                            <Button color='danger' type='submit' disabled={!declineReason}>{t("DECLINE")}</Button>
+                            <ConfirmButton color='danger' type={"submit"} disabled={!declineReason}>{t("DECLINE")}</ConfirmButton>
                         </Form>
                     </TabPane>
                     <TabPane tabId="tabs2">
                         <Form className='mt-3' onSubmit={acceptRequest}>
+                            <Loading loading={loading}/>
                             <FormGroup>
                                 <Input className="form-control-alternative" onChange={(e) => setSellerMessage(e.target.value)}
                                        placeholder={t("SELLER_MESSAGE_PLACEHOLDER")}
@@ -111,7 +120,7 @@ const AnswerTestRequestForm = props => {
                                 {t("TESTER_WILL_BE_ADVISED")}<br/>
                                 <ReviewAdvices/>
                             </Alert>
-                            <Button color='success' type='submit'>{t("ACCEPT")}</Button>
+                            <ConfirmButton color='success' type="submit">{t("ACCEPT")}</ConfirmButton>
                         </Form>
                     </TabPane>
                 </TabContent> : null}
