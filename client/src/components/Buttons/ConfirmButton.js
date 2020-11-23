@@ -3,8 +3,9 @@ import React, {useEffect, useState} from "react";
 import Progress from "reactstrap/lib/Progress";
 
 const CONFIRM_LOADING_STEP = {
-    VALUE: 10,
-    INTERVAL: 60
+    VALUE: 5,
+    INTERVAL: 50,
+    START: 30
 };
 
 const ConfirmButton = ({children, disabled, className, color, type, onClick}) => {
@@ -27,35 +28,38 @@ const ConfirmButton = ({children, disabled, className, color, type, onClick}) =>
     const onMouseDown = (e) => {
         if (isOnButtonTarget(e)) {
             setIsMouseDown(true);
-            setLoadingPercent(0);
+            setLoadingPercent(CONFIRM_LOADING_STEP.START);
         }
     };
 
     const onMouseUp = () => {
         setIsMouseDown(false);
-        setTimeout(() => setLoadingPercent(null), CONFIRM_LOADING_STEP.INTERVAL + 5);
+        setTimeout(() => setLoadingPercent(null), CONFIRM_LOADING_STEP.INTERVAL + 200);
+    };
+
+    const onTouchEnd = (e) => {
+        e.target.click();
+        onMouseUp();
     };
 
     useEffect(() => {
-        document.addEventListener("mousedown", onMouseDown);
-        document.addEventListener("touchstart", onMouseDown);
         document.addEventListener("mouseup", onMouseUp);
-        document.addEventListener("touchend", onMouseUp);
         return () => {
-            document.removeEventListener("mousedown", onMouseDown);
-            document.removeEventListener("touchstart", onMouseDown);
             document.removeEventListener("mouseup", onMouseUp);
-            document.removeEventListener("touchend", onMouseUp);
         }
     }, []);
 
     const handleClick = (e) => {
-        if (loadingPercent < 100) e.preventDefault();
-        else if (onClick !== undefined) onClick(e);
+        if (loadingPercent < 100) {
+            if (e) e.preventDefault();
+        }
+        else if (onClick !== undefined) onClick();
     };
 
-    return <Button disabled={disabled} className={"confirm-button " + className || ""} id={"confirm-button-" + progressId}
-                   color={color} onClick={handleClick}
+    return <Button disabled={disabled} className={"confirm-button " + className || ""}
+                   id={"confirm-button-" + progressId} onTouchEnd={onTouchEnd}
+                   color={color} onClick={handleClick} onTouchStart={onMouseDown}
+                   onMouseDown={onMouseDown}
                    type={type}>
         <Progress value={loadingPercent} color={color === "default" ? "white" : "dark"}/>
         {children}
