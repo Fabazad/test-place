@@ -38,10 +38,14 @@ const ConfirmButton = ({children, disabled, className, color, type, onClick}) =>
 
     useEffect(() => {
         document.addEventListener("mousedown", onMouseDown);
+        document.addEventListener("touchstart", onMouseDown);
         document.addEventListener("mouseup", onMouseUp);
+        document.addEventListener("touchend", onMouseUp);
         return () => {
             document.removeEventListener("mousedown", onMouseDown);
+            document.removeEventListener("touchstart", onMouseDown);
             document.removeEventListener("mouseup", onMouseUp);
+            document.removeEventListener("touchend", onMouseUp);
         }
     }, []);
 
