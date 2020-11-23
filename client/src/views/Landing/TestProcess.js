@@ -16,7 +16,7 @@ const TestProcess = props => {
                     <div className="icon icon-shape bg-gradient-white text-primary rounded-circle shadow">
                         <i className="fa fa-question"/>
                     </div>
-                    <div className="text-white mt-2">{t("TEST_REQUEST")}</div>
+                    <div className="text-white mt-2 white-space-pre-line"><b>{t("TEST_REQUEST")}</b></div>
                 </div>
                 <div className="text-center flex-grow-0">
                     <i className="fa fa-ellipsis-h text-white fa-2x mt-2 d-none d-md-inline"/>
@@ -26,7 +26,7 @@ const TestProcess = props => {
                     <div className="icon icon-shape bg-gradient-white text-primary rounded-circle shadow">
                         <i className="fa fa-box-open"/>
                     </div>
-                    <div className="text-white mt-2">{t("BUY_ON_AMAZON")}</div>
+                    <div className="text-white mt-2 white-space-pre-line"><b>{t("BUY_ON_AMAZON")}</b></div>
                 </div>
                 <div className="text-center flex-grow-0">
                     <i className="fa fa-ellipsis-h text-white fa-2x mt-2 d-none d-md-inline"/>
@@ -36,7 +36,7 @@ const TestProcess = props => {
                     <div className="icon icon-shape bg-gradient-white text-primary rounded-circle shadow">
                         <i className="fa fa-star"/>
                     </div>
-                    <div className="text-white mt-2">{t("PRODUCT_REVIEW")}</div>
+                    <div className="text-white mt-2 white-space-pre-line"><b>{t("PRODUCT_REVIEW")}</b></div>
                 </div>
                 <div className="text-center flex-grow-0">
                     <i className="fa fa-ellipsis-h text-white fa-2x mt-2 d-none d-md-inline"/>
@@ -46,7 +46,7 @@ const TestProcess = props => {
                     <div className="icon icon-shape bg-gradient-white text-primary rounded-circle shadow">
                         <i className="fa fa-dollar-sign"/>
                     </div>
-                    <div className="text-white mt-2">{t("REFUND")}</div>
+                    <div className="text-white mt-2 white-space-pre-line"><b>{t("REFUND")}</b></div>
                 </div>
             </div>
         </Container>
