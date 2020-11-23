@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import {withTranslation} from "react-i18next";
 import IdHelper from "../helpers/IdHelper";
 import Popover from "reactstrap/es/Popover";
+import Button from "reactstrap/es/Button";
 
 const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
@@ -44,9 +45,11 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
     return (
         <>
-            <span id={target}  className="cursor-pointer text-primary" onClick={onClick}>{userName}</span>
+            <Button id={target}  className="cursor-pointer" color="primary" size="sm" onClick={onClick}>
+                {userName}{" "}<i className="fa fa-star text-yellow"/>
+            </Button>
             <Popover placement="auto" trigger="legacy" target={target} toggle={toggle} isOpen={isOpen}>
-                <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "300px" : "200px"}}>
+                <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "300px" : "275px"}}>
                     <Loading loading={loading}/>
                     {!loading ?
                         <Card className="card-profile">
@@ -68,8 +71,17 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
                             </CardHeader>
                             <CardBody className="pt-0 pt-md-4">
                                 <Row className="mt-0 mt-md-5">
+                                    <div className="text-center w-100">
+                                        <h3>{user ? user.name : ''}</h3>
+                                        { showMail ? <div className="h5 font-weight-300">
+                                            <i className="ni location_pin mr-2"/>
+                                            {user ? user.email : ''}
+                                        </div> : null }
+                                    </div>
+                                </Row>
+                                <Row>
                                     <Col xs={12} className="text-center">
-                                        <Badge pill color="info" className='badge-lg shadow'>
+                                        <Badge pill color="primary" className='badge-lg shadow'>
                                             {user ? t(user.roles[0]) : ""}
                                         </Badge>
                                     </Col>
@@ -110,13 +122,6 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
                                         </Row>
                                     </div>
                                 </Row>
-                                <div className="text-center">
-                                    <h3>{user ? user.name : ''}</h3>
-                                    { showMail ? <div className="h5 font-weight-300">
-                                        <i className="ni location_pin mr-2"/>
-                                         {user ? user.email : ''}
-                                    </div> : null }
-                                </div>
                             </CardBody>
                         </Card> : null
                     }
