@@ -21,7 +21,10 @@ const ConfirmButton = ({children, disabled, className, color, type, onClick}) =>
 
     useEffect(() => {
         if (loadingPercent !== null && loadingPercent < 100 && isMouseDown && !disabled) {
-            setTimeout(() => setLoadingPercent(loadingPercent + CONFIRM_LOADING_STEP.VALUE), CONFIRM_LOADING_STEP.INTERVAL);
+            setTimeout(
+                () => setLoadingPercent(loadingPercent + CONFIRM_LOADING_STEP.VALUE),
+                CONFIRM_LOADING_STEP.INTERVAL
+            );
         }
     }, [loadingPercent]);
 
@@ -44,9 +47,7 @@ const ConfirmButton = ({children, disabled, className, color, type, onClick}) =>
 
     useEffect(() => {
         document.addEventListener("mouseup", onMouseUp);
-        return () => {
-            document.removeEventListener("mouseup", onMouseUp);
-        }
+        return () => document.removeEventListener("mouseup", onMouseUp);
     }, []);
 
     const handleClick = (e) => {

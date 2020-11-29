@@ -16,8 +16,9 @@ import productService from "../../services/product.service";
 import s3Services from "../../services/s3.services";
 import ProductForm from "../Forms/ProductForm";
 import ModalFooter from "reactstrap/es/ModalFooter";
+import {withTranslation} from "react-i18next";
 
-const NewProductModal = () => {
+const NewProductModal = ({t}) => {
 
     const [defaultData, setDefaultData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +29,12 @@ const NewProductModal = () => {
 
     const scrapAsin = () => {
         if (!asinInput || !asinInput.length) {
-            toast.error("Veuillez fournir l'identifiant ASIN ou l'url du produit.");
+            toast.error(t("MISSING_ASIN"));
             return;
         }
         const match = asinInput.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
         if (!match) {
-            toast.error("ASIN ou url du produit incorrecte.");
+            toast.error(t("WRONG_ASIN"));
             return;
         }
         const asin = match[1];
@@ -71,7 +72,7 @@ const NewProductModal = () => {
 
             delete product.images;
             return productService.create(product).then(() => {
-                toast.success("Produit ajouté et publié.");
+                toast.success(t("PRODUCT_ADDED_AND_PUBLISHED"));
                 toggleModal();
                 resetForm();
                 resolve();
@@ -87,14 +88,14 @@ const NewProductModal = () => {
             {/* Button trigger modal */}
             <Button color="primary" onClick={toggleModal}>
                 <i className="ni ni-bag-17 mr-2"/>
-                Nouveau Produit
+                {t("NEW_PRODUCT")}
             </Button>
             {/* Modal */}
             <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={toggleModal} size="lg">
                 <Loading promise={loadingPromise}/>
                 <div className="modal-header bg-secondary">
                     <h2 className="modal-title" id="exampleModalLabel">
-                        Nouveau Produit
+                        {t("NEW_PRODUCT")}
                     </h2>
                     <button aria-label="Close" className="close" data-dismiss="modal" type="button"
                             onClick={toggleModal}>
@@ -112,14 +113,15 @@ const NewProductModal = () => {
                                                 <i className="fa fa-hashtag"/>
                                             </InputGroupText>
                                         </InputGroupAddon>
-                                        <Input placeholder="ASIN ou Lien amazon du produit" type="text"
+                                        <Input placeholder={(t("ASIN_PLACEHOLDER"))} type="text"
                                                name="asinInput" value={asinInput}
                                                onChange={e => setAsinInput(e.target.value)}/>
                                     </InputGroup>
                                 </FormGroup>
                             </div>
                             <div className="col-12 col-md-4 col-lg-3">
-                                <Button color="primary" className="mb-3 w-100" onClick={scrapAsin}>Pré-Remplir</Button>
+                                <Button color="primary" className="mb-3 w-100" disabled={!asinInput}
+                                        onClick={scrapAsin}>{t("PRE_FILL")}</Button>
                             </div>
 
                         </Row>
@@ -131,7 +133,7 @@ const NewProductModal = () => {
 
                 <ModalFooter className="bg-secondary">
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
-                        Fermer
+                        {t("CLOSE")}
                     </Button>
                 </ModalFooter>
             </Modal>
@@ -139,4 +141,4 @@ const NewProductModal = () => {
     );
 };
 
-export default NewProductModal;
+export default withTranslation()(NewProductModal);

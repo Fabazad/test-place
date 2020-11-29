@@ -14,9 +14,11 @@ import ImageUploader from "../ImageUploader";
 import constants from "../../helpers/constants";
 import s3Services from "../../services/s3.services";
 import Loading from "../Loading";
+import {withTranslation} from "react-i18next";
+import ConfirmButton from "../Buttons/ConfirmButton";
 
 const OrderedProductModal = props => {
-    const {isOpen, onToggle, testId} = props;
+    const {isOpen, onToggle, testId, t} = props;
 
     const [test, setTest] = useState(null);
     const [orderId, setOrderId] = useState(null);
@@ -32,7 +34,7 @@ const OrderedProductModal = props => {
 
     const handleConfirm = async () => {
         if (!orderScreenshot) {
-            toast.error("Veuillez ajouter la capture d'écran de votre commande.");
+            toast.error(t("ADD_SCREENSHOT"));
             return;
         }
 
@@ -50,7 +52,7 @@ const OrderedProductModal = props => {
 
             testServices.testsSubject.next();
             onToggle();
-            toast.success("Produit enregistré comme commandé.");
+            toast.success(t("PRODUCT_SAVED_AS_ORDERED"));
         } catch (err) {
             console.log(err);
             toast.error(err.toString);
@@ -66,7 +68,7 @@ const OrderedProductModal = props => {
             setOrderScreenshotUrl(fileUrl);
         } catch(err) {
             console.log(err);
-            toast.error("Impossible d'importer cette image.");
+            toast.error(t("COULD_NOT_IMPORT_PICTURE"));
         }
 
     };
@@ -77,33 +79,29 @@ const OrderedProductModal = props => {
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
             <Loading loading={loading}/>
             <div className="modal-header">
-                <h2 className="modal-title">Produit commandé</h2>
+                <h2 className="modal-title">{t("PRODUCT_ORDERED")}</h2>
                 <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                     <span aria-hidden={true}>×</span>
                 </button>
             </div>
             <div className="modal-body text-center pb-0">
-                <Alert className="alert-info">
-                    Vous êtes sur le point de confirmer que vous avez bien commandé le produit sur le site Amazon.
-                </Alert>
                 <div className="text-left w-100">
                     {test.sellerMessage ?
                         <div className="mb-3">
-                            <Label>Message du Vendeur - {test.seller.name}</Label>
+                            <Label>{t("SELLER_MESSAGE")} - {test.seller.name}</Label>
                             <Alert color="success">
                                 {test.sellerMessage}
                             </Alert>
                         </div> : null}
                 </div>
-                <div className="mt-3 mb-0">
-                    Si ce n'est pas le cas,<br/>
-                    Veuillez d'abord commander le produit.
+                <div className="mt-3 mb-0 white-space-pre-line">
+                    {t("ORDER_PRODUCT_FIRST")}
                 </div>
                 <div className="mt-3">
                     <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)}>
                         <Button color="default">
                             <i className="fab fa-amazon mr-3"/>
-                            Accèder au Produit Amazon
+                            {t("GO_TO_AMAZON_PRODUCT")}
                         </Button>
                     </a>
                 </div>
@@ -113,12 +111,12 @@ const OrderedProductModal = props => {
                 <Form className="mt-4 px-0 px-md-5 mx-0 mx-md-4 bg-secondary rounded py-3 shadow">
                     <FormGroup>
                         <Label>
-                            Capture d'écran de la commande
+                            {t("ORDER_SCREENSHOT")}
                             <InfoPopover className="ml-3">
-                                Prenez une photo de votre commande sur la&nbsp;
+                                {t("TAKE_ORDER_PICTURE")}{" "}
                                 <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"
                                    rel="noopener noreferrer">
-                                    page de vos commandes
+                                    {t("YOUR_ORDERS_PAGE")}
                                 </a>.
                             </InfoPopover>
                         </Label>
@@ -128,14 +126,14 @@ const OrderedProductModal = props => {
                     </FormGroup>
                     <FormGroup>
                         <Label>
-                            Numéro de commande
+                            {t("ORDER_NUMBER")}
                             <InfoPopover className="ml-3">
-                                Vous pouvez facilement retrouver ce numéro sur la&nbsp;
+                                {t("CAN_FIND_ORDER_NUMBER_ON")}{" "}
                                 <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"
                                    rel="noopener noreferrer">
-                                    page de vos commandes
+                                    {t("YOUR_ORDERS_PAGE")}
                                 </a>.<br/>
-                                Sous le titre <b>N° DE COMMANDE</b>.
+                                {t("ON_TITLE")}{" "}<b>{t("ORDER_NUMBER_AMAZON_TITLE")}</b>.
                             </InfoPopover>
                         </Label>
                         <Input type="text" name="orderId" className="form-control-alternative"
@@ -145,9 +143,9 @@ const OrderedProductModal = props => {
             </div>
             <div className="modal-footer">
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    Fermer
+                    {t("CLOSE")}
                 </Button>
-                <Button color="primary" disabled={disabled} onClick={handleConfirm}>Confirmer</Button>
+                <ConfirmButton color="primary" disabled={disabled} onClick={handleConfirm}>{t("CONFIRM")}</ConfirmButton>
             </div>
         </Modal>
     )
@@ -160,4 +158,4 @@ OrderedProductModal.propTypes = {
     testId: PropTypes.string.isRequired
 };
 
-export default OrderedProductModal;
+export default withTranslation()(OrderedProductModal);
