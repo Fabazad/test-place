@@ -253,5 +253,15 @@
   "CAN_FIND_ORDER_NUMBER_ON": "Vous pouvez facilement retrouver ce numéro sur la",
   "ON_TITLE": "Sous le titre",
   "ORDER_NUMBER_AMAZON_TITLE": "N° DE COMMANDE",
-  "PRIVACY_POLICY": "Conditions Générales d'Utilisation"
+  "PRIVACY_POLICY": "Conditions Générales d'Utilisation",
+  "REVIEW_NEED_VALIDATION": "L'avis doit être, au préalable, validé par Amazon.\nEn effet, le lien de l'avis vous est demandé.",
+  "GO_ON_YOUR": "Allez sur votre",
+  "AMAZON_PROFILE": "Profil Amazon",
+  "COPY_PASTE_YOUR_REVIEW_LINK": "Trouver l'avis du produit et cliquez dessus.\nCopiez alors l'url sur laquelle vous vous trouvez.",
+  "RESEND_VALIDATION_MAIL": "Renvoyer l'email de validation",
+  "SHARE_PLACEHOLDER": "Salut :) Je te laisse essayer ce site, tu vas adorer !",
+  "PASSWORD_NEEDS_MIN_CHARS": "Le mot de passe doit contenir au moins 8 caractères.",
+  "UPDATE_PASSWORD": "Modifier mon mot de passe",
+  "CURRENT_PASSWORD": "Mot de passe actuel",
+  "NEW_PASSWORD": "Nouveau mot de passe"
 }

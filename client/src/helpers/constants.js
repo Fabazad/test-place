@@ -8,6 +8,7 @@ export default {
     AMAZON_APP_ID: 'amzn1.application-oa2-client.1dc653b5a0d74449b587f561ea23589a',
     ITEMS_PER_PAGE: 20,
     AMAZON_PARTNER_ID: "ayotechno-21",
+    DOMAIN: "testplace.io",
     GENDERS: {
         MALE: "MALE",
         FEMALE: "FEMALE"

@@ -14,15 +14,17 @@ import {
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
+import {withTranslation} from "react-i18next";
+import constants from "../../helpers/constants";
 
-const ShareModal = ({onToggle, isOpen}) => {
+const ShareModal = ({onToggle, isOpen, t}) => {
 
-    const url = "testplace.io";
+    const url = constants.DOMAIN;
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle}>
             <div className="modal-header">
-                <h4 className="m-0">Partager</h4>
+                <h4 className="m-0">{t("SHARE")}</h4>
                 <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                     <span aria-hidden={true}>×</span>
                 </button>
@@ -33,7 +35,7 @@ const ShareModal = ({onToggle, isOpen}) => {
                         <EmailShareButton
                             url={url} id="email-share"
                             subject="Découvrir Test Place"
-                            body="Salut :) Je te laisse essayer ce site, tu vas adorer !"
+                            body={t("SHARE_PLACEHOLDER")}
                         >
                             <Button className="btn-icon-only rounded-circle border-0" color="light" type="button">
                         <span className="btn-inner--icon m-0">
@@ -74,7 +76,7 @@ const ShareModal = ({onToggle, isOpen}) => {
                         <UncontrolledTooltip target="twitter-share">Twitter</UncontrolledTooltip>
                     </Col>
                     <Col xs={4} md={2} className="mt-3 mt-md-0">
-                        <ViberShareButton url={url} title="Salut :) Je te laisse essayer ce site, tu vas adorer !"
+                        <ViberShareButton url={url} title={t("SHARE_PLACEHOLDER")}
                                           id="viber-share">
                             <Button className="btn-icon-only rounded-circle border-0 bg-purple text-white"
                                     type="button">
@@ -99,7 +101,7 @@ const ShareModal = ({onToggle, isOpen}) => {
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    Fermer
+                    {t("CLOSE")}
                 </Button>
             </ModalFooter>
         </Modal>
@@ -111,4 +113,4 @@ ShareModal.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-export default ShareModal;
+export default withTranslation()(ShareModal);

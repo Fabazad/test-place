@@ -10,7 +10,7 @@ const InfoPopover = ({children, className}) => {
         <>
             <i className={"fa fa-question-circle cursor-pointer " + className} id={"popover" + popoverId}/>
             <UncontrolledPopover placement="auto" target={"popover" + popoverId} trigger="legacy">
-                <PopoverBody className="p-3">
+                <PopoverBody className="p-3 white-space-pre-line">
                     {children}
                 </PopoverBody>
             </UncontrolledPopover>

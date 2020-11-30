@@ -155,7 +155,7 @@ class UserController {
                         if (err) {
                             reject({status: 500, message: "Internal error please try again."});
                         } else if (!same) {
-                            reject({status: 401, message: "Incorrect current password."});
+                            reject({status: 400, message: "Incorrect current password."});
                         } else {
                             // Issue token
                             user.password = password;

@@ -13,8 +13,9 @@ import Loading from "../Loading";
 import InfoPopover from "../InfoPopover";
 import {getAmazonProfileUrl} from "../../helpers/urlHelpers";
 import userServices from "../../services/user.services";
+import {withTranslation} from "react-i18next";
 
-const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
+const ProductReviewedModal = ({isOpen, onToggle, testId, t}) => {
 
     const [reviewId, setReviewId] = useState("");
     const [statuses, setStatuses] = useState("");
@@ -55,7 +56,7 @@ const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
             <Form onSubmit={onSubmit}>
                 <div className="modal-header">
                     <h3 className="modal-title mb-0">
-                        Produit noté
+                        {t("PRODUCT_REVIEWED")}
                     </h3>
                     <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={onToggle}>
                         <span aria-hidden={true}>×</span>
@@ -63,18 +64,16 @@ const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
                 </div>
 
                 <ModalBody>
-                    <Alert color="info">
-                        L'avis doit être, au préalable, validé par Amazon.<br/>
-                        En effet, le lien de l'avis vous est demandé.
+                    <Alert color="info" className="white-space-pre-line">
+                        {t("REVIEW_NEED_VALIDATION")}
                     </Alert>
                     <div className="p-3 bg-secondary rounded mt-3">
                         <FormGroup>
-                            <Label for="declineReviewReason">Lien de l'avis :</Label>
-                            <InfoPopover className="ml-3">
-                                Sur votre <a href={getAmazonProfileUrl(currentUser.amazonId)} target="_blank"
-                                             rel="noopener noreferrer">Profil Amazon</a>.<br/>
-                                Trouver l'avis du produit et cliquez dessus.<br/>
-                                Copiez alors l'url sur laquelle vous vous trouvez.
+                            <Label for="declineReviewReason">{t("REVIEW_LINK")} :</Label>
+                            <InfoPopover className="ml-3 white-space-pre-line">
+                                {t("GO_ON_YOUR")}{" "}<a href={getAmazonProfileUrl(currentUser.amazonId)} target="_blank"
+                                             rel="noopener noreferrer">{t("AMAZON_PROFILE")}</a>.<br/>
+                                {t("COPY_PASTE_YOUR_REVIEW_LINK")}
                             </InfoPopover>
                             <Input
                                 type="text" id="declineReviewReason" required={true}
@@ -87,9 +86,9 @@ const ProductReviewedModal = ({isOpen, onToggle, testId}) => {
 
                 <ModalFooter>
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                        Fermer
+                        {t("CLOSE")}
                     </Button>
-                    <Button type="submit" color='primary' disabled={!reviewId}>Enregistrer</Button>
+                    <Button type="submit" color='primary' disabled={!reviewId}>{t("SAVE")}</Button>
                 </ModalFooter>
             </Form>
         </Modal>
@@ -102,4 +101,4 @@ ProductReviewedModal.propTypes = {
     testId: PropTypes.string.isRequired
 };
 
-export default ProductReviewedModal;
+export default withTranslation()(ProductReviewedModal);
