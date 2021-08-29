@@ -76,7 +76,7 @@ const PrivacyPolicyModal = ({t}) => {
                         RCS de Montpellier sous le numéro 000 000 000, dont le siège social est situé au Avenue
                         d’assas <br/>
                         Numéro de téléphone 0664160119 <br/>
-                        Adresse e-mail : Test-place@gmail.com. <br/>
+                        Adresse e-mail : test-place@gmail.com. <br/>
                         Le Directeur de la publication est : Pratlong Florine <br/>
                         L'hébergeur du site https://test-place.com est la société Heroku, dont le siège social est
                         situé au Heroku companie, avec le

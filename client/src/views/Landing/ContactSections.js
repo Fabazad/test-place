@@ -1,54 +1,29 @@
 import {
-    Button,
     Card,
     CardBody,
     Col,
     Container,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
     Row
 } from "reactstrap";
 import React, {useState} from "react";
-import classnames from "classnames";
-import Form from "reactstrap/es/Form";
 import MessageSentMessage from "./MessageSentModal";
 import userServices from "../../services/user.services";
-import {toast} from "react-toastify";
-import Loading from "../../components/Loading";
 import {withTranslation} from "react-i18next";
-import ConfirmButton from "../../components/Buttons/ConfirmButton";
+import ContactForm from "../../components/Forms/ContactForm";
 
 const ContactSections = (props) => {
 
     const {t} = props;
 
-    const [nameFocused, setNameFocused] = useState(false);
-    const [emailFocused, setEmailFocused] = useState(false);
-
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const onToggle = () => setIsOpen(!isOpen);
 
-    const onSubmit = e => {
-        e.preventDefault();
-
-        if (!name || !email || !message) {
-            toast.error(t("MISSING_FIELDS"));
-        }
-
+    const onSubmit = ({ name, email, message }) => {
         setLoading(true);
-        userServices.sendContactUsMessage(name, email, message).then(() => {
+        userServices.sendContactUsMessage(name, email, message).finally(() => {
             onToggle();
-            setName("");
-            setEmail("");
-            setMessage("");
             setLoading(false);
         });
     };
@@ -80,48 +55,7 @@ const ContactSections = (props) => {
                         <Col lg="8">
                             <Card className="bg-gradient-secondary shadow">
                                 <CardBody className="p-lg-5">
-                                    <Form onSubmit={onSubmit}>
-                                        <Loading loading={loading}/>
-                                        <FormGroup className={classnames({focused: nameFocused})}>
-                                            <InputGroup className="input-group-alternative">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="ni ni-user-run"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input placeholder={t("YOUR_NAME")} type="text" value={name} required
-                                                       onFocus={() => setNameFocused(true)} name="name"
-                                                       onBlur={() => setNameFocused(false)}
-                                                       onChange={e => setName(e.target.value)}
-                                                />
-                                            </InputGroup>
-                                        </FormGroup>
-                                        <FormGroup className={classnames({focused: emailFocused})}>
-                                            <InputGroup className="input-group-alternative">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="ni ni-email-83"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input placeholder={t("YOUR_MAIL_ADDRESS")} type="email" value={email}
-                                                       onFocus={() => setEmailFocused(true)} required
-                                                       onBlur={() => setEmailFocused(false)}
-                                                       onChange={e => setEmail(e.target.value)} name="email"
-                                                />
-                                            </InputGroup>
-                                        </FormGroup>
-                                        <FormGroup className="mb-4">
-                                            <Input className="form-control-alternative" cols="80" value={message}
-                                                   onChange={e => setMessage(e.target.value)} required name="message"
-                                                   placeholder={t("TELL_US_EVERYTHING")} rows="4" type="textarea"/>
-                                        </FormGroup>
-                                        <div className="text-center">
-                                            <ConfirmButton color="default" type="submit"
-                                                           disabled={!name || !email || !message}>
-                                                {t("SEND_YOUR_MESSAGE")}
-                                            </ConfirmButton>
-                                        </div>
-                                    </Form>
+                                    <ContactForm onSubmit={onSubmit} loading={loading}/>
                                 </CardBody>
                             </Card>
                         </Col>

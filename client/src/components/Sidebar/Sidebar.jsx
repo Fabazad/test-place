@@ -29,6 +29,8 @@ import {
 } from "reactstrap";
 import ShareModal from "../Modals/ShareModal";
 import Badge from "reactstrap/es/Badge";
+import ContactModal from "../Modals/ContactModal";
+import ContactItem from "./ContactItem";
 
 const Sidebar = props => {
 
@@ -181,10 +183,7 @@ const Sidebar = props => {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink to="/#contact-us" tag={Link}>
-                                <i className="ni ni-email-83"/>
-                                Nous contacter
-                            </NavLink>
+                            <ContactItem/>
                         </NavItem>
                     </Nav>
                 </Collapse>

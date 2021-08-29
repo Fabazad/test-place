@@ -16,12 +16,10 @@ import {
 } from "reactstrap";
 import routesJson from "../../routes";
 import userServices from "../../services/user.services";
-import SearchProductNavForm from "../Forms/SearchProductNavForm";
 import Collapse from "reactstrap/es/Collapse";
 import Notifications from "../Notifications/Notifications";
 import ProfileDropdownBadge from "./ProfileDropdownBadge";
 import NavItems from "./NavItems";
-import SearchEngine from "../SearchEngine";
 
 const DemoNavbar = props => {
 
