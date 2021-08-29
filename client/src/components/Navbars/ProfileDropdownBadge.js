@@ -30,12 +30,13 @@ const ProfileDropdownBadge = props => {
     return (
         <UncontrolledDropdown className="profile-dropdown-badge">
             <DropdownToggle nav>
-                <Badge color="primary" pill className="shadow--hover">
+                <Badge color="primary" pill className="shadow--hover d-flex flex-align-center">
                     <i className="ni ni-circle-08 ni-2x" style={{ top: "0px" }}/>
                     <div className="mr-2 d-inline-block ml-2 ml-md-0"
                          style={{fontSize: '1.2em', verticalAlign: "super", left: '80px'}}>
                         {userServices.currentUser.name}
                     </div>
+                    <i className="fa fa-chevron-down" />
                 </Badge>
             </DropdownToggle>
             <DropdownMenu

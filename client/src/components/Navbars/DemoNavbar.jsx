@@ -21,6 +21,7 @@ import Collapse from "reactstrap/es/Collapse";
 import Notifications from "../Notifications/Notifications";
 import ProfileDropdownBadge from "./ProfileDropdownBadge";
 import NavItems from "./NavItems";
+import SearchEngine from "../SearchEngine";
 
 const DemoNavbar = props => {
 
@@ -60,9 +61,9 @@ const DemoNavbar = props => {
                             <span className="h3 text-light ml-3 my-auto"
                                   style={{lineHeight: "60px"}}>testplace.io</span>
                         </NavbarBrand>
-                        {isAuth ? (<div className="d-md-none">
+                        {isAuth && (<div className="d-md-none">
                             <Notifications/>
-                        </div>) : null}
+                        </div>)}
                         <button className="navbar-toggler" id="navbar_global" onClick={() => toggle()}>
                             <span className="navbar-toggler-icon"/>
                         </button>
@@ -87,16 +88,11 @@ const DemoNavbar = props => {
                                         </Col>
                                     </Row>
                                 </div>
-                                <Nav className="navbar-nav-hover align-items-lg-center w-100" navbar>
-                                    <NavItem className='w-100'>
-                                        <SearchProductNavForm history={props.history}/>
-                                    </NavItem>
-                                </Nav>
                                 <Nav className="align-items-lg-center ml-lg-auto" navbar>
-                                    {!isAuth ? (
+                                    {!isAuth && (
                                         <>
                                             <NavItem>
-                                                <Button to='/login' tag={Link} color={'secondary'}
+                                                <Button to='/login' tag={Link} color='secondary'
                                                         className="nav-link-inner--text d-none d-md-block"
                                                         data-testid="login-button">
                                                     Connexion
@@ -114,21 +110,28 @@ const DemoNavbar = props => {
                                                     Inscription
                                                 </NavLink>
                                             </NavItem>
-                                        </>) : null
+                                            <NavItem>
+                                                <NavLink to='/#how-it-works' tag={Link} data-testid="how-it-works"
+                                                         className="nav-link-inner--text text-white cursor-pointer">
+                                                    <i className="fa fa-question text-danger mr-3 d-md-none"/>
+                                                    Comment ça marche ?
+                                                </NavLink>
+                                            </NavItem>
+                                        </>)
                                     }
-                                    {isAuth ? (
+                                    {isAuth && (
                                         <NavItem className="d-none d-md-block">
                                             <Notifications/>
                                         </NavItem>
-                                    ) : null}
-                                    {isAuth ? (
+                                    )}
+                                    {isAuth && (
                                         <>
                                             <NavItem className="d-none d-md-block">
                                                 <ProfileDropdownBadge routes={routes} history={props.history}/>
                                             </NavItem>
                                             <NavItems routes={routes}/>
                                         </>
-                                    ) : null}
+                                    )}
                                 </Nav>
                             </Collapse>
                         </div>

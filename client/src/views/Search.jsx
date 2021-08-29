@@ -106,7 +106,7 @@ const Search = props => {
                     </div>
                     <Container className="pt-lg-md mb-5">
                         <Row className="mt-3">
-                            <div className="col-12">
+                            <div className="col-12 p-4 rounded bg-translucent-light">
                                 <SearchEngine onSearch={data => updateURLParameters({...data, page: 1})}
                                               data={searchEngineData}/>
                             </div>

@@ -73,10 +73,10 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
                                 <Row className="mt-0 mt-md-5">
                                     <div className="text-center w-100">
                                         <h3>{user ? user.name : ''}</h3>
-                                        { showMail ? <div className="h5 font-weight-300">
+                                        { showMail && <div className="h5 font-weight-300">
                                             <i className="ni location_pin mr-2"/>
                                             {user ? user.email : ''}
-                                        </div> : null }
+                                        </div> }
                                     </div>
                                 </Row>
                                 <Row>
