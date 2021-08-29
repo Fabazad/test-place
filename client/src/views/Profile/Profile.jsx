@@ -81,7 +81,7 @@ const Profile = props => {
                                 </div>
                             </CardHeader>
                             <CardBody className="pt-0 pt-md-4">
-                                <Row>
+                                <Row className="mt-3">
                                     <div className="col">
                                         <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                                             <div>

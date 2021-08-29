@@ -18,6 +18,7 @@ import NewTestButton from "../components/Buttons/NewTestButton";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 import UserProfilePopover from "../components/UserProfilePopover";
 import {withTranslation, Trans} from "react-i18next";
+import ProfileStats from "../components/ProfileStats";
 
 const ProductDetail = props => {
 
@@ -25,13 +26,31 @@ const ProductDetail = props => {
 
     const [product, setProduct] = useState(undefined);
     const [categories, setCategories] = useState([]);
+    const [sellerData, setSellerData] = useState(null)
+
 
     useEffect(() => {
         const {productId} = match.params;
         productServices.getOne(productId)
-            .then(setProduct)
+            .then((product) => {
+                setProduct(product);
+                userServices.getOne(product.seller._id).then(({
+                                                                  user,
+                                                                  processingTestsCount,
+                                                                  completedTestsCount,
+                                                                  guiltyTestsCount
+                                                              }) => {
+                    user.testsCount = {
+                        processing: processingTestsCount,
+                        completed: completedTestsCount,
+                        guilty: guiltyTestsCount
+                    };
+                    setSellerData(user)
+                })
+            })
             .catch(() => history.replace("/not-found"));
         productServices.getProductCategories().then(setCategories);
+
     }, []);
 
     const getProduct = (productValue) => {
@@ -50,6 +69,9 @@ const ProductDetail = props => {
     const newTestRequestButtonDisabled = (currentUser && currentUser.roles.includes(constants.USER_ROLES.SELLER)) || product.remainingRequests < 1;
 
     const newTestButtonDisabled = !(!newTestRequestButtonDisabled && currentUser && currentUser.amazonId && currentUser.paypalEmail);
+
+
+    console.log({sellerData, product})
 
     return (
         <>
@@ -156,17 +178,18 @@ const ProductDetail = props => {
                                                         </Badge>
                                                     </h2>
                                                 </div> : null}
-                                            {product.automaticAcceptance ?
-                                                <div className="text-left mt-4 col-12">
-                                                    <small className="row">
-                                                        <div className="col-1 text-center">
-                                                            <i className="fa fa-bolt text-yellow"/>
-                                                        </div>
-                                                        <div className="col">
-                                                            <Trans i18nKey="AUTOMATIC_ACCEPTANCE_EXPLAINED" components={{ b: <b /> }}/>
-                                                        </div>
-                                                    </small>
-                                                </div> : null}
+                                            {product.automaticAcceptance &&
+                                            <div className="text-left mt-4 col-12">
+                                                <small className="row">
+                                                    <div className="col-1 text-center">
+                                                        <i className="fa fa-bolt text-yellow"/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <Trans i18nKey="AUTOMATIC_ACCEPTANCE_EXPLAINED"
+                                                               components={{b: <b/>}}/>
+                                                    </div>
+                                                </small>
+                                            </div>}
                                         </div>
                                     </div> : null}
 
@@ -177,13 +200,14 @@ const ProductDetail = props => {
                                             <Row>
                                                 <div className="col text-center">
                                                     <Label className='d-block'>Test Place</Label>
-                                                    {product ?
-                                                        <UserProfilePopover userName={product.seller.name}
-                                                                            userId={product.seller._id}
-                                                                            showMail={false}/> : null
+                                                    <div>{product.seller.name}</div>
+                                                    {product && sellerData !== null &&
+                                                    <div className="mt-3"><ProfileStats userId={product.seller._id}
+                                                                                        testsCount={sellerData.testsCount}/>
+                                                    </div>
                                                     }
                                                 </div>
-                                                {product && product.amazonSeller ? (
+                                                {product && product.amazonSeller && (
                                                     <div className="col-6 text-center">
                                                         <Label className='d-block'>Amazon</Label>
                                                         <a href={product.amazonSeller.url} target='_blank'
@@ -191,7 +215,7 @@ const ProductDetail = props => {
                                                             {product.amazonSeller.name}
                                                         </a>
                                                     </div>
-                                                ) : null}
+                                                )}
                                             </Row>
                                         </CardBody>
                                     </Card>

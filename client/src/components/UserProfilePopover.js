@@ -9,6 +9,7 @@ import {withTranslation} from "react-i18next";
 import IdHelper from "../helpers/IdHelper";
 import Popover from "reactstrap/es/Popover";
 import Button from "reactstrap/es/Button";
+import ProfileStats from "./ProfileStats";
 
 const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
@@ -45,11 +46,12 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
     return (
         <>
+            <UncontrolledTooltip target={target} delay={0}>Voir stats</UncontrolledTooltip>
             <Button id={target}  className="cursor-pointer" color="primary" size="sm" onClick={onClick}>
                 {userName}{" "}<i className="fa fa-star text-yellow"/>
             </Button>
             <Popover placement="auto" trigger="legacy" target={target} toggle={toggle} isOpen={isOpen}>
-                <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "300px" : "275px"}}>
+                <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "250px" : "225px"}}>
                     <Loading loading={loading}/>
                     {!loading ?
                         <Card className="card-profile">
@@ -87,39 +89,8 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <div className="col">
-                                        <Row className="card-profile-stats">
-                                            <Col xs={4} className="m-0">
-                                                <Badge color="primary" pill className="badge-lg"
-                                                       id={'prcessing-tests-' + userId}>
-                                                    <span
-                                                        className="heading">{user ? user.testsCount.processing : 0}</span>
-                                                </Badge>
-                                                <UncontrolledTooltip target={'prcessing-tests-' + userId}>
-                                                    En cours
-                                                </UncontrolledTooltip>
-                                            </Col>
-                                            <Col xs={4} className="m-0">
-                                                <Badge color="success" pill className="badge-lg"
-                                                       id={'completed-tests-' + userId}>
-                                                    <span
-                                                        className="heading">{user ? user.testsCount.completed : 0}</span>
-                                                </Badge>
-                                                <UncontrolledTooltip target={'completed-tests-' + userId}>
-                                                    Terminés
-                                                </UncontrolledTooltip>
-                                            </Col>
-                                            <Col xs={4} className="m-0">
-                                                <Badge color="danger" pill className="badge-lg"
-                                                       id={'guilty-tests-' + userId}>
-                                                    <span
-                                                        className="heading">{user ? user.testsCount.guilty : 0}</span>
-                                                </Badge>
-                                                <UncontrolledTooltip target={'guilty-tests-' + userId}>
-                                                    Annulés ou en Reclamation
-                                                </UncontrolledTooltip>
-                                            </Col>
-                                        </Row>
+                                    <div className="col mt-4">
+                                        {user && <ProfileStats testsCount={user.testsCount} userId={userId}/>}
                                     </div>
                                 </Row>
                             </CardBody>
