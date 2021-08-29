@@ -30,6 +30,8 @@ import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Label from "reactstrap/es/Label";
 import {withTranslation} from "react-i18next";
 
+import { useGoogleLogin } from 'react-google-login'
+
 const Register = props => {
 
     const { t } = props;
@@ -41,6 +43,13 @@ const Register = props => {
     const [captcha, setCaptcha] = useState(null);
     const [loading, setLoading] = useState(false);
     const [role, setRole] = useState(null);
+
+    const { signIn } = useGoogleLogin({
+        onSuccess: (res) => console.log("on success", res),
+        onFailure: (res) => console.log("onFailure", res),
+        clientId: "165720093757-rekthd2sfe0nn7m0tb7f0bopuquqdfn7.apps.googleusercontent.com",
+        prompt
+    })
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -135,6 +144,8 @@ const Register = props => {
                                                     />
                                                 </InputGroup>
                                             </FormGroup>
+
+                                            <button type="button" onClick={() => signIn()}>Google</button>
                                             <FormGroup>
                                                 <InputGroup className="input-group-alternative">
                                                     <InputGroupAddon addonType="prepend">
@@ -142,6 +153,7 @@ const Register = props => {
                                                             <i className="ni ni-lock-circle-open"/>
                                                         </InputGroupText>
                                                     </InputGroupAddon>
+
                                                     <Input
                                                         placeholder={t("PASSWORD")}
                                                         type="password"
