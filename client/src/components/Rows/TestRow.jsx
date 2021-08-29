@@ -66,7 +66,7 @@ const TestRow = props => {
                 <TestStatusIcon status={test.status} globalStatus={globalStatus}/>
             </td>
             <td>
-                <div className="avatar-group pl-3">
+                <div className="d-flex" style={{ gap: "0.2em" }}>
                     <TestListButtons statuses={statuses} globalStatus={globalStatus} onClick={handleClick} test={test}
                                      userRole={userRole}/>
                 </div>

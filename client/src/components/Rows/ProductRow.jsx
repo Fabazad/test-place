@@ -60,7 +60,7 @@ const ProductRow = props => {
             </th>
             <td>{product.testsCount} / {product.maxDemands}</td>
             <td>
-                <div className="avatar-group pl-3">
+                <div className="d-flex" style={{ gap: "0.2em"}}>
                     {published ? (
                         <>
                             <UnpublishProductButton productId={product._id}/>
