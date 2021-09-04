@@ -21,6 +21,7 @@ import CardBody from "reactstrap/es/CardBody";
 import Linkify from 'react-linkify';
 import {getAmazonReviewUrl} from "../../../helpers/urlHelpers";
 import Loading from "../../Loading";
+import EmailLink from "components/EmailLink";
 
 const {USER_ROLES} = constants;
 
@@ -93,7 +94,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                             <Col xs={12} md={3} className="text-center">
                                 <Label>{t("PAYPAL_EMAIL")}</Label>
                                 <div>
-                                    <small>{test.tester.paypalEmail}</small>
+                                    <EmailLink email={test.tester.paypalEmail} subject={t("TESTPLACE_EMAIL_SUBJECT")} body={test.product.title}></EmailLink>
                                 </div>
                             </Col>
                             {test.orderId ? (
@@ -177,7 +178,7 @@ TestModal.propTypes = {
     testId: PropTypes.string.isRequired,
     userType: PropTypes.string.isRequired,
     globalStatus: PropTypes.string.isRequired,
-    adminView: PropTypes.bool.isRequired
+    adminView: PropTypes.bool.isRequired,
 };
 
 export default withTranslation()(TestModal);

@@ -190,7 +190,7 @@
   "NEXT": "Ensuite ?",
   "PROFILE": "Profil",
   "TEST_DETAILS": "Détails du Test",
-  "TEST_REQUEST_DATE": "Date de le demande",
+  "TEST_REQUEST_DATE": "Date de la demande",
   "COMMAND_NUMBER": "Numéro de Commande",
   "SCREENSHOT": "Capture d'écran",
   "LINK": "Lien",
@@ -263,5 +263,6 @@
   "PASSWORD_NEEDS_MIN_CHARS": "Le mot de passe doit contenir au moins 8 caractères.",
   "UPDATE_PASSWORD": "Modifier mon mot de passe",
   "CURRENT_PASSWORD": "Mot de passe actuel",
-  "NEW_PASSWORD": "Nouveau mot de passe"
+  "NEW_PASSWORD": "Nouveau mot de passe",
+  "TESTPLACE_EMAIL_SUBJECT": "[TEST PLACE]"
 }

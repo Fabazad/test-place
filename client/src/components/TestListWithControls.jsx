@@ -122,6 +122,7 @@ const TestListWithControls = ({title, t, statusesOptions, userRole, globalStatus
         newIsModalOpen[action] = isOpen;
         setIsModalOpen(newIsModalOpen);
     };
+    
 
     return (
         <>
