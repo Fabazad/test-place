@@ -9,7 +9,7 @@ const EmailLink = props => {
 
     return (
         <>
-             <small><a href={`mailto:${email}?subject=${encodeURIComponent(subject) || ''}&body=${encodeURIComponent(body) || ''}`}>{email}</a></small>
+             <small><a href={`mailto:${email}?subject=${subject? encodeURIComponent(subject) : ''}&body=${body ? encodeURIComponent(body) : ''}`}>{email}</a></small>
         </>
     );
 };

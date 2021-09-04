@@ -10,6 +10,7 @@ import IdHelper from "../helpers/IdHelper";
 import Popover from "reactstrap/es/Popover";
 import Button from "reactstrap/es/Button";
 import ProfileStats from "./ProfileStats";
+import EmailLink from "./EmailLink";
 
 const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
@@ -77,7 +78,7 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
                                         <h3>{user ? user.name : ''}</h3>
                                         { showMail && <div className="h5 font-weight-300">
                                             <i className="ni location_pin mr-2"/>
-                                            {user ? user.email : ''}
+                                            {user ? <EmailLink email={user.email} subject={t("TESTPLACE_EMAIL_SUBJECT")}></EmailLink> : ''}
                                         </div> }
                                     </div>
                                 </Row>
