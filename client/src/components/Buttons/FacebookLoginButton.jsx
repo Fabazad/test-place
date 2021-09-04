@@ -3,7 +3,7 @@ import {Button} from "reactstrap";
 import React from "react";
 import PropTypes from "prop-types";
 
-const FacebookLoginButton = ({onSuccess, onFailure}) => {
+const FacebookLoginButton = ({onSuccess, onFailure, disabled}) => {
 
     const handleCallback = (res) => {
         console.log(res)
@@ -11,7 +11,8 @@ const FacebookLoginButton = ({onSuccess, onFailure}) => {
 
     return <FacebookLogin appId="1257173344724909" callback={handleCallback} render={renderProps => (
         <Button
-            className="btn-neutral btn-icon mr-4"
+            disabled={disabled}
+            className="btn-neutral btn-icon mr-4 text-dark"
             color="default"
             onClick={() => renderProps.onClick()}
         >

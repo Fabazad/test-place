@@ -15,7 +15,7 @@ import {
     Container,
     Row,
     Col,
-    CardHeader
+    CardHeader, CardFooter
 } from "reactstrap";
 
 import {Link} from 'react-router-dom';
@@ -40,7 +40,6 @@ const Register = props => {
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [password2, setPassword2] = useState(null);
     const [captcha, setCaptcha] = useState(null);
     const [loading, setLoading] = useState(false);
     const [role, setRole] = useState(null);
@@ -55,10 +54,6 @@ const Register = props => {
 
         if (password.length < 8) {
             toast.error(t("PASSWORD_SHOULD_MIN_CHARS"));
-            return;
-        }
-        if (password !== password2) {
-            toast.error(t("DIFFERENT_PASSWORDS"));
             return;
         }
         if (!captcha) {
@@ -114,26 +109,22 @@ const Register = props => {
                                     <Form role="form" onSubmit={onSubmit}>
                                         <Loading loading={loading}/>
                                         <CardHeader>
-                                            <div className="text-center mb-4">
-                                                <img src={require('assets/img/undraws/register.svg')} alt=""
-                                                     className="w-100 mb-3" style={{maxWidth: "150px"}}/>
-                                            </div>
                                             <FormGroup className="text-center">
-                                                <Label className="text-muted">{t("I_WANT_TO_BE")}</Label>
+                                                <Label className="text-muted mb-3">{t("I_WANT_TO_BE")}</Label>
                                                 <RolesSelectInput defaultValue={null} onChange={val => setRole(val)}/>
                                             </FormGroup>
                                         </CardHeader>
-                                        <CardBody className="px-lg-5 py-lg-5">
+                                        { role !== null && <CardBody className="px-lg-5 py-lg-4 mt-0">
                                             <div className="mb-3">
                                                 <div className="text-muted text-center mb-3">
                                                     <small>Inscrivez-vous avec votre compte</small>
                                                 </div>
                                                 <div className="text-center">
-                                                    <FacebookLoginButton onSuccess={onFacebookSignInSuccess} onFailure={onFacebookSignInFail}/>
-                                                    <GoogleLoginButton onSuccess={onGoogleSignInSuccess} onFailure={onGoogleSignInFail}/>
+                                                    <FacebookLoginButton onSuccess={onFacebookSignInSuccess} onFailure={onFacebookSignInFail} disabled={role === null}/>
+                                                    <GoogleLoginButton onSuccess={onGoogleSignInSuccess} onFailure={onGoogleSignInFail} disabled={role === null}/>
                                                 </div>
                                             </div>
-                                            <div className="mt-5">
+                                            <div className="mt-3">
                                                 <div className="text-muted text-center mb-3">
                                                     <small>Ou avec des identifiants</small>
                                                 </div>
@@ -189,24 +180,6 @@ const Register = props => {
                                                         />
                                                     </InputGroup>
                                                 </FormGroup>
-                                                <FormGroup>
-                                                    <InputGroup className="input-group-alternative">
-                                                        <InputGroupAddon addonType="prepend">
-                                                            <InputGroupText>
-                                                                <i className="ni ni-lock-circle-open"/>
-                                                            </InputGroupText>
-                                                        </InputGroupAddon>
-                                                        <Input
-                                                            placeholder={t("PASSWORD")}
-                                                            type="password"
-                                                            name="password2"
-                                                            autoComplete="off"
-                                                            onChange={e => setPassword2(e.target.value)}
-                                                            required
-                                                            data-testid="signin-password2-input"
-                                                        />
-                                                    </InputGroup>
-                                                </FormGroup>
                                                 <PasswordStrength min={8} password={password}/>
                                                 <div className="text-center mb-3 mt-4">
                                                     <ReCAPTCHA
@@ -246,14 +219,16 @@ const Register = props => {
                                                     </Button>
                                                 </div>
                                             </div>
-                                            <div className="text-center mt-3">
-                                                <Link to='/login'>
-                                                    <small
-                                                        className="text-primary">{t("I_ALREADY_HAVE_ACCOUNT")}</small>
-                                                </Link>
-                                            </div>
-                                        </CardBody>
+                                        </CardBody> }
                                     </Form>
+                                    <CardFooter className="bg-secondary">
+                                        <div className="text-center">
+                                            <Link to='/login'>
+                                                <small
+                                                    className="text-primary">{t("I_ALREADY_HAVE_ACCOUNT")}</small>
+                                            </Link>
+                                        </div>
+                                    </CardFooter>
                                 </Card>
                             </Col>
                         </Row>

@@ -3,7 +3,7 @@ import {Button} from "reactstrap";
 import React from "react";
 import PropTypes from "prop-types";
 
-const GoogleLoginButton = ({onSuccess, onFailure}) => {
+const GoogleLoginButton = ({onSuccess, onFailure, disabled}) => {
     const {signIn} = useGoogleLogin({
         onSuccess,
         onFailure,
@@ -11,8 +11,9 @@ const GoogleLoginButton = ({onSuccess, onFailure}) => {
     })
 
     return <Button
-        className="btn-neutral btn-icon ml-1"
+        className="btn-neutral btn-icon ml-1 text-dark"
         color="default"
+        disabled={disabled}
         onClick={() => signIn()}
     >
         <span className="btn-inner--icon mr-1">
