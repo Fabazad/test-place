@@ -17,6 +17,7 @@ import {
     Col,
     CardHeader
 } from "reactstrap";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 import {Link} from 'react-router-dom';
 
@@ -49,7 +50,6 @@ const Register = props => {
         onSuccess: (res) => console.log("on success", res),
         onFailure: (res) => console.log("onFailure", res),
         clientId: "165720093757-rekthd2sfe0nn7m0tb7f0bopuquqdfn7.apps.googleusercontent.com",
-        prompt
     })
 
     const onSubmit = (event) => {
@@ -120,20 +120,22 @@ const Register = props => {
                                                     <small>Inscrivez-vous avec votre compte</small>
                                                 </div>
                                                 <div className="text-center">
-                                                    <Button
-                                                        className="btn-neutral btn-icon mr-4"
-                                                        color="default"
-                                                        href="#pablo"
-                                                        onClick={e => e.preventDefault()}
-                                                    >
+                                                    <FacebookLogin appId="1257173344724909" render={renderProps => (
+                                                        <Button
+                                                            className="btn-neutral btn-icon mr-4"
+                                                            color="default"
+                                                            onClick={res => renderProps.onClick()}
+                                                        >
                                                       <span className="btn-inner--icon mr-1">
                                                         <img
                                                             alt="..."
                                                             src={require("assets/img/icons/common/facebook.svg")}
                                                         />
                                                       </span>
-                                                        <span className="btn-inner--text">Facebook</span>
-                                                    </Button>
+                                                            <span className="btn-inner--text">Facebook</span>
+                                                        </Button>
+                                                    )} />
+
                                                     <Button
                                                         className="btn-neutral btn-icon ml-1"
                                                         color="default"
