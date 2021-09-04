@@ -17,7 +17,6 @@ import {
     Col,
     CardHeader
 } from "reactstrap";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 import {Link} from 'react-router-dom';
 
@@ -31,8 +30,8 @@ import PrivacyPolicyModal from "../components/Modals/PrivacyPolicyModal";
 import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Label from "reactstrap/es/Label";
 import {withTranslation} from "react-i18next";
-
-import {useGoogleLogin} from 'react-google-login'
+import GoogleLoginButton from "../components/Buttons/GoogleLoginButton";
+import FacebookLoginButton from "../components/Buttons/FacebookLoginButton";
 
 const Register = props => {
 
@@ -45,12 +44,6 @@ const Register = props => {
     const [captcha, setCaptcha] = useState(null);
     const [loading, setLoading] = useState(false);
     const [role, setRole] = useState(null);
-
-    const {signIn} = useGoogleLogin({
-        onSuccess: (res) => console.log("on success", res),
-        onFailure: (res) => console.log("onFailure", res),
-        clientId: "165720093757-rekthd2sfe0nn7m0tb7f0bopuquqdfn7.apps.googleusercontent.com",
-    })
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -82,6 +75,22 @@ const Register = props => {
             setLoading(false);
         }).catch(() => setLoading(false));
     };
+
+    const onGoogleSignInSuccess = (res) => {
+        console.log(res)
+    }
+
+    const onGoogleSignInFail = (res) => {
+        console.log(res)
+    }
+
+    const onFacebookSignInSuccess = (res) => {
+        console.log(res)
+    }
+
+    const onFacebookSignInFail = (res) => {
+        console.log(res)
+    }
 
     return (
         <>
@@ -120,35 +129,8 @@ const Register = props => {
                                                     <small>Inscrivez-vous avec votre compte</small>
                                                 </div>
                                                 <div className="text-center">
-                                                    <FacebookLogin appId="1257173344724909" render={renderProps => (
-                                                        <Button
-                                                            className="btn-neutral btn-icon mr-4"
-                                                            color="default"
-                                                            onClick={res => renderProps.onClick()}
-                                                        >
-                                                      <span className="btn-inner--icon mr-1">
-                                                        <img
-                                                            alt="..."
-                                                            src={require("assets/img/icons/common/facebook.svg")}
-                                                        />
-                                                      </span>
-                                                            <span className="btn-inner--text">Facebook</span>
-                                                        </Button>
-                                                    )} />
-
-                                                    <Button
-                                                        className="btn-neutral btn-icon ml-1"
-                                                        color="default"
-                                                        onClick={() => signIn()}
-                                                    >
-                          <span className="btn-inner--icon mr-1">
-                            <img
-                                alt="..."
-                                src={require("assets/img/icons/common/google.svg")}
-                            />
-                          </span>
-                                                        <span className="btn-inner--text">Google</span>
-                                                    </Button>
+                                                    <FacebookLoginButton onSuccess={onFacebookSignInSuccess} onFailure={onFacebookSignInFail}/>
+                                                    <GoogleLoginButton onSuccess={onGoogleSignInSuccess} onFailure={onGoogleSignInFail}/>
                                                 </div>
                                             </div>
                                             <div className="mt-5">
