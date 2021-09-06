@@ -26,6 +26,10 @@ axios.interceptors.response.use(function (response) {
         userServices.logout();
         window.location.replace("/");
     }
+
+    if (message === "account_already_exists") message = "Ce compte existe déjà.";
+    if (message === "not_registered_yet") message = "Vous n'êtes pas encore inscris.";
+
     toast.error(message);
 
     return Promise.reject(error);

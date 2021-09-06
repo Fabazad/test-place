@@ -20,7 +20,7 @@ const createToken = (user, time) => {
 
 class UserController {
 
-    static async register(roles, name, email, password, captcha) {
+    static async credentialRegister(roles, name, email, password, captcha) {
         return new Promise((resolve, reject) => {
             if (!name || !roles.length || !Object.keys(ROLES).includes(roles[0]) || !email) {
                 reject({status: 400, message: "Missing fields."});
@@ -55,7 +55,30 @@ class UserController {
         });
     }
 
-    static async login(email, password, keepConnection) {
+    static async login(user, keepConnection) {
+        const token = createToken(user, keepConnection ? '7d' : '1h');
+
+        const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount] = await Promise.all([
+            UserModel.findByIdAndUpdate(user._id, {lastLogin: new Date()}),
+            TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.REQUESTED),
+            TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.PROCESSING),
+            TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.COMPLETED),
+            TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED),
+            TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED, true)
+        ]);
+
+        return {
+            user: newUser,
+            token,
+            requestedTestsCount,
+            processingTestsCount,
+            completedTestsCount,
+            cancelledTestsCount,
+            guiltyTestsCount
+        };
+    }
+
+    static async credentialLogin(email, password, keepConnection) {
         return new Promise((resolve, reject) => {
             UserModel.findOne({email}, function (err, user) {
                 if (err) {
@@ -71,18 +94,7 @@ class UserController {
                         } else if (!same) {
                             reject({status: 400, message: "Incorrect email or password"});
                         } else {
-                            // Issue token
-                            const token = createToken(user, keepConnection ? '7d' : '1h');
-
-                            const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount] = await Promise.all([
-                                UserModel.findByIdAndUpdate(user._id, {lastLogin: new Date()}),
-                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.REQUESTED),
-                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.PROCESSING),
-                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.COMPLETED),
-                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED),
-                                TestController.countTestWithStatues(user._id, GLOBAL_TEST_STATUSES.CANCELLED, true)
-                            ]);
-                            resolve({user: newUser, token, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount});
+                            UserController.login(user, keepConnection).then(resolve)
                         }
                     });
                 }
@@ -297,7 +309,15 @@ class UserController {
                     TestController.countTestWithStatues(decoded.userId, GLOBAL_TEST_STATUSES.CANCELLED, true)
                 ]);
 
-                return {user, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount, check: true};
+                return {
+                    user,
+                    requestedTestsCount,
+                    processingTestsCount,
+                    completedTestsCount,
+                    cancelledTestsCount,
+                    guiltyTestsCount,
+                    check: true
+                };
             } catch (e) {
                 return Promise.reject(ErrorResponses.mongoose(e));
             }
@@ -346,6 +366,25 @@ class UserController {
         } catch (e) {
             return Promise.reject(ErrorResponses.mongoose(e));
         }
+    }
+
+    static async googleRegister(params) {
+        const {email, name, roles, googleId} = params;
+        const user = await UserModel.findOne({$or: [{email}, {name}, {googleId}]});
+        if (user) return Promise.reject({status: 400, message: "account_already_exists"});
+        try {
+            const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true});
+            return UserController.login(newUser, false)
+        } catch (e) {
+            return Promise.reject({status: 500, message: e.message});
+        }
+    }
+
+    static async googleLogin(params) {
+        const {googleId, keepConnection} = params;
+        const user = await UserModel.findOne({googleId});
+        if (user) return UserController.login(user, keepConnection);
+        return Promise.reject({status: 401, message: "not_registered_yet"});
     }
 }
 

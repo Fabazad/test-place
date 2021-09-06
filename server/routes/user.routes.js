@@ -2,17 +2,18 @@ const UserController = require('../controllers/user.controller');
 const withAuth = require('../middlewares/withAuth');
 const express = require('express');
 const router = express.Router();
+const joi = require('joi')
 
 router.post('/register', async (request, reply) => {
     const {name, email, password, captcha, roles} = request.body;
-    UserController.register(roles, name, email, password, captcha)
-        .then(user => reply.send())
+    UserController.credentialRegister(roles, name, email, password, captcha)
+        .then(() => reply.send())
         .catch(err => reply.status(err.status).send(err.message));
 });
 
 router.post('/login', async (request, reply) => {
     const {email, password, keepConnection} = request.body;
-    UserController.login(email, password, keepConnection)
+    UserController.credentialLogin(email, password, keepConnection)
         .then(res => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
@@ -86,6 +87,34 @@ router.get('/:userId', async (request, reply) => {
     const { userId } = request.params;
     UserController.getOne(userId)
         .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/google-register', async (request, reply) => {
+    const bodySchema = joi.object({
+        name: joi.string().trim().not().empty().required(),
+        email: joi.string().trim().not().empty().required(),
+        googleId: joi.string().trim().not().empty().required(),
+        roles: joi.array().items(joi.string().trim().not().empty()).required()
+    });
+    const { error, value } = bodySchema.validate(request.body);
+    if (error !== undefined) return reply.status(400).send(error.message);
+    const {name, email, googleId, roles} = value;
+    UserController.googleRegister({roles, name, email, googleId})
+        .then((res) => reply.send(res))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/google-login', async (request, reply) => {
+    const bodySchema = joi.object({
+        googleId: joi.string().trim().not().empty().required(),
+        keepConnection: joi.boolean().optional(),
+    });
+    const { error, value } = bodySchema.validate(request.body);
+    if (error !== undefined) return reply.status(400).send(error.message);
+    const {googleId, keepConnection} = value;
+    UserController.googleLogin({keepConnection, googleId})
+        .then((data) => reply.send(data))
         .catch(err => reply.status(err.status).send(err.message));
 });
 

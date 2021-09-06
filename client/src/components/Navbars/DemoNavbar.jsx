@@ -90,22 +90,22 @@ const DemoNavbar = props => {
                                     {!isAuth && (
                                         <>
                                             <NavItem>
-                                                <Button to='/login' tag={Link} color='secondary'
+                                                <Button to='/register' tag={Link} color='secondary'
                                                         className="nav-link-inner--text d-none d-md-block"
-                                                        data-testid="login-button">
-                                                    Connexion
+                                                        data-testid="signup-button">
+                                                    Inscription
                                                 </Button>
-                                                <NavLink to='/login' tag={Link}
+                                                <NavLink to='/register' tag={Link}
                                                          className="nav-link-inner--text text-white cursor-pointer d-md-none mt-3">
-                                                    <i className="fa fa-user text-success mr-3"/>
-                                                    Connexion
+                                                    <i className="fa fa-sign-in-alt text-primary mr-3"/>
+                                                    Inscription
                                                 </NavLink>
                                             </NavItem>
                                             <NavItem>
-                                                <NavLink to='/register' tag={Link} data-testid="signin-button"
+                                                <NavLink to='/login' tag={Link} data-testid="signin-button"
                                                          className="nav-link-inner--text text-white cursor-pointer">
-                                                    <i className="fa fa-sign-in-alt text-primary mr-3 d-md-none"/>
-                                                    Inscription
+                                                    <i className="fa fa-user text-success mr-3 d-md-none"/>
+                                                    Connexion
                                                 </NavLink>
                                             </NavItem>
                                             <NavItem>
