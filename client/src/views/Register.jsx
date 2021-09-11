@@ -69,7 +69,7 @@ const Register = props => {
         setLoading(true);
         userService.register(user).then(() => {
             props.history.push('/login');
-            toast.success(t("CHECK_MAIL_SENT"));
+            toast.error(t.toString()("CHECK_MAIL_SENT"));
             setLoading(false);
         }).catch(() => setLoading(false));
     };
@@ -91,7 +91,7 @@ const Register = props => {
     }
 
     const onGoogleSignInFail = (res) => {
-        console.log(res)
+        toast.error(res.toString())
     }
 
     const onFacebookSignInSuccess = (res) => {
@@ -99,7 +99,7 @@ const Register = props => {
     }
 
     const onFacebookSignInFail = (res) => {
-        console.log(res)
+        toast.error(res.toString())
     }
 
     return (
