@@ -375,8 +375,19 @@ class UserController {
 
     static async googleRegister(params) {
         const {email, name, roles, googleId} = params;
-        const user = await UserModel.findOne({$or: [{email}, {name}, {googleId}]});
-        if (user) return UserController.login(user, false);
+
+        const googleUser = await UserModel.findOne({googleId});
+        if (googleUser) return UserController.login(googleUser, false);
+
+        const emailUser = await UserModel.findOne({email});
+        if (emailUser) {
+            const newUser = await UserModel.updateOne({_id: emailUser._id}, {$set: {googleId}});
+            return UserController.login(newUser, false);
+        }
+
+        const user = await UserModel.findOne({name});
+        if (user) return Promise.reject({ status: 401, message: 'name_already_used'});
+
         try {
             const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true});
             return UserController.login(newUser, false)
@@ -401,12 +412,22 @@ class UserController {
                     fields: "id,name,email,first_name"
                 }
             });
-            const user = await UserModel.findOne({facebookId: id});
-            if (user) return UserController.login(user, false);
+
+            const facebookUser = await UserModel.findOne({facebookId: id});
+            if (facebookUser) return UserController.login(facebookUser, false);
 
             if (!email) return Promise.reject({status: 401, message: "facebook_account_missing_email"});
 
+            const emailUser = await UserModel.findOne({email});
+            if (emailUser) {
+                const newUser = await UserModel.updateOne({_id: emailUser._id}, {$set: {facebookId: id}});
+                return UserController.login(newUser, false);
+            }
+
             const userName = first_name ? first_name + (Math.random() * 10000).toString() : name;
+
+            const user = await UserModel.findOne({name: userName});
+            if (user) return Promise.reject({ status: 401, message: 'name_already_used'});
 
             const newUser = await UserModel.create({
                 email,
