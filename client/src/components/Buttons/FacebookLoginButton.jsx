@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const FacebookLoginButton = ({onSuccess, onFailure, disabled}) => {
 
     const handleCallback = (res) => {
-        console.log(res)
+        onSuccess(res)
     }
 
     return <FacebookLogin appId="1257173344724909" fields="name,email,picture,first_name" isMobile={false} callback={handleCallback} render={renderProps => (
