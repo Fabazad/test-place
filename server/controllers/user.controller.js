@@ -371,7 +371,7 @@ class UserController {
     static async googleRegister(params) {
         const {email, name, roles, googleId} = params;
         const user = await UserModel.findOne({$or: [{email}, {name}, {googleId}]});
-        if (user) return Promise.reject({status: 400, message: "account_already_exists"});
+        if (user) return UserController.login(user, false);
         try {
             const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true});
             return UserController.login(newUser, false)

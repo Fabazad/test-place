@@ -19,6 +19,7 @@ import Alert from "reactstrap/es/Alert";
 import {useLastLocation} from 'react-router-last-location';
 import history from "../history";
 import {withTranslation} from "react-i18next";
+import SocialLogin from "../components/SocialLogin";
 
 const Login = props => {
 
@@ -49,6 +50,11 @@ const Login = props => {
                             <Col lg="5">
                                 <Card className="bg-secondary shadow border-0">
                                     <CardBody className="p-lg-4">
+                                        <div className="w-100 text-center mb-4">
+                                            <img src={require('assets/img/undraws/authentication.svg')} alt="" className="w-100"
+                                                 style={{maxWidth: "150px"}}/>
+                                        </div>
+                                        <SocialLogin className="mt-3">Connectez vous avec</SocialLogin>
                                         <div className="mt-3">
                                             <LoginForm onLogin={onLogin}/>
                                         </div>

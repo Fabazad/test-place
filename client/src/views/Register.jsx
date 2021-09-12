@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import userService from "../services/user.services";
+import SocialLogin from "../components/SocialLogin";
 
 // reactstrap components
 import {
@@ -33,8 +34,6 @@ import {withTranslation} from "react-i18next";
 import GoogleLoginButton from "../components/Buttons/GoogleLoginButton";
 import FacebookLoginButton from "../components/Buttons/FacebookLoginButton";
 import constants from "../helpers/constants";
-
-const {USER_ROLES} = constants
 
 const Register = props => {
 
@@ -75,36 +74,6 @@ const Register = props => {
         }).catch(() => setLoading(false));
     };
 
-    const onGoogleSignInSuccess = async (res) => {
-        const {profileObj} = res;
-        const {email, givenName, googleId, name} = profileObj;
-
-        const builtName = (givenName || name) + Math.round(Math.random() * 10000)
-        const user = {name: builtName, email, roles: [role], googleId};
-
-        setLoading(true);
-        try {
-            await userService.googleRegister(user);
-            props.history.push(role === USER_ROLES.SELLER ? '/dashboard/my-products' : '/');
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    const onGoogleSignInFail = (res) => {
-        toast.error(res);
-        toast.error(Object.keys(res));
-    }
-
-    const onFacebookSignInSuccess = (res) => {
-        console.log(res)
-    }
-
-    const onFacebookSignInFail = (res) => {
-        toast.error(res);
-        toast.error(Object.keys(res));
-    }
-
     return (
         <>
             <main>
@@ -133,19 +102,10 @@ const Register = props => {
                                             </FormGroup>
                                         </CardHeader>
                                         {role !== null && <CardBody className="px-lg-5 py-lg-4 mt-0">
-                                            <div className="mb-3">
-                                                <div className="text-muted text-center mb-3">
-                                                    <small>Inscrivez-vous avec votre compte</small>
-                                                </div>
-                                                <div className="text-center">
-                                                    <FacebookLoginButton onSuccess={onFacebookSignInSuccess}
-                                                                         onFailure={onFacebookSignInFail}
-                                                                         disabled={role === null}/>
-                                                    <GoogleLoginButton onSuccess={onGoogleSignInSuccess}
-                                                                       onFailure={onGoogleSignInFail}
-                                                                       disabled={role === null}/>
-                                                </div>
-                                            </div>
+                                            <SocialLogin className="mt-3" onStartLogging={() => setLoading(true)}
+                                                         onStopLogging={() => setLoading(false)} roles={[role]}>
+                                                Inscrivez-vous avec votre compte
+                                            </SocialLogin>
                                             <div className="mt-3">
                                                 <div className="text-muted text-center mb-3">
                                                     <small>Ou avec des identifiants</small>

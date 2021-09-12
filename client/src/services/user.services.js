@@ -117,6 +117,10 @@ class UserService extends BaseService {
     googleRegister(user) {
         return axios.post(this.baseURL + '/google-register', user).then(this.currentUserResolve);
     }
+
+    googleLogin(user) {
+        return axios.post(this.baseURL + '/google-login', user).then(this.currentUserResolve);
+    }
 }
 
 export default new UserService();

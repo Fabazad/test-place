@@ -32,9 +32,8 @@ const LoginForm = props => {
     return (
         <Form role="form" onSubmit={onSubmit}>
             <Loading loading={loading}/>
-            <div className="w-100 text-center mb-4">
-                <img src={require('assets/img/undraws/authentication.svg')} alt="" className="w-100"
-                     style={{maxWidth: "150px"}}/>
+            <div className="text-muted text-center mb-3">
+                <small>Ou avec vos identifiants</small>
             </div>
             <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
