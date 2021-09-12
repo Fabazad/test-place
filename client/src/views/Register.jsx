@@ -69,8 +69,8 @@ const Register = props => {
         setLoading(true);
         userService.register(user).then(() => {
             props.history.push('/login');
-            toast.error(t(;"CHECK_MAIL_SENT"));
-            toast.error(Object.keys(t)(;"CHECK_MAIL_SENT"));
+            toast.error(t("CHECK_MAIL_SENT"));
+            toast.error(Object.keys(t)("CHECK_MAIL_SENT"));
             setLoading(false);
         }).catch(() => setLoading(false));
     };
