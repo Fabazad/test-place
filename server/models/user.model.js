@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
     lastLogin: Date,
     createdAt: {type: Date, default: new Date(), required: true},
     gender: { type: String, default: GENDERS.FEMALE, enum: Object.values(GENDERS) },
-    googleId: { type: String, default: null, unique: true}
+    googleId: { type: String, default: null, unique: true},
+    facebookId: { type: String, default: null, unique: true},
 });
 
 UserSchema.pre('save', function(next) {
