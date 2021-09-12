@@ -21,40 +21,72 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
         }
     }, [loading])
 
-    const onGoogleSignInSuccess = async (res) => {
-        const {profileObj} = res;
-        const {email, givenName, googleId, name} = profileObj;
-
-        // Login case
-        if (roles === undefined) {
-            setLoading(true);
-            try {
-                const res = await userService.googleLogin({googleId, keepConnection: true});
-                history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
-            } finally {
-                setLoading(false);
-            }
-            return;
-        }
-
-        const builtName = (givenName || name) + Math.round(Math.random() * 10000)
-        const user = {name: builtName, email, roles, googleId};
-
+    const googleLogin = async ({googleId}) => {
         setLoading(true);
         try {
-            const res = await userService.googleRegister(user);
+            const res = await userService.googleLogin({googleId, keepConnection: true});
             history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
         } finally {
             setLoading(false);
         }
     }
 
+    const googleRegister = async ({name, email, roles, googleId}) => {
+        setLoading(true);
+        try {
+            const res = await userService.googleRegister({name, email, roles, googleId});
+            history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const onGoogleSignInSuccess = async (res) => {
+        const {profileObj} = res;
+        const {email, givenName, googleId, name} = profileObj;
+
+        if (roles === undefined) {
+            return googleLogin({googleId})
+        }
+
+        const builtName = (givenName || name) + Math.round(Math.random() * 10000)
+        return googleRegister({name: builtName, email, roles, googleId});
+
+
+    }
+
     const onGoogleSignInFail = (res) => {
         toast.error(Object.keys(res).toString());
     }
 
+    const facebookRegister = async ({accessToken, roles}) => {
+        setLoading(true);
+        try {
+            const res = await userService.facebookRegister({accessToken, roles});
+            history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const facebookLogin = async ({accessToken, keepConnection}) => {
+        setLoading(true);
+        try {
+            const res = await userService.facebookLogin({accessToken, keepConnection});
+            history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const onFacebookSignInSuccess = (res) => {
-        console.log(res)
+        const {accessToken} = res;
+
+        if (roles === undefined) {
+            return facebookLogin({accessToken, keepConnection: true})
+        }
+
+        return facebookRegister({accessToken, roles});
     }
 
     const onFacebookSignInFail = (res) => {

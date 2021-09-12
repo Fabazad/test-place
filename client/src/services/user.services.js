@@ -121,6 +121,14 @@ class UserService extends BaseService {
     googleLogin(user) {
         return axios.post(this.baseURL + '/google-login', user).then(this.currentUserResolve);
     }
+
+    facebookRegister({ accessToken, roles}) {
+        return axios.post(this.baseURL + '/facebook-register', { accessToken, roles}).then(this.currentUserResolve);
+    }
+
+    facebookLogin({ accessToken, keepConnection}) {
+        return axios.post(this.baseURL + '/facebook-login', { accessToken, keepConnection}).then(this.currentUserResolve);
+    }
 }
 
 export default new UserService();

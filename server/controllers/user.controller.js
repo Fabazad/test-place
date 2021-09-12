@@ -386,6 +386,46 @@ class UserController {
         if (user) return UserController.login(user, keepConnection);
         return Promise.reject({status: 401, message: "not_registered_yet"});
     }
+
+
+    static async facebookRegister({accessToken, roles}) {
+        try {
+            const {id, name, email, first_name} = await axios.get('https://graph.facebook.com/v11.0/me', {
+                params: {
+                    access_token: accessToken,
+                    fields: "id,name,email,first_name"
+                }
+            });
+            const user = await UserModel.findOne({facebookId: id});
+            if (user) return UserController.login(user, false);
+
+            if (!email) return Promise.reject({status: 401, message: "facebook_account_missing_email"});
+
+            const userName = first_name ? first_name + (Math.random() * 10000).toString() : name;
+
+            const newUser = await UserModel.create({email, name: userName, roles, facebookId: id, emailValidation: true});
+            return UserController.login(newUser, false)
+        } catch (e) {
+            return Promise.reject({status: 500, message: e.message});
+        }
+    }
+
+
+    static async facebookLogin({accessToken, keepConnection}) {
+        try {
+            const {id} = await axios.get('https://graph.facebook.com/v11.0/me', {
+                params: {
+                    access_token: accessToken,
+                    fields: "id,name,email,first_name"
+                }
+            });
+            const user = await UserModel.findOne({facebookId: id});
+            if (!user) return Promise.reject({status: 401, message: "not_registered_yet"});
+            return UserController.login(user, keepConnection)
+        } catch (e) {
+            return Promise.reject({status: 500, message: e.message});
+        }
+    }
 }
 
 module.exports = UserController;

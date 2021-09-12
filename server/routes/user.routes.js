@@ -118,4 +118,30 @@ router.post('/google-login', async (request, reply) => {
         .catch(err => reply.status(err.status).send(err.message));
 });
 
+router.post('/facebook-register', async (request, reply) => {
+    const bodySchema = joi.object({
+        accessToken: joi.string().trim().not().empty().required(),
+        roles: joi.array().items(joi.string().trim().not().empty()).required()
+    });
+    const { error, value } = bodySchema.validate(request.body);
+    if (error !== undefined) return reply.status(400).send(error.message);
+    const {accessToken, roles} = value;
+    UserController.facebookRegister({accessToken, roles})
+        .then((data) => reply.send(data))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/facebook-login', async (request, reply) => {
+    const bodySchema = joi.object({
+        accessToken: joi.string().trim().not().empty().required(),
+        keepConnection: joi.boolean().optional(),
+    });
+    const { error, value } = bodySchema.validate(request.body);
+    if (error !== undefined) return reply.status(400).send(error.message);
+    const {accessToken, keepConnection} = value;
+    UserController.facebookLogin({accessToken, keepConnection})
+        .then((data) => reply.send(data))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
 module.exports = router;

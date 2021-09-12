@@ -9,7 +9,7 @@ const FacebookLoginButton = ({onSuccess, onFailure, disabled}) => {
         console.log(res)
     }
 
-    return <FacebookLogin appId="1257173344724909" isMobile={false} callback={handleCallback} render={renderProps => (
+    return <FacebookLogin appId="1257173344724909" fields="name,email,picture,first_name" isMobile={false} callback={handleCallback} render={renderProps => (
         <Button
             disabled={disabled}
             className="btn-neutral btn-icon mr-4 text-dark"
