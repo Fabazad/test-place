@@ -56,7 +56,7 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
     }
 
     const onGoogleSignInFail = (res) => {
-        toast.error(Object.keys(res.error).toString());
+        toast.error(res.error[0].toString());
     }
 
     const facebookRegister = async ({accessToken, roles}) => {
@@ -90,7 +90,7 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
     }
 
     const onFacebookSignInFail = (res) => {
-        toast.error(Object.keys(res.error).toString());
+        toast.error(res.error[0].toString());
     }
 
     return <div className={className || ""}>
