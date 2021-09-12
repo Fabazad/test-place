@@ -62,6 +62,11 @@ router.post('/validationMail', async (request, reply) => {
 
 router.post('/updateUserInfo', withAuth(), async (request, reply) => {
     const { userId, data } = request.body;
+    const bodySchema = joi.object({
+        name: joi.string().trim().not().empty()
+    }).options({ allowUnknown: true });
+    const { error } = bodySchema.validate(data);
+    if (error !== undefined) return reply.status(400).send(error.message);
     const {decoded} = request;
     UserController.updateUserInfo(decoded.userId, decoded.amazonId, decoded.roles, userId, data)
         .then((res) => reply.send(res))

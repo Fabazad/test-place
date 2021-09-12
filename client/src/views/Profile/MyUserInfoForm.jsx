@@ -27,7 +27,7 @@ const MyUserInfoForm = () => {
         }
     };
 
-    const disabledSave = user.name === name && name.trim().length === 0;
+    const disabledSave = user.name === name || name.trim().length === 0;
 
     return (
         <Form onSubmit={handleSubmit} className="position-relative">
