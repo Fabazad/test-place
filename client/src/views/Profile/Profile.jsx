@@ -10,7 +10,7 @@ import {
     FormGroup,
     Container,
     Row,
-    Col, Badge
+    Col, Badge, Input
 } from "reactstrap";
 // core components
 import UserHeader from "../../components/Headers/UserHeader.jsx";
@@ -21,7 +21,9 @@ import MyTesterInfoForm from "./MyTesterInfoForm";
 import {toast} from "react-toastify";
 import {scrollTo} from "../../helpers/scrollHelpers";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
-import {withTranslation} from "react-i18next";
+import {Trans, withTranslation} from "react-i18next";
+import InfoPopover from "../../components/InfoPopover";
+import MyUserInfoForm from "./MyUserInfoForm";
 
 const {USER_ROLES, GENDERS} = constants;
 
@@ -81,7 +83,7 @@ const Profile = props => {
                                 </div>
                             </CardHeader>
                             <CardBody className="pt-0 pt-md-4">
-                                <Row className="mt-3">
+                                <Row className="mt-4">
                                     <div className="col">
                                         <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                                             <div>
@@ -106,7 +108,7 @@ const Profile = props => {
                                         </div>
                                     </div>
                                 </Row>
-                                <div className="text-center">
+                                <div className="text-center mt-3">
                                     <h3>{user.name}</h3>
                                     <div className="h5 font-weight-300">
                                         <i className="ni location_pin mr-2"/>
@@ -126,7 +128,8 @@ const Profile = props => {
                                 </Row>
                             </CardHeader>
                             <CardBody>
-                                {/*<MyInfoForm user={user}/>*/}
+                                <MyUserInfoForm/>
+
                                 {isUserTester ? <MyTesterInfoForm user={user}/> : null}
 
                                 {isUserSeller ? <MySellerInfoForm user={user}/> : null}

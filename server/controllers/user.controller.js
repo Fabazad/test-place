@@ -278,13 +278,18 @@ class UserController {
                 }
             }
 
-            const authorizedData = ['testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId'];
+            const authorizedData = ['testerMessage', 'sellerMessage', 'roles', 'paypalEmail', 'amazonId', 'name'];
             Object.keys(data).forEach(key => {
                 if (!authorizedData.includes(key)) delete data[key];
                 if (['paypalEmail', 'amazonId'].includes(key) && !data[key]) {
                     return reject({status: 400, message: "Can't remove paypalEmail or Amazon Id."});
                 }
             });
+
+            if ('name' in data) {
+                const countWithName = await UserModel.count({name: data.name});
+                if (countWithName > 0) return reject({status: 400, message: 'name_already_used'});
+            }
 
             UserModel.findByIdAndUpdate(userId, data, {new: true})
                 .then(user => {
@@ -403,7 +408,13 @@ class UserController {
 
             const userName = first_name ? first_name + (Math.random() * 10000).toString() : name;
 
-            const newUser = await UserModel.create({email, name: userName, roles, facebookId: id, emailValidation: true});
+            const newUser = await UserModel.create({
+                email,
+                name: userName,
+                roles,
+                facebookId: id,
+                emailValidation: true
+            });
             return UserController.login(newUser, false)
         } catch (e) {
             return Promise.reject({status: 500, message: e.message});

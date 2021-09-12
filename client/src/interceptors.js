@@ -30,6 +30,7 @@ axios.interceptors.response.use(function (response) {
     if (message === "account_already_exists") message = "Ce compte existe déjà.";
     if (message === "not_registered_yet") message = "Vous n'êtes pas encore inscris.";
     if (message === "facebook_account_missing_email") message = "Il manque une adresse mail validée sur votre compte Facebook.";
+    if (message === "name_already_used") message = "Ce nom d'utilisateur existe déjà, choisissez-en un autre.";
 
     toast.error(message);
 
