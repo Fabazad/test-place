@@ -15,8 +15,6 @@ import userServices from "services/user.services";
 import PasswordStrength from "components/PasswordStrength";
 import Loading from "components/Loading";
 import {withTranslation} from "react-i18next";
-import ConfirmButton from "../Buttons/ConfirmButton";
-//import PropTypes from 'prop-types';
 
 const UpdatePasswordModal = ({t}) => {
 
@@ -144,9 +142,9 @@ const UpdatePasswordModal = ({t}) => {
                         >
                             {t("CLOSE")}
                         </Button>
-                        <ConfirmButton color="primary" data-dismiss="modal" type="submit" disabled={!password}>
+                        <Button color="primary" data-dismiss="modal" type="submit" disabled={!password}>
                             {t("SEND")}
-                        </ConfirmButton>
+                        </Button>
                     </div>
                 </Form>
             </Modal>

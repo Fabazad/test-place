@@ -288,6 +288,7 @@ img.selected {
       line-height: 60px;
       border-radius: 50%;
     }
+
     h3 {
       top: 60px;
       position: absolute;
@@ -303,8 +304,15 @@ img.selected {
         color: white;
         background: #5e72e4;
       }
+
       h3 {
         color: black
+      }
+
+      &.error {
+        div {
+          background: #f5365c;
+        }
       }
     }
 
@@ -313,6 +321,7 @@ img.selected {
         color: white;
         background: #2dce89;
       }
+
       h3 {
         color: black
       }
@@ -326,9 +335,11 @@ img.selected {
     border-radius: 50px;
     height: 0.5rem;
     margin-top: 28px;
+
     &.current {
       background: #5e72e4;
     }
+
     &.reached {
       background: #2dce89;
     }

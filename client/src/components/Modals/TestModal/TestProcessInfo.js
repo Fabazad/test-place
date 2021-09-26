@@ -10,6 +10,7 @@ import NextStepAdvice from "./NextStepAdvice";
 import {getAmazonReviewUrl, getProductAmazonUrl} from "../../../helpers/urlHelpers";
 import ReviewAdvices from "../../ReviewAdvices";
 import {withTranslation} from "react-i18next";
+import {isTestStatus} from "../../../helpers/isTestStatus";
 
 const {USER_ROLES} = constants;
 
@@ -25,12 +26,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
         onToggle();
     };
 
-    const isStatus = statusesToCheck => {
-        if (typeof statusesToCheck === "string") {
-            return statuses[statusesToCheck] === test.status;
-        }
-        return statusesToCheck.map(status => statuses[status]).includes(test.status);
-    };
+    const isStatus = statusesToCheck => isTestStatus({ statusesToCheck, test, statuses })
 
     return (
         <>
@@ -135,6 +131,18 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                     {t("SUM_TO_REFUND")} : {test.product.price}€ - {test.product.finalPrice}€.<br/>
                     {t("SO")} {test.product.price - test.product.finalPrice}€.<br/>
                     {t("THINK_ABOUT_PAYPAL_FEES")}
+                </NextStepAdvice> : null
+            }
+            {isStatus("moneySent") && (userRole === USER_ROLES.TESTER || adminView) ?
+                <NextStepAdvice color="info">
+                    Le remboursement a été envoyé par le vendeur sur votre compte Paypal.<br/>
+                    Veuillez confirmer la bonne réception du remboursement.
+                </NextStepAdvice> : null
+            }
+            {isStatus("moneySent") && (userRole === USER_ROLES.SELLER || adminView) ?
+                <NextStepAdvice color="info">
+                    Nous avons indiqué au testeur que le remboursement a été envoyé.<br/>
+                    Il doit maintenant confirmer la bonne réception de celui-ci sur son compte Paypal.
                 </NextStepAdvice> : null
             }
             {isStatus("testCancelled") && test.cancelReason ?

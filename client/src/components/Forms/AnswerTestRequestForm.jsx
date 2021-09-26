@@ -18,7 +18,6 @@ import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 import ReviewAdvices from "../ReviewAdvices";
 import {withTranslation} from "react-i18next";
-import ConfirmButton from "../Buttons/ConfirmButton";
 import Loading from "../Loading";
 
 const AnswerTestRequestForm = props => {
@@ -100,7 +99,7 @@ const AnswerTestRequestForm = props => {
                                 <Input className="form-control-alternative" onChange={(e) => setDeclineReason(e.target.value)}
                                        placeholder={t("DECLINE_REASON_PLACEHOLDER")} rows="3" type="textarea" minLength={30}/>
                             </FormGroup>
-                            <ConfirmButton color='danger' type={"submit"} disabled={!declineReason}>{t("DECLINE")}</ConfirmButton>
+                            <Button color='danger' type={"submit"} disabled={!declineReason}>{t("DECLINE")}</Button>
                         </Form>
                     </TabPane>
                     <TabPane tabId="tabs2">
@@ -120,7 +119,7 @@ const AnswerTestRequestForm = props => {
                                 {t("TESTER_WILL_BE_ADVISED")}<br/>
                                 <ReviewAdvices/>
                             </Alert>
-                            <ConfirmButton color='success' type="submit">{t("ACCEPT")}</ConfirmButton>
+                            <Button color='success' type="submit">{t("ACCEPT")}</Button>
                         </Form>
                     </TabPane>
                 </TabContent> : null}

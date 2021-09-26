@@ -15,7 +15,6 @@ import constants from "../../helpers/constants";
 import s3Services from "../../services/s3.services";
 import Loading from "../Loading";
 import {withTranslation} from "react-i18next";
-import ConfirmButton from "../Buttons/ConfirmButton";
 
 const OrderedProductModal = props => {
     const {isOpen, onToggle, testId, t} = props;
@@ -145,7 +144,7 @@ const OrderedProductModal = props => {
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
                     {t("CLOSE")}
                 </Button>
-                <ConfirmButton color="primary" disabled={disabled} onClick={handleConfirm}>{t("CONFIRM")}</ConfirmButton>
+                <Button color="primary" disabled={disabled} onClick={handleConfirm}>{t("CONFIRM")}</Button>
             </div>
         </Modal>
     )

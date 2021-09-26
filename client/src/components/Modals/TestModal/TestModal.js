@@ -15,7 +15,7 @@ import {withTranslation} from "react-i18next";
 import TestProcessInfo from "./TestProcessInfo";
 import Container from "reactstrap/es/Container";
 import testServices from "../../../services/test.services";
-import constants from "../../../helpers/constants";
+import constants, {STEP_KEYS, TEST_STATUS_TO_STEP_MAP, TEST_STEPS_MAP} from "../../../helpers/constants";
 import Card from "reactstrap/es/Card";
 import CardBody from "reactstrap/es/CardBody";
 import Linkify from 'react-linkify';
@@ -23,28 +23,16 @@ import {getAmazonReviewUrl} from "../../../helpers/urlHelpers";
 import Loading from "../../Loading";
 import EmailLink from "components/EmailLink";
 import Stepper from "../../Stepper";
+import {isTestStatus} from "../../../helpers/isTestStatus";
 
 const {USER_ROLES} = constants;
-
-const testStepsMap = {
-    [USER_ROLES.SELLER]: [
-        {label: "Etape 1", key: "step1", icon: "fa fa-edit"},
-        {label: "Etape 2", key: "step2", icon: "fa fa-user"},
-        {label: "Etape 3", key: "step3", icon: "fa fa-cat"}
-    ],
-    [USER_ROLES.TESTER]: [
-        {label: "Demande de test acceptée", key: "step1", icon: "fa fa-handshake"},
-        {label: "Commande et réception du produit", key: "step2", icon: "fa fa-box-open"},
-        {label: "Notation du produit", key: "step3", icon: "fa fa-star"},
-        {label: "Remboursement", key: "step4", icon: "fa fa-euro-sign"},
-    ]
-}
 
 
 const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminView}) => {
 
     const [test, setTest] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [statuses, setStatuses] = useState({});
 
     useEffect(() => {
         if (testId && isOpen) {
@@ -59,13 +47,29 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
         }
     }, [testId, isOpen]);
 
+    useEffect(() => {
+        testServices.getTestStatuses().then(setStatuses);
+    }, []);
+
     if (!test) return null;
+
+    const isOneOfStatuses = statusesToCheck => {
+        return statusesToCheck.some(status => isTestStatus({statusesToCheck: status, test, statuses}))
+    }
+
+    const getCurrentStep = ({userType}) => {
+        if (isOneOfStatuses(['testCancelled'])) return {key: null, error: true}
+        const step = TEST_STATUS_TO_STEP_MAP[userType].find(s => isOneOfStatuses(s.testStatuses))
+
+        if (step) return {key: step.stepKey, error: step.error};
+
+        return {key: STEP_KEYS.END, error: false}
+    }
 
     const lastUpdate = test.updates && test.updates.length ? test.updates[test.updates.length - 1] : {};
 
-    console.log({testStepsMap})
-
-    const testSteps = testStepsMap[userType];
+    const testSteps = TEST_STEPS_MAP[userType];
+    const currentStep = getCurrentStep({userType});
 
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle} size="lg">
@@ -85,7 +89,8 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                         <Col xs={12}>
                             <Stepper
                                 steps={testSteps}
-                                currentStep="step2"
+                                currentStep={currentStep}
+                                endKey={STEP_KEYS.END}
                             />
                         </Col>
                     </Row>

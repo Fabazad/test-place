@@ -1,4 +1,4 @@
-export default {
+const constants = {
     SERVER_DEV_URL: 'http://127.0.0.1:5000',
     SERVER_STAGE_URL: 'https://stage-test-place.herokuapp.com',
     SERVER_PROD_URL: 'https://test-place.herokuapp.com',
@@ -14,10 +14,10 @@ export default {
         FEMALE: "FEMALE"
     },
     SORT_BY_OPTIONS: [
-        { text: 'Pertinence', value: 'score' },
-        { text: 'Prix Initial', value: 'price' },
-        { text: 'Coût Final', value: 'finalPrice' },
-        { text: 'Date de Création', value: 'createdAt' }
+        {text: 'Pertinence', value: 'score'},
+        {text: 'Prix Initial', value: 'price'},
+        {text: 'Coût Final', value: 'finalPrice'},
+        {text: 'Date de Création', value: 'createdAt'}
     ],
     USER_ROLES: {
         SELLER: 'SELLER',
@@ -128,3 +128,53 @@ export default {
         }
     }
 }
+
+export const STEP_KEYS = {
+    TEST_ACCEPTATION: "TEST_ACCEPTATION",
+    PRODUCT_ORDER: "PRODUCT_ORDER",
+    PRODUCT_REVIEW: "PRODUCT_REVIEW",
+    REFUND: "REFUND",
+    END: "END"
+}
+
+export const TEST_STEPS_MAP = {
+    [constants.USER_ROLES.SELLER]: [
+        {label: "Acceptation de la demande de test", key: STEP_KEYS.TEST_ACCEPTATION, icon: "fa fa-handshake"},
+        {label: "Commande et réception du produit", key: STEP_KEYS.PRODUCT_ORDER, icon: "fa fa-box-open"},
+        {label: "Validation de l'avis sur le produit", key: STEP_KEYS.PRODUCT_REVIEW, icon: "fa fa-star"},
+        {label: "Remboursement", key: STEP_KEYS.REFUND, icon: "fa fa-euro-sign"},
+    ],
+    [constants.USER_ROLES.TESTER]: [
+        {label: "Demande de test acceptée", key: STEP_KEYS.TEST_ACCEPTATION, icon: "fa fa-handshake"},
+        {label: "Commande et réception du produit", key: STEP_KEYS.PRODUCT_ORDER, icon: "fa fa-box-open"},
+        {label: "Notation du produit", key: STEP_KEYS.PRODUCT_REVIEW, icon: "fa fa-star"},
+        {label: "Remboursement", key: STEP_KEYS.REFUND, icon: "fa fa-euro-sign"},
+    ]
+}
+
+export const TEST_STATUS_TO_STEP_MAP = {
+    [constants.USER_ROLES.TESTER]: [
+        {stepKey: STEP_KEYS.TEST_ACCEPTATION, error: false, testStatuses: ['requested']},
+        {stepKey: STEP_KEYS.TEST_ACCEPTATION, error: true, testStatuses: ["requestCancelled", 'requestDeclined']},
+        {stepKey: STEP_KEYS.PRODUCT_ORDER, error: false, testStatuses: ['requestAccepted', 'productOrdered']},
+        {stepKey: STEP_KEYS.PRODUCT_REVIEW, error: false, testStatuses: ['productReceived']},
+        {stepKey: STEP_KEYS.REFUND, error: false, testStatuses: ['productReviewed', 'reviewValidated', 'moneySent']},
+        {stepKey: STEP_KEYS.REFUND, error: true, testStatuses: ['reviewDeclined']},
+        {stepKey: STEP_KEYS.END, error: true, testStatuses: ['moneyReceived']},
+        {stepKey: STEP_KEYS.TEST_ACCEPTATION, error: true, testStatuses: ['testCancelled']},
+    ],
+    [constants.USER_ROLES.SELLER]: [
+        {stepKey: STEP_KEYS.TEST_ACCEPTATION, error: false, testStatuses: ['requested']},
+        {stepKey: STEP_KEYS.TEST_ACCEPTATION, error: true, testStatuses: ["requestCancelled", 'requestDeclined']},
+        {stepKey: STEP_KEYS.PRODUCT_ORDER, error: false, testStatuses: ['requestAccepted', 'productOrdered', 'productReceived']},
+        {stepKey: STEP_KEYS.PRODUCT_REVIEW, error: false, testStatuses: ['productReviewed']},
+        {stepKey: STEP_KEYS.REFUND, error: false, testStatuses: ['reviewValidated', 'moneySent']},
+        {stepKey: STEP_KEYS.REFUND, error: true, testStatuses: ['reviewDeclined']},
+        {stepKey: STEP_KEYS.END, error: true, testStatuses: ['moneyReceived']},
+        {stepKey: STEP_KEYS.TEST_ACCEPTATION, error: true, testStatuses: ['testCancelled']},
+
+    ]
+}
+
+export default {...constants};
+

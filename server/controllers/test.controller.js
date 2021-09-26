@@ -120,7 +120,16 @@ class TestController {
 
     static async countTestWithStatues(userId, statuses, withGuilty = false) {
         const query = {
-            $or: [{seller: userId}, {tester: userId}],
+            $and: [
+                {$or: [{seller: userId}, {tester: userId}]},
+                {
+                    $or: [{
+                        expirationDate: {$gt: new Date()}
+                    }, {
+                        expirationDate: {$eq: null}
+                    }]
+                }
+            ],
             status: statuses
         };
 
@@ -198,7 +207,13 @@ class TestController {
                     })
                 ]);
 
-                resolve({test: newTest, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount});
+                resolve({
+                    test: newTest,
+                    requestedTestsCount,
+                    processingTestsCount,
+                    completedTestsCount,
+                    cancelledTestsCount
+                });
             } catch (err) {
                 reject(ErrorResponses.mongoose(err))
             }
