@@ -22,8 +22,24 @@ import Linkify from 'react-linkify';
 import {getAmazonReviewUrl} from "../../../helpers/urlHelpers";
 import Loading from "../../Loading";
 import EmailLink from "components/EmailLink";
+import Stepper from "../../Stepper";
 
 const {USER_ROLES} = constants;
+
+const testStepsMap = {
+    [USER_ROLES.SELLER]: [
+        {label: "Etape 1", key: "step1", icon: "fa fa-edit"},
+        {label: "Etape 2", key: "step2", icon: "fa fa-user"},
+        {label: "Etape 3", key: "step3", icon: "fa fa-cat"}
+    ],
+    [USER_ROLES.TESTER]: [
+        {label: "Demande de test acceptée", key: "step1", icon: "fa fa-handshake"},
+        {label: "Commande et réception du produit", key: "step2", icon: "fa fa-box-open"},
+        {label: "Notation du produit", key: "step3", icon: "fa fa-star"},
+        {label: "Remboursement", key: "step4", icon: "fa fa-euro-sign"},
+    ]
+}
+
 
 const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminView}) => {
 
@@ -47,6 +63,10 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
     const lastUpdate = test.updates && test.updates.length ? test.updates[test.updates.length - 1] : {};
 
+    console.log({testStepsMap})
+
+    const testSteps = testStepsMap[userType];
+
     return (
         <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onToggle} size="lg">
             <Loading loading={loading}/>
@@ -61,6 +81,14 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
             <ModalBody>
                 <Container>
+                    <Row className="mb-3">
+                        <Col xs={12}>
+                            <Stepper
+                                steps={testSteps}
+                                currentStep="step2"
+                            />
+                        </Col>
+                    </Row>
                     <Row className="bg-secondary py-4 rounded">
                         <Col xs={12} md={4} className="text-center">
                             <img src={test.product.imageUrls[0]} alt="" height='150' className='rounded shadow-lg'/>
@@ -94,7 +122,8 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                             <Col xs={12} md={3} className="text-center">
                                 <Label>{t("PAYPAL_EMAIL")}</Label>
                                 <div>
-                                    <EmailLink email={test.tester.paypalEmail} subject={t("TESTPLACE_EMAIL_SUBJECT")} body={test.product.title}></EmailLink>
+                                    <EmailLink email={test.tester.paypalEmail} subject={t("TESTPLACE_EMAIL_SUBJECT")}
+                                               body={test.product.title}></EmailLink>
                                 </div>
                             </Col>
                             {test.orderId ? (
@@ -118,7 +147,8 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                                 <Col xs={12} md={3} className="text-center">
                                     <Label>{t("REVIEW_LINK")}</Label>
                                     <div>
-                                        <a href={getAmazonReviewUrl(test.reviewId)} target="_blank" rel="noopener noreferrer">
+                                        <a href={getAmazonReviewUrl(test.reviewId)} target="_blank"
+                                           rel="noopener noreferrer">
                                             {t("LINK")}
                                         </a>
                                     </div>

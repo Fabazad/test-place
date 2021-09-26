@@ -28,7 +28,7 @@ const Login = props => {
     const lastLocation = useLastLocation();
 
     const onLogin = () => {
-        history.push(lastLocation.pathname ?? "/");
+        history.push(lastLocation.pathname && lastLocation.pathname !== "" ? lastLocation.pathname : "/");
     };
 
     return (

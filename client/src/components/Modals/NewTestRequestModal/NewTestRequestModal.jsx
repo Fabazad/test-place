@@ -15,7 +15,6 @@ import BecomeTesterBody from "./BecomeTesterBody";
 import Loading from "../../Loading";
 import {toast} from "react-toastify";
 import {withTranslation} from "react-i18next";
-import ConfirmButton from "../../Buttons/ConfirmButton";
 
 const {USER_ROLES} = constants;
 
@@ -99,9 +98,9 @@ const NewTestRequestModal = props => {
                         {t("CLOSE")}
                     </Button>
                     {isLogged && isTester && !requestSent && user.paypalEmail && user.amazonId ? (
-                        <ConfirmButton color={'primary'} type='button' onClick={confirmRequest}>
+                        <Button color={'primary'} type='button' onClick={confirmRequest}>
                             {t("CONFIRM_REQUEST")}
-                        </ConfirmButton>
+                        </Button>
                     ) : null}
                 </div>
             </Modal>

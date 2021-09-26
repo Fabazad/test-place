@@ -12,7 +12,14 @@ router.post('/register', async (request, reply) => {
 });
 
 router.post('/login', async (request, reply) => {
-    const {email, password, keepConnection} = request.body;
+    const bodySchema = joi.object({
+        email: joi.string().trim().not().empty().email().required(),
+        password: joi.string().trim().not().empty().required(),
+        keepConnection: joi.boolean()
+    });
+    const { error, value } = bodySchema.validate(request.body, { errors: { language: "french" }});
+    if (error !== undefined) return reply.status(400).send(error.message);
+    const {email, password, keepConnection} = value;
     UserController.credentialLogin(email, password, keepConnection)
         .then(res => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));

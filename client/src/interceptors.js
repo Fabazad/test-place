@@ -31,6 +31,7 @@ axios.interceptors.response.use(function (response) {
     if (message === "not_registered_yet") message = "Vous n'êtes pas encore inscris.";
     if (message === "facebook_account_missing_email") message = "Il manque une adresse mail validée sur votre compte Facebook.";
     if (message === "name_already_used") message = "Ce nom d'utilisateur existe déjà, choisissez-en un autre.";
+    if (message === "no_password_registered") message = "Aucun mot de passe enregistré pour cette adresse mail.";
 
     toast.error(message);
 

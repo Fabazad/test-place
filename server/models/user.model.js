@@ -45,6 +45,7 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.methods.isCorrectPassword = function(password, callback){
+    if (!this.password) return callback(new Error("no_password_registered"));
     bcrypt.compare(password, this.password, function(err, same) {
         if (err) {
             callback(err);

@@ -9,7 +9,6 @@ import {
     Container,
     Row,
     Col,
-    UncontrolledTooltip
 } from "reactstrap";
 import {Link} from "react-router-dom";
 import ShareModal from "../Modals/ShareModal";
