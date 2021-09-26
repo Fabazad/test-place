@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {Button, Modal} from "reactstrap";
+import {Button, Modal, UncontrolledTooltip} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import Form from "reactstrap/es/Form";
 import Alert from "reactstrap/es/Alert";
@@ -65,7 +65,7 @@ const OrderedProductModal = props => {
             const fileUrl = URL.createObjectURL(file);
             setOrderScreenshot(file);
             setOrderScreenshotUrl(fileUrl);
-        } catch(err) {
+        } catch (err) {
             console.log(err);
             toast.error(t("COULD_NOT_IMPORT_PICTURE"));
         }
@@ -116,7 +116,17 @@ const OrderedProductModal = props => {
                                 <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"
                                    rel="noopener noreferrer">
                                     {t("YOUR_ORDERS_PAGE")}
-                                </a>.
+                                </a>.<br/>
+                                Exemple :
+                                <a
+                                    className="bg-secondary rounded p-2 d-block"
+                                    href={require("assets/img/amazonOrder.png")}
+                                    target="_blank" id={"order-example-" + testId}>
+                                    <img src={require("assets/img/amazonOrder.png")} alt="" className="w-100"/>
+                                </a>
+                                <UncontrolledTooltip delay={0} placement="auto" target={"order-example-" + testId}>
+                                    Cliquer pour agrandir
+                                </UncontrolledTooltip>
                             </InfoPopover>
                         </Label>
                         <ImageUploader onChange={file => retrieveAndSetScreenshotUrl(file)}
