@@ -39,12 +39,14 @@ const TesterInfoForm = props => {
             .catch(() => setLoading(false));
     };
 
+    const validForm = amazonId && paypalEmail;
+
     return (
         <Form onSubmit={onSubmit}>
             <Loading loading={loading}/>
             <FormGroup>
                 <label className="form-control-label" htmlFor="input-paypal-email">
-                    {t("PAYPAL_EMAIL")}
+                    {t("PAYPAL_EMAIL")} *
                     <InfoPopover className="ml-3">
                         {t("PAYPAL_EMAIL_EXPLAINED")}
                     </InfoPopover>
@@ -60,7 +62,7 @@ const TesterInfoForm = props => {
             </FormGroup>
             <FormGroup>
                 <label className="form-control-label" htmlFor="input-amazon-id">
-                    {t("AMAZON_ID")}
+                    {t("AMAZON_ID")} *
                     <InfoPopover className="ml-3 white-space-pre-line">
                         {t("AMAZON_ID_EXPLAINED_1")}<br/>
                         <a href="https://www.amazon.fr/gp/profile" target="_blank" rel="noopener noreferrer">
@@ -79,7 +81,7 @@ const TesterInfoForm = props => {
                 />
             </FormGroup>
             <FormGroup className="text-center mb-0">
-                <Button type="submit" color="primary">{btnText}</Button>
+                <Button type="submit" color="primary" disabled={!validForm}>{btnText}</Button>
             </FormGroup>
         </Form>
     )

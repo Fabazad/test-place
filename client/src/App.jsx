@@ -19,6 +19,7 @@ import history from './history';
 import ReactGA from 'react-ga';
 import {LastLocationProvider} from 'react-router-last-location';
 import ScrollToTop from "./components/ScrollTop";
+import {runInterceptors} from "./interceptors";
 
 history.listen(location => {
     ReactGA.set({page: location.pathname}); // Update the user's current page
@@ -27,6 +28,8 @@ history.listen(location => {
 
 const App = () => {
 
+    runInterceptors(history)
+    console.log("hey")
     return (
         <>
             <ToastContainer data-testid="toast-container"/>

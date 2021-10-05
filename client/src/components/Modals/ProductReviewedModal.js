@@ -69,7 +69,7 @@ const ProductReviewedModal = ({isOpen, onToggle, testId, t}) => {
                     </Alert>
                     <div className="p-3 bg-secondary rounded mt-3">
                         <FormGroup>
-                            <Label for="declineReviewReason">{t("REVIEW_LINK")} :</Label>
+                            <Label for="declineReviewReason">{t("REVIEW_LINK")} *</Label>
                             <InfoPopover className="ml-3 white-space-pre-line">
                                 {t("GO_ON_YOUR")}{" "}<a href={getAmazonProfileUrl(currentUser.amazonId)} target="_blank"
                                              rel="noopener noreferrer">{t("AMAZON_PROFILE")}</a>.<br/>
@@ -86,7 +86,7 @@ const ProductReviewedModal = ({isOpen, onToggle, testId, t}) => {
 
                 <ModalFooter>
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                        {t("CLOSE")}
+                        Annuler
                     </Button>
                     <Button type="submit" color='primary' disabled={!reviewId}>{t("SAVE")}</Button>
                 </ModalFooter>

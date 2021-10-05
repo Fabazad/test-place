@@ -60,7 +60,7 @@ const CancelTestModal = ({isOpen, onToggle, testId, t}) => {
                 <ModalBody>
                     <div className="p-3 bg-secondary rounded">
                         <FormGroup>
-                            <Label for="declineReviewReason">{t("CANCELLATION_CLAIM_REASON")} :</Label>
+                            <Label for="declineReviewReason">{t("CANCELLATION_CLAIM_REASON")} *</Label>
                             <Input
                                 type="textarea" id="declineReviewReason" required={true}
                                 innerRef={cancelReasonInput}

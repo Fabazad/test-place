@@ -98,7 +98,7 @@ const NewTestRequestModal = props => {
                         {t("CLOSE")}
                     </Button>
                     {isLogged && isTester && !requestSent && user.paypalEmail && user.amazonId ? (
-                        <Button color={'primary'} type='button' onClick={confirmRequest}>
+                        <Button color={'primary'} type='button' onClick={confirmRequest} disabled={!testerMessage}>
                             {t("CONFIRM_REQUEST")}
                         </Button>
                     ) : null}

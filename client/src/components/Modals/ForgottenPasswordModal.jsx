@@ -89,6 +89,7 @@ const ForgottenPasswordModal = ({t}) => {
                             {t("CLOSE")}
                         </Button>
                         <Button
+                            disabled={!email}
                             color="primary"
                             data-dismiss="modal"
                             type="submit"

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 // reactstrap components
 import {
     Button,
@@ -25,7 +25,9 @@ const NewProductModal = ({t}) => {
     const [asinInput, setAsinInput] = useState("");
     const [loadingPromise, setLoadingPromise] = useState(null);
 
-    const toggleModal = () => setIsOpen(!isOpen);
+    const toggleModal = () => {
+        setIsOpen(!isOpen)
+    };
 
     const scrapAsin = () => {
         if (!asinInput || !asinInput.length) {
@@ -83,6 +85,11 @@ const NewProductModal = ({t}) => {
         setLoadingPromise(loadingPromise);
     };
 
+    const onAsinSubmit = (e) => {
+        e.preventDefault();
+        scrapAsin()
+    }
+
     return (
         <>
             {/* Button trigger modal */}
@@ -103,7 +110,7 @@ const NewProductModal = ({t}) => {
                     </button>
                 </div>
                 <div className="modal-body white-space-pre-line bg-secondary">
-                    <div>
+                    <form onSubmit={onAsinSubmit}>
                         <Row>
                             <div className="col-12 col-md-8 col-lg-9">
                                 <FormGroup className="mb-3">
@@ -121,11 +128,11 @@ const NewProductModal = ({t}) => {
                             </div>
                             <div className="col-12 col-md-4 col-lg-3">
                                 <Button color="primary" className="mb-3 w-100" disabled={!asinInput}
-                                        onClick={scrapAsin}>{t("PRE_FILL")}</Button>
+                                        type="submit">{t("PRE_FILL")}</Button>
                             </div>
 
                         </Row>
-                    </div>
+                    </form>
                     {defaultData.asin ? (
                         <ProductForm onSubmit={onSubmit} defaultData={defaultData}/>
                     ) : null}
@@ -133,7 +140,7 @@ const NewProductModal = ({t}) => {
 
                 <ModalFooter className="bg-secondary">
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
-                        {t("CLOSE")}
+                        Annuler
                     </Button>
                 </ModalFooter>
             </Modal>

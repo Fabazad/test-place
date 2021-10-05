@@ -54,7 +54,6 @@ const Login = props => {
                                             <img src={require('assets/img/undraws/authentication.svg')} alt="" className="w-100"
                                                  style={{maxWidth: "150px"}}/>
                                         </div>
-                                        <SocialLogin className="mt-3">Connectez vous avec</SocialLogin>
                                         <div className="mt-3">
                                             <LoginForm onLogin={onLogin}/>
                                         </div>

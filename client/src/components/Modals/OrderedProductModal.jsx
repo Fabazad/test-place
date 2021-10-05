@@ -87,7 +87,7 @@ const OrderedProductModal = props => {
                 <div className="text-left w-100">
                     {test.sellerMessage ?
                         <div className="mb-3">
-                            <Label>{t("SELLER_MESSAGE")} - {test.seller.name}</Label>
+                            <Label>{t("SELLER_MESSAGE")} - <b>{test.seller.name}</b></Label>
                             <Alert color="success">
                                 {test.sellerMessage}
                             </Alert>
@@ -110,7 +110,7 @@ const OrderedProductModal = props => {
                 <Form className="mt-4 px-0 px-md-5 mx-0 mx-md-4 bg-secondary rounded py-3 shadow">
                     <FormGroup>
                         <Label>
-                            {t("ORDER_SCREENSHOT")}
+                            {t("ORDER_SCREENSHOT")} *
                             <InfoPopover className="ml-3">
                                 {t("TAKE_ORDER_PICTURE")}{" "}
                                 <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"
@@ -135,7 +135,7 @@ const OrderedProductModal = props => {
                     </FormGroup>
                     <FormGroup>
                         <Label>
-                            {t("ORDER_NUMBER")}
+                            {t("ORDER_NUMBER")} *
                             <InfoPopover className="ml-3">
                                 {t("CAN_FIND_ORDER_NUMBER_ON")}{" "}
                                 <a href="https://www.amazon.fr/gp/css/order-history" target="_blank"

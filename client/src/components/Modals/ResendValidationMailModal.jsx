@@ -15,8 +15,6 @@ import {withTranslation} from "react-i18next";
 import Loading from "../Loading";
 import userServices from '../../services/user.services';
 
-//import PropTypes from 'prop-types';
-
 const ResendValidationMailModal = ({t}) => {
 
     const [email, setEmail] = useState("");
@@ -95,6 +93,7 @@ const ResendValidationMailModal = ({t}) => {
                             {t("CLOSE")}
                         </Button>
                         <Button
+                            disabled={!email}
                             color="primary"
                             data-dismiss="modal"
                             type="submit"

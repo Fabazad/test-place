@@ -36,7 +36,7 @@ const ContactForm = (props) => {
                         <i className="ni ni-user-run"/>
                     </InputGroupText>
                 </InputGroupAddon>
-                <Input placeholder={t("YOUR_NAME")} type="text" value={name} required
+                <Input placeholder={t("YOUR_NAME") + " *"} type="text" value={name} required
                        onFocus={() => setNameFocused(true)} name="name"
                        onBlur={() => setNameFocused(false)}
                        onChange={e => setValues({...values, name: e.target.value})}
@@ -50,7 +50,7 @@ const ContactForm = (props) => {
                         <i className="ni ni-email-83"/>
                     </InputGroupText>
                 </InputGroupAddon>
-                <Input placeholder={t("YOUR_MAIL_ADDRESS")} type="email" value={email}
+                <Input placeholder={t("YOUR_MAIL_ADDRESS") + " *"} type="email" value={email}
                        onFocus={() => setEmailFocused(true)} required
                        onBlur={() => setEmailFocused(false)}
                        onChange={e => setValues({...values, email: e.target.value})} name="email"
@@ -60,7 +60,7 @@ const ContactForm = (props) => {
         <FormGroup className="mb-4">
             <Input className="form-control-alternative" cols="80" value={message}
                    onChange={e => setValues({...values, message: e.target.value})} required name="message"
-                   placeholder={t("TELL_US_EVERYTHING")} rows="4" type="textarea"/>
+                   placeholder={t("TELL_US_EVERYTHING") + " *"} rows="4" type="textarea"/>
         </FormGroup>
         <div className="text-center">
             <Button color="default" type="submit"

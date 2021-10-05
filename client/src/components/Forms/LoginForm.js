@@ -5,10 +5,11 @@ import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 import {withTranslation} from "react-i18next";
 import ConfirmButton from "../Buttons/ConfirmButton";
+import SocialLogin from "../SocialLogin";
 
 const LoginForm = props => {
 
-    const { onLogin, t} = props;
+    const {onLogin, t} = props;
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,21 +19,21 @@ const LoginForm = props => {
     const onSubmit = e => {
         e.preventDefault();
         setLoading(true);
-        userServices.login(email, password, keepConnection).then(res => {
-            setLoading(false);
-            if (res && res.user) {
-                onLogin();
-            }
-        }).catch(() => {
-            setLoading(false);
-            setPassword('');
-        });
+        userServices.login(email, password, keepConnection)
+            .then(res => {
+                if (res && res.user) onLogin();
+            })
+            .catch(() => setPassword(''))
+            .finally(() => setLoading(false));
     };
+
+    const validForm = email && password;
 
     return (
         <Form role="form" onSubmit={onSubmit}>
+            <SocialLogin className="mt-3">Connectez vous avec</SocialLogin>
             <Loading loading={loading}/>
-            <div className="text-muted text-center mb-3">
+            <div className="text-muted text-center my-3">
                 <small>Ou avec vos identifiants</small>
             </div>
             <FormGroup className="mb-3">
@@ -68,7 +69,7 @@ const LoginForm = props => {
                 </label>
             </div>
             <div className="text-center">
-                <Button className="mt-4" color="primary" type="submit">
+                <Button className="mt-4" color="primary" type="submit" disabled={!validForm}>
                     {t("LOGIN")}
                 </Button>
             </div>

@@ -17,7 +17,7 @@ router.post('/login', async (request, reply) => {
         password: joi.string().trim().not().empty().required(),
         keepConnection: joi.boolean()
     });
-    const { error, value } = bodySchema.validate(request.body, { errors: { language: "french" }});
+    const { error, value } = bodySchema.validate(request.body);
     if (error !== undefined) return reply.status(400).send(error.message);
     const {email, password, keepConnection} = value;
     UserController.credentialLogin(email, password, keepConnection)

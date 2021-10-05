@@ -34,6 +34,7 @@ class ImageUploader extends React.Component {
                         style={{"maxHeight": "200px", "maxWidth": "200px"}}
                     />
                 </div>
+
                 <div className="d-none">
                     <ImageUploaderNative
                         withIcon={true}

@@ -18,10 +18,8 @@ class BaseService {
     }
 
     serviceResolve(res) {
-        if (res.status !== 200) {
-            return Promise.reject(new Error(res.error));
-        }
-        return Promise.resolve(res.data);
+        if (res.status !== 200) throw new Error(res.error);
+        return res.data;
     }
 
     getOne(itemId) {

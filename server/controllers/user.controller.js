@@ -386,7 +386,7 @@ class UserController {
         }
 
         const user = await UserModel.findOne({name});
-        if (user) return Promise.reject({ status: 401, message: 'name_already_used'});
+        if (user) return Promise.reject({ status: 400, message: 'name_already_used'});
 
         try {
             const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true});
@@ -400,7 +400,7 @@ class UserController {
         const {googleId, keepConnection} = params;
         const user = await UserModel.findOne({googleId});
         if (user) return UserController.login(user, keepConnection);
-        return Promise.reject({status: 401, message: "not_registered_yet"});
+        return Promise.reject({status: 403, message: "not_registered_yet"});
     }
 
 
@@ -416,7 +416,7 @@ class UserController {
             const facebookUser = await UserModel.findOne({facebookId: id});
             if (facebookUser) return UserController.login(facebookUser, false);
 
-            if (!email) return Promise.reject({status: 401, message: "facebook_account_missing_email"});
+            if (!email) return Promise.reject({status: 403, message: "facebook_account_missing_email"});
 
             const emailUser = await UserModel.findOne({email});
             if (emailUser) {
@@ -427,7 +427,7 @@ class UserController {
             const userName = first_name ? first_name + (Math.random() * 10000).toString() : name;
 
             const user = await UserModel.findOne({name: userName});
-            if (user) return Promise.reject({ status: 401, message: 'name_already_used'});
+            if (user) return Promise.reject({ status: 400, message: 'name_already_used'});
 
             const newUser = await UserModel.create({
                 email,
@@ -452,7 +452,7 @@ class UserController {
                 }
             });
             const user = await UserModel.findOne({facebookId: id});
-            if (!user) return Promise.reject({status: 401, message: "not_registered_yet"});
+            if (!user) return Promise.reject({status: 403, message: "not_registered_yet"});
             return UserController.login(user, keepConnection)
         } catch (e) {
             return Promise.reject({status: 500, message: e.message});

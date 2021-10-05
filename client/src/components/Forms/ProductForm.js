@@ -20,6 +20,7 @@ import productService from "../../services/product.service";
 import Col from "reactstrap/es/Col";
 import {toast} from "react-toastify";
 import {withTranslation} from "react-i18next";
+import InfoPopover from "../InfoPopover";
 
 const ProductForm = props => {
 
@@ -28,7 +29,7 @@ const ProductForm = props => {
         const asin = defaultData.asin ?? null;
 
         const [title, setTitle] = useState(defaultData.title ?? undefined);
-        const [price, setPrice] = useState(defaultData.price ?? '');
+        const [price, setPrice] = useState(defaultData.price > 0 ? defaultData.price : '');
         const [finalPrice, setFinalPrice] = useState(defaultData.finalPrice ?? '');
         const [images, setImages] = useState(defaultData.images ?? []);
         const [description, setDescription] = useState(defaultData.description ?? undefined);
@@ -72,6 +73,8 @@ const ProductForm = props => {
             });
         };
 
+        const validForm = title !== undefined && category && price && finalPrice !== '' && description !== '' && maxDemands !== '';
+
         return (
             <Form role="form" onSubmit={onSubmit}>
                 <div className="border-top">
@@ -96,6 +99,7 @@ const ProductForm = props => {
                                     defaultValue={asin}
                                     required disabled
                                 />
+                                <InfoPopover className="mx-3 my-auto">Identifiant unique de votre produit sur Amazon.</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </div>
@@ -110,13 +114,14 @@ const ProductForm = props => {
                                     </InputGroupText>
                                 </InputGroupAddon>
                                 <Input
-                                    placeholder={t("TITTLE")}
+                                    placeholder={t("TITTLE") + " *"}
                                     type="text"
                                     name="title"
                                     defaultValue={title}
                                     onChange={e => setTitle(e.target.value)}
                                     required
                                 />
+                                <InfoPopover className="mx-3 my-auto">Le titre du produit que vous proposez, visible par les clients.</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </div>
@@ -124,14 +129,14 @@ const ProductForm = props => {
                 <Row>
                     <div className="col-12">
                         <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
+                            <InputGroup className="input-group-alternative d-flex">
                                 <InputGroupAddon addonType="prepend">
                                     <InputGroupText className="position-absolute" style={{top: "5px"}}>
                                         <i className="ni ni-key-25"/>
                                     </InputGroupText>
                                 </InputGroupAddon>
                                 <TagsInput
-                                    className="bootstrap-tagsinput w-100"
+                                    className="bootstrap-tagsinput flex-1"
                                     onChange={val => setKeywords(val)}
                                     tagProps={{className: "tag badge mr-1"}}
                                     value={keywords}
@@ -139,6 +144,7 @@ const ProductForm = props => {
                                     addOnPaste={true}
                                     addKeys={[9, 13, 44, 32, 188, 190]}
                                 />
+                                <InfoPopover className="mx-3 my-auto">Test Place simulera une recherche avec ces mots clés lorsque l'utilisateur navigera sur Amazon.</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </div>
@@ -151,7 +157,7 @@ const ProductForm = props => {
                         <DropdownSelect name="category" options={categories}
                                         className="w-100" value={category}
                                         onChange={e => setCategory(e.target.value)}
-                                        placeholder={t("CATEGORY")}/>
+                                        placeholder={t("CATEGORY") + " *"}/>
                     </Col>
                     <div className="col-6 text-center d-flex">
                         <label className="custom-toggle mt-2">
@@ -169,7 +175,7 @@ const ProductForm = props => {
                     <Col xs={6}>
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <Input placeholder={t("PRICE")} type="number" step="0.01"
+                                <Input placeholder={t("PRICE")  + " *"} type="number" step="0.01"
                                        min="0.01" name="price" defaultValue={price}
                                        onChange={e => setPrice(e.target.value)} required/>
                                 <InputGroupAddon addonType="append">
@@ -177,6 +183,7 @@ const ProductForm = props => {
                                         <i className="fa fa-euro"/>
                                     </InputGroupText>
                                 </InputGroupAddon>
+                                <InfoPopover className="mx-3 my-auto">Le prix actuel du produit sur Amazon, frais de port inclus.</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -184,7 +191,7 @@ const ProductForm = props => {
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
                                 <Input
-                                    placeholder={t("FINAL_PRICE")}
+                                    placeholder={t("FINAL_PRICE") + " *"}
                                     type="number"
                                     step="0.01"
                                     min="0"
@@ -198,6 +205,7 @@ const ProductForm = props => {
                                         <i className="fa fa-euro"/>
                                     </InputGroupText>
                                 </InputGroupAddon>
+                                <InfoPopover className="mx-3 my-auto">Le prix final du produit après remboursement.</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -208,7 +216,7 @@ const ProductForm = props => {
                         <FormGroup className="mb-3">
                             <Input
                                 className="form-control-alternative"
-                                placeholder={t("DESCRIPTION")}
+                                placeholder={t("DESCRIPTION") + " *"}
                                 rows="10"
                                 type="textarea"
                                 name="description"
@@ -231,7 +239,7 @@ const ProductForm = props => {
                                 </InputGroupText>
                             </InputGroupAddon>
                             <Input
-                                placeholder={t("MAX_DEMANDS_PLACEHOLDER")}
+                                placeholder={t("MAX_DEMANDS_PLACEHOLDER") + " *"}
                                 type="number"
                                 step="1"
                                 min="1"
@@ -240,6 +248,10 @@ const ProductForm = props => {
                                 onChange={e => setMaxDemands(e.target.value)}
                                 required
                             />
+                            <InfoPopover className="mx-3 my-auto">
+                                Nombre maximum de test disponible pour ce produit.<br/>
+                                Une fois que le nombre de demande atteind cette valeur, le produit n'est plus visible sur la page de recherche.
+                            </InfoPopover>
                         </InputGroup>
                     </FormGroup>
                     <FormGroup className="col-md-6 col-12">
@@ -256,17 +268,7 @@ const ProductForm = props => {
                             <label className="custom-control-label" htmlFor="customCheck6">
                                 {t("AUTOMATIC_ACCEPTANCE_LABEL")}
                             </label>
-                            <i className="fa fa-question-circle ml-3 cursor-pointer"
-                               id="tooltip348236073"/>
-                            <UncontrolledPopover
-                                placement="top"
-                                target="tooltip348236073"
-                                className="popover-default"
-                            >
-                                <PopoverBody className="text-center white-space-pre-line">
-                                    {t("AUTOMATIC_ACCEPTANCE_EXPLAINED_SELLER")}
-                                </PopoverBody>
-                            </UncontrolledPopover>
+                            <InfoPopover className="ml-3">{t("AUTOMATIC_ACCEPTANCE_EXPLAINED_SELLER")}</InfoPopover>
                         </div>
                     </FormGroup>
                 </Row>
@@ -287,7 +289,7 @@ const ProductForm = props => {
                     </Col>
                 </Row>
                 <div className="mt-3">
-                    <Button type="submit" color="primary">{t("SAVE")}</Button>
+                    <Button type="submit" color="primary" disabled={!validForm}>Enregistrer et publier</Button>
                 </div>
             </Form>
         );

@@ -6,8 +6,6 @@ import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/scss/argon-design-system-react.scss";
 import "assets/dashboard/scss/argon-dashboard-react.scss";
 
-
-import "interceptors";
 import 'react-toastify/dist/ReactToastify.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 

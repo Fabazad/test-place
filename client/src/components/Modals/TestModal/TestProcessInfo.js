@@ -48,10 +48,14 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                 <NextStepAdvice color="info">
                     {t("WAITING_FOR_TEST_REQUEST_ACCEPTATION")}
                 </NextStepAdvice> : null}
+            {isStatus('requested') && (USER_ROLES.SELLER === userRole || adminView) ?
+                <NextStepAdvice color="info">
+                    Vous devez accepter ou refuser la demande de test.
+                </NextStepAdvice> : null}
             {test.testerMessage ?
                 <div className="text-left w-100">
-                    <Label>{t("TESTER_MESSAGE")} - {test.tester.name}</Label>
-                    <Alert color="success" className="white-space-pre-line">
+                    <Label>{t("TESTER_MESSAGE")} - <b>{test.tester.name}</b></Label>
+                    <Alert color="primary" className="white-space-pre-line">
                         {test.testerMessage}
                     </Alert>
                 </div> : null}
@@ -63,7 +67,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                 <div className="text-left w-100">
                     {test.sellerMessage ?
                         <div className="mb-3">
-                            <Label>{t("SELLER_MESSAGE")} - {test.seller.name}</Label>
+                            <Label>{t("SELLER_MESSAGE")} - <b>{test.seller.name}</b></Label>
                             <Alert color="success" className="white-space-pre-line">
                                 {test.sellerMessage}
                             </Alert>
@@ -71,7 +75,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                 </div> : null
             }
             {isStatus('requestAccepted') && (USER_ROLES.TESTER === userRole || adminView) ?
-                <NextStepAdvice color="success">
+                <NextStepAdvice color="info">
                     {t("ORDER_PRODUCT_FOLLOW_LINK")}{" "}
                     <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)} target='_blank'
                        rel="noopener noreferrer">

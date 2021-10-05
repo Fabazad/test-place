@@ -62,7 +62,7 @@ const DeclineReviewModal = props => {
                 <ModalBody>
                     <div className="p-3 bg-secondary rounded">
                         <FormGroup>
-                            <Label for="declineReviewReason">{t("DECLINE_REASON")} :</Label>
+                            <Label for="declineReviewReason">{t("DECLINE_REASON")} *</Label>
                             <Input
                                 type="textarea" id="declineReviewReason" required={true}
                                 innerRef={declineReviewReasonInput}

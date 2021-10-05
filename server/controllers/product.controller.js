@@ -16,6 +16,7 @@ class ProductController {
             }
 
             const url = `https://www.amazon.fr/dp/${asin}`;
+            console.log({ url })
 
             const maxTest = 2;
             let currentTest = 1;
@@ -26,97 +27,97 @@ class ProductController {
                 callback: (error, res) => {
                     let $ = res.$;
                     if (error) {
-                        reject({status: 500, message: "Internal Server Error."});
-                    } else if (res.statusCode === 404) {
-                        reject({status: 404, message: "Aucun produit trouvé."});
+                        return reject({status: 500, message: "Internal Server Error."});
+                    }
+                    if (res.statusCode === 404) {
+                        return reject({status: 404, message: "Aucun produit trouvé."});
+                    }
+                    const scrapRes = {
+                        title: undefined,
+                        price: 0,
+                        description: undefined,
+                        isPrime: false,
+                        category: undefined,
+                        seller: undefined,
+                        imageUrls: []
+                    };
+
+                    //Images
+                    const $images = $('.a-button-thumbnail img');
+                    if ($images.length) {
+                        $images.each(i => {
+                            const url = $($('.a-button-thumbnail img')[i]).attr('src');
+                            const match = url.match(/I\/(.+)\._AC/);
+                            if (match) {
+                                scrapRes.imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
+                            }
+                        });
+                        if (!scrapRes.imageUrls.length) {
+                            const url = `https://www.amazon.fr/dp/${asin}`;
+                            c.queue(url);
+                            return;
+                        }
+                    }
+
+                    //Title
+                    const $title = $('#comparison_title .a-size-base.a-color-base:not(.a-text-bold)');
+                    if ($title.length) {
+                        scrapRes.title = $title.text().trim();
                     } else {
-                        const scrapRes = {
-                            title: undefined,
-                            price: 0,
-                            description: undefined,
-                            isPrime: false,
-                            category: undefined,
-                            seller: undefined,
-                            imageUrls: []
+                        const $titleMeta = $('meta[name=title]');
+                        if ($titleMeta.length) {
+                            scrapRes.title = $titleMeta.attr("content");
+                        }
+                    }
+
+                    //Price
+                    const $livraison = $('div.olp-text-box span.a-color-base');
+                    if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
+                        scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
+                    }
+                    const $price = $('#cerberus-data-metrics');
+                    if ($price.length) {
+                        scrapRes.price += parseFloat($price.attr("data-asin-price").trim().replace(/,/, '.'));
+                    }
+
+                    //Description
+                    const $description = $('div.centerColAlign div.a-section.a-spacing-medium');
+                    if ($description.length) {
+                        scrapRes.description = $description.text().trim()
+                            .replace(/\s{2,}/g, "\n\n") //Remove white spaces
+                            .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
+                            .replace(/Voir plus de détails$/, ""); // Remove ending text
+                    }
+
+                    //Prime
+                    const $prime = $('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row');
+                    if ($prime.length) {
+                        scrapRes.isPrime = !!$prime.text().trim()
+                    }
+
+                    //Category
+                    const $category = $('#searchDropdownBox option[selected="selected"]');
+                    if ($category.length) {
+                        const category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim());
+                        if (category) {
+                            scrapRes.category = category.value;
+                        }
+                    }
+
+                    //Seller
+                    const $seller = $('a#sellerProfileTriggerId');
+                    if ($seller.length) {
+                        scrapRes.seller = {
+                            name: $seller.text().trim(),
+                            url: 'https://amazon.fr' + $seller.attr('href').trim()
                         };
+                    }
 
-                        //Images
-                        const $images = $('.a-button-thumbnail img');
-                        if ($images.length) {
-                            $images.each(i => {
-                                const url = $($('.a-button-thumbnail img')[i]).attr('src');
-                                const match = url.match(/I\/(.+)\._AC/);
-                                if (match) {
-                                    scrapRes.imageUrls.push('https://images-na.ssl-images-amazon.com/images/I/' + match[1] + '.jpg');
-                                }
-                            });
-                            if (!scrapRes.imageUrls.length) {
-                                const url = `https://www.amazon.fr/dp/${asin}`;
-                                c.queue(url);
-                                return;
-                            }
-                        }
-
-                        //Title
-                        const $title = $('#comparison_title .a-size-base.a-color-base:not(.a-text-bold)');
-                        if ($title.length) {
-                            scrapRes.title = $title.text().trim();
-                        } else {
-                            const $titleMeta = $('meta[name=title]');
-                            if ($titleMeta.length) {
-                                scrapRes.title = $titleMeta.attr("content");
-                            }
-                        }
-
-                        //Price
-                        const $livraison = $('div.olp-text-box span.a-color-base');
-                        if ($livraison.length && !$livraison.text().match(/GRATUITE/)) {
-                            scrapRes.price += parseFloat($livraison.text().replace(/[^0-9]*([0-9]+,[0-9])+[^0-9]*/, "$1").replace(",", "."));
-                        }
-                        const $price = $('#cerberus-data-metrics');
-                        if ($price.length) {
-                            scrapRes.price += parseFloat($price.attr("data-asin-price").trim().replace(/,/, '.'));
-                        }
-
-                        //Description
-                        const $description = $('div.centerColAlign div.a-section.a-spacing-medium');
-                        if ($description.length) {
-                            scrapRes.description = $description.text().trim()
-                                .replace(/\s{2,}/g, "\n\n") //Remove white spaces
-                                .replace(/^[\s\S]*?\}\)\s*/gm, "") //Remove starting text
-                                .replace(/Voir plus de détails$/, ""); // Remove ending text
-                        }
-
-                        //Prime
-                        const $prime = $('div#shippingMessageInsideBuyBox_feature_div.feature div.a-row');
-                        if ($prime.length) {
-                            scrapRes.isPrime = !!$prime.text().trim()
-                        }
-
-                        //Category
-                        const $category = $('#searchDropdownBox option[selected="selected"]');
-                        if ($category.length) {
-                            const category = constants.PRODUCT_CATEGORIES.find(c => c.text === $category.text().trim());
-                            if (category) {
-                                scrapRes.category = category.value;
-                            }
-                        }
-
-                        //Seller
-                        const $seller = $('a#sellerProfileTriggerId');
-                        if ($seller.length) {
-                            scrapRes.seller = {
-                                name: $seller.text().trim(),
-                                url: 'https://amazon.fr' + $seller.attr('href').trim()
-                            };
-                        }
-
-                        if (!scrapRes.description && currentTest < maxTest) {
-                            currentTest++;
-                            c.queue(url)
-                        } else {
-                            resolve(scrapRes);
-                        }
+                    if (!scrapRes.description && currentTest < maxTest) {
+                        currentTest++;
+                        c.queue(url)
+                    } else {
+                        resolve(scrapRes);
                     }
                 }
             });
@@ -141,7 +142,21 @@ class ProductController {
     }
 
     static async find(decoded, searchData) {
-        const {category, keyWords, minPrice, maxPrice, free, automaticAcceptance, prime, itemsPerPage, page, sortBy, published, remainingRequests, seller} = searchData;
+        const {
+            category,
+            keyWords,
+            minPrice,
+            maxPrice,
+            free,
+            automaticAcceptance,
+            prime,
+            itemsPerPage,
+            page,
+            sortBy,
+            published,
+            remainingRequests,
+            seller
+        } = searchData;
 
         const pipeline = [];
         const query = {};

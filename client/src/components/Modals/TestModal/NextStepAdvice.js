@@ -10,7 +10,7 @@ const NextStepAdvice = props => {
 
     return (
         <div className="text-left w-100">
-            <Label>{t("NEXT")}</Label>
+            <Label><b>{t("NEXT")}</b></Label>
             <Alert color={color ? color : 'info'} className="white-space-pre-line">
                 {children}
             </Alert>

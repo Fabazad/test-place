@@ -14,35 +14,30 @@ class UserService extends BaseService {
     }
 
     async currentUserResolve(res) {
-        return new Promise((resolve, reject) => {
-            this.serviceResolve(res)
-                .then(data => {
-                    if (typeof data === "object" && "user" in data) {
-                        this.currentUser = data.user;
-                        this.currentUserSubject.next(this.currentUser);
-                        if ('requestedTestsCount' in data
-                            || 'processingTestsCount' in data
-                            || 'completedTestsCount' in data
-                            || 'cancelledTestsCount' in data
-                            || 'guiltyTestsCount' in data) {
-                            testServices.testGlobalStatusesCountSubject.next(data);
-                        }
-                    } else if (this.isAuth() && !data.check) {
-                        this.logout();
-                    }
-                    if (typeof data === "object" && "token" in data) {
-                        setCookie("token", data.token, 7);
-                    }
-                    return resolve(data);
-                })
-                .catch(err => reject(err));
-        });
+        const data = await this.serviceResolve(res)
+        if (typeof data === "object" && "user" in data) {
+            this.currentUser = data.user;
+            this.currentUserSubject.next(this.currentUser);
+            if ('requestedTestsCount' in data
+                || 'processingTestsCount' in data
+                || 'completedTestsCount' in data
+                || 'cancelledTestsCount' in data
+                || 'guiltyTestsCount' in data) {
+                testServices.testGlobalStatusesCountSubject.next(data);
+            }
+        } else if (this.isAuth() && !data.check) {
+            this.logout();
+        }
+        if (typeof data === "object" && "token" in data) {
+            setCookie("token", data.token, 7);
+        }
+        return data;
 
     }
 
-    login(email, password, keepConnection) {
-        return axios.post(this.baseURL + '/login', {email, password, keepConnection})
-            .then(this.currentUserResolve);
+    async login(email, password, keepConnection) {
+        const response = await axios.post(this.baseURL + '/login', {email, password, keepConnection})
+        return this.currentUserResolve(response)
     }
 
     register(user) {
@@ -111,7 +106,7 @@ class UserService extends BaseService {
     }
 
     changeGender(gender) {
-        return this.post("change-gender", { gender }, this.currentUserResolve);
+        return this.post("change-gender", {gender}, this.currentUserResolve);
     }
 
     googleRegister(user) {
@@ -122,12 +117,15 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + '/google-login', user).then(this.currentUserResolve);
     }
 
-    facebookRegister({ accessToken, roles}) {
-        return axios.post(this.baseURL + '/facebook-register', { accessToken, roles}).then(this.currentUserResolve);
+    facebookRegister({accessToken, roles}) {
+        return axios.post(this.baseURL + '/facebook-register', {accessToken, roles}).then(this.currentUserResolve);
     }
 
-    facebookLogin({ accessToken, keepConnection}) {
-        return axios.post(this.baseURL + '/facebook-login', { accessToken, keepConnection}).then(this.currentUserResolve);
+    facebookLogin({accessToken, keepConnection}) {
+        return axios.post(this.baseURL + '/facebook-login', {
+            accessToken,
+            keepConnection
+        }).then(this.currentUserResolve);
     }
 }
 

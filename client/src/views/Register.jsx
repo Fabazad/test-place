@@ -74,6 +74,8 @@ const Register = props => {
         }).catch(() => setLoading(false));
     };
 
+    const disabled = !name || !email || !password || !captcha || !role;
+
     return (
         <>
             <main>
@@ -97,7 +99,7 @@ const Register = props => {
                                         <Loading loading={loading}/>
                                         <CardHeader>
                                             <FormGroup className="text-center">
-                                                <Label className="text-muted mb-3">{t("I_WANT_TO_BE")}</Label>
+                                                <Label className="text-muted mb-3">{t("I_WANT_TO_BE")} *</Label>
                                                 <RolesSelectInput defaultValue={null} onChange={val => setRole(val)}/>
                                             </FormGroup>
                                         </CardHeader>
@@ -118,7 +120,7 @@ const Register = props => {
                                                             </InputGroupText>
                                                         </InputGroupAddon>
                                                         <Input
-                                                            placeholder={t("USER_NAME")}
+                                                            placeholder={t("USER_NAME") + " *"}
                                                             name="name"
                                                             onChange={e => setName(e.target.value)}
                                                             required
@@ -134,7 +136,7 @@ const Register = props => {
                                                             </InputGroupText>
                                                         </InputGroupAddon>
                                                         <Input
-                                                            placeholder="Email"
+                                                            placeholder="Email *"
                                                             type="email"
                                                             name="email"
                                                             onChange={e => setEmail(e.target.value)}
@@ -152,7 +154,7 @@ const Register = props => {
                                                         </InputGroupAddon>
 
                                                         <Input
-                                                            placeholder={t("PASSWORD")}
+                                                            placeholder={t("PASSWORD") + " *"}
                                                             type="password"
                                                             name="password"
                                                             autoComplete="off"
@@ -185,6 +187,7 @@ const Register = props => {
                                                             <span>
                                                                 {t("I_ACCEPT_THE")}{" "}
                                                                 <PrivacyPolicyModal/>
+                                                                *
                                                             </span>
                                                             </label>
                                                         </div>
@@ -192,6 +195,7 @@ const Register = props => {
                                                 </Row>
                                                 <div className="text-center">
                                                     <Button
+                                                        disabled={disabled}
                                                         className="mt-4"
                                                         color="primary"
                                                         type="submit"

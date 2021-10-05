@@ -10,7 +10,7 @@ const SendRequestForm = props => {
     return (
         <FormGroup className="text-left">
             {/* It's all good case */}
-            <Label for="sellerMessage">{t("MESSAGE_TO_SELLER")}</Label>
+            <Label for="sellerMessage">{t("MESSAGE_TO_SELLER")} *</Label>
             <Input className="form-control-alternative" id="testerMessage"
                    defaultValue={value} required
                    placeholder={t("TESTER_MESSAGE_PLACEHOLDER")}

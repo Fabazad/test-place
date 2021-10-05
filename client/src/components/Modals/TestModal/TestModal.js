@@ -96,7 +96,8 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
                     </Row>
                     <Row className="bg-secondary py-4 rounded">
                         <Col xs={12} md={4} className="text-center">
-                            <img src={test.product.imageUrls[0]} alt="" height='150' className='rounded shadow-lg'/>
+                            <img src={test.product.imageUrls[0]} alt="" className='rounded shadow-lg'
+                                 style={{height: "auto", maxHeight: "150px", width: "auto", maxWidth: "100%"}}/>
                         </Col>
 
                         <Col xs={12} md={8} className="d-flex mt-3 mt-md-0">
@@ -200,7 +201,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
             <ModalFooter>
                 <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-                    {t("CLOSE")}
+                    Fermer
                 </Button>
             </ModalFooter>
         </Modal>
