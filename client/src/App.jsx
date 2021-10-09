@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ToastContainer} from "react-toastify";
 import {Redirect, Route, Switch} from "react-router-dom";
 import withoutAuth from "./helpers/withoutAuth";
@@ -28,8 +28,21 @@ history.listen(location => {
 
 const App = () => {
 
+    useEffect(() => {
+        window.$crisp = [];
+        window.CRISP_WEBSITE_ID = "9be250b8-1e0b-46d6-b929-a1ee0981a28a";
+
+        (function() {
+            var d = document;
+            var s = d.createElement("script");
+
+            s.src = "https://client.crisp.chat/l.js";
+            s.async = 1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();
+    }, []);
+
     runInterceptors(history)
-    console.log("hey")
     return (
         <>
             <ToastContainer data-testid="toast-container"/>

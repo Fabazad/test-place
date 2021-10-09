@@ -52,7 +52,7 @@ const SimpleFooter = props => {
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} to={'/#contact-us'}>
+                                    <NavLink className="cursor-pointer" onClick={() => window.$crisp.push(["do", "chat:open"])}>
                                         {t("CONTACT_US")}
                                     </NavLink>
                                 </NavItem>

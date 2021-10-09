@@ -26,7 +26,7 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
         onToggle();
     };
 
-    const isStatus = statusesToCheck => isTestStatus({ statusesToCheck, test, statuses })
+    const isStatus = statusesToCheck => isTestStatus({statusesToCheck, test, statuses})
 
     return (
         <>
@@ -107,7 +107,8 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
             {isStatus('productReviewed') && (USER_ROLES.SELLER === userRole || adminView) && test.reviewId ?
                 <NextStepAdvice color="info">
                     {t("TESTER_HAS_REVIEWED_PRODUCT")}<br/>
-                    {t("YOU_WILL_FIND_THE")}{" "}<a href={getAmazonReviewUrl(test.reviewId)}>{t("REVIEW_LINK")}</a>.<br/>
+                    {t("YOU_WILL_FIND_THE")}{" "}<a
+                    href={getAmazonReviewUrl(test.reviewId)}>{t("REVIEW_LINK")}</a>.<br/>
                 </NextStepAdvice> : null}
             {test.declineReviewReason ?
                 <div className="text-left w-100">
@@ -126,7 +127,11 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
             {isStatus("reviewValidated") && (userRole === USER_ROLES.TESTER || adminView) ?
                 <NextStepAdvice color="info">
                     {t("REVIEW_HAS_BEEN_VALIDATED")}<br/>
-                    {t("DONT_HESITATE_TO")}{" "}<Link to="/#contact-us">{t("CONTACT_US")}</Link>, {(t("WITH_COMMAND_NUMBER"))}
+                    {t("DONT_HESITATE_TO")}{" "}
+                    <a className="cursor-pointer text-primary"
+                       onClick={() => window.$crisp.push(["do", "chat:open"])}>
+                        {t("CONTACT_US")}
+                    </a>, {(t("WITH_COMMAND_NUMBER"))}
                 </NextStepAdvice> : null
             }
             {isStatus("reviewValidated") && (userRole === USER_ROLES.SELLER || adminView) ?

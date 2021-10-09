@@ -1,6 +1,6 @@
 import {NavLink} from "reactstrap";
 import React, {useEffect, useState} from "react";
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import ContactModal from "../Modals/ContactModal";
 
 import userServices from "../../services/user.services";
@@ -22,7 +22,7 @@ const ContactItem = () => {
     }
 
     return <>
-        <NavLink to="#contact-us" tag={Link}>
+        <NavLink className="cursor-pointer" onClick={() => window.$crisp.push(["do", "chat:open"])}>
             <i className="ni ni-email-83"/>
             Nous contacter
         </NavLink>

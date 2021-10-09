@@ -18,6 +18,12 @@ class UserService extends BaseService {
         if (typeof data === "object" && "user" in data) {
             this.currentUser = data.user;
             this.currentUserSubject.next(this.currentUser);
+            if (data.user !== null) {
+                window.$crisp.push(["set", "user:email", [data.user.email]])
+                const userDataArray = Object.entries(data.user).map(([key, value]) => { return [key, value !== null ? value.toString() : "null"] });
+                console.log(userDataArray, userDataArray[0], userDataArray[0][0])
+                window.$crisp.push(["set", "session:data", [userDataArray]])
+            }
             if ('requestedTestsCount' in data
                 || 'processingTestsCount' in data
                 || 'completedTestsCount' in data

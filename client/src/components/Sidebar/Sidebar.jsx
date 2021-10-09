@@ -8,16 +8,11 @@ import testServices from '../../services/test.services';
 // reactstrap components
 import {
     Collapse,
-    DropdownMenu,
-    DropdownItem,
-    UncontrolledDropdown,
-    DropdownToggle,
     Form,
     Input,
     InputGroupAddon,
     InputGroupText,
     InputGroup,
-    Media,
     NavbarBrand,
     Navbar,
     NavItem,
@@ -29,7 +24,6 @@ import {
 } from "reactstrap";
 import ShareModal from "../Modals/ShareModal";
 import Badge from "reactstrap/es/Badge";
-import ContactModal from "../Modals/ContactModal";
 import ContactItem from "./ContactItem";
 
 const Sidebar = props => {
