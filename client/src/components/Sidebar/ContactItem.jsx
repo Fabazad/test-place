@@ -1,33 +1,14 @@
 import {NavLink} from "reactstrap";
-import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
-import ContactModal from "../Modals/ContactModal";
+import React from "react";
+import {withTranslation} from "react-i18next";
 
-import userServices from "../../services/user.services";
-
-const ContactItem = () => {
-    const history = useHistory();
-    const {location} = history;
-    const [isOpen, setIsOpen] = useState(false);
-
-    const user = userServices.currentUser
-
-    useEffect(() => {
-        if (location?.hash === "#contact-us") setIsOpen(true);
-        else setIsOpen(false)
-    }, [location?.hash]);
-
-    const handleToggle = () => {
-        history.push(location.pathname);
-    }
-
+const ContactItem = ({t}) => {
     return <>
         <NavLink className="cursor-pointer" onClick={() => window.$crisp.push(["do", "chat:open"])}>
             <i className="ni ni-email-83"/>
-            Nous contacter
+            {t("CONTACT_US")}
         </NavLink>
-        <ContactModal isOpen={isOpen} onToggle={handleToggle} user={user}/>
     </>
 }
 
-export default ContactItem
+export default withTranslation()(ContactItem)

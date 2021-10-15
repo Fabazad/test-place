@@ -5,8 +5,9 @@ import React, {useEffect, useState} from "react";
 import NotificationsButton from "./NotificationsButton";
 import userServices from "../../services/user.services";
 import notificationServices from "../../services/notification.service";
+import {withTranslation} from "react-i18next";
 
-const Notifications = () => {
+const Notifications = ({t}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
@@ -54,7 +55,7 @@ const Notifications = () => {
                 <Modal className="modal-dialog-centered" toggle={toggleModal} isOpen={isOpen}>
                     <div className="modal-header">
                         <h4 className="modal-title" id="exampleModalLabel">
-                            <i className="fa fa-bell mr-3 text-primary"/>Notifications
+                            <i className="fa fa-bell mr-3 text-primary"/>{t("NOTIFICATIONS")}
                         </h4>
                         <button aria-label="Close" className="close" data-dismiss="modal" type="button"
                                 onClick={toggleModal}>
@@ -74,7 +75,7 @@ const Notifications = () => {
                 </DropdownToggle>
                 <DropdownMenu className='w-400px position-absolute'>
                     <div className="px-3 py-2">
-                        <i className="fa fa-bell text-primary mr-3"/>Notifications
+                        <i className="fa fa-bell text-primary mr-3"/>{t("NOTIFICATIONS")}
                     </div>
                     <NotificationsList notifications={notifications}/>
                 </DropdownMenu>
@@ -83,4 +84,4 @@ const Notifications = () => {
     )
 };
 
-export default Notifications;
+export default withTranslation()(Notifications);

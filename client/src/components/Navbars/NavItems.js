@@ -7,8 +7,9 @@ import history from "../../history";
 import testServices from "../../services/test.services";
 import NavItem from "reactstrap/es/NavItem";
 import Nav from "reactstrap/es/Nav";
+import {withTranslation} from "react-i18next";
 
-const NavItems = ({routes}) => {
+const NavItems = ({routes, t}) => {
 
     const [testGlobalStatusesCount, setTestGlobalStatusesCount] = useState(null);
 
@@ -43,7 +44,7 @@ const NavItems = ({routes}) => {
             <NavItem className="cursor-pointer d-block mt-3" onClick={onLogout}>
                 <span className="nav-link-inner--text" data-testid="logout-button">
                     <i className="fa fa-sign-out-alt mr-3 text-danger"/>
-                    Déconnexion
+                    {t("LOG_OUT")}
                 </span>
             </NavItem>
         </Nav>
@@ -54,4 +55,4 @@ NavItems.propTypes = {
     routes: PropTypes.array.isRequired
 };
 
-export default NavItems;
+export default withTranslation()(NavItems);

@@ -48,10 +48,6 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                 <NextStepAdvice color="info">
                     {t("WAITING_FOR_TEST_REQUEST_ACCEPTATION")}
                 </NextStepAdvice> : null}
-            {isStatus('requested') && (USER_ROLES.SELLER === userRole || adminView) ?
-                <NextStepAdvice color="info">
-                    Vous devez accepter ou refuser la demande de test.
-                </NextStepAdvice> : null}
             {test.testerMessage ?
                 <div className="text-left w-100">
                     <Label>{t("TESTER_MESSAGE")} - <b>{test.tester.name}</b></Label>
@@ -59,6 +55,10 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
                         {test.testerMessage}
                     </Alert>
                 </div> : null}
+            {isStatus('requested') && (USER_ROLES.SELLER === userRole || adminView) ?
+                <NextStepAdvice color="info">
+                    {t("ACCEPT_OR_DECLINE_REQUEST")}
+                </NextStepAdvice> : null}
             {isStatus('requested') && (USER_ROLES.SELLER === userRole || adminView) ?
                 <div className="text-center bg-secondary p-3 w-100 rounded">
                     <AnswerTestRequestForm onSubmit={onAnswerTestSubmit} testId={test._id}/>
@@ -144,14 +144,12 @@ const TestProcessInfo = ({test, userRole, onToggle, adminView, t}) => {
             }
             {isStatus("moneySent") && (userRole === USER_ROLES.TESTER || adminView) ?
                 <NextStepAdvice color="info">
-                    Le remboursement a été envoyé par le vendeur sur votre compte Paypal.<br/>
-                    Veuillez confirmer la bonne réception du remboursement.
+                    {t("CONFIRM_REFUND_AS_TESTER")}
                 </NextStepAdvice> : null
             }
             {isStatus("moneySent") && (userRole === USER_ROLES.SELLER || adminView) ?
                 <NextStepAdvice color="info">
-                    Nous avons indiqué au testeur que le remboursement a été envoyé.<br/>
-                    Il doit maintenant confirmer la bonne réception de celui-ci sur son compte Paypal.
+                    {t("CONFIRM_REFUND_AS_SELLER")}
                 </NextStepAdvice> : null
             }
             {isStatus("testCancelled") && test.cancelReason ?

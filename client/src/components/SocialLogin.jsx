@@ -51,8 +51,6 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
 
         const builtName = (givenName || name) + Math.round(Math.random() * 10000)
         return googleRegister({name: builtName, email, roles, googleId});
-
-
     }
 
     const onGoogleSignInFail = (res) => {

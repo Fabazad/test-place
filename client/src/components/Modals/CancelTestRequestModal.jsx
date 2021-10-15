@@ -13,8 +13,6 @@ import PropTypes from "prop-types";
 import testServices from "../../services/test.services";
 import {toast} from "react-toastify";
 
-//import PropTypes from 'prop-types';
-
 const CancelTestRequestModal = ({testId, t, onClose, isOpen}) => {
 
     const [cancelReason, setCancelReason] = useState("");

@@ -25,9 +25,13 @@ import {
 import ShareModal from "../Modals/ShareModal";
 import Badge from "reactstrap/es/Badge";
 import ContactItem from "./ContactItem";
+import {withTranslation} from "react-i18next";
+import DropdownSelect from "../DropdownSelect";
+import LanguageSelector from "../LanguageSelector";
 
-const Sidebar = props => {
+const Sidebar = (props) => {
 
+    const {t} = props;
     const [collapseOpen, setCollapseOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -173,11 +177,14 @@ const Sidebar = props => {
                         <NavItem>
                             <NavLink onClick={toggleModal} className="cursor-pointer">
                                 <i className="ni ni-curved-next"/>
-                                Partager
+                                {t("SHARE")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
                             <ContactItem/>
+                        </NavItem>
+                        <NavItem className="d-flex justify-content-center">
+                            <LanguageSelector/>
                         </NavItem>
                     </Nav>
                 </Collapse>
@@ -208,4 +215,4 @@ Sidebar.propTypes = {
     })
 };
 
-export default Sidebar;
+export default withTranslation()(Sidebar);

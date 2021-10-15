@@ -20,6 +20,7 @@ import ReactGA from 'react-ga';
 import {LastLocationProvider} from 'react-router-last-location';
 import ScrollToTop from "./components/ScrollTop";
 import {runInterceptors} from "./interceptors";
+import i18n from "i18next";
 
 history.listen(location => {
     ReactGA.set({page: location.pathname}); // Update the user's current page
@@ -29,6 +30,7 @@ history.listen(location => {
 const App = () => {
 
     useEffect(() => {
+        if (navigator.language.startsWith("fr")) i18n.changeLanguage("fr")
         window.$crisp = [];
         window.CRISP_WEBSITE_ID = "9be250b8-1e0b-46d6-b929-a1ee0981a28a";
 

@@ -4,14 +4,14 @@ import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 import React from "react";
 import PropTypes from "prop-types";
 
-const ProfileStats = ({userId, testsCount}) => {
+const ProfileStats = ({userId, testsCount, t}) => {
     return <div className="card-profile-stats">
         <div>
             <Badge color="primary" pill className="badge-lg" id={'prcessing-tests-' + userId}>
                 <span className="heading">{testsCount.processing}</span>
             </Badge>
             <UncontrolledTooltip target={'prcessing-tests-' + userId}>
-                Tests en cours
+                {t("PROCESSING_TESTS")}
             </UncontrolledTooltip>
         </div>
         <div>
@@ -19,7 +19,7 @@ const ProfileStats = ({userId, testsCount}) => {
                 <span className="heading">{testsCount.completed}</span>
             </Badge>
             <UncontrolledTooltip target={'completed-tests-' + userId}>
-                Tests terminés
+                {t("COMPLETED_TESTS")}
             </UncontrolledTooltip>
         </div>
         <div>
@@ -27,7 +27,7 @@ const ProfileStats = ({userId, testsCount}) => {
                 <span className="heading">{testsCount.guilty}</span>
             </Badge>
             <UncontrolledTooltip target={'guilty-tests-' + userId}>
-                Tests annulés ou en réclamation
+                {t("CANCELLED_TESTS")}
             </UncontrolledTooltip>
         </div>
     </div>

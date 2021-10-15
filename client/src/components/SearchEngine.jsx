@@ -13,10 +13,11 @@ import {
 } from "reactstrap";
 import DropdownSelect from "./DropdownSelect";
 import productServices from '../services/product.service';
+import {withTranslation} from "react-i18next";
 
 const SearchEngine = (props) => {
 
-    const {data, lean = false, onSearch} = props
+    const {data, lean = false, onSearch, t} = props
 
     const [values, setValues] = useState({
         minPrice: '',
@@ -92,7 +93,7 @@ const SearchEngine = (props) => {
                 <FormGroup className="mb-0">
                     <DropdownSelect
                         className={"w-100"} name={"category"}
-                        placeholder={"Catégories"}
+                        placeholder={t("CATEGORIES")}
                         value={values.category}
                         onChange={handleInputChange}
                         options={categories}/>
@@ -100,7 +101,7 @@ const SearchEngine = (props) => {
             </div>
             <div className="text-center flex-1" style={{ minWidth: "20em"}}>
                 <FormGroup className="mb-0">
-                    <Input type="text" placeholder="Rechercher un produit"
+                    <Input type="text" placeholder={t("SEARCH_PRODUCT")}
                            className="form-control-alternative"
                            name="keyWords" onChange={handleInputChange}
                            value={values.keyWords}
@@ -121,8 +122,7 @@ const SearchEngine = (props) => {
                         delay={0}
                         placement="top"
                         target="filterIcon"
-                    >
-                        Plus de filtres
+                    >{t("MORE_FILTERS")}
                     </UncontrolledTooltip>
                     <UncontrolledPopover placement="auto" target="filterIcon" className={"filter-popover"}
                                          isOpen={isPopoverOpen} toggle={toggle}>
@@ -132,7 +132,7 @@ const SearchEngine = (props) => {
                                     <div className="col-6">
                                         <FormGroup className="mb-0 w-100">
                                             <InputGroup className="input-group-alternative">
-                                                <Input type="number" placeholder={"Prix init min"}
+                                                <Input type="number" placeholder={t("MIN_INITIAL_PRICE")}
                                                        name="minPrice" min={0} value={values.minPrice}
                                                        className="form-control-alternative"
                                                        onChange={handleInputChange}/>
@@ -147,7 +147,7 @@ const SearchEngine = (props) => {
                                     <div className="col-6">
                                         <FormGroup className="mb-0 w-100">
                                             <InputGroup className="input-group-alternative">
-                                                <Input type="number" placeholder="Prix init max"
+                                                <Input type="number" placeholder={t("MAX_INITIAL_PRICE")}
                                                        name="maxPrice" min={0} value={values.maxPrice}
                                                        className="form-control-alternative"
                                                        onChange={handleInputChange}/>
@@ -169,7 +169,7 @@ const SearchEngine = (props) => {
                                             <span className="custom-toggle-slider rounded-circle"/>
                                         </label>
                                         <label htmlFor="freeInput" className="mt-2 ml-2 cursor-pointer">
-                                            Gratuits
+                                            {t("FREE")}
                                         </label>
                                     </div>
                                 </Row>
@@ -184,7 +184,7 @@ const SearchEngine = (props) => {
                                         </label>
                                         <label htmlFor="automaticAcceptanceInput"
                                                className="mt-2 ml-2 cursor-pointer">
-                                            Acceptation Automatique
+                                            {t("AUTOMATIC_ACCEPTANCE")}
                                         </label>
                                     </div>
                                 </Row>
@@ -205,9 +205,8 @@ const SearchEngine = (props) => {
                                     <div className="col-12">
                                         {
                                             filterNb > 0 && (
-
                                                 <Button color="danger" outline
-                                                        onClick={resetFilters}>Reset</Button>
+                                                        onClick={resetFilters}>{t("RESET")}</Button>
 
                                             )
                                         }
@@ -225,11 +224,11 @@ const SearchEngine = (props) => {
             <div className="text-center">
                 <FormGroup className="mb-0">
                     <UncontrolledTooltip target="search-button" delay={0}>
-                        Rechercher
+                        {t("SEARCH")}
                     </UncontrolledTooltip>
                     <Button type="submit" color="primary" id="search-button">
                         <i className="fa fa-search"/>
-                        <span className="ml-2">Rechercher</span>
+                        <span className="ml-2">{t("SEARCH")}</span>
                     </Button>
                 </FormGroup>
             </div>
@@ -243,5 +242,5 @@ SearchEngine.propTypes = {
     lean: PropTypes.bool
 };
 
-export default SearchEngine;
+export default withTranslation()(SearchEngine);
 

@@ -20,9 +20,12 @@ import Collapse from "reactstrap/es/Collapse";
 import Notifications from "../Notifications/Notifications";
 import ProfileDropdownBadge from "./ProfileDropdownBadge";
 import NavItems from "./NavItems";
+import {withTranslation} from "react-i18next";
+import LanguageSelector from "../LanguageSelector";
 
 const DemoNavbar = props => {
 
+    const {t} = props;
     const [isOpen, setIsOpen] = useState(false);
     const [routes, setRoutes] = useState(routesJson.filter(route => !route.role || userServices.hasRole(route.role)));
 
@@ -93,26 +96,26 @@ const DemoNavbar = props => {
                                                 <Button to='/register' tag={Link} color='secondary'
                                                         className="nav-link-inner--text d-none d-md-block"
                                                         data-testid="signup-button">
-                                                    Inscription
+                                                    {t("SIGN_UP")}
                                                 </Button>
                                                 <NavLink to='/register' tag={Link}
                                                          className="nav-link-inner--text text-white cursor-pointer d-md-none mt-3">
                                                     <i className="fa fa-sign-in-alt text-primary mr-3"/>
-                                                    Inscription
+                                                    {t("SIGN_UP")}
                                                 </NavLink>
                                             </NavItem>
                                             <NavItem>
                                                 <NavLink to='/login' tag={Link} data-testid="signin-button"
                                                          className="nav-link-inner--text text-white cursor-pointer">
                                                     <i className="fa fa-user text-success mr-3 d-md-none"/>
-                                                    Connexion
+                                                    {t("SIGN_IN")}
                                                 </NavLink>
                                             </NavItem>
                                             <NavItem>
                                                 <NavLink to='/#how-it-works' tag={Link} data-testid="how-it-works"
                                                          className="nav-link-inner--text text-white cursor-pointer">
                                                     <i className="fa fa-question text-danger mr-3 d-md-none"/>
-                                                    Comment ça marche ?
+                                                    {t("HOW_DOES_IT_WORK")}
                                                 </NavLink>
                                             </NavItem>
                                         </>)
@@ -130,6 +133,9 @@ const DemoNavbar = props => {
                                             <NavItems routes={routes}/>
                                         </>
                                     )}
+                                    <NavItem >
+                                        <LanguageSelector/>
+                                    </NavItem>
                                 </Nav>
                             </Collapse>
                         </div>
@@ -140,4 +146,4 @@ const DemoNavbar = props => {
     );
 };
 
-export default DemoNavbar;
+export default withTranslation()(DemoNavbar);

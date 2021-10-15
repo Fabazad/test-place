@@ -3,10 +3,11 @@ import React from "react";
 import NotificationItem from "./NotificationItem";
 import Loading from "../Loading";
 import PropTypes from "prop-types";
+import {withTranslation} from "react-i18next";
 
 const NotificationsList = props => {
 
-    const {notifications} = props;
+    const {notifications, t} = props;
 
     if (!notifications) {
         return (
@@ -20,8 +21,8 @@ const NotificationsList = props => {
         return (
             <div className="text-center p-5">
                 <img src={require('assets/img/undraws/dog_walking.svg')} alt="" className="w-50"/>
-                <h3 className="mt-4">AUCUNE NOTIFICATION</h3>
-                <p className="mt-0 mb-5 h5">Vous êtes tranquille pour le moment.</p>
+                <h3 className="mt-4">{t("NO_NOTIFICATIONS")}</h3>
+                <p className="mt-0 mb-5 h5">{t("YOU_CAN_CHILL")}</p>
             </div>
         )
     }
@@ -41,4 +42,4 @@ NotificationsList.propTypes = {
     notifications: PropTypes.array
 };
 
-export default NotificationsList;
+export default withTranslation()(NotificationsList);

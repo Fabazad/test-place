@@ -138,7 +138,7 @@ const TestListWithControls = ({title, t, statusesOptions, userRole, globalStatus
                         <div className="float-right text-center w-sm-100 w-md-auto text-center mt-3 mt-md-0">
                             <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
                                 <DropdownSelect
-                                    options={statusesOptionsFormatted} placeholder='Filtrer par Status'
+                                    options={statusesOptionsFormatted} placeholder={t("FILTER_BY_STATUS")}
                                     value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
                                     name='statusFilter'/>
                             </div>
@@ -149,12 +149,12 @@ const TestListWithControls = ({title, t, statusesOptions, userRole, globalStatus
                     <Table className="align-items-center table-flush d-none d-lg-table" responsive>
                         <thead className="thead-light">
                         <tr>
-                            <th scope="col">Produit</th>
-                            <th scope='col'>Prix</th>
-                            <th scope='col'>Final</th>
+                            <th scope="col">{t("PRODUCT")}</th>
+                            <th scope='col'>{t("PRICE")}</th>
+                            <th scope='col'>{t("FINAL")}</th>
                             <th scope="col">
-                                {userRole === USER_ROLES.TESTER ? 'Vendeur' : null}
-                                {userRole === USER_ROLES.SELLER ? 'Testeur' : null}
+                                {userRole === USER_ROLES.TESTER ? t("SELLER") : null}
+                                {userRole === USER_ROLES.SELLER ? t("TESTER") : null}
                             </th>
                             <th scope="col">Date</th>
                             <th scope="col">Status</th>

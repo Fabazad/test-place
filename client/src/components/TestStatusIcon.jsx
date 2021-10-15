@@ -71,7 +71,7 @@ const TestStatusIcon = (props) => {
             <UncontrolledTooltip delay={0} target={"status-" + tooltipId} placement="auto">
                 {t(status)}
                 {globalStatus === TEST_GLOBAL_STATUSES.PROCESSING && status === statuses['requestAccepted'] ? (
-                    <span>,<br/>En attente de Commande</span>
+                    <span>,<br/>{t("WAITING_FOR_ORDER")}</span>
                 ) : null}
             </UncontrolledTooltip>
         </>

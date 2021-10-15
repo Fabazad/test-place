@@ -6,10 +6,11 @@ import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import history from "../../history";
 import testServices from "../../services/test.services";
+import {withTranslation} from "react-i18next";
 
 const ProfileDropdownBadge = props => {
 
-    const {routes} = props;
+    const {routes, t} = props;
 
     const [testGlobalStatusesCount, setTestGlobalStatusesCount] = useState(null);
 
@@ -55,7 +56,7 @@ const ProfileDropdownBadge = props => {
                 ))}
                 <DropdownItem className="cursor-pointer" onClick={onLogout}>
                     <span className="nav-link-inner--text" data-testid="logout-button">
-                        <i className="fa fa-sign-out-alt mr-3 text-danger"/>Déconnexion
+                        <i className="fa fa-sign-out-alt mr-3 text-danger"/>{t("LOG_OUT")}
                     </span>
                 </DropdownItem>
             </DropdownMenu>
@@ -67,4 +68,4 @@ ProfileDropdownBadge.propTypes = {
     routes: PropTypes.array.isRequired
 };
 
-export default ProfileDropdownBadge;
+export default withTranslation()(ProfileDropdownBadge);

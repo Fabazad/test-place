@@ -24,13 +24,13 @@ const DropdownSelect = props => {
     }, [props.value]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <UncontrolledDropdown group className={'w-100 dropdown-select ' + (className ?? '')}>
+        <UncontrolledDropdown group className={'dropdown-select ' + (className ?? '')}>
             <DropdownToggle caret color="secondary"
                             className={"w-100 text-right bg-white input-group-alternative rounded"}
                             style={{'height': '46px'}}>
                     <span
                         className={"text-left w-100 d-inline-block font-weight-normal" + (option ? '' : ' text-muted')}>
-                        {t(option ? option.text : placeholder)}
+                        {option ? typeof option.text === "string" ? t(option.text) : option.text : t(placeholder)}
                     </span>
             </DropdownToggle>
             <DropdownMenu style={{'overflowY': 'auto', 'maxHeight': '500px', 'position': 'absolute !important'}}>
@@ -45,7 +45,7 @@ const DropdownSelect = props => {
                     <DropdownItem onClick={() => onSelectItem(opt)}
                                   key={opt.value + i}
                                   className={"cursor-pointer" + (option && option.value === opt.value ? ' selected' : '')}>
-                        {t(opt.text)}
+                        {typeof opt.text === "string" ? t(opt.text) : opt.text}
                     </DropdownItem>
                 ))}
 

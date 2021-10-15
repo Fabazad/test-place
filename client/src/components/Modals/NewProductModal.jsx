@@ -140,7 +140,7 @@ const NewProductModal = ({t}) => {
 
                 <ModalFooter className="bg-secondary">
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={toggleModal}>
-                        Annuler
+                        {t("CANCEL")}
                     </Button>
                 </ModalFooter>
             </Modal>

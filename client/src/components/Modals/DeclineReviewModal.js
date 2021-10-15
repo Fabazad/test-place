@@ -80,7 +80,7 @@ const DeclineReviewModal = props => {
                     <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
                         {t("CLOSE")}
                     </Button>
-                    <Button type="submit" color='danger' disabled={!declineReviewReason}>Refuser l'avis</Button>
+                    <Button type="submit" color='danger' disabled={!declineReviewReason}>{t("DECLINE_REVIEW")}</Button>
                 </ModalFooter>
             </Form>
         </Modal>

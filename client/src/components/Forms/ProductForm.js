@@ -7,9 +7,7 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    PopoverBody,
     Row,
-    UncontrolledPopover
 } from "reactstrap";
 import MultiImageUploader from "../MultiImageUploader";
 import TagsInput from "react-tagsinput";
@@ -99,7 +97,7 @@ const ProductForm = props => {
                                     defaultValue={asin}
                                     required disabled
                                 />
-                                <InfoPopover className="mx-3 my-auto">Identifiant unique de votre produit sur Amazon.</InfoPopover>
+                                <InfoPopover className="mx-3 my-auto">{t("ASIN_INFO")}</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </div>
@@ -121,7 +119,7 @@ const ProductForm = props => {
                                     onChange={e => setTitle(e.target.value)}
                                     required
                                 />
-                                <InfoPopover className="mx-3 my-auto">Le titre du produit que vous proposez, visible par les clients.</InfoPopover>
+                                <InfoPopover className="mx-3 my-auto">{t("TITLE_INFO")}</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </div>
@@ -144,7 +142,7 @@ const ProductForm = props => {
                                     addOnPaste={true}
                                     addKeys={[9, 13, 44, 32, 188, 190]}
                                 />
-                                <InfoPopover className="mx-3 my-auto">Test Place simulera une recherche avec ces mots clés lorsque l'utilisateur navigera sur Amazon.</InfoPopover>
+                                <InfoPopover className="mx-3 my-auto">{t("KEYWORDS_INFO")}</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </div>
@@ -183,7 +181,7 @@ const ProductForm = props => {
                                         <i className="fa fa-euro"/>
                                     </InputGroupText>
                                 </InputGroupAddon>
-                                <InfoPopover className="mx-3 my-auto">Le prix actuel du produit sur Amazon, frais de port inclus.</InfoPopover>
+                                <InfoPopover className="mx-3 my-auto">{t("INITIAL_PRICE_INFO")}</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -205,7 +203,7 @@ const ProductForm = props => {
                                         <i className="fa fa-euro"/>
                                     </InputGroupText>
                                 </InputGroupAddon>
-                                <InfoPopover className="mx-3 my-auto">Le prix final du produit après remboursement.</InfoPopover>
+                                <InfoPopover className="mx-3 my-auto">{t("FINAL_PRICE_INFO")}</InfoPopover>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -249,8 +247,7 @@ const ProductForm = props => {
                                 required
                             />
                             <InfoPopover className="mx-3 my-auto">
-                                Nombre maximum de test disponible pour ce produit.<br/>
-                                Une fois que le nombre de demande atteind cette valeur, le produit n'est plus visible sur la page de recherche.
+                                {t("MAX_DEMANDS_INFO")}
                             </InfoPopover>
                         </InputGroup>
                     </FormGroup>
@@ -289,7 +286,7 @@ const ProductForm = props => {
                     </Col>
                 </Row>
                 <div className="mt-3">
-                    <Button type="submit" color="primary" disabled={!validForm}>Enregistrer et publier</Button>
+                    <Button type="submit" color="primary" disabled={!validForm}>{t("SAVE_AND_PUBLISH")}</Button>
                 </div>
             </Form>
         );

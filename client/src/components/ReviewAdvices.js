@@ -1,13 +1,14 @@
 import React from "react";
+import {withTranslation} from "react-i18next";
 
-const ReviewAdvices = () => {
+const ReviewAdvices = ({t}) => {
     return (
         <ul>
-            <li>Après avoir reçu votre produit, veuillez attendre 3-5 jours avant de le noter.</li>
-            <li>Veuillez écrire environ 80 mots.</li>
-            <li>Ajoutez quelques images du produit au commentaire.</li>
+            <li>{t("REVIEW_ADVICE_1")}</li>
+            <li>{t("REVIEW_ADVICE_2")}</li>
+            <li>{t("REVIEW_ADVICE_3")}</li>
         </ul>
     )
 };
 
-export default ReviewAdvices;
+export default withTranslation()(ReviewAdvices);

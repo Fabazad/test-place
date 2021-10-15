@@ -31,10 +31,10 @@ const LoginForm = props => {
 
     return (
         <Form role="form" onSubmit={onSubmit}>
-            <SocialLogin className="mt-3">Connectez vous avec</SocialLogin>
+            <SocialLogin className="mt-3">{t("CONNECT_WITH")}</SocialLogin>
             <Loading loading={loading}/>
             <div className="text-muted text-center my-3">
-                <small>Ou avec vos identifiants</small>
+                <small>{t("OR_WITH_CREDENTIALS")}</small>
             </div>
             <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">

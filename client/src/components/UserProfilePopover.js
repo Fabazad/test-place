@@ -47,7 +47,7 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
 
     return (
         <>
-            <UncontrolledTooltip target={target} delay={0}>Voir stats</UncontrolledTooltip>
+            <UncontrolledTooltip target={target} delay={0}>{t("SEE_STATS")}</UncontrolledTooltip>
             <Button id={target}  className="cursor-pointer" color="primary" size="sm" onClick={onClick}>
                 {userName}{" "}<i className="fa fa-star text-yellow"/>
             </Button>
