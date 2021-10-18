@@ -9,6 +9,7 @@ import {
     InputGroupText,
     Row,
 } from "reactstrap";
+import PriceInput from "../PriceInput"
 import MultiImageUploader from "../MultiImageUploader";
 import TagsInput from "react-tagsinput";
 import DropdownSelect from "../DropdownSelect";
@@ -27,8 +28,8 @@ const ProductForm = props => {
         const asin = defaultData.asin ?? null;
 
         const [title, setTitle] = useState(defaultData.title ?? undefined);
-        const [price, setPrice] = useState(defaultData.price > 0 ? defaultData.price : '');
-        const [finalPrice, setFinalPrice] = useState(defaultData.finalPrice ?? '');
+        const [price, setPrice] = useState(defaultData.price ?? '');
+        const [finalPrice, setFinalPrice] = useState(defaultData.finalPrice ?? undefined);
         const [images, setImages] = useState(defaultData.images ?? []);
         const [description, setDescription] = useState(defaultData.description ?? undefined);
         const [isPrime, setIsPrime] = useState(defaultData.isPrime ?? false);
@@ -37,11 +38,13 @@ const ProductForm = props => {
         const [category, setCategory] = useState(undefined);
         const [keywords, setKeywords] = useState(defaultData.keywords ?? []);
         const [categories, setCategories] = useState([]);
-        const [privateNote, setPrivateNote] = useState(defaultData.privateNote ?? undefined)
+        const [privateNote, setPrivateNote] = useState(defaultData.privateNote ?? undefined);
+        const [productPrice, setproductPrice] = useState(0)
 
         useEffect(() => {
             productService.getProductCategories().then(categories => setCategories(categories));
         }, []);
+
 
         useEffect(() => {
             if (categories.length) {
@@ -59,7 +62,7 @@ const ProductForm = props => {
                 asin,
                 title,
                 price,
-                finalPrice,
+                finalPrice: finalPrice || 0,
                 images,
                 description,
                 isPrime,
@@ -173,8 +176,8 @@ const ProductForm = props => {
                     <Col xs={6}>
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <Input placeholder={t("PRICE")  + " *"} type="number" step="0.01"
-                                       min="0.01" name="price" defaultValue={price}
+                                <Input placeholder={t("INITIAL_PRICE")} type="number" step="0.01"
+                                       min="0.01" name="price" defaultValue={price? price : undefined}
                                        onChange={e => setPrice(e.target.value)} required/>
                                 <InputGroupAddon addonType="append">
                                     <InputGroupText>
@@ -185,30 +188,17 @@ const ProductForm = props => {
                             </InputGroup>
                         </FormGroup>
                     </Col>
-                    <Col xs={6}>
-                        <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
-                                <Input
-                                    placeholder={t("FINAL_PRICE") + " *"}
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    name="finalPrice"
-                                    value={finalPrice}
-                                    onChange={e => setFinalPrice(e.target.value)}
-                                    required
-                                />
-                                <InputGroupAddon addonType="append">
-                                    <InputGroupText>
-                                        <i className="fa fa-euro"/>
-                                    </InputGroupText>
-                                </InputGroupAddon>
-                                <InfoPopover className="mx-3 my-auto">{t("FINAL_PRICE_INFO")}</InfoPopover>
-                            </InputGroup>
+                    <Col xs={6} >
+                        <FormGroup className="mb-3 text-center d-flex">
+                                 <PriceInput price={finalPrice} onChange={price => setFinalPrice(price)}/>     
                         </FormGroup>
                     </Col>
                 </Row>
+<Row>                            
 
+                      
+                             
+</Row>
                 <Row>
                     <Col xs={12}>
                         <FormGroup className="mb-3">

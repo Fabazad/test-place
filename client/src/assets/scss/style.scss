@@ -263,6 +263,29 @@ img.selected {
   flex: 1;
 }
 
+.tabs-menu {
+  border-color: transparent;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.06);
+  margin-right: auto;
+  width: fit-content;
+
+  &-option{
+
+    display: inline-block;
+    color: #525f7f;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &--current{
+      background-color: #5e72e4;
+      border-radius: 20px;
+      color: #fff!important;
+    }
+  }
+}
+
 
 .stepper {
   display: flex;
