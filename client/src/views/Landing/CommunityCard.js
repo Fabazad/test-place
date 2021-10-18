@@ -23,7 +23,7 @@ const CommunityCard = (props) => {
                             </Button>
                         </Link>
                     </Col>
-                </Row>A
+                </Row>
             </div>
         </Card>
     );

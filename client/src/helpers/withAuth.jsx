@@ -1,49 +1,45 @@
-import React, {Component} from 'react';
+import React, { useEffect, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import userService from 'services/user.services';
 import DemoNavbar from '../components/Navbars/DemoNavbar';
 import Loading from 'components/Loading';
 
-export default function withAuth(ComponentToProtect) {
-    return class extends Component {
+const withAuth = (ComponentToProtect) => {
+    return (props) => {
 
-        constructor() {
-            super();
-            this.state = {
-                redirect: false,
-                checked: false,
-                loadingPromise: null
-            };
-        }
+        const [redirect, setRedirect] = useState(false);
+        const [checked, setCheck] = useState(false);
+        const [loadingPromise, setLoadingPromise] = useState(null);
 
-        componentDidMount() {
+        useEffect(() => {
             const loadingPromise = userService.checkToken()
                 .then((res) => {
                     if (res && res.check) {
-                        this.setState({checked: true});
+                        setCheck(true)
                     } else {
-                        this.setState({checked: true, redirect: true});
+                        setCheck(true);
+                        setRedirect(true)
                         userService.logout();
                     }
                 });
-            this.setState({loadingPromise});
-        }
+            setLoadingPromise(loadingPromise)
+        }, [])
 
-        render() {
-            const {checked, redirect, loadingPromise} = this.state;
-            if (redirect) {
-                return <Redirect to='/login'/>;
-            }
-            if (!userService.isAlreadyChecked() && !checked) {
-                return (<><Loading key={"0"} loading={true}/></>);
-            }
-            return (
-                <React.Fragment>
-                    <Loading key={"1"} promise={loadingPromise}/>
-                    <DemoNavbar {...this.props}/>
-                    <ComponentToProtect {...this.props} />
-                </React.Fragment>
-            );
+        if (redirect) {
+            return <Redirect to='/login'/>;
         }
+        if (!userService.isAlreadyChecked() && !checked) {
+            return (<><Loading key={"0"} loading={true}/></>);
+        }
+        return (
+            <React.Fragment>
+                <Loading key={"1"} promise={loadingPromise}/>
+                <DemoNavbar {...props}/>
+                <ComponentToProtect {...props} />
+            </React.Fragment>
+        );
     }
+
 }
+
+export default withAuth

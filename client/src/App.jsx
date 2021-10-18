@@ -30,7 +30,17 @@ history.listen(location => {
 const App = () => {
 
     useEffect(() => {
-        if (navigator.language.startsWith("fr")) i18n.changeLanguage("fr")
+        const localStorageLanguage = localStorage.getItem("language")
+        if (localStorageLanguage && localStorageLanguage === "fr") {
+            i18n.changeLanguage("fr")
+        }
+        else {
+            if (navigator.language.startsWith("fr")) {
+                i18n.changeLanguage("fr")
+            }
+        }
+
+
         window.$crisp = [];
         window.CRISP_WEBSITE_ID = "9be250b8-1e0b-46d6-b929-a1ee0981a28a";
 

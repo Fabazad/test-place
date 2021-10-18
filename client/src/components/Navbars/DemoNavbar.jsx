@@ -26,8 +26,10 @@ import LanguageSelector from "../LanguageSelector";
 const DemoNavbar = props => {
 
     const {t} = props;
+
+    const translatedRoutes = routesJson(t);
     const [isOpen, setIsOpen] = useState(false);
-    const [routes, setRoutes] = useState(routesJson.filter(route => !route.role || userServices.hasRole(route.role)));
+    const [routes, setRoutes] = useState(translatedRoutes.filter(route => !route.role || userServices.hasRole(route.role)));
 
     useEffect(() => {
         let headroom = new Headroom(document.getElementById("navbar-main"));

@@ -68,7 +68,7 @@ const MyTesterInfoForm = props => {
                     <label className="form-control-label" htmlFor="input-paypal-email">
                         {t("PAYPAL_ADDRESS")}
                         <InfoPopover className="ml-3">
-                            {t("PAYPAL_ADDRESS_EXPLAINED")}
+                            {t("PAYPAL_EMAIL_EXPLAINED")}
                         </InfoPopover>
                     </label>
                     <Input className="form-control-alternative"

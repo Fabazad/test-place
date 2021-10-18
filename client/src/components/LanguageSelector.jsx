@@ -12,8 +12,8 @@ const LanguageSelector = () => {
     const value = i18n.language
 
     const handleChange =(val) => {
-        console.log(val.target.value)
         i18n.changeLanguage(val.target.value)
+        localStorage.setItem("language", val.target.value)
     }
 
     return <DropdownSelect className="language-selector" name="language" onChange={handleChange} value={value} options={options}/>

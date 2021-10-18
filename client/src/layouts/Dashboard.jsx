@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 // reactstrap components
 import {Container} from "reactstrap";
@@ -9,34 +9,21 @@ import routes from "./../routes.js";
 import Sidebar from "../components/Sidebar/Sidebar";
 import userServices from "../services/user.services";
 import Loading from "../components/Loading";
+import {withTranslation} from "react-i18next";
 
-class Dashboard extends React.Component {
+const Dashboard = ({t, location, bgColor, logo}) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            routes: []
-        };
-        this._isMounted = false;
-    }
+    const [dashboardRoutes, setDashboardRoutes] = useState([])
 
-    componentDidMount(e) {
-        this._isMounted = true;
-        this._isMounted && this.setState({
-            routes: routes.filter(route => !route.role || userServices.hasRole(route.role))
-        });
+    useEffect(() => {
+        setDashboardRoutes(routes(t).filter(route => !route.role || userServices.hasRole(route.role)))
+
         userServices.currentUserSubject.subscribe(() => {
-            this._isMounted && this.setState({
-                routes: routes.filter(route => !route.role || userServices.hasRole(route.role))
-            });
+            setDashboardRoutes(routes(t).filter(route => !route.role || userServices.hasRole(route.role)))
         });
-    }
+    }, [t])
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
-
-    getRoutes = routes => {
+    const getRoutes = (routes) => {
         return routes.map((route, key) => {
             if (route.layout === "/dashboard") {
                 const component = (!route.role || userServices.hasRole(route.role)) ?
@@ -54,27 +41,25 @@ class Dashboard extends React.Component {
         });
     };
 
-    render() {
-        if (!this.state.routes.length) return <Loading/>;
-        return (
-            <>
-                <Sidebar
-                    location={this.props.location}
-                    bgColor={this.props.bgColor} logo={this.props.logo}
-                    routes={this.state.routes}
-                />
-                <div className="main-content" ref="mainContent">
-                    <Switch>
-                        {this.getRoutes(routes)}
-                        <Redirect to="/not-found"/>
-                    </Switch>
-                    <Container fluid>
-                        <SimpleFooter/>
-                    </Container>
-                </div>
-            </>
-        );
-    }
+    if (!dashboardRoutes.length) return <Loading/>;
+    return (
+        <>
+            <Sidebar
+                location={location}
+                bgColor={bgColor} logo={logo}
+                routes={dashboardRoutes}
+            />
+            <div className="main-content">
+                <Switch>
+                    {getRoutes(dashboardRoutes)}
+                    <Redirect to="/not-found"/>
+                </Switch>
+                <Container fluid>
+                    <SimpleFooter/>
+                </Container>
+            </div>
+        </>
+    );
 }
 
-export default Dashboard;
+export default withTranslation()(Dashboard);
