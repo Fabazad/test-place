@@ -24,7 +24,6 @@ const Search = props => {
 
     const { t } = props;
 
-    console.log("TEST")
     const [loading, setLoading] = useState(false);
     const [searchEngineData, setSearchEngineData] = useState({});
     const [totalCount, setTotalCount] = useState(0);
@@ -44,6 +43,7 @@ const Search = props => {
             prime: urlParams.get('prime') === 'true',
             category: urlParams.has('category') ? urlParams.get('category') : '',
             keyWords: urlParams.has('keyWords') ? urlParams.get('keyWords') : '',
+            page: 1
         };
 
         setSearchEngineData(Object.assign({}, params));
