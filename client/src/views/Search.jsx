@@ -24,11 +24,12 @@ const Search = props => {
 
     const { t } = props;
 
+    console.log("TEST")
     const [loading, setLoading] = useState(false);
     const [searchEngineData, setSearchEngineData] = useState({});
     const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(1);
-    const [sortBy, setSortBy] = useState(constants.SORT_BY_OPTIONS[0].value);
+    const [sortBy, setSortBy] = useState(constants.SORT_BY_OPTIONS(t)[0].value);
     const itemsPerPage = constants.ITEMS_PER_PAGE;
     const [products, setProducts] = useState(null);
 
