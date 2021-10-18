@@ -307,5 +307,17 @@
   "CREATION_DATE": "Date de création",
   "USER_NAME_UPDATED": "Nom d'utilisateur modifié",
   "MY_USER_INFORMATION": "Mes informations utilisateur",
-  "USER_NAME_INFO": "Le nom que les autres utilisateurs verront pour vous."
+  "USER_NAME_INFO": "Le nom que les autres utilisateurs verront pour vous.",
+  "NEW_REQUEST_TEXT": "Vous avez une nouvelle demande de test pour le produit :",
+  "REQUEST_ACCEPTED_TEXT": "Votre demande de test a été acceptée pour le produit :",
+  "REQUEST_DECLINED_TEXT": "Votre demande de test a été refusée pour le produit :",
+  "REQUEST_CANCELLED_TEXT": "La demande de test a été annulée pour le produit :",
+  "PRODUCT_ORDERED_TEXT": "Le produit a été commandé :",
+  "PRODUCT_RECEIVED_NOTIFICATION_TEXT": "Le produit a été indiqué comme reçu :",
+  "PRODUCT_REVIEWED_NOTIFICATION_TEXT": "Le produit a été indiqué comme noté et commenté :",
+  "REVIEW_VALIDATED_NOTIFICATION_TEXT": "Le vendeur a confirmé le commentaire du produit :",
+  "REVIEW_REFUSED_NOTIFICATION_TEXT": "Le vendeur a refusé le commentaire du produit :",
+  "MONEY_SENT_NOTIFICATION_TEXT": "Le vendeur vous a remboursé suite à votre test produit :",
+  "MONEY_RECEIVED_NOTIFICATION_TEXT": "Le Testeur a indiqué avoir reçu le remboursement pour le produit :",
+  "TEST_CANCELLED_NOTIFICATION_TEXT": "Une annulation ou une réclamation a été faite sur le produit :"
 }

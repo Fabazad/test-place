@@ -26,7 +26,7 @@ const NotificationItem = props => {
         return days + 'j';
     };
 
-    const notificationType = NOTIFICATION_TYPES[notification.type];
+    const notificationType = NOTIFICATION_TYPES(t)[notification.type];
 
     return (
         <ListGroupItem className="list-group-item-action" tag={Link} to={notificationType.to + "?testId=" + notification.test._id}>

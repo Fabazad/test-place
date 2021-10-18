@@ -307,5 +307,17 @@
   "CREATION_DATE": "Creation date",
   "USER_NAME_UPDATED": "User name has been updated",
   "MY_USER_INFORMATION": "My user information",
-  "USER_NAME_INFO": "The user name that other users will see."
+  "USER_NAME_INFO": "The user name that other users will see.",
+  "NEW_REQUEST_TEXT": "You have a new test request for the product:",
+  "REQUEST_ACCEPTED_TEXT": "Your test request has been accepted for the product:",
+  "REQUEST_DECLINED_TEXT": "Your test request has been declined for the product:",
+  "REQUEST_CANCELLED_TEXT": "The test request has been cancelled for the product:",
+  "PRODUCT_ORDERED_TEXT": "The product has been ordered:",
+  "PRODUCT_RECEIVED_NOTIFICATION_TEXT": "The order has been received:",
+  "PRODUCT_REVIEWED_NOTIFICATION_TEXT": "The product has been reviewed:",
+  "REVIEW_VALIDATED_NOTIFICATION_TEXT": "The seller has accepted the review of the product:",
+  "REVIEW_REFUSED_NOTIFICATION_TEXT": "The seller as declined the review for the product:",
+  "MONEY_SENT_NOTIFICATION_TEXT": "The sender sent the money for the refund of the product:",
+  "MONEY_RECEIVED_NOTIFICATION_TEXT": "The tester has received the refund money of the product:",
+  "TEST_CANCELLED_NOTIFICATION_TEXT": "A cancellation or a claim has been set on the product:"
 }
