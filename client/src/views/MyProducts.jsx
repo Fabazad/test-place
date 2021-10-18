@@ -98,8 +98,8 @@ const MyProducts = props => {
                                     </div>
                                     <div className="d-inline-block w-200px my-2 ml-2 my-md-0">
                                         <DropdownSelect
-                                            name={'sortBy'} options={constants.SORT_BY_OPTIONS}
-                                            placeholder={'Trier'} value={sortBy}
+                                            name={'sortBy'} options={constants.SORT_BY_OPTIONS(t)}
+                                            placeholder={t('SORT')} value={sortBy}
                                             onChange={onSortChange}/>
                                     </div>
                                 </div>

@@ -13,11 +13,11 @@ const constants = {
         MALE: "MALE",
         FEMALE: "FEMALE"
     },
-    SORT_BY_OPTIONS: [
-        {text: 'Pertinence', value: 'score'},
-        {text: 'Prix Initial', value: 'price'},
-        {text: 'Coût Final', value: 'finalPrice'},
-        {text: 'Date de Création', value: 'createdAt'}
+    SORT_BY_OPTIONS: (t) => [
+        {text: t('RELEVANCE'), value: 'score'},
+        {text: t("INITIAL_PRICE"), value: 'price'},
+        {text: t("FINAL_PRICE"), value: 'finalPrice'},
+        {text: t("CREATION_DATE"), value: 'createdAt'}
     ],
     USER_ROLES: {
         SELLER: 'SELLER',

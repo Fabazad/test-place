@@ -24,7 +24,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['requested', 'requestCancelled', 'requestDeclined']}
             globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}
-            title="Demandes Envoyées"
+            title={t("SENT_REQUESTS")}
             userRole={USER_ROLES.TESTER}/>,
         layout: "/dashboard",
         role: USER_ROLES.TESTER,
@@ -38,7 +38,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['requested', 'requestCancelled', 'requestDeclined']}
             globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}
-            title="Demandes Reçues"
+            title={t("RECEIVED_REQUESTS")}
             userRole={USER_ROLES.SELLER}/>,
         layout: "/dashboard",
         role: USER_ROLES.SELLER,
@@ -52,7 +52,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['requestAccepted', 'productOrdered', 'productReceived', 'productReviewed', 'reviewValidated', 'moneySent']}
             globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
-            title="Tests en Cours"
+            title={t("PROCESSING_TESTS")}
             userRole={USER_ROLES.TESTER}/>,
         layout: "/dashboard",
         role: USER_ROLES.TESTER,
@@ -66,7 +66,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['requestAccepted', 'productOrdered', 'productReceived', 'productReviewed', 'reviewValidated', 'moneySent']}
             globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
-            title="Tests en Cours"
+            title={t("PROCESSING_TESTS")}
             userRole={USER_ROLES.SELLER}/>,
         layout: "/dashboard",
         role: USER_ROLES.SELLER,
@@ -80,7 +80,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['moneyReceived']}
             globalStatus={TEST_GLOBAL_STATUSES.COMPLETED}
-            title="Tests Terminés"
+            title={t("FINISHED_TESTS")}
             userRole={USER_ROLES.SELLER}/>,
         layout: "/dashboard",
         role: USER_ROLES.SELLER,
@@ -94,7 +94,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['moneyReceived']}
             globalStatus={TEST_GLOBAL_STATUSES.COMPLETED}
-            title="Tests Terminés"
+            title={t("FINISHED_TESTS")}
             userRole={USER_ROLES.TESTER}/>,
         layout: "/dashboard",
         role: USER_ROLES.TESTER,
@@ -108,7 +108,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['testCancelled']}
             globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
-            title="Tests Annulés"
+            title={t("CANCELLED_TESTS")}
             userRole={USER_ROLES.SELLER}/>,
         layout: "/dashboard",
         role: USER_ROLES.SELLER,
@@ -122,7 +122,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['testCancelled']}
             globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
-            title="Tests Annulés"
+            title={t("CANCELLED_TESTS")}
             userRole={USER_ROLES.TESTER}/>,
         layout: "/dashboard",
         role: USER_ROLES.TESTER,
@@ -136,7 +136,7 @@ const routes = (t) => [
         component: () => <TestList
             statuses={['testCancelled']}
             globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
-            title="Tests Annulés"
+            title={t("CANCELLED_TESTS")}
             adminView={true}
             userRole={USER_ROLES.ADMIN}/>,
         layout: "/dashboard",

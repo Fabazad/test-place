@@ -118,7 +118,7 @@ const Search = props => {
                                 </h2>
                             </div>
                             <div className="col-12 col-md-4 col-lg-3 text-right">
-                                <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS}
+                                <DropdownSelect name={'sortBy'} options={constants.SORT_BY_OPTIONS(t)}
                                                 onChange={e => onSortByChange(e.target.value)}
                                                 value={sortBy} placeholder={t("SORT_RESULT")}/>
                             </div>

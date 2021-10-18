@@ -7,9 +7,10 @@ import React, {useState} from "react";
 import Button from "reactstrap/es/Button";
 import userService from "../../services/user.services";
 import {toast} from "react-toastify";
+import {withTranslation} from "react-i18next";
 
 
-const MyUserInfoForm = () => {
+const MyUserInfoForm = ({t}) => {
     const user = userService.currentUser;
 
     const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const MyUserInfoForm = () => {
 
         try {
             await userService.updateUserInfo(user._id, {name});
-            toast.success("Nom d'utilisateur modifié.")
+            toast.success(t("USER_NAME_UPDATED"))
         } finally {
             setLoading(false)
         }
@@ -34,18 +35,18 @@ const MyUserInfoForm = () => {
             <Loading loading={loading}/>
             <div>
                 <h6 className="heading-small text-muted mb-4 d-inline-block">
-                    Mes informations utilisateur
+                    {t("MY_USER_INFORMATION")}
                 </h6>
                 <Button size="sm" color="info" className="float-right" type="submit" disabled={disabledSave}>
-                    Enregistrer
+                    {t("SAVE")}
                 </Button>
             </div>
             <div className="pl-lg-4">
                 <FormGroup>
                     <label className="form-control-label" htmlFor="input-user-name">
-                        Nom d'utilisateur
+                        {t("USER_NAME")}
                         <InfoPopover className="ml-3">
-                            Le nom que les autres utilisateurs verront pour vous.
+                            {t("USER_NAME_INFO")}
                         </InfoPopover>
                     </label>
                     <Input className="form-control-alternative"
@@ -59,4 +60,4 @@ const MyUserInfoForm = () => {
     );
 }
 
-export default MyUserInfoForm
+export default withTranslation()(MyUserInfoForm)

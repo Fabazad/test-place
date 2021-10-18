@@ -248,6 +248,7 @@
   "SIGN_IN": "Log in",
   "SIGN_UP": "Sign in",
   "SO": "So",
+  "SORT": "Sort",
   "SORT_RESULT": "Short results",
   "SPEAKERS": "Speakers",
   "STATUS_CHANGED_DATE": "Status changed date",
@@ -301,5 +302,10 @@
   "YOU_CAN_CHILL": "Nothing to look for the moment.",
   "YOU_CAN_FOLLOW_THE_TEST_PROCESS": "You can follow the test process on Test Place.\nYou'll also be notified of the updates.",
   "YOU_NEED_TO_REFUND": "We're happy that everything went well !\nNow, that's your turn to play your part of the deal.\nIt's time to refund the tester through Paypal.",
-  "YOU_WILL_FIND_THE": "You will find there the"
+  "YOU_WILL_FIND_THE": "You will find there the",
+  "RELEVANCE": "Relevance",
+  "CREATION_DATE": "Creation date",
+  "USER_NAME_UPDATED": "User name has been updated",
+  "MY_USER_INFORMATION": "My user information",
+  "USER_NAME_INFO": "The user name that other users will see."
 }
