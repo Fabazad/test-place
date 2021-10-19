@@ -57,9 +57,6 @@ const App = () => {
         setTimeout(() => {
             if (userService.currentUser) {
                 console.log("CURRENT_USER")
-                setTimeout(() => {
-                    window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
-                }, 120000)
             } else {
                 window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
             }
