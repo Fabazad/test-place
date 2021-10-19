@@ -53,7 +53,6 @@ const App = () => {
             d.getElementsByTagName("head")[0].appendChild(s);
         })();
 
-        i18n.t
         setTimeout(() => {
             window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
         }, 60000)
