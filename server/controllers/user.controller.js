@@ -367,7 +367,17 @@ class UserController {
                 TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
                 TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED, true)
             ]);
-            return {user, processingTestsCount, completedTestsCount, guiltyTestsCount};
+            return {
+                user: {
+                    createdAt: user.createdAt,
+                    email: user.email,
+                    gender: user.gender,
+                    name: user.name,
+                    roles: user.roles,
+                    sellerMessage: user.sellerMessage,
+                    _id: user._id
+                }, processingTestsCount, completedTestsCount, guiltyTestsCount
+            };
         } catch (e) {
             return Promise.reject(ErrorResponses.mongoose(e));
         }
@@ -386,7 +396,7 @@ class UserController {
         }
 
         const user = await UserModel.findOne({name});
-        if (user) return Promise.reject({ status: 400, message: 'name_already_used'});
+        if (user) return Promise.reject({status: 400, message: 'name_already_used'});
 
         try {
             const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true});
@@ -427,7 +437,7 @@ class UserController {
             const userName = first_name ? first_name + (Math.random() * 10000).toString() : name;
 
             const user = await UserModel.findOne({name: userName});
-            if (user) return Promise.reject({ status: 400, message: 'name_already_used'});
+            if (user) return Promise.reject({status: 400, message: 'name_already_used'});
 
             const newUser = await UserModel.create({
                 email,

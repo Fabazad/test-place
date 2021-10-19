@@ -291,7 +291,20 @@ class ProductController {
             }
             ProductModel.findById(productId).populate('seller')
                 .then(product => {
-                    if (product) resolve(product);
+
+                    if (product) {
+                        const seller = {
+                            createdAt: product.seller.createdAt,
+                            email: product.seller.email,
+                            gender: product.seller.gender,
+                            name: product.seller.name,
+                            roles: product.seller.roles,
+                            sellerMessage: product.seller.sellerMessage,
+                            _id: product.seller._id
+                        }
+                        product.seller = seller
+                        resolve(product);
+                    }
                     else return reject({status: 404, message: 'Couldn\'t find product'});
                 })
                 .catch(err => reject(ErrorResponses.mongoose(err)));
