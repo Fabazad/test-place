@@ -54,8 +54,8 @@ const TestRow = props => {
                 </h3>
             </td>
             <td>
-                {userRole === USER_ROLES.TESTER ? <UserProfilePopover userId={test.seller._id} userName={test.seller.name}/> : null}
-                {userRole === USER_ROLES.SELLER ? <UserProfilePopover userId={test.tester._id} userName={test.tester.name}/> : null}
+                {userRole === USER_ROLES.TESTER && <b>{test.seller.name}</b>}
+                {userRole === USER_ROLES.SELLER && <b>{test.tester.name}</b>}
             </td>
             <td>
                 <Badge color='info' className='badge-circle badge-lg text-center p-0 bg-white' pill>
