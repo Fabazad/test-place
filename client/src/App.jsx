@@ -21,6 +21,7 @@ import {LastLocationProvider} from 'react-router-last-location';
 import ScrollToTop from "./components/ScrollTop";
 import {runInterceptors} from "./interceptors";
 import i18n from "i18next";
+import userService from "../src/services/user.services";
 
 history.listen(location => {
     ReactGA.set({page: location.pathname}); // Update the user's current page
@@ -54,8 +55,15 @@ const App = () => {
         })();
 
         setTimeout(() => {
-            window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
-        }, 60000)
+            if (userService.currentUser) {
+                console.log("CURRENT_USER")
+                setTimeout(() => {
+                    window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
+                }, 120000)
+            } else {
+                window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
+            }
+        }, 20000)
     }, []);
 
     runInterceptors(history)

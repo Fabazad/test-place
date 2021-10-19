@@ -35,7 +35,7 @@ const DemoNavbar = props => {
         let headroom = new Headroom(document.getElementById("navbar-main"));
         headroom.init();
         const subscriber = userServices.currentUserSubject.subscribe(() => {
-            setRoutes(routesJson.filter(route => !route.role || userServices.hasRole(route.role)));
+            setRoutes(routesJson(t).filter(route => !route.role || userServices.hasRole(route.role)));
         });
 
         return () => subscriber.unsubscribe();
