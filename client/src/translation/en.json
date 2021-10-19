@@ -320,5 +320,6 @@
   "REVIEW_REFUSED_NOTIFICATION_TEXT": "The seller as declined the review for the product:",
   "MONEY_SENT_NOTIFICATION_TEXT": "The sender sent the money for the refund of the product:",
   "MONEY_RECEIVED_NOTIFICATION_TEXT": "The tester has received the refund money of the product:",
-  "TEST_CANCELLED_NOTIFICATION_TEXT": "A cancellation or a claim has been set on the product:"
+  "TEST_CANCELLED_NOTIFICATION_TEXT": "A cancellation or a claim has been set on the product:",
+  "CAN_I_HELP": "Hello, can I help you? :)"
 }

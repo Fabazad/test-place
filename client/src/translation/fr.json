@@ -320,5 +320,6 @@
   "REVIEW_REFUSED_NOTIFICATION_TEXT": "Le vendeur a refusé le commentaire du produit :",
   "MONEY_SENT_NOTIFICATION_TEXT": "Le vendeur vous a remboursé suite à votre test produit :",
   "MONEY_RECEIVED_NOTIFICATION_TEXT": "Le Testeur a indiqué avoir reçu le remboursement pour le produit :",
-  "TEST_CANCELLED_NOTIFICATION_TEXT": "Une annulation ou une réclamation a été faite sur le produit :"
+  "TEST_CANCELLED_NOTIFICATION_TEXT": "Une annulation ou une réclamation a été faite sur le produit :",
+  "CAN_I_HELP": "Bonjour, est-ce que je peux vous aider ?"
 }
