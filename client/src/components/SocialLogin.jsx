@@ -96,8 +96,6 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
             <small>{children}</small>
         </div>
         <div className="text-center">
-            <FacebookLoginButton onSuccess={onFacebookSignInSuccess}
-                                 onFailure={onFacebookSignInFail} disabled={loading}/>
             <GoogleLoginButton onSuccess={onGoogleSignInSuccess}
                                onFailure={onGoogleSignInFail} disabled={loading}/>
         </div>

@@ -423,6 +423,8 @@ class UserController {
                 }
             });
 
+            console.log({id, name})
+
             const facebookUser = await UserModel.findOne({facebookId: id});
             if (facebookUser) return UserController.login(facebookUser, false);
 
