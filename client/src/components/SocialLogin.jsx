@@ -57,8 +57,9 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
         toast.error(res.error);
     }
 
-    const facebookRegister = async ({accessToken, roles}) => {
+    const facebookRegister = async ({accessToken, roles, ...rest}) => {
         setLoading(true);
+        console.log({ rest })
         try {
             const res = await userService.facebookRegister({accessToken, roles});
             history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
@@ -96,6 +97,8 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
             <small>{children}</small>
         </div>
         <div className="text-center">
+            <FacebookLoginButton onSuccess={onFacebookSignInSuccess}
+                                 onFailure={onFacebookSignInFail} disabled={loading}/>
             <GoogleLoginButton onSuccess={onGoogleSignInSuccess}
                                onFailure={onGoogleSignInFail} disabled={loading}/>
         </div>
