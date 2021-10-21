@@ -457,14 +457,14 @@ class UserController {
 
     static async facebookLogin({accessToken, keepConnection}) {
         try {
-            const response = await axios.get('https://graph.facebook.com/v11.0/me', {
+            const {data} = await axios.get('https://graph.facebook.com/v11.0/me', {
                 params: {
                     access_token: accessToken,
                     fields: "id,name,email,first_name"
                 }
             });
-            console.log({response})
-            const user = await UserModel.findOne({facebookId: response.id});
+            console.log({data})
+            const user = await UserModel.findOne({facebookId: data.id});
             if (!user) return Promise.reject({status: 403, message: "not_registered_yet"});
             return UserController.login(user, keepConnection)
         } catch (e) {
