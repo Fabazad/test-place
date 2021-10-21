@@ -423,9 +423,9 @@ class UserController {
                 }
             });
 
-            const {id, name, email, first_name} = response;
+            const {id, name, email, first_name} = response.data;
 
-            console.log({id, name})
+            console.log({response})
 
             const facebookUser = await UserModel.findOne({facebookId: id});
             if (facebookUser) return UserController.login(facebookUser, false);
@@ -465,7 +465,7 @@ class UserController {
                     fields: "id,name,email,first_name"
                 }
             });
-            console.log({data})
+            
             const user = await UserModel.findOne({facebookId: data.id});
             if (!user) return Promise.reject({status: 403, message: "not_registered_yet"});
             return UserController.login(user, keepConnection)
