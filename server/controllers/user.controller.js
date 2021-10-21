@@ -416,12 +416,14 @@ class UserController {
 
     static async facebookRegister({accessToken, roles}) {
         try {
-            const {id, name, email, first_name} = await axios.get('https://graph.facebook.com/v11.0/me', {
+            const response = await axios.get('https://graph.facebook.com/v11.0/me', {
                 params: {
                     access_token: accessToken,
                     fields: "id,name,email,first_name"
                 }
             });
+
+            const {id, name, email, first_name} = response;
 
             console.log({id, name})
 
