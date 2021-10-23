@@ -425,8 +425,6 @@ class UserController {
 
             const {id, name, email, first_name} = response.data;
 
-            console.log({response})
-
             const facebookUser = await UserModel.findOne({facebookId: id});
             if (facebookUser) return UserController.login(facebookUser, false);
 
@@ -438,7 +436,7 @@ class UserController {
                 return UserController.login(newUser, false);
             }
 
-            const userName = first_name ? first_name + (Math.random() * 10000).toString() : name;
+            const userName = first_name ? first_name + Math.round((Math.random() * 10000)).toString() : name;
 
             const user = await UserModel.findOne({name: userName});
             if (user) return Promise.reject({status: 400, message: 'name_already_used'});

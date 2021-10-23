@@ -59,7 +59,6 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
 
     const facebookRegister = async ({accessToken, roles, ...rest}) => {
         setLoading(true);
-        console.log({ rest })
         try {
             const res = await userService.facebookRegister({accessToken, roles});
             history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
