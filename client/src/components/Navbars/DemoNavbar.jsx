@@ -72,17 +72,21 @@ const DemoNavbar = props => {
                         </button>
                         <div className="ml-1 w-100">
                             <Collapse navbar isOpen={isOpen}>
-                                <div className="navbar-collapse-header">
+                                <div className="navbar-collapse-header mb-0">
                                     <Row>
-                                        <Col className="collapse-brand" xs="6">
-                                            <Link to="/">
+                                        <Col className="collapse-brand" xs="7">
+                                            <Link to="/" className="d-flex align-items-center">
                                                 <img
                                                     alt="..."
                                                     src={require("assets/img/brand/logo_test_place.png")}
                                                 />
+                                                <span className="text-dark ml-3 font-weight-bold">TESTPLACE.IO</span>
                                             </Link>
                                         </Col>
-                                        <Col className="collapse-close" xs="6">
+                                        <Col xs="3">
+                                            <LanguageSelector/>
+                                        </Col>
+                                        <Col className="collapse-close" xs="2">
                                             <button className="navbar-toggler" id="navbar_global"
                                                     onClick={() => toggle(false)}>
                                                 <span/>
@@ -135,7 +139,7 @@ const DemoNavbar = props => {
                                             <NavItems routes={routes}/>
                                         </>
                                     )}
-                                    <NavItem >
+                                    <NavItem className="d-none d-md-block">
                                         <LanguageSelector/>
                                     </NavItem>
                                 </Nav>

@@ -54,13 +54,15 @@ const App = () => {
             d.getElementsByTagName("head")[0].appendChild(s);
         })();
 
+        const hasAlreadyReceivedHelpMessage = localStorage.getItem("help-message");
         setTimeout(() => {
-            if (userService.currentUser) {
+            if (userService.currentUser || hasAlreadyReceivedHelpMessage) {
                 console.log("CURRENT_USER")
             } else {
+                localStorage.setItem("help-message", "true");
                 window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]])
             }
-        }, 20000)
+        }, 60000)
     }, []);
 
     runInterceptors(history)
