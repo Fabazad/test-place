@@ -5,6 +5,7 @@ import React from "react"
 const options = [
     { text: <img className="language-flag" src={require("assets/img/flags/france_flag.png")}/>, value: "fr"},
     { text: <img className="language-flag" src={require("assets/img/flags/english_flag.png")}/>, value: "en"},
+    { text: <img className="language-flag" src={require("assets/img/flags/china_flag.png")}/>, value: "ch"},
 ]
 
 const LanguageSelector = () => {

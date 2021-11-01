@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import {initReactI18next} from "react-i18next";
 import frTrans from "./fr";
+import chTrans from "./ch";
 import enTrans from "./en";
 
 // the translations
@@ -10,6 +11,9 @@ const resources = {
     },
     fr: {
         translation: frTrans
+    },
+    ch: {
+        translation: chTrans
     }
 };
 
