@@ -35,9 +35,15 @@ const App = () => {
         if (localStorageLanguage && localStorageLanguage === "fr") {
             i18n.changeLanguage("fr")
         }
+        if (localStorageLanguage && localStorageLanguage === "ch") {
+            i18n.changeLanguage("ch")
+        }
         else {
             if (navigator.language.startsWith("fr")) {
                 i18n.changeLanguage("fr")
+            }
+            if (navigator.language.startsWith("ch")) {
+                i18n.changeLanguage("ch")
             }
         }
 
