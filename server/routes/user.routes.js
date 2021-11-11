@@ -5,8 +5,8 @@ const router = express.Router();
 const joi = require('joi')
 
 router.post('/register', async (request, reply) => {
-    const {name, email, password, captcha, roles} = request.body;
-    UserController.credentialRegister(roles, name, email, password, captcha)
+    const {name, email, password, roles} = request.body;
+    UserController.credentialRegister(roles, name, email, password)
         .then(() => reply.send())
         .catch(err => reply.status(err.status).send(err.message));
 });

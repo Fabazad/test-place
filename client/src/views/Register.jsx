@@ -42,7 +42,6 @@ const Register = props => {
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [captcha, setCaptcha] = useState(null);
     const [loading, setLoading] = useState(false);
     const [role, setRole] = useState(null);
 
@@ -58,12 +57,8 @@ const Register = props => {
             toast.error(t("PASSWORD_SHOULD_MIN_CHARS"));
             return;
         }
-        if (!captcha) {
-            toast.error(t("CHECK_YOUR_HUMAN"));
-            return;
-        }
 
-        const user = {name, email, password, captcha, roles: [role]};
+        const user = {name, email, password, roles: [role]};
 
         setLoading(true);
         userService.register(user).then(() => {
@@ -74,7 +69,7 @@ const Register = props => {
         }).catch(() => setLoading(false));
     };
 
-    const disabled = !name || !email || !password || !captcha || !role;
+    const disabled = !name || !email || !password || !role;
 
     return (
         <>
@@ -165,12 +160,6 @@ const Register = props => {
                                                     </InputGroup>
                                                 </FormGroup>
                                                 <PasswordStrength min={8} password={password}/>
-                                                <div className="text-center mb-3 mt-4">
-                                                    <ReCAPTCHA
-                                                        sitekey="6LfcE8IUAAAAAIMSa9vEYhqVngqTXbtegnYhGkkH"
-                                                        onChange={($event) => setCaptcha($event)}
-                                                    />
-                                                </div>
                                                 <Row className="my-4">
                                                     <Col xs="12">
                                                         <div

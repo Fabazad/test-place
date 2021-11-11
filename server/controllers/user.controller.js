@@ -20,7 +20,7 @@ const createToken = (user, time) => {
 
 class UserController {
 
-    static async credentialRegister(roles, name, email, password, captcha) {
+    static async credentialRegister(roles, name, email, password) {
         return new Promise((resolve, reject) => {
             if (!name || !roles.length || !Object.keys(ROLES).includes(roles[0]) || !email) {
                 reject({status: 400, message: "Missing fields."});
@@ -30,29 +30,17 @@ class UserController {
                 reject({status: 400, message: "The password is too short."});
             }
 
-            const secret = process.env.SECRET_RECAPTCHA;
-            axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`)
-                .then(response => {
-                    if (response.data.success) {
-                        const user = new UserModel({name, email, password, roles});
-                        user.save(function (err) {
-                            if (err) {
-                                reject(ErrorResponses.mongoose(err));
-                            } else {
-                                EmailController.sendValidateMailAddressMail(email, user._id)
-                                    .then(() => resolve(user))
-                                    .catch(reject);
-                            }
-                        });
-                    } else {
-                        reject({status: 400, message: "ReCAPTCHA failed."})
-                    }
-                })
-                .catch(error => {
-                    reject({status: 500, message: "Internal error please try again"});
-                });
-
-        });
+            const user = new UserModel({name, email, password, roles});
+            user.save(function (err) {
+                if (err) {
+                    reject(ErrorResponses.mongoose(err));
+                } else {
+                    EmailController.sendValidateMailAddressMail(email, user._id)
+                        .then(() => resolve(user))
+                        .catch(reject);
+                }
+            })
+        })
     }
 
     static async login(user, keepConnection) {
