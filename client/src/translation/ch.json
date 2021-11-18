@@ -321,5 +321,13 @@
   "MONEY_SENT_NOTIFICATION_TEXT": "在你的产品测试后，卖家已经退还了你的钱。",
   "MONEY_RECEIVED_NOTIFICATION_TEXT": "测试者表示，他收到了产品的退款。",
   "TEST_CANCELLED_NOTIFICATION_TEXT": "已对该产品进行了取消或索赔。",
-  "CAN_I_HELP": "你好，我可以帮你吗？"
+  "CAN_I_HELP": "你好，我可以帮你吗？",
+  "TEST_STEP_1_AS_SELLER": "接受测试请求",
+  "TEST_STEP_2_AS_SELLER": "订购和接收产品",
+  "TEST_STEP_3_AS_SELLER": "产品审查的验证",
+  "TEST_STEP_4_AS_SELLER": "报销",
+  "TEST_STEP_1_AS_TESTER": "接受测试请求",
+  "TEST_STEP_2_AS_TESTER": "订购和接收产品",
+  "TEST_STEP_3_AS_TESTER": "产品评级",
+  "TEST_STEP_4_AS_TESTER": "报销"
 }

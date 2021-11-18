@@ -321,5 +321,13 @@
   "MONEY_SENT_NOTIFICATION_TEXT": "Le vendeur vous a remboursé suite à votre test produit :",
   "MONEY_RECEIVED_NOTIFICATION_TEXT": "Le Testeur a indiqué avoir reçu le remboursement pour le produit :",
   "TEST_CANCELLED_NOTIFICATION_TEXT": "Une annulation ou une réclamation a été faite sur le produit :",
-  "CAN_I_HELP": "Bonjour, est-ce que je peux vous aider ?"
+  "CAN_I_HELP": "Bonjour, est-ce que je peux vous aider ?",
+  "TEST_STEP_1_AS_SELLER": "Acceptation de la demande de test",
+  "TEST_STEP_2_AS_SELLER": "Commande et réception du produit",
+  "TEST_STEP_3_AS_SELLER": "Validation de l'avis sur le produit",
+  "TEST_STEP_4_AS_SELLER": "Remboursement",
+  "TEST_STEP_1_AS_TESTER": "Demande de test acceptée",
+  "TEST_STEP_2_AS_TESTER": "Commande et réception du produit",
+  "TEST_STEP_3_AS_TESTER": "Notation du produit",
+  "TEST_STEP_4_AS_TESTER": "Remboursement"
 }

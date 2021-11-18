@@ -321,5 +321,13 @@
   "MONEY_SENT_NOTIFICATION_TEXT": "The sender sent the money for the refund of the product:",
   "MONEY_RECEIVED_NOTIFICATION_TEXT": "The tester has received the refund money of the product:",
   "TEST_CANCELLED_NOTIFICATION_TEXT": "A cancellation or a claim has been set on the product:",
-  "CAN_I_HELP": "Hello, can I help you? :)"
+  "CAN_I_HELP": "Hello, can I help you? :)",
+  "TEST_STEP_1_AS_SELLER": "Test request acceptation",
+  "TEST_STEP_2_AS_SELLER": "Order and reception of the product",
+  "TEST_STEP_3_AS_SELLER": "Validation of the product review",
+  "TEST_STEP_4_AS_SELLER": "Refund",
+  "TEST_STEP_1_AS_TESTER": "Test request accepted",
+  "TEST_STEP_2_AS_TESTER": "Order and reception of the product",
+  "TEST_STEP_3_AS_TESTER": "Product review",
+  "TEST_STEP_4_AS_TESTER": "Refund"
 }

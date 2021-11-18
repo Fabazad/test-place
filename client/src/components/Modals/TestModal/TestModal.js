@@ -68,7 +68,7 @@ const TestModal = ({isOpen, onToggle, userType, globalStatus, testId, t, adminVi
 
     const lastUpdate = test.updates && test.updates.length ? test.updates[test.updates.length - 1] : {};
 
-    const testSteps = TEST_STEPS_MAP[userType];
+    const testSteps = TEST_STEPS_MAP(t)[userType];
     const currentStep = getCurrentStep({userType});
 
     return (

@@ -137,20 +137,20 @@ export const STEP_KEYS = {
     END: "END"
 }
 
-export const TEST_STEPS_MAP = {
+export const TEST_STEPS_MAP = (t) => ({
     [constants.USER_ROLES.SELLER]: [
-        {label: "Acceptation de la demande de test", key: STEP_KEYS.TEST_ACCEPTATION, icon: "fa fa-handshake"},
-        {label: "Commande et réception du produit", key: STEP_KEYS.PRODUCT_ORDER, icon: "fa fa-box-open"},
-        {label: "Validation de l'avis sur le produit", key: STEP_KEYS.PRODUCT_REVIEW, icon: "fa fa-star"},
-        {label: "Remboursement", key: STEP_KEYS.REFUND, icon: "fa fa-euro-sign"},
+        {label: t("TEST_STEP_1_AS_SELLER"), key: STEP_KEYS.TEST_ACCEPTATION, icon: "fa fa-handshake"},
+        {label: t("TEST_STEP_2_AS_SELLER"), key: STEP_KEYS.PRODUCT_ORDER, icon: "fa fa-box-open"},
+        {label: t("TEST_STEP_3_AS_SELLER"), key: STEP_KEYS.PRODUCT_REVIEW, icon: "fa fa-star"},
+        {label: t("TEST_STEP_4_AS_SELLER"), key: STEP_KEYS.REFUND, icon: "fa fa-euro-sign"},
     ],
     [constants.USER_ROLES.TESTER]: [
-        {label: "Demande de test acceptée", key: STEP_KEYS.TEST_ACCEPTATION, icon: "fa fa-handshake"},
-        {label: "Commande et réception du produit", key: STEP_KEYS.PRODUCT_ORDER, icon: "fa fa-box-open"},
-        {label: "Notation du produit", key: STEP_KEYS.PRODUCT_REVIEW, icon: "fa fa-star"},
-        {label: "Remboursement", key: STEP_KEYS.REFUND, icon: "fa fa-euro-sign"},
+        {label: t("TEST_STEP_1_AS_TESTER"), key: STEP_KEYS.TEST_ACCEPTATION, icon: "fa fa-handshake"},
+        {label: t("TEST_STEP_2_AS_TESTER"), key: STEP_KEYS.PRODUCT_ORDER, icon: "fa fa-box-open"},
+        {label: t("TEST_STEP_3_AS_TESTER"), key: STEP_KEYS.PRODUCT_REVIEW, icon: "fa fa-star"},
+        {label: t("TEST_STEP_4_AS_TESTER"), key: STEP_KEYS.REFUND, icon: "fa fa-euro-sign"},
     ]
-}
+})
 
 export const TEST_STATUS_TO_STEP_MAP = {
     [constants.USER_ROLES.TESTER]: [
