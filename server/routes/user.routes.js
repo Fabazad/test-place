@@ -5,8 +5,8 @@ const router = express.Router();
 const joi = require('joi')
 
 router.post('/register', async (request, reply) => {
-    const {name, email, password, roles} = request.body;
-    UserController.credentialRegister(roles, name, email, password)
+    const {name, email, password, roles, language} = request.body;
+    UserController.credentialRegister(roles, name, email, password, language)
         .then(() => reply.send())
         .catch(err => reply.status(err.status).send(err.message));
 });
@@ -17,7 +17,7 @@ router.post('/login', async (request, reply) => {
         password: joi.string().trim().not().empty().required(),
         keepConnection: joi.boolean()
     });
-    const { error, value } = bodySchema.validate(request.body);
+    const {error, value} = bodySchema.validate(request.body);
     if (error !== undefined) return reply.status(400).send(error.message);
     const {email, password, keepConnection} = value;
     UserController.credentialLogin(email, password, keepConnection)
@@ -68,11 +68,11 @@ router.post('/validationMail', async (request, reply) => {
 });
 
 router.post('/updateUserInfo', withAuth(), async (request, reply) => {
-    const { userId, data } = request.body;
+    const {userId, data} = request.body;
     const bodySchema = joi.object({
         name: joi.string().trim().not().empty()
-    }).options({ allowUnknown: true });
-    const { error } = bodySchema.validate(data);
+    }).options({allowUnknown: true});
+    const {error} = bodySchema.validate(data);
     if (error !== undefined) return reply.status(400).send(error.message);
     const {decoded} = request;
     UserController.updateUserInfo(decoded.userId, decoded.amazonId, decoded.roles, userId, data)
@@ -81,14 +81,14 @@ router.post('/updateUserInfo', withAuth(), async (request, reply) => {
 });
 
 router.post('/contact-us', async (request, reply) => {
-    const { name, email, message } = request.body;
+    const {name, email, message} = request.body;
     UserController.sendContactUsEmail(name, email, message)
         .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
 
 router.post('/change-gender', withAuth(), async (request, reply) => {
-    const { gender } = request.body;
+    const {gender} = request.body;
     const {decoded} = request;
     UserController.changeGender(decoded.userId, gender)
         .then((res) => reply.send(res))
@@ -96,7 +96,7 @@ router.post('/change-gender', withAuth(), async (request, reply) => {
 });
 
 router.get('/:userId', async (request, reply) => {
-    const { userId } = request.params;
+    const {userId} = request.params;
     UserController.getOne(userId)
         .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
@@ -107,12 +107,13 @@ router.post('/google-register', async (request, reply) => {
         name: joi.string().trim().not().empty().required(),
         email: joi.string().trim().not().empty().required(),
         googleId: joi.string().trim().not().empty().required(),
-        roles: joi.array().items(joi.string().trim().not().empty()).required()
+        roles: joi.array().items(joi.string().trim().not().empty()).required(),
+        language: joi.string().required().valid(...['en', "fr", "ch"])
     });
-    const { error, value } = bodySchema.validate(request.body);
+    const {error, value} = bodySchema.validate(request.body);
     if (error !== undefined) return reply.status(400).send(error.message);
-    const {name, email, googleId, roles} = value;
-    UserController.googleRegister({roles, name, email, googleId})
+    const {name, email, googleId, roles, language} = value;
+    UserController.googleRegister({roles, name, email, googleId, language})
         .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
@@ -120,9 +121,9 @@ router.post('/google-register', async (request, reply) => {
 router.post('/google-login', async (request, reply) => {
     const bodySchema = joi.object({
         googleId: joi.string().trim().not().empty().required(),
-        keepConnection: joi.boolean().optional(),
+        keepConnection: joi.boolean().optional()
     });
-    const { error, value } = bodySchema.validate(request.body);
+    const {error, value} = bodySchema.validate(request.body);
     if (error !== undefined) return reply.status(400).send(error.message);
     const {googleId, keepConnection} = value;
     UserController.googleLogin({keepConnection, googleId})
@@ -133,12 +134,13 @@ router.post('/google-login', async (request, reply) => {
 router.post('/facebook-register', async (request, reply) => {
     const bodySchema = joi.object({
         accessToken: joi.string().trim().not().empty().required(),
-        roles: joi.array().items(joi.string().trim().not().empty()).required()
+        roles: joi.array().items(joi.string().trim().not().empty()).required(),
+        language: joi.string().required().valid(...['en', "fr", "ch"])
     });
-    const { error, value } = bodySchema.validate(request.body);
+    const {error, value} = bodySchema.validate(request.body);
     if (error !== undefined) return reply.status(400).send(error.message);
-    const {accessToken, roles} = value;
-    UserController.facebookRegister({accessToken, roles})
+    const {accessToken, roles, language} = value;
+    UserController.facebookRegister({accessToken, roles, language})
         .then((data) => reply.send(data))
         .catch(err => reply.status(err.status).send(err.message));
 });
@@ -146,13 +148,26 @@ router.post('/facebook-register', async (request, reply) => {
 router.post('/facebook-login', async (request, reply) => {
     const bodySchema = joi.object({
         accessToken: joi.string().trim().not().empty().required(),
-        keepConnection: joi.boolean().optional(),
+        keepConnection: joi.boolean().optional()
     });
-    const { error, value } = bodySchema.validate(request.body);
+    const {error, value} = bodySchema.validate(request.body);
     if (error !== undefined) return reply.status(400).send(error.message);
     const {accessToken, keepConnection} = value;
     UserController.facebookLogin({accessToken, keepConnection})
         .then((data) => reply.send(data))
+        .catch(err => reply.status(err.status).send(err.message));
+});
+
+router.post('/update-language', withAuth(), async (request, reply) => {
+    const bodySchema = joi.object({
+        language: joi.string().required().valid(...['en', "fr", "ch"])
+    });
+    const {error, value} = bodySchema.validate(request.body);
+    if (error !== undefined) return reply.status(400).send(error.message);
+    const {language} = value;
+    const {decoded} = request;
+    UserController.updateLanguage(decoded.userId, language)
+        .then((res) => reply.send(res))
         .catch(err => reply.status(err.status).send(err.message));
 });
 

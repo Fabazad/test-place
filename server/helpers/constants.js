@@ -4,10 +4,26 @@ const constants = {
     FRONTEND_URL: 'https://www.testplace.io',
     S3_BUCKET: "test-place",
     MAIL_TEMPLATES_IDS: {
-        RESET_PASSWORD: "d-d4d5481b37e648b0ad6583ef88d572d6",
-        VALIDATE_EMAIL: "d-d1da8fb375f742619f281f9b661f2d05",
-        CONTACT_US: "d-f6c3402ef59f461a8657f3b3c3cde90f",
-        NOTIFICATION: "d-141262cf223c4349955b40f956003808"
+        RESET_PASSWORD: {
+            fr: "d-d4d5481b37e648b0ad6583ef88d572d6",
+            en: "d-bb68b3f6b9fa4974a594ff5ffb267e4c",
+            ch: "d-88b15567c0b940998564bef2f3363578"
+        },
+        VALIDATE_EMAIL: {
+            fr: "d-d1da8fb375f742619f281f9b661f2d05",
+            en: "d-4c666327a316434c9d30c5212e429882",
+            ch: "d-eafffb5b610f403d8d7b24ca419526f3"
+        },
+        CONTACT_US: {
+            fr: "d-f6c3402ef59f461a8657f3b3c3cde90f",
+            en: "d-f6c3402ef59f461a8657f3b3c3cde90f",
+            ch: "d-f6c3402ef59f461a8657f3b3c3cde90f"
+        },
+        NOTIFICATION: {
+            fr: "d-141262cf223c4349955b40f956003808",
+            en: "d-5e97b4d4dbcd4961861013130b835a71",
+            ch: "d-4fc7e2093855454ea5c5d3ad443f6e35"
+        }
     },
     FROM_MAIL_ADDRESS: 'testplace.fr@gmail.com',
     ROLES: {
@@ -16,30 +32,30 @@ const constants = {
         ADMIN: "ADMIN"
     },
     PRODUCT_CATEGORIES: [
-        { text: 'Animalerie', value: 'pet-shop' },
-        { text: 'Auto et Moto', value: 'auto-moto' },
-        { text: 'Bagages', value: 'baggage' },
-        { text: 'Beauté et Parfum', value: 'beauty-perfume' },
-        { text: 'Bijoux', value: 'jewelry' },
-        { text: 'Bricolage', value: 'housing' },
-        { text: 'Bébés & Puériculture', value: 'baby' },
-        { text: 'Chaussures et Sacs', value: 'shoes-bags' },
-        { text: 'Cuisine & Maison', value: 'kitchen-house' },
-        { text: 'Epicerie', value: 'grocery' },
-        { text: 'Fournitures de bureau', value: 'office-supplies' },
-        { text: 'Gros électroménager', value: 'appliances' },
-        { text: 'High-Tech', value: 'high-tech' },
-        { text: 'Hygiène et Santé', value: 'higiene-health' },
-        { text: 'Informatique', value: 'computeur-science' },
-        { text: 'Instruments de Musique et Sono', value: 'music' },
-        { text: 'Jardin', value: 'garden' },
-        { text: 'Jeux et Jouets', value: 'games' },
-        { text: 'Jeux vidéo', value: 'video-games' },
-        { text: 'Luminaires et Eclairage', value: 'lights' },
-        { text: 'Mode', value: 'mode' },
-        { text: 'Montres', value: 'watch' },
-        { text: 'Sports et Loisirs', value: 'sports' },
-        { text: 'Vêtements et accessoires', value: 'cloths' },
+        {text: 'Animalerie', value: 'pet-shop'},
+        {text: 'Auto et Moto', value: 'auto-moto'},
+        {text: 'Bagages', value: 'baggage'},
+        {text: 'Beauté et Parfum', value: 'beauty-perfume'},
+        {text: 'Bijoux', value: 'jewelry'},
+        {text: 'Bricolage', value: 'housing'},
+        {text: 'Bébés & Puériculture', value: 'baby'},
+        {text: 'Chaussures et Sacs', value: 'shoes-bags'},
+        {text: 'Cuisine & Maison', value: 'kitchen-house'},
+        {text: 'Epicerie', value: 'grocery'},
+        {text: 'Fournitures de bureau', value: 'office-supplies'},
+        {text: 'Gros électroménager', value: 'appliances'},
+        {text: 'High-Tech', value: 'high-tech'},
+        {text: 'Hygiène et Santé', value: 'higiene-health'},
+        {text: 'Informatique', value: 'computeur-science'},
+        {text: 'Instruments de Musique et Sono', value: 'music'},
+        {text: 'Jardin', value: 'garden'},
+        {text: 'Jeux et Jouets', value: 'games'},
+        {text: 'Jeux vidéo', value: 'video-games'},
+        {text: 'Luminaires et Eclairage', value: 'lights'},
+        {text: 'Mode', value: 'mode'},
+        {text: 'Montres', value: 'watch'},
+        {text: 'Sports et Loisirs', value: 'sports'},
+        {text: 'Vêtements et accessoires', value: 'cloths'},
     ],
     AUTH_CONDITIONS: {
         IS_SELLER: "IS_SELLER",

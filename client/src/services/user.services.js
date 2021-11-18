@@ -4,6 +4,7 @@ import axios from "axios";
 import {eraseCookie} from "../helpers/cookies.js";
 import {Subject} from "rxjs";
 import {setCookie} from "../helpers/cookies";
+import i18n from "i18next";
 
 class UserService extends BaseService {
     constructor() {
@@ -21,8 +22,8 @@ class UserService extends BaseService {
             if (data.user !== null) {
                 window.$crisp.push(["set", "user:email", [data.user.email]])
                 const userDataArray = Object.entries(data.user).map(([key, value]) => { return [key, value !== null ? value.toString() : "null"] });
-                console.log(userDataArray, userDataArray[0], userDataArray[0][0])
                 window.$crisp.push(["set", "session:data", [userDataArray]])
+                if(data.user.language) i18n.changeLanguage(data.user.language)
             }
             if ('requestedTestsCount' in data
                 || 'processingTestsCount' in data
@@ -123,8 +124,8 @@ class UserService extends BaseService {
         return axios.post(this.baseURL + '/google-login', user).then(this.currentUserResolve);
     }
 
-    facebookRegister({accessToken, roles}) {
-        return axios.post(this.baseURL + '/facebook-register', {accessToken, roles}).then(this.currentUserResolve);
+    facebookRegister({accessToken, roles, language}) {
+        return axios.post(this.baseURL + '/facebook-register', {accessToken, roles, language}).then(this.currentUserResolve);
     }
 
     facebookLogin({accessToken, keepConnection}) {
@@ -132,6 +133,10 @@ class UserService extends BaseService {
             accessToken,
             keepConnection
         }).then(this.currentUserResolve);
+    }
+
+    updateLanguage({language}) {
+        return this.post("update-language", {language}, this.currentUserResolve);
     }
 }
 

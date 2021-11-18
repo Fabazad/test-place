@@ -34,6 +34,7 @@ import {withTranslation} from "react-i18next";
 import GoogleLoginButton from "../components/Buttons/GoogleLoginButton";
 import FacebookLoginButton from "../components/Buttons/FacebookLoginButton";
 import constants from "../helpers/constants";
+import i18n from "i18next";
 
 const Register = props => {
 
@@ -58,7 +59,7 @@ const Register = props => {
             return;
         }
 
-        const user = {name, email, password, roles: [role]};
+        const user = {name, email, password, roles: [role], language: i18n.language};
 
         setLoading(true);
         userService.register(user).then(() => {

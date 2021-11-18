@@ -20,7 +20,7 @@ const createToken = (user, time) => {
 
 class UserController {
 
-    static async credentialRegister(roles, name, email, password) {
+    static async credentialRegister(roles, name, email, password, language) {
         return new Promise((resolve, reject) => {
             if (!name || !roles.length || !Object.keys(ROLES).includes(roles[0]) || !email) {
                 reject({status: 400, message: "Missing fields."});
@@ -30,12 +30,12 @@ class UserController {
                 reject({status: 400, message: "The password is too short."});
             }
 
-            const user = new UserModel({name, email, password, roles});
+            const user = new UserModel({name, email, password, roles, language});
             user.save(function (err) {
                 if (err) {
                     reject(ErrorResponses.mongoose(err));
                 } else {
-                    EmailController.sendValidateMailAddressMail(email, user._id)
+                    EmailController.sendValidateMailAddressMail(email, user._id, user.language)
                         .then(() => resolve(user))
                         .catch(reject);
                 }
@@ -103,7 +103,7 @@ class UserController {
                     if (!user) {
                         return reject({status: 400, message: "No user with this email found."})
                     }
-                    EmailController.sendResetPasswordMail(email, resetPasswordToken)
+                    EmailController.sendResetPasswordMail(email, resetPasswordToken, user.language || 'fr')
                         .then(() => resolve({user})).catch(err => reject({status: 500, message: err}));
                 })
                 .catch(err => reject(ErrorResponses.mongoose(err)));
@@ -324,7 +324,7 @@ class UserController {
             return Promise.reject({status: 400, message: "Missing fields."});
         }
 
-        return EmailController.sendEmail(FROM_MAIL_ADDRESS, email, MAIL_TEMPLATES_IDS.CONTACT_US, {
+        return EmailController.sendEmail(FROM_MAIL_ADDRESS, email, MAIL_TEMPLATES_IDS.CONTACT_US['fr'], {
             name: name,
             message: message
         });
@@ -372,7 +372,7 @@ class UserController {
     }
 
     static async googleRegister(params) {
-        const {email, name, roles, googleId} = params;
+        const {email, name, roles, googleId, language} = params;
 
         const googleUser = await UserModel.findOne({googleId});
         if (googleUser) return UserController.login(googleUser, false);
@@ -387,7 +387,7 @@ class UserController {
         if (user) return Promise.reject({status: 400, message: 'name_already_used'});
 
         try {
-            const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true});
+            const newUser = await UserModel.create({email, name, roles, googleId, emailValidation: true, language});
             return UserController.login(newUser, false)
         } catch (e) {
             return Promise.reject({status: 500, message: e.message});
@@ -402,7 +402,7 @@ class UserController {
     }
 
 
-    static async facebookRegister({accessToken, roles}) {
+    static async facebookRegister({accessToken, roles, language}) {
         try {
             const response = await axios.get('https://graph.facebook.com/v11.0/me', {
                 params: {
@@ -434,14 +434,14 @@ class UserController {
                 name: userName,
                 roles,
                 facebookId: id,
-                emailValidation: true
+                emailValidation: true,
+                language
             });
             return UserController.login(newUser, false)
         } catch (e) {
             return Promise.reject({status: 500, message: e.message});
         }
     }
-
 
     static async facebookLogin({accessToken, keepConnection}) {
         try {
@@ -457,6 +457,15 @@ class UserController {
             return UserController.login(user, keepConnection)
         } catch (e) {
             return Promise.reject({status: 500, message: e.message});
+        }
+    }
+
+    static async updateLanguage(userId, language) {
+        try {
+            const user = await UserModel.findByIdAndUpdate(userId, {language}, {new: true});
+            return {user};
+        } catch (err) {
+            return Promise.reject(ErrorResponses.mongoose(err));
         }
     }
 }

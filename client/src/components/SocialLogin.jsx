@@ -34,7 +34,7 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
     const googleRegister = async ({name, email, roles, googleId}) => {
         setLoading(true);
         try {
-            const res = await userService.googleRegister({name, email, roles, googleId});
+            const res = await userService.googleRegister({name, email, roles, googleId, language: i18n.language});
             history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
         } finally {
             setLoading(false);
@@ -60,7 +60,7 @@ const SocialLogin = ({children, onStartLogging, onStopLogging, className, roles}
     const facebookRegister = async ({accessToken, roles, ...rest}) => {
         setLoading(true);
         try {
-            const res = await userService.facebookRegister({accessToken, roles});
+            const res = await userService.facebookRegister({accessToken, roles, language: i18n.language});
             history.push(res.user.roles.includes(USER_ROLES.SELLER) ? '/dashboard/my-products' : '/');
         } finally {
             setLoading(false);

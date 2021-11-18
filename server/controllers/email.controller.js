@@ -42,12 +42,12 @@ class EmailController {
     return Promise.resolve(true);
   }
 
-  static async sendValidateMailAddressMail(email, userId) {
-    return this.sendEmail(email, from_email, MAIL_TEMPLATES_IDS.VALIDATE_EMAIL, { userId, baseUrl });
+  static async sendValidateMailAddressMail(email, userId, language) {
+    return this.sendEmail(email, from_email, MAIL_TEMPLATES_IDS.VALIDATE_EMAIL[language], { userId, baseUrl });
   }
 
-  static async sendResetPasswordMail(email, resetPasswordToken) {
-    return this.sendEmail(email, from_email, MAIL_TEMPLATES_IDS.RESET_PASSWORD, { resetPasswordToken, baseUrl });
+  static async sendResetPasswordMail(email, resetPasswordToken, language) {
+    return this.sendEmail(email, from_email, MAIL_TEMPLATES_IDS.RESET_PASSWORD[language], { resetPasswordToken, baseUrl });
   }
 
   static async sendNotificationMail(notification) {
@@ -57,7 +57,7 @@ class EmailController {
       return Promise.reject({status: 500, message: "Couldn't find the destination user email notification."});
     }
 
-    const templateId = MAIL_TEMPLATES_IDS.NOTIFICATION;
+    const templateId = MAIL_TEMPLATES_IDS.NOTIFICATION[toUser.language || 'fr'];
 
     if (!templateId) {
       return Promise.reject({status: 500, message: "Couldn't find template id."});
@@ -65,7 +65,7 @@ class EmailController {
 
     const notificationType = NOTIFICATION_TYPES[notification.type];
 
-    if (!templateId) {
+    if (!notificationType) {
       return Promise.reject({status: 500, message: "Couldn't find notificationType."});
     }
 
