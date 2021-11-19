@@ -117,11 +117,18 @@ const DemoNavbar = props => {
                                                     {t("SIGN_IN")}
                                                 </NavLink>
                                             </NavItem>
-                                            <NavItem>
+                                            <NavItem onClick={() => toggle(false)}>
                                                 <NavLink to='/#how-it-works' tag={Link} data-testid="how-it-works"
                                                          className="nav-link-inner--text text-white cursor-pointer">
-                                                    <i className="fa fa-question text-danger mr-3 d-md-none"/>
+                                                    <i className="fa fa-question text-info mr-3 d-md-none"/>
                                                     {t("HOW_DOES_IT_WORK")}
+                                                </NavLink>
+                                            </NavItem>
+                                            <NavItem onClick={() => toggle(false)}>
+                                                <NavLink to='/#where-is-the-scam' tag={Link} data-testid="where-is-the-scam"
+                                                         className="nav-link-inner--text text-white cursor-pointer">
+                                                    <i className="fa fa-user-secret text-danger mr-3 d-md-none"/>
+                                                    {t("WHERE_IS_THE_SCAM")}
                                                 </NavLink>
                                             </NavItem>
                                         </>)

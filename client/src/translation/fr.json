@@ -329,5 +329,6 @@
   "TEST_STEP_1_AS_TESTER": "Demande de test acceptée",
   "TEST_STEP_2_AS_TESTER": "Commande et réception du produit",
   "TEST_STEP_3_AS_TESTER": "Notation du produit",
-  "TEST_STEP_4_AS_TESTER": "Remboursement"
+  "TEST_STEP_4_AS_TESTER": "Remboursement",
+  "WHERE_IS_THE_SCAM": "Où est l'arnaque ?"
 }
