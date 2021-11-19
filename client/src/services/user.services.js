@@ -54,7 +54,7 @@ class UserService extends BaseService {
     checkToken() {
         return axios.get(this.baseURL + '/checkToken', {
             params: {logged: this.isAuth()}
-        }).then(this.currentUserResolve);
+        }).then(this.currentUserResolve).catch(() => this.logout());
     }
 
     sendResetPasswordMail(email) {

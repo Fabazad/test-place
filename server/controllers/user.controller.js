@@ -291,7 +291,8 @@ class UserController {
     static async checkToken(logged, decoded) {
         if (!decoded || !decoded.userId) {
             return ({user: null, check: false});
-        } else if (!logged || logged === "false") {
+        }
+        if (!logged || logged === "false") {
             try {
                 const [user, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount] = await Promise.all([
                     UserModel.findById(decoded.userId),
@@ -314,9 +315,9 @@ class UserController {
             } catch (e) {
                 return Promise.reject(ErrorResponses.mongoose(e));
             }
-        } else {
-            return {check: true};
         }
+        return {check: true};
+
     }
 
     static async sendContactUsEmail(name, email, message) {
@@ -451,7 +452,7 @@ class UserController {
                     fields: "id,name,email,first_name"
                 }
             });
-            
+
             const user = await UserModel.findOne({facebookId: data.id});
             if (!user) return Promise.reject({status: 403, message: "not_registered_yet"});
             return UserController.login(user, keepConnection)
