@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 // reactstrap components
 import {
     Button,
@@ -17,8 +17,11 @@ import s3Services from "../../services/s3.services";
 import ProductForm from "../Forms/ProductForm";
 import ModalFooter from "reactstrap/es/ModalFooter";
 import {withTranslation} from "react-i18next";
+import {useHistory} from "react-router-dom";
 
 const NewProductModal = ({t}) => {
+
+    const history = useHistory()
 
     const [defaultData, setDefaultData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +29,12 @@ const NewProductModal = ({t}) => {
     const [loadingPromise, setLoadingPromise] = useState(null);
 
     const toggleModal = () => {
-        setIsOpen(!isOpen)
+        history.push({ hash: isOpen ? "" : "#postProductModal" })
     };
+
+    useEffect(() => {
+        setIsOpen(history.location.hash === "#postProductModal");
+    }, [history.location])
 
     const scrapAsin = () => {
         if (!asinInput || !asinInput.length) {

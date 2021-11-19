@@ -4,7 +4,6 @@ import Loading from "../Loading";
 import userServices from "../../services/user.services";
 import PropTypes from "prop-types";
 import {withTranslation} from "react-i18next";
-import ConfirmButton from "../Buttons/ConfirmButton";
 import SocialLogin from "../SocialLogin";
 
 const LoginForm = props => {
@@ -21,7 +20,7 @@ const LoginForm = props => {
         setLoading(true);
         userServices.login(email, password, keepConnection)
             .then(res => {
-                if (res && res.user) onLogin();
+                if (res && res.user) onLogin(res.user);
             })
             .catch(() => setPassword(''))
             .finally(() => setLoading(false));

@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 // reactstrap components
 import {
@@ -16,19 +16,20 @@ import ForgottenPasswordModal from "../components/Modals/ForgottenPasswordModal"
 import ResendValidationMailModal from "../components/Modals/ResendValidationMailModal";
 import LoginForm from "../components/Forms/LoginForm";
 import Alert from "reactstrap/es/Alert";
-import {useLastLocation} from 'react-router-last-location';
-import history from "../history";
 import {withTranslation} from "react-i18next";
-import SocialLogin from "../components/SocialLogin";
 
 const Login = props => {
 
     const { t } = props;
 
-    const lastLocation = useLastLocation();
+    const history = useHistory()
 
-    const onLogin = () => {
-        history.push(lastLocation.pathname && lastLocation.pathname !== "" ? lastLocation.pathname : "/");
+    const onLogin = (user) => {
+        if (user.roles.includes('SELLER')) {
+            history.push({pathname: "/dashboard/my-products", hash: user.lastLogin ? "" : "#postProductModal"})
+        } else {
+            history.push("/search");
+        }
     };
 
     return (
