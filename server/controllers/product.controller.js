@@ -300,7 +300,8 @@ class ProductController {
                             name: product.seller.name,
                             roles: product.seller.roles,
                             sellerMessage: product.seller.sellerMessage,
-                            _id: product.seller._id
+                            _id: product.seller._id,
+                            isCertified: product.seller.isCertified
                         }
                         product.seller = seller
                         resolve(product);

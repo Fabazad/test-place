@@ -85,7 +85,7 @@ const ProductCard = props => {
                     </Col>
                     <Col xs={7} className="text-right">
                         <small>
-                            <UserProfilePopover userId={product.seller._id} userName={product.seller.name}
+                            <UserProfilePopover userId={product.seller._id} userName={product.seller.name} isCertified={product.seller.isCertified}
                                                 showMail={false}/>
                         </small>
                     </Col>

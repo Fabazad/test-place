@@ -4,6 +4,7 @@ const ProductModel = require('../models/product.model');
 const NotificationModel = require('../models/notification.model');
 const ErrorResponses = require("../helpers/ErrorResponses");
 const moment = require("moment");
+const UserController = require("./user.controller");
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const {TEST_STATUS_PROCESSES, ROLES, TEST_STATUSES, NOTIFICATION_TYPES, GLOBAL_TEST_STATUSES} = constants;
@@ -206,6 +207,10 @@ class TestController {
                         test: Object.assign({}, test)
                     })
                 ]);
+
+                if (status === TEST_STATUSES.testCancelled || status === TEST_STATUSES.moneyReceived) {
+                    await Promise.all([UserController.checkAndUpdateUserCertification(test.tester), UserController.checkAndUpdateUserCertification(test.seller)]);
+                }
 
                 resolve({
                     test: newTest,

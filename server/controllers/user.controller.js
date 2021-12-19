@@ -11,7 +11,7 @@ const secret = process.env.JWT_KEY;
 const {ROLES, TEST_STATUSES, MAIL_TEMPLATES_IDS} = require('../helpers/constants');
 const TestController = require('../controllers/test.controller');
 const constants = require('../helpers/constants');
-const {GLOBAL_TEST_STATUSES, FROM_MAIL_ADDRESS} = constants;
+const {GLOBAL_TEST_STATUSES, FROM_MAIL_ADDRESS, CERTIFIED_RATIO} = constants;
 
 const createToken = (user, time) => {
     const payload = {userId: user._id, amazonId: user.amazonId, roles: user.roles};
@@ -465,6 +465,23 @@ class UserController {
         try {
             const user = await UserModel.findByIdAndUpdate(userId, {language}, {new: true});
             return {user};
+        } catch (err) {
+            return Promise.reject(ErrorResponses.mongoose(err));
+        }
+    }
+
+    static async checkAndUpdateUserCertification(userId) {
+        try {
+            const [completedTestsCount, cancelledTestsCount, user] = await Promise.all([
+                TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
+                TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED, true),
+                UserModel.findOne({_id: userId})
+            ]);
+
+            const isCertified = completedTestsCount * CERTIFIED_RATIO >= cancelledTestsCount;
+            if (user.isCertified === isCertified) return user;
+            const newUser = await UserModel.updateOne({_id: user._id}, {$set: {isCertified}});
+            return newUser;
         } catch (err) {
             return Promise.reject(ErrorResponses.mongoose(err));
         }

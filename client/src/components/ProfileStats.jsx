@@ -1,5 +1,5 @@
 import {withTranslation} from "react-i18next";
-import {Badge, Col, Row} from "reactstrap";
+import {Badge} from "reactstrap";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 import React from "react";
 import PropTypes from "prop-types";

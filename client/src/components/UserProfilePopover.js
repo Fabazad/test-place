@@ -11,8 +11,9 @@ import Popover from "reactstrap/es/Popover";
 import Button from "reactstrap/es/Button";
 import ProfileStats from "./ProfileStats";
 import EmailLink from "./EmailLink";
+import CertifiedIcon from "./CertifiedIcon";
 
-const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
+const UserProfilePopover = ({userId, t, userName, showMail = true, isCertified}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
@@ -24,7 +25,12 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
             (async () => {
                 setLoading(true);
                 try {
-                    const {user, processingTestsCount, completedTestsCount, guiltyTestsCount} = await userServices.getOne(userId);
+                    const {
+                        user,
+                        processingTestsCount,
+                        completedTestsCount,
+                        guiltyTestsCount
+                    } = await userServices.getOne(userId);
                     user.testsCount = {
                         processing: processingTestsCount,
                         completed: completedTestsCount,
@@ -48,8 +54,8 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
     return (
         <>
             <UncontrolledTooltip target={target} delay={0}>{t("SEE_STATS")}</UncontrolledTooltip>
-            <Button id={target}  className="cursor-pointer" color="primary" size="sm" onClick={onClick}>
-                {userName}{" "}<i className="fa fa-star text-yellow"/>
+            <Button id={target} className="cursor-pointer" color="primary" size="sm" onClick={onClick}>
+                {userName}{isCertified && <CertifiedIcon className="ml-2"/>}
             </Button>
             <Popover placement="auto" trigger="legacy" target={target} toggle={toggle} isOpen={isOpen}>
                 <PopoverBody className="p-0" style={{width: "200px", height: showMail ? "250px" : "225px"}}>
@@ -75,17 +81,18 @@ const UserProfilePopover = ({userId, t, userName, showMail = true}) => {
                             <CardBody className="pt-0 pt-md-4">
                                 <Row className="mt-0 mt-md-5">
                                     <div className="text-center w-100">
-                                        <h3>{user ? user.name : ''}</h3>
-                                        { showMail && <div className="h5 font-weight-300">
+                                        <h3>{user && user.name}{isCertified && <CertifiedIcon className="ml-2"/>}</h3>
+                                        {showMail && <div className="h5 font-weight-300">
                                             <i className="ni location_pin mr-2"/>
-                                            {user ? <EmailLink email={user.email} subject={t("TESTPLACE_EMAIL_SUBJECT")}></EmailLink> : ''}
-                                        </div> }
+                                            {user ? <EmailLink email={user.email}
+                                                               subject={t("TESTPLACE_EMAIL_SUBJECT")}></EmailLink> : ''}
+                                        </div>}
                                     </div>
                                 </Row>
                                 <Row>
                                     <Col xs={12} className="text-center">
                                         <Badge pill color="primary" className='badge-lg shadow'>
-                                            {user ? t(user.roles[0]) : ""}
+                                            {user && t(user.roles[0])}
                                         </Badge>
                                     </Col>
                                 </Row>
@@ -107,7 +114,8 @@ UserProfilePopover.propTypes = {
     userId: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     showMail: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    isCertified: PropTypes.bool
 };
 
 export default withTranslation()(UserProfilePopover);

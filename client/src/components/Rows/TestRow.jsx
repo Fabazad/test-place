@@ -7,7 +7,6 @@ import {formatDate, textSlice} from "../../helpers/textHelpers";
 import TestStatusIcon from "../TestStatusIcon";
 import testServices from "../../services/test.services";
 import TestListButtons from "../Buttons/TestListButtons";
-import UserProfilePopover from "../UserProfilePopover";
 
 const {USER_ROLES} = constants;
 

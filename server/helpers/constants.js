@@ -253,4 +253,6 @@ constants.VALID_TEST_STATUSES = [
     TEST_STATUSES.reviewValidated
 ];
 
+constants.CERTIFIED_RATIO = 0.3;
+
 module.exports = constants;

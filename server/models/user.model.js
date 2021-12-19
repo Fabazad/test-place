@@ -21,7 +21,8 @@ const UserSchema = new mongoose.Schema({
     gender: { type: String, default: GENDERS.FEMALE, enum: Object.values(GENDERS) },
     googleId: { type: String, default: null, unique: true},
     facebookId: { type: String, default: null, unique: true},
-    language: { type: String, required: true, enum: ['fr', 'en', 'ch']}
+    language: { type: String, required: true, enum: ['fr', 'en', 'ch']},
+    isCertified: { type: Boolean, required: true }
 });
 
 UserSchema.pre('save', function(next) {

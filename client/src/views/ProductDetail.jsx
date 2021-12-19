@@ -16,9 +16,9 @@ import NewTestRequestModal from "../components/Modals/NewTestRequestModal/NewTes
 import Loading from "../components/Loading";
 import NewTestButton from "../components/Buttons/NewTestButton";
 import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
-import UserProfilePopover from "../components/UserProfilePopover";
 import {withTranslation, Trans} from "react-i18next";
 import ProfileStats from "../components/ProfileStats";
+import CertifiedIcon from "../components/CertifiedIcon";
 
 const ProductDetail = props => {
 
@@ -152,7 +152,7 @@ const ProductDetail = props => {
 
                                 <div className="mt-5">
                                     <Label>
-                                        Catégorie : {product ? getProduct(product.category) : null}
+                                        {t("CATEGORY")} : {product ? getProduct(product.category) : null}
                                     </Label>
                                 </div>
                                 <div className="mt-2">
@@ -200,7 +200,7 @@ const ProductDetail = props => {
                                             <Row>
                                                 <div className="col text-center">
                                                     <Label className='d-block'>Test Place</Label>
-                                                    <div>{product.seller.name}</div>
+                                                    <div>{product.seller.name}{product.seller.isCertified && <CertifiedIcon className="ml-3"/>}</div>
                                                     {product && sellerData !== null &&
                                                     <div className="mt-3"><ProfileStats userId={product.seller._id}
                                                                                         testsCount={sellerData.testsCount}/>
