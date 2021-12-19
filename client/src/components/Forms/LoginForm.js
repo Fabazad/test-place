@@ -15,15 +15,19 @@ const LoginForm = props => {
     const [loading, setLoading] = useState(false);
     const [keepConnection, setKeepConnection] = useState(false);
 
-    const onSubmit = e => {
+    const onSubmit = async(e) => {
         e.preventDefault();
         setLoading(true);
-        userServices.login(email, password, keepConnection)
-            .then(res => {
-                if (res && res.user) onLogin(res.user);
-            })
-            .catch(() => setPassword(''))
-            .finally(() => setLoading(false));
+        try {
+            const res = await userServices.login(email, password, keepConnection);
+            if (res && res.user) onLogin(res.user);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setPassword('');
+            setLoading(false);
+        }
+
     };
 
     const validForm = email && password;

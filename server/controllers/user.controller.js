@@ -72,7 +72,7 @@ class UserController {
                 if (err) {
                     reject(ErrorResponses.mongoose(err));
                 } else if (!user) {
-                    reject({status: 400, message: "Incorrect email or password"});
+                    reject({status: 400, message: "wrong_credentials"});
                 } else if (!user.emailValidation) {
                     reject({status: 400, message: "The email needs to be validate before."});
                 } else {
@@ -80,7 +80,7 @@ class UserController {
                         if (err) {
                             reject(ErrorResponses.mongoose(err));
                         } else if (!same) {
-                            reject({status: 400, message: "Incorrect email or password"});
+                            reject({status: 400, message: "wrong_credentials"});
                         } else {
                             UserController.login(user, keepConnection).then(resolve)
                         }

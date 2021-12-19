@@ -22,6 +22,7 @@ import ScrollToTop from "./components/ScrollTop";
 import {runInterceptors} from "./interceptors";
 import i18n from "i18next";
 import userService from "../src/services/user.services";
+import {useTranslation} from "react-i18next";
 
 history.listen(location => {
     ReactGA.set({page: location.pathname}); // Update the user's current page
@@ -71,7 +72,9 @@ const App = () => {
         }, 60000)
     }, []);
 
-    runInterceptors(history)
+    const { t } = useTranslation();
+
+    runInterceptors(history, t)
     return (
         <>
             <ToastContainer data-testid="toast-container"/>
