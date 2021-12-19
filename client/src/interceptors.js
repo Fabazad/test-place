@@ -2,19 +2,26 @@ import axios from "axios";
 import {toast} from 'react-toastify';
 import {getCookie} from "helpers/cookies"
 import userServices from "services/user.services";
+import {errorMessages} from "./helpers/errorMessages";
 
+let requestInterceptorId;
+let responseInterceptorId;
 export const runInterceptors = (history, t) => {
-    axios.interceptors.request.use(function (request) {
+
+    axios.interceptors.request.eject(requestInterceptorId);
+    axios.interceptors.response.eject(responseInterceptorId);
+
+    responseInterceptorId = axios.interceptors.request.use(function (request) {
         request.headers['x-access-token'] = getCookie("token");
         return request;
     }, function (error) {
         return Promise.reject(error);
     });
 
-    axios.interceptors.response.use(function (response) {
+    requestInterceptorId = axios.interceptors.response.use(function (response) {
         return response;
     }, function (error) {
-        console.log(Object.keys(error))
+
         let message;
         if (error.response) {
             message = error.response.data ?
@@ -28,17 +35,13 @@ export const runInterceptors = (history, t) => {
             userServices.logout();
             history.push("/");
         }
-        console.log({ message })
 
-        if (message === "account_already_exists") message = "Ce compte existe déjà.";
+        const newMessage = errorMessages(t)[message];
+        if (newMessage !== undefined) message = newMessage;
+
         if (message === "not_registered_yet") {
-            message = "Vous n'êtes pas encore inscris.";
             history.push("/register")
         }
-        if (message === "facebook_account_missing_email") message = "Il manque une adresse mail validée sur votre compte Facebook.";
-        if (message === "name_already_used") message = "Ce nom d'utilisateur existe déjà, choisissez-en un autre.";
-        if (message === "no_password_registered") message = "Aucun mot de passe enregistré pour cette adresse mail.";
-        if (message === "wrong_credentials") message = "Mauvais identifiants.";
 
         toast.error(message);
 

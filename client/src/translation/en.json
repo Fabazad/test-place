@@ -331,5 +331,11 @@
   "TEST_STEP_3_AS_TESTER": "Product review",
   "TEST_STEP_4_AS_TESTER": "Refund",
   "WHERE_IS_THE_SCAM": "Where is the scam?",
-  "CERTIFIED_USER": "Certified honest user"
+  "CERTIFIED_USER": "Certified honest user",
+  "WRONG_CREDENTIALS": "Wrong credentials.",
+  "ACCOUNT_ALREADY_EXISTS": "The account already exists.",
+  "NOT_REGISTERED_YET": "You're not registered yet.",
+  "FACEBOOK_ACCOUNT_MISSING_EMAIL": "A validated email is missing on your Facebook account.",
+  "NAME_ALREADY_USED": "This user name is already taken, choose another one.",
+  "NO_PASSWORD_REGISTERED": "There isn't any password saved for this email."
 }

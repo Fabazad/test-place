@@ -331,5 +331,11 @@
   "TEST_STEP_3_AS_TESTER": "Notation du produit",
   "TEST_STEP_4_AS_TESTER": "Remboursement",
   "WHERE_IS_THE_SCAM": "Où est l'arnaque ?",
-  "CERTIFIED_USER": "Utilisateur certifié honnête"
+  "CERTIFIED_USER": "Utilisateur certifié honnête",
+  "WRONG_CREDENTIALS": "Mauvais identifiants.",
+  "ACCOUNT_ALREADY_EXISTS": "Ce compte existe déjà.",
+  "NOT_REGISTERED_YET": "Vous n'êtes pas encore inscris.",
+  "FACEBOOK_ACCOUNT_MISSING_EMAIL": "Il manque une adresse mail validée sur votre compte Facebook.",
+  "NAME_ALREADY_USED": "Ce nom d'utilisateur existe déjà, choisissez-en un autre.",
+  "NO_PASSWORD_REGISTERED": "Aucun mot de passe enregistré pour cette adresse mail."
 }
