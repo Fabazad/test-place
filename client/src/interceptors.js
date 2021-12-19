@@ -27,6 +27,7 @@ export const runInterceptors = (history) => {
             userServices.logout();
             history.push("/");
         }
+        console.log({ message })
 
         if (message === "account_already_exists") message = "Ce compte existe déjà.";
         if (message === "not_registered_yet") {
