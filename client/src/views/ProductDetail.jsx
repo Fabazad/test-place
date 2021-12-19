@@ -232,7 +232,7 @@ const ProductDetail = props => {
                                     <UncontrolledTooltip placement="top" target="publication-badge">
                                         {t("PUBLISH_DATE")}
                                     </UncontrolledTooltip>
-                                    <h2>Description</h2>
+                                    <h2>{t("DESCRIPTION")}</h2>
                                     <p className="text-left mb-0">
                                         <small
                                             style={{whiteSpace: 'pre-line'}}>{product ? product.description : ''}</small>
