@@ -28,6 +28,8 @@ const ProfileDropdownBadge = props => {
         history.push("/");
     };
 
+    if (!userServices.currentUser) return null
+
     return (
         <UncontrolledDropdown className="profile-dropdown-badge">
             <DropdownToggle nav>
