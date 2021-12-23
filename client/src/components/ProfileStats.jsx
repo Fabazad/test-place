@@ -7,16 +7,16 @@ import PropTypes from "prop-types";
 const ProfileStats = ({userId, testsCount, t}) => {
     return <div className="card-profile-stats">
         <div>
-            <Badge color="primary" pill className="badge-lg" id={'prcessing-tests-' + userId}>
-                <span className="heading">{testsCount.processing}</span>
+            <Badge color="primary" pill className="badge-lg" id={'processing-tests-' + userId}>
+                <span className="heading">{testsCount.processing || 0}</span>
             </Badge>
-            <UncontrolledTooltip target={'prcessing-tests-' + userId}>
+            <UncontrolledTooltip target={'processing-tests-' + userId}>
                 {t("PROCESSING_TESTS")}
             </UncontrolledTooltip>
         </div>
         <div>
             <Badge color="success" pill className="badge-lg" id={'completed-tests-' + userId}>
-                <span className="heading">{testsCount.completed}</span>
+                <span className="heading">{testsCount.completed || 0}</span>
             </Badge>
             <UncontrolledTooltip target={'completed-tests-' + userId}>
                 {t("COMPLETED_TESTS")}
@@ -24,7 +24,7 @@ const ProfileStats = ({userId, testsCount, t}) => {
         </div>
         <div>
             <Badge color="danger" pill className="badge-lg" id={'guilty-tests-' + userId}>
-                <span className="heading">{testsCount.guilty}</span>
+                <span className="heading">{testsCount.guilty || 0}</span>
             </Badge>
             <UncontrolledTooltip target={'guilty-tests-' + userId}>
                 {t("CANCELLED_TESTS")}

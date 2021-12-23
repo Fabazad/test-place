@@ -89,19 +89,19 @@ const Profile = props => {
                                             <div>
                                                 <Badge color="primary" pill className="badge-lg d-block">
                                                     <span
-                                                        className="heading">{testGlobalStatusesCount.processing}</span>
+                                                        className="heading">{testGlobalStatusesCount.processing || 0}</span>
                                                 </Badge>
                                                 <span className="description">{t("PROCESSING")}</span>
                                             </div>
                                             <div>
                                                 <Badge color="success" pill className="badge-lg d-block">
-                                                    <span className="heading">{testGlobalStatusesCount.completed}</span>
+                                                    <span className="heading">{testGlobalStatusesCount.completed || 0}</span>
                                                 </Badge>
                                                 <span className="description">{t("COMPLETED")}</span>
                                             </div>
                                             <div>
                                                 <Badge color="danger" pill className="badge-lg d-block">
-                                                    <span className="heading">{testGlobalStatusesCount.guilty}</span>
+                                                    <span className="heading">{testGlobalStatusesCount.guilty || 0}</span>
                                                 </Badge>
                                                 <span className="description">{t("CANCELLED")}</span>
                                             </div>
