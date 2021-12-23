@@ -71,8 +71,6 @@ const ProductDetail = props => {
     const newTestButtonDisabled = !(!newTestRequestButtonDisabled && currentUser && currentUser.amazonId && currentUser.paypalEmail);
 
 
-    console.log({sellerData, product})
-
     return (
         <>
             <main>

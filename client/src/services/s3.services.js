@@ -22,8 +22,7 @@ class S3Service extends BaseService {
                 var returnData = response.data.data.returnData;
                 var signedRequest = returnData.signedRequest;
                 var url = returnData.url;
-                console.log("Received a signed request " + signedRequest);
-            
+
                 // Put the fileType in the headers for the upload
                 var options = {
                     headers: {
@@ -32,7 +31,6 @@ class S3Service extends BaseService {
                 };
                 axios.put(signedRequest, file, options)
                     .then(result => {
-                        console.log("Response from s3");
                         resolve(url);
                     })
                     .catch(error => {

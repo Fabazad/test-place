@@ -15,7 +15,8 @@ class UserService extends BaseService {
     }
 
     async currentUserResolve(res) {
-        const data = await this.serviceResolve(res)
+        const data = await this.serviceResolve(res);
+        console.log(data);
         if (typeof data === "object" && "user" in data) {
             this.currentUser = data.user;
             this.currentUserSubject.next(this.currentUser);
