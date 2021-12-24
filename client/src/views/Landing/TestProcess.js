@@ -1,10 +1,11 @@
 import {Container} from "reactstrap";
 import React from "react";
 import {withTranslation} from "react-i18next";
+import ReactPlayer from "react-player";
 
 const TestProcess = props => {
 
-    const { t } = props;
+    const {t} = props;
 
     return (
         <Container>
@@ -47,6 +48,11 @@ const TestProcess = props => {
                         <i className="fa fa-dollar-sign"/>
                     </div>
                     <div className="text-white mt-2 white-space-pre-line"><b>{t("REFUND")}</b></div>
+                </div>
+            </div>
+            <div className="w-100 d-flex justify-content-center mt-5">
+                <div className="w-100">
+                    <ReactPlayer controls width="auto" url="https://www.youtube.com/watch?v=W0nGhLXuCr4"/>
                 </div>
             </div>
         </Container>
