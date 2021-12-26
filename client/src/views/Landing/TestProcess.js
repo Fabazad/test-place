@@ -52,7 +52,7 @@ const TestProcess = props => {
             </div>
             <div className="w-100 d-flex justify-content-center mt-5">
                 <div className="w-100">
-                    <ReactPlayer controls width="auto" url="https://www.youtube.com/watch?v=W0nGhLXuCr4"/>
+                    <ReactPlayer controls width="auto" url="https://www.youtube.com/watch?v=nnBoOTcN8l8"/>
                 </div>
             </div>
         </Container>
