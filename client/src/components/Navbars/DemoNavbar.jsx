@@ -125,7 +125,7 @@ const DemoNavbar = props => {
                                                 </NavLink>
                                             </NavItem>
                                             <NavItem onClick={() => toggle(false)}>
-                                                <NavLink to='/#where-is-the-scam' tag={Link} data-testid="where-is-the-scam"
+                                                <NavLink to='/#free-products' tag={Link} data-testid="where-is-the-scam"
                                                          className="nav-link-inner--text text-white cursor-pointer">
                                                     <i className="fa fa-user-secret text-danger mr-3 d-md-none"/>
                                                     {t("FREE_PRODUCT_QUESTION")}

@@ -102,7 +102,7 @@ const Landing = (props) => {
                     <TestProcess/>
                     <MarketingCards/>
                 </section>
-                <section className="section section-lg" id="where-is-the-scam">
+                <section className="section section-lg" id="free-products">
                     <UISection/>
                 </section>
                 <section className="section section-lg pt-0">

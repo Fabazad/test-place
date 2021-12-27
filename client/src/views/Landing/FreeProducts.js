@@ -19,7 +19,7 @@ const FreeProducts = props => {
                 </div>
 
                 <div className="d-flex align-items-center">
-                    <div className="mr-3">
+                    <div className="mr-4">
                         <div className="icon icon-shape icon-shape-info">
                             <i className="fab fa-amazon"/>
                         </div>
@@ -43,7 +43,7 @@ const FreeProducts = props => {
                 </div>
 
                 <div className="d-flex align-items-center mt-5">
-                    <div className="mr-3">
+                    <div className="mr-4">
                         <div className="icon icon-shape icon-shape-info">
                             <i className="fa fa-star"/>
                         </div>
@@ -55,7 +55,7 @@ const FreeProducts = props => {
                 </div>
 
                 <div className="d-flex align-items-center mt-5">
-                    <div className="mr-3">
+                    <div className="mr-4">
                         <div className="icon icon-shape icon-shape-info">
                             <i className="fa fa-shield-alt"/>
                         </div>
@@ -68,7 +68,7 @@ const FreeProducts = props => {
                 </div>
 
                 <div className="d-flex align-items-center mt-5">
-                    <div className="mr-3">
+                    <div className="mr-4">
                         <div className="icon icon-shape icon-shape-info">
                             <i className="fa fa-medal"/>
                         </div>
