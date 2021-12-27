@@ -128,7 +128,7 @@ const DemoNavbar = props => {
                                                 <NavLink to='/#where-is-the-scam' tag={Link} data-testid="where-is-the-scam"
                                                          className="nav-link-inner--text text-white cursor-pointer">
                                                     <i className="fa fa-user-secret text-danger mr-3 d-md-none"/>
-                                                    {t("WHERE_IS_THE_SCAM")}
+                                                    {t("FREE_PRODUCT_QUESTION")}
                                                 </NavLink>
                                             </NavItem>
                                         </>)

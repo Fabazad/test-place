@@ -16,7 +16,7 @@ import SearchEngine from "../../components/SearchEngine";
 import {updateURLParameters} from "../../helpers/urlHelpers";
 import ProductDisplay from "./ProductDisplay";
 import MarketingCards from "./MarketingCards";
-import UISection from "./UISection";
+import UISection from "./FreeProducts";
 import CommunityCard from "./CommunityCard";
 import ContactSections from "./ContactSections";
 import SimpleFooter from "../../components/Footers/SimpleFooter";
@@ -63,6 +63,9 @@ const Landing = (props) => {
                                 <Col lg="12 text-center">
                                     <h1 className="display-4 text-white">
                                         <span>{t("LANDING_PAGE_TITLE_1")}</span>
+                                    </h1>
+                                    <h1 className="display-4 text-white">
+                                        <span>{t("LANDING_PAGE_TITLE_2")}</span>
                                     </h1>
                                 </Col>
                             </Row>
