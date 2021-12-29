@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     googleId: { type: String, default: null, unique: true},
     facebookId: { type: String, default: null, unique: true},
     language: { type: String, required: true, enum: ['fr', 'en', 'ch']},
-    isCertified: { type: Boolean, required: true }
+    isCertified: { type: Boolean, required: true, default: false }
 });
 
 UserSchema.pre('save', function(next) {
