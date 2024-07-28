@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es5" /* Le niveau de compatibilité ECMAScript : "ES5", "ES6"/"ES2015", "ES2016", etc. */,
+    "module": "commonjs" /* Module code generation: "commonjs", "amd", "system", "umd", "es6", "es2015", "esnext". */,
+    "strict": true /* Active toutes les vérifications strictes de types. */,
+    "esModuleInterop": true /* Autorise l'import en mode CommonJS et ES Module. */,
+    "skipLibCheck": true /* Omet la vérification des fichiers de bibliothèques. */,
+    "forceConsistentCasingInFileNames": true /* Conserver la consistence de la casse dans les noms de fichier. */,
+    "outDir": "./dist" /* Répertoire de sortie pour les fichiers compilés. */,
+    "rootDir": "./src" /* Répertoire racine des sources. */,
+    "resolveJsonModule": true /* Autorise l'importation des modules JSON. */,
+    "moduleResolution": "node" /* Utilise la résolution de module node. */,
+    "isolatedModules": true /* Assure que chaque fichier est traité comme un module isolé. */,
+    "noEmitOnError": true /* Empêche l'émission des fichiers de sortie s'il y a des erreurs. */,
+    "baseUrl": "./src",
+    "paths": {
+      "@/utils": ["utils"],
+      "@/configs": ["configs"],
+      "@/middlewares": ["middlewares"]
+    }
+  },
+  "include": ["src/**/*.ts"] /* Fichiers à inclure dans la compilation. */,
+  "exclude": ["node_modules", "**/*.spec.ts"] /* Fichiers à exclure de la compilation. */
+}
