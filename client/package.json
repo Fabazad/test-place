@@ -54,7 +54,6 @@
     "jquery": "^3.5.1",
     "jquery.scrollto": "^2.1.2",
     "moment": "2.24.0",
-    "node-sass": "^4.14.1",
     "nouislider": "13.1.5",
     "react": "16.8.6",
     "react-avatar": "^3.9.7",
@@ -86,7 +85,8 @@
     "react-tagsinput": "^3.19.0",
     "react-toastify": "^5.4.1",
     "reactstrap": "8.0.0",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "sass": "^1.77.8"
   },
   "devDependencies": {
     "history": "^4.10.1",

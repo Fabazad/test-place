@@ -22,5 +22,7 @@
     "url": "https://github.com/Fabazad/test-place/issues"
   },
   "homepage": "https://github.com/Fabazad/test-place#readme",
-  "dependencies": {}
+  "dependencies": {
+    "node-gyp": "^3.8.0"
+  }
 }
