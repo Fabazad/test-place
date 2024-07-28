@@ -6,7 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const httpsRedirect = require("express-https-redirect");
-require("dotenv").config();
+const { PORT } = require("./configs");
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", httpsRedirect(true));
@@ -49,7 +49,7 @@ app.use(function (req, res, next) {
 
 // Run the server!
 const start = () => {
-  const port = process.env.PORT || 5000;
+  const port = PORT || 5001;
   app.listen(port, function () {
     console.log(`Example app listening on port ${port}!`);
   });
