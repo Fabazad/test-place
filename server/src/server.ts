@@ -4,7 +4,7 @@ import path from "path";
 import { configs } from "./configs";
 import { getDatabaseConnection } from "./databaseConnection";
 import { decode } from "./middlewares/decode";
-const routes = require("./routes");
+//const routes = require("./routes");
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "/build")));
 const start = async () => {
   const port = configs.PORT || 5001;
   await getDatabaseConnection().connect();
-  routes(app);
+  // routes(app);
 
   app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "build", "index.html"));

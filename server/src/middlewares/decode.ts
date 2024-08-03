@@ -1,4 +1,5 @@
 import { configs } from "@/configs";
+import { isDecodedUser } from "@/utils/DecodedUser.type";
 import { NextFunction, Request, Response } from "express";
 import {} from "jsonwebtoken";
 import jwtSimple from "jwt-simple";
@@ -20,8 +21,9 @@ export const decode = (req: Request, res: Response, next: NextFunction) => {
   }
   try {
     const decoded = jwtSimple.decode(token, secret);
-    // @ts-ignore
-    req.decoded = decoded;
+    if (isDecodedUser(decoded)) {
+      req.decoded = decoded;
+    }
     return next();
   } catch (err) {
     return next();

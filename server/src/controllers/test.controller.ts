@@ -1,0 +1,337 @@
+const ErrorResponses = require("../helpers/ErrorResponses");
+const UserModel = require("../models/user.model");
+import { configs } from "@/configs";
+import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao.index";
+import { getProductDAO } from "@/entities/Product/dao/product.dao.index";
+import { Product } from "@/entities/Product/product.entity";
+import { getTestDAO } from "@/entities/Test/dao/test.dao.index";
+import { PopulatedTest, TestData } from "@/entities/Test/test.entity";
+import { getUserDAO } from "@/entities/User/dao/user.dao.index";
+import {
+  GLOBAL_TEST_STATUSES,
+  NOTIFICATION_TYPES,
+  Role,
+  TEST_STATUS_PROCESSES,
+  TestStatus,
+  TestStatusUpdateParams,
+} from "@/utils/constants";
+import { CustomResponse } from "@/utils/CustomResponse";
+import { Test } from "aws-sdk/clients/devicefarm";
+import moment from "moment";
+import { Types } from "mongoose";
+
+const { ObjectId } = Types;
+
+export class TestController {
+  private static async generateTestData(params: {
+    product: Product;
+    userId: string;
+    status: TestStatus;
+  }): Promise<
+    CustomResponse<TestData, "seller_not_found" | "dont_have_automatic_acceptance">
+  > {
+    const { product, userId, status } = params;
+    const userDAO = getUserDAO();
+
+    const baseTestData: Pick<TestData, "product" | "seller" | "tester"> = {
+      product: product,
+      seller: product.seller,
+      tester: userId,
+    };
+
+    if (status === TestStatus.REQUEST_ACCEPTED) {
+      if (!product.automaticAcceptance) {
+        return { success: false, errorCode: "dont_have_automatic_acceptance" };
+      }
+
+      const seller = await userDAO.getUser({ userId: product.seller });
+      if (!seller) {
+        return { success: false, errorCode: "seller_not_found" };
+      }
+      return {
+        success: true,
+        data: {
+          ...baseTestData,
+          status: TestStatus.REQUEST_ACCEPTED,
+          sellerMessage: seller.sellerMessage,
+          expirationDate: null,
+          updates: [],
+        },
+      };
+    }
+
+    return {
+      success: true,
+      data: {
+        ...baseTestData,
+        status: TestStatus.REQUESTED,
+        expirationDate: moment().add(7, "days").toDate(),
+        updates: [],
+      },
+    };
+  }
+  static async create(params: {
+    productId: string;
+    userId: string;
+    status: TestStatus;
+  }): Promise<
+    CustomResponse<
+      Test,
+      | "product_not_found"
+      | "not_enough_remaining_requests"
+      | "user_is_seller"
+      | "dont_have_automatic_acceptance"
+      | "seller_not_found"
+    >
+  > {
+    const { productId, userId, status } = params;
+
+    const productDAO = getProductDAO();
+    const testDAO = getTestDAO();
+    const notificationDAO = getNotificationDAO();
+
+    const product = await productDAO.getProductById({ id: productId });
+    if (!product) {
+      return { success: false, errorCode: "product_not_found" };
+    }
+    if (product.remainingTestsCount <= 0) {
+      return { success: false, errorCode: "not_enough_remaining_requests" };
+    }
+    if (product.seller === userId) {
+      return { success: false, errorCode: "user_is_seller" };
+    }
+
+    const testDataRes = await this.generateTestData({ product, userId, status });
+    if (!testDataRes.success) return testDataRes;
+
+    const test = await testDAO.createTest({ testData: testDataRes.data });
+
+    await Promise.all([
+      productDAO.decrementRemainingTestsCount({ productId }),
+      notificationDAO.createNotification({
+        notificationData: {
+          user: test.seller,
+          type: NOTIFICATION_TYPES.NEW_REQUEST.value,
+          test: test,
+          product,
+        },
+      }),
+    ]);
+
+    return { success: true, data: test };
+  }
+
+  static async getStatuses() {
+    return Object.values(TestStatus);
+  }
+
+  static async find(params: {
+    userId: string;
+    searchData: {
+      itemsPerPage: number;
+      page: number;
+      statuses?: Array<TestStatus>;
+      asSeller?: boolean;
+      asTester?: boolean;
+    };
+  }): Promise<CustomResponse<{ hits: Array<PopulatedTest>; totalCount: number }>> {
+    const { userId, searchData } = params;
+    const { itemsPerPage, page, statuses, asSeller, asTester } = searchData;
+
+    const testDAO = getTestDAO();
+
+    const skip = itemsPerPage * (page - 1);
+    const limit = itemsPerPage;
+
+    const [hits, totalCount] = await Promise.all([
+      testDAO.findWIthAllPopulated({
+        statuses,
+        seller: asSeller ? userId : undefined,
+        tester: asTester ? userId : undefined,
+        skip,
+        limit,
+      }),
+      testDAO.count({
+        statuses,
+        seller: asSeller ? userId : undefined,
+        tester: asTester ? userId : undefined,
+      }),
+    ]);
+
+    return { success: true, data: { hits, totalCount } };
+  }
+
+  static async countTestWithStatues(userId, statuses, withGuilty = false) {
+    const query = {
+      $and: [
+        { $or: [{ seller: userId }, { tester: userId }] },
+        {
+          $or: [
+            {
+              expirationDate: { $gt: new Date() },
+            },
+            {
+              expirationDate: { $eq: null },
+            },
+          ],
+        },
+      ],
+      status: statuses,
+    };
+
+    if (statuses.includes(TEST_STATUSES.testCancelled) && withGuilty) {
+      query.cancellationGuilty = userId;
+    }
+
+    return testModel.count(query);
+  }
+
+  private static async checkAndUpdateUserCertification(userId: string) {
+    const [completedTestsCount, cancelledTestsCount, user] = await Promise.all([
+      TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
+      TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED, true),
+      UserModel.findOne({ _id: userId }),
+    ]);
+
+    const isCertified =
+      completedTestsCount * configs.CERTIFIED_RATIO >= cancelledTestsCount;
+    if (user.isCertified === isCertified) return user;
+    const newUser = await UserModel.updateOne(
+      { _id: user._id },
+      { $set: { isCertified } }
+    );
+    return newUser;
+  }
+
+  static async updateStatus({
+    userId,
+    testId,
+    update,
+  }: {
+    userId: string;
+    testId: string;
+    update: TestStatusUpdateParams;
+  }): Promise<
+    CustomResponse<
+      {
+        test: Test;
+        requestedTestsCount: number;
+        processingTestsCount: number;
+        completedTestsCount: number;
+        cancelledTestsCount: number;
+      },
+      | "test_not_found"
+      | "only_allowed_for_tester"
+      | "only_allowed_for_seller"
+      | "wrong_previous_status"
+      | "test_not_found_when_updating"
+    >
+  > {
+    const testDAO = getTestDAO();
+    const notificationDAO = getNotificationDAO();
+
+    const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
+
+    const test = await testDAO.findById({ id: testId });
+
+    if (!test) return { success: false, errorCode: "test_not_found" };
+
+    if (testStatusProcessStep.role) {
+      if (testStatusProcessStep.role === Role.TESTER && test.tester !== userId) {
+        return { success: false, errorCode: "only_allowed_for_tester" };
+      }
+      if (testStatusProcessStep.role === Role.SELLER && test.seller !== userId) {
+        return { success: false, errorCode: "only_allowed_for_seller" };
+      }
+    }
+    if (!testStatusProcessStep.previous.includes(test.status)) {
+      return { success: false, errorCode: "wrong_previous_status" };
+    }
+
+    const newTest = await testDAO.updateTestStatus({
+      id: testId,
+      statusUpdate: update,
+      cancellationGuilty:
+        update.status === TestStatus.TEST_CANCELLED ? userId : undefined,
+    });
+
+    if (newTest === null) {
+      return { success: false, errorCode: "test_not_found_when_updating" };
+    }
+
+    const userForNotification = testStatusProcessStep.role
+      ? testStatusProcessStep.role === Role.TESTER
+        ? test.seller
+        : test.tester
+      : userId === test.seller
+      ? test.tester
+      : test.seller;
+
+    const [
+      requestedTestsCount,
+      processingTestsCount,
+      completedTestsCount,
+      cancelledTestsCount,
+    ] = await Promise.all([
+      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.REQUESTED),
+      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
+      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
+      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED),
+      notificationDAO.createNotification({
+        notificationData: {
+          user: userForNotification,
+          test: newTest,
+          type: testStatusProcessStep.notificationType,
+          product: newTest.product,
+        },
+      }),
+    ]);
+
+    if (
+      update.status === TestStatus.TEST_CANCELLED ||
+      update.status === TestStatus.MONEY_RECEIVED
+    ) {
+      await Promise.all([
+        TestController.checkAndUpdateUserCertification(test.tester),
+        TestController.checkAndUpdateUserCertification(test.seller),
+      ]);
+    }
+
+    return {
+      success: true,
+      data: {
+        test: newTest,
+        requestedTestsCount,
+        processingTestsCount,
+        completedTestsCount,
+        cancelledTestsCount,
+      },
+    };
+  }
+
+  static async getTest(params: {
+    testId: string;
+    userId: string;
+    roles: Array<Role>;
+  }): Promise<CustomResponse<PopulatedTest, "not_found" | "not_allowed">> {
+    const { testId, userId, roles } = params;
+
+    const testDAO = getTestDAO();
+
+    const test = await testDAO.findPopulatedById({ id: testId });
+
+    if (!test) {
+      return { success: false, errorCode: "not_found" };
+    }
+
+    if (
+      test.seller._id !== userId &&
+      test.tester._id !== userId &&
+      !roles.includes(Role.ADMIN)
+    ) {
+      return { success: false, errorCode: "not_allowed" };
+    }
+
+    return { success: true, data: test };
+  }
+}

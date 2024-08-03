@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import z from "zod";
 
 dotenv.config();
 
@@ -26,4 +27,36 @@ export const configs = {
   FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
   FACEBOOK_CALLBACK_URL: process.env.FACEBOOK_CALLBACK_URL,
   FROM_MAIL_ADDRESS: process.env.FROM_MAIL_ADDRESS,
+  SALT_ROUNDS: process.env.SALT_ROUNDS || 10,
+  CERTIFIED_RATIO: Number(process.env.CERTIFIED_RATIO) || 0.3,
+  PUBLICATION_TIME_IN_DAYS: Number(process.env.PUBLICATION_TIME_IN_DAYS) || 30,
 } as const;
+
+z.object({
+  MONGODB_URI: z.string().url(),
+  MONGO_LOCAL_URL: z.string(),
+  JWT_KEY: z.string(),
+  PORT: z.string(),
+  FRONTEND_URL: z.string(),
+  FRONTEND_LOCAL_URL: z.string(),
+  SENDGRID_API_KEY: z.string(),
+  PAYPAL_CLIENT_ID: z.string(),
+  PAYPAL_CLIENT_SECRET: z.string(),
+  PAYPAL_WEBHOOK_ID: z.string(),
+  PAYPAL_WEBHOOK_SECRET: z.string(),
+  AMAZON_ID: z.string(),
+  AMAZON_SECRET: z.string(),
+  AMAZON_BUCKET: z.string(),
+  AMAZON_REGION: z.string(),
+  AMAZON_URL: z.string().url(),
+  AMAZON_PARTNER_ID: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  FACEBOOK_CLIENT_ID: z.string(),
+  FACEBOOK_CLIENT_SECRET: z.string(),
+  FACEBOOK_CALLBACK_URL: z.string().url(),
+  FROM_MAIL_ADDRESS: z.string().email(),
+  SALT_ROUNDS: z.number().min(0),
+  CERTIFIED_RATIO: z.number().min(0).max(1),
+  PUBLICATION_TIME_IN_DAYS: z.number().min(0).max(365),
+}).parse(configs);

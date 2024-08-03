@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "node server",
-    "build": "tsc"
+    "build": "tsc && tsc-alias",
+    "ts-start": "npm run build && node dist/server.js"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.1.1",
@@ -11,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crawler": "^1.2.1",
+    "dayjs": "^1.11.12",
     "dotenv": "^8.6.0",
     "express": "^4.19.2",
     "joi": "^17.4.2",
@@ -23,11 +25,17 @@
     "random-token": "0.0.8",
     "request": "^2.88.0",
     "sendgrid": "^5.2.3",
-    "upgrade": "^1.1.0"
+    "tsc-alias": "^1.8.10",
+    "tslib": "^2.6.3",
+    "upgrade": "^1.1.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
+    "@types/crawler": "^1.2.6",
     "@types/dotenv": "^8.2.0",
-    "@types/jsonwebtoken": "^9.0.6"
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/mongoose-aggregate-paginate-v2": "^1.0.12"
   }
 }

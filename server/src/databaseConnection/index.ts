@@ -1,4 +1,4 @@
-import { createSingletonGetter } from "utils/singleton";
+import { createSingletonGetter } from "@/utils/singleton";
 import { createMongoConnection } from "./mongo";
 import { DatabaseConnection } from "./types";
 
