@@ -1,10 +1,5 @@
-import { configs } from "@/configs.js";
-import { isDecodedUser } from "@/utils/DecodedUser.type.js";
+import { getAuthManager } from "@/libs/AuthManager/index.js";
 import { NextFunction, Request, Response } from "express";
-import {} from "jsonwebtoken";
-import jwtSimple from "jwt-simple";
-
-const secret = configs.JWT_KEY;
 
 export const decode = (req: Request, res: Response, next: NextFunction) => {
   const token =
@@ -16,8 +11,9 @@ export const decode = (req: Request, res: Response, next: NextFunction) => {
     return next();
   }
   try {
-    const decoded = jwtSimple.decode(token, secret);
-    if (isDecodedUser(decoded)) {
+    const authManager = getAuthManager();
+    const decoded = authManager.decodeUser(token);
+    if (decoded) {
       req.decoded = decoded;
     }
     return next();

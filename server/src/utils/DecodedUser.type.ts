@@ -5,6 +5,7 @@ import { getEnumValues } from "./enum.js";
 export const decodedUserSchema = z.object({
   roles: z.array(z.enum(getEnumValues(Role))),
   userId: z.string(),
+  amazonId: z.string().optional(),
 });
 
 export type DecodedUser = z.infer<typeof decodedUserSchema>;

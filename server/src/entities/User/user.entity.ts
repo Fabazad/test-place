@@ -10,7 +10,7 @@ export const userDataSchema = z.object({
   emailValidation: z.boolean().default(false),
   resetPasswordToken: z.string().optional(),
   resetPasswordExpires: z.date().optional(),
-  amazonId: z.string(),
+  amazonId: z.string().optional(),
   testerMessage: z.string().optional(),
   sellerMessage: z.string().optional(),
   roles: z.array(z.nativeEnum(Role)).min(1),

@@ -1,15 +1,15 @@
+import { getAuthManager } from "@/libs/AuthManager/index.js";
 import { Role } from "@/utils/constants.js";
 import { NextFunction, Request, Response } from "express";
 
 export const withAuth =
   (role: Role | null = null) =>
   (req: Request, res: Response, next: NextFunction) => {
-    if (
-      req.decoded &&
-      (!role ||
-        req.decoded.roles.includes(role) ||
-        req.decoded.roles.includes(Role.ADMIN))
-    ) {
+    if (role === null) return next();
+
+    const authManager = getAuthManager();
+
+    if (authManager.checkRole(req.decoded, role)) {
       return next();
     }
     return res.status(401).send("Unauthorized");

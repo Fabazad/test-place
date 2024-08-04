@@ -1,36 +1,17 @@
-import { configs } from "@/configs.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
-import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import { User, userDataSchema } from "../user.entity.js";
 import { UserDAO } from "./user.dao.type.js";
 
 const createUserDAO = (): UserDAO => {
-  const UserSchema = new mongoose.Schema<User>(
+  const userSchema = new mongoose.Schema<User>(
     generateMongooseSchemaFromZod(userDataSchema)
   );
 
-  UserSchema.pre("save", function (next) {
-    // Check if document is new or a new password has been set
-    if (this.isNew || this.isModified("password")) {
-      // Saving reference to this because of changing scopes
-      const document = this;
-      if (document.password === null) return next();
-      bcrypt.hash(document.password, configs.SALT_ROUNDS, function (err, hashedPassword) {
-        if (err) {
-          next(err);
-        } else {
-          document.password = hashedPassword;
-          next();
-        }
-      });
-    } else {
-      next();
-    }
-  });
+  userSchema.index({ email: 1 }, { unique: true });
 
-  const userModel = mongoose.model<User>("User", UserSchema);
+  const userModel = mongoose.model<User>("User", userSchema);
 
   return {
     getUser: async ({ userId }) => {
@@ -46,6 +27,43 @@ const createUserDAO = (): UserDAO => {
       if (!user) return null;
       const { password, ...userWithoutPassword } = user;
       return JSON.parse(JSON.stringify(userWithoutPassword));
+    },
+    createUser: async ({ userData }) => {
+      try {
+        const user = await userModel.create(userData);
+        const { password, ...userWithoutPassword } = user;
+        return { success: true, data: JSON.parse(JSON.stringify(userWithoutPassword)) };
+      } catch (err: any) {
+        if (err.code === 11000) {
+          return { success: false, errorCode: "duplicate_email" };
+        }
+        throw err;
+      }
+    },
+    upToDateLastLogin: async ({ userId }) => {
+      const user = await userModel
+        .findByIdAndUpdate(userId, { $set: { lastLogin: new Date() } }, { new: true })
+        .lean();
+      if (!user) return null;
+      const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
+    },
+    setResetPasswordToken: async ({ userId, token, expires }) => {
+      const user = await userModel
+        .findByIdAndUpdate(
+          userId,
+          { $set: { resetPasswordToken: token, resetPasswordExpires: expires } },
+          { new: true }
+        )
+        .lean();
+      if (!user) return null;
+      const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
+    },
+    getUserWithPassword: async ({ email }) => {
+      const user = await userModel.findOne({ email }).lean();
+      if (!user) return null;
+      return JSON.parse(JSON.stringify(user));
     },
   };
 };
