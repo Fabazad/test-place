@@ -1,4 +1,4 @@
-import { Role, ROLES } from "@/utils/constants";
+import { Role } from "@/utils/constants.js";
 import { NextFunction, Request, Response } from "express";
 
 export const withAuth =
@@ -8,7 +8,7 @@ export const withAuth =
       req.decoded &&
       (!role ||
         req.decoded.roles.includes(role) ||
-        req.decoded.roles.includes(ROLES.ADMIN))
+        req.decoded.roles.includes(Role.ADMIN))
     ) {
       return next();
     }

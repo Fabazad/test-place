@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORIES_MAP } from "../productCategory.constants";
+import { PRODUCT_CATEGORIES_MAP } from "../productCategory.constants.js";
 
 export const getCategory = ($: cheerio.CheerioAPI): string | undefined => {
   const $category = $('#searchDropdownBox option[selected="selected"]');

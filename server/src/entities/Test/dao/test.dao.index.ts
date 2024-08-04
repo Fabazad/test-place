@@ -1,9 +1,9 @@
-import { TestStatus } from "@/utils/constants";
-import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod";
-import { createSingletonGetter } from "@/utils/singleton";
-import mongoose from "mongoose";
-import { TestData, testDataSchema } from "../test.entity";
-import { TestDAO } from "./test.dao.type";
+import { TestStatus } from "@/utils/constants.js";
+import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
+import { createSingletonGetter } from "@/utils/singleton.js";
+import mongoose, { FilterQuery } from "mongoose";
+import { Test, TestData, testDataSchema } from "../test.entity.js";
+import { TestDAO } from "./test.dao.type.js";
 
 export const createTestDAO = (): TestDAO => {
   const testMongooseSchema = new mongoose.Schema(
@@ -109,6 +109,35 @@ export const createTestDAO = (): TestDAO => {
       const test = await testModel.findById(id).populate(["seller", "tester"]);
       if (!test) return null;
       return JSON.parse(JSON.stringify(test));
+    },
+    countTestWithStatues: async ({ userId, statuses, withGuilty = false }) => {
+      const query: FilterQuery<Test> = {
+        $and: [
+          { $or: [{ seller: userId }, { tester: userId }] },
+          {
+            $or: [
+              {
+                expirationDate: { $gt: new Date() },
+              },
+              {
+                expirationDate: { $eq: null },
+              },
+            ],
+          },
+        ],
+        status: { $in: statuses },
+      };
+
+      if (withGuilty) {
+        query.$and?.push({
+          $or: [
+            { cancellationGuilty: userId },
+            { cancellationGuilty: { $exists: false } },
+          ],
+        });
+      }
+
+      return testModel.countDocuments(query);
     },
   };
 };

@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5" /* Le niveau de compatibilité ECMAScript : "ES5", "ES6"/"ES2015", "ES2016", etc. */,
-    "module": "commonjs" /* Module code generation: "commonjs", "amd", "system", "umd", "es6", "es2015", "esnext". */,
-    "strict": true /* Active toutes les vérifications strictes de types. */,
-    "esModuleInterop": true /* Autorise l'import en mode CommonJS et ES Module. */,
-    "skipLibCheck": true /* Omet la vérification des fichiers de bibliothèques. */,
-    "forceConsistentCasingInFileNames": true /* Conserver la consistence de la casse dans les noms de fichier. */,
-    "outDir": "./dist" /* Répertoire de sortie pour les fichiers compilés. */,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
     "rootDir": "./src" /* Répertoire racine des sources. */,
     "resolveJsonModule": true /* Autorise l'importation des modules JSON. */,
     "moduleResolution": "nodenext" /* Utilise la résolution de module node. */,
@@ -22,7 +22,7 @@
     "allowJs": true,
     "paths": {
       "@/utils/*": ["utils/*"],
-      "@/configs": ["configs"],
+      "@/configs.js": ["configs.js"],
       "@/middlewares/*": ["middlewares/*"],
       "@/routes/*": ["routes/*"],
       "@/controllers/*": ["controllers/*"],

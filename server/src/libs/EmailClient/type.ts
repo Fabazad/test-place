@@ -1,5 +1,5 @@
-import { Notification } from "@/models/notification.model";
-import { Language } from "@/utils/Language";
+import { Notification } from "@/entities/Notification/notification.entity.js";
+import { Language } from "@/utils/Language.js";
 
 export type EmailClient = {
   sendContactUsMail: (params: {

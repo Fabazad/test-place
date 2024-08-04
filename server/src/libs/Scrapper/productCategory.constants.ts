@@ -1,4 +1,4 @@
-import { ProductCategory } from "@/utils/constants";
+import { ProductCategory } from "@/entities/Product/product.constants.js";
 
 const PRODUCT_CATEGORIES_RECORD: Record<ProductCategory, string> = {
   "auto-moto": "Auto et Moto",

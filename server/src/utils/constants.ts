@@ -1,5 +1,5 @@
 import z from "zod";
-import { InferEnum, InferKeyAsEnum } from "./inferEnum";
+import { InferEnum, InferKeyAsEnum } from "./inferEnum.js";
 
 export const TestStatus = {
   REQUESTED: "REQUESTED",
@@ -163,7 +163,7 @@ export const AUTH_CONDITIONS = {
 
 export type AuthCondition = InferEnum<typeof AUTH_CONDITIONS>;
 
-export const GLOBAL_TEST_STATUSES = {
+export const GLOBAL_TEST_STATUSES: Record<string, Array<TestStatus>> = {
   REQUESTED: [
     TestStatus.REQUESTED,
     TestStatus.REQUEST_CANCELLED,

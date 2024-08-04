@@ -1,8 +1,8 @@
-const TestController = require("../controllers/test.controller");
-import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao.index";
-import { Notification } from "@/entities/Notification/notification.entity";
-import { GLOBAL_TEST_STATUSES } from "@/utils/constants";
-import { CustomResponse } from "@/utils/CustomResponse";
+import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao.index.js";
+import { Notification } from "@/entities/Notification/notification.entity.js";
+import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
+import { GLOBAL_TEST_STATUSES } from "@/utils/constants.js";
+import { CustomResponse } from "@/utils/CustomResponse.js";
 
 export class NotificationController {
   static async getUserNotifications(userId: string): Promise<
@@ -17,6 +17,7 @@ export class NotificationController {
         }
     >
   > {
+    const testDAO = getTestDAO();
     const notifications = await getNotificationDAO().getUserNotifications(userId);
 
     const hasNewNotifications = notifications.some(
@@ -30,10 +31,22 @@ export class NotificationController {
         completedTestsCount,
         cancelledTestsCount,
       ] = await Promise.all([
-        TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.REQUESTED),
-        TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
-        TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
-        TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.REQUESTED,
+        }),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.PROCESSING,
+        }),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.COMPLETED,
+        }),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.CANCELLED,
+        }),
       ]);
 
       return {

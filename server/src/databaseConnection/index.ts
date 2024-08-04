@@ -1,6 +1,6 @@
-import { createSingletonGetter } from "@/utils/singleton";
-import { createMongoConnection } from "./mongo";
-import { DatabaseConnection } from "./types";
+import { createSingletonGetter } from "@/utils/singleton.js";
+import { createMongoConnection } from "./mongo/index.js";
+import { DatabaseConnection } from "./types.js";
 
 const createDatabaseConnection = (): DatabaseConnection => {
   return createMongoConnection();

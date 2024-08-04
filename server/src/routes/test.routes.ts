@@ -1,13 +1,13 @@
-import { TestController } from "@/controllers/test.controller";
-import { withAuth } from "@/middlewares/withAuth";
-import { Role, TestStatus, testStatusUpdateParamsSchema } from "@/utils/constants";
-import { handleResponseForRoute } from "@/utils/CustomResponse";
+import { TestController } from "@/controllers/test.controller.js";
+import { withAuth } from "@/middlewares/withAuth.js";
+import { Role, TestStatus, testStatusUpdateParamsSchema } from "@/utils/constants.js";
+import { handleResponseForRoute } from "@/utils/CustomResponse.js";
 import {
   BadRequestError,
   NotFoundRequestError,
   UnauthorizedRequestError,
-} from "@/utils/exceptions";
-import { zodValidationForRoute } from "@/utils/zodValidationForRoute";
+} from "@/utils/exceptions/index.js";
+import { zodValidationForRoute } from "@/utils/zodValidationForRoute.js";
 import { Router } from "express";
 import z from "zod";
 

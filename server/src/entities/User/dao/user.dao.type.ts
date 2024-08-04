@@ -1,6 +1,9 @@
-import { User } from "../user.entity";
+import { UserWithoutPassword } from "../user.entity.js";
 
 export type UserDAO = {
-  getUser: (params: { userId: string }) => Promise<User | null>;
-  setIsCertified: (params: { userId: string; isCertified: boolean }) => Promise<void>;
+  getUser: (params: { userId: string }) => Promise<UserWithoutPassword | null>;
+  setIsCertified: (params: {
+    userId: string;
+    isCertified: boolean;
+  }) => Promise<UserWithoutPassword | null>;
 };

@@ -1,13 +1,10 @@
-import { configs } from "@/configs";
+import { configs } from "@/configs.js";
 import mongoose from "mongoose";
-import { DatabaseConnection } from "../types";
+import { DatabaseConnection } from "../types.js";
 
 export const createMongoConnection = (): DatabaseConnection => {
   return {
     connect: async () => {
-      if (!configs.MONGODB_URI) {
-        throw new Error("MONGODB_URI is not set");
-      }
       await mongoose.connect(configs.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,

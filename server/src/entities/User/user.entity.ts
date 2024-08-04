@@ -1,6 +1,6 @@
-import { Role } from "@/utils/constants";
-import { Language } from "@/utils/Language";
-import { savedDataSchema } from "@/utils/savedDataSchema";
+import { Role } from "@/utils/constants.js";
+import { Language } from "@/utils/Language.js";
+import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import z from "zod";
 
 export const userDataSchema = z.object({
@@ -25,3 +25,4 @@ export type UserData = z.infer<typeof userDataSchema>;
 
 export const userSchema = userDataSchema.extend(savedDataSchema);
 export type User = z.infer<typeof userSchema>;
+export type UserWithoutPassword = Omit<User, "password">;

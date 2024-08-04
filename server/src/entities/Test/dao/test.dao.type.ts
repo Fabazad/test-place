@@ -1,5 +1,5 @@
-import { TestStatus, TestStatusUpdateParams } from "@/utils/constants";
-import { PopulatedTest, Test, TestData } from "../test.entity";
+import { TestStatus, TestStatusUpdateParams } from "@/utils/constants.js";
+import { PopulatedTest, Test, TestData } from "../test.entity.js";
 
 export type TestDAO = {
   createTest: (params: { testData: TestData }) => Promise<Test>;
@@ -22,4 +22,9 @@ export type TestDAO = {
     cancellationGuilty?: string;
   }) => Promise<Test | null>;
   findPopulatedById: (params: { id: string }) => Promise<PopulatedTest | null>;
+  countTestWithStatues: (params: {
+    userId: string;
+    statuses: Array<TestStatus>;
+    withGuilty?: boolean;
+  }) => Promise<number>;
 };

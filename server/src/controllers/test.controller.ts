@@ -1,12 +1,11 @@
-const ErrorResponses = require("../helpers/ErrorResponses");
-const UserModel = require("../models/user.model");
-import { configs } from "@/configs";
-import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao.index";
-import { getProductDAO } from "@/entities/Product/dao/product.dao.index";
-import { Product } from "@/entities/Product/product.entity";
-import { getTestDAO } from "@/entities/Test/dao/test.dao.index";
-import { PopulatedTest, TestData } from "@/entities/Test/test.entity";
-import { getUserDAO } from "@/entities/User/dao/user.dao.index";
+import { configs } from "@/configs.js";
+import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao.index.js";
+import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
+import { Product } from "@/entities/Product/product.entity.js";
+import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
+import { PopulatedTest, TestData } from "@/entities/Test/test.entity.js";
+import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
+import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import {
   GLOBAL_TEST_STATUSES,
   NOTIFICATION_TYPES,
@@ -14,13 +13,10 @@ import {
   TEST_STATUS_PROCESSES,
   TestStatus,
   TestStatusUpdateParams,
-} from "@/utils/constants";
-import { CustomResponse } from "@/utils/CustomResponse";
-import { Test } from "aws-sdk/clients/devicefarm";
+} from "@/utils/constants.js";
+import { CustomResponse } from "@/utils/CustomResponse.js";
+import { Test } from "aws-sdk/clients/devicefarm.js";
 import moment from "moment";
-import { Types } from "mongoose";
-
-const { ObjectId } = Types;
 
 export class TestController {
   private static async generateTestData(params: {
@@ -161,46 +157,39 @@ export class TestController {
     return { success: true, data: { hits, totalCount } };
   }
 
-  static async countTestWithStatues(userId, statuses, withGuilty = false) {
-    const query = {
-      $and: [
-        { $or: [{ seller: userId }, { tester: userId }] },
-        {
-          $or: [
-            {
-              expirationDate: { $gt: new Date() },
-            },
-            {
-              expirationDate: { $eq: null },
-            },
-          ],
-        },
-      ],
-      status: statuses,
-    };
+  private static async checkAndUpdateUserCertification(
+    userId: string
+  ): Promise<
+    CustomResponse<
+      UserWithoutPassword,
+      "user_not_found" | "user_not_found_while_updating"
+    >
+  > {
+    const testDAO = getTestDAO();
+    const userDAO = getUserDAO();
 
-    if (statuses.includes(TEST_STATUSES.testCancelled) && withGuilty) {
-      query.cancellationGuilty = userId;
-    }
-
-    return testModel.count(query);
-  }
-
-  private static async checkAndUpdateUserCertification(userId: string) {
     const [completedTestsCount, cancelledTestsCount, user] = await Promise.all([
-      TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
-      TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED, true),
-      UserModel.findOne({ _id: userId }),
+      testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.COMPLETED }),
+      testDAO.countTestWithStatues({
+        userId,
+        statuses: GLOBAL_TEST_STATUSES.CANCELLED,
+        withGuilty: true,
+      }),
+      userDAO.getUser({ userId }),
     ]);
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
 
     const isCertified =
       completedTestsCount * configs.CERTIFIED_RATIO >= cancelledTestsCount;
-    if (user.isCertified === isCertified) return user;
-    const newUser = await UserModel.updateOne(
-      { _id: user._id },
-      { $set: { isCertified } }
-    );
-    return newUser;
+
+    if (user.isCertified === isCertified) return { success: true, data: user };
+
+    const newUser = await userDAO.setIsCertified({ userId, isCertified });
+
+    if (!newUser) return { success: false, errorCode: "user_not_found_while_updating" };
+
+    return { success: true, data: newUser };
   }
 
   static async updateStatus({
@@ -273,10 +262,10 @@ export class TestController {
       completedTestsCount,
       cancelledTestsCount,
     ] = await Promise.all([
-      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.REQUESTED),
-      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
-      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
-      this.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.CANCELLED),
+      testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.REQUESTED }),
+      testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.PROCESSING }),
+      testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.COMPLETED }),
+      testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.CANCELLED }),
       notificationDAO.createNotification({
         notificationData: {
           user: userForNotification,

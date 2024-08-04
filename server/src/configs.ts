@@ -1,9 +1,7 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import z from "zod";
 
-dotenv.config();
-
-export const configs = {
+const configsToCheck = {
   MONGODB_URI: process.env.MONGODB_URI,
   MONGO_LOCAL_URL: process.env.MONGO_LOCAL_URL,
   JWT_KEY: process.env.JWT_KEY,
@@ -32,31 +30,33 @@ export const configs = {
   PUBLICATION_TIME_IN_DAYS: Number(process.env.PUBLICATION_TIME_IN_DAYS) || 30,
 } as const;
 
-z.object({
-  MONGODB_URI: z.string().url(),
-  MONGO_LOCAL_URL: z.string(),
-  JWT_KEY: z.string(),
-  PORT: z.string(),
-  FRONTEND_URL: z.string(),
-  FRONTEND_LOCAL_URL: z.string(),
-  SENDGRID_API_KEY: z.string(),
-  PAYPAL_CLIENT_ID: z.string(),
-  PAYPAL_CLIENT_SECRET: z.string(),
-  PAYPAL_WEBHOOK_ID: z.string(),
-  PAYPAL_WEBHOOK_SECRET: z.string(),
-  AMAZON_ID: z.string(),
-  AMAZON_SECRET: z.string(),
-  AMAZON_BUCKET: z.string(),
-  AMAZON_REGION: z.string(),
-  AMAZON_URL: z.string().url(),
-  AMAZON_PARTNER_ID: z.string(),
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-  FACEBOOK_CLIENT_ID: z.string(),
-  FACEBOOK_CLIENT_SECRET: z.string(),
-  FACEBOOK_CALLBACK_URL: z.string().url(),
-  FROM_MAIL_ADDRESS: z.string().email(),
-  SALT_ROUNDS: z.number().min(0),
-  CERTIFIED_RATIO: z.number().min(0).max(1),
-  PUBLICATION_TIME_IN_DAYS: z.number().min(0).max(365),
-}).parse(configs);
+export const configs = z
+  .object({
+    MONGODB_URI: z.string().url(),
+    MONGO_LOCAL_URL: z.string(),
+    JWT_KEY: z.string(),
+    PORT: z.string(),
+    FRONTEND_URL: z.string(),
+    FRONTEND_LOCAL_URL: z.string(),
+    SENDGRID_API_KEY: z.string(),
+    PAYPAL_CLIENT_ID: z.string(),
+    PAYPAL_CLIENT_SECRET: z.string(),
+    PAYPAL_WEBHOOK_ID: z.string(),
+    PAYPAL_WEBHOOK_SECRET: z.string(),
+    AMAZON_ID: z.string(),
+    AMAZON_SECRET: z.string(),
+    AMAZON_BUCKET: z.string(),
+    AMAZON_REGION: z.string(),
+    AMAZON_URL: z.string().url(),
+    AMAZON_PARTNER_ID: z.string(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+    FACEBOOK_CLIENT_ID: z.string(),
+    FACEBOOK_CLIENT_SECRET: z.string(),
+    FACEBOOK_CALLBACK_URL: z.string().url(),
+    FROM_MAIL_ADDRESS: z.string().email(),
+    SALT_ROUNDS: z.number().min(0),
+    CERTIFIED_RATIO: z.number().min(0).max(1),
+    PUBLICATION_TIME_IN_DAYS: z.number().min(0).max(365),
+  })
+  .parse(configsToCheck);

@@ -1,13 +1,13 @@
-import { createSingletonGetter } from "@/utils/singleton";
+import { createSingletonGetter } from "@/utils/singleton.js";
 import Crawler from "crawler";
-import { getCategory } from "./productHelpers/getCategory";
-import { getDescription } from "./productHelpers/getDescription";
-import { getImages } from "./productHelpers/getImages";
-import { getIsPrime } from "./productHelpers/getIsPrime";
-import { getPrice } from "./productHelpers/getPrice";
-import { getSeller } from "./productHelpers/getSeller";
-import { getTitle } from "./productHelpers/getTitle";
-import { Scrapper } from "./type";
+import { getCategory } from "./productHelpers/getCategory.js";
+import { getDescription } from "./productHelpers/getDescription.js";
+import { getImages } from "./productHelpers/getImages.js";
+import { getIsPrime } from "./productHelpers/getIsPrime.js";
+import { getPrice } from "./productHelpers/getPrice.js";
+import { getSeller } from "./productHelpers/getSeller.js";
+import { getTitle } from "./productHelpers/getTitle.js";
+import { Scrapper } from "./type.js";
 
 const createScrapper = (): Scrapper => {
   return {

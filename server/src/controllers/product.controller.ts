@@ -1,20 +1,20 @@
-import { configs } from "@/configs";
-import { getProductDAO } from "@/entities/Product/dao/product.dao.index";
-import { ProductSearchData } from "@/entities/Product/product.constants";
+import { configs } from "@/configs.js";
+import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
+import {
+  PRODUCT_CATEGORIES,
+  ProductCategory,
+  ProductSearchData,
+  ProductUpdateData,
+} from "@/entities/Product/product.constants.js";
 import {
   PopulatedProduct,
   Product,
   ProductData,
-} from "@/entities/Product/product.entity";
-import { getScrapper } from "@/libs/Scrapper";
-import { CustomResponse } from "@/utils/CustomResponse";
+} from "@/entities/Product/product.entity.js";
+import { getScrapper } from "@/libs/Scrapper/index.js";
+import { Role } from "@/utils/constants.js";
+import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
-
-const constants = require("../helpers/constants");
-const ProductModel = require("../models/product.model");
-const UserModel = require("../models/user.model");
-const ErrorResponses = require("../helpers/ErrorResponses");
-const { ROLES, VALID_TEST_STATUSES } = constants;
 
 export class ProductController {
   static async scrapFromAsin(params: { asin: string }): Promise<
@@ -91,90 +91,94 @@ export class ProductController {
     return { success: true, data: queryRes };
   }
 
-  static async getCategories() {
-    return new Promise((resolve, reject) => {
-      const categories = constants.PRODUCT_CATEGORIES;
-      if (categories && categories.length > 0) {
-        resolve(categories);
-      } else {
-        reject({ status: 500, message: "Missing categories." });
-      }
-    });
+  static async getCategories(): Promise<
+    CustomResponse<Array<ProductCategory>, "missing_categories">
+  > {
+    const categories = PRODUCT_CATEGORIES;
+    if (categories && categories.length > 0) {
+      return { success: true, data: Array.from(categories) };
+    }
+    return { success: false, errorCode: "missing_categories" };
   }
 
-  static async getOne(productId, userId) {
-    return new Promise((resolve, reject) => {
-      if (!ObjectId.isValid(productId)) {
-        return reject({ status: 400, message: "Not a product id" });
-      }
-      ProductModel.findById(productId)
-        .populate("seller")
-        .then((product) => {
-          if (product) {
-            const seller = {
-              createdAt: product.seller.createdAt,
-              email: product.seller.email,
-              gender: product.seller.gender,
-              name: product.seller.name,
-              roles: product.seller.roles,
-              sellerMessage: product.seller.sellerMessage,
-              _id: product.seller._id,
-              isCertified: product.seller.isCertified,
-            };
-            product.seller = seller;
-            resolve(product);
-          } else return reject({ status: 404, message: "Couldn't find product" });
-        })
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
-    });
+  static async getOne(params: {
+    productId: string;
+  }): Promise<CustomResponse<PopulatedProduct, "not_found">> {
+    const { productId } = params;
+    const productDAO = getProductDAO();
+
+    const product = await productDAO.getPopulatedProductById({ id: productId });
+    if (!product) return { success: false, errorCode: "not_found" };
+
+    return { success: true, data: product };
   }
 
-  static async update(productId, fields, user) {
-    return new Promise((resolve, reject) => {
-      ProductModel.findById(productId)
-        .then((product) => {
-          if (
-            product.seller.toString() !== user.userId &&
-            !user.roles.includes(ROLES.ADMIN)
-          ) {
-            return reject({
-              status: 400,
-              message: "You're not the seller of this product.",
-            });
-          }
+  static async update(params: {
+    productId: string;
+    published?: boolean;
+    fields: ProductUpdateData;
+    user: {
+      userId: string;
+      roles: Array<Role>;
+    };
+  }): Promise<
+    CustomResponse<Product, "not_found" | "not_allowed" | "not_found_when_updating">
+  > {
+    const {
+      productId,
+      published,
+      fields,
+      user: { userId, roles },
+    } = params;
+    const productDAO = getProductDAO();
 
-          if (fields.published || fields.publishExpirationDate) {
-            fields.publishExpirationDate = new Date().setMonth(new Date().getMonth() + 1);
-            delete fields.published;
-          }
-          if (fields.published === false) {
-            fields.publishExpirationDate = null;
-            delete fields.published;
-          }
+    const product = await productDAO.getProductById({ id: productId });
+    if (!product) return { success: false, errorCode: "not_found" };
 
-          ProductModel.findByIdAndUpdate(productId, fields)
-            .then(resolve)
-            .catch((err) => reject(ErrorResponses.mongoose(err)));
-        })
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
+    if (product.seller !== userId && !roles.includes(Role.ADMIN)) {
+      return { success: false, errorCode: "not_allowed" };
+    }
+
+    const publishExpirationDate =
+      published || product.publishExpirationDate
+        ? dayjs().add(configs.PUBLICATION_TIME_IN_DAYS, "d").toDate()
+        : null;
+
+    const newProduct = await productDAO.updateProduct({
+      id: productId,
+      updates: {
+        publishExpirationDate,
+        ...fields,
+      },
     });
+
+    if (!newProduct) return { success: false, errorCode: "not_found_when_updating" };
+
+    return { success: true, data: newProduct };
   }
 
-  static async delete(productId, userId) {
-    return new Promise(async (resolve, reject) => {
-      const product = await ProductModel.findById(productId);
+  static async delete(params: {
+    productId: string;
+    userId: string;
+  }): Promise<
+    CustomResponse<Product, "not_found" | "not_allowed" | "not_found_when_deleting">
+  > {
+    const { productId, userId } = params;
 
-      if (!product) {
-        return reject({ status: 400, message: "Wrong product id" });
-      }
+    const productDAO = getProductDAO();
 
-      if (product.seller.toString() !== userId) {
-        return reject({ status: 401, message: "Unauthorized" });
-      }
+    const product = await productDAO.getProductById({ id: productId });
+    if (!product) return { success: false, errorCode: "not_found" };
 
-      ProductModel.findByIdAndDelete(productId)
-        .then(resolve)
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
-    });
+    if (product.seller !== userId) {
+      return { success: false, errorCode: "not_allowed" };
+    }
+
+    const oldProduct = await productDAO.findAndDeleteProduct({ id: productId });
+
+    if (oldProduct === null)
+      return { success: false, errorCode: "not_found_when_deleting" };
+
+    return { success: true, data: oldProduct };
   }
 }

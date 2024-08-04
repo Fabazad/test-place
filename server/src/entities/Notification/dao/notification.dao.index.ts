@@ -1,12 +1,12 @@
-import { getEmailClient } from "@/libs/EmailClient";
-import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod";
-import { savedDataSchema } from "@/utils/savedDataSchema";
-import { createSingletonGetter } from "@/utils/singleton";
+import { getEmailClient } from "@/libs/EmailClient/index.js";
+import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
+import { savedDataSchema } from "@/utils/savedDataSchema.js";
+import { createSingletonGetter } from "@/utils/singleton.js";
 import moment from "moment";
 import mongoose from "mongoose";
 import z from "zod";
-import { NotificationData, notificationDataSchema } from "../notification.entity";
-import { NotificationDAO } from "./notification.dao.type";
+import { notificationDataSchema } from "../notification.entity.js";
+import { NotificationDAO } from "./notification.dao.type.js";
 
 export const createNotificationDAO = (): NotificationDAO => {
   const notificationMongooseSchema = new mongoose.Schema(
@@ -21,29 +21,31 @@ export const createNotificationDAO = (): NotificationDAO => {
     await getEmailClient().sendNotificationMail({ notification: doc });
   });
 
-  const notificationModel = mongoose.model<NotificationData>(
+  const notificationModel = mongoose.model<Notification>(
     "Notification",
     notificationMongooseSchema
   );
 
   return {
     getUserNotifications: async (userId) => {
-      const res = await notificationModel.find(
-        {
-          user: userId,
-          $or: [
-            {
-              viewDate: null,
-            },
-            {
-              viewDate: {
-                $gte: moment().subtract(1, "day").toDate(),
+      const res = await notificationModel
+        .find(
+          {
+            user: userId,
+            $or: [
+              {
+                viewDate: null,
               },
-            },
-          ],
-        },
-        { sort: { createdAt: -1 }, limit: 20, lean: true }
-      );
+              {
+                viewDate: {
+                  $gte: moment().subtract(1, "day").toDate(),
+                },
+              },
+            ],
+          },
+          { sort: { createdAt: -1 }, limit: 20, lean: true }
+        )
+        .lean();
       return JSON.parse(JSON.stringify(res));
     },
     setNotificationsViewed: async ({ userId, notificationsIds }) => {
@@ -58,6 +60,10 @@ export const createNotificationDAO = (): NotificationDAO => {
           },
         }
       );
+    },
+    createNotification: async ({ notificationData }) => {
+      const notification = await notificationModel.create(notificationData);
+      return JSON.parse(JSON.stringify(notification));
     },
   };
 };

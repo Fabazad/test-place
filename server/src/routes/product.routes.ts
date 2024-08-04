@@ -1,18 +1,21 @@
-import { productSearchDataSchema } from "@/entities/Product/product.constants";
-import { productDataSchema } from "@/entities/Product/product.entity";
-import { decode } from "@/middlewares/decode";
-import { withAuth } from "@/middlewares/withAuth";
-import { Role } from "@/utils/constants";
-import { handleResponseForRoute } from "@/utils/CustomResponse";
+import {
+  productSearchDataSchema,
+  productUpdateDataSchema,
+} from "@/entities/Product/product.constants.js";
+import { productDataSchema } from "@/entities/Product/product.entity.js";
+import { decode } from "@/middlewares/decode.js";
+import { withAuth } from "@/middlewares/withAuth.js";
+import { Role } from "@/utils/constants.js";
+import { handleResponseForRoute } from "@/utils/CustomResponse.js";
 import {
   NotFoundRequestError,
   ServerRequestError,
   UnauthorizedRequestError,
-} from "@/utils/exceptions";
-import { zodValidationForRoute } from "@/utils/zodValidationForRoute";
+} from "@/utils/exceptions/index.js";
+import { zodValidationForRoute } from "@/utils/zodValidationForRoute.js";
 import express from "express";
 import z from "zod";
-import { ProductController } from "../controllers/product.controller";
+import { ProductController } from "../controllers/product.controller.js";
 
 const router = express.Router();
 
@@ -37,7 +40,7 @@ router.get("/srapFromAsin/:asin", withAuth(Role.SELLER), async (request, reply) 
 });
 
 router.post("/create", withAuth(Role.SELLER), async (request, reply) => {
-  const userId = request.decoded?.userId;
+  const userId = request.decoded!.userId;
   const { item } = zodValidationForRoute(
     request.body,
     z.object({
@@ -73,30 +76,66 @@ router.get("/find", decode, async (request, reply) => {
 });
 
 router.get("/categories", async (request, reply) => {
-  ProductController.getCategories()
-    .then((res) => reply.status(200).send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const res = await ProductController.getCategories();
+  reply.send(
+    handleResponseForRoute(res, {
+      missing_categories: new NotFoundRequestError("missing_categories"),
+    })
+  );
 });
 
 router.get("/:productId", async (request, reply) => {
-  const { productId } = request.params;
-  ProductController.getOne(productId)
-    .then((res) => reply.status(200).send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const { productId } = zodValidationForRoute(
+    request.params,
+    z.object({ productId: z.string() })
+  );
+  const res = await ProductController.getOne({ productId });
+  reply.send(
+    handleResponseForRoute(res, {
+      not_found: new NotFoundRequestError("not_found"),
+    })
+  );
 });
 
 router.post("/update", withAuth(Role.SELLER), async (request, reply) => {
-  const { itemId, fields } = request.body;
-  ProductController.update(itemId, fields, request.decoded)
-    .then((res) => reply.status(200).send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const user = request.decoded!;
+  const { itemId, fields, published } = zodValidationForRoute(
+    request.body,
+    z.object({
+      itemId: z.string(),
+      published: z.boolean().optional(),
+      fields: productUpdateDataSchema,
+    })
+  );
+  const res = await ProductController.update({
+    productId: itemId,
+    published,
+    fields,
+    user,
+  });
+  reply.send(
+    handleResponseForRoute(res, {
+      not_found: new NotFoundRequestError("not_found"),
+      not_allowed: new UnauthorizedRequestError("not_allowed"),
+      not_found_when_updating: new NotFoundRequestError("not_found_when_updating"),
+    })
+  );
 });
 
 router.delete("/:productId", withAuth(Role.SELLER), async (request, reply) => {
-  const { productId } = request.params;
-  ProductController.delete(productId, request.decoded.userId)
-    .then((res) => reply.status(200).send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const { userId } = request.decoded!;
+  const { productId } = zodValidationForRoute(
+    request.params,
+    z.object({ productId: z.string() })
+  );
+  const res = await ProductController.delete({ productId, userId });
+  reply.send(
+    handleResponseForRoute(res, {
+      not_found: new NotFoundRequestError("not_found"),
+      not_allowed: new UnauthorizedRequestError("not_allowed"),
+      not_found_when_deleting: new NotFoundRequestError("not_found_when_deleting"),
+    })
+  );
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
-import { InferEnum } from "@/utils/inferEnum";
+import { InferEnum } from "@/utils/inferEnum.js";
 import z from "zod";
+import { productDataSchema } from "./product.entity.js";
 
 export const PRODUCT_CATEGORIES = [
   "pet-shop",
@@ -54,3 +55,19 @@ export const productSearchDataSchema = z.object({
   seller: z.string().optional(),
 });
 export type ProductSearchData = z.infer<typeof productSearchDataSchema>;
+
+export const productUpdateDataSchema = productDataSchema.pick({
+  title: true,
+  description: true,
+  isPrime: true,
+  maxDemands: true,
+  automaticAcceptance: true,
+  keywords: true,
+  privateNote: true,
+  imageUrls: true,
+  category: true,
+  price: true,
+  finalPrice: true,
+});
+
+export type ProductUpdateData = z.infer<typeof productUpdateDataSchema>;

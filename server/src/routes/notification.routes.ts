@@ -1,7 +1,7 @@
-import { NotificationController } from "@/controllers/notification.controller";
-import { withAuth } from "@/middlewares/withAuth";
-import { handleResponseForRoute } from "@/utils/CustomResponse";
-import { zodValidationForRoute } from "@/utils/zodValidationForRoute";
+import { NotificationController } from "@/controllers/notification.controller.js";
+import { withAuth } from "@/middlewares/withAuth.js";
+import { handleResponseForRoute } from "@/utils/CustomResponse.js";
+import { zodValidationForRoute } from "@/utils/zodValidationForRoute.js";
 import { Router } from "express";
 import z from "zod";
 

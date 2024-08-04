@@ -1,9 +1,9 @@
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
-import { configs } from "./configs";
-import { getDatabaseConnection } from "./databaseConnection";
-import { decode } from "./middlewares/decode";
+import { configs } from "./configs.js";
+import { getDatabaseConnection } from "./databaseConnection/index.js";
+import { decode } from "./middlewares/decode.js";
 //const routes = require("./routes");
 
 const app = express();

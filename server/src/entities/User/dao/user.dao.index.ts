@@ -1,10 +1,10 @@
-import { configs } from "@/configs";
-import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod";
-import { createSingletonGetter } from "@/utils/singleton";
+import { configs } from "@/configs.js";
+import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
+import { createSingletonGetter } from "@/utils/singleton.js";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
-import { User, UserData, userDataSchema } from "../user.entity";
-import { UserDAO } from "./user.dao.type";
+import { User, userDataSchema } from "../user.entity.js";
+import { UserDAO } from "./user.dao.type.js";
 
 const createUserDAO = (): UserDAO => {
   const UserSchema = new mongoose.Schema<User>(
@@ -30,33 +30,22 @@ const createUserDAO = (): UserDAO => {
     }
   });
 
-  UserSchema.methods.isCorrectPassword = function (password, callback) {
-    if (!this.password) return callback(new Error("no_password_registered"));
-    bcrypt.compare(password, this.password, function (err, same) {
-      if (err) {
-        callback(err);
-      } else {
-        callback(err, same);
-      }
-    });
-  };
+  const userModel = mongoose.model<User>("User", UserSchema);
 
-  UserSchema.methods.toJSON = function () {
-    var obj = this.toObject();
-    // @ts-ignore
-    delete obj.password;
-    return obj;
-  };
-
-  const userModel = mongoose.model<UserData>("User", UserSchema);
   return {
     getUser: async ({ userId }) => {
-      const user = await userModel.findById(userId);
+      const user = await userModel.findById(userId).lean();
       if (!user) return null;
-      return JSON.parse(JSON.stringify(user));
+      const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
     },
     setIsCertified: async ({ userId, isCertified }) => {
-      await userModel.findByIdAndUpdate(userId, { $set: { isCertified } });
+      const user = await userModel
+        .findByIdAndUpdate(userId, { $set: { isCertified } }, { new: true })
+        .lean();
+      if (!user) return null;
+      const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
     },
   };
 };

@@ -1,10 +1,15 @@
-import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod";
-import { createSingletonGetter } from "@/utils/singleton";
+import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
+import { createSingletonGetter } from "@/utils/singleton.js";
 import mongoose, { FilterQuery } from "mongoose";
 import mongoosePaginate from "mongoose-aggregate-paginate-v2";
-import { ProductSortBy } from "../product.constants";
-import { ProductData, productDataSchema } from "../product.entity";
-import { ProductDAO } from "./product.dao.type";
+import { ProductSortBy } from "../product.constants.js";
+import {
+  PopulatedProduct,
+  Product,
+  ProductData,
+  productDataSchema,
+} from "../product.entity.js";
+import { ProductDAO } from "./product.dao.type.js";
 
 const createProductDAO = (): ProductDAO => {
   const productMongooseSchema = new mongoose.Schema(
@@ -16,7 +21,7 @@ const createProductDAO = (): ProductDAO => {
 
   productMongooseSchema.plugin(mongoosePaginate);
 
-  const productModel = mongoose.model<ProductData>("Product", productMongooseSchema);
+  const productModel = mongoose.model<Product>("Product", productMongooseSchema);
 
   const SORT_RECORD: Record<ProductSortBy, { [key: string]: any }> = {
     [ProductSortBy.CREATED_AT]: { createdAt: -1 },
@@ -26,7 +31,7 @@ const createProductDAO = (): ProductDAO => {
   };
   return {
     getProductById: async ({ id }) => {
-      const product = await productModel.findById(id);
+      const product = await productModel.findById(id).lean();
       if (!product) return null;
       return JSON.parse(JSON.stringify(product));
     },
@@ -37,7 +42,7 @@ const createProductDAO = (): ProductDAO => {
       );
     },
     getProductByAsin: async ({ asin }) => {
-      const product = await productModel.findOne({ asin });
+      const product = await productModel.findOne({ asin }).lean();
       if (!product) return null;
       return JSON.parse(JSON.stringify(product));
     },
@@ -84,11 +89,55 @@ const createProductDAO = (): ProductDAO => {
           )
           .limit(itemsPerPage)
           .skip(itemsPerPage * page - 1)
-          .populate("seller"),
+          .populate("seller")
+          .lean<Array<PopulatedProduct>>(),
         productModel.countDocuments(query),
       ]);
 
-      return { hits: JSON.parse(JSON.stringify(hits)), totalCount };
+      return {
+        hits: hits.map((h) => {
+          h._id = h._id.toString();
+          h.seller._id = h.seller._id.toString();
+          //@ts-ignore
+          delete h.seller.password;
+          return h;
+        }),
+        totalCount,
+      };
+    },
+    getPopulatedProductById: async ({ id }) => {
+      const product = await productModel.findById(id).populate("seller").lean();
+      if (!product) return null;
+      const res = JSON.parse(JSON.stringify(product));
+      delete res.seller.password;
+      return res;
+    },
+    updateProduct: async ({ id, updates }) => {
+      const product = await productModel.findByIdAndUpdate(id, updates, { new: true });
+      if (!product) return null;
+      const res = JSON.parse(JSON.stringify(product));
+      delete res.seller.password;
+      return res;
+    },
+    create: async ({ productData }) => {
+      try {
+        const product = await productModel.create(productData);
+        const res = JSON.parse(JSON.stringify(product));
+        delete res.seller.password;
+        return { success: true, data: res };
+      } catch (err: any) {
+        if (err.code === 11000) {
+          return { success: false, errorCode: "duplicate_asin" };
+        }
+        throw err;
+      }
+    },
+    findAndDeleteProduct: async ({ id }) => {
+      const product = await productModel.findByIdAndDelete(id).lean();
+      if (!product) return null;
+      const res = JSON.parse(JSON.stringify(product));
+      delete res.seller.password;
+      return res;
     },
   };
 };

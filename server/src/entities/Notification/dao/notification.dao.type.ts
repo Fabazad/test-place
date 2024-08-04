@@ -1,4 +1,4 @@
-import { Notification, NotificationData } from "../notification.entity";
+import { Notification, NotificationData } from "../notification.entity.js";
 
 export type NotificationDAO = {
   getUserNotifications: (userId: string) => Promise<Array<Notification>>;

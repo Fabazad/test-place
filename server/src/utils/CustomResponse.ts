@@ -1,4 +1,4 @@
-import { HttpRequestError } from "./exceptions";
+import { HttpRequestError } from "./exceptions/index.js";
 
 export type FailedResponse<ErrorCode extends string> = {
   success: false;

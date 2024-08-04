@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { Role } from "./constants";
-import { getEnumValues } from "./enum";
+import { Role } from "./constants.js";
+import { getEnumValues } from "./enum.js";
 
 export const decodedUserSchema = z.object({
   roles: z.array(z.enum(getEnumValues(Role))),

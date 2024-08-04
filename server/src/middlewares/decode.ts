@@ -1,12 +1,8 @@
-import { configs } from "@/configs";
-import { isDecodedUser } from "@/utils/DecodedUser.type";
+import { configs } from "@/configs.js";
+import { isDecodedUser } from "@/utils/DecodedUser.type.js";
 import { NextFunction, Request, Response } from "express";
 import {} from "jsonwebtoken";
 import jwtSimple from "jwt-simple";
-
-if (!configs.JWT_KEY) {
-  throw new Error("JWT_KEY is missing in configs");
-}
 
 const secret = configs.JWT_KEY;
 
