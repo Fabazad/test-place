@@ -209,212 +209,156 @@ export class UserController {
     return { success: true, data: { user } };
   }
 
-  static async resetPassword(password, resetPasswordToken) {
-    return new Promise((resolve, reject) => {
-      if (password.length < 8) {
-        return reject({ status: 400, message: "Password too short." });
-      }
-      if (!resetPasswordToken) {
-        return reject({ status: 400, message: "Missing token." });
-      }
-      UserModel.findOne({
-        resetPasswordToken,
-        resetPasswordExpires: { $gte: new Date() },
-      })
-        .then((user) => {
-          if (!user) {
-            return reject({ status: 403, message: "Wrong or expired token." });
-          }
-          user.password = password;
-          user.resetPasswordToken = undefined;
-          user.resetPasswordExpires = undefined;
-          user.save((err) => {
-            if (err) {
-              reject(ErrorResponses.mongoose(err));
-            } else {
-              resolve({ user });
-            }
-          });
-        })
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
+  static async resetPassword(params: {
+    password: string;
+    resetPasswordToken: string;
+  }): Promise<CustomResponse<UserWithoutPassword, "user_not_found">> {
+    const { password, resetPasswordToken } = params;
+
+    const userDAO = getUserDAO();
+    const authManager = getAuthManager();
+
+    const newHashedPassword = authManager.hashPassword(password);
+
+    const user = await userDAO.updateUserPassword({
+      newHashedPassword,
+      resetPasswordToken,
     });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    return { success: true, data: user };
   }
 
-  static async updatePassword(previousPassword, password, userId) {
-    return new Promise((resolve, reject) => {
-      if (password.length < 8) {
-        return reject({ status: 400, message: "Password too short." });
-      }
-      if (!userId) {
-        return reject({ status: 400, message: "Missing user token." });
-      }
-      UserModel.findById(userId)
-        .then((user) => {
-          if (!user) {
-            return reject({ status: 403, message: "Wrong user token." });
-          }
-          user.isCorrectPassword(previousPassword, (err, same) => {
-            if (err) {
-              reject({ status: 500, message: "Internal error please try again." });
-            } else if (!same) {
-              reject({ status: 400, message: "Incorrect current password." });
-            } else {
-              // Issue token
-              user.password = password;
-              user.resetPasswordToken = undefined;
-              user.resetPasswordExpires = undefined;
-              user
-                .save()
-                .then((user) => {
-                  const token = createToken(user, "1h");
-                  resolve({ user, token });
-                })
-                .catch((err) => reject(ErrorResponses.mongoose(err)));
-            }
-          });
-        })
-        .catch((err) => reject({ status: 500, message: err }));
+  static async updatePassword(params: {
+    previousPassword: string;
+    password: string;
+    userId: string;
+  }): Promise<
+    CustomResponse<
+      { user: UserWithoutPassword; token: string },
+      | "user_not_found"
+      | "missing_password"
+      | "wrong_password"
+      | "user_not_found_when_updating_password"
+    >
+  > {
+    const { previousPassword, password, userId } = params;
+
+    const userDAO = getUserDAO();
+    const authManager = getAuthManager();
+
+    const user = await userDAO.getUserWithPassword({ userId });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    if (!user.password) return { success: false, errorCode: "missing_password" };
+
+    if (!authManager.comparePasswords(previousPassword, user.password))
+      return { success: false, errorCode: "wrong_password" };
+
+    const newHashedPassword = authManager.hashPassword(password);
+
+    const newUser = await userDAO.updateUserPassword({
+      newHashedPassword,
+      userId,
     });
+
+    if (!newUser)
+      return { success: false, errorCode: "user_not_found_when_updating_password" };
+
+    const token = authManager.encodeUser({
+      decodedUser: {
+        roles: newUser.roles,
+        userId: newUser._id,
+        amazonId: newUser.amazonId,
+      },
+      staySignedIn: false,
+    });
+
+    return { success: true, data: { user: newUser, token } };
   }
 
-  static async emailValidation(userId) {
-    return new Promise((resolve, reject) => {
-      if (!userId) {
-        return reject({ status: 400, message: "Missing token." });
-      }
-      UserModel.findByIdAndUpdate(userId, { $set: { emailValidation: true } })
-        .then((user) => {
-          if (!user) {
-            return reject({ status: 403, message: "Wrong token." });
-          }
-          resolve({ user });
-        })
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
-    });
+  static async emailValidation(params: {
+    userId: string;
+  }): Promise<CustomResponse<{ user: UserWithoutPassword }, "user_not_found">> {
+    const { userId } = params;
+
+    const userDAO = getUserDAO();
+
+    const user = await userDAO.validateEmail({ userId });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    return { success: true, data: { user } };
   }
 
-  static async validationMail(email) {
-    return new Promise((resolve, reject) => {
-      if (!email) {
-        reject({ status: 400, message: "Missing email." });
-      }
-      UserModel.findOne({ email })
-        .then((user) => {
-          if (!user) {
-            return reject({ status: 400, message: "No user with this email found." });
-          }
-          if (user.emailValidation) {
-            return reject({ status: 403, message: "Email already validated." });
-          }
-          EmailController.sendValidateMailAddressMail(email, user._id.toString())
-            .then(() => resolve({ user }))
-            .catch((err) => reject({ status: 500, message: err }));
-        })
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
+  static async validationMail(params: {
+    email: string;
+  }): Promise<
+    CustomResponse<{ user: UserWithoutPassword }, "user_not_found" | "already_validated">
+  > {
+    const { email } = params;
+
+    const userDAO = getUserDAO();
+    const emailClient = getEmailClient();
+
+    const user = await userDAO.getUser({ email });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    if (user.emailValidation) return { success: false, errorCode: "already_validated" };
+
+    await emailClient.sendValidateMailAddressMail({
+      email,
+      userId: user._id,
+      language: user.language,
     });
+
+    return { success: true, data: { user } };
   }
 
-  static async updateUserInfo(
-    currentUserId,
-    currentUserAmazonId,
-    currentUserRoles,
-    userId,
-    data
-  ) {
-    return new Promise(async (resolve, reject) => {
-      if (currentUserId !== userId && !currentUserRoles.includes(ROLES.ADMIN)) {
-        return reject({ status: 403, message: "Unauthorized" });
-      }
+  static async updateUserInfo(params: {
+    userId: string;
+    decoded: DecodedUser;
+    updates: {
+      name?: string;
+      testerMessage?: string;
+      sellerMessage?: string;
+      paypalEmail?: string;
+      amazonId?: string;
+    };
+  }): Promise<
+    CustomResponse<
+      { user: UserWithoutPassword; token: string },
+      "user_not_found" | "unauthorized" | "name_already_used"
+    >
+  > {
+    const { decoded, userId, updates } = params;
 
-      if ("roles" in data) {
-        if (
-          currentUserRoles.includes(ROLES.TESTER) &&
-          !data.roles.includes(ROLES.TESTER)
-        ) {
-          const processingTestNumber = await TestModel.count({
-            status: {
-              $in: [
-                TEST_STATUSES.requested,
-                TEST_STATUSES.requestAccepted,
-                TEST_STATUSES.productOrdered,
-                TEST_STATUSES.productReceived,
-                TEST_STATUSES.productReviewed,
-                TEST_STATUSES.reviewValidated,
-                //TODO complete
-              ],
-            },
-            tester: currentUserId,
-          });
+    const userDAO = getUserDAO();
+    const authManager = getAuthManager();
 
-          if (processingTestNumber) {
-            return reject({
-              status: 403,
-              message:
-                "You have to stay tester until you finish to precess all your tests.",
-            });
-          }
-        }
+    if (decoded.userId !== userId && !decoded.roles.includes(Role.ADMIN)) {
+      return { success: false, errorCode: "unauthorized" };
+    }
 
-        if (
-          currentUserRoles.includes(ROLES.SELLER) &&
-          !data.roles.includes(ROLES.SELLER)
-        ) {
-          const processingTestNumber = await TestModel.count({
-            status: {
-              $in: [
-                TEST_STATUSES.requested,
-                TEST_STATUSES.requestAccepted,
-                TEST_STATUSES.productOrdered,
-                TEST_STATUSES.productReceived,
-                TEST_STATUSES.productReviewed,
-                TEST_STATUSES.reviewValidated,
-                //TODO complete
-              ],
-            },
-            seller: currentUserId,
-          });
+    const updateRes = await userDAO.updateUser({ userId, updates });
 
-          if (processingTestNumber) {
-            return reject({
-              status: 403,
-              message:
-                "You have to stay tester until you finish to precess all your tests.",
-            });
-          }
-        }
-      }
+    if (!updateRes.success) return updateRes;
 
-      const authorizedData = [
-        "testerMessage",
-        "sellerMessage",
-        "roles",
-        "paypalEmail",
-        "amazonId",
-        "name",
-      ];
-      Object.keys(data).forEach((key) => {
-        if (!authorizedData.includes(key)) delete data[key];
-        if (["paypalEmail", "amazonId"].includes(key) && !data[key]) {
-          return reject({
-            status: 400,
-            message: "Can't remove paypalEmail or Amazon Id.",
-          });
-        }
-      });
+    const user = updateRes.data;
 
-      if ("name" in data) {
-        const countWithName = await UserModel.count({ name: data.name });
-        if (countWithName > 0)
-          return reject({ status: 400, message: "name_already_used" });
-      }
-
-      UserModel.findByIdAndUpdate(userId, data, { new: true })
-        .then((user) => {
-          const token = createToken(user, "1h");
-          resolve({ user, token });
-        })
-        .catch((err) => reject(ErrorResponses.mongoose(err)));
+    const token = authManager.encodeUser({
+      decodedUser: {
+        roles: user.roles,
+        userId: user._id,
+        amazonId: user.amazonId,
+      },
+      staySignedIn: false,
     });
+
+    return { success: true, data: { user, token } };
   }
 
   static async checkToken(params: { logged: boolean; decoded?: DecodedUser }): Promise<

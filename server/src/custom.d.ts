@@ -1,4 +1,4 @@
-import { DecodedUser } from "@/utils/DecodedUser.type";
+import { DecodedUser } from "@/utils/DecodedUser.type.js";
 
 declare global {
   namespace Express {

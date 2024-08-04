@@ -32,6 +32,7 @@ const configsToCheck = {
   PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES: Number(
     process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES
   ),
+  MIN_PASSWORD_LENGTH: process.env.MIN_PASSWORD_LENGTH,
 } as const;
 
 export const configs = z
@@ -64,5 +65,6 @@ export const configs = z
     LONG_SIGN_IN_DURATION: z.string().default("7d"),
     SHORT_SIGN_IN_DURATION: z.string().default("1h"),
     PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES: z.number().min(0).max(100).default(15),
+    MIN_PASSWORD_LENGTH: z.number().min(1).default(8),
   })
   .parse(configsToCheck);

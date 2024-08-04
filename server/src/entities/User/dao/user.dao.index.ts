@@ -9,13 +9,18 @@ const createUserDAO = (): UserDAO => {
     generateMongooseSchemaFromZod(userDataSchema)
   );
 
-  userSchema.index({ email: 1 }, { unique: true });
+  userSchema.index({ email: 1 }, { unique: true }).index({ name: 1 }, { unique: true });
 
   const userModel = mongoose.model<User>("User", userSchema);
 
   return {
-    getUser: async ({ userId }) => {
-      const user = await userModel.findById(userId).lean();
+    getUser: async (params) => {
+      const user = await userModel
+        .findOne({
+          ...("email" in params && { email: params.email }),
+          ...("userId" in params && { _id: params.userId }),
+        })
+        .lean();
       if (!user) return null;
       const { password, ...userWithoutPassword } = user;
       return JSON.parse(JSON.stringify(userWithoutPassword));
@@ -48,10 +53,10 @@ const createUserDAO = (): UserDAO => {
       const { password, ...userWithoutPassword } = user;
       return JSON.parse(JSON.stringify(userWithoutPassword));
     },
-    setResetPasswordToken: async ({ userId, token, expires }) => {
+    setResetPasswordToken: async ({ email, token, expires }) => {
       const user = await userModel
-        .findByIdAndUpdate(
-          userId,
+        .findOneAndUpdate(
+          { email },
           { $set: { resetPasswordToken: token, resetPasswordExpires: expires } },
           { new: true }
         )
@@ -60,10 +65,49 @@ const createUserDAO = (): UserDAO => {
       const { password, ...userWithoutPassword } = user;
       return JSON.parse(JSON.stringify(userWithoutPassword));
     },
-    getUserWithPassword: async ({ email }) => {
-      const user = await userModel.findOne({ email }).lean();
+    getUserWithPassword: async (params) => {
+      const user = await userModel
+        .findOne({
+          ...("email" in params && { email: params.email }),
+          ...("userId" in params && { _id: params.userId }),
+        })
+        .lean();
       if (!user) return null;
       return JSON.parse(JSON.stringify(user));
+    },
+    updateUserPassword: async (params) => {
+      const user = await userModel
+        .findOneAndUpdate(
+          {
+            ...("resetPasswordToken" in params && {
+              resetPasswordToken: params.resetPasswordToken,
+              resetPasswordExpires: { $gte: new Date() },
+            }),
+            ...("userId" in params && {
+              _id: params.userId,
+            }),
+          },
+          {
+            $set: { password: params.newHashedPassword },
+            ...("resetPasswordToken" in params && {
+              $unset: { resetPasswordToken: 1, resetPasswordExpires: 1 },
+            }),
+          },
+          { new: true }
+        )
+        .lean();
+
+      if (!user) return null;
+      const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
+    },
+    validateEmail: async ({ userId }) => {
+      const user = await userModel
+        .findByIdAndUpdate(userId, { $set: { emailValidation: true } }, { new: true })
+        .lean();
+      if (!user) return null;
+      const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
     },
   };
 };
