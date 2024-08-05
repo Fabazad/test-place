@@ -2,7 +2,7 @@ import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
-import moment from "moment";
+import dayjs from "dayjs";
 import mongoose from "mongoose";
 import z from "zod";
 import { notificationDataSchema } from "../notification.entity.js";
@@ -38,7 +38,7 @@ export const createNotificationDAO = (): NotificationDAO => {
               },
               {
                 viewDate: {
-                  $gte: moment().subtract(1, "day").toDate(),
+                  $gte: dayjs().subtract(1, "day").toDate(),
                 },
               },
             ],

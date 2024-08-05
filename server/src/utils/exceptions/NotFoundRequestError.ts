@@ -1,8 +1,8 @@
 import { HttpRequestError } from "./HttpRequestError.js";
 
 export class NotFoundRequestError extends HttpRequestError {
-  constructor(public message: string = "Not found") {
-    super(404, message);
+  constructor(public code: string, public message: string = "Not Found") {
+    super(404, code, message);
   }
 
   toString(): string {

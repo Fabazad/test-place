@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Fabazad/test-place#readme",
   "dependencies": {
+    "error-stack-parser": "^2.1.4",
     "node-gyp": "^3.8.0"
   }
 }

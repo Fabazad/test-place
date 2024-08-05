@@ -5,10 +5,7 @@ import { DatabaseConnection } from "../types.js";
 export const createMongoConnection = (): DatabaseConnection => {
   return {
     connect: async () => {
-      await mongoose.connect(configs.MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
+      await mongoose.connect(configs.MONGODB_URI);
     },
     disconnect: async () => {
       await mongoose.disconnect();

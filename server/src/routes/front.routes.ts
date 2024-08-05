@@ -1,5 +1,12 @@
 import express from "express";
-import path from "path";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+
+// Get the filename of the current module
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the directory name of the current module
+const __dirname = dirname(__filename);
 
 const router = express.Router();
 
@@ -20,4 +27,4 @@ const router = express.Router();
   });
 });
 
-module.exports = router;
+export default router;

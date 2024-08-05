@@ -126,7 +126,6 @@ export const NOTIFICATION_TYPES: Record<
 
 export const constants = {
   MONGO_LOCAL_URL: "mongodb://127.0.0.1:27017/test-place",
-  FRONTEND_LOCAL_URL: "http://localhost:3000",
   S3_BUCKET: "test-place",
   MAIL_TEMPLATES_IDS: {
     RESET_PASSWORD: {

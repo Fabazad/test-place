@@ -16,7 +16,7 @@ import {
 } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { Test } from "aws-sdk/clients/devicefarm.js";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export class TestController {
   private static async generateTestData(params: {
@@ -61,7 +61,7 @@ export class TestController {
       data: {
         ...baseTestData,
         status: TestStatus.REQUESTED,
-        expirationDate: moment().add(7, "days").toDate(),
+        expirationDate: dayjs().add(7, "days").toDate(),
         updates: [],
       },
     };

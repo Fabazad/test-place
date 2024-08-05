@@ -1,7 +1,6 @@
 import { configs } from "@/configs.js";
 import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import {
-  PRODUCT_CATEGORIES,
   ProductCategory,
   ProductSearchData,
   ProductUpdateData,
@@ -9,6 +8,7 @@ import {
 import {
   PopulatedProduct,
   Product,
+  PRODUCT_CATEGORIES,
   ProductData,
 } from "@/entities/Product/product.entity.js";
 import { getScrapper } from "@/libs/Scrapper/index.js";

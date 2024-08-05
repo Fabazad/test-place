@@ -1,7 +1,33 @@
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import z from "zod";
-import { PRODUCT_CATEGORIES } from "./product.constants.js";
+
+export const PRODUCT_CATEGORIES = [
+  "pet-shop",
+  "auto-moto",
+  "baggage",
+  "beauty-perfume",
+  "jewelry",
+  "housing",
+  "baby",
+  "shoes-bags",
+  "kitchen-house",
+  "grocery",
+  "office-supplies",
+  "appliances",
+  "high-tech",
+  "higiene-health",
+  "computeur-science",
+  "music",
+  "garden",
+  "games",
+  "video-games",
+  "lights",
+  "mode",
+  "watch",
+  "sports",
+  "cloths",
+] as const;
 
 export const productDataSchema = z.object({
   asin: z.string(),

@@ -1,17 +1,21 @@
+import routes from "@/routes/index.js";
 import cors from "cors";
-import express, { NextFunction, Request, Response } from "express";
-import path from "path";
+import express from "express";
+import "express-async-errors";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 import { configs } from "./configs.js";
 import { getDatabaseConnection } from "./databaseConnection/index.js";
 import { decode } from "./middlewares/decode.js";
-//const routes = require("./routes");
+import { errorHandler } from "./utils/errorHandler.js";
+
+// Get the filename of the current module
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the directory name of the current module
+const __dirname = dirname(__filename);
 
 const app = express();
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  return res.status(500).send(err.message);
-});
 
 app.use(cors());
 
@@ -26,7 +30,7 @@ app.use(express.static(path.join(__dirname, "/build")));
 const start = async () => {
   const port = configs.PORT || 5001;
   await getDatabaseConnection().connect();
-  // routes(app);
+  app.use("/", routes);
 
   app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -36,6 +40,8 @@ const start = async () => {
     console.log(req.url + " : " + Date.now());
     next();
   });
+
+  errorHandler({ app });
 
   app.listen(port, function () {
     console.log(`Example app listening on port ${port}!`);

@@ -72,7 +72,7 @@ export const createTestDAO = (): TestDAO => {
       return JSON.parse(JSON.stringify(res));
     },
     count: async ({ statuses, seller, tester }) => {
-      const res = await testModel.count({
+      const res = await testModel.countDocuments({
         $or: [{ expirationDate: { $gt: new Date() } }, { expirationDate: { $eq: null } }],
         ...buildConditions(statuses, seller, tester),
       });

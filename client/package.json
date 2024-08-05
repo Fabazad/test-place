@@ -40,20 +40,20 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@emotion/core": "^10.0.22",
-    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@emotion/react": "^11.13.0",
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@material-ui/core": "^4.9.14",
     "@testing-library/cypress": "^6.0.0",
     "assets": "^3.0.1",
-    "axios": "^0.24.0",
+    "axios": "^1.7.3",
     "chart.js": "^2.9.3",
     "classnames": "2.2.6",
     "cypress": "^4.4.1",
+    "dayjs": "^1.11.12",
     "headroom.js": "0.9.4",
     "i18next": "^19.0.2",
     "jquery": "^3.5.1",
     "jquery.scrollto": "^2.1.2",
-    "moment": "2.24.0",
     "nouislider": "13.1.5",
     "react": "16.8.6",
     "react-avatar": "^3.9.7",
@@ -78,7 +78,7 @@
     "react-router": "5.0.0",
     "react-router-dom": "^5.2.0",
     "react-router-last-location": "^2.0.1",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^5.0.1",
     "react-share": "^4.2.0",
     "react-social-login": "^3.4.6",
     "react-spinners": "^0.6.1",
@@ -89,6 +89,7 @@
     "sass": "^1.77.8"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "history": "^4.10.1",
     "prop-types": "^15.7.2"
   }
