@@ -9,7 +9,7 @@ export const withAuth =
 
     const authManager = getAuthManager();
 
-    if (authManager.checkRole(req.decoded, role)) {
+    if (authManager.checkRole(role, req.decoded)) {
       return next();
     }
     return res.status(401).send("Unauthorized");

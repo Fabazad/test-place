@@ -36,6 +36,7 @@ router.post("/register", async (request, reply) => {
   reply.send(
     handleResponseForRoute(res, {
       duplicate_email: new BadRequestError("duplicate_email"),
+      duplicate_name: new BadRequestError("duplicate_name"),
     })
   );
 });
@@ -192,103 +193,163 @@ router.post("/updateUserInfo", withAuth(), async (request, reply) => {
 });
 
 router.post("/contact-us", async (request, reply) => {
-  const { name, email, message } = request.body;
-  UserController.sendContactUsEmail(name, email, message)
-    .then((res) => reply.send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
-});
+  const { name, email, message } = zodValidationForRoute(
+    request.body,
+    z.object({
+      name: z.string().trim().min(1),
+      email: z.string().trim().min(1).email(),
+      message: z.string().trim().min(1),
+    })
+  );
+  await UserController.sendContactUsEmail({ name, email, message });
 
-router.post("/change-gender", withAuth(), async (request, reply) => {
-  const { gender } = request.body;
-  const { decoded } = request;
-  UserController.changeGender(decoded.userId, gender)
-    .then((res) => reply.send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  reply.send();
 });
 
 router.get("/:userId", async (request, reply) => {
-  const { userId } = request.params;
-  UserController.getOne(userId)
-    .then((res) => reply.send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const { userId } = zodValidationForRoute(
+    request.params,
+    z.object({ userId: z.string().min(1) })
+  );
+  const res = await UserController.getOne({ userId });
+  reply.send(
+    handleResponseForRoute(res, {
+      user_not_found: new NotFoundRequestError("user_not_found"),
+    })
+  );
 });
 
 router.post("/google-register", async (request, reply) => {
-  const bodySchema = joi.object({
-    name: joi.string().trim().not().empty().required(),
-    email: joi.string().trim().not().empty().required(),
-    googleId: joi.string().trim().not().empty().required(),
-    roles: joi.array().items(joi.string().trim().not().empty()).required(),
-    language: joi
-      .string()
-      .required()
-      .valid(...["en", "fr", "ch"]),
+  const { name, email, googleId, roles, language } = zodValidationForRoute(
+    request.body,
+    z.object({
+      name: z.string().trim().min(1),
+      email: z.string().trim().min(1).email(),
+      googleId: z.string().trim().min(1),
+      roles: z.array(z.nativeEnum(Role)),
+      language: z.nativeEnum(Language),
+    })
+  );
+
+  const res = await UserController.googleRegister({
+    roles,
+    name,
+    email,
+    googleId,
+    language,
   });
-  const { error, value } = bodySchema.validate(request.body);
-  if (error !== undefined) return reply.status(400).send(error.message);
-  const { name, email, googleId, roles, language } = value;
-  UserController.googleRegister({ roles, name, email, googleId, language })
-    .then((res) => reply.send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+
+  reply.send(
+    handleResponseForRoute(res, {
+      name_already_used_when_adding_email: new ServerRequestError(
+        "name_already_used_when_adding_email"
+      ),
+      user_not_found_when_adding_email: new ServerRequestError(
+        "user_not_found_when_adding_email"
+      ),
+      user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+      duplicate_email: new ServerRequestError("duplicate_email"),
+      duplicate_name: new BadRequestError("duplicate_name"),
+    })
+  );
 });
 
 router.post("/google-login", async (request, reply) => {
-  const bodySchema = joi.object({
-    googleId: joi.string().trim().not().empty().required(),
-    keepConnection: joi.boolean().optional(),
+  const { googleId, keepConnection } = zodValidationForRoute(
+    request.body,
+    z.object({
+      googleId: z.string().trim().min(1),
+      keepConnection: z.boolean(),
+    })
+  );
+
+  const res = await UserController.googleLogin({
+    staySignedIn: keepConnection,
+    googleId,
   });
-  const { error, value } = bodySchema.validate(request.body);
-  if (error !== undefined) return reply.status(400).send(error.message);
-  const { googleId, keepConnection } = value;
-  UserController.googleLogin({ keepConnection, googleId })
-    .then((data) => reply.send(data))
-    .catch((err) => reply.status(err.status).send(err.message));
+
+  reply.send(
+    handleResponseForRoute(res, {
+      user_not_found: new NotFoundRequestError("user_not_found"),
+      user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+    })
+  );
 });
 
 router.post("/facebook-register", async (request, reply) => {
-  const bodySchema = joi.object({
-    accessToken: joi.string().trim().not().empty().required(),
-    roles: joi.array().items(joi.string().trim().not().empty()).required(),
-    language: joi
-      .string()
-      .required()
-      .valid(...["en", "fr", "ch"]),
-  });
-  const { error, value } = bodySchema.validate(request.body);
-  if (error !== undefined) return reply.status(400).send(error.message);
-  const { accessToken, roles, language } = value;
-  UserController.facebookRegister({ accessToken, roles, language })
-    .then((data) => reply.send(data))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const { accessToken, roles, language } = zodValidationForRoute(
+    request.body,
+    z.object({
+      accessToken: z.string().trim().min(1),
+      roles: z.array(z.nativeEnum(Role)),
+      language: z.nativeEnum(Language),
+    })
+  );
+
+  const res = await UserController.facebookRegister({ accessToken, roles, language });
+
+  reply.send(
+    handleResponseForRoute(res, {
+      issue_with_facebook_login: new ServerRequestError("issue_with_facebook_login"),
+      facebook_account_missing_email: new BadRequestError(
+        "facebook_account_missing_email"
+      ),
+      name_already_used: new BadRequestError("name_already_used"),
+      user_not_found_when_adding_email: new ServerRequestError(
+        "user_not_found_when_adding_email"
+      ),
+      user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+      duplicate_email_when_creating_user: new ServerRequestError(
+        "duplicate_email_when_creating_user"
+      ),
+      duplicate_name: new BadRequestError("duplicate_name"),
+    })
+  );
 });
 
 router.post("/facebook-login", async (request, reply) => {
-  const bodySchema = joi.object({
-    accessToken: joi.string().trim().not().empty().required(),
-    keepConnection: joi.boolean().optional(),
+  const { accessToken, keepConnection } = zodValidationForRoute(
+    request.body,
+    z.object({
+      accessToken: z.string().trim().min(1),
+      keepConnection: z.boolean(),
+    })
+  );
+
+  const res = await UserController.facebookLogin({
+    accessToken,
+    staySignedIn: keepConnection,
   });
-  const { error, value } = bodySchema.validate(request.body);
-  if (error !== undefined) return reply.status(400).send(error.message);
-  const { accessToken, keepConnection } = value;
-  UserController.facebookLogin({ accessToken, keepConnection })
-    .then((data) => reply.send(data))
-    .catch((err) => reply.status(err.status).send(err.message));
+
+  reply.send(
+    handleResponseForRoute(res, {
+      user_not_found: new NotFoundRequestError("user_not_found"),
+      user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+      facebook_account_missing_email: new BadRequestError(
+        "facebook_account_missing_email"
+      ),
+      issue_with_facebook_login: new ServerRequestError("issue_with_facebook_login"),
+    })
+  );
 });
 
 router.post("/update-language", withAuth(), async (request, reply) => {
-  const bodySchema = joi.object({
-    language: joi
-      .string()
-      .required()
-      .valid(...["en", "fr", "ch"]),
-  });
-  const { error, value } = bodySchema.validate(request.body);
-  if (error !== undefined) return reply.status(400).send(error.message);
-  const { language } = value;
-  const { decoded } = request;
-  UserController.updateLanguage(decoded.userId, language)
-    .then((res) => reply.send(res))
-    .catch((err) => reply.status(err.status).send(err.message));
+  const { language } = zodValidationForRoute(
+    request.body,
+    z.object({
+      language: z.nativeEnum(Language),
+    })
+  );
+
+  const { userId } = request.decoded!;
+
+  const res = await UserController.updateLanguage({ userId, language });
+
+  reply.send(
+    handleResponseForRoute(res, {
+      user_not_found: new NotFoundRequestError("user_not_found"),
+    })
+  );
 });
 
 module.exports = router;

@@ -6,6 +6,7 @@ export type EmailClient = {
     name: string;
     email: string;
     language: Language;
+    message: string;
   }) => Promise<void>;
   sendValidateMailAddressMail: (params: {
     email: string;

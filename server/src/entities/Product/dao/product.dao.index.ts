@@ -1,7 +1,6 @@
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import mongoose, { FilterQuery } from "mongoose";
-import mongoosePaginate from "mongoose-aggregate-paginate-v2";
 import { ProductSortBy } from "../product.constants.js";
 import {
   PopulatedProduct,
@@ -18,8 +17,6 @@ const createProductDAO = (): ProductDAO => {
   );
 
   productMongooseSchema.index({ title: "text" }).index({ asin: 1 }, { unique: true });
-
-  productMongooseSchema.plugin(mongoosePaginate);
 
   const productModel = mongoose.model<Product>("Product", productMongooseSchema);
 

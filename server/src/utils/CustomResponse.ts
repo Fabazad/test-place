@@ -61,3 +61,14 @@ export function handleResponseForRoute<
   // @ts-ignore
   return "data" in response ? response.data : undefined;
 }
+
+export const formatFailedResponse = <
+  ErrorCode extends string,
+  NewErrorCode extends string
+>(
+  response: FailedResponse<ErrorCode>,
+  map: Record<ErrorCode, NewErrorCode>
+): FailedResponse<NewErrorCode> => {
+  const newError = map[response.errorCode];
+  return { success: false, errorCode: newError, errorMessage: response.errorMessage };
+};

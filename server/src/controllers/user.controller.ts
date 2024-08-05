@@ -1,23 +1,15 @@
 import { configs } from "@/configs.js";
-import { TestController } from "@/controllers/test.controller.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
-import { User, UserWithoutPassword } from "@/entities/User/user.entity.js";
+import { UserWithoutPassword } from "@/entities/User/user.entity.js";
+import { SignedInUser } from "@/entities/User/user.helpers.js";
 import { getAuthManager } from "@/libs/AuthManager/index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
-import { Role } from "@/utils/constants.js";
-import { CustomResponse } from "@/utils/CustomResponse.js";
+import { GLOBAL_TEST_STATUSES, Role } from "@/utils/constants.js";
+import { CustomResponse, formatFailedResponse } from "@/utils/CustomResponse.js";
 import { DecodedUser } from "@/utils/DecodedUser.type.js";
 import { Language } from "@/utils/Language.js";
-import axios from "axios";
 import dayjs from "dayjs";
-
-const EmailController = require("../controllers/email.controller");
-const { ROLES, TEST_STATUSES, MAIL_TEMPLATES_IDS } = require("../helpers/constants");
-const constants = require("../helpers/constants");
-
-const { GLOBAL_TEST_STATUSES } = constants;
-const FROM_MAIL_ADDRESS = configs.FROM_MAIL_ADDRESS;
 
 export class UserController {
   static async credentialRegister(params: {
@@ -26,7 +18,7 @@ export class UserController {
     email: string;
     password: string;
     language: Language;
-  }): Promise<CustomResponse<UserWithoutPassword, "duplicate_email">> {
+  }): Promise<CustomResponse<UserWithoutPassword, "duplicate_email" | "duplicate_name">> {
     const { roles, name, email, password, language } = params;
 
     const userDAO = getUserDAO();
@@ -54,20 +46,10 @@ export class UserController {
     return { success: true, data: user };
   }
 
-  static async login(params: { user: User; staySignedIn: boolean }): Promise<
-    CustomResponse<
-      {
-        user: UserWithoutPassword;
-        token: string;
-        requestedTestsCount: number;
-        processingTestsCount: number;
-        completedTestsCount: number;
-        cancelledTestsCount: number;
-        guiltyTestsCount: number;
-      },
-      "user_not_found_when_logging"
-    >
-  > {
+  static async login(params: {
+    user: UserWithoutPassword;
+    staySignedIn: boolean;
+  }): Promise<CustomResponse<SignedInUser, "user_not_found_when_logging">> {
     const { user, staySignedIn } = params;
 
     const authManager = getAuthManager();
@@ -137,15 +119,7 @@ export class UserController {
     staySignedIn: boolean;
   }): Promise<
     CustomResponse<
-      {
-        user: UserWithoutPassword;
-        token: string;
-        requestedTestsCount: number;
-        processingTestsCount: number;
-        completedTestsCount: number;
-        cancelledTestsCount: number;
-        guiltyTestsCount: number;
-      },
+      SignedInUser,
       | "wrong_password"
       | "email_not_found"
       | "email_not_validated"
@@ -439,181 +413,260 @@ export class UserController {
     return { success: true, data: { check: true } };
   }
 
-  static async sendContactUsEmail(name, email, message) {
-    if (!name || !email || !message) {
-      return Promise.reject({ status: 400, message: "Missing fields." });
-    }
+  static async sendContactUsEmail(params: {
+    name: string;
+    email: string;
+    message: string;
+  }) {
+    const { name, email, message } = params;
 
-    return EmailController.sendEmail(
-      FROM_MAIL_ADDRESS,
-      email,
-      MAIL_TEMPLATES_IDS.CONTACT_US["fr"],
+    const emailClient = getEmailClient();
+
+    await emailClient.sendContactUsMail({ name, email, language: Language.FR, message });
+  }
+
+  static async getOne(params: { userId: string }): Promise<
+    CustomResponse<
       {
-        name: name,
-        message: message,
-      }
-    );
-  }
+        user: UserWithoutPassword;
+        processingTestsCount: number;
+        completedTestsCount: number;
+        guiltyTestsCount: number;
+      },
+      "user_not_found"
+    >
+  > {
+    const { userId } = params;
 
-  static async changeGender(userId, gender) {
-    if (!userId || !gender) {
-      return Promise.reject({ status: 400, message: "Missing fields." });
-    }
+    const userDAO = getUserDAO();
 
-    try {
-      const user = await UserModel.findByIdAndUpdate(userId, { gender }, { new: true });
-      return { user };
-    } catch (err) {
-      return Promise.reject(ErrorResponses.mongoose(err));
-    }
-  }
+    const testDAO = getTestDAO();
 
-  static async getOne(userId) {
-    if (!userId) {
-      return Promise.reject({ status: 400, message: "Missing userId." });
-    }
+    const [user, processingTestsCount, completedTestsCount, guiltyTestsCount] =
+      await Promise.all([
+        userDAO.getUser({ userId }),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.PROCESSING,
+        }),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.COMPLETED,
+        }),
+        testDAO.countTestWithStatues({
+          userId,
+          statuses: GLOBAL_TEST_STATUSES.CANCELLED,
+          withGuilty: true,
+        }),
+      ]);
 
-    try {
-      const [user, processingTestsCount, completedTestsCount, guiltyTestsCount] =
-        await Promise.all([
-          UserModel.findById(userId),
-          TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.PROCESSING),
-          TestController.countTestWithStatues(userId, GLOBAL_TEST_STATUSES.COMPLETED),
-          TestController.countTestWithStatues(
-            userId,
-            GLOBAL_TEST_STATUSES.CANCELLED,
-            true
-          ),
-        ]);
-      return {
-        user: {
-          createdAt: user.createdAt,
-          email: user.email,
-          gender: user.gender,
-          name: user.name,
-          roles: user.roles,
-          sellerMessage: user.sellerMessage,
-          _id: user._id,
-        },
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    return {
+      success: true,
+      data: {
+        user,
         processingTestsCount,
         completedTestsCount,
         guiltyTestsCount,
-      };
-    } catch (e) {
-      return Promise.reject(ErrorResponses.mongoose(e));
-    }
+      },
+    };
   }
 
-  static async googleRegister(params) {
+  static async googleRegister(params: {
+    email: string;
+    name: string;
+    roles: Array<Role>;
+    googleId: string;
+    language: Language;
+  }): Promise<
+    CustomResponse<
+      SignedInUser,
+      | "user_not_found_when_logging"
+      | "user_not_found_when_adding_email"
+      | "name_already_used_when_adding_email"
+      | "duplicate_email"
+      | "duplicate_name"
+    >
+  > {
     const { email, name, roles, googleId, language } = params;
 
-    const googleUser = await UserModel.findOne({ googleId });
-    if (googleUser) return UserController.login(googleUser, false);
+    const userDAO = getUserDAO();
 
-    const emailUser = await UserModel.findOne({ email });
+    const googleUser = await userDAO.getUser({ googleId });
+
+    if (googleUser) return this.login({ user: googleUser, staySignedIn: false });
+
+    const emailUser = await userDAO.getUserWithPassword({ email });
     if (emailUser) {
-      const newUser = await UserModel.updateOne(
-        { _id: emailUser._id },
-        { $set: { googleId } }
-      );
-      return UserController.login(newUser, false);
+      const updateUserRes = await userDAO.updateUser({
+        userId: emailUser._id,
+        updates: { googleId },
+      });
+      if (!updateUserRes.success) {
+        return formatFailedResponse(updateUserRes, {
+          user_not_found: "user_not_found_when_adding_email",
+          name_already_used: "name_already_used_when_adding_email",
+        });
+      }
+      return this.login({ user: updateUserRes.data, staySignedIn: false });
     }
 
-    const user = await UserModel.findOne({ name });
-    if (user) return Promise.reject({ status: 400, message: "name_already_used" });
-
-    try {
-      const newUser = await UserModel.create({
-        email,
+    const createUserRes = await userDAO.createUser({
+      userData: {
         name,
+        email,
         roles,
         googleId,
         emailValidation: true,
         language,
-      });
-      return UserController.login(newUser, false);
-    } catch (e) {
-      return Promise.reject({ status: 500, message: e.message });
-    }
+        isCertified: false,
+        password: null,
+      },
+    });
+
+    if (!createUserRes.success) return createUserRes;
+
+    return this.login({ user: createUserRes.data, staySignedIn: false });
   }
 
-  static async googleLogin(params) {
-    const { googleId, keepConnection } = params;
-    const user = await UserModel.findOne({ googleId });
-    if (user) return UserController.login(user, keepConnection);
-    return Promise.reject({ status: 403, message: "not_registered_yet" });
+  static async googleLogin(params: {
+    googleId: string;
+    staySignedIn: boolean;
+  }): Promise<
+    CustomResponse<SignedInUser, "user_not_found" | "user_not_found_when_logging">
+  > {
+    const { googleId, staySignedIn } = params;
+
+    const userDAO = getUserDAO();
+
+    const user = await userDAO.getUser({ googleId });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    return UserController.login({ user, staySignedIn });
   }
 
-  static async facebookRegister({ accessToken, roles, language }) {
-    try {
-      const response = await axios.get("https://graph.facebook.com/v11.0/me", {
-        params: {
-          access_token: accessToken,
-          fields: "id,name,email,first_name",
-        },
+  static async facebookRegister(params: {
+    accessToken: string;
+    roles: Array<Role>;
+    language: Language;
+  }): Promise<
+    CustomResponse<
+      SignedInUser,
+      | "issue_with_facebook_login"
+      | "facebook_account_missing_email"
+      | "name_already_used"
+      | "user_not_found_when_adding_email"
+      | "user_not_found_when_logging"
+      | "duplicate_email_when_creating_user"
+      | "duplicate_name"
+    >
+  > {
+    const { accessToken, roles, language } = params;
+
+    const authManager = getAuthManager();
+    const userDAO = getUserDAO();
+
+    const facebookLoginRes = await authManager.facebookLogin({ accessToken });
+
+    if (!facebookLoginRes.success)
+      return formatFailedResponse(facebookLoginRes, {
+        unknown_error: "issue_with_facebook_login",
+        facebook_account_missing_email: "facebook_account_missing_email",
       });
 
-      const { id, name, email, first_name } = response.data;
+    const facebookData = facebookLoginRes.data;
 
-      const facebookUser = await UserModel.findOne({ facebookId: id });
-      if (facebookUser) return UserController.login(facebookUser, false);
+    const emailUser = await userDAO.getUser({ email: facebookData.email });
 
-      if (!email)
-        return Promise.reject({ status: 403, message: "facebook_account_missing_email" });
+    if (emailUser) {
+      const updateUserRes = await userDAO.updateUser({
+        userId: emailUser._id,
+        updates: { facebookId: facebookData.facebookId },
+      });
 
-      const emailUser = await UserModel.findOne({ email });
-      if (emailUser) {
-        const newUser = await UserModel.updateOne(
-          { _id: emailUser._id },
-          { $set: { facebookId: id } }
-        );
-        return UserController.login(newUser, false);
+      if (!updateUserRes.success) {
+        return formatFailedResponse(updateUserRes, {
+          name_already_used: "name_already_used",
+          user_not_found: "user_not_found_when_adding_email",
+        });
       }
 
-      const userName = first_name
-        ? first_name + Math.round(Math.random() * 10000).toString()
-        : name;
+      return this.login({ user: updateUserRes.data, staySignedIn: false });
+    }
 
-      const user = await UserModel.findOne({ name: userName });
-      if (user) return Promise.reject({ status: 400, message: "name_already_used" });
-
-      const newUser = await UserModel.create({
-        email,
-        name: userName,
+    const createUserRes = await userDAO.createUser({
+      userData: {
+        name: facebookData.name,
+        email: facebookData.email,
         roles,
-        facebookId: id,
+        facebookId: facebookData.facebookId,
         emailValidation: true,
         language,
-      });
-      return UserController.login(newUser, false);
-    } catch (e) {
-      return Promise.reject({ status: 500, message: e.message });
-    }
-  }
+        isCertified: false,
+        password: null,
+      },
+    });
 
-  static async facebookLogin({ accessToken, keepConnection }) {
-    try {
-      const { data } = await axios.get("https://graph.facebook.com/v11.0/me", {
-        params: {
-          access_token: accessToken,
-          fields: "id,name,email,first_name",
-        },
+    if (!createUserRes.success)
+      return formatFailedResponse(createUserRes, {
+        duplicate_email: "duplicate_email_when_creating_user",
+        duplicate_name: "duplicate_name",
       });
 
-      const user = await UserModel.findOne({ facebookId: data.id });
-      if (!user) return Promise.reject({ status: 403, message: "not_registered_yet" });
-      return UserController.login(user, keepConnection);
-    } catch (e) {
-      return Promise.reject({ status: 500, message: e.message });
-    }
+    return this.login({ user: createUserRes.data, staySignedIn: false });
   }
 
-  static async updateLanguage(userId, language) {
-    try {
-      const user = await UserModel.findByIdAndUpdate(userId, { language }, { new: true });
-      return { user };
-    } catch (err) {
-      return Promise.reject(ErrorResponses.mongoose(err));
-    }
+  static async facebookLogin(params: {
+    accessToken: string;
+    staySignedIn: boolean;
+  }): Promise<
+    CustomResponse<
+      SignedInUser,
+      | "user_not_found"
+      | "user_not_found_when_logging"
+      | "facebook_account_missing_email"
+      | "issue_with_facebook_login"
+    >
+  > {
+    const { accessToken, staySignedIn } = params;
+
+    const authManager = getAuthManager();
+    const userDAO = getUserDAO();
+
+    const facebookLoginRes = await authManager.facebookLogin({ accessToken });
+
+    if (!facebookLoginRes.success)
+      return formatFailedResponse(facebookLoginRes, {
+        unknown_error: "issue_with_facebook_login",
+        facebook_account_missing_email: "facebook_account_missing_email",
+      });
+
+    const facebookData = facebookLoginRes.data;
+
+    const facebookUser = await userDAO.getUser({ facebookId: facebookData.facebookId });
+
+    if (!facebookUser) return { success: false, errorCode: "user_not_found" };
+
+    return this.login({ user: facebookUser, staySignedIn });
+  }
+
+  static async updateLanguage(params: {
+    userId: string;
+    language: Language;
+  }): Promise<CustomResponse<UserWithoutPassword, "user_not_found">> {
+    const { userId, language } = params;
+
+    const userDAO = getUserDAO();
+
+    const user = await userDAO.updateUserWIthNoUniqueField({
+      userId,
+      updates: { language },
+    });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    return { success: true, data: user };
   }
 }

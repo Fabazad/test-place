@@ -1,9 +1,14 @@
 import { CustomResponse } from "@/utils/CustomResponse.js";
+import { Language } from "@/utils/Language.js";
 import { User, UserData, UserWithoutPassword } from "../user.entity.js";
 
 export type UserDAO = {
   getUser: (
-    params: { userId: string } | { email: string }
+    params:
+      | { userId: string }
+      | { email: string }
+      | { googleId: string }
+      | { facebookId: string }
   ) => Promise<UserWithoutPassword | null>;
   setIsCertified: (params: {
     userId: string;
@@ -11,7 +16,9 @@ export type UserDAO = {
   }) => Promise<UserWithoutPassword | null>;
   createUser: (params: {
     userData: UserData;
-  }) => Promise<CustomResponse<UserWithoutPassword, "duplicate_email">>;
+  }) => Promise<
+    CustomResponse<UserWithoutPassword, "duplicate_email" | "duplicate_name">
+  >;
   getUserWithPassword: (
     params: { email: string } | { userId: string }
   ) => Promise<User | null>;
@@ -38,8 +45,21 @@ export type UserDAO = {
       sellerMessage?: string;
       paypalEmail?: string;
       amazonId?: string;
+      googleId?: string;
+      facebookId?: string;
     };
   }) => Promise<
     CustomResponse<UserWithoutPassword, "name_already_used" | "user_not_found">
   >;
+  updateUserWIthNoUniqueField: (params: {
+    userId: string;
+    updates: {
+      testerMessage?: string;
+      sellerMessage?: string;
+      paypalEmail?: string;
+      googleId?: string;
+      facebookId?: string;
+      language?: Language;
+    };
+  }) => Promise<UserWithoutPassword | null>;
 };

@@ -1,14 +1,13 @@
 {
   "scripts": {
-    "start": "node server",
     "build": "tsc && tsc-alias",
-    "ts-start": "npm run build && node dist/server.js"
+    "start": "npm run build && node dist/server.js"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.1.1",
     "@types/express": "^4.17.21",
     "aws-sdk": "^2.814.0",
-    "axios": "^0.21.2",
+    "axios": "^1.7.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crawler": "^1.2.1",
@@ -24,6 +23,7 @@
     "request": "^2.88.0",
     "tsc-alias": "^1.8.10",
     "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
     "upgrade": "^1.1.0",
     "vitest": "^2.0.5",
     "zod": "^3.23.8"

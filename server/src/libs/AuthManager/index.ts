@@ -1,7 +1,8 @@
 import { configs } from "@/configs.js";
 import { Role } from "@/utils/constants.js";
-import { DecodedUser, isDecodedUser } from "@/utils/DecodedUser.type.js";
+import { isDecodedUser } from "@/utils/DecodedUser.type.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
+import axios from "axios";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AuthManager } from "./type.js";
@@ -13,13 +14,16 @@ const createAuthManager = (): AuthManager => {
   const saltRounds = configs.SALT_ROUNDS;
 
   return {
-    decodeUser: async (token: string) => {
+    decodeUser: (token) => {
       const decoded = jwt.verify(token, secret);
       if (isDecodedUser(decoded)) return decoded;
       return null;
     },
-    checkRole: (decodedUser: DecodedUser, role: Role) => {
-      return decodedUser.roles.includes(role) || decodedUser.roles.includes(Role.ADMIN);
+    checkRole: (role, decodedUser) => {
+      return !!(
+        decodedUser &&
+        (decodedUser.roles.includes(role) || decodedUser.roles.includes(Role.ADMIN))
+      );
     },
     encodeUser: ({ decodedUser: { userId, roles, amazonId }, staySignedIn }) => {
       const payload = { userId, roles, amazonId };
@@ -27,10 +31,10 @@ const createAuthManager = (): AuthManager => {
         expiresIn: staySignedIn ? shortSignInDuration : longSignInDuration,
       });
     },
-    hashPassword: (password: string) => {
+    hashPassword: (password) => {
       return bcrypt.hashSync(password, saltRounds);
     },
-    comparePasswords: (password: string, hashedPassword: string) => {
+    comparePasswords: (password, hashedPassword) => {
       return bcrypt.compareSync(password, hashedPassword);
     },
     generateRandomToken: () => {
@@ -44,6 +48,45 @@ const createAuthManager = (): AuthManager => {
           return String.fromCharCode(charCode + 61); // a-z
         }
       }).join("");
+    },
+    facebookLogin: async ({ accessToken }) => {
+      try {
+        const response = await axios.get<{
+          id: string;
+          name: string;
+          email?: string;
+          first_name: string;
+        }>("https://graph.facebook.com/v11.0/me", {
+          params: {
+            access_token: accessToken,
+            fields: "id,name,email,first_name",
+          },
+        });
+
+        const { id, name, email, first_name } = response.data;
+
+        if (!email)
+          return { success: false, errorCode: "facebook_account_missing_email" };
+
+        const userName = first_name
+          ? first_name + Math.round(Math.random() * 10000).toString()
+          : name;
+
+        return { success: true, data: { facebookId: id, name: userName, email } };
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          return {
+            success: false,
+            errorCode: "unknown_error",
+            errorMessage: error.message,
+          };
+        }
+        return {
+          success: false,
+          errorCode: "unknown_error",
+          errorMessage: error.message,
+        };
+      }
     },
   };
 };

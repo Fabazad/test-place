@@ -19,6 +19,8 @@ const createUserDAO = (): UserDAO => {
         .findOne({
           ...("email" in params && { email: params.email }),
           ...("userId" in params && { _id: params.userId }),
+          ...("googleId" in params && { googleId: params.googleId }),
+          ...("facebookId" in params && { facebookId: params.facebookId }),
         })
         .lean();
       if (!user) return null;
@@ -40,7 +42,11 @@ const createUserDAO = (): UserDAO => {
         return { success: true, data: JSON.parse(JSON.stringify(userWithoutPassword)) };
       } catch (err: any) {
         if (err.code === 11000) {
-          return { success: false, errorCode: "duplicate_email" };
+          if (err.keyPattern.email) {
+            return { success: false, errorCode: "duplicate_email" };
+          } else if (err.keyPattern.name) {
+            return { success: false, errorCode: "duplicate_name" };
+          }
         }
         throw err;
       }
@@ -107,6 +113,22 @@ const createUserDAO = (): UserDAO => {
         .lean();
       if (!user) return null;
       const { password, ...userWithoutPassword } = user;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
+    },
+    updateUser: async ({ userId, updates }) => {
+      const userToUpdate = await userModel
+        .findByIdAndUpdate(userId, { $set: updates }, { new: true })
+        .lean();
+      if (!userToUpdate) return null;
+      const { password, ...userWithoutPassword } = userToUpdate;
+      return JSON.parse(JSON.stringify(userWithoutPassword));
+    },
+    updateUserWIthNoUniqueField: async ({ userId, updates }) => {
+      const userToUpdate = await userModel
+        .findByIdAndUpdate(userId, { $set: updates }, { new: true })
+        .lean();
+      if (!userToUpdate) return null;
+      const { password, ...userWithoutPassword } = userToUpdate;
       return JSON.parse(JSON.stringify(userWithoutPassword));
     },
   };
