@@ -38,7 +38,7 @@ const createUserDAO = (): UserDAO => {
     createUser: async ({ userData }) => {
       try {
         const user = await userModel.create(userData);
-        const { password, ...userWithoutPassword } = user;
+        const { password, ...userWithoutPassword } = user.toJSON();
         return { success: true, data: JSON.parse(JSON.stringify(userWithoutPassword)) };
       } catch (err: any) {
         if (err.code === 11000) {

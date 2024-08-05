@@ -63,7 +63,7 @@ export const createNotificationDAO = (): NotificationDAO => {
     },
     createNotification: async ({ notificationData }) => {
       const notification = await notificationModel.create(notificationData);
-      return JSON.parse(JSON.stringify(notification));
+      return JSON.parse(JSON.stringify(notification.toJSON()));
     },
   };
 };

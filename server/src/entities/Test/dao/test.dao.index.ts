@@ -51,7 +51,7 @@ export const createTestDAO = (): TestDAO => {
   return {
     createTest: async ({ testData }) => {
       const res = await testModel.create(testData);
-      return JSON.parse(JSON.stringify(res));
+      return JSON.parse(JSON.stringify(res.toJSON()));
     },
     findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
       const res = await testModel

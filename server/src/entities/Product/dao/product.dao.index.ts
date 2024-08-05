@@ -119,7 +119,7 @@ const createProductDAO = (): ProductDAO => {
     create: async ({ productData }) => {
       try {
         const product = await productModel.create(productData);
-        const res = JSON.parse(JSON.stringify(product));
+        const res = JSON.parse(JSON.stringify(product.toJSON()));
         delete res.seller.password;
         return { success: true, data: res };
       } catch (err: any) {
