@@ -7,7 +7,7 @@
     "node": "20.11.0"
   },
   "scripts": {
-    "postinstall": "cd server && npm i && cd ../client && npm i",
+    "postinstall": "cd server && npm ci && cd ../client && npm ci",
     "start-server": "cd server && npm start",
     "start-client": "cd client && npm start",
     "start": "cd server && npm start",
