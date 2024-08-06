@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "16.20.1"
+    "node": "20.11.0"
   },
   "scripts": {
     "postinstall": "cd server && npm i && cd ../client && npm i",
