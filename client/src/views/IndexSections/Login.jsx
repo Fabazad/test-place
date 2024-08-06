@@ -1,40 +1,22 @@
-/*!
-
-=========================================================
-* Argon Design System React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
+import classnames from "classnames";
 import React from "react";
 import { Link } from "react-router-dom";
-// nodejs library that concatenates classes
-import classnames from "classnames";
 
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
-  FormGroup,
+  CardHeader,
+  Col,
+  Container,
   Form,
+  FormGroup,
   Input,
+  InputGroup,
   InputGroupAddon,
   InputGroupText,
-  InputGroup,
-  Container,
   Row,
-  Col
 } from "reactstrap";
 
 class Login extends React.Component {
@@ -61,11 +43,10 @@ class Login extends React.Component {
                   <span className="text-white">completed with examples</span>
                 </h3>
                 <p className="lead text-white">
-                  The Design System comes with four pre-built pages to help you
-                  get started faster. You can change the text and images and
-                  you're good to go. More importantly, looking at them will give
-                  you a picture of what you can built with this powerful
-                  Bootstrap 4 Design System.
+                  The Design System comes with four pre-built pages to help you get
+                  started faster. You can change the text and images and you're good to
+                  go. More importantly, looking at them will give you a picture of what
+                  you can built with this powerful Bootstrap 4 Design System.
                 </p>
                 <div className="btn-wrapper">
                   <Button color="success" to="/login-page" tag={Link}>
@@ -93,12 +74,12 @@ class Login extends React.Component {
                           className="btn-neutral btn-icon"
                           color="default"
                           href="#pablo"
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                         >
                           <span className="btn-inner--icon mr-1">
                             <img
                               alt="..."
-                              src={require("assets/img/icons/common/github.svg")}
+                              src={require("assets/img/icons/common/github.svg").default}
                             />
                           </span>
                           <span className="btn-inner--text">Github</span>
@@ -107,12 +88,12 @@ class Login extends React.Component {
                           className="btn-neutral btn-icon"
                           color="default"
                           href="#pablo"
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                         >
                           <span className="btn-inner--icon mr-1">
                             <img
                               alt="..."
-                              src={require("assets/img/icons/common/google.svg")}
+                              src={require("assets/img/icons/common/google.svg").default}
                             />
                           </span>
                           <span className="btn-inner--text">Google</span>
@@ -126,7 +107,7 @@ class Login extends React.Component {
                       <Form role="form">
                         <FormGroup
                           className={classnames("mb-3", {
-                            focused: this.state.emailFocused
+                            focused: this.state.emailFocused,
                           })}
                         >
                           <InputGroup className="input-group-alternative">
@@ -138,18 +119,14 @@ class Login extends React.Component {
                             <Input
                               placeholder="Email"
                               type="email"
-                              onFocus={e =>
-                                this.setState({ emailFocused: true })
-                              }
-                              onBlur={e =>
-                                this.setState({ emailFocused: false })
-                              }
+                              onFocus={(e) => this.setState({ emailFocused: true })}
+                              onBlur={(e) => this.setState({ emailFocused: false })}
                             />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup
                           className={classnames({
-                            focused: this.state.passwordFocused
+                            focused: this.state.passwordFocused,
                           })}
                         >
                           <InputGroup className="input-group-alternative">
@@ -162,12 +139,8 @@ class Login extends React.Component {
                               placeholder="Password"
                               type="password"
                               autoComplete="off"
-                              onFocus={e =>
-                                this.setState({ passwordFocused: true })
-                              }
-                              onBlur={e =>
-                                this.setState({ passwordFocused: false })
-                              }
+                              onFocus={(e) => this.setState({ passwordFocused: true })}
+                              onBlur={(e) => this.setState({ passwordFocused: false })}
                             />
                           </InputGroup>
                         </FormGroup>
@@ -185,11 +158,7 @@ class Login extends React.Component {
                           </label>
                         </div>
                         <div className="text-center">
-                          <Button
-                            className="my-4"
-                            color="primary"
-                            type="button"
-                          >
+                          <Button className="my-4" color="primary" type="button">
                             Sign in
                           </Button>
                         </div>

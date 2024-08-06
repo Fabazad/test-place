@@ -1,5 +1,6 @@
 import { createSingletonGetter } from "@/utils/singleton.js";
-import Crawler from "crawler";
+import axios from "axios";
+import cheerio from "cheerio";
 import { getCategory } from "./productHelpers/getCategory.js";
 import { getDescription } from "./productHelpers/getDescription.js";
 import { getImages } from "./productHelpers/getImages.js";
@@ -14,51 +15,21 @@ const createScrapper = (): Scrapper => {
     getAmazonProductDetails: async ({ asin }) => {
       const url = `https://www.amazon.fr/dp/${asin}`;
 
-      const maxTest = 2;
-      let currentTest = 1;
+      const test = await axios.get<string>(url);
 
-      const promise = new Promise<
-        Awaited<ReturnType<Scrapper["getAmazonProductDetails"]>>
-      >((resolve) => {
-        let c = new Crawler({
-          maxConnections: 10,
-          // This will be called for each crawled page
-          callback: (error, res) => {
-            let $ = res.$;
-            if (error) {
-              return resolve({
-                success: false,
-                errorCode: "unknown_error",
-                errorMessage: error.message,
-              });
-            }
-            if (res.statusCode === 404) {
-              return resolve({ success: false, errorCode: "product_not_found" });
-            }
-            const scrapRes = {
-              title: getTitle($),
-              price: getPrice($),
-              description: getDescription($),
-              isPrime: getIsPrime($),
-              category: getCategory($),
-              seller: getSeller($),
-              imageUrls: getImages($),
-            };
+      const $ = cheerio.load(test.data);
 
-            if (!scrapRes.description && currentTest < maxTest) {
-              currentTest++;
-              c.queue(url);
-            } else {
-              resolve({ success: true, data: scrapRes });
-            }
-          },
-        });
+      const scrapRes = {
+        title: getTitle($),
+        price: getPrice($),
+        description: getDescription($),
+        isPrime: getIsPrime($),
+        category: getCategory($),
+        seller: getSeller($),
+        imageUrls: getImages($),
+      };
 
-        c.queue(url);
-      });
-
-      const res = await promise;
-      return res;
+      return { success: true, data: scrapRes };
     },
   };
 };

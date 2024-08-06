@@ -1,5 +1,5 @@
-export const getTitle = ($: cheerio.CheerioAPI): string | undefined => {
-  const $title = $("#comparison_title .a-size-base.a-color-base:not(.a-text-bold)");
+export const getTitle = ($: cheerio.Root): string | undefined => {
+  const $title = $("#productTitle");
   if ($title.length) {
     return $title.text().trim();
   }

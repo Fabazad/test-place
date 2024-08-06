@@ -11,7 +11,7 @@
     "start-server": "cd server && npm start",
     "start-client": "cd client && npm start",
     "start": "cd server && npm start",
-    "heroku-postbuild": "(rm -r ./server/build || true) && cd client && npm run build && mv build ../server/build",
+    "heroku-postbuild": "(rm -r ./client/build || true) && cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd client && npm run build"
   },
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Fabazad/test-place#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "error-stack-parser": "^2.1.4",
     "node-gyp": "^3.8.0"
   }

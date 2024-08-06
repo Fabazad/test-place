@@ -1,4 +1,4 @@
-export const getImages = ($: cheerio.CheerioAPI): Array<string> => {
+export const getImages = ($: cheerio.Root): Array<string> => {
   const $images = $(".a-button-thumbnail img");
   const images: Array<string> = [];
   if ($images.length) {

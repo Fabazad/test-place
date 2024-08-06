@@ -22,24 +22,24 @@ import classnames from "classnames";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
-  FormGroup,
+  CardHeader,
+  Col,
   Form,
+  FormGroup,
   Input,
+  InputGroup,
   InputGroupAddon,
   InputGroupText,
-  InputGroup,
   Modal,
   Row,
-  Col
 } from "reactstrap";
 
 class Modals extends React.Component {
   state = {};
-  toggleModal = state => {
+  toggleModal = (state) => {
     this.setState({
-      [state]: !this.state[state]
+      [state]: !this.state[state],
     });
   };
   render() {
@@ -81,15 +81,15 @@ class Modals extends React.Component {
               </div>
               <div className="modal-body">
                 <p>
-                  Far far away, behind the word mountains, far from the
-                  countries Vokalia and Consonantia, there live the blind texts.
-                  Separated they live in Bookmarksgrove right at the coast of
-                  the Semantics, a large language ocean.
+                  Far far away, behind the word mountains, far from the countries Vokalia
+                  and Consonantia, there live the blind texts. Separated they live in
+                  Bookmarksgrove right at the coast of the Semantics, a large language
+                  ocean.
                 </p>
                 <p>
-                  A small river named Duden flows by their place and supplies it
-                  with the necessary regelialia. It is a paradisematic country,
-                  in which roasted parts of sentences fly into your mouth.
+                  A small river named Duden flows by their place and supplies it with the
+                  necessary regelialia. It is a paradisematic country, in which roasted
+                  parts of sentences fly into your mouth.
                 </p>
               </div>
               <div className="modal-footer">
@@ -143,8 +143,8 @@ class Modals extends React.Component {
                   <i className="ni ni-bell-55 ni-3x" />
                   <h4 className="heading mt-4">You should read this!</h4>
                   <p>
-                    A small river named Duden flows by their place and supplies
-                    it with the necessary regelialia.
+                    A small river named Duden flows by their place and supplies it with
+                    the necessary regelialia.
                   </p>
                 </div>
               </div>
@@ -190,12 +190,12 @@ class Modals extends React.Component {
                         className="btn-icon mt-2 mb-2"
                         color="neutral"
                         href="#pablo"
-                        onClick={e => e.preventDefault()}
+                        onClick={(e) => e.preventDefault()}
                       >
                         <span className="btn-inner--icon mr-1">
                           <img
                             alt="..."
-                            src={require("assets/img/icons/common/github.svg")}
+                            src={require("assets/img/icons/common/github.svg").default}
                           />
                         </span>
                         <span className="btn-inner--text">Github</span>
@@ -204,12 +204,12 @@ class Modals extends React.Component {
                         className="btn-icon mt-2 mb-2 ml-1"
                         color="neutral"
                         href="#pablo"
-                        onClick={e => e.preventDefault()}
+                        onClick={(e) => e.preventDefault()}
                       >
                         <span className="btn-inner--icon mr-1">
                           <img
                             alt="..."
-                            src={require("assets/img/icons/common/google.svg")}
+                            src={require("assets/img/icons/common/google.svg").default}
                           />
                         </span>
                         <span className="btn-inner--text">Google</span>
@@ -223,7 +223,7 @@ class Modals extends React.Component {
                     <Form role="form">
                       <FormGroup
                         className={classnames("mb-3", {
-                          focused: this.state.emailFocused
+                          focused: this.state.emailFocused,
                         })}
                       >
                         <InputGroup className="input-group-alternative">
@@ -235,14 +235,14 @@ class Modals extends React.Component {
                           <Input
                             placeholder="Email"
                             type="email"
-                            onFocus={e => this.setState({ emailFocused: true })}
-                            onBlur={e => this.setState({ emailFocused: false })}
+                            onFocus={(e) => this.setState({ emailFocused: true })}
+                            onBlur={(e) => this.setState({ emailFocused: false })}
                           />
                         </InputGroup>
                       </FormGroup>
                       <FormGroup
                         className={classnames({
-                          focused: this.state.passwordFocused
+                          focused: this.state.passwordFocused,
                         })}
                       >
                         <InputGroup className="input-group-alternative">
@@ -255,12 +255,8 @@ class Modals extends React.Component {
                             placeholder="Password"
                             type="password"
                             autoComplete="off"
-                            onFocus={e =>
-                              this.setState({ passwordFocused: true })
-                            }
-                            onBlur={e =>
-                              this.setState({ passwordFocused: false })
-                            }
+                            onFocus={(e) => this.setState({ passwordFocused: true })}
+                            onBlur={(e) => this.setState({ passwordFocused: false })}
                           />
                         </InputGroup>
                       </FormGroup>

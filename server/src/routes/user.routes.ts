@@ -10,6 +10,7 @@ import { NotFoundRequestError } from "@/utils/exceptions/NotFoundRequestError.js
 import { ServerRequestError } from "@/utils/exceptions/ServerRequestError.js";
 import { UnauthorizedRequestError } from "@/utils/exceptions/UnauthorizedRequestError.js";
 import { Language } from "@/utils/Language.js";
+import { booleanSchema } from "@/utils/zod.utils.js";
 import { zodValidationForRoute } from "@/utils/zodValidationForRoute.js";
 import express from "express";
 import { z } from "zod";
@@ -83,7 +84,7 @@ router.get(
   asyncHandler(async (request, reply) => {
     const { logged } = zodValidationForRoute(
       request.query,
-      z.object({ logged: z.boolean() })
+      z.object({ logged: booleanSchema() })
     );
 
     const res = await UserController.checkToken({ logged, decoded: request.decoded });

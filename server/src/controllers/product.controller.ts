@@ -1,6 +1,7 @@
 import { configs } from "@/configs.js";
 import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import {
+  isProductCategory,
   ProductCategory,
   ProductSearchData,
   ProductUpdateData,
@@ -11,6 +12,7 @@ import {
   PRODUCT_CATEGORIES,
   ProductData,
 } from "@/entities/Product/product.entity.js";
+import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import { getScrapper } from "@/libs/Scrapper/index.js";
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
@@ -24,7 +26,7 @@ export class ProductController {
         price: number;
         description?: string;
         isPrime: boolean;
-        category?: string;
+        category?: ProductCategory;
         seller?: {
           name: string;
           url: string;
@@ -38,6 +40,7 @@ export class ProductController {
 
     const productDAO = getProductDAO();
     const scrapper = getScrapper();
+    const monitoringClient = getMonitoringClient();
 
     const product = await productDAO.getProductByAsin({ asin });
 
@@ -50,7 +53,18 @@ export class ProductController {
 
     const scrappedData = await scrapper.getAmazonProductDetails({ asin });
 
-    return scrappedData;
+    if (!scrappedData.success) return scrappedData;
+
+    const category = scrappedData.data.category;
+
+    if (category) {
+      if (isProductCategory(category)) {
+        return { success: true, data: { ...scrappedData.data, category } };
+      }
+    }
+    const { category: _, ...dataWithoutCategory } = scrappedData.data;
+
+    return { success: true, data: dataWithoutCategory };
   }
 
   static async create(params: {

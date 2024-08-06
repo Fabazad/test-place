@@ -10,8 +10,6 @@ import Row from "reactstrap/es/Row";
 import constants from "../../helpers/constants";
 import { textSlice } from "../../helpers/textHelpers";
 
-console.log(React);
-
 const { NOTIFICATION_TYPES } = constants;
 
 const NotificationItem = (props) => {

@@ -9,8 +9,6 @@ const override = css`
   border-color: red;
 `;
 
-console.log(React.version);
-
 const Loading = (props) => {
   const [loading, setLoading] = useState(null);
 

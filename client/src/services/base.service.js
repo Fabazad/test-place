@@ -5,7 +5,7 @@ class BaseService {
 
   constructor(path) {
     this.baseURL = (() => {
-      return "http://" + window.location.hostname + ":5001/api" + path;
+      return window.location.origin + "/api" + path;
     })();
   }
 

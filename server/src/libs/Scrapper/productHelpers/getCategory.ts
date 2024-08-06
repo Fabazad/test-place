@@ -1,12 +1,8 @@
-import { PRODUCT_CATEGORIES_MAP } from "../productCategory.constants.js";
-
-export const getCategory = ($: cheerio.CheerioAPI): string | undefined => {
-  const $category = $('#searchDropdownBox option[selected="selected"]');
+export const getCategory = ($: cheerio.Root): string | undefined => {
+  const $category = $("#nav-subnav");
   if ($category.length) {
-    const category = PRODUCT_CATEGORIES_MAP[$category.text().trim()];
-    if (category) {
-      return category;
-    }
+    const category = $category.attr("data-category");
+    if (category) return category;
   }
   return undefined;
 };

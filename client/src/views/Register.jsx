@@ -31,8 +31,6 @@ import Loading from "../components/Loading";
 import PrivacyPolicyModal from "../components/Modals/PrivacyPolicyModal";
 import PasswordStrength from "../components/PasswordStrength";
 
-console.log(React.version);
-
 const Register = (props) => {
   const { t } = props;
 

@@ -1,5 +1,5 @@
-export const getDescription = ($: cheerio.CheerioAPI): string | undefined => {
-  const $description = $("div.centerColAlign div.a-section.a-spacing-medium");
+export const getDescription = ($: cheerio.Root): string | undefined => {
+  const $description = $("#productFactsDesktop_feature_div");
   if ($description.length) {
     return $description
       .text()

@@ -4,6 +4,8 @@ import z from "zod";
 import { PRODUCT_CATEGORIES, productDataSchema } from "./product.entity.js";
 
 export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
+export const isProductCategory = (category: string): category is ProductCategory =>
+  PRODUCT_CATEGORIES.includes(category as ProductCategory);
 
 export const ProductSortBy = {
   CREATED_AT: "createdAt",
@@ -24,7 +26,7 @@ export const productSearchDataSchema = z.object({
   itemsPerPage: numberSchema({ min: 1, max: 100 }),
   page: numberSchema({ min: 1 }),
   sortBy: z.nativeEnum(ProductSortBy).optional().default(ProductSortBy.CREATED_AT),
-  published: booleanSchema(),
+  published: booleanSchema().optional(),
   remainingRequests: booleanSchema().optional(),
   seller: z.string().optional(),
 });
