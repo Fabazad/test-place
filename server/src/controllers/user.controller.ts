@@ -18,7 +18,7 @@ export class UserController {
     email: string;
     password: string;
     language: Language;
-  }): Promise<CustomResponse<UserWithoutPassword, "duplicate_email" | "duplicate_name">> {
+  }): Promise<CustomResponse<undefined, "duplicate_email" | "duplicate_name">> {
     const { roles, name, email, password, language } = params;
 
     const userDAO = getUserDAO();
@@ -43,7 +43,7 @@ export class UserController {
 
     await emailClient.sendValidateMailAddressMail({ email, userId: user._id, language });
 
-    return { success: true, data: user };
+    return { success: true, data: undefined };
   }
 
   static async login(params: {

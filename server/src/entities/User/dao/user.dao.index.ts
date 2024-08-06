@@ -116,12 +116,22 @@ const createUserDAO = (): UserDAO => {
       return JSON.parse(JSON.stringify(userWithoutPassword));
     },
     updateUser: async ({ userId, updates }) => {
-      const userToUpdate = await userModel
-        .findByIdAndUpdate(userId, { $set: updates }, { new: true })
-        .lean();
-      if (!userToUpdate) return null;
-      const { password, ...userWithoutPassword } = userToUpdate;
-      return JSON.parse(JSON.stringify(userWithoutPassword));
+      try {
+        const userToUpdate = await userModel
+          .findByIdAndUpdate(userId, { $set: updates }, { new: true })
+          .lean();
+        if (!userToUpdate) return { success: false, errorCode: "user_not_found" };
+        const { password, ...userWithoutPassword } = userToUpdate;
+        const user = JSON.parse(JSON.stringify(userWithoutPassword));
+        return { success: true, data: user };
+      } catch (err: any) {
+        if (err.code === 11000) {
+          if (err.keyPattern.name) {
+            return { success: false, errorCode: "name_already_used" };
+          }
+        }
+        throw err;
+      }
     },
     updateUserWIthNoUniqueField: async ({ userId, updates }) => {
       const userToUpdate = await userModel

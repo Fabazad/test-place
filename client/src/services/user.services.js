@@ -1,143 +1,178 @@
-import testServices from './test.services';
-import BaseService from "./base.service.js";
 import axios from "axios";
-import {eraseCookie} from "../helpers/cookies.js";
-import {Subject} from "rxjs";
-import {setCookie} from "../helpers/cookies";
 import i18n from "i18next";
+import { Subject } from "rxjs";
+import { setCookie } from "../helpers/cookies";
+import { eraseCookie } from "../helpers/cookies.js";
+import BaseService from "./base.service.js";
+import testServices from "./test.services";
 
 class UserService extends BaseService {
-    constructor() {
-        super('/user');
-        this.currentUser = undefined;
-        this.currentUserSubject = new Subject();
-        this.currentUserResolve = this.currentUserResolve.bind(this);
-    }
+  constructor() {
+    super("/user");
+    this.currentUser = undefined;
+    this.currentUserSubject = new Subject();
+    this.currentUserResolve = this.currentUserResolve.bind(this);
+  }
 
-    async currentUserResolve(res) {
-        const data = await this.serviceResolve(res);
-        if (typeof data === "object" && "user" in data) {
-            this.currentUser = data.user;
-            this.currentUserSubject.next(this.currentUser);
-            if (data.user !== null) {
-                window.$crisp.push(["set", "user:email", [data.user.email]])
-                const userDataArray = Object.entries(data.user).map(([key, value]) => { return [key, value !== null ? value.toString() : "null"] });
-                window.$crisp.push(["set", "session:data", [userDataArray]])
-                if(data.user.language) i18n.changeLanguage(data.user.language)
-            }
-            if ('requestedTestsCount' in data
-                || 'processingTestsCount' in data
-                || 'completedTestsCount' in data
-                || 'cancelledTestsCount' in data
-                || 'guiltyTestsCount' in data) {
-                testServices.testGlobalStatusesCountSubject.next(data);
-            }
-        } else if (this.isAuth() && !data.check) {
-            this.logout();
-        }
-        if (typeof data === "object" && "token" in data) {
-            setCookie("token", data.token, 7);
-        }
-        return data;
-
+  async currentUserResolve(res) {
+    const data = await this.serviceResolve(res);
+    if (typeof data === "object" && "user" in data) {
+      this.currentUser = data.user;
+      this.currentUserSubject.next(this.currentUser);
+      if (data.user !== null) {
+        window.$crisp.push(["set", "user:email", [data.user.email]]);
+        const userDataArray = Object.entries(data.user).map(([key, value]) => {
+          return [key, value !== null ? value.toString() : "null"];
+        });
+        window.$crisp.push(["set", "session:data", [userDataArray]]);
+        if (data.user.language) i18n.changeLanguage(data.user.language);
+      }
+      if (
+        "requestedTestsCount" in data ||
+        "processingTestsCount" in data ||
+        "completedTestsCount" in data ||
+        "cancelledTestsCount" in data ||
+        "guiltyTestsCount" in data
+      ) {
+        testServices.testGlobalStatusesCountSubject.next(data);
+      }
+    } else if (this.isAuth() && !data.check) {
+      this.logout();
     }
-
-    async login(email, password, keepConnection) {
-        const response = await axios.post(this.baseURL + '/login', {email, password, keepConnection})
-        return this.currentUserResolve(response)
+    if (typeof data === "object" && "token" in data) {
+      setCookie("token", data.token, 7);
     }
+    return data;
+  }
 
-    register(user) {
-        return axios.post(this.baseURL + '/register', user).then(this.serviceResolve);
-    }
+  async login(email, password, keepConnection) {
+    const response = await axios.post(this.baseURL + "/login", {
+      email,
+      password,
+      keepConnection,
+    });
+    return this.currentUserResolve(response);
+  }
 
-    checkToken() {
-        return axios.get(this.baseURL + '/checkToken', {
-            params: {logged: this.isAuth()}
-        }).then(this.currentUserResolve).catch(() => this.logout());
+  async register(user) {
+    try {
+      await axios.post(this.baseURL + "/register", user);
+    } catch (err) {
+      console.log({ code: err.response.data.code });
+      return { error: err.response.data.code };
     }
+  }
 
-    sendResetPasswordMail(email) {
-        return axios.post(this.baseURL + "/resetPasswordMail", {email}).then(this.serviceResolve);
-    }
+  checkToken() {
+    return axios
+      .get(this.baseURL + "/checkToken", {
+        params: { logged: this.isAuth() },
+      })
+      .then(this.currentUserResolve)
+      .catch(() => this.logout());
+  }
 
-    resetPassword(password, resetPasswordToken) {
-        return axios.post(this.baseURL + "/resetPassword", {password, resetPasswordToken}).then(this.serviceResolve);
-    }
+  sendResetPasswordMail(email) {
+    return axios
+      .post(this.baseURL + "/resetPasswordMail", { email })
+      .then(this.serviceResolve);
+  }
 
-    updatePassword(previousPassword, password) {
-        return axios.post(this.baseURL + "/updatePassword", {previousPassword, password}).then(this.serviceResolve);
-    }
+  resetPassword(password, resetPasswordToken) {
+    return axios
+      .post(this.baseURL + "/resetPassword", { password, resetPasswordToken })
+      .then(this.serviceResolve);
+  }
 
-    emailValidation(userId) {
-        return axios.post(this.baseURL + "/emailValidation", {userId}).then(this.serviceResolve);
-    }
+  updatePassword(previousPassword, password) {
+    return axios
+      .post(this.baseURL + "/updatePassword", { previousPassword, password })
+      .then(this.serviceResolve);
+  }
 
-    getCurrentUserId() {
-        return this.isAuth() ? this.currentUser._id : null;
-    }
+  emailValidation(userId) {
+    return axios
+      .post(this.baseURL + "/emailValidation", { userId })
+      .then(this.serviceResolve);
+  }
 
-    isAuth() {
-        return !!this.currentUser;
-    }
+  getCurrentUserId() {
+    return this.isAuth() ? this.currentUser._id : null;
+  }
 
-    logout() {
-        eraseCookie("token");
-        this.currentUser = undefined;
-        this.currentUserSubject.next();
-    }
+  isAuth() {
+    return !!this.currentUser;
+  }
 
-    isAlreadyChecked() {
-        return this.currentUser !== undefined;
-    }
+  logout() {
+    eraseCookie("token");
+    this.currentUser = undefined;
+    this.currentUserSubject.next();
+  }
 
-    hasRole(role) {
-        if (this.isAuth() && this.currentUser.roles) {
-            return this.currentUser.roles.reduce((prev, currentRole) => {
-                return prev || currentRole === role;
-            }, false);
-        }
-        return false;
-    }
+  isAlreadyChecked() {
+    return this.currentUser !== undefined;
+  }
 
-    resendValidationMail(email) {
-        return axios.post(this.baseURL + "/validationMail", {email}).then(this.serviceResolve);
+  hasRole(role) {
+    if (this.isAuth() && this.currentUser.roles) {
+      return this.currentUser.roles.reduce((prev, currentRole) => {
+        return prev || currentRole === role;
+      }, false);
     }
+    return false;
+  }
 
-    updateUserInfo(userId, data) {
-        return axios.post(this.baseURL + "/updateUserInfo", {userId, data}).then(this.currentUserResolve);
-    }
+  resendValidationMail(email) {
+    return axios
+      .post(this.baseURL + "/validationMail", { email })
+      .then(this.serviceResolve);
+  }
 
-    sendContactUsMessage(name, email, message) {
-        return axios.post(this.baseURL + "/contact-us", {name, email, message}).then(this.serviceResolve);
-    }
+  updateUserInfo(userId, data) {
+    return axios
+      .post(this.baseURL + "/updateUserInfo", { userId, data })
+      .then(this.currentUserResolve);
+  }
 
-    changeGender(gender) {
-        return this.post("change-gender", {gender}, this.currentUserResolve);
-    }
+  sendContactUsMessage(name, email, message) {
+    return axios
+      .post(this.baseURL + "/contact-us", { name, email, message })
+      .then(this.serviceResolve);
+  }
 
-    googleRegister(user) {
-        return axios.post(this.baseURL + '/google-register', user).then(this.currentUserResolve);
-    }
+  changeGender(gender) {
+    return this.post("change-gender", { gender }, this.currentUserResolve);
+  }
 
-    googleLogin(user) {
-        return axios.post(this.baseURL + '/google-login', user).then(this.currentUserResolve);
-    }
+  googleRegister(user) {
+    return axios
+      .post(this.baseURL + "/google-register", user)
+      .then(this.currentUserResolve);
+  }
 
-    facebookRegister({accessToken, roles, language}) {
-        return axios.post(this.baseURL + '/facebook-register', {accessToken, roles, language}).then(this.currentUserResolve);
-    }
+  googleLogin(user) {
+    return axios.post(this.baseURL + "/google-login", user).then(this.currentUserResolve);
+  }
 
-    facebookLogin({accessToken, keepConnection}) {
-        return axios.post(this.baseURL + '/facebook-login', {
-            accessToken,
-            keepConnection
-        }).then(this.currentUserResolve);
-    }
+  facebookRegister({ accessToken, roles, language }) {
+    return axios
+      .post(this.baseURL + "/facebook-register", { accessToken, roles, language })
+      .then(this.currentUserResolve);
+  }
 
-    updateLanguage({language}) {
-        return this.post("update-language", {language}, this.currentUserResolve);
-    }
+  facebookLogin({ accessToken, keepConnection }) {
+    return axios
+      .post(this.baseURL + "/facebook-login", {
+        accessToken,
+        keepConnection,
+      })
+      .then(this.currentUserResolve);
+  }
+
+  updateLanguage({ language }) {
+    return this.post("update-language", { language }, this.currentUserResolve);
+  }
 }
 
 export default new UserService();

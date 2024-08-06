@@ -29,7 +29,7 @@ export class UserController {
             return userRes;
         const user = userRes.data;
         await emailClient.sendValidateMailAddressMail({ email, userId: user._id, language });
-        return { success: true, data: user };
+        return { success: true, data: undefined };
     }
     static async login(params) {
         const { user, staySignedIn } = params;

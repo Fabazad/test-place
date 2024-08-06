@@ -363,5 +363,7 @@
   "PRODUCT_CATEGORIES.watch": "Watch",
   "PRODUCT_CATEGORIES.sports": "Sports",
   "PRODUCT_CATEGORIES.cloths": "Cloths",
-  "PUBLICATION_EXPIRATION_DATE": "Publication expiration date"
+  "PUBLICATION_EXPIRATION_DATE": "Publication expiration date",
+  "ACCOUNT_WITH_THIS_EMAIL_ALREADY_EXISTS": "An account already exists with this email.",
+  "UNKNOWN_ERROR": "An unknown error occurred."
 }

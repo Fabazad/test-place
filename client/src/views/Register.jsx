@@ -58,13 +58,19 @@ const Register = (props) => {
     setLoading(true);
     userService
       .register(user)
-      .then(() => {
+      .then((res) => {
+        if (res?.error) {
+          if (res.error === "duplicate_email") {
+            toast.error(t("ACCOUNT_WITH_THIS_EMAIL_ALREADY_EXISTS"));
+          } else if (res.error === "duplicate_name") {
+            toast.error(t("NAME_ALREADY_USED"));
+          } else toast.error(t("UNKNOWN_ERROR"));
+          return;
+        }
         props.history.push("/login");
-        toast.error(t("CHECK_MAIL_SENT"));
-        toast.error(Object.keys(t)("CHECK_MAIL_SENT"));
-        setLoading(false);
+        toast.info(t("CHECK_MAIL_SENT"));
       })
-      .catch(() => setLoading(false));
+      .finally(() => setLoading(false));
   };
 
   const disabled = !name || !email || !password || !role;

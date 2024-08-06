@@ -16,7 +16,6 @@ import {
 // core components
 import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 import UserHeader from "../../components/Headers/UserHeader.jsx";
 import UpdatePasswordModal from "../../components/Modals/UpdatePasswordModal";
 import constants from "../../helpers/constants";
@@ -71,14 +70,10 @@ const Profile = (props) => {
                   <div className="card-profile-image">
                     <img
                       alt="..."
-                      className="rounded-circle cursor-pointer"
+                      className="rounded-circle"
                       src={require("assets/img/undraws/male_avatar.svg").default}
-                      onClick={changeGender}
                       id="profile-img"
                     />
-                    <UncontrolledTooltip placement="top" target="profile-img">
-                      {t("CLICK_TO_CHANGE")}
-                    </UncontrolledTooltip>
                   </div>
                 </Col>
               </Row>
