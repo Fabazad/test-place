@@ -85,7 +85,7 @@ const createProductDAO = (): ProductDAO => {
               : SORT_RECORD[sortBy]
           )
           .limit(itemsPerPage)
-          .skip(itemsPerPage * page - 1)
+          .skip(itemsPerPage * (page - 1))
           .populate("seller")
           .lean<Array<PopulatedProduct>>(),
         productModel.countDocuments(query),

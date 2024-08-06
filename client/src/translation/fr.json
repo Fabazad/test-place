@@ -362,5 +362,6 @@
   "PRODUCT_CATEGORIES.mode": "Mode",
   "PRODUCT_CATEGORIES.watch": "Montre",
   "PRODUCT_CATEGORIES.sports": "Sport",
-  "PRODUCT_CATEGORIES.cloths": "Vêtements"
+  "PRODUCT_CATEGORIES.cloths": "Vêtements",
+  "PUBLICATION_EXPIRATION_DATE": "Date d'expiration de la publication"
 }

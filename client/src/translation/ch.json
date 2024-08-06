@@ -363,5 +363,6 @@
   "PRODUCT_CATEGORIES.mode": "模式",
   "PRODUCT_CATEGORIES.watch": "手表",
   "PRODUCT_CATEGORIES.sports": "运动",
-  "PRODUCT_CATEGORIES.cloths": "服装"
+  "PRODUCT_CATEGORIES.cloths": "服装",
+  "PUBLICATION_EXPIRATION_DATE": "发布期限"
 }
