@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
+    "outDir": "./build",
     "rootDir": "./src" /* Répertoire racine des sources. */,
     "resolveJsonModule": true /* Autorise l'importation des modules JSON. */,
     "moduleResolution": "nodenext" /* Utilise la résolution de module node. */,
