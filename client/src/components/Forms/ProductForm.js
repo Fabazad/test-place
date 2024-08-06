@@ -32,7 +32,7 @@ const ProductForm = (props) => {
   const [images, setImages] = useState(defaultData.images ?? []);
   const [description, setDescription] = useState(defaultData.description ?? undefined);
   const [isPrime, setIsPrime] = useState(defaultData.isPrime ?? false);
-  const [maxDemands, setMaxDemands] = useState(defaultData.maxDemands ?? "");
+  const [maxDemands, setMaxDemands] = useState(defaultData.maxDemands ?? undefined);
   const [automaticAcceptance, setAutomaticAcceptance] = useState(
     defaultData.automaticAcceptance ?? false
   );
@@ -71,11 +71,12 @@ const ProductForm = (props) => {
       images,
       description,
       isPrime,
-      maxDemands,
+      maxDemands: maxDemands ? parseInt(maxDemands) : undefined,
       automaticAcceptance,
       category,
       keywords,
       privateNote,
+      amazonSeller: defaultData.amazonSeller,
     });
   };
 

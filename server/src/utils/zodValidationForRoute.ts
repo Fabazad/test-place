@@ -8,7 +8,7 @@ export const zodValidationForRoute = <Schema extends z.Schema>(
 ): z.infer<Schema> => {
   const result = schema.safeParse(data);
   if (!result.success) {
-    throw new BadRequestError(formatZodError(result.error));
+    throw new BadRequestError("bad-request", formatZodError(result.error));
   }
   return result.data;
 };
