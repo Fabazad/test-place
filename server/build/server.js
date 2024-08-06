@@ -1,5 +1,6 @@
 import routes from "./routes/index.js";
 import cors from "cors";
+import dayjs from "dayjs";
 import express from "express";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -15,7 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(decode, function (req, res, next) {
-    console.log(req.method + " : " + req.url + " [" + Date.now() + "]");
+    console.log(`${dayjs().toISOString()} [${req.method}]${req.url} [${res.statusCode}]`);
     next();
 });
 app.use(express.static(path.join(__dirname, "../../client/build")));
@@ -26,10 +27,6 @@ const start = async () => {
     app.use("/", routes);
     app.get("/*", (req, res) => {
         res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
-    });
-    app.use(function (req, res, next) {
-        console.log(req.url + " : " + Date.now());
-        next();
     });
     errorHandler({ app });
     app.listen(port, function () {

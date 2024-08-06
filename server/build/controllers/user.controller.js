@@ -28,7 +28,6 @@ export class UserController {
         if (!userRes.success)
             return userRes;
         const user = userRes.data;
-        console.log({ user });
         await emailClient.sendValidateMailAddressMail({ email, userId: user._id, language });
         return { success: true, data: user };
     }

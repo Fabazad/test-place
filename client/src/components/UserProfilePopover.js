@@ -83,11 +83,7 @@ const UserProfilePopover = ({ userId, t, userName, showMail = true, isCertified 
                       className="rounded-circle"
                       width="130"
                       style={{ maxWith: "130px!important" }}
-                      src={
-                        require("assets/img/undraws/" +
-                          (user ? user.gender.toLowerCase() : "male") +
-                          "_avatar.svg").default
-                      }
+                      src={require("assets/img/undraws/male_avatar.svg").default}
                     />
                   </div>
                 </Col>

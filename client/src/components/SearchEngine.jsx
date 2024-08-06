@@ -49,7 +49,8 @@ const SearchEngine = (props) => {
 
   const filterNbCalculation = () => {
     let newFilterNb = 0;
-    if (values.minPrice !== "" || values.maxPrice !== "") newFilterNb++;
+    if (values.minPrice !== undefined && values.minPrice !== "") newFilterNb++;
+    if (values.maxPrice !== undefined && values.maxPrice !== "") newFilterNb++;
     if (values.free) newFilterNb++;
     if (values.automaticAcceptance) newFilterNb++;
     if (values.prime) newFilterNb++;
@@ -62,6 +63,16 @@ const SearchEngine = (props) => {
 
   const handleInputChange = (event) => {
     const { value, name } = event.target;
+    if (value === "") {
+      delete values[name];
+      setValues({ ...values });
+      return;
+    }
+    if (name === "category" && value === null) {
+      delete values[name];
+      setValues({ ...values });
+      return;
+    }
     setValues({ ...values, [name]: value });
   };
 
@@ -83,6 +94,8 @@ const SearchEngine = (props) => {
       free: false,
       automaticAcceptance: false,
       prime: false,
+      minPrice: "",
+      maxPrice: "",
     });
   };
 

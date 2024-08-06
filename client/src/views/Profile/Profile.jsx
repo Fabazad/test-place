@@ -72,11 +72,7 @@ const Profile = (props) => {
                     <img
                       alt="..."
                       className="rounded-circle cursor-pointer"
-                      src={
-                        require("assets/img/undraws/" +
-                          user.gender.toLowerCase() +
-                          "_avatar.svg").default
-                      }
+                      src={require("assets/img/undraws/male_avatar.svg").default}
                       onClick={changeGender}
                       id="profile-img"
                     />

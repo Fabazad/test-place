@@ -32,13 +32,13 @@ const Search = (props) => {
     const urlParams = new URLSearchParams(window.location.search);
 
     const params = {
-      minPrice: urlParams.has("minPrice") ? urlParams.get("minPrice") : undefined,
-      maxPrice: urlParams.has("maxPrice") ? urlParams.get("maxPrice") : undefined,
+      ...(urlParams.has("minPrice") ? { minPrice: urlParams.get("minPrice") } : {}),
+      ...(urlParams.has("maxPrice") ? { maxPrice: urlParams.get("maxPrice") } : {}),
       free: urlParams.get("free") === "true",
       automaticAcceptance: urlParams.get("automaticAcceptance") === "true",
       prime: urlParams.get("prime") === "true",
-      category: urlParams.has("category") ? urlParams.get("category") : undefined,
-      keyWords: urlParams.has("keyWords") ? urlParams.get("keyWords") : undefined,
+      ...(urlParams.has("category") ? { category: urlParams.get("category") } : {}),
+      ...(urlParams.has("keyWords") ? { keyWords: urlParams.get("keyWords") } : {}),
       page: 1,
     };
 

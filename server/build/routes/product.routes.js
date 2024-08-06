@@ -34,7 +34,6 @@ router.post("/create", withAuth(Role.SELLER), asyncHandler(async (request, reply
 }));
 router.get("/find", decode, asyncHandler(async (request, reply) => {
     const userId = request.decoded?.userId;
-    console.log(request.query);
     const { searchData: parsedSearchData } = zodValidationForRoute(request.query, z.object({
         searchData: productSearchDataSchema,
     }));
