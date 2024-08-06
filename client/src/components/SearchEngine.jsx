@@ -20,19 +20,13 @@ import "../assets/scss/animated-checks.scss";
 import productServices from "../services/product.service";
 import DropdownSelect from "./DropdownSelect";
 
-console.log(React.version);
-
 const SearchEngine = (props) => {
   const { data, lean = false, onSearch, t } = props;
 
   const [values, setValues] = useState({
-    minPrice: "",
-    maxPrice: "",
     free: false,
     automaticAcceptance: false,
     prime: false,
-    category: undefined,
-    keyWords: "",
   });
 
   const [filterNb, setFilterNb] = useState(0);
@@ -86,8 +80,6 @@ const SearchEngine = (props) => {
     setValues({
       ...values,
       filterNb: 0,
-      minPrice: "",
-      maxPrice: "",
       free: false,
       automaticAcceptance: false,
       prime: false,
