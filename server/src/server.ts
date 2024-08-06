@@ -1,7 +1,6 @@
 import routes from "@/routes/index.js";
 import cors from "cors";
 import express from "express";
-import "express-async-errors";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { configs } from "./configs.js";

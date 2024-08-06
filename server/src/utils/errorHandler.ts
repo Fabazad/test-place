@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { Express, Request, Response } from "express";
-import "express-async-errors";
 import { NextFunction } from "express-serve-static-core";
 import { HttpRequestError } from "./exceptions/HttpRequestError.js";
 

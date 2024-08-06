@@ -3,7 +3,7 @@ import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao
 import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import { Product } from "@/entities/Product/product.entity.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
-import { PopulatedTest, TestData } from "@/entities/Test/test.entity.js";
+import { PopulatedTest, Test, TestData } from "@/entities/Test/test.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import {
@@ -15,7 +15,6 @@ import {
   TestStatusUpdateParams,
 } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
-import { Test } from "aws-sdk/clients/devicefarm.js";
 import dayjs from "dayjs";
 
 export class TestController {
