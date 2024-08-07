@@ -1,8 +1,8 @@
 import { createSingletonGetter } from "../../utils/singleton.js";
 const createEmailClient = () => {
     return {
-        sendContactUsMail: async ({ email, name, language }) => {
-            console.log("sendContactUsMail", { email, name, language });
+        sendContactUsMail: async ({ email, name, language, message }) => {
+            console.log("sendContactUsMail", { email, name, language, message });
         },
         sendValidateMailAddressMail: async ({ email, userId, language }) => {
             console.log("sendValidateMailAddressMail", { email, userId, language });

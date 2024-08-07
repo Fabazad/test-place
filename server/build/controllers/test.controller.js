@@ -76,7 +76,7 @@ export class TestController {
         return { success: true, data: test };
     }
     static async getStatuses() {
-        return Object.values(TestStatus);
+        return TestStatus;
     }
     static async find(params) {
         const { userId, searchData } = params;

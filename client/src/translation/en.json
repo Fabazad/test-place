@@ -247,8 +247,8 @@
   "SENT_REQUESTS": "Sent requests",
   "SHARE": "Share",
   "SHARE_PLACEHOLDER": "Hey :) I let you try this website, you'll love it !",
-  "SIGN_IN": "Log in",
-  "SIGN_UP": "Sign in",
+  "SIGN_IN": "Sign in",
+  "SIGN_UP": "Sign up",
   "SO": "So",
   "SORT": "Sort",
   "SORT_RESULT": "Short results",
@@ -365,5 +365,7 @@
   "PRODUCT_CATEGORIES.cloths": "Cloths",
   "PUBLICATION_EXPIRATION_DATE": "Publication expiration date",
   "ACCOUNT_WITH_THIS_EMAIL_ALREADY_EXISTS": "An account already exists with this email.",
-  "UNKNOWN_ERROR": "An unknown error occurred."
+  "UNKNOWN_ERROR": "An unknown error occurred.",
+  "BAD_REQUEST_PARAMS": "Bad parameters sent.",
+  "EMAIL_ALREADY_VALIDATED": "The email has already been validated."
 }

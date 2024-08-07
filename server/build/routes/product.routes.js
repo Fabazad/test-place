@@ -1,6 +1,5 @@
 import { productSearchDataSchema, productUpdateDataSchema, } from "../entities/Product/product.constants.js";
 import { productDataSchema } from "../entities/Product/product.entity.js";
-import { decode } from "../middlewares/decode.js";
 import { withAuth } from "../middlewares/withAuth.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Role } from "../utils/constants.js";
@@ -32,13 +31,11 @@ router.post("/create", withAuth(Role.SELLER), asyncHandler(async (request, reply
         duplicate_asin: new UnauthorizedRequestError("duplicate_asin"),
     }));
 }));
-router.get("/find", decode, asyncHandler(async (request, reply) => {
-    const userId = request.decoded?.userId;
+router.get("/find", asyncHandler(async (request, reply) => {
     const { searchData: parsedSearchData } = zodValidationForRoute(request.query, z.object({
         searchData: productSearchDataSchema,
     }));
     const res = await ProductController.findPageResults({
-        userId,
         searchData: parsedSearchData,
     });
     reply.send(handleResponseForRoute(res));

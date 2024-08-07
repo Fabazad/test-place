@@ -49,6 +49,8 @@ export const runInterceptors = (history, t) => {
       }
 
       if (error?.response?.status === 500) toast.error(message);
+      if (error?.response?.status === 400 && error.response.data?.code === "bad-request")
+        toast.error(t("BAD_REQUEST_PARAMS"));
 
       return Promise.reject(error);
     }

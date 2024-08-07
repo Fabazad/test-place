@@ -3,7 +3,6 @@ import {
   productUpdateDataSchema,
 } from "@/entities/Product/product.constants.js";
 import { productDataSchema } from "@/entities/Product/product.entity.js";
-import { decode } from "@/middlewares/decode.js";
 import { withAuth } from "@/middlewares/withAuth.js";
 import { asyncHandler } from "@/utils/asyncHandler.js";
 import { Role } from "@/utils/constants.js";
@@ -66,9 +65,7 @@ router.post(
 
 router.get(
   "/find",
-  decode,
   asyncHandler(async (request, reply) => {
-    const userId = request.decoded?.userId;
     const { searchData: parsedSearchData } = zodValidationForRoute(
       request.query,
       z.object({
@@ -76,7 +73,6 @@ router.get(
       })
     );
     const res = await ProductController.findPageResults({
-      userId,
       searchData: parsedSearchData,
     });
 

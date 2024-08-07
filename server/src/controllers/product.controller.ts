@@ -92,15 +92,12 @@ export class ProductController {
   }
 
   static async findPageResults(params: {
-    userId?: string;
     searchData: ProductSearchData;
   }): Promise<CustomResponse<{ hits: Array<PopulatedProduct>; totalCount: number }>> {
-    const { userId, searchData } = params;
+    const { searchData } = params;
     const productDAO = getProductDAO();
 
-    const queryRes = await productDAO.findPageResults({
-      searchData: { ...searchData, ...(userId && { seller: userId }) },
-    });
+    const queryRes = await productDAO.findPageResults({ searchData });
 
     return { success: true, data: queryRes };
   }

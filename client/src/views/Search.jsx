@@ -6,6 +6,7 @@ import { Container, Row } from "reactstrap";
 // core components
 import SimpleFooter from "components/Footers/SimpleFooter.jsx";
 import { withTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import ProductCard from "../components/Cards/ProductCard";
 import ProductCardSkeleton from "../components/Cards/ProductCardSkeleton";
 import DropdownSelect from "../components/DropdownSelect";
@@ -14,11 +15,12 @@ import SearchEngine from "../components/SearchEngine";
 import constants from "../helpers/constants";
 import { scrollTo } from "../helpers/scrollHelpers";
 import { updateURLParameters } from "../helpers/urlHelpers";
-import history from "../history";
 import productServices from "../services/product.service";
 
 const Search = (props) => {
   const { t } = props;
+
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [searchEngineData, setSearchEngineData] = useState({});

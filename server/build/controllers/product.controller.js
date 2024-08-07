@@ -50,11 +50,9 @@ export class ProductController {
         return { success: true, data: creationRes.data };
     }
     static async findPageResults(params) {
-        const { userId, searchData } = params;
+        const { searchData } = params;
         const productDAO = getProductDAO();
-        const queryRes = await productDAO.findPageResults({
-            searchData: { ...searchData, ...(userId && { seller: userId }) },
-        });
+        const queryRes = await productDAO.findPageResults({ searchData });
         return { success: true, data: queryRes };
     }
     static async getCategories() {

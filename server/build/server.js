@@ -16,7 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(decode, function (req, res, next) {
-    console.log(`${dayjs().toISOString()} [${req.method}]${req.url} [${res.statusCode}]`);
+    console.log(`${dayjs().toISOString()} [${req.method}]${req.url}`);
     next();
 });
 app.use(express.static(path.join(__dirname, "../../client/build")));

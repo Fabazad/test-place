@@ -6,6 +6,7 @@ import { asyncHandler } from "@/utils/asyncHandler.js";
 import { Role } from "@/utils/constants.js";
 import { handleResponseForRoute } from "@/utils/CustomResponse.js";
 import { BadRequestError } from "@/utils/exceptions/BadRequestError.js";
+import { ForbiddenRequestError } from "@/utils/exceptions/ForbiddenRequestError.js";
 import { NotFoundRequestError } from "@/utils/exceptions/NotFoundRequestError.js";
 import { ServerRequestError } from "@/utils/exceptions/ServerRequestError.js";
 import { UnauthorizedRequestError } from "@/utils/exceptions/UnauthorizedRequestError.js";
@@ -70,9 +71,9 @@ router.post(
           "user_not_found_when_logging"
         ),
         email_not_found: new NotFoundRequestError("email_not_found"),
-        wrong_password: new UnauthorizedRequestError("wrong_password"),
-        email_not_validated: new UnauthorizedRequestError("email_not_validated"),
-        missing_password: new UnauthorizedRequestError("missing_password"),
+        wrong_password: new BadRequestError("wrong_password"),
+        email_not_validated: new ForbiddenRequestError("email_not_validated"),
+        missing_password: new NotFoundRequestError("missing_password"),
       })
     );
   })

@@ -116,8 +116,8 @@ export class TestController {
     return { success: true, data: test };
   }
 
-  static async getStatuses() {
-    return Object.values(TestStatus);
+  static async getStatuses(): Promise<Record<string, TestStatus>> {
+    return TestStatus;
   }
 
   static async find(params: {

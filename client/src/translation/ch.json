@@ -366,5 +366,7 @@
   "PRODUCT_CATEGORIES.cloths": "服装",
   "PUBLICATION_EXPIRATION_DATE": "发布期限",
   "ACCOUNT_WITH_THIS_EMAIL_ALREADY_EXISTS": "该邮箱已有账户。",
-  "UNKNOWN_ERROR": "发生未知错误。"
+  "UNKNOWN_ERROR": "发生未知错误。",
+  "BAD_REQUEST_PARAMS": "发送的参数无效。",
+  "EMAIL_ALREADY_VALIDATED": "邮箱已经验证过了。"
 }

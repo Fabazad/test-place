@@ -25,7 +25,8 @@ class UserService extends BaseService {
           return [key, value !== null ? value.toString() : "null"];
         });
         window.$crisp.push(["set", "session:data", [userDataArray]]);
-        if (data.user.language) i18n.changeLanguage(data.user.language);
+        if (data.user.language && i18n.language !== data.user.language)
+          i18n.changeLanguage(data.user.language);
       }
       if (
         "requestedTestsCount" in data ||
@@ -46,21 +47,18 @@ class UserService extends BaseService {
   }
 
   async login(email, password, keepConnection) {
-    const response = await axios.post(this.baseURL + "/login", {
-      email,
-      password,
-      keepConnection,
+    return this.enrichResponseWithError(async () => {
+      const response = await axios.post(this.baseURL + "/login", {
+        email,
+        password,
+        keepConnection,
+      });
+      return this.currentUserResolve(response);
     });
-    return this.currentUserResolve(response);
   }
 
   async register(user) {
-    try {
-      await axios.post(this.baseURL + "/register", user);
-    } catch (err) {
-      console.log({ code: err.response.data.code });
-      return { error: err.response.data.code };
-    }
+    return this.enrichResponseWithError(axios.post(this.baseURL + "/register", user));
   }
 
   checkToken() {
@@ -72,10 +70,10 @@ class UserService extends BaseService {
       .catch(() => this.logout());
   }
 
-  sendResetPasswordMail(email) {
-    return axios
-      .post(this.baseURL + "/resetPasswordMail", { email })
-      .then(this.serviceResolve);
+  async sendResetPasswordMail(email) {
+    return this.enrichResponseWithError(() =>
+      axios.post(this.baseURL + "/resetPasswordMail", { email })
+    );
   }
 
   resetPassword(password, resetPasswordToken) {
@@ -124,9 +122,9 @@ class UserService extends BaseService {
   }
 
   resendValidationMail(email) {
-    return axios
-      .post(this.baseURL + "/validationMail", { email })
-      .then(this.serviceResolve);
+    return this.enrichResponseWithError(() =>
+      axios.post(this.baseURL + "/validationMail", { email })
+    );
   }
 
   updateUserInfo(userId, data) {

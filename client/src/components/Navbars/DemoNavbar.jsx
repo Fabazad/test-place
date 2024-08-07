@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Headroom from "headroom.js";
 // reactstrap components
 import { withTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   Col,
@@ -26,6 +27,7 @@ import ProfileDropdownBadge from "./ProfileDropdownBadge";
 const DemoNavbar = (props) => {
   const { t } = props;
 
+  const history = useHistory();
   const translatedRoutes = routesJson(t);
   const [isOpen, setIsOpen] = useState(false);
   const [routes, setRoutes] = useState(
@@ -175,7 +177,7 @@ const DemoNavbar = (props) => {
                   {isAuth && (
                     <>
                       <NavItem className="d-none d-md-block">
-                        <ProfileDropdownBadge routes={routes} history={props.history} />
+                        <ProfileDropdownBadge routes={routes} history={history} />
                       </NavItem>
                       <NavItems routes={routes} />
                     </>

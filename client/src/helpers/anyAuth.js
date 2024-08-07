@@ -1,54 +1,42 @@
-import React, {Component} from 'react';
-import DemoNavbar from '../components/Navbars/DemoNavbar';
-import userService from '../services/user.services';
-import {getCookie} from './cookies';
-import Loading from '../components/Loading';
+import React, { memo, useEffect, useState } from "react";
+import Loading from "../components/Loading";
+import DemoNavbar from "../components/Navbars/DemoNavbar";
+import userService from "../services/user.services";
+import { getCookie } from "./cookies";
 
-export default function withAuth(ComponentToProtect) {
+const anyAuth = (ComponentToProtect) => {
+  return memo((props) => {
+    console.log({ props: JSON.parse(JSON.stringify(props)) });
+    const [loadingPromise, setLoadingPromise] = useState(null);
+    const [checked, setChecked] = useState(false);
 
-    return class extends Component {
-      _mount;
+    useEffect(() => {
+      console.log("anyAuth");
+      if (!getCookie("token")) {
+        userService.logout();
+        setChecked(true);
+      } else {
+        const promise = userService.checkToken().then(() => {
+          setChecked(true);
+        });
+        setLoadingPromise(promise);
+      }
+    }, []);
 
-        constructor(props) {
-            super(props);
-            this.state = {
-                loadingPromise: null,
-                checked: false
-            };
-
-            this._mount = false;
-        }
-
-        componentDidMount() {
-            this._mount = true;
-            if (!getCookie("token")) {
-                userService.logout();
-                this.setState({checked: true});
-            } else {
-                const loadingPromise = userService.checkToken()
-                    .then(() => this._mount && this.setState({checked: true}));
-                this.setState({loadingPromise});
-            }
-        }
-
-        componentWillUnmount() {
-            this._mount = false;
-        }
-
-
-        render() {
-            if (!userService.isAlreadyChecked() && !this.state.checked) {
-                return (<><Loading key={"0"} loading={true}/></>);
-            }
-            return (
-                <React.Fragment>
-                    <div id="login">
-                        <Loading promise={this.state.loadingPromise} loading={false}/>
-                        <DemoNavbar {...this.props}/>
-                        <ComponentToProtect {...this.props} />
-                    </div>
-                </React.Fragment>
-            );
-        }
+    if (!userService.isAlreadyChecked() && !checked) {
+      return <Loading key={"0"} loading={true} />;
     }
-}
+
+    return (
+      <React.Fragment>
+        <div id="login">
+          <Loading promise={loadingPromise} loading={false} />
+          <DemoNavbar {...props} />
+          <ComponentToProtect {...props} />
+        </div>
+      </React.Fragment>
+    );
+  });
+};
+
+export default anyAuth;

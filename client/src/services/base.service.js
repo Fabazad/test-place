@@ -14,6 +14,19 @@ class BaseService {
     return res.data;
   }
 
+  async enrichResponseWithError(fn) {
+    try {
+      if (typeof fn === "function") {
+        const res = await fn();
+        return res;
+      }
+      return fn();
+    } catch (err) {
+      console.log(err);
+      return { error: err.response.data.code };
+    }
+  }
+
   getOne(itemId) {
     itemId = itemId ? itemId : "";
     return axios.get(this.baseURL + "/" + itemId).then(this.serviceResolve);

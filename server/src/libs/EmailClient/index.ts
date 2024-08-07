@@ -3,8 +3,8 @@ import { EmailClient } from "./type.js";
 
 const createEmailClient = (): EmailClient => {
   return {
-    sendContactUsMail: async ({ email, name, language }) => {
-      console.log("sendContactUsMail", { email, name, language });
+    sendContactUsMail: async ({ email, name, language, message }) => {
+      console.log("sendContactUsMail", { email, name, language, message });
     },
     sendValidateMailAddressMail: async ({ email, userId, language }) => {
       console.log("sendValidateMailAddressMail", { email, userId, language });

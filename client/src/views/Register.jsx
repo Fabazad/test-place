@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 // core components
 import i18n from "i18next";
 import { withTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import Label from "reactstrap/es/Label";
 import SimpleFooter from "../components/Footers/SimpleFooter.jsx";
@@ -33,6 +34,8 @@ import PasswordStrength from "../components/PasswordStrength";
 
 const Register = (props) => {
   const { t } = props;
+
+  const history = useHistory();
 
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -67,7 +70,7 @@ const Register = (props) => {
           } else toast.error(t("UNKNOWN_ERROR"));
           return;
         }
-        props.history.push("/login");
+        history.push("/login");
         toast.info(t("CHECK_MAIL_SENT"));
       })
       .finally(() => setLoading(false));
