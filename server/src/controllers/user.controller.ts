@@ -423,12 +423,21 @@ export class UserController {
     name: string;
     email: string;
     message: string;
-  }) {
+  }): Promise<CustomResponse<undefined, "email_not_sent">> {
     const { name, email, message } = params;
 
     const emailClient = getEmailClient();
 
-    await emailClient.sendContactUsMail({ name, email, language: Language.FR, message });
+    const res = await emailClient.sendContactUsMail({
+      name,
+      email,
+      language: Language.FR,
+      message,
+    });
+
+    if (!res.success) return res;
+
+    return { success: true, data: undefined };
   }
 
   static async getOne(params: { userId: string }): Promise<

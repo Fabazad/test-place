@@ -20,6 +20,18 @@ export const configs = z
     BREVO_BASE_URL: z.string().optional().default("https://api.brevo.com/v3"),
     EMAIL_SENDER_NAME: z.string().optional().default("Test Place"),
     EMAIL_SENDER_EMAIL: z.string().optional().default("fabien.turgut@gmail.com"),
+    CONTACT_US_EMAIL_TEMPLATE_ID_FR: z.string().optional().default("unknown"),
+    CONTACT_US_EMAIL_TEMPLATE_ID_EN: z.string().optional().default("unknown"),
+    CONTACT_US_EMAIL_TEMPLATE_ID_CH: z.string().optional().default("unknown"),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: z.string().optional().default("unknown"),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: z.string().optional().default("unknown"),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: z.string().optional().default("unknown"),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: z.string().optional().default("unknown"),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: z.string().optional().default("unknown"),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: z.string().optional().default("unknown"),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_FR: z.string().optional().default("unknown"),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_EN: z.string().optional().default("unknown"),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_CH: z.string().optional().default("unknown"),
   })
   .parse(process.env);
 

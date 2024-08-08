@@ -22,3 +22,10 @@ export type EmailClient = {
   }) => Promise<void>;
   sendNotificationMail: (params: { notification: Notification }) => Promise<void>;
 };
+
+export enum EmailTemplate {
+  CONTACT_US = "contact-us",
+  EMAIL_VALIDATION = "email-validation",
+  FORGOTTEN_PASSWORD = "forgotten-password",
+  NOTIFICATION = "notification",
+}

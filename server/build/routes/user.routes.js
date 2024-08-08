@@ -137,8 +137,10 @@ router.post("/contact-us", asyncHandler(async (request, reply) => {
         email: z.string().trim().min(1).email(),
         message: z.string().trim().min(1),
     }));
-    await UserController.sendContactUsEmail({ name, email, message });
-    reply.send();
+    const res = await UserController.sendContactUsEmail({ name, email, message });
+    reply.send(handleResponseForRoute(res, {
+        email_not_sent: new BadRequestError("email_not_sent"),
+    }));
 }));
 router.get("/:userId", asyncHandler(async (request, reply) => {
     const { userId } = zodValidationForRoute(request.params, z.object({ userId: z.string().min(1) }));

@@ -1,6 +1,9 @@
 import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
 import axios from "axios";
+import { sendTransactionalEmail } from "./sendTransactionalEmail.js";
+import { TEMPLATE_IDS } from "./templateIds.js";
+import { EmailTemplate } from "./type.js";
 const createEmailClient = () => {
     const brevoAxios = axios.create({
         baseURL: configs.BREVO_BASE_URL,
@@ -10,37 +13,10 @@ const createEmailClient = () => {
             "content-type": "application/json",
         },
     });
-    const sendTransactionalEmail = async (params) => {
-        const { from, to, subject, templateId, templateParams } = params;
-        try {
-            const res = await brevoAxios.post("/smtp/email", {
-                subject,
-                sender: from,
-                to: [to],
-                templateId,
-                params: templateParams,
-            });
-            return { success: true, data: res.data.messageId };
-        }
-        catch (err) {
-            if (axios.isAxiosError(err) && err.response) {
-                const { code, message } = err.response.data;
-                return {
-                    success: false,
-                    errorCode: "email_not_sent",
-                    errorMessage: `[${code}]: ${message}`,
-                };
-            }
-            return {
-                success: false,
-                errorCode: "email_not_sent",
-                errorMessage: err?.toString(),
-            };
-        }
-    };
     return {
         sendContactUsMail: async ({ email, name, language, message }) => {
             const res = await sendTransactionalEmail({
+                brevoAxios,
                 from: {
                     name,
                     email,
@@ -50,10 +26,9 @@ const createEmailClient = () => {
                     email: configs.EMAIL_SENDER_EMAIL,
                 },
                 subject: "Contact us from " + name,
-                templateId: "contact-us",
+                templateId: TEMPLATE_IDS[EmailTemplate.CONTACT_US][language],
                 templateParams: { name, message },
             });
-            console.log(res);
             return res;
         },
         sendValidateMailAddressMail: async ({ email, userId, language, userName }) => {

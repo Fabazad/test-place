@@ -367,5 +367,6 @@
   "ACCOUNT_WITH_THIS_EMAIL_ALREADY_EXISTS": "An account already exists with this email.",
   "UNKNOWN_ERROR": "An unknown error occurred.",
   "BAD_REQUEST_PARAMS": "Bad parameters sent.",
-  "EMAIL_ALREADY_VALIDATED": "The email has already been validated."
+  "EMAIL_ALREADY_VALIDATED": "The email has already been validated.",
+  "ERROR_SENDING_MESSAGE": "An error occurred while sending the message."
 }

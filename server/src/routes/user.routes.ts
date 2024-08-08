@@ -247,9 +247,13 @@ router.post(
         message: z.string().trim().min(1),
       })
     );
-    await UserController.sendContactUsEmail({ name, email, message });
+    const res = await UserController.sendContactUsEmail({ name, email, message });
 
-    reply.send();
+    reply.send(
+      handleResponseForRoute(res, {
+        email_not_sent: new BadRequestError("email_not_sent"),
+      })
+    );
   })
 );
 

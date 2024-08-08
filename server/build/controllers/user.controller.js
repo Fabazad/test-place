@@ -268,7 +268,15 @@ export class UserController {
     static async sendContactUsEmail(params) {
         const { name, email, message } = params;
         const emailClient = getEmailClient();
-        await emailClient.sendContactUsMail({ name, email, language: Language.FR, message });
+        const res = await emailClient.sendContactUsMail({
+            name,
+            email,
+            language: Language.FR,
+            message,
+        });
+        if (!res.success)
+            return res;
+        return { success: true, data: undefined };
     }
     static async getOne(params) {
         const { userId } = params;

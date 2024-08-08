@@ -1,8 +1,9 @@
 import { configs } from "@/configs.js";
-import { CustomResponse } from "@/utils/CustomResponse.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import axios from "axios";
-import { EmailClient } from "./type.js";
+import { sendTransactionalEmail } from "./sendTransactionalEmail.js";
+import { TEMPLATE_IDS } from "./templateIds.js";
+import { EmailClient, EmailTemplate } from "./type.js";
 
 const createEmailClient = (): EmailClient => {
   const brevoAxios = axios.create({
@@ -14,44 +15,10 @@ const createEmailClient = (): EmailClient => {
     },
   });
 
-  const sendTransactionalEmail = async (params: {
-    from: { name?: string; email: string };
-    to: { name?: string; email: string };
-    subject: string;
-    templateId: string;
-    templateParams: Record<string, any>;
-  }): Promise<CustomResponse<string, "email_not_sent">> => {
-    const { from, to, subject, templateId, templateParams } = params;
-    try {
-      const res = await brevoAxios.post<{ messageId: string }>("/smtp/email", {
-        subject,
-        sender: from,
-        to: [to],
-        templateId,
-        params: templateParams,
-      });
-
-      return { success: true, data: res.data.messageId };
-    } catch (err: unknown) {
-      if (axios.isAxiosError<{ code: string; message: string }>(err) && err.response) {
-        const { code, message } = err.response.data;
-        return {
-          success: false,
-          errorCode: "email_not_sent",
-          errorMessage: `[${code}]: ${message}`,
-        };
-      }
-      return {
-        success: false,
-        errorCode: "email_not_sent",
-        errorMessage: err?.toString(),
-      };
-    }
-  };
-
   return {
     sendContactUsMail: async ({ email, name, language, message }) => {
       const res = await sendTransactionalEmail({
+        brevoAxios,
         from: {
           name,
           email,
@@ -61,7 +28,7 @@ const createEmailClient = (): EmailClient => {
           email: configs.EMAIL_SENDER_EMAIL,
         },
         subject: "Contact us from " + name,
-        templateId: "contact-us",
+        templateId: TEMPLATE_IDS[EmailTemplate.CONTACT_US][language],
         templateParams: { name, message },
       });
 
