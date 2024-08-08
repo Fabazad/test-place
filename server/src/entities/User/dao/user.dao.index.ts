@@ -4,15 +4,15 @@ import mongoose from "mongoose";
 import { User, userDataSchema } from "../user.entity.js";
 import { UserDAO } from "./user.dao.type.js";
 
+const userSchema = new mongoose.Schema<User>(
+  generateMongooseSchemaFromZod(userDataSchema)
+);
+
+userSchema.index({ email: 1 }, { unique: true }).index({ name: 1 }, { unique: true });
+
+const userModel = mongoose.model<User>("User", userSchema);
+
 const createUserDAO = (): UserDAO => {
-  const userSchema = new mongoose.Schema<User>(
-    generateMongooseSchemaFromZod(userDataSchema)
-  );
-
-  userSchema.index({ email: 1 }, { unique: true }).index({ name: 1 }, { unique: true });
-
-  const userModel = mongoose.model<User>("User", userSchema);
-
   return {
     getUser: async (params) => {
       const user = await userModel

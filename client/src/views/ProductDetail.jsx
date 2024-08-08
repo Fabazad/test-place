@@ -25,7 +25,6 @@ const ProductDetail = (props) => {
   const history = useHistory();
 
   const [product, setProduct] = useState(undefined);
-  const [categories, setCategories] = useState([]);
   const [sellerData, setSellerData] = useState(null);
 
   useEffect(() => {
@@ -48,16 +47,7 @@ const ProductDetail = (props) => {
           );
       })
       .catch(() => history.replace("/not-found"));
-    productServices.getProductCategories().then(setCategories);
   }, []);
-
-  const getProduct = (productValue) => {
-    const product = categories.find((category) => category.value === productValue);
-    if (product) {
-      return product.text;
-    }
-    return null;
-  };
 
   const currentUser = userServices.currentUser;
   if (!product) {
@@ -170,7 +160,8 @@ const ProductDetail = (props) => {
 
                 <div className="mt-5">
                   <Label>
-                    {t("CATEGORY")} : {product ? getProduct(product.category) : null}
+                    {t("CATEGORY")} :{" "}
+                    {product ? t("PRODUCT_CATEGORIES." + product.category) : null}
                   </Label>
                 </div>
                 <div className="mt-2">

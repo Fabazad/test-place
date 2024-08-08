@@ -10,16 +10,16 @@ import {
 } from "../product.entity.js";
 import { ProductDAO } from "./product.dao.type.js";
 
+const productMongooseSchema = new mongoose.Schema(
+  generateMongooseSchemaFromZod(productDataSchema),
+  { timestamps: true }
+);
+
+productMongooseSchema.index({ title: "text" }).index({ asin: 1 }, { unique: true });
+
+const productModel = mongoose.model<Product>("Product", productMongooseSchema);
+
 const createProductDAO = (): ProductDAO => {
-  const productMongooseSchema = new mongoose.Schema(
-    generateMongooseSchemaFromZod(productDataSchema),
-    { timestamps: true }
-  );
-
-  productMongooseSchema.index({ title: "text" }).index({ asin: 1 }, { unique: true });
-
-  const productModel = mongoose.model<Product>("Product", productMongooseSchema);
-
   const SORT_RECORD: Record<ProductSortBy, { [key: string]: any }> = {
     [ProductSortBy.CREATED_AT]: { createdAt: -1 },
     [ProductSortBy.PRICE]: { price: 1 },

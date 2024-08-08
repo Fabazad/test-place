@@ -8,24 +8,24 @@ import z from "zod";
 import { notificationDataSchema } from "../notification.entity.js";
 import { NotificationDAO } from "./notification.dao.type.js";
 
+const notificationMongooseSchema = new mongoose.Schema(
+  generateMongooseSchemaFromZod(notificationDataSchema),
+  { timestamps: true }
+);
+
+const notificationSchema = notificationDataSchema.extend(savedDataSchema);
+type Notification = z.infer<typeof notificationSchema>;
+
+notificationMongooseSchema.post("save", async (doc: Notification) => {
+  await getEmailClient().sendNotificationMail({ notification: doc });
+});
+
+const notificationModel = mongoose.model<Notification>(
+  "Notification",
+  notificationMongooseSchema
+);
+
 export const createNotificationDAO = (): NotificationDAO => {
-  const notificationMongooseSchema = new mongoose.Schema(
-    generateMongooseSchemaFromZod(notificationDataSchema),
-    { timestamps: true }
-  );
-
-  const notificationSchema = notificationDataSchema.extend(savedDataSchema);
-  type Notification = z.infer<typeof notificationSchema>;
-
-  notificationMongooseSchema.post("save", async (doc: Notification) => {
-    await getEmailClient().sendNotificationMail({ notification: doc });
-  });
-
-  const notificationModel = mongoose.model<Notification>(
-    "Notification",
-    notificationMongooseSchema
-  );
-
   return {
     getUserNotifications: async (userId) => {
       const res = await notificationModel
@@ -43,9 +43,11 @@ export const createNotificationDAO = (): NotificationDAO => {
               },
             ],
           },
-          { sort: { createdAt: -1 }, limit: 20, lean: true }
+          {},
+          { sort: { createdAt: -1 }, limit: 20 }
         )
         .lean();
+
       return JSON.parse(JSON.stringify(res));
     },
     setNotificationsViewed: async ({ userId, notificationsIds }) => {

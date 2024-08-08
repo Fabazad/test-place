@@ -5,37 +5,36 @@ import mongoose, { FilterQuery } from "mongoose";
 import { Test, TestData, testDataSchema } from "../test.entity.js";
 import { TestDAO } from "./test.dao.type.js";
 
+const testMongooseSchema = new mongoose.Schema(
+  generateMongooseSchemaFromZod(testDataSchema),
+  { timestamps: true }
+);
+
+testMongooseSchema.pre("save", async function (next) {
+  // Check if document is new or a new status has been set
+  if (this.isNew || this.isModified("status")) {
+    const document = this;
+    if (!("updates" in document)) throw new Error("updates is missing");
+    if (!(document.updates instanceof Array)) throw new Error("updates is not an array");
+    if (!("status" in document)) throw new Error("status is missing");
+    document.updates.push({ date: new Date(), status: document.status });
+  }
+  next();
+});
+
+testMongooseSchema.index(
+  {
+    product: 1,
+    tester: 1,
+  },
+  {
+    unique: true,
+  }
+);
+
+const testModel = mongoose.model<TestData>("Test", testMongooseSchema);
+
 export const createTestDAO = (): TestDAO => {
-  const testMongooseSchema = new mongoose.Schema(
-    generateMongooseSchemaFromZod(testDataSchema),
-    { timestamps: true }
-  );
-
-  testMongooseSchema.pre("save", async function (next) {
-    // Check if document is new or a new status has been set
-    if (this.isNew || this.isModified("status")) {
-      const document = this;
-      if (!("updates" in document)) throw new Error("updates is missing");
-      if (!(document.updates instanceof Array))
-        throw new Error("updates is not an array");
-      if (!("status" in document)) throw new Error("status is missing");
-      document.updates.push({ date: new Date(), status: document.status });
-    }
-    next();
-  });
-
-  testMongooseSchema.index(
-    {
-      product: 1,
-      tester: 1,
-    },
-    {
-      unique: true,
-    }
-  );
-
-  const testModel = mongoose.model<TestData>("Test", testMongooseSchema);
-
   const buildConditions = (
     statuses?: Array<TestStatus>,
     seller?: string,
@@ -55,16 +54,13 @@ export const createTestDAO = (): TestDAO => {
     },
     findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
       const res = await testModel
-        .find(
-          {
-            $or: [
-              { expirationDate: { $gt: new Date() } },
-              { expirationDate: { $eq: null } },
-            ],
-            ...buildConditions(statuses, seller, tester),
-          },
-          {}
-        )
+        .find({
+          $or: [
+            { expirationDate: { $gt: new Date() } },
+            { expirationDate: { $eq: null } },
+          ],
+          ...buildConditions(statuses, seller, tester),
+        })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)

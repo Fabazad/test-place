@@ -3,10 +3,10 @@ import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
 import { ProductSortBy } from "../product.constants.js";
 import { productDataSchema, } from "../product.entity.js";
+const productMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(productDataSchema), { timestamps: true });
+productMongooseSchema.index({ title: "text" }).index({ asin: 1 }, { unique: true });
+const productModel = mongoose.model("Product", productMongooseSchema);
 const createProductDAO = () => {
-    const productMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(productDataSchema), { timestamps: true });
-    productMongooseSchema.index({ title: "text" }).index({ asin: 1 }, { unique: true });
-    const productModel = mongoose.model("Product", productMongooseSchema);
     const SORT_RECORD = {
         [ProductSortBy.CREATED_AT]: { createdAt: -1 },
         [ProductSortBy.PRICE]: { price: 1 },

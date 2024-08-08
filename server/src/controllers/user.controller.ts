@@ -41,7 +41,12 @@ export class UserController {
     if (!userRes.success) return userRes;
     const user = userRes.data;
 
-    await emailClient.sendValidateMailAddressMail({ email, userId: user._id, language });
+    await emailClient.sendValidateMailAddressMail({
+      email,
+      userId: user._id,
+      language,
+      userName: user.name,
+    });
 
     return { success: true, data: undefined };
   }
@@ -287,6 +292,7 @@ export class UserController {
       email,
       userId: user._id,
       language: user.language,
+      userName: user.name,
     });
 
     return { success: true, data: { user } };

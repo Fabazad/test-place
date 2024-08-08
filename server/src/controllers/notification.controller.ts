@@ -18,7 +18,9 @@ export class NotificationController {
     >
   > {
     const testDAO = getTestDAO();
-    const notifications = await getNotificationDAO().getUserNotifications(userId);
+    const notificationDAO = getNotificationDAO();
+
+    const notifications = await notificationDAO.getUserNotifications(userId);
 
     const hasNewNotifications = notifications.some(
       (notification) => notification.viewDate === null

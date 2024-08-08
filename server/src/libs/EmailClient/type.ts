@@ -1,4 +1,5 @@
 import { Notification } from "@/entities/Notification/notification.entity.js";
+import { CustomResponse } from "@/utils/CustomResponse.js";
 import { Language } from "@/utils/Language.js";
 
 export type EmailClient = {
@@ -7,10 +8,11 @@ export type EmailClient = {
     email: string;
     language: Language;
     message: string;
-  }) => Promise<void>;
+  }) => Promise<CustomResponse<string, "email_not_sent">>;
   sendValidateMailAddressMail: (params: {
     email: string;
     userId: string;
+    userName: string;
     language: Language;
   }) => Promise<void>;
   sendResetPasswordMail: (params: {

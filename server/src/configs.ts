@@ -1,56 +1,26 @@
 import "dotenv/config";
 import z from "zod";
+import { numberSchema } from "./utils/zod.utils.js";
 
-const envNumber = (key: string | undefined): number | undefined => {
-  if (key === undefined) return undefined;
-  const n = Number(key);
-  if (isNaN(n)) return undefined;
-  return n;
-};
-
-const configsToCheck = {
-  MONGODB_URI: process.env.MONGODB_URI,
-  JWT_KEY: process.env.JWT_KEY,
-  PORT: process.env.PORT,
-  SALT_ROUNDS: envNumber(process.env.SALT_ROUNDS),
-  CERTIFIED_RATIO: envNumber(process.env.CERTIFIED_RATIO),
-  PUBLICATION_TIME_IN_DAYS: envNumber(process.env.PUBLICATION_TIME_IN_DAYS),
-  LONG_SIGN_IN_DURATION: process.env.LONG_SIGN_IN_DURATION,
-  SHORT_SIGN_IN_DURATION: process.env.SHORT_SIGN_IN_DURATION,
-  PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES: envNumber(
-    process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES
-  ),
-  MIN_PASSWORD_LENGTH: process.env.MIN_PASSWORD_LENGTH,
-} as const;
-
-const checkConfigs = <
-  Keys extends keyof typeof configsToCheck,
-  RawShape extends Record<Keys, z.ZodTypeAny>,
-  Schema extends z.ZodObject<RawShape>
->(
-  c: Record<Keys, string | number | boolean | Date | undefined>,
-  schema: Schema
-): z.infer<typeof schema> => {
-  return schema.parse(c);
-};
-
-export const configs = checkConfigs(
-  configsToCheck,
-  z.object({
+export const configs = z
+  .object({
     MONGODB_URI: z.string().url(),
     JWT_KEY: z.string(),
     PORT: z.string(),
-    SALT_ROUNDS: z.number().min(0).optional().default(10),
-    CERTIFIED_RATIO: z.number().min(0).max(1).optional().default(0.3),
-    PUBLICATION_TIME_IN_DAYS: z.number().min(0).max(365).optional().default(30),
+    SALT_ROUNDS: numberSchema({ min: 0 }).optional().default(10),
+    CERTIFIED_RATIO: numberSchema({ min: 0, max: 1 }).optional().default(0.3),
+    PUBLICATION_TIME_IN_DAYS: numberSchema({ min: 0, max: 365 }).optional().default(30),
     LONG_SIGN_IN_DURATION: z.string().optional().default("7d"),
     SHORT_SIGN_IN_DURATION: z.string().optional().default("1h"),
-    PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES: z
-      .number()
-      .min(0)
-      .max(100)
+    PASSWORD_RESET_TOKEN_EXPIRES_IN_MINUTES: numberSchema({ min: 0, max: 100 })
       .optional()
       .default(15),
-    MIN_PASSWORD_LENGTH: z.number().min(1).optional().default(8),
+    MIN_PASSWORD_LENGTH: numberSchema({ min: 1 }).optional().default(8),
+    BREVO_API_KEY: z.string(),
+    BREVO_BASE_URL: z.string().optional().default("https://api.brevo.com/v3"),
+    EMAIL_SENDER_NAME: z.string().optional().default("Test Place"),
+    EMAIL_SENDER_EMAIL: z.string().optional().default("fabien.turgut@gmail.com"),
   })
-);
+  .parse(process.env);
+
+console.log({ configs });

@@ -4,7 +4,8 @@ import { GLOBAL_TEST_STATUSES } from "../utils/constants.js";
 export class NotificationController {
     static async getUserNotifications(userId) {
         const testDAO = getTestDAO();
-        const notifications = await getNotificationDAO().getUserNotifications(userId);
+        const notificationDAO = getNotificationDAO();
+        const notifications = await notificationDAO.getUserNotifications(userId);
         const hasNewNotifications = notifications.some((notification) => notification.viewDate === null);
         if (hasNewNotifications) {
             const [requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount,] = await Promise.all([

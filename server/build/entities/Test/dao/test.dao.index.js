@@ -3,29 +3,29 @@ import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSc
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
 import { testDataSchema } from "../test.entity.js";
+const testMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(testDataSchema), { timestamps: true });
+testMongooseSchema.pre("save", async function (next) {
+    // Check if document is new or a new status has been set
+    if (this.isNew || this.isModified("status")) {
+        const document = this;
+        if (!("updates" in document))
+            throw new Error("updates is missing");
+        if (!(document.updates instanceof Array))
+            throw new Error("updates is not an array");
+        if (!("status" in document))
+            throw new Error("status is missing");
+        document.updates.push({ date: new Date(), status: document.status });
+    }
+    next();
+});
+testMongooseSchema.index({
+    product: 1,
+    tester: 1,
+}, {
+    unique: true,
+});
+const testModel = mongoose.model("Test", testMongooseSchema);
 export const createTestDAO = () => {
-    const testMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(testDataSchema), { timestamps: true });
-    testMongooseSchema.pre("save", async function (next) {
-        // Check if document is new or a new status has been set
-        if (this.isNew || this.isModified("status")) {
-            const document = this;
-            if (!("updates" in document))
-                throw new Error("updates is missing");
-            if (!(document.updates instanceof Array))
-                throw new Error("updates is not an array");
-            if (!("status" in document))
-                throw new Error("status is missing");
-            document.updates.push({ date: new Date(), status: document.status });
-        }
-        next();
-    });
-    testMongooseSchema.index({
-        product: 1,
-        tester: 1,
-    }, {
-        unique: true,
-    });
-    const testModel = mongoose.model("Test", testMongooseSchema);
     const buildConditions = (statuses, seller, tester) => {
         return {
             ...(seller ? { seller } : {}),
@@ -46,7 +46,7 @@ export const createTestDAO = () => {
                     { expirationDate: { $eq: null } },
                 ],
                 ...buildConditions(statuses, seller, tester),
-            }, {})
+            })
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limit)

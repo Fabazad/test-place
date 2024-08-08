@@ -2,10 +2,10 @@ import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSc
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
 import { userDataSchema } from "../user.entity.js";
+const userSchema = new mongoose.Schema(generateMongooseSchemaFromZod(userDataSchema));
+userSchema.index({ email: 1 }, { unique: true }).index({ name: 1 }, { unique: true });
+const userModel = mongoose.model("User", userSchema);
 const createUserDAO = () => {
-    const userSchema = new mongoose.Schema(generateMongooseSchemaFromZod(userDataSchema));
-    userSchema.index({ email: 1 }, { unique: true }).index({ name: 1 }, { unique: true });
-    const userModel = mongoose.model("User", userSchema);
     return {
         getUser: async (params) => {
             const user = await userModel

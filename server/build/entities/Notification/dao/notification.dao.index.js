@@ -5,13 +5,13 @@ import { createSingletonGetter } from "../../../utils/singleton.js";
 import dayjs from "dayjs";
 import mongoose from "mongoose";
 import { notificationDataSchema } from "../notification.entity.js";
+const notificationMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(notificationDataSchema), { timestamps: true });
+const notificationSchema = notificationDataSchema.extend(savedDataSchema);
+notificationMongooseSchema.post("save", async (doc) => {
+    await getEmailClient().sendNotificationMail({ notification: doc });
+});
+const notificationModel = mongoose.model("Notification", notificationMongooseSchema);
 export const createNotificationDAO = () => {
-    const notificationMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(notificationDataSchema), { timestamps: true });
-    const notificationSchema = notificationDataSchema.extend(savedDataSchema);
-    notificationMongooseSchema.post("save", async (doc) => {
-        await getEmailClient().sendNotificationMail({ notification: doc });
-    });
-    const notificationModel = mongoose.model("Notification", notificationMongooseSchema);
     return {
         getUserNotifications: async (userId) => {
             const res = await notificationModel
@@ -27,7 +27,7 @@ export const createNotificationDAO = () => {
                         },
                     },
                 ],
-            }, { sort: { createdAt: -1 }, limit: 20, lean: true })
+            }, {}, { sort: { createdAt: -1 }, limit: 20 })
                 .lean();
             return JSON.parse(JSON.stringify(res));
         },
