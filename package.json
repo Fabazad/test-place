@@ -27,7 +27,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "error-stack-parser": "^2.1.4",
-    "node-gyp": "^3.8.0"
+    "node-gyp": "^10.2.0"
   },
   "devDependencies": {
     "eslint": "^9.8.0"
