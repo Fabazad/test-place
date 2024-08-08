@@ -6,12 +6,10 @@ import { getCookie } from "./cookies";
 
 const anyAuth = (ComponentToProtect) => {
   return memo((props) => {
-    console.log({ props: JSON.parse(JSON.stringify(props)) });
     const [loadingPromise, setLoadingPromise] = useState(null);
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
-      console.log("anyAuth");
       if (!getCookie("token")) {
         userService.logout();
         setChecked(true);

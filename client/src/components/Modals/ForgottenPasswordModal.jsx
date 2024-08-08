@@ -27,7 +27,6 @@ const ForgottenPasswordModal = ({ t }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const loadingPromise = userServices.sendResetPasswordMail(email).then((res) => {
-      console.log({ res });
       if (res?.error) {
         if (res.error === "email_not_found") toast.error(t("EMAIL_HAS_NOT_BEEN_SENT"));
         else toast.error(t("UNKNOWN_ERROR"));

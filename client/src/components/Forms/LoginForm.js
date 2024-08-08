@@ -28,7 +28,6 @@ const LoginForm = (props) => {
     setLoading(true);
     try {
       const res = await userServices.login(email, password, keepConnection);
-      console.log({ res });
       if (res?.error) {
         if (res.error === "email_not_found") toast.error(t("WRONG_CREDENTIALS"));
         else if (res.error === "wrong_password") toast.error(t("WRONG_CREDENTIALS"));

@@ -75,8 +75,6 @@ const ProductDetail = (props) => {
     currentUser.paypalEmail
   );
 
-  console.log({ product });
-
   return (
     <>
       <main>
