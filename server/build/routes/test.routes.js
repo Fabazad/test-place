@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Role, TestStatus, testStatusUpdateParamsSchema } from "../utils/constants.js";
 import { handleResponseForRoute } from "../utils/CustomResponse.js";
 import { BadRequestError, NotFoundRequestError, UnauthorizedRequestError, } from "../utils/exceptions/index.js";
+import { booleanSchema, numberSchema } from "../utils/zod.utils.js";
 import { zodValidationForRoute } from "../utils/zodValidationForRoute.js";
 import { Router } from "express";
 import z from "zod";
@@ -26,18 +27,16 @@ router.get("/statuses", asyncHandler(async (request, reply) => {
 }));
 router.get("/find", withAuth(), asyncHandler(async (request, reply) => {
     const userId = request.decoded.userId;
-    const { searchData } = zodValidationForRoute(request.query, z.object({ searchData: z.string() }));
-    const { itemsPerPage, page, statuses, asSeller, asTester } = zodValidationForRoute(JSON.parse(searchData), z.object({
-        itemsPerPage: z.number().min(1).max(100),
-        page: z.number().min(1),
-        statuses: z.array(z.nativeEnum(TestStatus)).optional(),
-        asSeller: z.boolean().optional(),
-        asTester: z.boolean().optional(),
+    const { searchData } = zodValidationForRoute(request.query, z.object({
+        searchData: z.object({
+            itemsPerPage: numberSchema({ max: 100, min: 1 }),
+            page: numberSchema({ min: 1 }),
+            statuses: z.array(z.nativeEnum(TestStatus)).optional(),
+            asSeller: booleanSchema().optional(),
+            asTester: booleanSchema().optional(),
+        }),
     }));
-    const res = await TestController.find({
-        userId,
-        searchData: { itemsPerPage, page, statuses, asSeller, asTester },
-    });
+    const res = await TestController.find({ userId, searchData });
     reply.send(handleResponseForRoute(res));
 }));
 router.post("/updateStatus", asyncHandler(async (request, reply) => {

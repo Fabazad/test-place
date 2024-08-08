@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { Button, Modal } from "reactstrap";
-import constants from "../../../helpers/constants";
+import constants, { TestStatus } from "../../../helpers/constants";
 import testServices from "../../../services/test.services";
 import userServices from "../../../services/user.services";
 import Loading from "../../Loading";
@@ -19,9 +19,6 @@ const NewTestRequestModal = (props) => {
   const { productId, disabled, t } = props;
 
   const isLogged = userServices.isAuth();
-  const [statuses, setStatuses] = useState({});
-
-  testServices.getTestStatuses().then((statuses) => setStatuses(statuses));
 
   const [user, setUser] = useState(userServices.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,11 +49,10 @@ const NewTestRequestModal = (props) => {
     }
     setLoading(true);
     try {
-      console.log({ statuses });
       await testServices.create({
         productId,
         testerMessage,
-        status: statuses["requested"],
+        status: TestStatus.REQUESTED,
       });
       setRequestSent(true);
     } catch (err) {

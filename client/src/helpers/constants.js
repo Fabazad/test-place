@@ -1,3 +1,18 @@
+export const TestStatus = {
+  REQUESTED: "REQUESTED",
+  REQUEST_CANCELLED: "REQUEST_CANCELLED",
+  REQUEST_DECLINED: "REQUEST_DECLINED",
+  REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
+  PRODUCT_ORDERED: "PRODUCT_ORDERED",
+  PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
+  PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
+  REVIEW_VALIDATED: "REVIEW_VALIDATED",
+  REVIEW_REFUSED: "REVIEW_REFUSED",
+  MONEY_SENT: "MONEY_SENT",
+  MONEY_RECEIVED: "MONEY_RECEIVED",
+  TEST_CANCELLED: "TEST_CANCELLED",
+};
+
 const constants = {
   SERVER_DEV_URL: "http://127.0.0.1:5000",
   SERVER_STAGE_URL: "https://stage-test-place.herokuapp.com",
@@ -178,72 +193,81 @@ export const TEST_STEPS_MAP = (t) => ({
 
 export const TEST_STATUS_TO_STEP_MAP = {
   [constants.USER_ROLES.TESTER]: [
-    { stepKey: STEP_KEYS.TEST_ACCEPTATION, error: false, testStatuses: ["requested"] },
+    {
+      stepKey: STEP_KEYS.TEST_ACCEPTATION,
+      error: false,
+      testStatuses: [TestStatus.REQUESTED],
+    },
     {
       stepKey: STEP_KEYS.TEST_ACCEPTATION,
       error: true,
-      testStatuses: ["requestCancelled", "requestDeclined"],
+      testStatuses: [TestStatus.REQUEST_CANCELLED, TestStatus.REQUEST_DECLINED],
     },
     {
       stepKey: STEP_KEYS.PRODUCT_ORDER,
       error: false,
-      testStatuses: ["requestAccepted", "productOrdered"],
+      testStatuses: [TestStatus.REQUEST_ACCEPTED, TestStatus.PRODUCT_ORDERED],
     },
     {
       stepKey: STEP_KEYS.PRODUCT_REVIEW,
       error: false,
-      testStatuses: ["productReceived"],
+      testStatuses: [TestStatus.PRODUCT_RECEIVED],
     },
     {
       stepKey: STEP_KEYS.REFUND,
       error: false,
-      testStatuses: ["productReviewed", "reviewValidated", "moneySent"],
+      testStatuses: [
+        TestStatus.PRODUCT_REVIEWED,
+        TestStatus.REVIEW_VALIDATED,
+        TestStatus.MONEY_SENT,
+      ],
     },
-    { stepKey: STEP_KEYS.REFUND, error: true, testStatuses: ["reviewDeclined"] },
-    { stepKey: STEP_KEYS.END, error: true, testStatuses: ["moneyReceived"] },
-    { stepKey: STEP_KEYS.TEST_ACCEPTATION, error: true, testStatuses: ["testCancelled"] },
+    { stepKey: STEP_KEYS.REFUND, error: true, testStatuses: [TestStatus.REVIEW_REFUSED] },
+    { stepKey: STEP_KEYS.END, error: true, testStatuses: [TestStatus.MONEY_RECEIVED] },
+    {
+      stepKey: STEP_KEYS.TEST_ACCEPTATION,
+      error: true,
+      testStatuses: [TestStatus.TEST_CANCELLED],
+    },
   ],
   [constants.USER_ROLES.SELLER]: [
-    { stepKey: STEP_KEYS.TEST_ACCEPTATION, error: false, testStatuses: ["requested"] },
+    {
+      stepKey: STEP_KEYS.TEST_ACCEPTATION,
+      error: false,
+      testStatuses: [TestStatus.REQUESTED],
+    },
     {
       stepKey: STEP_KEYS.TEST_ACCEPTATION,
       error: true,
-      testStatuses: ["requestCancelled", "requestDeclined"],
+      testStatuses: [TestStatus.REQUEST_CANCELLED, TestStatus.REQUEST_DECLINED],
     },
     {
       stepKey: STEP_KEYS.PRODUCT_ORDER,
       error: false,
-      testStatuses: ["requestAccepted", "productOrdered", "productReceived"],
+      testStatuses: [
+        TestStatus.REQUEST_ACCEPTED,
+        TestStatus.PRODUCT_ORDERED,
+        TestStatus.PRODUCT_RECEIVED,
+      ],
     },
     {
       stepKey: STEP_KEYS.PRODUCT_REVIEW,
       error: false,
-      testStatuses: ["productReviewed"],
+      testStatuses: [TestStatus.PRODUCT_REVIEWED],
     },
     {
       stepKey: STEP_KEYS.REFUND,
       error: false,
-      testStatuses: ["reviewValidated", "moneySent"],
+      testStatuses: [TestStatus.REVIEW_VALIDATED, TestStatus.MONEY_SENT],
     },
-    { stepKey: STEP_KEYS.REFUND, error: true, testStatuses: ["reviewDeclined"] },
-    { stepKey: STEP_KEYS.END, error: true, testStatuses: ["moneyReceived"] },
-    { stepKey: STEP_KEYS.TEST_ACCEPTATION, error: true, testStatuses: ["testCancelled"] },
+    { stepKey: STEP_KEYS.REFUND, error: true, testStatuses: [TestStatus.REVIEW_REFUSED] },
+    { stepKey: STEP_KEYS.END, error: true, testStatuses: [TestStatus.MONEY_SENT] },
+    {
+      stepKey: STEP_KEYS.TEST_ACCEPTATION,
+      error: true,
+      testStatuses: [TestStatus.TEST_CANCELLED],
+    },
   ],
-};
-
-export const TestStatus = {
-  REQUESTED: "REQUESTED",
-  REQUEST_CANCELLED: "REQUEST_CANCELLED",
-  REQUEST_DECLINED: "REQUEST_DECLINED",
-  REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
-  PRODUCT_ORDERED: "PRODUCT_ORDERED",
-  PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
-  PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
-  REVIEW_VALIDATED: "REVIEW_VALIDATED",
-  REVIEW_REFUSED: "REVIEW_REFUSED",
-  MONEY_SENT: "MONEY_SENT",
-  MONEY_RECEIVED: "MONEY_RECEIVED",
-  TEST_CANCELLED: "TEST_CANCELLED",
 };
 
 export default { ...constants };
