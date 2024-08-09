@@ -62,10 +62,17 @@ const createEmailClient = () => {
                 templateParams: { link: resetPasswordLink },
             });
             return res;
-            console.log("sendResetPasswordMail", { email, resetPasswordToken, language });
         },
         sendNotificationMail: async ({ notification }) => {
-            console.log("sendNotificationMail", { notification });
+            const res = await sendTransactionalEmail({
+                brevoAxios,
+                from: fromTestPlace,
+                to: { email: notification.user.email },
+                subject: "Test Place - Notification",
+                templateId: TEMPLATE_IDS[EmailTemplate.NOTIFICATION][notification.user.language],
+                templateParams: notification,
+            });
+            return res;
         },
     };
 };

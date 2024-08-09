@@ -33,7 +33,6 @@ const SocialLogin = ({
     try {
       const res = await userService.googleLogin({ credential, keepConnection: true });
 
-      console.log({ res });
       if (res?.error) {
         if (res.error === "user_not_found") {
           toast.error(t("GOOGLE_ACCOUNT_NOT_REGISTERED"));
@@ -82,7 +81,6 @@ const SocialLogin = ({
   };
 
   const onGoogleSignInFail = (res) => {
-    console.log(res);
     toast.error(res.error);
   };
 

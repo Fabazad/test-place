@@ -4,8 +4,7 @@ import awsSdk from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 const createStorageClient = () => {
     awsSdk.config.update({
-        region: "eu-west-3",
-        signatureVersion: "v4",
+        region: "eu-north-1",
         accessKeyId: configs.AWS_ACCESS_KEY_ID,
         secretAccessKey: configs.AWS_SECRET_KEY,
     });
@@ -19,7 +18,6 @@ const createStorageClient = () => {
                 Key: key,
                 Expires: 500,
                 ContentType: fileType,
-                ACL: "public-read",
             });
             return {
                 uploadUrl: signedUrl,

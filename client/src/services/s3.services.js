@@ -19,8 +19,6 @@ class S3Service extends BaseService {
 
     const { uploadUrl, downloadUrl } = response.data;
 
-    console.log({ uploadUrl });
-
     await axios.put(uploadUrl, file, { headers: { "Content-Type": fileType } });
 
     return downloadUrl;

@@ -3,7 +3,7 @@ import { withAuth } from "../middlewares/withAuth.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Role, TestStatus, testStatusUpdateParamsSchema } from "../utils/constants.js";
 import { handleResponseForRoute } from "../utils/CustomResponse.js";
-import { BadRequestError, NotFoundRequestError, UnauthorizedRequestError, } from "../utils/exceptions/index.js";
+import { BadRequestError, NotFoundRequestError, ServerRequestError, UnauthorizedRequestError, } from "../utils/exceptions/index.js";
 import { booleanSchema, numberSchema } from "../utils/zod.utils.js";
 import { zodValidationForRoute } from "../utils/zodValidationForRoute.js";
 import { Router } from "express";
@@ -19,6 +19,7 @@ router.post("/create", withAuth(Role.TESTER), asyncHandler(async (request, reply
         not_enough_remaining_requests: new BadRequestError("not_enough_remaining_requests"),
         user_is_seller: new BadRequestError("user_is_seller"),
         product_not_found: new NotFoundRequestError("product_not_found"),
+        user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
     }));
 }));
 router.get("/statuses", asyncHandler(async (request, reply) => {
@@ -56,6 +57,7 @@ router.post("/updateStatus", asyncHandler(async (request, reply) => {
         only_allowed_for_seller: new UnauthorizedRequestError("only_allowed_for_seller"),
         only_allowed_for_tester: new UnauthorizedRequestError("only_allowed_for_tester"),
         wrong_previous_status: new BadRequestError("wrong_previous_status"),
+        user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
     }));
 }));
 router.get("/:testId", withAuth(), asyncHandler(async (request, reply) => {

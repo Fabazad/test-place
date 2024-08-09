@@ -77,6 +77,7 @@ export class TestController {
       | "user_is_seller"
       | "dont_have_automatic_acceptance"
       | "seller_not_found"
+      | "user_to_notify_not_found"
     >
   > {
     const { productId, userId, status } = params;
@@ -84,6 +85,7 @@ export class TestController {
     const productDAO = getProductDAO();
     const testDAO = getTestDAO();
     const notificationDAO = getNotificationDAO();
+    const userDAO = getUserDAO();
 
     const product = await productDAO.getProductById({ id: productId });
     if (!product) {
@@ -101,11 +103,15 @@ export class TestController {
 
     const test = await testDAO.createTest({ testData: testDataRes.data });
 
+    const userToNotify = await userDAO.getUser({ userId: test.seller });
+
+    if (!userToNotify) return { success: false, errorCode: "user_to_notify_not_found" };
+
     await Promise.all([
       productDAO.decrementRemainingTestsCount({ productId }),
       notificationDAO.createNotification({
         notificationData: {
-          user: test.seller,
+          user: userToNotify,
           type: NOTIFICATION_TYPES.NEW_REQUEST.value,
           test: test,
           product,
@@ -213,10 +219,12 @@ export class TestController {
       | "only_allowed_for_seller"
       | "wrong_previous_status"
       | "test_not_found_when_updating"
+      | "user_to_notify_not_found"
     >
   > {
     const testDAO = getTestDAO();
     const notificationDAO = getNotificationDAO();
+    const userDAO = getUserDAO();
 
     const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
 
@@ -255,6 +263,10 @@ export class TestController {
       ? test.tester
       : test.seller;
 
+    const userToNotify = await userDAO.getUser({ userId: userForNotification });
+
+    if (!userToNotify) return { success: false, errorCode: "user_to_notify_not_found" };
+
     const [
       requestedTestsCount,
       processingTestsCount,
@@ -267,7 +279,7 @@ export class TestController {
       testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.CANCELLED }),
       notificationDAO.createNotification({
         notificationData: {
-          user: userForNotification,
+          user: userToNotify,
           test: newTest,
           type: testStatusProcessStep.notificationType,
           product: newTest.product,

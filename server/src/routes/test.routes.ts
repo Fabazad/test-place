@@ -6,6 +6,7 @@ import { handleResponseForRoute } from "@/utils/CustomResponse.js";
 import {
   BadRequestError,
   NotFoundRequestError,
+  ServerRequestError,
   UnauthorizedRequestError,
 } from "@/utils/exceptions/index.js";
 import { booleanSchema, numberSchema } from "@/utils/zod.utils.js";
@@ -36,6 +37,7 @@ router.post(
         ),
         user_is_seller: new BadRequestError("user_is_seller"),
         product_not_found: new NotFoundRequestError("product_not_found"),
+        user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
       })
     );
   })
@@ -98,6 +100,7 @@ router.post(
         only_allowed_for_seller: new UnauthorizedRequestError("only_allowed_for_seller"),
         only_allowed_for_tester: new UnauthorizedRequestError("only_allowed_for_tester"),
         wrong_previous_status: new BadRequestError("wrong_previous_status"),
+        user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
       })
     );
   })

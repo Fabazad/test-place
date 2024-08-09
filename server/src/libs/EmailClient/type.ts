@@ -22,7 +22,9 @@ export type EmailClient = {
     language: Language;
     frontendUrl: string;
   }) => Promise<CustomResponse<string, "email_not_sent">>;
-  sendNotificationMail: (params: { notification: Notification }) => Promise<void>;
+  sendNotificationMail: (params: {
+    notification: Notification;
+  }) => Promise<CustomResponse<string, "email_not_sent">>;
 };
 
 export enum EmailTemplate {

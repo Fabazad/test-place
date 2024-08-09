@@ -25,8 +25,6 @@ const NotificationItem = (props) => {
     return days + "j";
   };
 
-  console.log({ notification });
-
   const notificationType = NOTIFICATION_TYPES(t)[notification.type];
 
   return (

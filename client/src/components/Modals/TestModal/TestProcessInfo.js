@@ -127,7 +127,14 @@ const TestProcessInfo = ({ test, userRole, onToggle, adminView, t }) => {
           {t("TESTER_HAS_REVIEWED_PRODUCT")}
           <br />
           {t("YOU_WILL_FIND_THE")}{" "}
-          <a href={getAmazonReviewUrl(test.reviewId)}>{t("REVIEW_LINK")}</a>.<br />
+          <a
+            href={getAmazonReviewUrl(test.reviewId)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("REVIEW_LINK")}
+          </a>
+          .<br />
         </NextStepAdvice>
       ) : null}
       {test.declineReviewReason ? (

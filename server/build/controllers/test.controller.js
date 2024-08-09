@@ -48,6 +48,7 @@ export class TestController {
         const productDAO = getProductDAO();
         const testDAO = getTestDAO();
         const notificationDAO = getNotificationDAO();
+        const userDAO = getUserDAO();
         const product = await productDAO.getProductById({ id: productId });
         if (!product) {
             return { success: false, errorCode: "product_not_found" };
@@ -62,11 +63,14 @@ export class TestController {
         if (!testDataRes.success)
             return testDataRes;
         const test = await testDAO.createTest({ testData: testDataRes.data });
+        const userToNotify = await userDAO.getUser({ userId: test.seller });
+        if (!userToNotify)
+            return { success: false, errorCode: "user_to_notify_not_found" };
         await Promise.all([
             productDAO.decrementRemainingTestsCount({ productId }),
             notificationDAO.createNotification({
                 notificationData: {
-                    user: test.seller,
+                    user: userToNotify,
                     type: NOTIFICATION_TYPES.NEW_REQUEST.value,
                     test: test,
                     product,
@@ -125,6 +129,7 @@ export class TestController {
     static async updateStatus({ userId, testId, update, }) {
         const testDAO = getTestDAO();
         const notificationDAO = getNotificationDAO();
+        const userDAO = getUserDAO();
         const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
         const test = await testDAO.findById({ id: testId });
         if (!test)
@@ -155,6 +160,9 @@ export class TestController {
             : userId === test.seller
                 ? test.tester
                 : test.seller;
+        const userToNotify = await userDAO.getUser({ userId: userForNotification });
+        if (!userToNotify)
+            return { success: false, errorCode: "user_to_notify_not_found" };
         const [requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount,] = await Promise.all([
             testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.REQUESTED }),
             testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.PROCESSING }),
@@ -162,7 +170,7 @@ export class TestController {
             testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.CANCELLED }),
             notificationDAO.createNotification({
                 notificationData: {
-                    user: userForNotification,
+                    user: userToNotify,
                     test: newTest,
                     type: testStatusProcessStep.notificationType,
                     product: newTest.product,
