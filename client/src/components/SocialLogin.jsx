@@ -52,15 +52,21 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
   };
 
   const onGoogleSignInSuccess = async (res) => {
-    const { profileObj } = res;
-    const { email, givenName, googleId, name } = profileObj;
+    setLoading(true);
+    try {
+      console.log({ res });
+      const { profileObj } = res;
+      const { email, givenName, googleId, name } = profileObj;
 
-    if (roles === undefined) {
-      return googleLogin({ googleId });
+      if (roles === undefined) {
+        return googleLogin({ googleId });
+      }
+
+      const builtName = (givenName || name) + Math.round(Math.random() * 10000);
+      return googleRegister({ name: builtName, email, roles, googleId });
+    } finally {
+      setLoading(false);
     }
-
-    const builtName = (givenName || name) + Math.round(Math.random() * 10000);
-    return googleRegister({ name: builtName, email, roles, googleId });
   };
 
   const onGoogleSignInFail = (res) => {
