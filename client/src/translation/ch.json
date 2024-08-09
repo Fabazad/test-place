@@ -369,5 +369,6 @@
   "UNKNOWN_ERROR": "发生未知错误",
   "BAD_REQUEST_PARAMS": "发送的参数无效。",
   "EMAIL_ALREADY_VALIDATED": "邮箱已经验证过了。",
-  "ERROR_SENDING_MESSAGE": "发送消息时发生错误。"
+  "ERROR_SENDING_MESSAGE": "发送消息时发生错误。",
+  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Google账户未注册，请先注册。"
 }

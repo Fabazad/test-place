@@ -112,7 +112,7 @@ const createAuthManager = (): AuthManager => {
 
         const googleId = payload.sub;
         const email = payload.email;
-        const name = payload.name;
+        const name = payload.given_name;
         const picture = payload.picture;
         const language =
           payload.locale && isLanguage(payload.locale) ? payload.locale : Language.FR;

@@ -338,12 +338,13 @@ export class UserController {
         const googleLoginRes = await authManager.googleLogin({ credential });
         if (!googleLoginRes.success)
             return googleLoginRes;
-        const { googleId, name, email, language: googleLanguage } = googleLoginRes.data;
+        const { googleId, name: firstName, email, language: googleLanguage, } = googleLoginRes.data;
         const language = googleLanguage || paramsLanguage;
         if (!email)
             return { success: false, errorCode: "user_email_not_found" };
-        if (!name)
+        if (!firstName)
             return { success: false, errorCode: "user_name_not_found" };
+        const name = firstName + Math.round(Math.random() * 10000).toString();
         const googleUser = await userDAO.getUser({ googleId });
         if (googleUser)
             return this.login({ user: googleUser, staySignedIn: false });

@@ -368,5 +368,6 @@
   "UNKNOWN_ERROR": "An unknown error occurred",
   "BAD_REQUEST_PARAMS": "Bad parameters sent.",
   "EMAIL_ALREADY_VALIDATED": "The email has already been validated.",
-  "ERROR_SENDING_MESSAGE": "An error occurred while sending the message."
+  "ERROR_SENDING_MESSAGE": "An error occurred while sending the message.",
+  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Google account not registered, please register first."
 }

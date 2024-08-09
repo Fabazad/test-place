@@ -368,5 +368,6 @@
   "UNKNOWN_ERROR": "Une erreur inconnue s'est produite",
   "BAD_REQUEST_PARAMS": "Paramètres envoyés invalides.",
   "EMAIL_ALREADY_VALIDATED": "L'email a déjà été validé.",
-  "ERROR_SENDING_MESSAGE": "Une erreur est survenue lors de l'envoi du message."
+  "ERROR_SENDING_MESSAGE": "Une erreur est survenue lors de l'envoi du message.",
+  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Compte Google non enregistré, veuillez vous inscrire avec en premier."
 }

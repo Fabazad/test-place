@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import { withTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import constants from "../helpers/constants";
@@ -10,7 +11,14 @@ import GoogleLoginButton from "./Buttons/GoogleLoginButton";
 
 const { USER_ROLES } = constants;
 
-const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles }) => {
+const SocialLogin = ({
+  children,
+  onStartLogging,
+  onStopLogging,
+  className,
+  roles,
+  t,
+}) => {
   const [loading, setLoading] = useState(undefined);
   const history = useHistory();
 
@@ -25,6 +33,14 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
     setLoading(true);
     try {
       const res = await userService.googleLogin({ credential, keepConnection: true });
+
+      if (res?.error) {
+        if (res.error === "user_not_found") {
+          toast.error(t("GOOGLE_ACCOUNT_NOT_REGISTERED"));
+        }
+        return;
+      }
+
       history.push(
         res.user.roles.includes(USER_ROLES.SELLER) ? "/dashboard/my-products" : "/"
       );
@@ -41,6 +57,7 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
         roles,
         language: i18n.language,
       });
+
       history.push(
         res.user.roles.includes(USER_ROLES.SELLER) ? "/dashboard/my-products" : "/"
       );
@@ -139,4 +156,4 @@ SocialLogin.prototype = {
   className: PropTypes.string,
 };
 
-export default SocialLogin;
+export default withTranslation()(SocialLogin);

@@ -142,15 +142,19 @@ class UserService extends BaseService {
   }
 
   googleRegister({ credential, roles, language }) {
-    return axios
-      .post(this.baseURL + "/google-register", { credential, roles, language })
-      .then(this.currentUserResolve);
+    return this.enrichResponseWithError(() =>
+      axios
+        .post(this.baseURL + "/google-register", { credential, roles, language })
+        .then(this.currentUserResolve)
+    );
   }
 
   googleLogin({ credential, keepConnection }) {
-    return axios
-      .post(this.baseURL + "/google-login", { credential, keepConnection })
-      .then(this.currentUserResolve);
+    return this.enrichResponseWithError(
+      axios
+        .post(this.baseURL + "/google-login", { credential, keepConnection })
+        .then(this.currentUserResolve)
+    );
   }
 
   facebookRegister({ accessToken, roles, language }) {

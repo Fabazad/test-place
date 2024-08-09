@@ -316,10 +316,10 @@ router.post(
           "user_not_found_when_logging"
         ),
         duplicate_email: new ServerRequestError("duplicate_email"),
-        duplicate_name: new BadRequestError("duplicate_name"),
+        duplicate_name: new ServerRequestError("duplicate_name"),
         invalid_token: new ServerRequestError("invalid_token"),
-        user_email_not_found: new NotFoundRequestError("user_email_not_found"),
-        user_name_not_found: new NotFoundRequestError("user_name_not_found"),
+        user_email_not_found: new ServerRequestError("user_email_not_found"),
+        user_name_not_found: new ServerRequestError("user_name_not_found"),
         unknown_error: ({ errorMessage }) =>
           new ServerRequestError("unknown_error", errorMessage),
       })
