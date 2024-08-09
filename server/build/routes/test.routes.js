@@ -43,7 +43,6 @@ router.post("/updateStatus", asyncHandler(async (request, reply) => {
     const userId = request.decoded.userId;
     const { testId, update } = zodValidationForRoute(request.body, z.object({
         testId: z.string(),
-        status: z.nativeEnum(TestStatus),
         update: testStatusUpdateParamsSchema,
     }));
     const res = await TestController.updateStatus({

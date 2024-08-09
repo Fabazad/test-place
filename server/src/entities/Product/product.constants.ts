@@ -2,7 +2,7 @@ import { configs } from "@/configs.js";
 import { InferEnum } from "@/utils/inferEnum.js";
 import { booleanSchema, numberSchema } from "@/utils/zod.utils.js";
 import z from "zod";
-import { PRODUCT_CATEGORIES, productDataSchema } from "./product.entity.js";
+import { Product, PRODUCT_CATEGORIES, productDataSchema } from "./product.entity.js";
 
 export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
 export const isProductCategory = (category: string): category is ProductCategory =>
@@ -49,5 +49,9 @@ export const productUpdateDataSchema = productDataSchema.pick({
 
 export type ProductUpdateData = z.infer<typeof productUpdateDataSchema>;
 
-export const generateAmazonUrl = (asin: string) =>
-  `https://www.amazon.fr/dp/${asin}?tag=${configs.AMAZON_AFFILIATION_TAG}`;
+export const generateAmazonUrl = (product: Product): string => {
+  const formattedKeywords = product.keywords?.join("+");
+  return `https://www.amazon.fr/dp/${product.asin}?tag=${configs.AMAZON_AFFILIATION_TAG}${
+    formattedKeywords ? `&keywords=${formattedKeywords}` : ""
+  }`;
+};

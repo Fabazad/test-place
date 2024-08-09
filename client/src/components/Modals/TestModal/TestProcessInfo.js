@@ -6,7 +6,7 @@ import Alert from "reactstrap/es/Alert";
 import Label from "reactstrap/lib/Label";
 import constants, { TestStatus } from "../../../helpers/constants";
 import { isTestStatus } from "../../../helpers/isTestStatus";
-import { getAmazonReviewUrl, getProductAmazonUrl } from "../../../helpers/urlHelpers";
+import { getAmazonReviewUrl } from "../../../helpers/urlHelpers";
 import testServices from "../../../services/test.services";
 import AnswerTestRequestForm from "../../Forms/AnswerTestRequestForm";
 import ReviewAdvices from "../../ReviewAdvices";
@@ -81,11 +81,7 @@ const TestProcessInfo = ({ test, userRole, onToggle, adminView, t }) => {
       (USER_ROLES.TESTER === userRole || adminView) ? (
         <NextStepAdvice color="info">
           {t("ORDER_PRODUCT_FOLLOW_LINK")}{" "}
-          <a
-            href={getProductAmazonUrl(test.product.asin, test.product.keywords)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={test.product.amazonUrl} target="_blank" rel="noopener noreferrer">
             {t("PRODUCT_LINK")}
           </a>
           .<br />

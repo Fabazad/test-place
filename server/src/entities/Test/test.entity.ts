@@ -2,7 +2,7 @@ import { TestStatus } from "@/utils/constants.js";
 import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import z from "zod";
 import { productSchema } from "../Product/product.entity.js";
-import { User } from "../User/user.entity.js";
+import { UserWithoutPassword } from "../User/user.entity.js";
 
 export const testDataSchema = z.object({
   product: productSchema,
@@ -34,6 +34,6 @@ export const testSchema = testDataSchema.extend(savedDataSchema);
 export type Test = z.infer<typeof testSchema>;
 
 export type PopulatedTest = Omit<Test, "seller" | "tester"> & {
-  seller: User;
-  tester: User;
+  seller: UserWithoutPassword;
+  tester: UserWithoutPassword;
 };

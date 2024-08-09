@@ -1,8 +1,9 @@
+import { generateAmazonUrl } from "@/entities/Product/product.constants.js";
 import { TestStatus } from "@/utils/constants.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import mongoose, { FilterQuery } from "mongoose";
-import { Test, TestData, testDataSchema } from "../test.entity.js";
+import { PopulatedTest, Test, TestData, testDataSchema } from "../test.entity.js";
 import { TestDAO } from "./test.dao.type.js";
 
 const testMongooseSchema = new mongoose.Schema(
@@ -50,7 +51,9 @@ export const createTestDAO = (): TestDAO => {
   return {
     createTest: async ({ testData }) => {
       const res = await testModel.create(testData);
-      return JSON.parse(JSON.stringify(res.toJSON()));
+      const test = JSON.parse(JSON.stringify(res.toJSON()));
+      test.product.amazonUrl = generateAmazonUrl(test.product);
+      return test;
     },
     findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
       const res = await testModel
@@ -64,8 +67,21 @@ export const createTestDAO = (): TestDAO => {
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .populate(["seller", "tester"]);
-      return JSON.parse(JSON.stringify(res));
+        .populate(["seller", "tester"])
+        .lean();
+
+      return JSON.parse(
+        JSON.stringify(
+          res.map((test) => {
+            test.product.amazonUrl = generateAmazonUrl(test.product);
+            // @ts-ignore
+            delete test.tester.password;
+            // @ts-ignore
+            delete test.seller.password;
+            return test;
+          })
+        )
+      );
     },
     count: async ({ statuses, seller, tester }) => {
       const res = await testModel.countDocuments({
@@ -75,35 +91,49 @@ export const createTestDAO = (): TestDAO => {
       return res;
     },
     findById: async ({ id }) => {
-      const res = await testModel.findById(id);
+      const res = await testModel.findById(id).lean();
       if (!res) return null;
+      res.product.amazonUrl = generateAmazonUrl(res.product);
       return JSON.parse(JSON.stringify(res));
     },
     updateTestStatus: async ({ id, statusUpdate, cancellationGuilty }) => {
-      const tets = await testModel.findOneAndUpdate(
-        {
-          _id: id,
-        },
-        {
-          $set: {
-            ...(cancellationGuilty ? { cancellationGuilty } : {}),
-            status: statusUpdate.status,
-            ...("params" in statusUpdate ? { ...statusUpdate.params } : {}),
-            expirationDate: null,
-            ...(statusUpdate.status === TestStatus.TEST_CANCELLED
-              ? { $inc: { remainingTestsCount: 1 } }
-              : {}),
+      const test = await testModel
+        .findOneAndUpdate(
+          {
+            _id: id,
           },
-        }
-      );
+          {
+            $set: {
+              ...(cancellationGuilty ? { cancellationGuilty } : {}),
+              status: statusUpdate.status,
+              ...("params" in statusUpdate ? { ...statusUpdate.params } : {}),
+              expirationDate: null,
+              ...(statusUpdate.status === TestStatus.TEST_CANCELLED
+                ? { $inc: { remainingTestsCount: 1 } }
+                : {}),
+            },
+          }
+        )
+        .lean();
 
-      if (!tets) return null;
+      if (!test) return null;
 
-      return JSON.parse(JSON.stringify(tets));
+      test.product.amazonUrl = generateAmazonUrl(test.product);
+
+      return JSON.parse(JSON.stringify(test));
     },
     findPopulatedById: async ({ id }) => {
-      const test = await testModel.findById(id).populate(["seller", "tester"]);
+      const test = await testModel
+        .findById(id)
+        .populate(["seller", "tester"])
+        .lean<PopulatedTest>();
       if (!test) return null;
+      test.product.amazonUrl = generateAmazonUrl(test.product);
+      // @ts-ignore
+      delete test.tester.password;
+      // @ts-ignore
+      delete test.seller.password;
+      test.product.amazonUrl = generateAmazonUrl(test.product);
       return JSON.parse(JSON.stringify(test));
     },
     countTestWithStatues: async ({ userId, statuses, withGuilty = false }) => {

@@ -38,8 +38,7 @@ class TestServices extends BaseService {
     const response = await axios
       .post(this.baseURL + "/updateStatus", {
         testId,
-        status,
-        params,
+        update: { status, params },
       })
       .then(this.serviceResolve);
     if (

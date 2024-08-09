@@ -80,7 +80,6 @@ router.post(
       request.body,
       z.object({
         testId: z.string(),
-        status: z.nativeEnum(TestStatus),
         update: testStatusUpdateParamsSchema,
       })
     );

@@ -9,7 +9,6 @@ import FormGroup from "reactstrap/es/FormGroup";
 import Input from "reactstrap/es/Input";
 import Label from "reactstrap/es/Label";
 import constants, { TestStatus } from "../../helpers/constants";
-import { getProductAmazonUrl } from "../../helpers/urlHelpers";
 import s3Services from "../../services/s3.services";
 import testServices from "../../services/test.services";
 import ImageUploader from "../ImageUploader";
@@ -99,7 +98,7 @@ const OrderedProductModal = (props) => {
         </div>
         <div className="mt-3 mb-0 white-space-pre-line">{t("ORDER_PRODUCT_FIRST")}</div>
         <div className="mt-3">
-          <a href={getProductAmazonUrl(test.product.asin, test.product.keywords)}>
+          <a href={test.product.amazonUrl}>
             <Button color="default">
               <i className="fab fa-amazon mr-3" />
               {t("GO_TO_AMAZON_PRODUCT")}
@@ -196,3 +195,5 @@ OrderedProductModal.propTypes = {
 };
 
 export default withTranslation()(OrderedProductModal);
+
+// https://www.amazon.fr/MAURANE-BOB-EST-UNE-AVENTURI%C3%88RE/dp/2493290097/ref=sr_1_5?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=8UAO6ZLHO9UV&dib=eyJ2IjoiMSJ9.WvbcPI_r6IGZa0K3pIdkOb3_imEhMs5WxiVxJi0DaSLWTuqc9xQ6WBwlABfZAnbuQ58TR6RmRR_FzKzkd-5HnaJit21z77_dQYB5hbPmwOOZqBEX-KrjnkwPB9udjm59dQ8ne_PViVUC4trc9G58SLdmAD1a_h9seu6cI-3ubEa15KbNRwTM3Aq2Te8vRDGQbxXyfsmeupnxV5sarjH7rwpH6ucJozWcHRlD_w6L_7bx9w14aPeNAk2v_tiZ8lT4e9egIv2kS3zXtBAqhYUqKIA9sGbnteU3_04CyNZqRb8.SRZ5b7CDz80-H2m3R-nSdHaqQLZxoyKvqDOmgQmoJvw&dib_tag=se&keywords=bidule&qid=1723222359&sprefix=bidu%2Caps%2C462&sr=8-5

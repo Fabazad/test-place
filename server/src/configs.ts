@@ -35,6 +35,9 @@ export const configs = z
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string(),
+    AWS_ACCESS_KEY_ID: z.string(),
+    AWS_SECRET_KEY: z.string(),
+    S3_BUCKET: z.string(),
   })
   .parse(process.env);
 

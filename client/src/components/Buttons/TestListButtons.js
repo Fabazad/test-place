@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import confirmHelper from "../../helpers/confirmHelper";
 import constants, { TestStatus } from "../../helpers/constants";
-import { getAmazonReviewUrl, getProductAmazonUrl } from "../../helpers/urlHelpers";
+import { getAmazonReviewUrl } from "../../helpers/urlHelpers";
 import testServices from "../../services/test.services";
 import CancelTestRequestButton from "./CancelTestRequestButton";
 import RowActionButton from "./RowActionButton";
@@ -85,12 +85,7 @@ const TestListButtons = (props) => {
                   title={t("BUY_PRODUCT")}
                   icon="fab fa-amazon"
                   color="default"
-                  onClick={() =>
-                    window.open(
-                      getProductAmazonUrl(test.product.asin, test.product.keywords),
-                      "_blank"
-                    )
-                  }
+                  onClick={() => window.open(test.product.amazonUrl, "_blank")}
                 />
               ) : null}
               {test.status === TestStatus.REQUEST_ACCEPTED ? (
