@@ -21,6 +21,7 @@ import userService from "../services/user.services";
 import { Link } from "react-router-dom";
 
 // core components
+import PrivacyPolicyModalButton from "components/Buttons/PrivacyPolicyModalButton";
 import i18n from "i18next";
 import { withTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -32,9 +33,7 @@ import Loading from "../components/Loading";
 import PrivacyPolicyModal from "../components/Modals/PrivacyPolicyModal";
 import PasswordStrength from "../components/PasswordStrength";
 
-const Register = (props) => {
-  const { t } = props;
-
+const Register = ({ t }) => {
   const history = useHistory();
 
   const [name, setName] = useState(null);
@@ -80,6 +79,7 @@ const Register = (props) => {
 
   return (
     <>
+      <PrivacyPolicyModal history={history} />
       <main>
         <section className="section section-shaped section-lg">
           <div className="shape shape-style-1 bg-gradient-default">
@@ -189,7 +189,7 @@ const Register = (props) => {
                                   htmlFor="customCheckRegister"
                                 >
                                   <span>
-                                    {t("I_ACCEPT_THE")} <PrivacyPolicyModal />*
+                                    {t("I_ACCEPT_THE")} <PrivacyPolicyModalButton />*
                                   </span>
                                 </label>
                               </div>

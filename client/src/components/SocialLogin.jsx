@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import constants from "../helpers/constants";
 import userService from "../services/user.services";
-import FacebookLoginButton from "./Buttons/FacebookLoginButton";
 import GoogleLoginButton from "./Buttons/GoogleLoginButton";
 
 const { USER_ROLES } = constants;
@@ -34,6 +33,7 @@ const SocialLogin = ({
     try {
       const res = await userService.googleLogin({ credential, keepConnection: true });
 
+      console.log({ res });
       if (res?.error) {
         if (res.error === "user_not_found") {
           toast.error(t("GOOGLE_ACCOUNT_NOT_REGISTERED"));
@@ -86,59 +86,12 @@ const SocialLogin = ({
     toast.error(res.error);
   };
 
-  const facebookRegister = async ({ accessToken, roles, ...rest }) => {
-    setLoading(true);
-    try {
-      const res = await userService.facebookRegister({
-        accessToken,
-        roles,
-        language: i18n.language,
-      });
-      history.push(
-        res.user.roles.includes(USER_ROLES.SELLER) ? "/dashboard/my-products" : "/"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const facebookLogin = async ({ accessToken, keepConnection }) => {
-    setLoading(true);
-    try {
-      const res = await userService.facebookLogin({ accessToken, keepConnection });
-      history.push(
-        res.user.roles.includes(USER_ROLES.SELLER) ? "/dashboard/my-products" : "/"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onFacebookSignInSuccess = (res) => {
-    const { accessToken } = res;
-
-    if (roles === undefined) {
-      return facebookLogin({ accessToken, keepConnection: true });
-    }
-
-    return facebookRegister({ accessToken, roles });
-  };
-
-  const onFacebookSignInFail = (res) => {
-    toast.error(res.error[0].toString());
-  };
-
   return (
     <div className={className || ""}>
       <div className="text-muted text-center mb-3">
         <small>{children}</small>
       </div>
       <div className="text-center">
-        <FacebookLoginButton
-          onSuccess={onFacebookSignInSuccess}
-          onFailure={onFacebookSignInFail}
-          disabled={loading}
-        />
         <GoogleLoginButton
           onSuccess={onGoogleSignInSuccess}
           onFailure={onGoogleSignInFail}
