@@ -1,21 +1,60 @@
 import PropTypes from "prop-types";
-import React from "react";
-import { useGoogleLogin } from "react-google-login";
+import React, { useEffect, useRef } from "react";
 import { Button } from "reactstrap";
 
 const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
-  const { signIn } = useGoogleLogin({
-    onSuccess,
-    onFailure,
-    clientId: "551740391673-sidds0lingiqeli1jro82a0djidgjj3e.apps.googleusercontent.com",
-  });
+  const googleButtonRef = useRef(null);
+
+  useEffect(() => {
+    const loadGoogleScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      script.onload = initializeGoogleLogin;
+      document.body.appendChild(script);
+    };
+
+    const initializeGoogleLogin = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id:
+            "551740391673-sidds0lingiqeli1jro82a0djidgjj3e.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+
+        // Store the client for later use when the button is clicked
+        googleButtonRef.current = window.google.accounts.id;
+      }
+    };
+
+    const handleCredentialResponse = (response) => {
+      if (response.credential) {
+        onSuccess(response);
+      } else {
+        onFailure(new Error("Google sign-in failed"));
+      }
+    };
+
+    if (!window.google || !window.google.accounts) {
+      loadGoogleScript();
+    } else {
+      initializeGoogleLogin();
+    }
+  }, [onSuccess, onFailure]);
+
+  const handleClick = () => {
+    if (googleButtonRef.current) {
+      googleButtonRef.current.prompt(); // Manually trigger the Google sign-in prompt
+    }
+  };
 
   return (
     <Button
       className="btn-neutral btn-icon ml-1 text-dark"
       color="default"
       disabled={disabled}
-      onClick={() => signIn()}
+      onClick={handleClick}
     >
       <span className="btn-inner--icon mr-1">
         <img alt="..." src={require("assets/img/icons/common/google.svg").default} />
@@ -28,6 +67,7 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
 GoogleLoginButton.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   onFailure: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default GoogleLoginButton;
