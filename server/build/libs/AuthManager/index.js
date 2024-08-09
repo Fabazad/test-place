@@ -12,7 +12,7 @@ const createAuthManager = () => {
     const longSignInDuration = configs.LONG_SIGN_IN_DURATION;
     const shortSignInDuration = configs.SHORT_SIGN_IN_DURATION;
     const saltRounds = configs.SALT_ROUNDS;
-    const googleClient = new OAuth2Client(configs.GOOGLE_CLIENT_ID);
+    const googleClient = new OAuth2Client(configs.SECRET_GOOGLE_CLIENT_ID);
     return {
         decodeUser: (token) => {
             const decoded = jwt.verify(token, secret);
@@ -86,7 +86,7 @@ const createAuthManager = () => {
                 // Verify the token
                 const ticket = await googleClient.verifyIdToken({
                     idToken: credential,
-                    audience: configs.GOOGLE_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+                    audience: configs.PUBLIC_GOOGLE_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
                 });
                 // Get the payload (the user information)
                 const payload = ticket.getPayload();
