@@ -48,7 +48,8 @@ export const runInterceptors = (history, t) => {
         history.push("/register");
       }
 
-      if (error?.response?.status === 500) toast.error(message);
+      if (error?.response?.status === 500)
+        toast.error(t("UNKNOWN_ERROR") + ": " + message);
       if (error?.response?.status === 400 && error.response.data?.code === "bad-request")
         toast.error(t("BAD_REQUEST_PARAMS"));
 

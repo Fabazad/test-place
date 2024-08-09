@@ -5,6 +5,8 @@ import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import { SignedInUser } from "@/entities/User/user.helpers.js";
 import { getAuthManager } from "@/libs/AuthManager/index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
+import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
+import { LogLevel } from "@/libs/MonitoringClient/type.js";
 import { GLOBAL_TEST_STATUSES, Role } from "@/utils/constants.js";
 import { CustomResponse, formatFailedResponse } from "@/utils/CustomResponse.js";
 import { DecodedUser } from "@/utils/DecodedUser.type.js";
@@ -18,12 +20,14 @@ export class UserController {
     email: string;
     password: string;
     language: Language;
+    frontendUrl: string;
   }): Promise<CustomResponse<undefined, "duplicate_email" | "duplicate_name">> {
-    const { roles, name, email, password, language } = params;
+    const { roles, name, email, password, language, frontendUrl } = params;
 
     const userDAO = getUserDAO();
     const authManager = getAuthManager();
     const emailClient = getEmailClient();
+    const monitoringClient = getMonitoringClient();
 
     const hashedPassword = authManager.hashPassword(password);
     const userRes = await userDAO.createUser({
@@ -41,12 +45,25 @@ export class UserController {
     if (!userRes.success) return userRes;
     const user = userRes.data;
 
-    await emailClient.sendValidateMailAddressMail({
+    const res = await emailClient.sendEmailValidationMail({
       email,
       userId: user._id,
       language,
       userName: user.name,
+      frontendUrl,
     });
+
+    if (!res.success) {
+      await monitoringClient.sendEvent({
+        eventName: "validation_email_not_sent",
+        data: {
+          message: `[${res.errorCode}]: ${res.errorMessage}`,
+          params,
+          created: user,
+        },
+        level: LogLevel.ERROR,
+      });
+    }
 
     return { success: true, data: undefined };
   }
@@ -158,8 +175,11 @@ export class UserController {
 
   static async resetPasswordMail(params: {
     email: string;
-  }): Promise<CustomResponse<{ user: UserWithoutPassword }, "email_not_found">> {
-    const { email } = params;
+    frontendUrl: string;
+  }): Promise<
+    CustomResponse<{ user: UserWithoutPassword }, "email_not_found" | "email_not_sent">
+  > {
+    const { email, frontendUrl } = params;
 
     const authManager = getAuthManager();
     const userDAO = getUserDAO();
@@ -179,11 +199,14 @@ export class UserController {
 
     if (!user) return { success: false, errorCode: "email_not_found" };
 
-    await emailClient.sendResetPasswordMail({
+    const res = await emailClient.sendForgottenPasswordMail({
       email,
       resetPasswordToken,
       language: user.language,
+      frontendUrl,
     });
+
+    if (!res.success) return res;
 
     return { success: true, data: { user } };
   }
@@ -274,10 +297,14 @@ export class UserController {
 
   static async validationMail(params: {
     email: string;
+    frontendUrl: string;
   }): Promise<
-    CustomResponse<{ user: UserWithoutPassword }, "user_not_found" | "already_validated">
+    CustomResponse<
+      { user: UserWithoutPassword },
+      "user_not_found" | "already_validated" | "email_not_sent"
+    >
   > {
-    const { email } = params;
+    const { email, frontendUrl } = params;
 
     const userDAO = getUserDAO();
     const emailClient = getEmailClient();
@@ -288,12 +315,15 @@ export class UserController {
 
     if (user.emailValidation) return { success: false, errorCode: "already_validated" };
 
-    await emailClient.sendValidateMailAddressMail({
+    const res = await emailClient.sendEmailValidationMail({
       email,
       userId: user._id,
       language: user.language,
       userName: user.name,
+      frontendUrl,
     });
+
+    if (!res.success) return res;
 
     return { success: true, data: { user } };
   }

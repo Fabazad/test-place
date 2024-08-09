@@ -1,6 +1,7 @@
 import { configs } from "@/configs.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import axios from "axios";
+import path from "path";
 import { sendTransactionalEmail } from "./sendTransactionalEmail.js";
 import { TEMPLATE_IDS } from "./templateIds.js";
 import { EmailClient, EmailTemplate } from "./type.js";
@@ -14,6 +15,11 @@ const createEmailClient = (): EmailClient => {
       "content-type": "application/json",
     },
   });
+
+  const fromTestPlace = {
+    name: configs.EMAIL_SENDER_NAME,
+    email: configs.EMAIL_SENDER_EMAIL,
+  };
 
   return {
     sendContactUsMail: async ({ email, name, language, message }) => {
@@ -34,10 +40,53 @@ const createEmailClient = (): EmailClient => {
 
       return res;
     },
-    sendValidateMailAddressMail: async ({ email, userId, language, userName }) => {
-      console.log("sendValidateMailAddressMail", { email, userId, language, userName });
+
+    sendEmailValidationMail: async ({
+      email,
+      userId,
+      language,
+      userName,
+      frontendUrl,
+    }) => {
+      const emailValidationLink = path.join(frontendUrl, "email-validation", userId);
+
+      const res = await sendTransactionalEmail({
+        brevoAxios,
+        from: fromTestPlace,
+        to: {
+          name: userName,
+          email,
+        },
+        subject: "Test Place - Email validation",
+        templateId: TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language],
+        templateParams: { link: emailValidationLink, userName },
+      });
+
+      return res;
     },
-    sendResetPasswordMail: async ({ email, resetPasswordToken, language }) => {
+
+    sendForgottenPasswordMail: async ({
+      email,
+      resetPasswordToken,
+      language,
+      frontendUrl,
+    }) => {
+      const resetPasswordLink = path.join(
+        frontendUrl,
+        "reset-password",
+        resetPasswordToken
+      );
+
+      const res = await sendTransactionalEmail({
+        brevoAxios,
+        from: fromTestPlace,
+        to: { email },
+        subject: "Test Place - Forgotten password",
+        templateId: TEMPLATE_IDS[EmailTemplate.FORGOTTEN_PASSWORD][language],
+        templateParams: { link: resetPasswordLink },
+      });
+
+      return res;
       console.log("sendResetPasswordMail", { email, resetPasswordToken, language });
     },
     sendNotificationMail: async ({ notification }) => {

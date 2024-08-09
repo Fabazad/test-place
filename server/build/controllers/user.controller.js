@@ -3,16 +3,19 @@ import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
 import { getAuthManager } from "../libs/AuthManager/index.js";
 import { getEmailClient } from "../libs/EmailClient/index.js";
+import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
+import { LogLevel } from "../libs/MonitoringClient/type.js";
 import { GLOBAL_TEST_STATUSES, Role } from "../utils/constants.js";
 import { formatFailedResponse } from "../utils/CustomResponse.js";
 import { Language } from "../utils/Language.js";
 import dayjs from "dayjs";
 export class UserController {
     static async credentialRegister(params) {
-        const { roles, name, email, password, language } = params;
+        const { roles, name, email, password, language, frontendUrl } = params;
         const userDAO = getUserDAO();
         const authManager = getAuthManager();
         const emailClient = getEmailClient();
+        const monitoringClient = getMonitoringClient();
         const hashedPassword = authManager.hashPassword(password);
         const userRes = await userDAO.createUser({
             userData: {
@@ -28,12 +31,24 @@ export class UserController {
         if (!userRes.success)
             return userRes;
         const user = userRes.data;
-        await emailClient.sendValidateMailAddressMail({
+        const res = await emailClient.sendEmailValidationMail({
             email,
             userId: user._id,
             language,
             userName: user.name,
+            frontendUrl,
         });
+        if (!res.success) {
+            await monitoringClient.sendEvent({
+                eventName: "validation_email_not_sent",
+                data: {
+                    message: `[${res.errorCode}]: ${res.errorMessage}`,
+                    params,
+                    created: user,
+                },
+                level: LogLevel.ERROR,
+            });
+        }
         return { success: true, data: undefined };
     }
     static async login(params) {
@@ -107,7 +122,7 @@ export class UserController {
         return { success: true, data: loggedUser.data };
     }
     static async resetPasswordMail(params) {
-        const { email } = params;
+        const { email, frontendUrl } = params;
         const authManager = getAuthManager();
         const userDAO = getUserDAO();
         const emailClient = getEmailClient();
@@ -122,11 +137,14 @@ export class UserController {
         });
         if (!user)
             return { success: false, errorCode: "email_not_found" };
-        await emailClient.sendResetPasswordMail({
+        const res = await emailClient.sendForgottenPasswordMail({
             email,
             resetPasswordToken,
             language: user.language,
+            frontendUrl,
         });
+        if (!res.success)
+            return res;
         return { success: true, data: { user } };
     }
     static async resetPassword(params) {
@@ -179,7 +197,7 @@ export class UserController {
         return { success: true, data: { user } };
     }
     static async validationMail(params) {
-        const { email } = params;
+        const { email, frontendUrl } = params;
         const userDAO = getUserDAO();
         const emailClient = getEmailClient();
         const user = await userDAO.getUser({ email });
@@ -187,12 +205,15 @@ export class UserController {
             return { success: false, errorCode: "user_not_found" };
         if (user.emailValidation)
             return { success: false, errorCode: "already_validated" };
-        await emailClient.sendValidateMailAddressMail({
+        const res = await emailClient.sendEmailValidationMail({
             email,
             userId: user._id,
             language: user.language,
             userName: user.name,
+            frontendUrl,
         });
+        if (!res.success)
+            return res;
         return { success: true, data: { user } };
     }
     static async updateUserInfo(params) {

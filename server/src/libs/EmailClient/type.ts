@@ -9,17 +9,19 @@ export type EmailClient = {
     language: Language;
     message: string;
   }) => Promise<CustomResponse<string, "email_not_sent">>;
-  sendValidateMailAddressMail: (params: {
+  sendEmailValidationMail: (params: {
     email: string;
     userId: string;
     userName: string;
     language: Language;
-  }) => Promise<void>;
-  sendResetPasswordMail: (params: {
+    frontendUrl: string;
+  }) => Promise<CustomResponse<string, "email_not_sent">>;
+  sendForgottenPasswordMail: (params: {
     email: string;
     resetPasswordToken: string;
     language: Language;
-  }) => Promise<void>;
+    frontendUrl: string;
+  }) => Promise<CustomResponse<string, "email_not_sent">>;
   sendNotificationMail: (params: { notification: Notification }) => Promise<void>;
 };
 

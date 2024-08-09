@@ -7,7 +7,7 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
   const { signIn } = useGoogleLogin({
     onSuccess,
     onFailure,
-    clientId: "165720093757-rekthd2sfe0nn7m0tb7f0bopuquqdfn7.apps.googleusercontent.com",
+    clientId: "551740391673-sidds0lingiqeli1jro82a0djidgjj3e.apps.googleusercontent.com",
   });
 
   return (

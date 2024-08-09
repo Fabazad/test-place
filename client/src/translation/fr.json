@@ -365,7 +365,7 @@
   "PRODUCT_CATEGORIES.cloths": "Vêtements",
   "PUBLICATION_EXPIRATION_DATE": "Date d'expiration de la publication",
   "ACCOUNT_WITH_THIS_EMAIL_ALREADY_EXISTS": "Un compte existe déjà avec cette adresse mail.",
-  "UNKNOWN_ERROR": "Une erreur inconnue s'est produite.",
+  "UNKNOWN_ERROR": "Une erreur inconnue s'est produite",
   "BAD_REQUEST_PARAMS": "Paramètres envoyés invalides.",
   "EMAIL_ALREADY_VALIDATED": "L'email a déjà été validé.",
   "ERROR_SENDING_MESSAGE": "Une erreur est survenue lors de l'envoi du message."

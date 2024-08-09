@@ -24,12 +24,14 @@ router.post("/register", asyncHandler(async (request, reply) => {
         roles: z.array(z.nativeEnum(Role)),
         language: z.nativeEnum(Language),
     }));
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
     const res = await UserController.credentialRegister({
         roles,
         name,
         email,
         password,
         language,
+        frontendUrl,
     });
     reply.send(handleResponseForRoute(res, {
         duplicate_email: new BadRequestError("duplicate_email"),
@@ -64,9 +66,11 @@ router.get("/checkToken", decode, asyncHandler(async (request, reply) => {
 }));
 router.post("/resetPasswordMail", asyncHandler(async (request, reply) => {
     const { email } = zodValidationForRoute(request.body, z.object({ email: z.string().trim().email() }));
-    const res = await UserController.resetPasswordMail({ email });
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
+    const res = await UserController.resetPasswordMail({ email, frontendUrl });
     reply.send(handleResponseForRoute(res, {
         email_not_found: new NotFoundRequestError("email_not_found"),
+        email_not_sent: new ServerRequestError("email_not_sent"),
     }));
 }));
 router.post("/resetPassword", asyncHandler(async (request, reply) => {
@@ -106,10 +110,12 @@ router.post("/emailValidation", asyncHandler(async (request, reply) => {
 }));
 router.post("/validationMail", asyncHandler(async (request, reply) => {
     const { email } = zodValidationForRoute(request.body, z.object({ email: z.string() }));
-    const res = await UserController.validationMail({ email });
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
+    const res = await UserController.validationMail({ email, frontendUrl });
     reply.send(handleResponseForRoute(res, {
         user_not_found: new NotFoundRequestError("user_not_found"),
         already_validated: new BadRequestError("already_validated"),
+        email_not_sent: ({ errorMessage }) => new ServerRequestError("email_not_sent", errorMessage),
     }));
 }));
 router.post("/updateUserInfo", withAuth(), asyncHandler(async (request, reply) => {

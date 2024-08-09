@@ -34,7 +34,7 @@ const ResendValidationMailModal = ({ t }) => {
             toast.info(t("EMAIL_ALREADY_VALIDATED"));
             setEmail("");
             toggleModal();
-          } else toast.error(t("UNKNOWN_ERROR"));
+          }
           return;
         }
         setEmail("");

@@ -89,9 +89,7 @@ class UserService extends BaseService {
   }
 
   emailValidation(userId) {
-    return axios
-      .post(this.baseURL + "/emailValidation", { userId })
-      .then(this.serviceResolve);
+    return axios.post(this.baseURL + "/emailValidation", { userId });
   }
 
   getCurrentUserId() {
