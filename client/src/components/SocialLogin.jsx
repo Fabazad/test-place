@@ -21,10 +21,10 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
     }
   }, [loading]);
 
-  const googleLogin = async ({ googleId }) => {
+  const googleLogin = async ({ credential }) => {
     setLoading(true);
     try {
-      const res = await userService.googleLogin({ googleId, keepConnection: true });
+      const res = await userService.googleLogin({ credential, keepConnection: true });
       history.push(
         res.user.roles.includes(USER_ROLES.SELLER) ? "/dashboard/my-products" : "/"
       );
@@ -33,14 +33,12 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
     }
   };
 
-  const googleRegister = async ({ name, email, roles, googleId }) => {
+  const googleRegister = async ({ credential, roles }) => {
     setLoading(true);
     try {
       const res = await userService.googleRegister({
-        name,
-        email,
+        credential,
         roles,
-        googleId,
         language: i18n.language,
       });
       history.push(
@@ -55,15 +53,13 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
     setLoading(true);
     try {
       console.log({ res });
-      const { profileObj } = res;
-      const { email, givenName, googleId, name } = profileObj;
+      const { credential } = res;
 
       if (roles === undefined) {
-        return googleLogin({ googleId });
+        return googleLogin({ credential });
       }
 
-      const builtName = (givenName || name) + Math.round(Math.random() * 10000);
-      return googleRegister({ name: builtName, email, roles, googleId });
+      return googleRegister({ credential, roles });
     } finally {
       setLoading(false);
     }

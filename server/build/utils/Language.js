@@ -3,3 +3,4 @@ export const Language = {
     EN: "en",
     CH: "ch",
 };
+export const isLanguage = (language) => Object.values(Language).includes(language);

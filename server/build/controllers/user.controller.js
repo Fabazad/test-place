@@ -332,8 +332,18 @@ export class UserController {
         };
     }
     static async googleRegister(params) {
-        const { email, name, roles, googleId, language } = params;
+        const { credential, roles, language: paramsLanguage } = params;
         const userDAO = getUserDAO();
+        const authManager = getAuthManager();
+        const googleLoginRes = await authManager.googleLogin({ credential });
+        if (!googleLoginRes.success)
+            return googleLoginRes;
+        const { googleId, name, email, language: googleLanguage } = googleLoginRes.data;
+        const language = googleLanguage || paramsLanguage;
+        if (!email)
+            return { success: false, errorCode: "user_email_not_found" };
+        if (!name)
+            return { success: false, errorCode: "user_name_not_found" };
         const googleUser = await userDAO.getUser({ googleId });
         if (googleUser)
             return this.login({ user: googleUser, staySignedIn: false });
@@ -368,8 +378,13 @@ export class UserController {
         return this.login({ user: createUserRes.data, staySignedIn: false });
     }
     static async googleLogin(params) {
-        const { googleId, staySignedIn } = params;
+        const { credential, staySignedIn } = params;
         const userDAO = getUserDAO();
+        const authManager = getAuthManager();
+        const googleLoginRes = await authManager.googleLogin({ credential });
+        if (!googleLoginRes.success)
+            return googleLoginRes;
+        const { googleId } = googleLoginRes.data;
         const user = await userDAO.getUser({ googleId });
         if (!user)
             return { success: false, errorCode: "user_not_found" };

@@ -156,18 +156,14 @@ router.get("/:userId", asyncHandler(async (request, reply) => {
     }));
 }));
 router.post("/google-register", asyncHandler(async (request, reply) => {
-    const { name, email, googleId, roles, language } = zodValidationForRoute(request.body, z.object({
-        name: z.string().trim().min(1),
-        email: z.string().trim().min(1).email(),
-        googleId: z.string().trim().min(1),
+    const { credential, roles, language } = zodValidationForRoute(request.body, z.object({
+        credential: z.string().min(1),
         roles: z.array(z.nativeEnum(Role)),
         language: z.nativeEnum(Language),
     }));
     const res = await UserController.googleRegister({
+        credential,
         roles,
-        name,
-        email,
-        googleId,
         language,
     });
     reply.send(handleResponseForRoute(res, {
@@ -176,20 +172,26 @@ router.post("/google-register", asyncHandler(async (request, reply) => {
         user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
         duplicate_email: new ServerRequestError("duplicate_email"),
         duplicate_name: new BadRequestError("duplicate_name"),
+        invalid_token: new ServerRequestError("invalid_token"),
+        user_email_not_found: new NotFoundRequestError("user_email_not_found"),
+        user_name_not_found: new NotFoundRequestError("user_name_not_found"),
+        unknown_error: ({ errorMessage }) => new ServerRequestError("unknown_error", errorMessage),
     }));
 }));
 router.post("/google-login", asyncHandler(async (request, reply) => {
-    const { googleId, keepConnection } = zodValidationForRoute(request.body, z.object({
-        googleId: z.string().trim().min(1),
+    const { credential, keepConnection } = zodValidationForRoute(request.body, z.object({
+        credential: z.string().trim().min(1),
         keepConnection: z.boolean(),
     }));
     const res = await UserController.googleLogin({
         staySignedIn: keepConnection,
-        googleId,
+        credential,
     });
     reply.send(handleResponseForRoute(res, {
         user_not_found: new NotFoundRequestError("user_not_found"),
         user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+        unknown_error: ({ errorMessage }) => new ServerRequestError("unknown_error", errorMessage),
+        invalid_token: new ServerRequestError("invalid_token"),
     }));
 }));
 router.post("/facebook-register", asyncHandler(async (request, reply) => {

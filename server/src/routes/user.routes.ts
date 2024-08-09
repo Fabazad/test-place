@@ -289,22 +289,18 @@ router.get(
 router.post(
   "/google-register",
   asyncHandler(async (request, reply) => {
-    const { name, email, googleId, roles, language } = zodValidationForRoute(
+    const { credential, roles, language } = zodValidationForRoute(
       request.body,
       z.object({
-        name: z.string().trim().min(1),
-        email: z.string().trim().min(1).email(),
-        googleId: z.string().trim().min(1),
+        credential: z.string().min(1),
         roles: z.array(z.nativeEnum(Role)),
         language: z.nativeEnum(Language),
       })
     );
 
     const res = await UserController.googleRegister({
+      credential,
       roles,
-      name,
-      email,
-      googleId,
       language,
     });
 
@@ -321,6 +317,11 @@ router.post(
         ),
         duplicate_email: new ServerRequestError("duplicate_email"),
         duplicate_name: new BadRequestError("duplicate_name"),
+        invalid_token: new ServerRequestError("invalid_token"),
+        user_email_not_found: new NotFoundRequestError("user_email_not_found"),
+        user_name_not_found: new NotFoundRequestError("user_name_not_found"),
+        unknown_error: ({ errorMessage }) =>
+          new ServerRequestError("unknown_error", errorMessage),
       })
     );
   })
@@ -329,17 +330,17 @@ router.post(
 router.post(
   "/google-login",
   asyncHandler(async (request, reply) => {
-    const { googleId, keepConnection } = zodValidationForRoute(
+    const { credential, keepConnection } = zodValidationForRoute(
       request.body,
       z.object({
-        googleId: z.string().trim().min(1),
+        credential: z.string().trim().min(1),
         keepConnection: z.boolean(),
       })
     );
 
     const res = await UserController.googleLogin({
       staySignedIn: keepConnection,
-      googleId,
+      credential,
     });
 
     reply.send(
@@ -348,6 +349,9 @@ router.post(
         user_not_found_when_logging: new ServerRequestError(
           "user_not_found_when_logging"
         ),
+        unknown_error: ({ errorMessage }) =>
+          new ServerRequestError("unknown_error", errorMessage),
+        invalid_token: new ServerRequestError("invalid_token"),
       })
     );
   })

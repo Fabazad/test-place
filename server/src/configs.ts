@@ -32,6 +32,7 @@ export const configs = z
     NOTIFICATION_EMAIL_TEMPLATE_ID_FR: z.string().optional().default("unknown"),
     NOTIFICATION_EMAIL_TEMPLATE_ID_EN: z.string().optional().default("unknown"),
     NOTIFICATION_EMAIL_TEMPLATE_ID_CH: z.string().optional().default("unknown"),
+    GOOGLE_CLIENT_ID: z.string(),
   })
   .parse(process.env);
 

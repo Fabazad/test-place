@@ -1,6 +1,7 @@
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { DecodedUser } from "@/utils/DecodedUser.type.js";
+import { Language } from "@/utils/Language.js";
 
 export type AuthManager = {
   decodeUser: (token: string) => DecodedUser | null;
@@ -15,6 +16,17 @@ export type AuthManager = {
     CustomResponse<
       { facebookId: string; name: string; email: string },
       "unknown_error" | "facebook_account_missing_email"
+    >
+  >;
+  googleLogin: (params: { credential: string }) => Promise<
+    CustomResponse<
+      {
+        googleId: string;
+        name?: string;
+        email?: string;
+        language?: Language;
+      },
+      "unknown_error" | "invalid_token"
     >
   >;
 };

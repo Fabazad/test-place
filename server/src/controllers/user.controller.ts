@@ -519,10 +519,8 @@ export class UserController {
   }
 
   static async googleRegister(params: {
-    email: string;
-    name: string;
+    credential: string;
     roles: Array<Role>;
-    googleId: string;
     language: Language;
   }): Promise<
     CustomResponse<
@@ -532,11 +530,27 @@ export class UserController {
       | "name_already_used_when_adding_email"
       | "duplicate_email"
       | "duplicate_name"
+      | "unknown_error"
+      | "invalid_token"
+      | "user_email_not_found"
+      | "user_name_not_found"
     >
   > {
-    const { email, name, roles, googleId, language } = params;
+    const { credential, roles, language: paramsLanguage } = params;
 
     const userDAO = getUserDAO();
+    const authManager = getAuthManager();
+
+    const googleLoginRes = await authManager.googleLogin({ credential });
+
+    if (!googleLoginRes.success) return googleLoginRes;
+
+    const { googleId, name, email, language: googleLanguage } = googleLoginRes.data;
+
+    const language = googleLanguage || paramsLanguage;
+
+    if (!email) return { success: false, errorCode: "user_email_not_found" };
+    if (!name) return { success: false, errorCode: "user_name_not_found" };
 
     const googleUser = await userDAO.getUser({ googleId });
 
@@ -576,14 +590,24 @@ export class UserController {
   }
 
   static async googleLogin(params: {
-    googleId: string;
+    credential: string;
     staySignedIn: boolean;
   }): Promise<
-    CustomResponse<SignedInUser, "user_not_found" | "user_not_found_when_logging">
+    CustomResponse<
+      SignedInUser,
+      "user_not_found" | "user_not_found_when_logging" | "unknown_error" | "invalid_token"
+    >
   > {
-    const { googleId, staySignedIn } = params;
+    const { credential, staySignedIn } = params;
 
     const userDAO = getUserDAO();
+    const authManager = getAuthManager();
+
+    const googleLoginRes = await authManager.googleLogin({ credential });
+
+    if (!googleLoginRes.success) return googleLoginRes;
+
+    const { googleId } = googleLoginRes.data;
 
     const user = await userDAO.getUser({ googleId });
 

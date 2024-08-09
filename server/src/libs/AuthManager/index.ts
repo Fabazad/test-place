@@ -1,9 +1,11 @@
 import { configs } from "@/configs.js";
 import { Role } from "@/utils/constants.js";
 import { isDecodedUser } from "@/utils/DecodedUser.type.js";
+import { isLanguage, Language } from "@/utils/Language.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import axios from "axios";
 import bcrypt from "bcryptjs";
+import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 import { AuthManager } from "./type.js";
 
@@ -12,6 +14,8 @@ const createAuthManager = (): AuthManager => {
   const longSignInDuration = configs.LONG_SIGN_IN_DURATION;
   const shortSignInDuration = configs.SHORT_SIGN_IN_DURATION;
   const saltRounds = configs.SALT_ROUNDS;
+
+  const googleClient = new OAuth2Client(configs.GOOGLE_CLIENT_ID);
 
   return {
     decodeUser: (token) => {
@@ -85,6 +89,43 @@ const createAuthManager = (): AuthManager => {
           success: false,
           errorCode: "unknown_error",
           errorMessage: error.message,
+        };
+      }
+    },
+    googleLogin: async ({ credential }) => {
+      try {
+        // Verify the token
+        const ticket = await googleClient.verifyIdToken({
+          idToken: credential,
+          audience: configs.GOOGLE_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+        });
+
+        // Get the payload (the user information)
+        const payload = ticket.getPayload();
+
+        if (!payload)
+          return {
+            success: false,
+            errorCode: "unknown_error",
+            errorMessage: "payload is null",
+          };
+
+        const googleId = payload.sub;
+        const email = payload.email;
+        const name = payload.name;
+        const picture = payload.picture;
+        const language =
+          payload.locale && isLanguage(payload.locale) ? payload.locale : Language.FR;
+
+        console.log({ googleId, name, email, language, picture });
+
+        // You can now use this information as needed, for example, store it in your database or create a session
+        return { success: true, data: { googleId, name, email, language } };
+      } catch (error: unknown) {
+        return {
+          success: false,
+          errorCode: "unknown_error",
+          errorMessage: error?.toString(),
         };
       }
     },
