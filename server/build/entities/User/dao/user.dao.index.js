@@ -3,7 +3,12 @@ import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
 import { userDataSchema } from "../user.entity.js";
 const userSchema = new mongoose.Schema(generateMongooseSchemaFromZod(userDataSchema));
-userSchema.index({ email: 1 }, { unique: true }).index({ name: 1 }, { unique: true });
+userSchema
+    .index({ email: 1 }, { unique: true })
+    .index({ name: 1 }, { unique: true })
+    .index({ googleId: 1 }, { unique: true, sparse: true })
+    .index({ facebookId: 1 }, { unique: true, sparse: true })
+    .index({ amazonId: 1 }, { unique: true, sparse: true });
 const userModel = mongoose.model("User", userSchema);
 const createUserDAO = () => {
     return {

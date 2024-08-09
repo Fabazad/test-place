@@ -12,7 +12,8 @@ userSchema
   .index({ email: 1 }, { unique: true })
   .index({ name: 1 }, { unique: true })
   .index({ googleId: 1 }, { unique: true, sparse: true })
-  .index({ facebookId: 1 }, { unique: true, sparse: true });
+  .index({ facebookId: 1 }, { unique: true, sparse: true })
+  .index({ amazonId: 1 }, { unique: true, sparse: true });
 
 const userModel = mongoose.model<User>("User", userSchema);
 
