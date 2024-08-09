@@ -54,7 +54,9 @@ export const productDataSchema = z.object({
 
 export type ProductData = z.infer<typeof productDataSchema>;
 
-export const productSchema = productDataSchema.extend(savedDataSchema);
+export const productSchema = productDataSchema
+  .extend(savedDataSchema)
+  .extend({ amazonUrl: z.string() });
 export type Product = z.infer<typeof productSchema>;
 
 export type PopulatedProduct = Omit<Product, "seller"> & { seller: UserWithoutPassword };

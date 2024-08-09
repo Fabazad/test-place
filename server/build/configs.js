@@ -33,6 +33,7 @@ export const configs = z
     NOTIFICATION_EMAIL_TEMPLATE_ID_CH: z.string().optional().default("unknown"),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
+    AMAZON_AFFILIATION_TAG: z.string(),
 })
     .parse(process.env);
 console.log({ configs });

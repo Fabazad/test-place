@@ -1,3 +1,4 @@
+import { configs } from "@/configs.js";
 import { InferEnum } from "@/utils/inferEnum.js";
 import { booleanSchema, numberSchema } from "@/utils/zod.utils.js";
 import z from "zod";
@@ -47,3 +48,6 @@ export const productUpdateDataSchema = productDataSchema.pick({
 });
 
 export type ProductUpdateData = z.infer<typeof productUpdateDataSchema>;
+
+export const generateAmazonUrl = (asin: string) =>
+  `https://www.amazon.fr/dp/${asin}?tag=${configs.AMAZON_AFFILIATION_TAG}`;

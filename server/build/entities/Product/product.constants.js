@@ -1,3 +1,4 @@
+import { configs } from "../../configs.js";
 import { booleanSchema, numberSchema } from "../../utils/zod.utils.js";
 import z from "zod";
 import { PRODUCT_CATEGORIES, productDataSchema } from "./product.entity.js";
@@ -36,3 +37,4 @@ export const productUpdateDataSchema = productDataSchema.pick({
     price: true,
     finalPrice: true,
 });
+export const generateAmazonUrl = (asin) => `https://www.amazon.fr/dp/${asin}?tag=${configs.AMAZON_AFFILIATION_TAG}`;

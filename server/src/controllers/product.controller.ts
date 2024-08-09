@@ -12,7 +12,6 @@ import {
   PRODUCT_CATEGORIES,
   ProductData,
 } from "@/entities/Product/product.entity.js";
-import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import { getScrapper } from "@/libs/Scrapper/index.js";
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
@@ -40,7 +39,6 @@ export class ProductController {
 
     const productDAO = getProductDAO();
     const scrapper = getScrapper();
-    const monitoringClient = getMonitoringClient();
 
     const product = await productDAO.getProductByAsin({ asin });
 

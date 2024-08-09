@@ -1,7 +1,7 @@
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import mongoose, { FilterQuery } from "mongoose";
-import { ProductSortBy } from "../product.constants.js";
+import { generateAmazonUrl, ProductSortBy } from "../product.constants.js";
 import {
   PopulatedProduct,
   Product,
@@ -30,6 +30,7 @@ const createProductDAO = (): ProductDAO => {
     getProductById: async ({ id }) => {
       const product = await productModel.findById(id).lean();
       if (!product) return null;
+      product.amazonUrl = generateAmazonUrl(product.asin);
       return JSON.parse(JSON.stringify(product));
     },
     decrementRemainingTestsCount: async ({ productId }) => {
@@ -41,6 +42,7 @@ const createProductDAO = (): ProductDAO => {
     getProductByAsin: async ({ asin }) => {
       const product = await productModel.findOne({ asin }).lean();
       if (!product) return null;
+      product.amazonUrl = generateAmazonUrl(product.asin);
       return JSON.parse(JSON.stringify(product));
     },
     findPageResults: async ({ searchData }) => {
@@ -97,6 +99,7 @@ const createProductDAO = (): ProductDAO => {
           h.seller._id = h.seller._id.toString();
           //@ts-ignore
           delete h.seller.password;
+          h.amazonUrl = generateAmazonUrl(h.asin);
           return h;
         }),
         totalCount,
@@ -107,6 +110,7 @@ const createProductDAO = (): ProductDAO => {
       if (!product) return null;
       const res = JSON.parse(JSON.stringify(product));
       delete res.seller.password;
+      res.amazonUrl = generateAmazonUrl(res.asin);
       return res;
     },
     updateProduct: async ({ id, updates }) => {
@@ -114,6 +118,7 @@ const createProductDAO = (): ProductDAO => {
       if (!product) return null;
       const res = JSON.parse(JSON.stringify(product));
       delete res.seller.password;
+      res.amazonUrl = generateAmazonUrl(res.asin);
       return res;
     },
     create: async ({ productData }) => {
@@ -121,6 +126,7 @@ const createProductDAO = (): ProductDAO => {
         const product = await productModel.create(productData);
         const res = JSON.parse(JSON.stringify(product.toJSON()));
         delete res.seller.password;
+        res.amazonUrl = generateAmazonUrl(res.asin);
         return { success: true, data: res };
       } catch (err: any) {
         if (err.code === 11000) {
@@ -134,6 +140,7 @@ const createProductDAO = (): ProductDAO => {
       if (!product) return null;
       const res = JSON.parse(JSON.stringify(product));
       delete res.seller.password;
+      res.amazonUrl = generateAmazonUrl(res.asin);
       return res;
     },
   };

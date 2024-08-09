@@ -2,7 +2,6 @@ import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
 import { PRODUCT_CATEGORIES, } from "../entities/Product/product.entity.js";
-import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { getScrapper } from "../libs/Scrapper/index.js";
 import { Role } from "../utils/constants.js";
 import dayjs from "dayjs";
@@ -11,7 +10,6 @@ export class ProductController {
         const { asin } = params;
         const productDAO = getProductDAO();
         const scrapper = getScrapper();
-        const monitoringClient = getMonitoringClient();
         const product = await productDAO.getProductByAsin({ asin });
         if (product)
             return {

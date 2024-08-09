@@ -48,4 +48,6 @@ export const productDataSchema = z.object({
     privateNote: z.string().optional(),
     remainingTestsCount: z.number(),
 });
-export const productSchema = productDataSchema.extend(savedDataSchema);
+export const productSchema = productDataSchema
+    .extend(savedDataSchema)
+    .extend({ amazonUrl: z.string() });

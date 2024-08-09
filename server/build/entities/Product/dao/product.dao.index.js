@@ -1,7 +1,7 @@
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
-import { ProductSortBy } from "../product.constants.js";
+import { generateAmazonUrl, ProductSortBy } from "../product.constants.js";
 import { productDataSchema, } from "../product.entity.js";
 const productMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(productDataSchema), { timestamps: true });
 productMongooseSchema.index({ title: "text" }).index({ asin: 1 }, { unique: true });
@@ -18,6 +18,7 @@ const createProductDAO = () => {
             const product = await productModel.findById(id).lean();
             if (!product)
                 return null;
+            product.amazonUrl = generateAmazonUrl(product.asin);
             return JSON.parse(JSON.stringify(product));
         },
         decrementRemainingTestsCount: async ({ productId }) => {
@@ -27,6 +28,7 @@ const createProductDAO = () => {
             const product = await productModel.findOne({ asin }).lean();
             if (!product)
                 return null;
+            product.amazonUrl = generateAmazonUrl(product.asin);
             return JSON.parse(JSON.stringify(product));
         },
         findPageResults: async ({ searchData }) => {
@@ -65,6 +67,7 @@ const createProductDAO = () => {
                     h.seller._id = h.seller._id.toString();
                     //@ts-ignore
                     delete h.seller.password;
+                    h.amazonUrl = generateAmazonUrl(h.asin);
                     return h;
                 }),
                 totalCount,
@@ -76,6 +79,7 @@ const createProductDAO = () => {
                 return null;
             const res = JSON.parse(JSON.stringify(product));
             delete res.seller.password;
+            res.amazonUrl = generateAmazonUrl(res.asin);
             return res;
         },
         updateProduct: async ({ id, updates }) => {
@@ -84,6 +88,7 @@ const createProductDAO = () => {
                 return null;
             const res = JSON.parse(JSON.stringify(product));
             delete res.seller.password;
+            res.amazonUrl = generateAmazonUrl(res.asin);
             return res;
         },
         create: async ({ productData }) => {
@@ -91,6 +96,7 @@ const createProductDAO = () => {
                 const product = await productModel.create(productData);
                 const res = JSON.parse(JSON.stringify(product.toJSON()));
                 delete res.seller.password;
+                res.amazonUrl = generateAmazonUrl(res.asin);
                 return { success: true, data: res };
             }
             catch (err) {
@@ -106,6 +112,7 @@ const createProductDAO = () => {
                 return null;
             const res = JSON.parse(JSON.stringify(product));
             delete res.seller.password;
+            res.amazonUrl = generateAmazonUrl(res.asin);
             return res;
         },
     };
