@@ -52,14 +52,13 @@ const SocialLogin = ({ children, onStartLogging, onStopLogging, className, roles
   const onGoogleSignInSuccess = async (res) => {
     setLoading(true);
     try {
-      console.log({ res });
       const { credential } = res;
 
       if (roles === undefined) {
         return googleLogin({ credential });
       }
 
-      return googleRegister({ credential, roles });
+      return googleRegister({ credential, roles, language: i18n.language });
     } finally {
       setLoading(false);
     }
