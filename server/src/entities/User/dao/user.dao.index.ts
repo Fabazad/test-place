@@ -19,7 +19,7 @@ const createUserDAO = (): UserDAO => {
         .findOne({
           ...("email" in params && { email: params.email }),
           ...("userId" in params && { _id: params.userId }),
-          ...("googleId" in params && { googleId: params.googleId }),
+          ...("googleId" in params && { googleId: params.googleId, email: params.email }),
           ...("facebookId" in params && { facebookId: params.facebookId }),
         })
         .lean();

@@ -7,7 +7,7 @@ export type UserDAO = {
     params:
       | { userId: string }
       | { email: string }
-      | { googleId: string }
+      | { googleId: string; email?: string }
       | { facebookId: string }
   ) => Promise<UserWithoutPassword | null>;
   setIsCertified: (params: {

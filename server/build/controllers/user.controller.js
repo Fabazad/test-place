@@ -384,10 +384,13 @@ export class UserController {
         const googleLoginRes = await authManager.googleLogin({ credential });
         if (!googleLoginRes.success)
             return googleLoginRes;
-        const { googleId } = googleLoginRes.data;
-        const user = await userDAO.getUser({ googleId });
+        const { googleId, email } = googleLoginRes.data;
+        const user = await userDAO.getUser({ googleId, email });
         if (!user)
             return { success: false, errorCode: "user_not_found" };
+        if (!user?.googleId && email) {
+            await userDAO.updateUser({ userId: user._id, updates: { googleId } });
+        }
         return UserController.login({ user, staySignedIn });
     }
     static async facebookRegister(params) {
