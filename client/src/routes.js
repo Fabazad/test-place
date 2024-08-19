@@ -92,7 +92,7 @@ const routes = (t) => [
         statuses={[
           TestStatus.REQUEST_ACCEPTED,
           TestStatus.PRODUCT_ORDERED,
-          TestStatus.PRODUCT_ORDERED,
+          TestStatus.PRODUCT_RECEIVED,
           TestStatus.PRODUCT_REVIEWED,
           TestStatus.REVIEW_VALIDATED,
           TestStatus.MONEY_SENT,
@@ -147,7 +147,7 @@ const routes = (t) => [
     color: "danger",
     component: () => (
       <TestList
-        statuses={[TestStatus.TEST_CANCELLED]}
+        statuses={[TestStatus.TEST_CANCELLED, TestStatus.REVIEW_REFUSED]}
         globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
         title={t("CANCELLED_TESTS")}
         userRole={USER_ROLES.SELLER}
@@ -164,7 +164,7 @@ const routes = (t) => [
     color: "danger",
     component: () => (
       <TestList
-        statuses={[TestStatus.TEST_CANCELLED]}
+        statuses={[TestStatus.TEST_CANCELLED, TestStatus.REVIEW_REFUSED]}
         globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
         title={t("CANCELLED_TESTS")}
         userRole={USER_ROLES.TESTER}
@@ -181,7 +181,7 @@ const routes = (t) => [
     color: "danger",
     component: () => (
       <TestList
-        statuses={[TestStatus.TEST_CANCELLED]}
+        statuses={[TestStatus.TEST_CANCELLED, TestStatus.REVIEW_REFUSED]}
         globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
         title={t("CANCELLED_TESTS")}
         adminView={true}

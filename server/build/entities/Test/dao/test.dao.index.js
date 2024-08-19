@@ -1,8 +1,8 @@
 import { generateAmazonUrl } from "../../Product/product.constants.js";
-import { TestStatus } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
+import { GLOBAL_TEST_STATUSES, TestStatus } from "../test.constants.js";
 import { testDataSchema } from "../test.entity.js";
 const testMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(testDataSchema), { timestamps: true });
 testMongooseSchema.pre("save", async function (next) {
@@ -34,14 +34,44 @@ export const createTestDAO = () => {
             ...(statuses ? { status: { $in: statuses } } : {}),
         };
     };
+    const formatOneTest = (test) => {
+        test.product.amazonUrl = generateAmazonUrl(test.product);
+        // @ts-ignore
+        if (typeof test.seller === "object")
+            delete test.seller.password;
+        // @ts-ignore
+        if (typeof test.tester === "object")
+            delete test.tester.password;
+        return test;
+    };
+    const formatResults = (test) => {
+        if (Array.isArray(test)) {
+            return JSON.parse(JSON.stringify(test.map((t) => formatOneTest(t))));
+        }
+        return JSON.parse(JSON.stringify(formatOneTest(test)));
+    };
     return {
         createTest: async ({ testData }) => {
+            const alreadyTesting = await testModel.findOne({
+                "product._id": testData.product._id,
+                "tester._id": testData.tester,
+                status: {
+                    $in: [...GLOBAL_TEST_STATUSES.REQUESTED, ...GLOBAL_TEST_STATUSES.PROCESSING],
+                },
+            }, { status: 1 });
+            if (alreadyTesting) {
+                if (alreadyTesting.status === TestStatus.REQUEST_DECLINED) {
+                    return { success: false, errorCode: "previous_request_declined" };
+                }
+                return { success: false, errorCode: "already_testing" };
+            }
             const res = await testModel.create(testData);
-            const test = JSON.parse(JSON.stringify(res.toJSON()));
-            test.product.amazonUrl = generateAmazonUrl(test.product);
-            return test;
+            const test = formatResults(res.toJSON());
+            return { success: true, data: test };
         },
         findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
+            const conditions = buildConditions(statuses, seller, tester);
+            console.log({ conditions: JSON.stringify(conditions) });
             const res = await testModel
                 .find({
                 $or: [

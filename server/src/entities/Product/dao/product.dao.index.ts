@@ -36,7 +36,7 @@ const createProductDAO = (): ProductDAO => {
     decrementRemainingTestsCount: async ({ productId }) => {
       await productModel.updateOne(
         { _id: productId },
-        { $dec: { remainingTestsCount: 1 } }
+        { $inc: { remainingTestsCount: -1 } }
       );
     },
     getProductByAsin: async ({ asin }) => {

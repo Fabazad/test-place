@@ -1,8 +1,12 @@
-import { TestStatus, TestStatusUpdateParams } from "@/utils/constants.js";
+import { TestStatusUpdateParams } from "@/utils/constants.js";
+import { CustomResponse } from "@/utils/CustomResponse.js";
+import { TestStatus } from "../test.constants.js";
 import { PopulatedTest, Test, TestData } from "../test.entity.js";
 
 export type TestDAO = {
-  createTest: (params: { testData: TestData }) => Promise<Test>;
+  createTest: (params: {
+    testData: TestData;
+  }) => Promise<CustomResponse<Test, "already_testing" | "previous_request_declined">>;
   findWIthAllPopulated: (params: {
     statuses?: Array<TestStatus>;
     seller?: string;

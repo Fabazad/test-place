@@ -13,6 +13,7 @@ import ModalBody from "reactstrap/es/ModalBody";
 import ModalFooter from "reactstrap/es/ModalFooter";
 import Row from "reactstrap/es/Row";
 import Label from "reactstrap/lib/Label";
+import UncontrolledTooltip from "reactstrap/lib/UncontrolledTooltip";
 import constants, {
   STEP_KEYS,
   TEST_STATUS_TO_STEP_MAP,
@@ -159,7 +160,7 @@ const TestModal = ({
           </Row>
 
           {userType === USER_ROLES.SELLER ? (
-            <Row className="mt-3">
+            <Row className="my-5">
               <Col xs={12} md={3} className="text-center">
                 <Label>{t("PAYPAL_EMAIL")}</Label>
                 <div>
@@ -171,7 +172,7 @@ const TestModal = ({
                 </div>
               </Col>
               {test.orderId ? (
-                <Col xs={12} md={3} className="text-center">
+                <Col xs={12} md={3} className="text-center mt-3 mt-sm-0">
                   <Label>{t("COMMAND_NUMBER")}</Label>
                   <div>
                     <Badge color="info">{test.orderId}</Badge>
@@ -179,16 +180,25 @@ const TestModal = ({
                 </Col>
               ) : null}
               {test.orderScreenshotUrl ? (
-                <Col xs={12} md={3} className="text-center">
+                <Col xs={12} md={3} className="text-center mt-3 mt-sm-0">
                   <Label>{t("SCREENSHOT")}</Label>
                   <div>
                     <a
                       href={test.orderScreenshotUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      id={"screenshot-" + test._id}
                     >
-                      Image
+                      <img
+                        src={test.orderScreenshotUrl}
+                        alt="Screenshot"
+                        className="img-fluid"
+                        style={{ maxWidth: "100%", maxHeight: "200px" }}
+                      />
                     </a>
+                    <UncontrolledTooltip target={"screenshot-" + test._id} delay={0}>
+                      {t("CLICK_TO_OPEN")}
+                    </UncontrolledTooltip>
                   </div>
                 </Col>
               ) : null}

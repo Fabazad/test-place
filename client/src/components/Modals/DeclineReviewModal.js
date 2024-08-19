@@ -26,7 +26,7 @@ const DeclineReviewModal = (props) => {
     if (!declineReviewReason) return null;
     setLoading(true);
     try {
-      await testServices.updateStatus(testId, TestStatus.REQUEST_DECLINED, {
+      await testServices.updateStatus(testId, TestStatus.REVIEW_REFUSED, {
         declineReviewReason,
       });
       testServices.testsSubject.next();

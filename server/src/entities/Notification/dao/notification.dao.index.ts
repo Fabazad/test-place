@@ -1,4 +1,3 @@
-import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
@@ -15,10 +14,6 @@ const notificationMongooseSchema = new mongoose.Schema(
 
 const notificationSchema = notificationDataSchema.extend(savedDataSchema);
 type Notification = z.infer<typeof notificationSchema>;
-
-notificationMongooseSchema.post("save", async (doc: Notification) => {
-  await getEmailClient().sendNotificationMail({ notification: doc });
-});
 
 const notificationModel = mongoose.model<Notification>(
   "Notification",

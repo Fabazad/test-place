@@ -24,22 +24,6 @@ const TestProcessInfo = ({ test, userRole, onToggle, adminView, t }) => {
 
   return (
     <>
-      {isStatus(TestStatus.REQUEST_CANCELLED) && test.cancelRequestReason ? (
-        <div className="w-100">
-          <Label>{t("CANCELLATION_REASON")}</Label>
-          <Alert color="default" className="white-space-pre-line">
-            {test.cancelRequestReason}
-          </Alert>
-        </div>
-      ) : null}
-      {isStatus(TestStatus.REQUEST_DECLINED) && test.declineRequestReason ? (
-        <div className="w-100">
-          <Label>{t("DECLINE_REASON")}</Label>
-          <Alert color="danger" className="white-space-pre-line">
-            {test.declineRequestReason}
-          </Alert>
-        </div>
-      ) : null}
       {isStatus(TestStatus.REQUESTED) && (USER_ROLES.TESTER === userRole || adminView) ? (
         <NextStepAdvice color="info">
           {t("WAITING_FOR_TEST_REQUEST_ACCEPTATION")}
@@ -52,6 +36,14 @@ const TestProcessInfo = ({ test, userRole, onToggle, adminView, t }) => {
           </Label>
           <Alert color="primary" className="white-space-pre-line">
             {test.testerMessage}
+          </Alert>
+        </div>
+      ) : null}
+      {isStatus(TestStatus.REQUEST_DECLINED) && test.declineRequestReason ? (
+        <div className="w-100">
+          <Label>{t("DECLINE_REASON")}</Label>
+          <Alert color="danger" className="white-space-pre-line">
+            {test.declineRequestReason}
           </Alert>
         </div>
       ) : null}
@@ -186,6 +178,15 @@ const TestProcessInfo = ({ test, userRole, onToggle, adminView, t }) => {
       {isStatus(TestStatus.MONEY_SENT) &&
       (userRole === USER_ROLES.SELLER || adminView) ? (
         <NextStepAdvice color="info">{t("CONFIRM_REFUND_AS_SELLER")}</NextStepAdvice>
+      ) : null}
+
+      {isStatus(TestStatus.REQUEST_CANCELLED) && test.cancelRequestReason ? (
+        <div className="w-100">
+          <Label>{t("CANCELLATION_REASON")}</Label>
+          <Alert color="default" className="white-space-pre-line">
+            {test.cancelRequestReason}
+          </Alert>
+        </div>
       ) : null}
       {isStatus(TestStatus.TEST_CANCELLED) && test.cancelReason ? (
         <>

@@ -1,9 +1,9 @@
 import { generateAmazonUrl } from "@/entities/Product/product.constants.js";
-import { TestStatus } from "@/utils/constants.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import mongoose, { FilterQuery } from "mongoose";
-import { PopulatedTest, Test, TestData, testDataSchema } from "../test.entity.js";
+import { GLOBAL_TEST_STATUSES, TestStatus } from "../test.constants.js";
+import { PopulatedTest, Test, testDataSchema } from "../test.entity.js";
 import { TestDAO } from "./test.dao.type.js";
 
 const testMongooseSchema = new mongoose.Schema(
@@ -33,7 +33,7 @@ testMongooseSchema.index(
   }
 );
 
-const testModel = mongoose.model<TestData>("Test", testMongooseSchema);
+const testModel = mongoose.model<Test>("Test", testMongooseSchema);
 
 export const createTestDAO = (): TestDAO => {
   const buildConditions = (
@@ -48,14 +48,54 @@ export const createTestDAO = (): TestDAO => {
     };
   };
 
+  const formatOneTest = <Data extends Test | PopulatedTest>(test: Data): Data => {
+    test.product.amazonUrl = generateAmazonUrl(test.product);
+    // @ts-ignore
+    if (typeof test.seller === "object") delete test.seller.password;
+    // @ts-ignore
+    if (typeof test.tester === "object") delete test.tester.password;
+    return test;
+  };
+
+  const formatResults = <
+    Data extends Test | PopulatedTest | Array<Test> | Array<PopulatedTest>
+  >(
+    test: Data
+  ): Data => {
+    if (Array.isArray(test)) {
+      return JSON.parse(JSON.stringify(test.map((t) => formatOneTest(t))));
+    }
+    return JSON.parse(JSON.stringify(formatOneTest(test)));
+  };
+
   return {
     createTest: async ({ testData }) => {
+      const alreadyTesting = await testModel.findOne(
+        {
+          "product._id": testData.product._id,
+          "tester._id": testData.tester,
+          status: {
+            $in: [...GLOBAL_TEST_STATUSES.REQUESTED, ...GLOBAL_TEST_STATUSES.PROCESSING],
+          },
+        },
+        { status: 1 }
+      );
+
+      if (alreadyTesting) {
+        if (alreadyTesting.status === TestStatus.REQUEST_DECLINED) {
+          return { success: false, errorCode: "previous_request_declined" };
+        }
+        return { success: false, errorCode: "already_testing" };
+      }
+
       const res = await testModel.create(testData);
-      const test = JSON.parse(JSON.stringify(res.toJSON()));
-      test.product.amazonUrl = generateAmazonUrl(test.product);
-      return test;
+      const test = formatResults(res.toJSON());
+      return { success: true, data: test };
     },
     findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
+      const conditions = buildConditions(statuses, seller, tester);
+
+      console.log({ conditions: JSON.stringify(conditions) });
       const res = await testModel
         .find({
           $or: [

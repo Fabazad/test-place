@@ -7,6 +7,7 @@ export class HttpRequestError extends Error {
         this.status = status;
         this.code = code;
         this.message = message;
+        console.log(this);
     }
     toString() {
         return this.message;

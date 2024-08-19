@@ -3,35 +3,40 @@ import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao
 import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import { Product } from "@/entities/Product/product.entity.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
+import { GLOBAL_TEST_STATUSES, TestStatus } from "@/entities/Test/test.constants.js";
 import { PopulatedTest, Test, TestData } from "@/entities/Test/test.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import {
-  GLOBAL_TEST_STATUSES,
   NOTIFICATION_TYPES,
   Role,
   TEST_STATUS_PROCESSES,
-  TestStatus,
   TestStatusUpdateParams,
 } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
+import { NotificationController } from "./notification.controller.js";
 
 export class TestController {
   private static async generateTestData(params: {
     product: Product;
     userId: string;
     status: TestStatus;
+    testerMessage?: string;
   }): Promise<
     CustomResponse<TestData, "seller_not_found" | "dont_have_automatic_acceptance">
   > {
-    const { product, userId, status } = params;
+    const { product, userId, status, testerMessage } = params;
     const userDAO = getUserDAO();
 
-    const baseTestData: Pick<TestData, "product" | "seller" | "tester"> = {
+    const baseTestData: Pick<
+      TestData,
+      "product" | "seller" | "tester" | "testerMessage"
+    > = {
       product: product,
       seller: product.seller,
       tester: userId,
+      testerMessage,
     };
 
     if (status === TestStatus.REQUEST_ACCEPTED) {
@@ -69,6 +74,7 @@ export class TestController {
     productId: string;
     userId: string;
     status: TestStatus;
+    testerMessage?: string;
   }): Promise<
     CustomResponse<
       Test,
@@ -78,14 +84,18 @@ export class TestController {
       | "dont_have_automatic_acceptance"
       | "seller_not_found"
       | "user_to_notify_not_found"
+      | "already_testing"
+      | "missing_tester_message"
+      | "previous_request_declined"
     >
   > {
-    const { productId, userId, status } = params;
+    const { productId, userId, status, testerMessage } = params;
 
     const productDAO = getProductDAO();
     const testDAO = getTestDAO();
-    const notificationDAO = getNotificationDAO();
-    const userDAO = getUserDAO();
+
+    if (status === TestStatus.REQUESTED && !testerMessage)
+      return { success: false, errorCode: "missing_tester_message" };
 
     const product = await productDAO.getProductById({ id: productId });
     if (!product) {
@@ -98,20 +108,25 @@ export class TestController {
       return { success: false, errorCode: "user_is_seller" };
     }
 
-    const testDataRes = await this.generateTestData({ product, userId, status });
+    const testDataRes = await this.generateTestData({
+      product,
+      userId,
+      status,
+      testerMessage,
+    });
     if (!testDataRes.success) return testDataRes;
 
-    const test = await testDAO.createTest({ testData: testDataRes.data });
+    const creationRes = await testDAO.createTest({ testData: testDataRes.data });
 
-    const userToNotify = await userDAO.getUser({ userId: test.seller });
+    if (!creationRes.success) return creationRes;
 
-    if (!userToNotify) return { success: false, errorCode: "user_to_notify_not_found" };
+    const test = creationRes.data;
 
     await Promise.all([
       productDAO.decrementRemainingTestsCount({ productId }),
-      notificationDAO.createNotification({
+      NotificationController.createNotification({
         notificationData: {
-          user: userToNotify,
+          user: test.seller,
           type: NOTIFICATION_TYPES.NEW_REQUEST.value,
           test: test,
           product,
@@ -255,17 +270,13 @@ export class TestController {
       return { success: false, errorCode: "test_not_found_when_updating" };
     }
 
-    const userForNotification = testStatusProcessStep.role
+    const userToNotify = testStatusProcessStep.role
       ? testStatusProcessStep.role === Role.TESTER
         ? test.seller
         : test.tester
       : userId === test.seller
       ? test.tester
       : test.seller;
-
-    const userToNotify = await userDAO.getUser({ userId: userForNotification });
-
-    if (!userToNotify) return { success: false, errorCode: "user_to_notify_not_found" };
 
     const [
       requestedTestsCount,
@@ -277,7 +288,7 @@ export class TestController {
       testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.PROCESSING }),
       testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.COMPLETED }),
       testDAO.countTestWithStatues({ userId, statuses: GLOBAL_TEST_STATUSES.CANCELLED }),
-      notificationDAO.createNotification({
+      NotificationController.createNotification({
         notificationData: {
           user: userToNotify,
           test: newTest,

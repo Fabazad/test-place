@@ -1,4 +1,3 @@
-import { getEmailClient } from "../../../libs/EmailClient/index.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { savedDataSchema } from "../../../utils/savedDataSchema.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -7,9 +6,6 @@ import mongoose from "mongoose";
 import { notificationDataSchema } from "../notification.entity.js";
 const notificationMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(notificationDataSchema), { timestamps: true });
 const notificationSchema = notificationDataSchema.extend(savedDataSchema);
-notificationMongooseSchema.post("save", async (doc) => {
-    await getEmailClient().sendNotificationMail({ notification: doc });
-});
 const notificationModel = mongoose.model("Notification", notificationMongooseSchema);
 export const createNotificationDAO = () => {
     return {

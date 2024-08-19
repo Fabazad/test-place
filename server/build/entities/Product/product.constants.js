@@ -39,5 +39,6 @@ export const productUpdateDataSchema = productDataSchema.pick({
 });
 export const generateAmazonUrl = (product) => {
     const formattedKeywords = product.keywords?.join("+");
-    return `https://www.amazon.fr/dp/${product.asin}?tag=${configs.AMAZON_AFFILIATION_TAG}${formattedKeywords ? `&keywords=${formattedKeywords}` : ""}`;
+    const keywordsQuery = formattedKeywords ? `keywords=${formattedKeywords}` : "";
+    return `https://www.amazon.fr/dp/${product.asin}?${keywordsQuery}&tag=${configs.AMAZON_AFFILIATION_TAG}`;
 };

@@ -1,7 +1,8 @@
 import { TestController } from "@/controllers/test.controller.js";
+import { TestStatus } from "@/entities/Test/test.constants.js";
 import { withAuth } from "@/middlewares/withAuth.js";
 import { asyncHandler } from "@/utils/asyncHandler.js";
-import { Role, TestStatus, testStatusUpdateParamsSchema } from "@/utils/constants.js";
+import { Role, testStatusUpdateParamsSchema } from "@/utils/constants.js";
 import { handleResponseForRoute } from "@/utils/CustomResponse.js";
 import {
   BadRequestError,
@@ -20,12 +21,16 @@ router.post(
   "/create",
   withAuth(Role.TESTER),
   asyncHandler(async (request, reply) => {
-    const { productId, status } = zodValidationForRoute(
+    const { productId, status, testerMessage } = zodValidationForRoute(
       request.body,
-      z.object({ productId: z.string(), status: z.nativeEnum(TestStatus) })
+      z.object({
+        productId: z.string(),
+        status: z.nativeEnum(TestStatus),
+        testerMessage: z.string().optional(),
+      })
     );
     const userId = request.decoded!.userId;
-    const res = await TestController.create({ userId, productId, status });
+    const res = await TestController.create({ userId, productId, status, testerMessage });
     reply.send(
       handleResponseForRoute(res, {
         dont_have_automatic_acceptance: new BadRequestError(
@@ -38,6 +43,9 @@ router.post(
         user_is_seller: new BadRequestError("user_is_seller"),
         product_not_found: new NotFoundRequestError("product_not_found"),
         user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
+        missing_tester_message: new BadRequestError("missing_tester_message"),
+        already_testing: new BadRequestError("already_testing"),
+        previous_request_declined: new BadRequestError("previous_request_declined"),
       })
     );
   })
@@ -85,6 +93,7 @@ router.post(
         update: testStatusUpdateParamsSchema,
       })
     );
+
     const res = await TestController.updateStatus({
       userId,
       testId,

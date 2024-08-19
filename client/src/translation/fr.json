@@ -41,7 +41,7 @@
   "CHOOSE_NEW_PASSWORD": "Choisir un nouveau mot de passe",
   "CLAIM_CANCELLATION_REASON": "Raison de l'annulation ou la réclamation",
   "CLICK_TO_CHANGE": "Cliquer pour changer",
-  "CLOSE": "OK",
+  "CLOSE": "Fermer",
   "COMMAND_NUMBER": "Numéro de Commande",
   "COMPLETE": "Complet",
   "COMPLETED": "Terminés",
@@ -369,5 +369,10 @@
   "BAD_REQUEST_PARAMS": "Paramètres envoyés invalides.",
   "EMAIL_ALREADY_VALIDATED": "L'email a déjà été validé.",
   "ERROR_SENDING_MESSAGE": "Une erreur est survenue lors de l'envoi du message.",
-  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Compte Google non enregistré, veuillez vous inscrire avec en premier."
+  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Compte Google non enregistré, veuillez vous inscrire avec en premier.",
+  "ALREADY_TESTING": "Vous avez déjà un test en cours pour ce produit.",
+  "ALREADY_TESTING_THIS_PRODUCT": "Vous avez déjà un test en cours pour ce produit.",
+  "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "Une demande de test a déjà été refusée pour ce produit.",
+  "PRODUCT_HAS_BEEN_UPDATED": "Le produit a été mis à jour.",
+  "CLICK_TO_OPEN": "Cliquez pour ouvrir"
 }

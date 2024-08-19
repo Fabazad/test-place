@@ -49,12 +49,14 @@ const NewTestRequestModal = (props) => {
     }
     setLoading(true);
     try {
-      await testServices.create({
+      const res = await testServices.create({
         productId,
         testerMessage,
         status: TestStatus.REQUESTED,
       });
-      setRequestSent(true);
+
+      if (res?.error) toast.error(res.error);
+      else setRequestSent(true);
     } catch (err) {
       console.error(err);
     }

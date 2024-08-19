@@ -63,13 +63,13 @@ const createEmailClient = () => {
             });
             return res;
         },
-        sendNotificationMail: async ({ notification }) => {
+        sendNotificationMail: async ({ notification, to }) => {
             const res = await sendTransactionalEmail({
                 brevoAxios,
                 from: fromTestPlace,
-                to: { email: notification.user.email },
+                to,
                 subject: "Test Place - Notification",
-                templateId: TEMPLATE_IDS[EmailTemplate.NOTIFICATION][notification.user.language],
+                templateId: TEMPLATE_IDS[EmailTemplate.NOTIFICATION][to.language],
                 templateParams: notification,
             });
             return res;

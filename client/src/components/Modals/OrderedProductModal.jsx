@@ -98,7 +98,7 @@ const OrderedProductModal = (props) => {
         </div>
         <div className="mt-3 mb-0 white-space-pre-line">{t("ORDER_PRODUCT_FIRST")}</div>
         <div className="mt-3">
-          <a href={test.product.amazonUrl}>
+          <a href={test.product.amazonUrl} rel="noopener noreferrer" target="_blank">
             <Button color="default">
               <i className="fab fa-amazon mr-3" />
               {t("GO_TO_AMAZON_PRODUCT")}

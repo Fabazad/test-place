@@ -8,8 +8,8 @@
   "ADMIN_MESSAGE": "Admin's message",
   "ADMIN_WILL_MANAGE": "An admin will take care of the issue.",
   "AMAZON_ID": "Amazon id",
-  "AMAZON_ID_EXPLAINED": "In order to find your Amzon id, first go on this Amazon web page:<br/><a href=\"https://{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{url}}</a>.<br/><br/>Log in if you're not logged.<br/><br/>Copy and paste in the input the reached webpage url.<br/><br/>Or only the end of the url corresponding to your Amazon id: amzn1.account.XXXXXXXXXXXXXXXXXXXXXXXXXXXX.",
-  "AMAZON_ID_EXPLAINED_1": "In order to find your Amzon id, first go on this Amazon web page:",
+  "AMAZON_ID_EXPLAINED": "In order to find your Amazon id, first go on this Amazon web page:<br/><a href=\"https://{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{url}}</a>.<br/><br/>Log in if you're not logged.<br/><br/>Copy and paste in the input the reached webpage url.<br/><br/>Or only the end of the url corresponding to your Amazon id: amzn1.account.XXXXXXXXXXXXXXXXXXXXXXXXXXXX.",
+  "AMAZON_ID_EXPLAINED_1": "In order to find your Amazon id, first go on this Amazon web page:",
   "AMAZON_ID_EXPLAINED_2": "Log in if you're not logged.\n\nCopy and paste in the input the reached webpage url.\n\nOr only the end of the url corresponding to your Amazon id:",
   "AMAZON_PRICE": "Amazon price",
   "AMAZON_PROFILE": "Amazon profile",
@@ -41,7 +41,7 @@
   "CHOOSE_NEW_PASSWORD": "Choose a new password",
   "CLAIM_CANCELLATION_REASON": "Cancellation or claim reason",
   "CLICK_TO_CHANGE": "Click to change",
-  "CLOSE": "OK",
+  "CLOSE": "Close",
   "COMMAND_NUMBER": "Order number",
   "COMPLETE": "Complete",
   "COMPLETED": "Completed",
@@ -369,5 +369,10 @@
   "BAD_REQUEST_PARAMS": "Bad parameters sent.",
   "EMAIL_ALREADY_VALIDATED": "The email has already been validated.",
   "ERROR_SENDING_MESSAGE": "An error occurred while sending the message.",
-  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Google account not registered, please register first."
+  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Google account not registered, please register first.",
+  "ALREADY_TESTING": "You already have a test in progress for this product.",
+  "ALREADY_TESTING_THIS_PRODUCT": "You already have a test in progress for this product.",
+  "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "A test request has already been refused for this product.",
+  "PRODUCT_HAS_BEEN_UPDATED": "The product has been updated.",
+  "CLICK_TO_OPEN": "Click to open"
 }

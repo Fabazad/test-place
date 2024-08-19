@@ -24,6 +24,7 @@ export type EmailClient = {
   }) => Promise<CustomResponse<string, "email_not_sent">>;
   sendNotificationMail: (params: {
     notification: Notification;
+    to: { email: string; name: string; language: Language };
   }) => Promise<CustomResponse<string, "email_not_sent">>;
 };
 

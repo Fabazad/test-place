@@ -1,18 +1,5 @@
+import { TestStatus } from "../entities/Test/test.constants.js";
 import z from "zod";
-export const TestStatus = {
-    REQUESTED: "REQUESTED",
-    REQUEST_CANCELLED: "REQUEST_CANCELLED",
-    REQUEST_DECLINED: "REQUEST_DECLINED",
-    REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
-    PRODUCT_ORDERED: "PRODUCT_ORDERED",
-    PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
-    PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
-    REVIEW_VALIDATED: "REVIEW_VALIDATED",
-    REVIEW_REFUSED: "REVIEW_REFUSED",
-    MONEY_SENT: "MONEY_SENT",
-    MONEY_RECEIVED: "MONEY_RECEIVED",
-    TEST_CANCELLED: "TEST_CANCELLED",
-};
 export const Role = {
     TESTER: "TESTER",
     SELLER: "SELLER",
@@ -140,23 +127,6 @@ export const constants = {
 export const AUTH_CONDITIONS = {
     IS_SELLER: "IS_SELLER",
     ANY: "ANY",
-};
-export const GLOBAL_TEST_STATUSES = {
-    REQUESTED: [
-        TestStatus.REQUESTED,
-        TestStatus.REQUEST_CANCELLED,
-        TestStatus.REQUEST_DECLINED,
-    ],
-    PROCESSING: [
-        TestStatus.REQUEST_ACCEPTED,
-        TestStatus.PRODUCT_ORDERED,
-        TestStatus.PRODUCT_RECEIVED,
-        TestStatus.PRODUCT_REVIEWED,
-        TestStatus.REVIEW_VALIDATED,
-        TestStatus.MONEY_SENT,
-    ],
-    COMPLETED: [TestStatus.MONEY_RECEIVED],
-    CANCELLED: [TestStatus.REVIEW_REFUSED, TestStatus.TEST_CANCELLED],
 };
 export const testStatusUpdateParamsSchema = z.discriminatedUnion("status", [
     z.object({

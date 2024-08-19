@@ -22,7 +22,7 @@ const createProductDAO = () => {
             return JSON.parse(JSON.stringify(product));
         },
         decrementRemainingTestsCount: async ({ productId }) => {
-            await productModel.updateOne({ _id: productId }, { $dec: { remainingTestsCount: 1 } });
+            await productModel.updateOne({ _id: productId }, { $inc: { remainingTestsCount: -1 } });
         },
         getProductByAsin: async ({ asin }) => {
             const product = await productModel.findOne({ asin }).lean();

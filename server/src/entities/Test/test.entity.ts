@@ -1,8 +1,8 @@
-import { TestStatus } from "@/utils/constants.js";
 import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import z from "zod";
 import { productSchema } from "../Product/product.entity.js";
 import { UserWithoutPassword } from "../User/user.entity.js";
+import { TestStatus } from "./test.constants.js";
 
 export const testDataSchema = z.object({
   product: productSchema,

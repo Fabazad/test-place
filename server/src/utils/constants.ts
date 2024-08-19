@@ -1,21 +1,6 @@
+import { TestStatus } from "@/entities/Test/test.constants.js";
 import z from "zod";
-import { InferEnum, InferKeyAsEnum } from "./inferEnum.js";
-
-export const TestStatus = {
-  REQUESTED: "REQUESTED",
-  REQUEST_CANCELLED: "REQUEST_CANCELLED",
-  REQUEST_DECLINED: "REQUEST_DECLINED",
-  REQUEST_ACCEPTED: "REQUEST_ACCEPTED",
-  PRODUCT_ORDERED: "PRODUCT_ORDERED",
-  PRODUCT_RECEIVED: "PRODUCT_RECEIVED",
-  PRODUCT_REVIEWED: "PRODUCT_REVIEWED",
-  REVIEW_VALIDATED: "REVIEW_VALIDATED",
-  REVIEW_REFUSED: "REVIEW_REFUSED",
-  MONEY_SENT: "MONEY_SENT",
-  MONEY_RECEIVED: "MONEY_RECEIVED",
-  TEST_CANCELLED: "TEST_CANCELLED",
-} as const;
-export type TestStatus = InferEnum<typeof TestStatus>;
+import { InferEnum } from "./inferEnum.js";
 
 export const Role = {
   TESTER: "TESTER",
@@ -161,26 +146,6 @@ export const AUTH_CONDITIONS = {
 } as const;
 
 export type AuthCondition = InferEnum<typeof AUTH_CONDITIONS>;
-
-export const GLOBAL_TEST_STATUSES: Record<string, Array<TestStatus>> = {
-  REQUESTED: [
-    TestStatus.REQUESTED,
-    TestStatus.REQUEST_CANCELLED,
-    TestStatus.REQUEST_DECLINED,
-  ],
-  PROCESSING: [
-    TestStatus.REQUEST_ACCEPTED,
-    TestStatus.PRODUCT_ORDERED,
-    TestStatus.PRODUCT_RECEIVED,
-    TestStatus.PRODUCT_REVIEWED,
-    TestStatus.REVIEW_VALIDATED,
-    TestStatus.MONEY_SENT,
-  ],
-  COMPLETED: [TestStatus.MONEY_RECEIVED],
-  CANCELLED: [TestStatus.REVIEW_REFUSED, TestStatus.TEST_CANCELLED],
-} as const;
-
-export type GlobalTestStatus = InferKeyAsEnum<typeof GLOBAL_TEST_STATUSES>;
 
 export const testStatusUpdateParamsSchema = z.discriminatedUnion("status", [
   z.object({

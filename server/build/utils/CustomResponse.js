@@ -2,6 +2,7 @@ const isFailedResponse = (response) => !response.success;
 export function handleResponseForRoute(response, handlers) {
     if (isFailedResponse(response)) {
         const handler = handlers?.[response.errorCode];
+        console.log(handler);
         throw typeof handler === "function" ? handler(response) : handler;
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

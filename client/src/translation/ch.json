@@ -41,7 +41,7 @@
   "CHOOSE_NEW_PASSWORD": "选择一个新密码",
   "CLAIM_CANCELLATION_REASON": "取消或索赔的原因",
   "CLICK_TO_CHANGE": "点击改变",
-  "CLOSE": "好的",
+  "CLOSE": "关闭",
   "COMMAND_NUMBER": "订单号",
   "COMPLETE": "完成",
   "COMPLETED": "已完成",
@@ -370,5 +370,10 @@
   "BAD_REQUEST_PARAMS": "发送的参数无效。",
   "EMAIL_ALREADY_VALIDATED": "邮箱已经验证过了。",
   "ERROR_SENDING_MESSAGE": "发送消息时发生错误。",
-  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Google账户未注册，请先注册。"
+  "GOOGLE_ACCOUNT_NOT_REGISTERED": "Google账户未注册，请先注册。",
+  "ALREADY_TESTING": "你已经有一个正在进行的测试了。",
+  "ALREADY_TESTING_THIS_PRODUCT": "你已经有一个正在进行的测试了。",
+  "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "你已经有一个正在进行的测试了。",
+  "PRODUCT_HAS_BEEN_UPDATED": "产品已经更新。",
+  "CLICK_TO_OPEN": "点击打开"
 }

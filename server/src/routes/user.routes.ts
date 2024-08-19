@@ -116,10 +116,12 @@ router.post(
 
     const res = await UserController.resetPasswordMail({ email, frontendUrl });
 
+    console.log(res);
     reply.send(
       handleResponseForRoute(res, {
         email_not_found: new NotFoundRequestError("email_not_found"),
-        email_not_sent: new ServerRequestError("email_not_sent"),
+        email_not_sent: ({ errorMessage }) =>
+          new ServerRequestError("email_not_sent", errorMessage),
       })
     );
   })

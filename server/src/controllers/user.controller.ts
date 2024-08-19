@@ -1,5 +1,6 @@
 import { configs } from "@/configs.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
+import { GLOBAL_TEST_STATUSES } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import { SignedInUser } from "@/entities/User/user.helpers.js";
@@ -7,7 +8,7 @@ import { getAuthManager } from "@/libs/AuthManager/index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import { LogLevel } from "@/libs/MonitoringClient/type.js";
-import { GLOBAL_TEST_STATUSES, Role } from "@/utils/constants.js";
+import { Role } from "@/utils/constants.js";
 import { CustomResponse, formatFailedResponse } from "@/utils/CustomResponse.js";
 import { DecodedUser } from "@/utils/DecodedUser.type.js";
 import { Language } from "@/utils/Language.js";
