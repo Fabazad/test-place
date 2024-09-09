@@ -35,11 +35,12 @@ app.use(express.static(path.join(__dirname, "../../client/build")));
 const start = async () => {
   const port = configs.PORT || 5001;
   await getDatabaseConnection().connect();
-  app.use("/", routes);
 
   app.get("/debug-sentry", function mainHandler(req, res) {
     throw new Error("My first Sentry error!");
   });
+
+  app.use("/", routes);
 
   app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
