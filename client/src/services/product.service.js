@@ -40,6 +40,12 @@ class ProductService extends BaseService {
       product.remainingTestsCount > 0
     );
   }
+
+  publish(itemId, published) {
+    return axios
+      .post(this.baseURL + "/update", { itemId, published })
+      .then(this.serviceResolve);
+  }
 }
 
 export default new ProductService();
