@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="03171a0e-1bc8-54f2-a815-bae514f60756")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 import { productSchema } from "../Product/product.entity.js";
@@ -25,3 +27,5 @@ export const testDataSchema = z.object({
     cancellationGuilty: z.string({ description: "User" }).optional(),
 });
 export const testSchema = testDataSchema.extend(savedDataSchema);
+//# sourceMappingURL=test.entity.js.map
+//# debugId=03171a0e-1bc8-54f2-a815-bae514f60756

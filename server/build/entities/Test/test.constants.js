@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="97b1cc2c-bbef-5422-a2ce-c9f710802c0d")}catch(e){}}();
 export const TestStatus = {
     REQUESTED: "REQUESTED",
     REQUEST_CANCELLED: "REQUEST_CANCELLED",
@@ -25,3 +27,5 @@ export const GLOBAL_TEST_STATUSES = {
     COMPLETED: [TestStatus.MONEY_RECEIVED],
     CANCELLED: [TestStatus.REVIEW_REFUSED, TestStatus.TEST_CANCELLED],
 };
+//# sourceMappingURL=test.constants.js.map
+//# debugId=97b1cc2c-bbef-5422-a2ce-c9f710802c0d

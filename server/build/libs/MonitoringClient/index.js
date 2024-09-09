@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e2f0ba3f-404c-5010-b081-38c2be7a4ccc")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
 import * as Sentry from "@sentry/node";
@@ -35,3 +37,5 @@ const createMonitoringClient = () => {
     };
 };
 export const getMonitoringClient = createSingletonGetter(createMonitoringClient);
+//# sourceMappingURL=index.js.map
+//# debugId=e2f0ba3f-404c-5010-b081-38c2be7a4ccc

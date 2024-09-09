@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5f855569-27b7-506f-a453-5af2790bd06c")}catch(e){}}();
 import { productSearchDataSchema, productUpdateDataSchema, } from "../entities/Product/product.constants.js";
 import { productDataSchema } from "../entities/Product/product.entity.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -83,3 +85,5 @@ router.delete("/:productId", withAuth(Role.SELLER), asyncHandler(async (request,
     }));
 }));
 export default router;
+//# sourceMappingURL=product.routes.js.map
+//# debugId=5f855569-27b7-506f-a453-5af2790bd06c

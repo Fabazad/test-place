@@ -1,0 +1,1 @@
+{"version":3,"file":"inferEnum.js","sources":["utils/inferEnum.ts"],"sourceRoot":"/","sourcesContent":["export type InferEnum<T> = T[keyof T];\n\nexport type InferKeyAsEnum<T> = keyof T;\n"],"names":[],"mappings":"","debug_id":"cfa1f6fa-f4c1-51ff-abb9-9482ac86218d"}

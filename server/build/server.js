@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="daf0fd27-de6f-504b-b3d2-d279524222e7")}catch(e){}}();
 import { getMonitoringClient } from "./libs/MonitoringClient/index.js";
 const monitoringClient = getMonitoringClient();
 monitoringClient.init();
@@ -38,3 +40,5 @@ const start = async () => {
     });
 };
 start();
+//# sourceMappingURL=server.js.map
+//# debugId=daf0fd27-de6f-504b-b3d2-d279524222e7

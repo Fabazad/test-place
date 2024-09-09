@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="06474d37-5f39-5b76-95d4-1ee94ece9087")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Role } from "../../utils/constants.js";
 import { isDecodedUser } from "../../utils/DecodedUser.type.js";
@@ -116,3 +118,5 @@ const createAuthManager = () => {
     };
 };
 export const getAuthManager = createSingletonGetter(createAuthManager);
+//# sourceMappingURL=index.js.map
+//# debugId=06474d37-5f39-5b76-95d4-1ee94ece9087

@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="97e6cdee-ad45-5084-84f4-dc97dcef4729")}catch(e){}}();
 import { Role } from "../../utils/constants.js";
 import { Language } from "../../utils/Language.js";
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
@@ -21,3 +23,5 @@ export const userDataSchema = z.object({
     isCertified: z.boolean().default(false),
 });
 export const userSchema = userDataSchema.extend(savedDataSchema);
+//# sourceMappingURL=user.entity.js.map
+//# debugId=97e6cdee-ad45-5084-84f4-dc97dcef4729

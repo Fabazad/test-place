@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c2f4909c-0fde-5fa1-874d-661fb042f5c3")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
@@ -107,3 +109,5 @@ export class ProductController {
         return { success: true, data: oldProduct };
     }
 }
+//# sourceMappingURL=product.controller.js.map
+//# debugId=c2f4909c-0fde-5fa1-874d-661fb042f5c3

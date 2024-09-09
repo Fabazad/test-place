@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9c246d1b-effa-5ef5-9cd4-c3f79068d7b8")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 export const PRODUCT_CATEGORIES = [
@@ -51,3 +53,5 @@ export const productDataSchema = z.object({
 export const productSchema = productDataSchema
     .extend(savedDataSchema)
     .extend({ amazonUrl: z.string() });
+//# sourceMappingURL=product.entity.js.map
+//# debugId=9c246d1b-effa-5ef5-9cd4-c3f79068d7b8

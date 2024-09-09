@@ -1,0 +1,1 @@
+{"version":3,"file":"type.js","sources":["libs/StorageClient/type.ts"],"sourceRoot":"/","sourcesContent":["export type StorageClient = {\n  generateUploadUrl: (params: {\n    fileName: string;\n    fileType: string;\n  }) => Promise<{ uploadUrl: string; downloadUrl: string }>;\n};\n"],"names":[],"mappings":"","debug_id":"52fbcaa2-b02e-5ed7-b394-ed8f51259af2"}

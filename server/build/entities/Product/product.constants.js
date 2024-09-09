@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6ca8584c-e1a3-54d5-850c-505a551ab319")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { booleanSchema, numberSchema } from "../../utils/zod.utils.js";
 import z from "zod";
@@ -42,3 +44,5 @@ export const generateAmazonUrl = (product) => {
     const keywordsQuery = formattedKeywords ? `keywords=${formattedKeywords}` : "";
     return `https://www.amazon.fr/dp/${product.asin}?${keywordsQuery}&tag=${configs.AMAZON_AFFILIATION_TAG}`;
 };
+//# sourceMappingURL=product.constants.js.map
+//# debugId=6ca8584c-e1a3-54d5-850c-505a551ab319

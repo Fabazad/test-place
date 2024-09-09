@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e29314eb-53eb-5c30-a943-8d88cc3bf2b1")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
 import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
@@ -30,3 +32,5 @@ const createStorageClient = () => {
     };
 };
 export const getStorageClient = createSingletonGetter(createStorageClient);
+//# sourceMappingURL=index.js.map
+//# debugId=e29314eb-53eb-5c30-a943-8d88cc3bf2b1

@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7dbe547d-8dcd-58e9-ba28-993884d67a42")}catch(e){}}();
 import { NotificationController } from "../controllers/notification.controller.js";
 import { withAuth } from "../middlewares/withAuth.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -18,3 +20,5 @@ router.post("/set-notifications-viewed", withAuth(), asyncHandler(async (request
     reply.send(handleResponseForRoute(res));
 }));
 export default router;
+//# sourceMappingURL=notification.routes.js.map
+//# debugId=7dbe547d-8dcd-58e9-ba28-993884d67a42

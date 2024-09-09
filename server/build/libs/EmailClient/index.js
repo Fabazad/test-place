@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fc7ce961-2a2c-547b-adb3-44cb45b10c9f")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -93,3 +95,5 @@ export const getEmailClient = createSingletonGetter(createEmailClient);
   NOTIFICATION :
   templateParams: { title, message, testLink, productImageUrl }
 */
+//# sourceMappingURL=index.js.map
+//# debugId=fc7ce961-2a2c-547b-adb3-44cb45b10c9f

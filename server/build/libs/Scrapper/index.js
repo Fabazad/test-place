@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f8e3bbc1-7516-5902-bb1f-3d3c4e80ff87")}catch(e){}}();
 import { createSingletonGetter } from "../../utils/singleton.js";
 import axios from "axios";
 import cheerio from "cheerio";
@@ -28,3 +30,5 @@ const createScrapper = () => {
     };
 };
 export const getScrapper = createSingletonGetter(createScrapper);
+//# sourceMappingURL=index.js.map
+//# debugId=f8e3bbc1-7516-5902-bb1f-3d3c4e80ff87

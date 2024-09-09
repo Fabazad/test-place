@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="093d4a5d-ca7b-5bfc-baed-ad05ded69e9b")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -119,3 +121,5 @@ const createProductDAO = () => {
     };
 };
 export const getProductDAO = createSingletonGetter(createProductDAO);
+//# sourceMappingURL=product.dao.index.js.map
+//# debugId=093d4a5d-ca7b-5bfc-baed-ad05ded69e9b

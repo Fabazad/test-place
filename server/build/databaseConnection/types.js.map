@@ -1,0 +1,1 @@
+{"version":3,"file":"types.js","sources":["databaseConnection/types.ts"],"sourceRoot":"/","sourcesContent":["export type DatabaseConnection = {\n  connect: () => Promise<void>;\n  disconnect: () => Promise<void>;\n  isConnected: () => Promise<boolean>;\n};\n"],"names":[],"mappings":"","debug_id":"e4c91771-9359-5e34-a899-08fa7cac4def"}

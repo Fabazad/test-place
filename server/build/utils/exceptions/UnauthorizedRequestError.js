@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="edce5b4e-998b-57ae-869c-bdba81fedfa7")}catch(e){}}();
 import { HttpRequestError } from "./HttpRequestError.js";
 export class UnauthorizedRequestError extends HttpRequestError {
     code;
@@ -11,3 +13,5 @@ export class UnauthorizedRequestError extends HttpRequestError {
         return this.message;
     }
 }
+//# sourceMappingURL=UnauthorizedRequestError.js.map
+//# debugId=edce5b4e-998b-57ae-869c-bdba81fedfa7

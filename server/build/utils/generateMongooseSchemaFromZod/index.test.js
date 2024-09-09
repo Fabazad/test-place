@@ -1,3 +1,5 @@
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="eb834b45-5066-5f21-a816-df46a88a3bfc")}catch(e){}}();
 import { Schema, Types } from "mongoose";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
@@ -738,3 +740,5 @@ describe("generateMongooseSchemaFromZod", () => {
         });
     });
 });
+//# sourceMappingURL=index.test.js.map
+//# debugId=eb834b45-5066-5f21-a816-df46a88a3bfc
