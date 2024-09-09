@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "build": "tsc && tsc-alias",
-    "start": "node build/server.js"
+    "build": "tsc && tsc-alias && npm run sentry:sourcemaps",
+    "start": "node build/server.js",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org waapi --project test-place ./build && sentry-cli sourcemaps upload --org waapi --project test-place ./build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.627.0",

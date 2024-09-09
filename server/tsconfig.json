@@ -20,6 +20,7 @@
     "lib": ["ESNext"],
     "skipDefaultLibCheck": true,
     "allowJs": true,
+
     "paths": {
       "@/utils/*": ["utils/*"],
       "@/configs.js": ["configs.js"],
@@ -29,7 +30,15 @@
       "@/libs/*": ["libs/*"],
       "@/entities/*": ["entities/*"],
       "@/services/*": ["services/*"]
-    }
+    },
+
+    "sourceMap": true,
+    "inlineSources": true,
+
+    // Set `sourceRoot` to  "/" to strip the build path prefix
+    // from generated source code references.
+    // This improves issue grouping in Sentry.
+    "sourceRoot": "/"
   },
   "include": ["src/**/*.ts"] /* Fichiers à inclure dans la compilation. */,
   "exclude": ["node_modules", "**/*.spec.ts"] /* Fichiers à exclure de la compilation. */
