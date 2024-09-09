@@ -62,6 +62,7 @@ export class NotificationController {
             notification,
             to: { email: user.email, name: user.name, language: user.language },
             frontendUrl,
+            userRole: user.roles[0],
         });
         if (!emailRes.success)
             await monitoringClient.sendEvent({

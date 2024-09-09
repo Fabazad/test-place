@@ -1,4 +1,5 @@
 import { configs } from "@/configs.js";
+import { Role } from "@/utils/constants.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import axios from "axios";
 import path from "path";
@@ -85,8 +86,14 @@ const createEmailClient = (): EmailClient => {
 
       return res;
     },
-    sendNotificationMail: async ({ notification, to, frontendUrl }) => {
-      const testLink = path.join(frontendUrl, "tests", notification.test._id);
+    sendNotificationMail: async ({ notification, to, frontendUrl, userRole }) => {
+      const testLink = path.join(
+        frontendUrl,
+        "dashboard",
+        `${
+          userRole === Role.TESTER ? "my-current-tests" : "customer-current-tests"
+        }?testId=${notification.test._id}`
+      );
       const res = await sendTransactionalEmail({
         brevoAxios,
         from: fromTestPlace,

@@ -1,4 +1,5 @@
 import { Notification } from "@/entities/Notification/notification.entity.js";
+import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { Language } from "@/utils/Language.js";
 
@@ -26,6 +27,7 @@ export type EmailClient = {
     notification: Notification;
     to: { email: string; name: string; language: Language };
     frontendUrl: string;
+    userRole: Role;
   }) => Promise<CustomResponse<string, "email_not_sent">>;
 };
 
