@@ -70,6 +70,8 @@ const createEmailClient = () => {
                 templateParams: {
                     testStatus: notification.test.status,
                     productTitle: notification.product.title,
+                    testLink,
+                    productImageUrl: notification.product.imageUrls[0],
                 },
             });
             return res;
@@ -88,5 +90,5 @@ export const getEmailClient = createSingletonGetter(createEmailClient);
   templateParams: { link }
 
   NOTIFICATION :
-  templateParams: { title, message, link }
+  templateParams: { title, message, testLink, productImageUrl }
 */

@@ -149,7 +149,7 @@ export class ProductController {
     }
 
     const publishExpirationDate =
-      published || product.publishExpirationDate
+      published !== false && product.publishExpirationDate
         ? dayjs().add(configs.PUBLICATION_TIME_IN_DAYS, "d").toDate()
         : null;
 
