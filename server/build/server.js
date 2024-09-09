@@ -1,3 +1,6 @@
+import { getMonitoringClient } from "./libs/MonitoringClient/index.js";
+const monitoringClient = getMonitoringClient();
+monitoringClient.init();
 import routes from "./routes/index.js";
 import cors from "cors";
 import dayjs from "dayjs";
@@ -28,6 +31,7 @@ const start = async () => {
     app.get("/*", (req, res) => {
         res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
     });
+    monitoringClient.setupErrorHandler({ app });
     errorHandler({ app });
     app.listen(port, function () {
         console.log(`Example app listening on port ${port}!`);
