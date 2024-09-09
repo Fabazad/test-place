@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4437ae60-28a7-5d52-9dfc-b0234f9df189")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c4986a65-6c0f-58e5-b908-ce2094b410ee")}catch(e){}}();
 import { getMonitoringClient } from "./libs/MonitoringClient/index.js";
 const monitoringClient = getMonitoringClient();
 monitoringClient.init();
@@ -29,9 +29,6 @@ app.use(express.static(path.join(__dirname, "../../client/build")));
 const start = async () => {
     const port = configs.PORT || 5001;
     await getDatabaseConnection().connect();
-    app.get("/debug-sentry", function mainHandler(req, res) {
-        throw new Error("My first Sentry error!");
-    });
     app.use("/", routes);
     app.get("/*", (req, res) => {
         res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
@@ -44,4 +41,4 @@ const start = async () => {
 };
 start();
 //# sourceMappingURL=server.js.map
-//# debugId=4437ae60-28a7-5d52-9dfc-b0234f9df189
+//# debugId=c4986a65-6c0f-58e5-b908-ce2094b410ee

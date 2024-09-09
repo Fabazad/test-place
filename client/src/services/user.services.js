@@ -150,7 +150,7 @@ class UserService extends BaseService {
   }
 
   googleLogin({ credential, keepConnection }) {
-    return this.enrichResponseWithError(
+    return this.enrichResponseWithError(() =>
       axios
         .post(this.baseURL + "/google-login", { credential, keepConnection })
         .then(this.currentUserResolve)

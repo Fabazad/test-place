@@ -36,10 +36,6 @@ const start = async () => {
   const port = configs.PORT || 5001;
   await getDatabaseConnection().connect();
 
-  app.get("/debug-sentry", function mainHandler(req, res) {
-    throw new Error("My first Sentry error!");
-  });
-
   app.use("/", routes);
 
   app.get("/*", (req, res) => {
