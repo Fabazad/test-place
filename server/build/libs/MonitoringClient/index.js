@@ -1,12 +1,13 @@
+import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import { LogLevel } from "./type.js";
 const createMonitoringClient = () => {
     return {
         init: () => {
             Sentry.init({
-                dsn: "https://8763211000cbfd941172a1fe1187c3d8@o1374122.ingest.us.sentry.io/4507923924058112",
+                dsn: configs.SENTRY_DSN,
                 integrations: [nodeProfilingIntegration()],
                 // Tracing
                 tracesSampleRate: 1.0, //  Capture 100% of the transactions

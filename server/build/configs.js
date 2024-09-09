@@ -37,6 +37,7 @@ export const configs = z
     AWS_ACCESS_KEY_ID: z.string(),
     AWS_SECRET_KEY: z.string(),
     S3_BUCKET: z.string(),
+    SENTRY_DSN: z.string(),
 })
     .parse(process.env);
 console.log({ configs });
