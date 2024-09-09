@@ -1,3 +1,5 @@
+import { Express } from "express";
+
 export const LogLevel = {
   INFO: "info",
   WARNING: "warning",
@@ -6,5 +8,7 @@ export const LogLevel = {
 export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel];
 
 export type MonitoringClient = {
+  init: () => void;
   sendEvent: (params: { eventName: string; data: any; level: LogLevel }) => Promise<void>;
+  setupErrorHandler: (params: { app: Express }) => void;
 };
