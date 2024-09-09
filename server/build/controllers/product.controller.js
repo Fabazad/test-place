@@ -77,7 +77,7 @@ export class ProductController {
         if (product.seller !== userId && !roles.includes(Role.ADMIN)) {
             return { success: false, errorCode: "not_allowed" };
         }
-        const publishExpirationDate = published !== false && product.publishExpirationDate
+        const publishExpirationDate = published === true || (published === undefined && product.publishExpirationDate)
             ? dayjs().add(configs.PUBLICATION_TIME_IN_DAYS, "d").toDate()
             : null;
         const newProduct = await productDAO.updateProduct({
