@@ -33,7 +33,6 @@ const createEmailClient = (): EmailClient => {
           name: configs.EMAIL_SENDER_NAME,
           email: configs.EMAIL_SENDER_EMAIL,
         },
-        subject: "Contact us from " + name,
         templateId: TEMPLATE_IDS[EmailTemplate.CONTACT_US][language],
         templateParams: { name, message },
       });
@@ -57,7 +56,6 @@ const createEmailClient = (): EmailClient => {
           name: userName,
           email,
         },
-        subject: "Test Place - Email validation",
         templateId: TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language],
         templateParams: { link: emailValidationLink, userName },
       });
@@ -81,21 +79,23 @@ const createEmailClient = (): EmailClient => {
         brevoAxios,
         from: fromTestPlace,
         to: { email },
-        subject: "Test Place - Forgotten password",
         templateId: TEMPLATE_IDS[EmailTemplate.FORGOTTEN_PASSWORD][language],
         templateParams: { link: resetPasswordLink },
       });
 
       return res;
     },
-    sendNotificationMail: async ({ notification, to }) => {
+    sendNotificationMail: async ({ notification, to, frontendUrl }) => {
+      const testLink = path.join(frontendUrl, "tests", notification.test._id);
       const res = await sendTransactionalEmail({
         brevoAxios,
         from: fromTestPlace,
         to,
-        subject: "Test Place - Notification",
         templateId: TEMPLATE_IDS[EmailTemplate.NOTIFICATION][to.language],
-        templateParams: notification,
+        templateParams: {
+          testStatus: notification.test.status,
+          productTitle: notification.product.title,
+        },
       });
 
       return res;
@@ -104,3 +104,17 @@ const createEmailClient = (): EmailClient => {
 };
 
 export const getEmailClient = createSingletonGetter(createEmailClient);
+
+/*
+  CONTACT_US :
+  templateParams: { name, message }
+
+  EMAIL_VALIDATION :
+  templateParams: { link, userName }
+
+  FORGOTTEN_PASSWORD :
+  templateParams: { link }
+
+  NOTIFICATION :
+  templateParams: { title, message, link }
+*/

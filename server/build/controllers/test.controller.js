@@ -1,5 +1,4 @@
 import { configs } from "../configs.js";
-import { getNotificationDAO } from "../entities/Notification/dao/notification.dao.index.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -47,7 +46,7 @@ export class TestController {
         };
     }
     static async create(params) {
-        const { productId, userId, status, testerMessage } = params;
+        const { productId, userId, status, testerMessage, frontendUrl } = params;
         const productDAO = getProductDAO();
         const testDAO = getTestDAO();
         if (status === TestStatus.REQUESTED && !testerMessage)
@@ -83,6 +82,7 @@ export class TestController {
                     test: test,
                     product,
                 },
+                frontendUrl,
             }),
         ]);
         return { success: true, data: test };
@@ -134,10 +134,8 @@ export class TestController {
             return { success: false, errorCode: "user_not_found_while_updating" };
         return { success: true, data: newUser };
     }
-    static async updateStatus({ userId, testId, update, }) {
+    static async updateStatus({ userId, testId, update, frontendUrl, }) {
         const testDAO = getTestDAO();
-        const notificationDAO = getNotificationDAO();
-        const userDAO = getUserDAO();
         const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
         const test = await testDAO.findById({ id: testId });
         if (!test)
@@ -180,6 +178,7 @@ export class TestController {
                     type: testStatusProcessStep.notificationType,
                     product: newTest.product,
                 },
+                frontendUrl,
             }),
         ]);
         if (update.status === TestStatus.TEST_CANCELLED ||

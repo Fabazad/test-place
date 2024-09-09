@@ -82,9 +82,10 @@ export class ProductController {
             : null;
         const newProduct = await productDAO.updateProduct({
             id: productId,
+            // @ts-ignore
             updates: {
                 publishExpirationDate,
-                ...fields,
+                ...(fields ? fields : {}),
             },
         });
         if (!newProduct)

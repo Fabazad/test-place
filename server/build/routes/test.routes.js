@@ -16,8 +16,15 @@ router.post("/create", withAuth(Role.TESTER), asyncHandler(async (request, reply
         status: z.nativeEnum(TestStatus),
         testerMessage: z.string().optional(),
     }));
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
     const userId = request.decoded.userId;
-    const res = await TestController.create({ userId, productId, status, testerMessage });
+    const res = await TestController.create({
+        userId,
+        productId,
+        status,
+        testerMessage,
+        frontendUrl,
+    });
     reply.send(handleResponseForRoute(res, {
         dont_have_automatic_acceptance: new BadRequestError("dont_have_automatic_acceptance"),
         seller_not_found: new NotFoundRequestError("seller_not_found"),
@@ -54,10 +61,12 @@ router.post("/updateStatus", asyncHandler(async (request, reply) => {
         testId: z.string(),
         update: testStatusUpdateParamsSchema,
     }));
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
     const res = await TestController.updateStatus({
         userId,
         testId,
         update,
+        frontendUrl,
     });
     reply.send(handleResponseForRoute(res, {
         test_not_found: new NotFoundRequestError("test_not_found"),

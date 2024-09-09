@@ -118,7 +118,7 @@ router.post(
       z.object({
         itemId: z.string(),
         published: z.boolean().optional(),
-        fields: productUpdateDataSchema,
+        fields: productUpdateDataSchema.optional(),
       })
     );
     const res = await ProductController.update({

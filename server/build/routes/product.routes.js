@@ -58,7 +58,7 @@ router.post("/update", withAuth(Role.SELLER), asyncHandler(async (request, reply
     const { itemId, fields, published } = zodValidationForRoute(request.body, z.object({
         itemId: z.string(),
         published: z.boolean().optional(),
-        fields: productUpdateDataSchema,
+        fields: productUpdateDataSchema.optional(),
     }));
     const res = await ProductController.update({
         productId: itemId,

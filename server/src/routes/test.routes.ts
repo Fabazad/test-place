@@ -29,8 +29,16 @@ router.post(
         testerMessage: z.string().optional(),
       })
     );
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
+
     const userId = request.decoded!.userId;
-    const res = await TestController.create({ userId, productId, status, testerMessage });
+    const res = await TestController.create({
+      userId,
+      productId,
+      status,
+      testerMessage,
+      frontendUrl,
+    });
     reply.send(
       handleResponseForRoute(res, {
         dont_have_automatic_acceptance: new BadRequestError(
@@ -94,10 +102,13 @@ router.post(
       })
     );
 
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
+
     const res = await TestController.updateStatus({
       userId,
       testId,
       update,
+      frontendUrl,
     });
 
     reply.send(

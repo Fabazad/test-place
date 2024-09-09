@@ -47,7 +47,7 @@ export class NotificationController {
         return { success: true, data: undefined };
     }
     static async createNotification(params) {
-        const { notificationData } = params;
+        const { notificationData, frontendUrl } = params;
         const notificationDAO = getNotificationDAO();
         const userDAO = getUserDAO();
         const emailClient = getEmailClient();
@@ -61,6 +61,7 @@ export class NotificationController {
         const emailRes = await emailClient.sendNotificationMail({
             notification,
             to: { email: user.email, name: user.name, language: user.language },
+            frontendUrl,
         });
         if (!emailRes.success)
             await monitoringClient.sendEvent({

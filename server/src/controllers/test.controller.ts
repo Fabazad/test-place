@@ -1,5 +1,4 @@
 import { configs } from "@/configs.js";
-import { getNotificationDAO } from "@/entities/Notification/dao/notification.dao.index.js";
 import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import { Product } from "@/entities/Product/product.entity.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
@@ -75,6 +74,7 @@ export class TestController {
     userId: string;
     status: TestStatus;
     testerMessage?: string;
+    frontendUrl: string;
   }): Promise<
     CustomResponse<
       Test,
@@ -89,7 +89,7 @@ export class TestController {
       | "previous_request_declined"
     >
   > {
-    const { productId, userId, status, testerMessage } = params;
+    const { productId, userId, status, testerMessage, frontendUrl } = params;
 
     const productDAO = getProductDAO();
     const testDAO = getTestDAO();
@@ -131,6 +131,7 @@ export class TestController {
           test: test,
           product,
         },
+        frontendUrl,
       }),
     ]);
 
@@ -216,10 +217,12 @@ export class TestController {
     userId,
     testId,
     update,
+    frontendUrl,
   }: {
     userId: string;
     testId: string;
     update: TestStatusUpdateParams;
+    frontendUrl: string;
   }): Promise<
     CustomResponse<
       {
@@ -238,8 +241,6 @@ export class TestController {
     >
   > {
     const testDAO = getTestDAO();
-    const notificationDAO = getNotificationDAO();
-    const userDAO = getUserDAO();
 
     const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
 
@@ -295,6 +296,7 @@ export class TestController {
           type: testStatusProcessStep.notificationType,
           product: newTest.product,
         },
+        frontendUrl,
       }),
     ]);
 

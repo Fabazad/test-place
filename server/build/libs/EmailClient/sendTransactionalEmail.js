@@ -1,9 +1,8 @@
 import axios from "axios";
 export const sendTransactionalEmail = async (params) => {
-    const { brevoAxios, from, to, subject, templateId, templateParams } = params;
+    const { brevoAxios, from, to, templateId, templateParams } = params;
     try {
         const res = await brevoAxios.post("/smtp/email", {
-            subject,
             sender: from,
             to: [to],
             templateId,

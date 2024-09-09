@@ -125,7 +125,7 @@ export class ProductController {
   static async update(params: {
     productId: string;
     published?: boolean;
-    fields: ProductUpdateData;
+    fields?: ProductUpdateData;
     user: {
       userId: string;
       roles: Array<Role>;
@@ -155,9 +155,10 @@ export class ProductController {
 
     const newProduct = await productDAO.updateProduct({
       id: productId,
+      // @ts-ignore
       updates: {
         publishExpirationDate,
-        ...fields,
+        ...(fields ? fields : {}),
       },
     });
 
