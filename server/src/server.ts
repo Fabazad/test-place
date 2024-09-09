@@ -37,6 +37,10 @@ const start = async () => {
   await getDatabaseConnection().connect();
   app.use("/", routes);
 
+  app.get("/debug-sentry", function mainHandler(req, res) {
+    throw new Error("My first Sentry error!");
+  });
+
   app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
   });
