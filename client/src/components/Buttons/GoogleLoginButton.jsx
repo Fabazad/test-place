@@ -29,6 +29,7 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
     };
 
     const handleCredentialResponse = (response) => {
+      console.log({ response });
       if (response.credential) {
         onSuccess(response);
       } else {

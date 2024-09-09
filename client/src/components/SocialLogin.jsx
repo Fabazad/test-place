@@ -40,6 +40,8 @@ const SocialLogin = ({
         return;
       }
 
+      console.log("YES");
+
       history.push(
         res.user.roles.includes(USER_ROLES.SELLER) ? "/dashboard/my-products" : "/"
       );
