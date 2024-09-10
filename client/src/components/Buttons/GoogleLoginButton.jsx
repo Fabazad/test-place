@@ -46,6 +46,7 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
   }, [onSuccess, onFailure]);
 
   const handleClick = () => {
+    console.log({ googleButtonRef });
     if (googleButtonRef.current) {
       googleButtonRef.current.prompt(); // Manually trigger the Google sign-in prompt
     }
