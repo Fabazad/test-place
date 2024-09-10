@@ -16,6 +16,7 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
     };
 
     const initializeGoogleLogin = () => {
+      console.log({ window });
       if (window.google) {
         window.google.accounts.id.initialize({
           client_id:

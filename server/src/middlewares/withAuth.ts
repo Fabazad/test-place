@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from "express";
 export const withAuth =
   (role: Role | null = null) =>
   (req: Request, res: Response, next: NextFunction) => {
+    if (!req.decoded) return res.status(401).send("Unauthorized");
     if (role === null) return next();
 
     const authManager = getAuthManager();
