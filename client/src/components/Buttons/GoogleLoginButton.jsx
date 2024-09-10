@@ -41,6 +41,7 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
     if (!window.google?.accounts) {
       loadGoogleScript();
     } else {
+      loadGoogleScript();
       initializeGoogleLogin();
     }
   }, [onSuccess, onFailure]);
