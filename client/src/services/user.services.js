@@ -58,7 +58,9 @@ class UserService extends BaseService {
   }
 
   async register(user) {
-    return this.enrichResponseWithError(axios.post(this.baseURL + "/register", user));
+    return this.enrichResponseWithError(() =>
+      axios.post(this.baseURL + "/register", user)
+    );
   }
 
   checkToken() {
