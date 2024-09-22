@@ -20,24 +20,18 @@ export const configs = z
     BREVO_BASE_URL: z.string().optional().default("https://api.brevo.com/v3"),
     EMAIL_SENDER_NAME: z.string().optional().default("Test Place"),
     EMAIL_SENDER_EMAIL: z.string().optional().default("fabien.turgut@gmail.com"),
-    CONTACT_US_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 }).optional().default(0),
-    CONTACT_US_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 }).optional().default(0),
-    CONTACT_US_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 }).optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 }).optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 }).optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 }).optional().default(0),
-    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 })
-      .optional()
-      .default(0),
-    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 })
-      .optional()
-      .default(0),
-    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 })
-      .optional()
-      .default(0),
-    NOTIFICATION_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 }).optional().default(0),
-    NOTIFICATION_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 }).optional().default(0),
-    NOTIFICATION_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 }).optional().default(0),
+    CONTACT_US_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
+    CONTACT_US_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
+    CONTACT_US_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string(),
