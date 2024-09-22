@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="46f5b38f-b1e8-580b-839c-49a73472e382")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="90731000-354e-5d86-ac2f-e555d154133f")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -21,18 +21,24 @@ export const configs = z
     BREVO_BASE_URL: z.string().optional().default("https://api.brevo.com/v3"),
     EMAIL_SENDER_NAME: z.string().optional().default("Test Place"),
     EMAIL_SENDER_EMAIL: z.string().optional().default("fabien.turgut@gmail.com"),
-    CONTACT_US_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(0),
-    CONTACT_US_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(0),
-    CONTACT_US_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(0),
-    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(0),
-    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(0),
-    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(0),
-    NOTIFICATION_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(0),
-    NOTIFICATION_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(0),
-    NOTIFICATION_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(0),
+    CONTACT_US_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 }).optional().default(0),
+    CONTACT_US_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 }).optional().default(0),
+    CONTACT_US_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 }).optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 }).optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 }).optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 }).optional().default(0),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 })
+        .optional()
+        .default(0),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 })
+        .optional()
+        .default(0),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 })
+        .optional()
+        .default(0),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_FR: numberSchema({ min: 1 }).optional().default(0),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_EN: numberSchema({ min: 1 }).optional().default(0),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_CH: numberSchema({ min: 1 }).optional().default(0),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string(),
@@ -44,4 +50,4 @@ export const configs = z
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=46f5b38f-b1e8-580b-839c-49a73472e382
+//# debugId=90731000-354e-5d86-ac2f-e555d154133f

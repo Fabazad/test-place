@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2be85bbb-c5b2-5898-8ef7-62ea94b8f4bc")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b8f7b743-989a-5022-9c0e-83858a011925")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -25,10 +25,7 @@ const createEmailClient = () => {
         sendContactUsMail: async ({ email, name, language, message }) => {
             const res = await sendTransactionalEmail({
                 brevoAxios,
-                from: {
-                    name,
-                    email,
-                },
+                from: { name, email },
                 to: {
                     name: configs.EMAIL_SENDER_NAME,
                     email: configs.EMAIL_SENDER_EMAIL,
@@ -45,10 +42,7 @@ const createEmailClient = () => {
             const res = await sendTransactionalEmail({
                 brevoAxios,
                 from: fromTestPlace,
-                to: {
-                    name: userName,
-                    email,
-                },
+                to: { name: userName, email },
                 templateId,
                 templateParams: { link: emailValidationLink, userName },
             });
@@ -98,4 +92,4 @@ export const getEmailClient = createSingletonGetter(createEmailClient);
   templateParams: { title, message, testLink, productImageUrl }
 */
 //# sourceMappingURL=index.js.map
-//# debugId=2be85bbb-c5b2-5898-8ef7-62ea94b8f4bc
+//# debugId=b8f7b743-989a-5022-9c0e-83858a011925
