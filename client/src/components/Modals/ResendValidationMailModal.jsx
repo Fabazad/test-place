@@ -29,7 +29,7 @@ const ResendValidationMailModal = ({ t }) => {
       .resendValidationMail(email)
       .then((res) => {
         if (res?.error) {
-          if (res.error === "user_not_found") toast.success(t("EMAIL_HAS_BEEN_SENT"));
+          if (res.error === "user_not_found") toast.error(t("EMAIL_HAS_NOT_BEEN_SENT"));
           else if (res.error === "already_validated") {
             toast.info(t("EMAIL_ALREADY_VALIDATED"));
             setEmail("");
@@ -37,6 +37,7 @@ const ResendValidationMailModal = ({ t }) => {
           }
           return;
         }
+        toast.success(t("EMAIL_HAS_BEEN_SENT"));
         setEmail("");
         toggleModal();
       })

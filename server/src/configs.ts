@@ -19,7 +19,7 @@ export const configs = z
     BREVO_API_KEY: z.string(),
     BREVO_BASE_URL: z.string().optional().default("https://api.brevo.com/v3"),
     EMAIL_SENDER_NAME: z.string().optional().default("Test Place"),
-    EMAIL_SENDER_EMAIL: z.string().optional().default("fabien.turgut@gmail.com"),
+    EMAIL_SENDER_EMAIL: z.string().optional().default("contact@test-place.fr"),
     CONTACT_US_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
     CONTACT_US_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
     CONTACT_US_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
