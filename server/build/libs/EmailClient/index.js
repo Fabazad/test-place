@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fc7ce961-2a2c-547b-adb3-44cb45b10c9f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2be85bbb-c5b2-5898-8ef7-62ea94b8f4bc")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -40,6 +40,8 @@ const createEmailClient = () => {
         },
         sendEmailValidationMail: async ({ email, userId, language, userName, frontendUrl, }) => {
             const emailValidationLink = path.join(frontendUrl, "email-validation", userId);
+            const templateId = TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language];
+            console.log({ templateId });
             const res = await sendTransactionalEmail({
                 brevoAxios,
                 from: fromTestPlace,
@@ -47,7 +49,7 @@ const createEmailClient = () => {
                     name: userName,
                     email,
                 },
-                templateId: TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language],
+                templateId,
                 templateParams: { link: emailValidationLink, userName },
             });
             return res;
@@ -96,4 +98,4 @@ export const getEmailClient = createSingletonGetter(createEmailClient);
   templateParams: { title, message, testLink, productImageUrl }
 */
 //# sourceMappingURL=index.js.map
-//# debugId=fc7ce961-2a2c-547b-adb3-44cb45b10c9f
+//# debugId=2be85bbb-c5b2-5898-8ef7-62ea94b8f4bc

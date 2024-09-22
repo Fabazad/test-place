@@ -26,10 +26,7 @@ const createEmailClient = (): EmailClient => {
     sendContactUsMail: async ({ email, name, language, message }) => {
       const res = await sendTransactionalEmail({
         brevoAxios,
-        from: {
-          name,
-          email,
-        },
+        from: { name, email },
         to: {
           name: configs.EMAIL_SENDER_NAME,
           email: configs.EMAIL_SENDER_EMAIL,
@@ -50,14 +47,15 @@ const createEmailClient = (): EmailClient => {
     }) => {
       const emailValidationLink = path.join(frontendUrl, "email-validation", userId);
 
+      const templateId = TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language];
+
+      console.log({ templateId });
+
       const res = await sendTransactionalEmail({
         brevoAxios,
         from: fromTestPlace,
-        to: {
-          name: userName,
-          email,
-        },
-        templateId: TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language],
+        to: { name: userName, email },
+        templateId,
         templateParams: { link: emailValidationLink, userName },
       });
 

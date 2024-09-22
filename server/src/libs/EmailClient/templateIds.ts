@@ -2,7 +2,7 @@ import { configs } from "@/configs.js";
 import { Language } from "@/utils/Language.js";
 import { EmailTemplate } from "./type.js";
 
-export const TEMPLATE_IDS: Record<EmailTemplate, Record<Language, string>> = {
+export const TEMPLATE_IDS: Record<EmailTemplate, Record<Language, number>> = {
   [EmailTemplate.CONTACT_US]: {
     [Language.FR]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_FR,
     [Language.EN]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_EN,

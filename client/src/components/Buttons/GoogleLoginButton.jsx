@@ -16,7 +16,6 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
     };
 
     const handleCredentialResponse = (response) => {
-      console.log({ response });
       if (response.credential) {
         onSuccess(response);
       } else {
@@ -26,7 +25,6 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
 
     const initializeGoogleLogin = () => {
       if (window.google) {
-        console.log("Initialized");
         window.google.accounts.id.initialize({
           client_id:
             "551740391673-sidds0lingiqeli1jro82a0djidgjj3e.apps.googleusercontent.com",
@@ -41,16 +39,13 @@ const GoogleLoginButton = ({ onSuccess, onFailure, disabled }) => {
     if (!window.google?.accounts) {
       loadGoogleScript();
     } else {
-      loadGoogleScript();
       initializeGoogleLogin();
     }
   }, [onSuccess, onFailure]);
 
   const handleClick = () => {
-    console.log({ googleButtonRef });
     if (googleButtonRef.current) {
       googleButtonRef.current.prompt(); // Manually trigger the Google sign-in prompt
-      console.log("Prompt");
     }
   };
 

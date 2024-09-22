@@ -5,7 +5,7 @@ export const sendTransactionalEmail = async (params: {
   brevoAxios: AxiosInstance;
   from: { name?: string; email: string };
   to: { name?: string; email: string };
-  templateId: string;
+  templateId: number;
   templateParams: Record<string, any>;
 }): Promise<CustomResponse<string, "email_not_sent">> => {
   const { brevoAxios, from, to, templateId, templateParams } = params;
