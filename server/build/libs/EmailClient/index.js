@@ -1,10 +1,9 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b8f7b743-989a-5022-9c0e-83858a011925")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="016f8124-5dfd-5dbc-8b73-46e242dd704c")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
 import axios from "axios";
-import path from "path";
 import { sendTransactionalEmail } from "./sendTransactionalEmail.js";
 import { TEMPLATE_IDS } from "./templateIds.js";
 import { EmailTemplate } from "./type.js";
@@ -36,9 +35,9 @@ const createEmailClient = () => {
             return res;
         },
         sendEmailValidationMail: async ({ email, userId, language, userName, frontendUrl, }) => {
-            const emailValidationLink = path.join(frontendUrl, "email-validation", userId);
+            const emailValidationLink = new URL(`email-validation/${userId}`, frontendUrl).toString();
             const templateId = TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language];
-            console.log({ templateId });
+            console.log({ frontendUrl, emailValidationLink });
             const res = await sendTransactionalEmail({
                 brevoAxios,
                 from: fromTestPlace,
@@ -49,7 +48,7 @@ const createEmailClient = () => {
             return res;
         },
         sendForgottenPasswordMail: async ({ email, resetPasswordToken, language, frontendUrl, }) => {
-            const resetPasswordLink = path.join(frontendUrl, "reset-password", resetPasswordToken);
+            const resetPasswordLink = new URL(`reset-password/${resetPasswordToken}`, frontendUrl).toString();
             const res = await sendTransactionalEmail({
                 brevoAxios,
                 from: fromTestPlace,
@@ -60,7 +59,7 @@ const createEmailClient = () => {
             return res;
         },
         sendNotificationMail: async ({ notification, to, frontendUrl, userRole }) => {
-            const testLink = path.join(frontendUrl, "dashboard", `${userRole === Role.TESTER ? "my-current-tests" : "customer-current-tests"}?testId=${notification.test._id}`);
+            const testLink = new URL(`dashboard/${userRole === Role.TESTER ? "my-current-tests" : "customer-current-tests"}?testId=${notification.test._id}`, frontendUrl).toString();
             const res = await sendTransactionalEmail({
                 brevoAxios,
                 from: fromTestPlace,
@@ -92,4 +91,4 @@ export const getEmailClient = createSingletonGetter(createEmailClient);
   templateParams: { title, message, testLink, productImageUrl }
 */
 //# sourceMappingURL=index.js.map
-//# debugId=b8f7b743-989a-5022-9c0e-83858a011925
+//# debugId=016f8124-5dfd-5dbc-8b73-46e242dd704c

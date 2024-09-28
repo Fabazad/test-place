@@ -45,11 +45,14 @@ const createEmailClient = (): EmailClient => {
       userName,
       frontendUrl,
     }) => {
-      const emailValidationLink = path.join(frontendUrl, "email-validation", userId);
+      const emailValidationLink = new URL(
+        `email-validation/${userId}`,
+        frontendUrl
+      ).toString();
 
       const templateId = TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language];
 
-      console.log({ templateId });
+      console.log({ frontendUrl, emailValidationLink });
 
       const res = await sendTransactionalEmail({
         brevoAxios,
@@ -68,11 +71,10 @@ const createEmailClient = (): EmailClient => {
       language,
       frontendUrl,
     }) => {
-      const resetPasswordLink = path.join(
-        frontendUrl,
-        "reset-password",
-        resetPasswordToken
-      );
+      const resetPasswordLink = new URL(
+        `reset-password/${resetPasswordToken}`,
+        frontendUrl
+      ).toString();
 
       const res = await sendTransactionalEmail({
         brevoAxios,
@@ -85,13 +87,13 @@ const createEmailClient = (): EmailClient => {
       return res;
     },
     sendNotificationMail: async ({ notification, to, frontendUrl, userRole }) => {
-      const testLink = path.join(
-        frontendUrl,
-        "dashboard",
-        `${
+      const testLink = new URL(
+        `dashboard/${
           userRole === Role.TESTER ? "my-current-tests" : "customer-current-tests"
-        }?testId=${notification.test._id}`
-      );
+        }?testId=${notification.test._id}`,
+        frontendUrl
+      ).toString();
+
       const res = await sendTransactionalEmail({
         brevoAxios,
         from: fromTestPlace,
