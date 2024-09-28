@@ -67,7 +67,7 @@ const ProductForm = (props) => {
       asin,
       title,
       price,
-      finalPrice: finalPrice || 0,
+      finalPrice: +finalPrice || 0,
       images,
       description,
       isPrime,

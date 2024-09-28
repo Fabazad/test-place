@@ -351,7 +351,7 @@
   "PRODUCT_CATEGORIES.grocery": "Épicerie",
   "PRODUCT_CATEGORIES.office-supplies": "Bureautique",
   "PRODUCT_CATEGORIES.appliances": "Électroménager",
-  "PRODUCT_CATEGORIES.high-tech": "High-Tech",
+  "PRODUCT_CATEGORIES.electronics": "High-Tech",
   "PRODUCT_CATEGORIES.higiene-health": "Hygiène et Santé",
   "PRODUCT_CATEGORIES.computeur-science": "Informatique",
   "PRODUCT_CATEGORIES.music": "Musique",
@@ -374,5 +374,6 @@
   "ALREADY_TESTING_THIS_PRODUCT": "Vous avez déjà un test en cours pour ce produit.",
   "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "Une demande de test a déjà été refusée pour ce produit.",
   "PRODUCT_HAS_BEEN_UPDATED": "Le produit a été mis à jour.",
-  "CLICK_TO_OPEN": "Cliquez pour ouvrir"
+  "CLICK_TO_OPEN": "Cliquez pour ouvrir",
+  "ALREADY_PRODUCT_WITH_ASIN": "Un produit existe déjà avec cet ASIN sur Test Place."
 }

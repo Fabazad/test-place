@@ -4,7 +4,7 @@ const PRODUCT_CATEGORIES_RECORD: Record<ProductCategory, string> = {
   "auto-moto": "Auto et Moto",
   "beauty-perfume": "Beauté et Parfum",
   "computeur-science": "Informatique",
-  "high-tech": "High-Tech",
+  electronics: "High-Tech",
   "higiene-health": "Hygiène et Santé",
   "kitchen-house": "Cuisine & Maison",
   "office-supplies": "Fournitures de bureau",

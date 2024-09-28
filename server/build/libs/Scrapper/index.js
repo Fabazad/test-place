@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f8e3bbc1-7516-5902-bb1f-3d3c4e80ff87")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c1248706-aa1f-5ecb-b9a9-acac306b2548")}catch(e){}}();
 import { createSingletonGetter } from "../../utils/singleton.js";
 import axios from "axios";
 import cheerio from "cheerio";
@@ -14,7 +14,12 @@ const createScrapper = () => {
     return {
         getAmazonProductDetails: async ({ asin }) => {
             const url = `https://www.amazon.fr/dp/${asin}`;
-            const test = await axios.get(url);
+            const test = await axios.get(url, {
+                headers: {
+                    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+                    Accept: "*/*",
+                },
+            });
             const $ = cheerio.load(test.data);
             const scrapRes = {
                 title: getTitle($),
@@ -31,4 +36,4 @@ const createScrapper = () => {
 };
 export const getScrapper = createSingletonGetter(createScrapper);
 //# sourceMappingURL=index.js.map
-//# debugId=f8e3bbc1-7516-5902-bb1f-3d3c4e80ff87
+//# debugId=c1248706-aa1f-5ecb-b9a9-acac306b2548

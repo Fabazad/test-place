@@ -1,10 +1,10 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="70eea542-067c-5c8d-81ac-9e8328f6f27f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e9e5e845-f4f7-5285-93ac-920a3c9f91b7")}catch(e){}}();
 const PRODUCT_CATEGORIES_RECORD = {
     "auto-moto": "Auto et Moto",
     "beauty-perfume": "Beauté et Parfum",
     "computeur-science": "Informatique",
-    "high-tech": "High-Tech",
+    electronics: "High-Tech",
     "higiene-health": "Hygiène et Santé",
     "kitchen-house": "Cuisine & Maison",
     "office-supplies": "Fournitures de bureau",
@@ -31,4 +31,4 @@ export const PRODUCT_CATEGORIES_MAP = Object.entries(PRODUCT_CATEGORIES_RECORD).
     return acc;
 }, {});
 //# sourceMappingURL=productCategory.constants.js.map
-//# debugId=70eea542-067c-5c8d-81ac-9e8328f6f27f
+//# debugId=e9e5e845-f4f7-5285-93ac-920a3c9f91b7

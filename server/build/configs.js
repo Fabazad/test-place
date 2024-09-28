@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ea4b2abd-349b-5844-9667-e37d6f26d4c4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ba9953bd-409b-52c9-b5fd-c9049b546eaf")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -24,7 +24,7 @@ export const configs = z
     CONTACT_US_EMAIL_TEMPLATE_ID: numberSchema().optional().default(7),
     EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
     EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
-    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(12),
     FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
     FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(4),
     FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(10),
@@ -34,9 +34,9 @@ export const configs = z
     NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
     NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
     NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
-    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
-    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
-    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
+    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(14),
+    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(13),
+    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(15),
     MONEY_SENT_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
     MONEY_SENT_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
     MONEY_SENT_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
@@ -54,4 +54,4 @@ export const configs = z
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=ea4b2abd-349b-5844-9667-e37d6f26d4c4
+//# debugId=ba9953bd-409b-52c9-b5fd-c9049b546eaf

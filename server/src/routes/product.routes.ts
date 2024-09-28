@@ -8,6 +8,7 @@ import { asyncHandler } from "@/utils/asyncHandler.js";
 import { Role } from "@/utils/constants.js";
 import { handleResponseForRoute } from "@/utils/CustomResponse.js";
 import {
+  BadRequestError,
   NotFoundRequestError,
   ServerRequestError,
   UnauthorizedRequestError,
@@ -33,9 +34,7 @@ router.get(
 
     reply.send(
       handleResponseForRoute(res, {
-        already_product_with_asin: new UnauthorizedRequestError(
-          "already_product_with_asin"
-        ),
+        already_product_with_asin: new BadRequestError("already_product_with_asin"),
         product_not_found: new NotFoundRequestError("product_not_found"),
         unknown_error: new ServerRequestError("unknown_error"),
       })

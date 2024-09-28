@@ -1,5 +1,5 @@
 export const getDescription = ($: cheerio.Root): string | undefined => {
-  const $description = $("#productFactsDesktop_feature_div");
+  const $description = $("#feature-bullets");
   if ($description.length) {
     return $description
       .text()

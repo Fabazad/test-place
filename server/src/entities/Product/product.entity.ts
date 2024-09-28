@@ -15,7 +15,7 @@ export const PRODUCT_CATEGORIES = [
   "grocery",
   "office-supplies",
   "appliances",
-  "high-tech",
+  "electronics",
   "higiene-health",
   "computeur-science",
   "music",

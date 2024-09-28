@@ -19,7 +19,9 @@ class ProductService extends BaseService {
   }
 
   async scrapFromAsin(asin) {
-    return axios.get(this.baseURL + "/srapFromAsin/" + asin).then(serviceResolve);
+    return this.enrichResponseWithError(() =>
+      axios.get(this.baseURL + "/srapFromAsin/" + asin).then(serviceResolve)
+    );
   }
 
   async getProductCategories() {

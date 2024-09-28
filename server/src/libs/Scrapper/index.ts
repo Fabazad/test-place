@@ -15,7 +15,12 @@ const createScrapper = (): Scrapper => {
     getAmazonProductDetails: async ({ asin }) => {
       const url = `https://www.amazon.fr/dp/${asin}`;
 
-      const test = await axios.get<string>(url);
+      const test = await axios.get<string>(url, {
+        headers: {
+          "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+          Accept: "*/*",
+        },
+      });
 
       const $ = cheerio.load(test.data);
 

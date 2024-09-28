@@ -47,6 +47,12 @@ const NewProductModal = ({ t }) => {
     }
     const asin = match[1];
     const loadingPromise = productService.scrapFromAsin(asin).then((res) => {
+      if (res.error) {
+        if (res.error === "already_product_with_asin")
+          toast.error(t("ALREADY_PRODUCT_WITH_ASIN"));
+        else toast.error(t("UNKNOWN_ERROR"));
+        return;
+      }
       setDefaultData({
         asin,
         title: res.title,

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9c246d1b-effa-5ef5-9cd4-c3f79068d7b8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="dd29fd23-3292-5fdc-8518-69ddc32c699c")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 export const PRODUCT_CATEGORIES = [
@@ -15,7 +15,7 @@ export const PRODUCT_CATEGORIES = [
     "grocery",
     "office-supplies",
     "appliances",
-    "high-tech",
+    "electronics",
     "higiene-health",
     "computeur-science",
     "music",
@@ -54,4 +54,4 @@ export const productSchema = productDataSchema
     .extend(savedDataSchema)
     .extend({ amazonUrl: z.string() });
 //# sourceMappingURL=product.entity.js.map
-//# debugId=9c246d1b-effa-5ef5-9cd4-c3f79068d7b8
+//# debugId=dd29fd23-3292-5fdc-8518-69ddc32c699c

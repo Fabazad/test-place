@@ -1,14 +1,13 @@
 // reactstrap components
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { withTranslation } from "react-i18next";
+import { Col, Input } from "reactstrap";
 import ToggleNav from "./ToggleNav";
-import { Input, InputGroup, Col, FormGroup } from "reactstrap";
 
 const PriceInput = (props) => {
   const { t, price } = props;
 
-  const [tabOptions, setTabOptions] = useState([
+  const tabOptions = [
     {
       id: "freeProduct",
       label: t("FREE"),
@@ -17,8 +16,8 @@ const PriceInput = (props) => {
       id: "paidProduct",
       label: t("PRICED"),
     },
-  ]);
-  const [selectedTab, setSelectedTab] = useState("freeProduct");
+  ];
+  const [selectedTab, setSelectedTab] = useState(price ? "paidProduct" : "freeProduct");
 
   return (
     <>

@@ -1,7 +1,7 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ce76763f-582e-5223-bfdb-85634d0ae87c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="21769bc9-49e7-599a-a16f-1bdee2ccbddd")}catch(e){}}();
 export const getDescription = ($) => {
-    const $description = $("#productFactsDesktop_feature_div");
+    const $description = $("#feature-bullets");
     if ($description.length) {
         return $description
             .text()
@@ -13,4 +13,4 @@ export const getDescription = ($) => {
     return undefined;
 };
 //# sourceMappingURL=getDescription.js.map
-//# debugId=ce76763f-582e-5223-bfdb-85634d0ae87c
+//# debugId=21769bc9-49e7-599a-a16f-1bdee2ccbddd

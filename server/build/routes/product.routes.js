@@ -1,12 +1,12 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5f855569-27b7-506f-a453-5af2790bd06c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="89b87e06-b5bc-5cf6-89fb-06afbd78ef43")}catch(e){}}();
 import { productSearchDataSchema, productUpdateDataSchema, } from "../entities/Product/product.constants.js";
 import { productDataSchema } from "../entities/Product/product.entity.js";
 import { withAuth } from "../middlewares/withAuth.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Role } from "../utils/constants.js";
 import { handleResponseForRoute } from "../utils/CustomResponse.js";
-import { NotFoundRequestError, ServerRequestError, UnauthorizedRequestError, } from "../utils/exceptions/index.js";
+import { BadRequestError, NotFoundRequestError, ServerRequestError, UnauthorizedRequestError, } from "../utils/exceptions/index.js";
 import { zodValidationForRoute } from "../utils/zodValidationForRoute.js";
 import express from "express";
 import z from "zod";
@@ -18,7 +18,7 @@ router.get("/srapFromAsin/:asin", withAuth(Role.SELLER), asyncHandler(async (req
     }));
     const res = await ProductController.scrapFromAsin({ asin });
     reply.send(handleResponseForRoute(res, {
-        already_product_with_asin: new UnauthorizedRequestError("already_product_with_asin"),
+        already_product_with_asin: new BadRequestError("already_product_with_asin"),
         product_not_found: new NotFoundRequestError("product_not_found"),
         unknown_error: new ServerRequestError("unknown_error"),
     }));
@@ -86,4 +86,4 @@ router.delete("/:productId", withAuth(Role.SELLER), asyncHandler(async (request,
 }));
 export default router;
 //# sourceMappingURL=product.routes.js.map
-//# debugId=5f855569-27b7-506f-a453-5af2790bd06c
+//# debugId=89b87e06-b5bc-5cf6-89fb-06afbd78ef43

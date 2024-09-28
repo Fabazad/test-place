@@ -50,7 +50,6 @@ const OrderedProductModal = (props) => {
       onToggle();
       toast.success(t("PRODUCT_SAVED_AS_ORDERED"));
     } catch (err) {
-      console.log(err);
       toast.error(err.toString);
     }
 
@@ -63,7 +62,6 @@ const OrderedProductModal = (props) => {
       setOrderScreenshot(file);
       setOrderScreenshotUrl(fileUrl);
     } catch (err) {
-      console.log(err);
       toast.error(t("COULD_NOT_IMPORT_PICTURE"));
     }
   };

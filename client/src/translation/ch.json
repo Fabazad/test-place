@@ -352,7 +352,7 @@
   "PRODUCT_CATEGORIES.grocery": "超市",
   "PRODUCT_CATEGORIES.office-supplies": "办公用品",
   "PRODUCT_CATEGORIES.appliances": "家具",
-  "PRODUCT_CATEGORIES.high-tech": "高科技",
+  "PRODUCT_CATEGORIES.electronics": "高科技",
   "PRODUCT_CATEGORIES.higiene-health": "卫生和健康",
   "PRODUCT_CATEGORIES.computeur-science": "计算机和科学",
   "PRODUCT_CATEGORIES.music": "音乐",
@@ -375,5 +375,6 @@
   "ALREADY_TESTING_THIS_PRODUCT": "你已经有一个正在进行的测试了。",
   "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "你已经有一个正在进行的测试了。",
   "PRODUCT_HAS_BEEN_UPDATED": "产品已经更新。",
-  "CLICK_TO_OPEN": "点击打开"
+  "CLICK_TO_OPEN": "点击打开",
+  "ALREADY_PRODUCT_WITH_ASIN": "该ASIN的产品已经存在。"
 }
