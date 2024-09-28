@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="132f9832-8286-5aa4-9da8-65df5dc6d396")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2394fa87-13bf-5cc0-916a-03377e2be671")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { NotificationType, Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -78,7 +78,7 @@ const createEmailClient = () => {
                     productTitle: notification.product.title,
                     testLink,
                     productImageUrl: notification.product.imageUrls[0],
-                    name: to.name,
+                    userName: to.name,
                 },
             });
             return res;
@@ -86,18 +86,5 @@ const createEmailClient = () => {
     };
 };
 export const getEmailClient = createSingletonGetter(createEmailClient);
-/*
-  CONTACT_US :
-  templateParams: { name, message }
-
-  EMAIL_VALIDATION :
-  templateParams: { link, userName }
-
-  FORGOTTEN_PASSWORD :
-  templateParams: { link }
-
-  NOTIFICATION :
-  templateParams: { title, message, testLink, productImageUrl }
-*/
 //# sourceMappingURL=index.js.map
-//# debugId=132f9832-8286-5aa4-9da8-65df5dc6d396
+//# debugId=2394fa87-13bf-5cc0-916a-03377e2be671

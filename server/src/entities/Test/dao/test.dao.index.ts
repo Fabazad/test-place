@@ -23,15 +23,10 @@ testMongooseSchema.pre("save", async function (next) {
   next();
 });
 
-testMongooseSchema.index(
-  {
-    product: 1,
-    tester: 1,
-  },
-  {
-    unique: true,
-  }
-);
+testMongooseSchema.index({
+  "product._id": 1,
+  tester: 1,
+});
 
 const testModel = mongoose.model<Test>("Test", testMongooseSchema);
 
@@ -73,7 +68,7 @@ export const createTestDAO = (): TestDAO => {
       const alreadyTesting = await testModel.findOne(
         {
           "product._id": testData.product._id,
-          "tester._id": testData.tester,
+          tester: testData.tester,
           status: {
             $in: [...GLOBAL_TEST_STATUSES.REQUESTED, ...GLOBAL_TEST_STATUSES.PROCESSING],
           },

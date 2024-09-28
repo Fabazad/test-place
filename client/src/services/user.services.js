@@ -175,7 +175,9 @@ class UserService extends BaseService {
   }
 
   updateLanguage({ language }) {
-    return this.post("update-language", { language }, this.currentUserResolve);
+    return this.post("update-language", { language }, (res) =>
+      this.currentUserResolve({ ...res, data: { user: res.data } })
+    );
   }
 }
 

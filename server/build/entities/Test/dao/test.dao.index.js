@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4691325c-d298-5e54-9518-8b914b2d349e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2e8c3e61-7278-5907-9203-3000b4c201d8")}catch(e){}}();
 import { generateAmazonUrl } from "../../Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -22,10 +22,8 @@ testMongooseSchema.pre("save", async function (next) {
     next();
 });
 testMongooseSchema.index({
-    product: 1,
+    "product._id": 1,
     tester: 1,
-}, {
-    unique: true,
 });
 const testModel = mongoose.model("Test", testMongooseSchema);
 export const createTestDAO = () => {
@@ -56,7 +54,7 @@ export const createTestDAO = () => {
         createTest: async ({ testData }) => {
             const alreadyTesting = await testModel.findOne({
                 "product._id": testData.product._id,
-                "tester._id": testData.tester,
+                tester: testData.tester,
                 status: {
                     $in: [...GLOBAL_TEST_STATUSES.REQUESTED, ...GLOBAL_TEST_STATUSES.PROCESSING],
                 },
@@ -177,4 +175,4 @@ export const createTestDAO = () => {
 };
 export const getTestDAO = createSingletonGetter(createTestDAO);
 //# sourceMappingURL=test.dao.index.js.map
-//# debugId=4691325c-d298-5e54-9518-8b914b2d349e
+//# debugId=2e8c3e61-7278-5907-9203-3000b4c201d8

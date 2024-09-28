@@ -116,7 +116,7 @@ const createEmailClient = (): EmailClient => {
           productTitle: notification.product.title,
           testLink,
           productImageUrl: notification.product.imageUrls[0],
-          name: to.name,
+          userName: to.name,
         },
       });
 
@@ -126,17 +126,3 @@ const createEmailClient = (): EmailClient => {
 };
 
 export const getEmailClient = createSingletonGetter(createEmailClient);
-
-/*
-  CONTACT_US :
-  templateParams: { name, message }
-
-  EMAIL_VALIDATION :
-  templateParams: { link, userName }
-
-  FORGOTTEN_PASSWORD :
-  templateParams: { link }
-
-  NOTIFICATION :
-  templateParams: { title, message, testLink, productImageUrl }
-*/

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-// reactstrap components
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { Button, Modal } from "reactstrap";
@@ -55,8 +54,11 @@ const NewTestRequestModal = (props) => {
         status: TestStatus.REQUESTED,
       });
 
-      if (res?.error) toast.error(res.error);
-      else setRequestSent(true);
+      if (res?.error) {
+        if (res.error === "already_testing") {
+          toast.error(t("ALREADY_TESTING_THIS_PRODUCT"));
+        } else toast.error(res.error);
+      } else setRequestSent(true);
     } catch (err) {
       console.error(err);
     }
