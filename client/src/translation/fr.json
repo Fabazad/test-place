@@ -375,5 +375,6 @@
   "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "Une demande de test a déjà été refusée pour ce produit.",
   "PRODUCT_HAS_BEEN_UPDATED": "Le produit a été mis à jour.",
   "CLICK_TO_OPEN": "Cliquez pour ouvrir",
-  "ALREADY_PRODUCT_WITH_ASIN": "Un produit existe déjà avec cet ASIN sur Test Place."
+  "ALREADY_PRODUCT_WITH_ASIN": "Un produit existe déjà avec cet ASIN sur Test Place.",
+  "START_NOW": "Commencer maintenant"
 }

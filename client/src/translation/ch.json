@@ -376,5 +376,6 @@
   "PREVIOUS_REQUEST_DECLINED_ON_THIS_PRODUCT": "你已经有一个正在进行的测试了。",
   "PRODUCT_HAS_BEEN_UPDATED": "产品已经更新。",
   "CLICK_TO_OPEN": "点击打开",
-  "ALREADY_PRODUCT_WITH_ASIN": "该ASIN的产品已经存在。"
+  "ALREADY_PRODUCT_WITH_ASIN": "该ASIN的产品已经存在。",
+  "START_NOW": "立即开始"
 }

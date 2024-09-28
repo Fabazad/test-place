@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 // nodejs library that concatenates classes
 
 // reactstrap components
@@ -12,6 +13,7 @@ import SimpleFooter from "../../components/Footers/SimpleFooter";
 import SearchEngine from "../../components/SearchEngine";
 import { scrollTo } from "../../helpers/scrollHelpers";
 import { updateURLParameters } from "../../helpers/urlHelpers";
+import userService from "../../services/user.services";
 import CommunityCard from "./CommunityCard";
 import ContactSections from "./ContactSections";
 import UISection from "./FreeProducts";
@@ -21,6 +23,13 @@ import TestProcess from "./TestProcess";
 
 const Landing = (props) => {
   const { location, t } = props;
+
+  const [currentUser, setUser] = useState(userService.currentUser);
+
+  useEffect(() => {
+    const subscriber = userService.currentUserSubject.subscribe(setUser);
+    return () => subscriber.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (location.hash) {
@@ -55,6 +64,15 @@ const Landing = (props) => {
               <span />
             </div>
             <Container className="py-lg-4">
+              {!currentUser && (
+                <Row className="d-lg-none text-center my-4">
+                  <Col lg="12">
+                    <Link to="/register" className="btn btn-secondary">
+                      {t("START_NOW")}
+                    </Link>
+                  </Col>
+                </Row>
+              )}
               <Row>
                 <Col lg="12 text-center">
                   <h1 className="display-4 text-white">

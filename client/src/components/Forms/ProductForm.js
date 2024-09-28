@@ -32,7 +32,7 @@ const ProductForm = (props) => {
   const [images, setImages] = useState(defaultData.images ?? []);
   const [description, setDescription] = useState(defaultData.description ?? undefined);
   const [isPrime, setIsPrime] = useState(defaultData.isPrime ?? false);
-  const [maxDemands, setMaxDemands] = useState(defaultData.maxDemands ?? undefined);
+  const [maxDemands, setMaxDemands] = useState(defaultData.maxDemands ?? 10);
   const [automaticAcceptance, setAutomaticAcceptance] = useState(
     defaultData.automaticAcceptance ?? false
   );
