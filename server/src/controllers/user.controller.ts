@@ -462,7 +462,6 @@ export class UserController {
     const res = await emailClient.sendContactUsMail({
       name,
       email,
-      language: Language.FR,
       message,
     });
 

@@ -1,14 +1,9 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7e5b4687-acc6-5a91-89da-19ad36c09f49")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bcdcd8d7-0533-5503-9468-d8be0865fd25")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Language } from "../../utils/Language.js";
 import { EmailTemplate } from "./type.js";
 export const TEMPLATE_IDS = {
-    [EmailTemplate.CONTACT_US]: {
-        [Language.FR]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_FR,
-        [Language.EN]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_EN,
-        [Language.CH]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_CH,
-    },
     [EmailTemplate.EMAIL_VALIDATION]: {
         [Language.FR]: configs.EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR,
         [Language.EN]: configs.EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN,
@@ -24,6 +19,26 @@ export const TEMPLATE_IDS = {
         [Language.EN]: configs.NOTIFICATION_EMAIL_TEMPLATE_ID_EN,
         [Language.CH]: configs.NOTIFICATION_EMAIL_TEMPLATE_ID_CH,
     },
+    [EmailTemplate.NEW_TEST_REQUEST]: {
+        [Language.FR]: configs.NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_FR,
+        [Language.EN]: configs.NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_EN,
+        [Language.CH]: configs.NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_CH,
+    },
+    [EmailTemplate.TEST_REQUEST_ACCEPTED]: {
+        [Language.FR]: configs.TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_FR,
+        [Language.EN]: configs.TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_EN,
+        [Language.CH]: configs.TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_CH,
+    },
+    [EmailTemplate.MONEY_SENT]: {
+        [Language.FR]: configs.MONEY_SENT_EMAIL_TEMPLATE_ID_FR,
+        [Language.EN]: configs.MONEY_SENT_EMAIL_TEMPLATE_ID_EN,
+        [Language.CH]: configs.MONEY_SENT_EMAIL_TEMPLATE_ID_CH,
+    },
+    [EmailTemplate.PRODUCT_REVIEWED]: {
+        [Language.FR]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_FR,
+        [Language.EN]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN,
+        [Language.CH]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH,
+    },
 };
 //# sourceMappingURL=templateIds.js.map
-//# debugId=7e5b4687-acc6-5a91-89da-19ad36c09f49
+//# debugId=bcdcd8d7-0533-5503-9468-d8be0865fd25

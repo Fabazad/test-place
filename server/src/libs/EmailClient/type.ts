@@ -7,7 +7,6 @@ export type EmailClient = {
   sendContactUsMail: (params: {
     name: string;
     email: string;
-    language: Language;
     message: string;
   }) => Promise<CustomResponse<string, "email_not_sent">>;
   sendEmailValidationMail: (params: {
@@ -32,8 +31,11 @@ export type EmailClient = {
 };
 
 export enum EmailTemplate {
-  CONTACT_US = "contact-us",
   EMAIL_VALIDATION = "email-validation",
   FORGOTTEN_PASSWORD = "forgotten-password",
   NOTIFICATION = "notification",
+  NEW_TEST_REQUEST = "new-test-request",
+  TEST_REQUEST_ACCEPTED = "test-request-accepted",
+  MONEY_SENT = "money-sent",
+  PRODUCT_REVIEWED = "product-reviewed",
 }

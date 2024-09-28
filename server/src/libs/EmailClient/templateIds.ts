@@ -3,11 +3,6 @@ import { Language } from "@/utils/Language.js";
 import { EmailTemplate } from "./type.js";
 
 export const TEMPLATE_IDS: Record<EmailTemplate, Record<Language, number>> = {
-  [EmailTemplate.CONTACT_US]: {
-    [Language.FR]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_FR,
-    [Language.EN]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_EN,
-    [Language.CH]: configs.CONTACT_US_EMAIL_TEMPLATE_ID_CH,
-  },
   [EmailTemplate.EMAIL_VALIDATION]: {
     [Language.FR]: configs.EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR,
     [Language.EN]: configs.EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN,
@@ -22,5 +17,25 @@ export const TEMPLATE_IDS: Record<EmailTemplate, Record<Language, number>> = {
     [Language.FR]: configs.NOTIFICATION_EMAIL_TEMPLATE_ID_FR,
     [Language.EN]: configs.NOTIFICATION_EMAIL_TEMPLATE_ID_EN,
     [Language.CH]: configs.NOTIFICATION_EMAIL_TEMPLATE_ID_CH,
+  },
+  [EmailTemplate.NEW_TEST_REQUEST]: {
+    [Language.FR]: configs.NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_FR,
+    [Language.EN]: configs.NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_EN,
+    [Language.CH]: configs.NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_CH,
+  },
+  [EmailTemplate.TEST_REQUEST_ACCEPTED]: {
+    [Language.FR]: configs.TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_FR,
+    [Language.EN]: configs.TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_EN,
+    [Language.CH]: configs.TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_CH,
+  },
+  [EmailTemplate.MONEY_SENT]: {
+    [Language.FR]: configs.MONEY_SENT_EMAIL_TEMPLATE_ID_FR,
+    [Language.EN]: configs.MONEY_SENT_EMAIL_TEMPLATE_ID_EN,
+    [Language.CH]: configs.MONEY_SENT_EMAIL_TEMPLATE_ID_CH,
+  },
+  [EmailTemplate.PRODUCT_REVIEWED]: {
+    [Language.FR]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_FR,
+    [Language.EN]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN,
+    [Language.CH]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH,
   },
 };

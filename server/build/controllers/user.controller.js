@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="49c8ca4c-8975-575f-8ff1-6c4fe43e55eb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="32b96257-b4c1-5c0d-8634-39064cbc237f")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES } from "../entities/Test/test.constants.js";
@@ -10,7 +10,6 @@ import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { LogLevel } from "../libs/MonitoringClient/type.js";
 import { Role } from "../utils/constants.js";
 import { formatFailedResponse } from "../utils/CustomResponse.js";
-import { Language } from "../utils/Language.js";
 import dayjs from "dayjs";
 export class UserController {
     static async credentialRegister(params) {
@@ -295,7 +294,6 @@ export class UserController {
         const res = await emailClient.sendContactUsMail({
             name,
             email,
-            language: Language.FR,
             message,
         });
         if (!res.success)
@@ -470,4 +468,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=49c8ca4c-8975-575f-8ff1-6c4fe43e55eb
+//# debugId=32b96257-b4c1-5c0d-8634-39064cbc237f

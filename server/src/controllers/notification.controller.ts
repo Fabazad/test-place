@@ -8,9 +8,35 @@ import { GLOBAL_TEST_STATUSES } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
+import { NotificationType } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 
 export class NotificationController {
+  private static async sendNotification(params: {
+    notification: Notification;
+    frontendUrl: string;
+  }): Promise<CustomResponse<undefined, "user_not_found" | "email_not_sent">> {
+    const { notification, frontendUrl } = params;
+
+    const userDAO = getUserDAO();
+    const emailClient = getEmailClient();
+
+    const user = await userDAO.getUser({ userId: notification.user });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
+
+    const emailRes = await emailClient.sendNotificationMail({
+      notification,
+      to: { email: user.email, name: user.name, language: user.language },
+      frontendUrl,
+      userRole: user.roles[0],
+    });
+
+    if (!emailRes.success) return emailRes;
+
+    return { success: true, data: undefined };
+  }
+
   static async getUserNotifications(userId: string): Promise<
     CustomResponse<
       | { notifications: Array<Notification> }
@@ -87,31 +113,26 @@ export class NotificationController {
     const { notificationData, frontendUrl } = params;
 
     const notificationDAO = getNotificationDAO();
-    const userDAO = getUserDAO();
-    const emailClient = getEmailClient();
     const monitoringClient = getMonitoringClient();
 
     const notification = await notificationDAO.createNotification({
       notificationData: notificationData,
     });
 
-    const user = await userDAO.getUser({ userId: notificationData.user });
-
-    if (!user) return { success: false, errorCode: "user_not_found" };
-
-    const emailRes = await emailClient.sendNotificationMail({
+    const sentNotification = await this.sendNotification({
       notification,
-      to: { email: user.email, name: user.name, language: user.language },
       frontendUrl,
-      userRole: user.roles[0],
     });
 
-    if (!emailRes.success)
+    if (!sentNotification.success) {
       await monitoringClient.sendEvent({
         level: "error",
-        eventName: "notification_email_not_sent",
-        data: { message: `[${emailRes.errorCode}] ${emailRes.errorMessage}` },
+        eventName: "notification_not_sent",
+        data: {
+          message: `[${sentNotification.errorCode}] ${sentNotification.errorMessage}`,
+        },
       });
+    }
 
     return { success: true, data: notification };
   }

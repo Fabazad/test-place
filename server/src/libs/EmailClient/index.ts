@@ -1,8 +1,7 @@
 import { configs } from "@/configs.js";
-import { Role } from "@/utils/constants.js";
+import { NotificationType, Role } from "@/utils/constants.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import axios from "axios";
-import path from "path";
 import { sendTransactionalEmail } from "./sendTransactionalEmail.js";
 import { TEMPLATE_IDS } from "./templateIds.js";
 import { EmailClient, EmailTemplate } from "./type.js";
@@ -23,7 +22,7 @@ const createEmailClient = (): EmailClient => {
   };
 
   return {
-    sendContactUsMail: async ({ email, name, language, message }) => {
+    sendContactUsMail: async ({ email, name, message }) => {
       const res = await sendTransactionalEmail({
         brevoAxios,
         from: { name, email },
@@ -31,7 +30,7 @@ const createEmailClient = (): EmailClient => {
           name: configs.EMAIL_SENDER_NAME,
           email: configs.EMAIL_SENDER_EMAIL,
         },
-        templateId: TEMPLATE_IDS[EmailTemplate.CONTACT_US][language],
+        templateId: configs.CONTACT_US_EMAIL_TEMPLATE_ID,
         templateParams: { name, message },
       });
 
@@ -86,6 +85,7 @@ const createEmailClient = (): EmailClient => {
 
       return res;
     },
+
     sendNotificationMail: async ({ notification, to, frontendUrl, userRole }) => {
       const testLink = new URL(
         `dashboard/${
@@ -94,16 +94,29 @@ const createEmailClient = (): EmailClient => {
         frontendUrl
       ).toString();
 
+      const templateMap: { [key in NotificationType]?: EmailTemplate } = {
+        [NotificationType.MONEY_SENT]: EmailTemplate.MONEY_SENT,
+        [NotificationType.NEW_REQUEST]: EmailTemplate.NEW_TEST_REQUEST,
+        [NotificationType.PRODUCT_REVIEWED]: EmailTemplate.PRODUCT_REVIEWED,
+        [NotificationType.REQUEST_ACCEPTED]: EmailTemplate.TEST_REQUEST_ACCEPTED,
+      };
+
+      const defaultTemplate = EmailTemplate.NOTIFICATION;
+
+      const templateId =
+        TEMPLATE_IDS[templateMap[notification.type] || defaultTemplate][to.language];
+
       const res = await sendTransactionalEmail({
         brevoAxios,
         from: fromTestPlace,
         to,
-        templateId: TEMPLATE_IDS[EmailTemplate.NOTIFICATION][to.language],
+        templateId: templateId,
         templateParams: {
           testStatus: notification.test.status,
           productTitle: notification.product.title,
           testLink,
           productImageUrl: notification.product.imageUrls[0],
+          name: to.name,
         },
       });
 

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8c470d6e-6b39-5768-a456-389c6c0ef5ad")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="167c75b8-9054-53fe-b4bf-85686a2a035b")}catch(e){}}();
 import { getNotificationDAO } from "../entities/Notification/dao/notification.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES } from "../entities/Test/test.constants.js";
@@ -7,6 +7,23 @@ import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
 import { getEmailClient } from "../libs/EmailClient/index.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 export class NotificationController {
+    static async sendNotification(params) {
+        const { notification, frontendUrl } = params;
+        const userDAO = getUserDAO();
+        const emailClient = getEmailClient();
+        const user = await userDAO.getUser({ userId: notification.user });
+        if (!user)
+            return { success: false, errorCode: "user_not_found" };
+        const emailRes = await emailClient.sendNotificationMail({
+            notification,
+            to: { email: user.email, name: user.name, language: user.language },
+            frontendUrl,
+            userRole: user.roles[0],
+        });
+        if (!emailRes.success)
+            return emailRes;
+        return { success: true, data: undefined };
+    }
     static async getUserNotifications(userId) {
         const testDAO = getTestDAO();
         const notificationDAO = getNotificationDAO();
@@ -51,29 +68,25 @@ export class NotificationController {
     static async createNotification(params) {
         const { notificationData, frontendUrl } = params;
         const notificationDAO = getNotificationDAO();
-        const userDAO = getUserDAO();
-        const emailClient = getEmailClient();
         const monitoringClient = getMonitoringClient();
         const notification = await notificationDAO.createNotification({
             notificationData: notificationData,
         });
-        const user = await userDAO.getUser({ userId: notificationData.user });
-        if (!user)
-            return { success: false, errorCode: "user_not_found" };
-        const emailRes = await emailClient.sendNotificationMail({
+        const sentNotification = await this.sendNotification({
             notification,
-            to: { email: user.email, name: user.name, language: user.language },
             frontendUrl,
-            userRole: user.roles[0],
         });
-        if (!emailRes.success)
+        if (!sentNotification.success) {
             await monitoringClient.sendEvent({
                 level: "error",
-                eventName: "notification_email_not_sent",
-                data: { message: `[${emailRes.errorCode}] ${emailRes.errorMessage}` },
+                eventName: "notification_not_sent",
+                data: {
+                    message: `[${sentNotification.errorCode}] ${sentNotification.errorMessage}`,
+                },
             });
+        }
         return { success: true, data: notification };
     }
 }
 //# sourceMappingURL=notification.controller.js.map
-//# debugId=8c470d6e-6b39-5768-a456-389c6c0ef5ad
+//# debugId=167c75b8-9054-53fe-b4bf-85686a2a035b
