@@ -68,7 +68,7 @@ const ProductForm = (props) => {
       isPrime,
       maxDemands: maxDemands ? parseInt(maxDemands) : undefined,
       automaticAcceptance,
-      category,
+      category: category ?? undefined,
       keywords,
       privateNote,
       amazonSeller: defaultData.amazonSeller,
