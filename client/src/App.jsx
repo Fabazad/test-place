@@ -35,12 +35,18 @@ const App = () => {
     }
     if (localStorageLanguage && localStorageLanguage === "ch") {
       i18n.changeLanguage("ch");
+    }
+    if (localStorageLanguage && localStorageLanguage === "bd") {
+      i18n.changeLanguage("bd");
     } else {
       if (navigator.language.startsWith("fr")) {
         i18n.changeLanguage("fr");
       }
       if (navigator.language.startsWith("ch")) {
         i18n.changeLanguage("ch");
+      }
+      if (navigator.language.startsWith("bd")) {
+        i18n.changeLanguage("bd");
       }
     }
 

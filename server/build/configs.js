@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fc6e8e63-65ea-5f19-bf44-0fe098ec1646")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d08f4dee-087e-5af8-90bf-17c8e426da7a")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -25,24 +25,31 @@ export const configs = z
     EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(6),
     EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(3),
     EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(12),
+    EMAIL_VALIDATION_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(3),
     FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(5),
     FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(4),
     FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(10),
+    FORGOTTEN_PASSWORD_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(4),
     NOTIFICATION_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(8),
     NOTIFICATION_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(11),
     NOTIFICATION_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(9),
+    NOTIFICATION_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(11),
     NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(19),
     NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(20),
     NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(21),
+    NEW_TEST_REQUEST_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(20),
     TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(14),
     TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(13),
     TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(15),
+    TEST_REQUEST_ACCEPTED_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(13),
     MONEY_SENT_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(16),
     MONEY_SENT_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(17),
     MONEY_SENT_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(18),
-    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(0),
-    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(0),
-    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(0),
+    MONEY_SENT_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(17),
+    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(22),
+    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(23),
+    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(24),
+    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(22),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string(),
@@ -54,4 +61,4 @@ export const configs = z
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=fc6e8e63-65ea-5f19-bf44-0fe098ec1646
+//# debugId=d08f4dee-087e-5af8-90bf-17c8e426da7a
