@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1ec047b6-1807-583c-9c44-ed9b1ecfb133")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="59587bab-193a-54d0-bddd-e22358acb7bb")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -51,8 +51,6 @@ export class TestController {
         const { productId, userId, status, testerMessage, frontendUrl } = params;
         const productDAO = getProductDAO();
         const testDAO = getTestDAO();
-        if (status === TestStatus.REQUESTED && !testerMessage)
-            return { success: false, errorCode: "missing_tester_message" };
         const product = await productDAO.getProductById({ id: productId });
         if (!product) {
             return { success: false, errorCode: "product_not_found" };
@@ -217,4 +215,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=1ec047b6-1807-583c-9c44-ed9b1ecfb133
+//# debugId=59587bab-193a-54d0-bddd-e22358acb7bb

@@ -147,6 +147,9 @@ export const createTestDAO = (): TestDAO => {
                 ? { $inc: { remainingTestsCount: 1 } }
                 : {}),
             },
+          },
+          {
+            new: true,
           }
         )
         .lean();

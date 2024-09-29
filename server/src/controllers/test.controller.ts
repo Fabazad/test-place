@@ -85,7 +85,6 @@ export class TestController {
       | "seller_not_found"
       | "user_to_notify_not_found"
       | "already_testing"
-      | "missing_tester_message"
       | "previous_request_declined"
     >
   > {
@@ -93,9 +92,6 @@ export class TestController {
 
     const productDAO = getProductDAO();
     const testDAO = getTestDAO();
-
-    if (status === TestStatus.REQUESTED && !testerMessage)
-      return { success: false, errorCode: "missing_tester_message" };
 
     const product = await productDAO.getProductById({ id: productId });
     if (!product) {

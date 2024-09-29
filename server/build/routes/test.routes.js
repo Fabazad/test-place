@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c9519c3f-ef30-5038-9809-f7639f825002")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="26b1ab37-6107-5c02-8abe-afd3c54b78c0")}catch(e){}}();
 import { TestController } from "../controllers/test.controller.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -34,7 +34,6 @@ router.post("/create", withAuth(Role.TESTER), asyncHandler(async (request, reply
         user_is_seller: new BadRequestError("user_is_seller"),
         product_not_found: new NotFoundRequestError("product_not_found"),
         user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
-        missing_tester_message: new BadRequestError("missing_tester_message"),
         already_testing: new BadRequestError("already_testing"),
         previous_request_declined: new BadRequestError("previous_request_declined"),
     }));
@@ -90,4 +89,4 @@ router.get("/:testId", withAuth(), asyncHandler(async (request, reply) => {
 }));
 export default router;
 //# sourceMappingURL=test.routes.js.map
-//# debugId=c9519c3f-ef30-5038-9809-f7639f825002
+//# debugId=26b1ab37-6107-5c02-8abe-afd3c54b78c0

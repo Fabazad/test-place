@@ -61,7 +61,7 @@ const ProductForm = (props) => {
     props.onSubmit({
       asin,
       title,
-      price,
+      price: +price || 0,
       finalPrice: +finalPrice || 0,
       images,
       description,

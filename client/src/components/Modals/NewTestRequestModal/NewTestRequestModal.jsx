@@ -22,7 +22,7 @@ const NewTestRequestModal = (props) => {
   const [user, setUser] = useState(userServices.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [testerMessage, setTesterMessage] = useState(
-    isLogged ? user.testerMessage : null
+    isLogged ? user.testerMessage : undefined
   );
   const [requestSent, setRequestSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,16 +36,12 @@ const NewTestRequestModal = (props) => {
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
-    setTesterMessage(isLogged ? user.testerMessage : null);
+    setTesterMessage(isLogged ? user.testerMessage : undefined);
     setRequestSent(false);
   };
 
   const confirmRequest = async () => {
     if (disabled) return;
-    if (!testerMessage) {
-      toast.error(t("MISSING_MESSAGE_TO_SELLER"));
-      return;
-    }
     setLoading(true);
     try {
       const res = await testServices.create({
@@ -122,12 +118,7 @@ const NewTestRequestModal = (props) => {
             {t("CLOSE")}
           </Button>
           {isLogged && isTester && !requestSent && user.paypalEmail && user.amazonId ? (
-            <Button
-              color={"primary"}
-              type="button"
-              onClick={confirmRequest}
-              disabled={!testerMessage}
-            >
+            <Button color={"primary"} type="button" onClick={confirmRequest}>
               {t("CONFIRM_REQUEST")}
             </Button>
           ) : null}

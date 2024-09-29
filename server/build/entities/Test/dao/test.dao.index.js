@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2e8c3e61-7278-5907-9203-3000b4c201d8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="53e197a6-907d-5503-963b-bfa4163a5d5f")}catch(e){}}();
 import { generateAmazonUrl } from "../../Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -122,6 +122,8 @@ export const createTestDAO = () => {
                         ? { $inc: { remainingTestsCount: 1 } }
                         : {}),
                 },
+            }, {
+                new: true,
             })
                 .lean();
             if (!test)
@@ -175,4 +177,4 @@ export const createTestDAO = () => {
 };
 export const getTestDAO = createSingletonGetter(createTestDAO);
 //# sourceMappingURL=test.dao.index.js.map
-//# debugId=2e8c3e61-7278-5907-9203-3000b4c201d8
+//# debugId=53e197a6-907d-5503-963b-bfa4163a5d5f
