@@ -258,7 +258,7 @@
   "SUM_TO_REFUND": "Somme à rembourser",
   "SUPERVISED_PROCEDURES_TEXT": "N'ayez plus <b>peur de vous faire arnaquer</b><br/>ou de vous <b>perdre dans les démarches</b>.<br/><br/>Vous testez les articles <b>sereinement</b><br/>comme pour n'importe quel <b>simple achat</b>.",
   "SUPERVISED_PROCEDURES_TITLE": "Démarches encadrées",
-  "TAKE_ORDER_PICTURE": "Prenez une photo de votre commande sur la",
+  "TAKE_ORDER_PICTURE": "Prenez une capture d'écran de votre commande sur la",
   "TELL_US_EVERYTHING": "Dites-nous tout...",
   "TESTER": "Testeur",
   "TESTER_HAS_REVIEWED_PRODUCT": "Le Testeur a indiqué avoir laissé un avis sur le produit.\nC'est à vous maintenant de valider ou de rejeter l'avis.",
@@ -376,5 +376,7 @@
   "PRODUCT_HAS_BEEN_UPDATED": "Le produit a été mis à jour.",
   "CLICK_TO_OPEN": "Cliquez pour ouvrir",
   "ALREADY_PRODUCT_WITH_ASIN": "Un produit existe déjà avec cet ASIN sur Test Place.",
-  "START_NOW": "Commencer maintenant"
+  "START_NOW": "Commencer maintenant",
+  "EXAMPLE": "Exemple :",
+  "ORDER_SCREENSHOT_INFO": "Ces infos doivent être visibles sur l'image :\n- Le numéro de commande\n- Le nom du produit\n- Le prix\n- La date de livraison\n- Le vendeur\n- La photo du produit\n\nCliquer sur \"Modifier cette commande\" sur Amazon, pour avoir accès à toute les informations de la commande."
 }

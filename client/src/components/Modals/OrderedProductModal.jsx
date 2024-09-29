@@ -120,7 +120,7 @@ const OrderedProductModal = (props) => {
                   {t("YOUR_ORDERS_PAGE")}
                 </a>
                 .<br />
-                Exemple :
+                {t("EXAMPLE")}
                 <a
                   className="bg-secondary rounded p-2 d-block"
                   href={require("assets/img/amazonOrder.png")}
@@ -140,6 +140,7 @@ const OrderedProductModal = (props) => {
                 >
                   Cliquer pour agrandir
                 </UncontrolledTooltip>
+                {t("ORDER_SCREENSHOT_INFO")}
               </InfoPopover>
             </Label>
             <ImageUploader

@@ -352,12 +352,19 @@ img.selected {
   }
 
   .stepper-line {
+    @media only screen and (max-width: 480px) {
+      margin-right: 0.1rem;
+      margin-left: 0.1rem;
+    }
+    @media screen and (min-width: 480px) {
+      margin-right: 1rem;
+      margin-left: 1rem;
+    }
     background: #f4f5f7;
     flex: 1;
-    margin: 0 1rem;
+    margin-top: 28px;
     border-radius: 50px;
     height: 0.5rem;
-    margin-top: 28px;
 
     &.current {
       background: #5e72e4;

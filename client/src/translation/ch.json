@@ -377,5 +377,7 @@
   "PRODUCT_HAS_BEEN_UPDATED": "产品已经更新。",
   "CLICK_TO_OPEN": "点击打开",
   "ALREADY_PRODUCT_WITH_ASIN": "该ASIN的产品已经存在。",
-  "START_NOW": "立即开始"
+  "START_NOW": "立即开始",
+  "EXAMPLE": "例子：",
+  "ORDER_SCREENSHOT_INFO": "这些信息必须出现在图片上：\n- 订单号\n- 产品名称\n- 价格\n- 发货日期\n- 卖家\n- 产品图片\n在亚马逊上点击\"编辑此订单\"，以获取订单的全部信息。"
 }
