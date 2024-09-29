@@ -39,7 +39,7 @@ export const productDataSchema = z.object({
   maxDemands: z.number().min(0),
   automaticAcceptance: z.boolean(),
   imageUrls: z.array(z.string()),
-  category: z.enum(PRODUCT_CATEGORIES),
+  category: z.enum(PRODUCT_CATEGORIES).optional(),
   seller: z.string({ description: "User" }),
   amazonSeller: z.object({
     name: z.string(),

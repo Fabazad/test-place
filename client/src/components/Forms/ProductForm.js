@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import TagsInput from "react-tagsinput";
-import { toast } from "react-toastify";
 import {
   Form,
   FormGroup,
@@ -59,10 +58,6 @@ const ProductForm = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!category) {
-      toast.error(t("MISSING_CATEGORY"));
-      return;
-    }
     props.onSubmit({
       asin,
       title,
@@ -82,7 +77,6 @@ const ProductForm = (props) => {
 
   const validForm =
     title !== undefined &&
-    category &&
     price &&
     finalPrice !== "" &&
     description !== "" &&
@@ -178,7 +172,7 @@ const ProductForm = (props) => {
             className="w-100"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            placeholder={t("CATEGORY") + " *"}
+            placeholder={t("CATEGORY")}
           />
         </Col>
         <div className="col-6 text-center d-flex">
