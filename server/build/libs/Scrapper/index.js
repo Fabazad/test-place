@@ -1,5 +1,7 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f180b9f2-5be0-5052-ae36-106ceeea13b3")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7ac216c3-f802-51db-aa08-b9ecdb74e766")}catch(e){}}();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
 import axios from "axios-https-proxy-fix";
 import cheerio from "cheerio";
@@ -14,17 +16,13 @@ const createScrapper = () => {
     return {
         getAmazonProductDetails: async ({ asin }) => {
             const url = `https://www.amazon.fr/dp/${asin}`;
-            var session_id = (1000000 * Math.random()) | 0;
             const test = await axios.default.get(url, {
-                headers: {},
                 proxy: {
-                    host: "brd.superproxy.io",
-                    port: 22225,
+                    host: configs.PROXY_HOST,
+                    port: configs.PROXY_PORT,
                     auth: {
-                        username: "brd-customer-hl_19852198-zone-datacenter_proxy1" +
-                            "-country-fr-session-" +
-                            session_id,
-                        password: "gp6ycnmv2g6k",
+                        username: configs.PROXY_USERNAME,
+                        password: configs.PROXY_PASSWORD,
                     },
                 },
             });
@@ -44,4 +42,4 @@ const createScrapper = () => {
 };
 export const getScrapper = createSingletonGetter(createScrapper);
 //# sourceMappingURL=index.js.map
-//# debugId=f180b9f2-5be0-5052-ae36-106ceeea13b3
+//# debugId=7ac216c3-f802-51db-aa08-b9ecdb74e766

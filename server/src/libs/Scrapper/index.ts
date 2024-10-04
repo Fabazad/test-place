@@ -1,3 +1,5 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+import { configs } from "@/configs.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import axios from "axios-https-proxy-fix";
 import cheerio from "cheerio";
@@ -15,19 +17,13 @@ const createScrapper = (): Scrapper => {
     getAmazonProductDetails: async ({ asin }) => {
       const url = `https://www.amazon.fr/dp/${asin}`;
 
-      var session_id = (1000000 * Math.random()) | 0;
-
       const test = await axios.default.get<string>(url, {
-        headers: {},
         proxy: {
-          host: "brd.superproxy.io",
-          port: 22225,
+          host: configs.PROXY_HOST,
+          port: configs.PROXY_PORT,
           auth: {
-            username:
-              "brd-customer-hl_19852198-zone-datacenter_proxy1" +
-              "-country-fr-session-" +
-              session_id,
-            password: "gp6ycnmv2g6k",
+            username: configs.PROXY_USERNAME,
+            password: configs.PROXY_PASSWORD,
           },
         },
       });

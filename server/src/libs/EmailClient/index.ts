@@ -126,3 +126,5 @@ const createEmailClient = (): EmailClient => {
 };
 
 export const getEmailClient = createSingletonGetter(createEmailClient);
+
+const emailClient = getEmailClient();

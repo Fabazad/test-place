@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d08f4dee-087e-5af8-90bf-17c8e426da7a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0da28332-6cf9-5839-8325-dfbebd94f7f0")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -57,8 +57,14 @@ export const configs = z
     AWS_SECRET_KEY: z.string(),
     S3_BUCKET: z.string(),
     SENTRY_DSN: z.string(),
+    PROXY_HOST: z.string().default("brd.superproxy.io"),
+    PROXY_USERNAME: z
+        .string()
+        .default("brd-customer-hl_19852198-zone-residential_proxy1-country-fr-route_err-pass_dyn"),
+    PROXY_PORT: z.coerce.number().default(22225),
+    PROXY_PASSWORD: z.string(),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=d08f4dee-087e-5af8-90bf-17c8e426da7a
+//# debugId=0da28332-6cf9-5839-8325-dfbebd94f7f0
