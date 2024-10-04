@@ -26,6 +26,7 @@
   "homepage": "https://github.com/Fabazad/test-place#readme",
   "dependencies": {
     "@aws-sdk/s3-request-presigner": "^3.627.0",
+    "axios-https-proxy-fix": "^0.17.1",
     "cheerio": "^1.0.0-rc.12",
     "error-stack-parser": "^2.1.4",
     "node-gyp": "^3.8.0",

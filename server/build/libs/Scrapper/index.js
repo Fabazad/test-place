@@ -1,7 +1,7 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c1248706-aa1f-5ecb-b9a9-acac306b2548")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f180b9f2-5be0-5052-ae36-106ceeea13b3")}catch(e){}}();
 import { createSingletonGetter } from "../../utils/singleton.js";
-import axios from "axios";
+import axios from "axios-https-proxy-fix";
 import cheerio from "cheerio";
 import { getCategory } from "./productHelpers/getCategory.js";
 import { getDescription } from "./productHelpers/getDescription.js";
@@ -14,10 +14,18 @@ const createScrapper = () => {
     return {
         getAmazonProductDetails: async ({ asin }) => {
             const url = `https://www.amazon.fr/dp/${asin}`;
-            const test = await axios.get(url, {
-                headers: {
-                    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-                    Accept: "*/*",
+            var session_id = (1000000 * Math.random()) | 0;
+            const test = await axios.default.get(url, {
+                headers: {},
+                proxy: {
+                    host: "brd.superproxy.io",
+                    port: 22225,
+                    auth: {
+                        username: "brd-customer-hl_19852198-zone-datacenter_proxy1" +
+                            "-country-fr-session-" +
+                            session_id,
+                        password: "gp6ycnmv2g6k",
+                    },
                 },
             });
             const $ = cheerio.load(test.data);
@@ -36,4 +44,4 @@ const createScrapper = () => {
 };
 export const getScrapper = createSingletonGetter(createScrapper);
 //# sourceMappingURL=index.js.map
-//# debugId=c1248706-aa1f-5ecb-b9a9-acac306b2548
+//# debugId=f180b9f2-5be0-5052-ae36-106ceeea13b3

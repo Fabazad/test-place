@@ -1,5 +1,5 @@
 import { createSingletonGetter } from "@/utils/singleton.js";
-import axios from "axios";
+import axios from "axios-https-proxy-fix";
 import cheerio from "cheerio";
 import { getCategory } from "./productHelpers/getCategory.js";
 import { getDescription } from "./productHelpers/getDescription.js";
@@ -15,10 +15,20 @@ const createScrapper = (): Scrapper => {
     getAmazonProductDetails: async ({ asin }) => {
       const url = `https://www.amazon.fr/dp/${asin}`;
 
-      const test = await axios.get<string>(url, {
-        headers: {
-          "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-          Accept: "*/*",
+      var session_id = (1000000 * Math.random()) | 0;
+
+      const test = await axios.default.get<string>(url, {
+        headers: {},
+        proxy: {
+          host: "brd.superproxy.io",
+          port: 22225,
+          auth: {
+            username:
+              "brd-customer-hl_19852198-zone-datacenter_proxy1" +
+              "-country-fr-session-" +
+              session_id,
+            password: "gp6ycnmv2g6k",
+          },
         },
       });
 
