@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6a16d416-6bb8-5b9d-a73b-cce93ffdebfa")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3dca38ee-0cb4-5a73-be7d-0e7e70466cf1")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -68,8 +68,9 @@ export const configs = z
     PROXY_PORT: z.coerce.number().default(22225),
     PROXY_PASSWORD: z.string(),
     LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS: numberSchema().optional().default(7),
+    FRONTEND_URL: z.string().optional().default("https://test-place.fr"),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=6a16d416-6bb8-5b9d-a73b-cce93ffdebfa
+//# debugId=3dca38ee-0cb4-5a73-be7d-0e7e70466cf1

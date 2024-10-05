@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4e1ff1c3-4c54-5bf4-9f0e-a753fd491b9d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="283058c6-5c78-5129-8ceb-ecdbc82fa676")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
@@ -111,13 +111,11 @@ export class ProductController {
         return { success: true, data: oldProduct };
     }
     static async emailLastPublishedProducts(params) {
-        const { frontendUrl } = params;
+        const { frontendUrl, lastPublishedProductsPeriodInDays } = params;
         const productDAO = getProductDAO();
         const emailClient = getEmailClient();
         const userDAO = getUserDAO();
-        const fromDate = dayjs()
-            .subtract(configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS, "d")
-            .toDate();
+        const fromDate = dayjs().subtract(lastPublishedProductsPeriodInDays, "d").toDate();
         const [products, testers] = await Promise.all([
             productDAO.findLastPublishedProducts({ fromDate }),
             userDAO.getTestersContacts(),
@@ -131,4 +129,4 @@ export class ProductController {
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=4e1ff1c3-4c54-5bf4-9f0e-a753fd491b9d
+//# debugId=283058c6-5c78-5129-8ceb-ecdbc82fa676

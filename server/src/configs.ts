@@ -69,6 +69,7 @@ export const configs = z
     PROXY_PORT: z.coerce.number().default(22225),
     PROXY_PASSWORD: z.string(),
     LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS: numberSchema().optional().default(7),
+    FRONTEND_URL: z.string().optional().default("https://test-place.fr"),
   })
   .parse(process.env);
 

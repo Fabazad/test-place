@@ -194,15 +194,16 @@ export class ProductController {
     return { success: true, data: oldProduct };
   }
 
-  static async emailLastPublishedProducts(params: { frontendUrl: string }) {
-    const { frontendUrl } = params;
+  static async emailLastPublishedProducts(params: {
+    frontendUrl: string;
+    lastPublishedProductsPeriodInDays: number;
+  }) {
+    const { frontendUrl, lastPublishedProductsPeriodInDays } = params;
     const productDAO = getProductDAO();
     const emailClient = getEmailClient();
     const userDAO = getUserDAO();
 
-    const fromDate = dayjs()
-      .subtract(configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS, "d")
-      .toDate();
+    const fromDate = dayjs().subtract(lastPublishedProductsPeriodInDays, "d").toDate();
 
     const [products, testers] = await Promise.all([
       productDAO.findLastPublishedProducts({ fromDate }),
