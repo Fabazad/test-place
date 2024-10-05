@@ -4,7 +4,6 @@ import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 
 const emailLastPublishedProducts = async () => {
   const monitoringClient = getMonitoringClient();
-  console.log("Yeaaah");
 
   try {
     const res = await ProductController.emailLastPublishedProducts({
@@ -12,13 +11,14 @@ const emailLastPublishedProducts = async () => {
       lastPublishedProductsPeriodInDays: configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS,
     });
 
-    console.log(res.data);
+    console.log("res: ", res.data);
   } catch (err: any) {
+    console.log(err);
     monitoringClient.sendEvent({
       level: "error",
       eventName: "email_last_published_products",
       data: {
-        message: `[${err.code}] ${err.message}`,
+        message: err.message,
       },
     });
   }
