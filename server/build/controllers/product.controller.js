@@ -1,9 +1,11 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c2f4909c-0fde-5fa1-874d-661fb042f5c3")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4e1ff1c3-4c54-5bf4-9f0e-a753fd491b9d")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
 import { PRODUCT_CATEGORIES, } from "../entities/Product/product.entity.js";
+import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
+import { getEmailClient } from "../libs/EmailClient/index.js";
 import { getScrapper } from "../libs/Scrapper/index.js";
 import { Role } from "../utils/constants.js";
 import dayjs from "dayjs";
@@ -108,6 +110,25 @@ export class ProductController {
             return { success: false, errorCode: "not_found_when_deleting" };
         return { success: true, data: oldProduct };
     }
+    static async emailLastPublishedProducts(params) {
+        const { frontendUrl } = params;
+        const productDAO = getProductDAO();
+        const emailClient = getEmailClient();
+        const userDAO = getUserDAO();
+        const fromDate = dayjs()
+            .subtract(configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS, "d")
+            .toDate();
+        const [products, testers] = await Promise.all([
+            productDAO.findLastPublishedProducts({ fromDate }),
+            userDAO.getTestersContacts(),
+        ]);
+        const emailsRes = await emailClient.sendLastPublishedProductsMail({
+            frontendUrl,
+            products,
+            to: testers,
+        });
+        return { success: true, data: emailsRes.data };
+    }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=c2f4909c-0fde-5fa1-874d-661fb042f5c3
+//# debugId=4e1ff1c3-4c54-5bf4-9f0e-a753fd491b9d

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2394fa87-13bf-5cc0-916a-03377e2be671")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="02bb11b3-2536-5afe-8ca9-3830bb6f2a24")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { NotificationType, Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -83,8 +83,27 @@ const createEmailClient = () => {
             });
             return res;
         },
+        sendLastPublishedProductsMail: async ({ frontendUrl, to, products }) => {
+            const productsObjects = products.map((product) => ({
+                title: product.title,
+                imageUrl: product.imageUrls[0],
+                link: new URL(`ad/${product._id}`, frontendUrl).toString(),
+            }));
+            const allRes = await Promise.all(to.map(async ({ email, name, language }) => {
+                const templateId = TEMPLATE_IDS[EmailTemplate.LAST_PUBLISHED_PRODUCTS][language];
+                const res = await sendTransactionalEmail({
+                    brevoAxios,
+                    from: fromTestPlace,
+                    to: { email, name },
+                    templateId,
+                    templateParams: { userName: name, products: productsObjects },
+                });
+                return res;
+            }));
+            return { success: true, data: allRes.filter((r) => r.success).map((r) => r.data) };
+        },
     };
 };
 export const getEmailClient = createSingletonGetter(createEmailClient);
 //# sourceMappingURL=index.js.map
-//# debugId=2394fa87-13bf-5cc0-916a-03377e2be671
+//# debugId=02bb11b3-2536-5afe-8ca9-3830bb6f2a24

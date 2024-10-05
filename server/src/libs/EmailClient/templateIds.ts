@@ -45,4 +45,10 @@ export const TEMPLATE_IDS: Record<EmailTemplate, Record<Language, number>> = {
     [Language.CH]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH,
     [Language.BD]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD,
   },
+  [EmailTemplate.LAST_PUBLISHED_PRODUCTS]: {
+    [Language.FR]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_FR,
+    [Language.EN]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_EN,
+    [Language.CH]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_CH,
+    [Language.BD]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD,
+  },
 };

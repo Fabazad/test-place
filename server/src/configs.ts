@@ -49,6 +49,10 @@ export const configs = z
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(23),
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(24),
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(22),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(25),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(26),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(27),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(26),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string(),
@@ -64,6 +68,7 @@ export const configs = z
       ),
     PROXY_PORT: z.coerce.number().default(22225),
     PROXY_PASSWORD: z.string(),
+    LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS: numberSchema().optional().default(7),
   })
   .parse(process.env);
 

@@ -1,5 +1,6 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5ddab641-abbe-50a9-a533-fe92991312cf")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a542246a-16d8-5fb9-9ddc-f58cac9ef9b6")}catch(e){}}();
+import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -101,31 +102,28 @@ const createUserDAO = () => {
                 ...("resetPasswordToken" in params && {
                     $unset: { resetPasswordToken: 1, resetPasswordExpires: 1 },
                 }),
-            }, { new: true })
+            }, { new: true, projection: { password: 0 } })
                 .lean();
             if (!user)
                 return null;
-            const { password, ...userWithoutPassword } = user;
-            return JSON.parse(JSON.stringify(userWithoutPassword));
+            return JSON.parse(JSON.stringify(user));
         },
         validateEmail: async ({ userId }) => {
             const user = await userModel
-                .findByIdAndUpdate(userId, { $set: { emailValidation: true } }, { new: true })
+                .findByIdAndUpdate(userId, { $set: { emailValidation: true } }, { new: true, projection: { password: 0 } })
                 .lean();
             if (!user)
                 return null;
-            const { password, ...userWithoutPassword } = user;
-            return JSON.parse(JSON.stringify(userWithoutPassword));
+            return JSON.parse(JSON.stringify(user));
         },
         updateUser: async ({ userId, updates }) => {
             try {
                 const userToUpdate = await userModel
-                    .findByIdAndUpdate(userId, { $set: updates }, { new: true })
+                    .findByIdAndUpdate(userId, { $set: updates }, { new: true, projection: { password: 0 } })
                     .lean();
                 if (!userToUpdate)
                     return { success: false, errorCode: "user_not_found" };
-                const { password, ...userWithoutPassword } = userToUpdate;
-                const user = JSON.parse(JSON.stringify(userWithoutPassword));
+                const user = JSON.parse(JSON.stringify(userToUpdate));
                 return { success: true, data: user };
             }
             catch (err) {
@@ -139,15 +137,20 @@ const createUserDAO = () => {
         },
         updateUserWIthNoUniqueField: async ({ userId, updates }) => {
             const userToUpdate = await userModel
-                .findByIdAndUpdate(userId, { $set: updates }, { new: true })
+                .findByIdAndUpdate(userId, { $set: updates }, { new: true, projection: { password: 0 } })
                 .lean();
             if (!userToUpdate)
                 return null;
-            const { password, ...userWithoutPassword } = userToUpdate;
-            return JSON.parse(JSON.stringify(userWithoutPassword));
+            return JSON.parse(JSON.stringify(userToUpdate));
+        },
+        getTestersContacts: async () => {
+            const testers = await userModel
+                .find({ roles: { $in: [Role.TESTER] } }, { email: 1, name: 1, language: 1 })
+                .lean();
+            return testers;
         },
     };
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=5ddab641-abbe-50a9-a533-fe92991312cf
+//# debugId=a542246a-16d8-5fb9-9ddc-f58cac9ef9b6

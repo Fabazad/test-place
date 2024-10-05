@@ -1,4 +1,5 @@
 import { Notification } from "@/entities/Notification/notification.entity.js";
+import { Product } from "@/entities/Product/product.entity.js";
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { Language } from "@/utils/Language.js";
@@ -28,6 +29,11 @@ export type EmailClient = {
     frontendUrl: string;
     userRole: Role;
   }) => Promise<CustomResponse<string, "email_not_sent">>;
+  sendLastPublishedProductsMail: (params: {
+    frontendUrl: string;
+    to: Array<{ email: string; name: string; language: Language }>;
+    products: Array<Product>;
+  }) => Promise<CustomResponse<Array<string>>>;
 };
 
 export enum EmailTemplate {
@@ -38,4 +44,5 @@ export enum EmailTemplate {
   TEST_REQUEST_ACCEPTED = "test-request-accepted",
   MONEY_SENT = "money-sent",
   PRODUCT_REVIEWED = "product-reviewed",
+  LAST_PUBLISHED_PRODUCTS = "last-published-products",
 }

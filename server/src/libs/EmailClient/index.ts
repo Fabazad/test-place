@@ -122,9 +122,33 @@ const createEmailClient = (): EmailClient => {
 
       return res;
     },
+    sendLastPublishedProductsMail: async ({ frontendUrl, to, products }) => {
+      const productsObjects = products.map((product) => ({
+        title: product.title,
+        imageUrl: product.imageUrls[0],
+        link: new URL(`ad/${product._id}`, frontendUrl).toString(),
+      }));
+
+      const allRes = await Promise.all(
+        to.map(async ({ email, name, language }) => {
+          const templateId =
+            TEMPLATE_IDS[EmailTemplate.LAST_PUBLISHED_PRODUCTS][language];
+
+          const res = await sendTransactionalEmail({
+            brevoAxios,
+            from: fromTestPlace,
+            to: { email, name },
+            templateId,
+            templateParams: { userName: name, products: productsObjects },
+          });
+
+          return res;
+        })
+      );
+
+      return { success: true, data: allRes.filter((r) => r.success).map((r) => r.data) };
+    },
   };
 };
 
 export const getEmailClient = createSingletonGetter(createEmailClient);
-
-const emailClient = getEmailClient();

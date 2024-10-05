@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6e22bc7e-6d55-50f9-b19d-78f90394c148")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bd532d20-20ae-565b-9ba8-4ff1418df38b")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Language } from "../../utils/Language.js";
 import { EmailTemplate } from "./type.js";
@@ -46,6 +46,12 @@ export const TEMPLATE_IDS = {
         [Language.CH]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH,
         [Language.BD]: configs.PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD,
     },
+    [EmailTemplate.LAST_PUBLISHED_PRODUCTS]: {
+        [Language.FR]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_FR,
+        [Language.EN]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_EN,
+        [Language.CH]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_CH,
+        [Language.BD]: configs.LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD,
+    },
 };
 //# sourceMappingURL=templateIds.js.map
-//# debugId=6e22bc7e-6d55-50f9-b19d-78f90394c148
+//# debugId=bd532d20-20ae-565b-9ba8-4ff1418df38b

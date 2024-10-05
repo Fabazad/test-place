@@ -12,6 +12,8 @@ import {
   PRODUCT_CATEGORIES,
   ProductData,
 } from "@/entities/Product/product.entity.js";
+import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
+import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { getScrapper } from "@/libs/Scrapper/index.js";
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
@@ -190,5 +192,29 @@ export class ProductController {
       return { success: false, errorCode: "not_found_when_deleting" };
 
     return { success: true, data: oldProduct };
+  }
+
+  static async emailLastPublishedProducts(params: { frontendUrl: string }) {
+    const { frontendUrl } = params;
+    const productDAO = getProductDAO();
+    const emailClient = getEmailClient();
+    const userDAO = getUserDAO();
+
+    const fromDate = dayjs()
+      .subtract(configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS, "d")
+      .toDate();
+
+    const [products, testers] = await Promise.all([
+      productDAO.findLastPublishedProducts({ fromDate }),
+      userDAO.getTestersContacts(),
+    ]);
+
+    const emailsRes = await emailClient.sendLastPublishedProductsMail({
+      frontendUrl,
+      products,
+      to: testers,
+    });
+
+    return { success: true, data: emailsRes.data };
   }
 }

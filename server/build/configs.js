@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0da28332-6cf9-5839-8325-dfbebd94f7f0")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6a16d416-6bb8-5b9d-a73b-cce93ffdebfa")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -50,6 +50,10 @@ export const configs = z
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(23),
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(24),
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(22),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(25),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(26),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(27),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(26),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string(),
@@ -63,8 +67,9 @@ export const configs = z
         .default("brd-customer-hl_19852198-zone-residential_proxy1-country-fr-route_err-pass_dyn"),
     PROXY_PORT: z.coerce.number().default(22225),
     PROXY_PASSWORD: z.string(),
+    LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS: numberSchema().optional().default(7),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=0da28332-6cf9-5839-8325-dfbebd94f7f0
+//# debugId=6a16d416-6bb8-5b9d-a73b-cce93ffdebfa

@@ -144,6 +144,18 @@ const createProductDAO = (): ProductDAO => {
       res.amazonUrl = generateAmazonUrl(res);
       return res;
     },
+    findLastPublishedProducts: async ({ fromDate }) => {
+      const products = await productModel
+        .find({ publishDate: { $gte: fromDate } })
+        .sort({ publishDate: 1 })
+        .lean<Array<Product>>();
+
+      products.forEach((p) => {
+        p.amazonUrl = generateAmazonUrl(p);
+      });
+
+      return products;
+    },
   };
 };
 

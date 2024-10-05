@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="093d4a5d-ca7b-5bfc-baed-ad05ded69e9b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="711083b2-50d2-5a64-8fc9-1e870f593e26")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -118,8 +118,18 @@ const createProductDAO = () => {
             res.amazonUrl = generateAmazonUrl(res);
             return res;
         },
+        findLastPublishedProducts: async ({ fromDate }) => {
+            const products = await productModel
+                .find({ publishDate: { $gte: fromDate } })
+                .sort({ publishDate: 1 })
+                .lean();
+            products.forEach((p) => {
+                p.amazonUrl = generateAmazonUrl(p);
+            });
+            return products;
+        },
     };
 };
 export const getProductDAO = createSingletonGetter(createProductDAO);
 //# sourceMappingURL=product.dao.index.js.map
-//# debugId=093d4a5d-ca7b-5bfc-baed-ad05ded69e9b
+//# debugId=711083b2-50d2-5a64-8fc9-1e870f593e26

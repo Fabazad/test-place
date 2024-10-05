@@ -62,4 +62,11 @@ export type UserDAO = {
       language?: Language;
     };
   }) => Promise<UserWithoutPassword | null>;
+  getTestersContacts: () => Promise<
+    Array<{
+      email: User["email"];
+      name: User["name"];
+      language: User["language"];
+    }>
+  >;
 };

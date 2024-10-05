@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="29f69e1e-fcbf-594f-ae3b-c9981bc09a32")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ba4b6e99-99bf-5638-aa94-c321444180df")}catch(e){}}();
 export var EmailTemplate;
 (function (EmailTemplate) {
     EmailTemplate["EMAIL_VALIDATION"] = "email-validation";
@@ -9,6 +9,7 @@ export var EmailTemplate;
     EmailTemplate["TEST_REQUEST_ACCEPTED"] = "test-request-accepted";
     EmailTemplate["MONEY_SENT"] = "money-sent";
     EmailTemplate["PRODUCT_REVIEWED"] = "product-reviewed";
+    EmailTemplate["LAST_PUBLISHED_PRODUCTS"] = "last-published-products";
 })(EmailTemplate || (EmailTemplate = {}));
 //# sourceMappingURL=type.js.map
-//# debugId=29f69e1e-fcbf-594f-ae3b-c9981bc09a32
+//# debugId=ba4b6e99-99bf-5638-aa94-c321444180df

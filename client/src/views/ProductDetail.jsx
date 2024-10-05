@@ -120,9 +120,9 @@ const ProductDetail = (props) => {
                       <Badge
                         pill
                         color={"primary"}
-                        className="badge-lg bg-secondary shadow"
+                        className="badge-lg bg-secondary shadow text-decoration-line-through"
                       >
-                        {product.price} €
+                        {product.price.toFixed(2)} €
                       </Badge>
                     </h1>
                   </div>
@@ -139,18 +139,19 @@ const ProductDetail = (props) => {
                     </h1>
                   </div>
                   {/* Desktop view */}
-                  {product._id ? (
-                    <div className={"d-none d-md-block"}>
+                  {product._id && (
+                    <div className={"d-none d-md-block mb-5"}>
                       <NewTestRequestModal
                         productId={product._id}
                         disabled={newTestRequestButtonDisabled}
                       />
                     </div>
-                  ) : null}
+                  )}
                 </div>
+
                 {/* Mobile view */}
                 {product._id && (
-                  <div className={"d-block d-md-none"}>
+                  <div className={"d-block d-md-none mb-5"}>
                     <NewTestRequestModal
                       productId={product._id}
                       disabled={newTestRequestButtonDisabled}
@@ -158,13 +159,15 @@ const ProductDetail = (props) => {
                   </div>
                 )}
 
-                <div className="mt-5">
-                  <Label>
-                    {t("CATEGORY")} :{" "}
-                    {product ? t("PRODUCT_CATEGORIES." + product.category) : null}
-                  </Label>
-                </div>
-                <div className="mt-2">
+                {product && product.category && (
+                  <div className="mb-2">
+                    <Label>
+                      {t("CATEGORY")} : {t("PRODUCT_CATEGORIES." + product.category)}
+                    </Label>
+                  </div>
+                )}
+
+                <div>
                   <h1>{product ? product.title : ""}</h1>
                 </div>
 
