@@ -16,7 +16,7 @@ import "./translation/i18n";
 
 import App from "./App";
 
-import ReactGA from "react-ga";
-ReactGA.initialize("UA-153363667-2");
+import TagManager from "react-gtm-module";
+TagManager.initialize({ gtmId: "G-RJRV0M98R9" });
 
 ReactDOM.render(<App />, document.getElementById("root"));
