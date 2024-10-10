@@ -1,6 +1,5 @@
 import i18n from "i18next";
 import React, { useEffect } from "react";
-import ReactGA from "react-ga";
 import { useTranslation } from "react-i18next";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { LastLocationProvider } from "react-router-last-location";
@@ -24,10 +23,6 @@ import ResetPassword from "./views/ResetPassword";
 import Search from "./views/Search";
 
 const App = () => {
-  history.listen((location) => {
-    ReactGA.set({ page: location.pathname }); // Update the user's current page
-    ReactGA.pageview(location.pathname); // Record a pageview for the given page
-  });
   useEffect(() => {
     const localStorageLanguage = localStorage.getItem("language");
     if (localStorageLanguage && localStorageLanguage === "fr") {
