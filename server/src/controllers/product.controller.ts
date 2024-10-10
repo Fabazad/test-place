@@ -210,6 +210,8 @@ export class ProductController {
       userDAO.getTestersContacts(),
     ]);
 
+    console.log({ products, testers });
+
     const emailsRes = await emailClient.sendLastPublishedProductsMail({
       frontendUrl,
       products,

@@ -236,7 +236,7 @@
   "SEARCH_FOR_PRODUCT": "Search for a product",
   "SEARCH_PRODUCT": "Search for a product",
   "SEE": "See",
-  "SEE_STATS": "See stats",
+  "SEE_STATS": "See stats of the seller",
   "SELLER": "Seller",
   "SELLER_MESSAGE": "Seller message",
   "SELLER_MESSAGE_EXPLAINED": "<b>Seller message</b> will be used by default when you'll <b>accept the test requests</b>.<br/>That's also the message that the testers will receive when they'll go though the<b>automatic acceptance</b> of the requests (<i className=\"fa fa-bolt text-yellow\"/>).",

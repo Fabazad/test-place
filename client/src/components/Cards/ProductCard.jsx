@@ -8,7 +8,7 @@ import { Badge, Card, CardBody, Row, UncontrolledTooltip } from "reactstrap";
 import CardHeader from "reactstrap/es/CardHeader";
 import Col from "reactstrap/es/Col";
 import constants from "../../helpers/constants";
-import { formatDate, textSlice } from "../../helpers/textHelpers";
+import { textSlice } from "../../helpers/textHelpers";
 import UserProfilePopover from "../UserProfilePopover";
 
 const ProductCard = (props) => {
@@ -91,12 +91,7 @@ const ProductCard = (props) => {
           ) : null}
         </div>
         <Row className="mt-3">
-          <Col xs={5}>
-            <small className="text-muted">
-              {product ? formatDate(product.createdAt) : "  /  /  "}
-            </small>
-          </Col>
-          <Col xs={7} className="text-right">
+          <Col xs={12} className="text-center">
             <small>
               <UserProfilePopover
                 userId={product.seller._id}

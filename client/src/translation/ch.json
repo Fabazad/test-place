@@ -236,7 +236,7 @@
   "SEARCH_FOR_PRODUCT": "搜索一个产品",
   "SEARCH_PRODUCT": "搜索一个产品",
   "SEE": "见",
-  "SEE_STATS": "查看统计资料",
+  "SEE_STATS": "查看卖家的统计资料",
   "SELLER": "业务员",
   "SELLER_MESSAGE": "卖方信息",
   "SELLER_MESSAGE_EXPLAINED": "<b>卖家的信息</b> 将被用作接受测试请求时的默认信息。<br/>这也是你的测试人员在通过自动接受申请时将收到的信息 (<i className=\"fa fa-bolt text-yellow\"/>).",

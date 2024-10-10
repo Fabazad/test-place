@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a542246a-16d8-5fb9-9ddc-f58cac9ef9b6")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="98ac404e-0afa-59cd-a6a1-1e2c37dafae8")}catch(e){}}();
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -147,10 +147,11 @@ const createUserDAO = () => {
             const testers = await userModel
                 .find({ roles: { $in: [Role.TESTER] } }, { email: 1, name: 1, language: 1 })
                 .lean();
+            console.log({ testers });
             return testers;
         },
     };
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=a542246a-16d8-5fb9-9ddc-f58cac9ef9b6
+//# debugId=98ac404e-0afa-59cd-a6a1-1e2c37dafae8

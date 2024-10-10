@@ -236,7 +236,7 @@
   "SEARCH_FOR_PRODUCT": "Rechercher un Produit",
   "SEARCH_PRODUCT": "Rechercher un produit",
   "SEE": "Voir",
-  "SEE_STATS": "Voir stats",
+  "SEE_STATS": "Voir stats du vendeur",
   "SELLER": "Vendeur",
   "SELLER_MESSAGE": "Message Vendeur",
   "SELLER_MESSAGE_EXPLAINED": "<b>Message Vendeur</b> sera utilisé comme message par défault lorsque vous <b>accepterez des demandes de test</b>.<br/>C'est aussi le message que recevront vos testeurs lorsqu'ils passeront par l'<b>acceptaion automatique</b> des demandes (<i className=\"fa fa-bolt text-yellow\"/>).",

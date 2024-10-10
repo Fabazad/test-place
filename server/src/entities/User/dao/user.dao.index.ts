@@ -162,6 +162,7 @@ const createUserDAO = (): UserDAO => {
       const testers = await userModel
         .find({ roles: { $in: [Role.TESTER] } }, { email: 1, name: 1, language: 1 })
         .lean<Array<{ email: string; name: string; language: Language }>>();
+      console.log({ testers });
       return testers;
     },
   };
