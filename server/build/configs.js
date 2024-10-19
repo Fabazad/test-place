@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3dca38ee-0cb4-5a73-be7d-0e7e70466cf1")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="632fbc21-064b-50c7-a139-0d44692b17a9")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -69,8 +69,10 @@ export const configs = z
     PROXY_PASSWORD: z.string(),
     LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS: numberSchema().optional().default(7),
     FRONTEND_URL: z.string().optional().default("https://test-place.fr"),
+    WEBFLOW_API_KEY: z.string(),
+    AMAZON_ARTICLES_WEBFLOW_COLLECTION_ID: z.string().default("67095b5263ba7126480b36f2"),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=3dca38ee-0cb4-5a73-be7d-0e7e70466cf1
+//# debugId=632fbc21-064b-50c7-a139-0d44692b17a9

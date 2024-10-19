@@ -70,6 +70,8 @@ export const configs = z
     PROXY_PASSWORD: z.string(),
     LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS: numberSchema().optional().default(7),
     FRONTEND_URL: z.string().optional().default("https://test-place.fr"),
+    WEBFLOW_API_KEY: z.string(),
+    AMAZON_ARTICLES_WEBFLOW_COLLECTION_ID: z.string().default("67095b5263ba7126480b36f2"),
   })
   .parse(process.env);
 

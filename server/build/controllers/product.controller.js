@@ -1,11 +1,13 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="07e56c7d-1ad4-505b-a978-00fa0cabe112")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="31ac3f3b-faf1-5557-881f-f64b4893364b")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
 import { PRODUCT_CATEGORIES, } from "../entities/Product/product.entity.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
 import { getEmailClient } from "../libs/EmailClient/index.js";
+import { getEventProducer } from "../libs/EventProducer/index.js";
+import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { getScrapper } from "../libs/Scrapper/index.js";
 import { Role } from "../utils/constants.js";
 import dayjs from "dayjs";
@@ -36,6 +38,8 @@ export class ProductController {
     static async create(params) {
         const { productData, userId } = params;
         const productDAO = getProductDAO();
+        const eventProducer = getEventProducer();
+        const monitoringClient = getMonitoringClient();
         const creationRes = await productDAO.create({
             productData: {
                 ...productData,
@@ -49,6 +53,17 @@ export class ProductController {
         });
         if (!creationRes.success)
             return creationRes;
+        const newProduct = creationRes.data;
+        const res = await eventProducer.sendProductPublished(newProduct);
+        if (!res.success)
+            await monitoringClient.sendEvent({
+                eventName: "send_product_published_error",
+                data: {
+                    productId: newProduct._id,
+                    error: `[${res.errorCode}] ${res.errorMessage}`,
+                },
+                level: "error",
+            });
         return { success: true, data: creationRes.data };
     }
     static async findPageResults(params) {
@@ -130,4 +145,4 @@ export class ProductController {
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=07e56c7d-1ad4-505b-a978-00fa0cabe112
+//# debugId=31ac3f3b-faf1-5557-881f-f64b4893364b

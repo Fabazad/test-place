@@ -14,6 +14,8 @@ import {
 } from "@/entities/Product/product.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
+import { getEventProducer } from "@/libs/EventProducer/index.js";
+import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import { getScrapper } from "@/libs/Scrapper/index.js";
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
@@ -74,6 +76,8 @@ export class ProductController {
     const { productData, userId } = params;
 
     const productDAO = getProductDAO();
+    const eventProducer = getEventProducer();
+    const monitoringClient = getMonitoringClient();
 
     const creationRes = await productDAO.create({
       productData: {
@@ -87,6 +91,19 @@ export class ProductController {
       },
     });
     if (!creationRes.success) return creationRes;
+
+    const newProduct = creationRes.data;
+
+    const res = await eventProducer.sendProductPublished(newProduct);
+    if (!res.success)
+      await monitoringClient.sendEvent({
+        eventName: "send_product_published_error",
+        data: {
+          productId: newProduct._id,
+          error: `[${res.errorCode}] ${res.errorMessage}`,
+        },
+        level: "error",
+      });
 
     return { success: true, data: creationRes.data };
   }

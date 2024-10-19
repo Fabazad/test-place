@@ -264,7 +264,7 @@
   "TESTER_HAS_REVIEWED_PRODUCT": "Le Testeur a indiqué avoir laissé un avis sur le produit.\nC'est à vous maintenant de valider ou de rejeter l'avis.",
   "TESTER_MESSAGE": "Message Testeur",
   "TESTER_MESSAGE_EXPLAINED": "Le champ texte <b><i>Message au Vendeur</i></b> à fournir lors d'une demande de test sera pré-rempli avec ce <b><i>Message Testeur</i></b>.",
-  "TESTER_MESSAGE_PLACEHOLDER": "Je serai très fier de tester votre produit...",
+  "TESTER_MESSAGE_PLACEHOLDER": "Je serais très fier de tester votre produit...",
   "TESTER_WILL_BE_ADVISED": "Le Testeur sera informé par l'application des conseils suivants :",
   "TESTPLACE_EMAIL_SUBJECT": "[TEST PLACE]",
   "TEST_AND_REVIEW_PRODUCT": "Testez votre produit et laissez un avis sur Amazon.\nAttention, voici quelques conseils pour garder vos notes Amazon :",
