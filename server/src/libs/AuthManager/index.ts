@@ -117,8 +117,6 @@ const createAuthManager = (): AuthManager => {
         const language =
           payload.locale && isLanguage(payload.locale) ? payload.locale : Language.FR;
 
-        console.log({ googleId, name, email, language, picture });
-
         // You can now use this information as needed, for example, store it in your database or create a session
         return { success: true, data: { googleId, name, email, language } };
       } catch (error: unknown) {

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="31ac3f3b-faf1-5557-881f-f64b4893364b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9c456d40-a0fc-596e-9e73-190e742b18f4")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
@@ -135,7 +135,6 @@ export class ProductController {
             productDAO.findLastPublishedProducts({ fromDate }),
             userDAO.getTestersContacts(),
         ]);
-        console.log({ products, testers });
         const emailsRes = await emailClient.sendLastPublishedProductsMail({
             frontendUrl,
             products,
@@ -145,4 +144,4 @@ export class ProductController {
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=31ac3f3b-faf1-5557-881f-f64b4893364b
+//# debugId=9c456d40-a0fc-596e-9e73-190e742b18f4

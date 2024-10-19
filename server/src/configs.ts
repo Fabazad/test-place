@@ -72,6 +72,7 @@ export const configs = z
     FRONTEND_URL: z.string().optional().default("https://test-place.fr"),
     WEBFLOW_API_KEY: z.string(),
     AMAZON_ARTICLES_WEBFLOW_COLLECTION_ID: z.string().default("67095b5263ba7126480b36f2"),
+    NO_REPLY_EMAIL_SENDER_EMAIL: z.string().optional().default("no-reply@test-place.fr"),
   })
   .parse(process.env);
 

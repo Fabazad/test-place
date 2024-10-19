@@ -1,22 +1,25 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c054e2f8-8657-5a88-80fb-474f97e021b7")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7a56c66d-b912-584f-9421-67477ed9167f")}catch(e){}}();
 import { configs } from "../configs.js";
 import { ProductController } from "../controllers/product.controller.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { getDatabaseConnection } from "../databaseConnection/index.js";
+import dayjs from "dayjs";
 const emailLastPublishedProducts = async () => {
+    if (dayjs().day() !== 6) {
+        console.log("This script should be run on Sunday");
+        process.exit(0);
+    }
     const monitoringClient = getMonitoringClient();
     const databaseConnection = getDatabaseConnection();
     try {
         await databaseConnection.connect();
-        const res = await ProductController.emailLastPublishedProducts({
+        await ProductController.emailLastPublishedProducts({
             frontendUrl: configs.FRONTEND_URL,
             lastPublishedProductsPeriodInDays: configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS,
         });
-        console.log("res: ", res.data);
     }
     catch (err) {
-        console.log(err);
         monitoringClient.sendEvent({
             level: "error",
             eventName: "email_last_published_products",
@@ -30,4 +33,4 @@ const emailLastPublishedProducts = async () => {
 };
 emailLastPublishedProducts();
 //# sourceMappingURL=emailLastPublishedProducts.cli.js.map
-//# debugId=c054e2f8-8657-5a88-80fb-474f97e021b7
+//# debugId=7a56c66d-b912-584f-9421-67477ed9167f

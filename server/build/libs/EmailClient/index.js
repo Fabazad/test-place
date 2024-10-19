@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="02bb11b3-2536-5afe-8ca9-3830bb6f2a24")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="87c14bf7-9b03-5b54-8b58-8a504a3e8ae9")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { NotificationType, Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -16,9 +16,13 @@ const createEmailClient = () => {
             "content-type": "application/json",
         },
     });
-    const fromTestPlace = {
+    const fromTestPlaceContact = {
         name: configs.EMAIL_SENDER_NAME,
         email: configs.EMAIL_SENDER_EMAIL,
+    };
+    const fromTestPlaceNoReply = {
+        name: configs.EMAIL_SENDER_NAME,
+        email: configs.NO_REPLY_EMAIL_SENDER_EMAIL,
     };
     return {
         sendContactUsMail: async ({ email, name, message }) => {
@@ -40,7 +44,7 @@ const createEmailClient = () => {
             console.log({ frontendUrl, emailValidationLink });
             const res = await sendTransactionalEmail({
                 brevoAxios,
-                from: fromTestPlace,
+                from: fromTestPlaceContact,
                 to: { name: userName, email },
                 templateId,
                 templateParams: { link: emailValidationLink, userName },
@@ -51,7 +55,7 @@ const createEmailClient = () => {
             const resetPasswordLink = new URL(`reset-password/${resetPasswordToken}`, frontendUrl).toString();
             const res = await sendTransactionalEmail({
                 brevoAxios,
-                from: fromTestPlace,
+                from: fromTestPlaceContact,
                 to: { email },
                 templateId: TEMPLATE_IDS[EmailTemplate.FORGOTTEN_PASSWORD][language],
                 templateParams: { link: resetPasswordLink },
@@ -70,7 +74,7 @@ const createEmailClient = () => {
             const templateId = TEMPLATE_IDS[templateMap[notification.type] || defaultTemplate][to.language];
             const res = await sendTransactionalEmail({
                 brevoAxios,
-                from: fromTestPlace,
+                from: fromTestPlaceContact,
                 to,
                 templateId: templateId,
                 templateParams: {
@@ -93,7 +97,7 @@ const createEmailClient = () => {
                 const templateId = TEMPLATE_IDS[EmailTemplate.LAST_PUBLISHED_PRODUCTS][language];
                 const res = await sendTransactionalEmail({
                     brevoAxios,
-                    from: fromTestPlace,
+                    from: fromTestPlaceNoReply,
                     to: { email, name },
                     templateId,
                     templateParams: { userName: name, products: productsObjects },
@@ -106,4 +110,4 @@ const createEmailClient = () => {
 };
 export const getEmailClient = createSingletonGetter(createEmailClient);
 //# sourceMappingURL=index.js.map
-//# debugId=02bb11b3-2536-5afe-8ca9-3830bb6f2a24
+//# debugId=87c14bf7-9b03-5b54-8b58-8a504a3e8ae9

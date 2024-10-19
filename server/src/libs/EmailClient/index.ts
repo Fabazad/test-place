@@ -16,9 +16,14 @@ const createEmailClient = (): EmailClient => {
     },
   });
 
-  const fromTestPlace = {
+  const fromTestPlaceContact = {
     name: configs.EMAIL_SENDER_NAME,
     email: configs.EMAIL_SENDER_EMAIL,
+  };
+
+  const fromTestPlaceNoReply = {
+    name: configs.EMAIL_SENDER_NAME,
+    email: configs.NO_REPLY_EMAIL_SENDER_EMAIL,
   };
 
   return {
@@ -51,11 +56,9 @@ const createEmailClient = (): EmailClient => {
 
       const templateId = TEMPLATE_IDS[EmailTemplate.EMAIL_VALIDATION][language];
 
-      console.log({ frontendUrl, emailValidationLink });
-
       const res = await sendTransactionalEmail({
         brevoAxios,
-        from: fromTestPlace,
+        from: fromTestPlaceContact,
         to: { name: userName, email },
         templateId,
         templateParams: { link: emailValidationLink, userName },
@@ -77,7 +80,7 @@ const createEmailClient = (): EmailClient => {
 
       const res = await sendTransactionalEmail({
         brevoAxios,
-        from: fromTestPlace,
+        from: fromTestPlaceContact,
         to: { email },
         templateId: TEMPLATE_IDS[EmailTemplate.FORGOTTEN_PASSWORD][language],
         templateParams: { link: resetPasswordLink },
@@ -108,7 +111,7 @@ const createEmailClient = (): EmailClient => {
 
       const res = await sendTransactionalEmail({
         brevoAxios,
-        from: fromTestPlace,
+        from: fromTestPlaceContact,
         to,
         templateId: templateId,
         templateParams: {
@@ -136,7 +139,7 @@ const createEmailClient = (): EmailClient => {
 
           const res = await sendTransactionalEmail({
             brevoAxios,
-            from: fromTestPlace,
+            from: fromTestPlaceNoReply,
             to: { email, name },
             templateId,
             templateParams: { userName: name, products: productsObjects },
