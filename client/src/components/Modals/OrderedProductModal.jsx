@@ -16,7 +16,7 @@ import InfoPopover from "../InfoPopover";
 import Loading from "../Loading";
 
 const OrderedProductModal = (props) => {
-  const { isOpen, onToggle, testId, t } = props;
+  const { isOpen, onToggle, testId, t, onOrdered } = props;
 
   const [test, setTest] = useState(null);
   const [orderId, setOrderId] = useState(null);
@@ -48,6 +48,7 @@ const OrderedProductModal = (props) => {
 
       testServices.testsSubject.next();
       onToggle();
+      onOrdered?.();
       toast.success(t("PRODUCT_SAVED_AS_ORDERED"));
     } catch (err) {
       toast.error(err.toString);
@@ -191,6 +192,7 @@ OrderedProductModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   testId: PropTypes.string.isRequired,
+  onOrdered: PropTypes.func,
 };
 
 export default withTranslation()(OrderedProductModal);

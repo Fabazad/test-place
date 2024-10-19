@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="53e197a6-907d-5503-963b-bfa4163a5d5f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="30a401d8-3b55-5638-90ac-8ffdc12a8729")}catch(e){}}();
 import { generateAmazonUrl } from "../../Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -70,8 +70,6 @@ export const createTestDAO = () => {
             return { success: true, data: test };
         },
         findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
-            const conditions = buildConditions(statuses, seller, tester);
-            console.log({ conditions: JSON.stringify(conditions) });
             const res = await testModel
                 .find({
                 $or: [
@@ -177,4 +175,4 @@ export const createTestDAO = () => {
 };
 export const getTestDAO = createSingletonGetter(createTestDAO);
 //# sourceMappingURL=test.dao.index.js.map
-//# debugId=53e197a6-907d-5503-963b-bfa4163a5d5f
+//# debugId=30a401d8-3b55-5638-90ac-8ffdc12a8729

@@ -88,9 +88,6 @@ export const createTestDAO = (): TestDAO => {
       return { success: true, data: test };
     },
     findWIthAllPopulated: async ({ statuses, seller, tester, skip, limit }) => {
-      const conditions = buildConditions(statuses, seller, tester);
-
-      console.log({ conditions: JSON.stringify(conditions) });
       const res = await testModel
         .find({
           $or: [

@@ -12,9 +12,10 @@ import Label from "reactstrap/lib/Label";
 import { TestStatus } from "../../helpers/constants";
 import testServices from "../../services/test.services";
 import Loading from "../Loading";
+import { toast } from "react-toastify";
 
 const DeclineReviewModal = (props) => {
-  const { isOpen, onToggle, testId, t } = props;
+  const { isOpen, onToggle, testId, t, onDeclined } = props;
 
   const [declineReviewReason, setDeclineReviewReason] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,8 +31,10 @@ const DeclineReviewModal = (props) => {
         declineReviewReason,
       });
       testServices.testsSubject.next();
+      onDeclined?.();
+      toast.success(t("REVIEW_DECLINED"));
     } catch (e) {
-      console.error(e);
+      toast.error(e.message);
     }
     setLoading(false);
     onToggle();
@@ -102,6 +105,7 @@ DeclineReviewModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   testId: PropTypes.string.isRequired,
+  onDeclined: PropTypes.func,
 };
 
 export default withTranslation()(DeclineReviewModal);

@@ -27,6 +27,7 @@ import Loading from "../../Loading";
 import Stepper from "../../Stepper";
 import TestStatusIcon from "../../TestStatusIcon";
 import SellerTesterInfo from "./SellerTesterInfo";
+import TestActions from "./TestActions";
 import TestPrices from "./TestPrices";
 import TestProcessInfo from "./TestProcessInfo";
 
@@ -257,12 +258,13 @@ const TestModal = ({
               />
             </Col>
           </Row>
+          <TestActions test={test} userRole={userType} onToggle={onToggle} />
         </Container>
       </ModalBody>
 
       <ModalFooter>
         <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
-          Fermer
+          {t("CLOSE")}
         </Button>
       </ModalFooter>
     </Modal>

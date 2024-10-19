@@ -403,5 +403,8 @@
   "ALREADY_PRODUCT_WITH_ASIN": "Un produit existe déjà avec cet ASIN sur Test Place.",
   "START_NOW": "Commencer maintenant",
   "EXAMPLE": "Exemple :",
-  "ORDER_SCREENSHOT_INFO": "Ces infos doivent être visibles sur l'image :\n- Le numéro de commande\n- Le nom du produit\n- Le prix\n- La date de livraison\n- Le vendeur\n- La photo du produit\n\nCliquer sur \"Modifier cette commande\" sur Amazon, pour avoir accès à toute les informations de la commande."
+  "ORDER_SCREENSHOT_INFO": "Ces infos doivent être visibles sur l'image :\n- Le numéro de commande\n- Le nom du produit\n- Le prix\n- La date de livraison\n- Le vendeur\n- La photo du produit\n\nCliquer sur \"Modifier cette commande\" sur Amazon, pour avoir accès à toute les informations de la commande.",
+  "TEST_HAS_BEEN_CANCELLED": "Votre test a été annulé.",
+  "PRODUCT_SET_AS_REVIEWED": "Le produit a été marqué comme évalué.",
+  "REVIEW_DECLINED": "L'avis a été refusée."
 }

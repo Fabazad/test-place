@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { withTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { Button, Modal } from "reactstrap";
 import Alert from "reactstrap/es/Alert";
 import Form from "reactstrap/es/Form";
@@ -16,7 +17,7 @@ import userServices from "../../services/user.services";
 import InfoPopover from "../InfoPopover";
 import Loading from "../Loading";
 
-const ProductReviewedModal = ({ isOpen, onToggle, testId, t }) => {
+const ProductReviewedModal = ({ isOpen, onToggle, testId, t, onReviewed }) => {
   const [reviewId, setReviewId] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -30,10 +31,12 @@ const ProductReviewedModal = ({ isOpen, onToggle, testId, t }) => {
       await testServices.updateStatus(testId, TestStatus.PRODUCT_REVIEWED, { reviewId });
       testServices.testsSubject.next();
     } catch (e) {
-      console.error(e);
+      toast.error(e.message);
     }
     setLoading(false);
     onToggle();
+    onReviewed?.();
+    toast.success(t("PRODUCT_SET_AS_REVIEWED"));
   };
 
   const handleInput = (e) => {
@@ -112,6 +115,7 @@ ProductReviewedModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   testId: PropTypes.string.isRequired,
+  onReviewed: PropTypes.func,
 };
 
 export default withTranslation()(ProductReviewedModal);

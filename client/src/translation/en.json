@@ -403,5 +403,8 @@
   "ALREADY_PRODUCT_WITH_ASIN": "A product already exists with this ASIN on Test Place.",
   "START_NOW": "Start now",
   "EXAMPLE": "Example:",
-  "ORDER_SCREENSHOT_INFO": "These infos must be visible on the image:\n- The order number\n- The product name\n- The price\n- The delivery date\n- The seller\n- The product photo\nClick on \"Edit this order\" on Amazon, to have access to all the informations of the order."
+  "ORDER_SCREENSHOT_INFO": "These infos must be visible on the image:\n- The order number\n- The product name\n- The price\n- The delivery date\n- The seller\n- The product photo\nClick on \"Edit this order\" on Amazon, to have access to all the informations of the order.",
+  "TEST_HAS_BEEN_CANCELLED": "Your test has been cancelled.",
+  "PRODUCT_SET_AS_REVIEWED": "The product has been marked as reviewed.",
+  "REVIEW_DECLINED": "The review has been declined."
 }

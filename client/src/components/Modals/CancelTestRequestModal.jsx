@@ -8,7 +8,7 @@ import { TestStatus } from "../../helpers/constants";
 import testServices from "../../services/test.services";
 import Loading from "../Loading";
 
-const CancelTestRequestModal = ({ testId, t, onClose, isOpen }) => {
+const CancelTestRequestModal = ({ testId, t, onClose, isOpen, onCancel }) => {
   const [cancelReason, setCancelReason] = useState("");
   const [loadingPromise, setLoadingPromise] = useState(null);
 
@@ -20,11 +20,11 @@ const CancelTestRequestModal = ({ testId, t, onClose, isOpen }) => {
       { cancelRequestReason: cancelReason }
     );
     setLoadingPromise(loadingPromise);
-    await loadingPromise.then(() => {
-      testServices.testsSubject.next();
-      toast.success(t("TEST_REQUEST_CANCELLED"));
-      onClose();
-    });
+    await loadingPromise();
+    testServices.testsSubject.next();
+    toast.success(t("TEST_REQUEST_CANCELLED"));
+    onClose();
+    onCancel?.();
   };
   return (
     <Modal className="modal-dialog-centered" isOpen={isOpen} toggle={onClose}>
@@ -80,6 +80,7 @@ CancelTestRequestModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   testId: PropTypes.string.isRequired,
+  onCancel: PropTypes.func,
 };
 
 export default withTranslation()(CancelTestRequestModal);

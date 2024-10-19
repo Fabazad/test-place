@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { withTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { Button, Modal } from "reactstrap";
 import Alert from "reactstrap/es/Alert";
 import Form from "reactstrap/es/Form";
@@ -13,7 +14,7 @@ import { TestStatus } from "../../helpers/constants";
 import testServices from "../../services/test.services";
 import Loading from "../Loading";
 
-const CancelTestModal = ({ isOpen, onToggle, testId, t }) => {
+const CancelTestModal = ({ isOpen, onToggle, testId, t, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
 
@@ -35,10 +36,13 @@ const CancelTestModal = ({ isOpen, onToggle, testId, t }) => {
       });
       testServices.testsSubject.next();
     } catch (e) {
-      console.error(e);
+      toast.error(e.message);
     }
+    toast.success(t("TEST_REQUEST_CANCELLED"));
+
     setLoading(false);
     onToggle();
+    onCancel?.();
   };
 
   return (
@@ -101,6 +105,7 @@ CancelTestModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   testId: PropTypes.string.isRequired,
+  onCancel: PropTypes.func,
 };
 
 export default withTranslation()(CancelTestModal);
