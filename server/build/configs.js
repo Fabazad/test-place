@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="408a32be-1066-5851-a719-386254d185ea")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4acb3470-96f5-5bbc-92b5-341f78e7d2a8")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -56,7 +56,7 @@ export const configs = z
     LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(26),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
-    AMAZON_AFFILIATION_TAG: z.string(),
+    AMAZON_AFFILIATION_TAG: z.string().trim(),
     AWS_ACCESS_KEY_ID: z.string(),
     AWS_SECRET_KEY: z.string(),
     S3_BUCKET: z.string(),
@@ -76,4 +76,4 @@ export const configs = z
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=408a32be-1066-5851-a719-386254d185ea
+//# debugId=4acb3470-96f5-5bbc-92b5-341f78e7d2a8

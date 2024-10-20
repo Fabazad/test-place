@@ -55,7 +55,7 @@ export const configs = z
     LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(26),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
-    AMAZON_AFFILIATION_TAG: z.string(),
+    AMAZON_AFFILIATION_TAG: z.string().trim(),
     AWS_ACCESS_KEY_ID: z.string(),
     AWS_SECRET_KEY: z.string(),
     S3_BUCKET: z.string(),
