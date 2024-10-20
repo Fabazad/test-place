@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="06474d37-5f39-5b76-95d4-1ee94ece9087")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b83b8f83-2244-58f2-a895-246ce7275195")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { Role } from "../../utils/constants.js";
 import { isDecodedUser } from "../../utils/DecodedUser.type.js";
@@ -103,7 +103,6 @@ const createAuthManager = () => {
                 const name = payload.given_name;
                 const picture = payload.picture;
                 const language = payload.locale && isLanguage(payload.locale) ? payload.locale : Language.FR;
-                console.log({ googleId, name, email, language, picture });
                 // You can now use this information as needed, for example, store it in your database or create a session
                 return { success: true, data: { googleId, name, email, language } };
             }
@@ -119,4 +118,4 @@ const createAuthManager = () => {
 };
 export const getAuthManager = createSingletonGetter(createAuthManager);
 //# sourceMappingURL=index.js.map
-//# debugId=06474d37-5f39-5b76-95d4-1ee94ece9087
+//# debugId=b83b8f83-2244-58f2-a895-246ce7275195

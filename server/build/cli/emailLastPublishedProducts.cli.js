@@ -1,12 +1,12 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7a56c66d-b912-584f-9421-67477ed9167f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3cc8bc6a-97d4-50e3-baee-9b9e6070f59b")}catch(e){}}();
 import { configs } from "../configs.js";
 import { ProductController } from "../controllers/product.controller.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { getDatabaseConnection } from "../databaseConnection/index.js";
 import dayjs from "dayjs";
 const emailLastPublishedProducts = async () => {
-    if (dayjs().day() !== 6) {
+    if (dayjs().day() !== 0) {
         console.log("This script should be run on Sunday");
         process.exit(0);
     }
@@ -33,4 +33,4 @@ const emailLastPublishedProducts = async () => {
 };
 emailLastPublishedProducts();
 //# sourceMappingURL=emailLastPublishedProducts.cli.js.map
-//# debugId=7a56c66d-b912-584f-9421-67477ed9167f
+//# debugId=3cc8bc6a-97d4-50e3-baee-9b9e6070f59b

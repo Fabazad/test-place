@@ -5,7 +5,7 @@ import { getDatabaseConnection } from "databaseConnection/index.js";
 import dayjs from "dayjs";
 
 const emailLastPublishedProducts = async () => {
-  if (dayjs().day() !== 6) {
+  if (dayjs().day() !== 0) {
     console.log("This script should be run on Sunday");
     process.exit(0);
   }
