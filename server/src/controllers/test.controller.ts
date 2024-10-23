@@ -86,12 +86,22 @@ export class TestController {
       | "user_to_notify_not_found"
       | "already_testing"
       | "previous_request_declined"
+      | "testing_limit_reached"
     >
   > {
     const { productId, userId, status, testerMessage, frontendUrl } = params;
 
     const productDAO = getProductDAO();
     const testDAO = getTestDAO();
+
+    const currentTestCount = await testDAO.countTestWithStatues({
+      userId,
+      statuses: [...GLOBAL_TEST_STATUSES.PROCESSING, TestStatus.REQUESTED],
+    });
+
+    if (currentTestCount >= configs.MAX_TESTING_PER_USER) {
+      return { success: false, errorCode: "testing_limit_reached" };
+    }
 
     const product = await productDAO.getProductById({ id: productId });
     if (!product) {

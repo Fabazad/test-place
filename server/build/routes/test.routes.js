@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="26b1ab37-6107-5c02-8abe-afd3c54b78c0")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b60c816f-20e3-5356-aff8-06db3c096167")}catch(e){}}();
 import { TestController } from "../controllers/test.controller.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -36,6 +36,7 @@ router.post("/create", withAuth(Role.TESTER), asyncHandler(async (request, reply
         user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
         already_testing: new BadRequestError("already_testing"),
         previous_request_declined: new BadRequestError("previous_request_declined"),
+        testing_limit_reached: new BadRequestError("testing_limit_reached"),
     }));
 }));
 router.get("/statuses", asyncHandler(async (request, reply) => {
@@ -89,4 +90,4 @@ router.get("/:testId", withAuth(), asyncHandler(async (request, reply) => {
 }));
 export default router;
 //# sourceMappingURL=test.routes.js.map
-//# debugId=26b1ab37-6107-5c02-8abe-afd3c54b78c0
+//# debugId=b60c816f-20e3-5356-aff8-06db3c096167

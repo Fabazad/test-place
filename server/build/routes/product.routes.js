@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="89b87e06-b5bc-5cf6-89fb-06afbd78ef43")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="51687441-85ff-584e-bba0-8edb29b6d645")}catch(e){}}();
 import { productSearchDataSchema, productUpdateDataSchema, } from "../entities/Product/product.constants.js";
 import { productDataSchema } from "../entities/Product/product.entity.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -16,7 +16,10 @@ router.get("/srapFromAsin/:asin", withAuth(Role.SELLER), asyncHandler(async (req
     const { asin } = zodValidationForRoute(request.params, z.object({
         asin: z.string(),
     }));
-    const res = await ProductController.scrapFromAsin({ asin });
+    const { amazonMerchantId } = zodValidationForRoute(request.query, z.object({
+        amazonMerchantId: z.string(),
+    }));
+    const res = await ProductController.scrapFromAsin({ asin, amazonMerchantId });
     reply.send(handleResponseForRoute(res, {
         already_product_with_asin: new BadRequestError("already_product_with_asin"),
         product_not_found: new NotFoundRequestError("product_not_found"),
@@ -86,4 +89,4 @@ router.delete("/:productId", withAuth(Role.SELLER), asyncHandler(async (request,
 }));
 export default router;
 //# sourceMappingURL=product.routes.js.map
-//# debugId=89b87e06-b5bc-5cf6-89fb-06afbd78ef43
+//# debugId=51687441-85ff-584e-bba0-8edb29b6d645

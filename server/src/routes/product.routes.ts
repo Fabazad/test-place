@@ -30,7 +30,15 @@ router.get(
         asin: z.string(),
       })
     );
-    const res = await ProductController.scrapFromAsin({ asin });
+
+    const { amazonMerchantId } = zodValidationForRoute(
+      request.query,
+      z.object({
+        amazonMerchantId: z.string(),
+      })
+    );
+
+    const res = await ProductController.scrapFromAsin({ asin, amazonMerchantId });
 
     reply.send(
       handleResponseForRoute(res, {

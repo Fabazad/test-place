@@ -22,7 +22,10 @@ import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
 
 export class ProductController {
-  static async scrapFromAsin(params: { asin: string }): Promise<
+  static async scrapFromAsin(params: {
+    asin: string;
+    amazonMerchantId?: string;
+  }): Promise<
     CustomResponse<
       {
         title?: string;
@@ -39,7 +42,7 @@ export class ProductController {
       "already_product_with_asin" | "product_not_found" | "unknown_error"
     >
   > {
-    const { asin } = params;
+    const { asin, amazonMerchantId } = params;
 
     const productDAO = getProductDAO();
     const scrapper = getScrapper();
@@ -53,7 +56,10 @@ export class ProductController {
         errorMessage: product._id,
       };
 
-    const scrappedData = await scrapper.getAmazonProductDetails({ asin });
+    const scrappedData = await scrapper.getAmazonProductDetails({
+      asin,
+      amazonMerchantId,
+    });
 
     if (!scrappedData.success) return scrappedData;
 

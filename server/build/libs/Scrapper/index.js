@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7ac216c3-f802-51db-aa08-b9ecdb74e766")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f18d8d9b-16ea-5fb5-a5e6-c94886836b9e")}catch(e){}}();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -14,7 +14,7 @@ import { getSeller } from "./productHelpers/getSeller.js";
 import { getTitle } from "./productHelpers/getTitle.js";
 const createScrapper = () => {
     return {
-        getAmazonProductDetails: async ({ asin }) => {
+        getAmazonProductDetails: async ({ asin, amazonMerchantId }) => {
             const url = `https://www.amazon.fr/dp/${asin}`;
             const test = await axios.default.get(url, {
                 proxy: {
@@ -42,4 +42,4 @@ const createScrapper = () => {
 };
 export const getScrapper = createSingletonGetter(createScrapper);
 //# sourceMappingURL=index.js.map
-//# debugId=7ac216c3-f802-51db-aa08-b9ecdb74e766
+//# debugId=f18d8d9b-16ea-5fb5-a5e6-c94886836b9e

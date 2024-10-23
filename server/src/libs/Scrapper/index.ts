@@ -14,7 +14,7 @@ import { Scrapper } from "./type.js";
 
 const createScrapper = (): Scrapper => {
   return {
-    getAmazonProductDetails: async ({ asin }) => {
+    getAmazonProductDetails: async ({ asin, amazonMerchantId }) => {
       const url = `https://www.amazon.fr/dp/${asin}`;
 
       const test = await axios.default.get<string>(url, {

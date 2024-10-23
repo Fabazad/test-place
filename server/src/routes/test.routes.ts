@@ -53,6 +53,7 @@ router.post(
         user_to_notify_not_found: new ServerRequestError("user_to_notify_not_found"),
         already_testing: new BadRequestError("already_testing"),
         previous_request_declined: new BadRequestError("previous_request_declined"),
+        testing_limit_reached: new BadRequestError("testing_limit_reached"),
       })
     );
   })

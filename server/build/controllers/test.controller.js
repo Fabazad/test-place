@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="59587bab-193a-54d0-bddd-e22358acb7bb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bdd2d64c-c2da-5a8a-8466-b4e218654d86")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -51,6 +51,13 @@ export class TestController {
         const { productId, userId, status, testerMessage, frontendUrl } = params;
         const productDAO = getProductDAO();
         const testDAO = getTestDAO();
+        const currentTestCount = await testDAO.countTestWithStatues({
+            userId,
+            statuses: [...GLOBAL_TEST_STATUSES.PROCESSING, TestStatus.REQUESTED],
+        });
+        if (currentTestCount >= configs.MAX_TESTING_PER_USER) {
+            return { success: false, errorCode: "testing_limit_reached" };
+        }
         const product = await productDAO.getProductById({ id: productId });
         if (!product) {
             return { success: false, errorCode: "product_not_found" };
@@ -215,4 +222,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=59587bab-193a-54d0-bddd-e22358acb7bb
+//# debugId=bdd2d64c-c2da-5a8a-8466-b4e218654d86

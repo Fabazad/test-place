@@ -52,5 +52,7 @@ export type ProductUpdateData = z.infer<typeof productUpdateDataSchema>;
 export const generateAmazonUrl = (product: Product): string => {
   const formattedKeywords = product.keywords?.join("+");
   const keywordsQuery = formattedKeywords ? `keywords=${formattedKeywords}` : "";
-  return `https://www.amazon.fr/dp/${product.asin}?${keywordsQuery}&tag=${configs.AMAZON_AFFILIATION_TAG}`;
+  return `https://www.amazon.fr/dp/${product.asin}?${keywordsQuery}&tag=${
+    configs.AMAZON_AFFILIATION_TAG
+  }${product.amazonMerchantId ? `&m=${product.amazonMerchantId}` : ""}`;
 };

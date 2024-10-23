@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9c456d40-a0fc-596e-9e73-190e742b18f4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2993716e-fd2b-543b-9c1c-3c26984ad07b")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
@@ -13,7 +13,7 @@ import { Role } from "../utils/constants.js";
 import dayjs from "dayjs";
 export class ProductController {
     static async scrapFromAsin(params) {
-        const { asin } = params;
+        const { asin, amazonMerchantId } = params;
         const productDAO = getProductDAO();
         const scrapper = getScrapper();
         const product = await productDAO.getProductByAsin({ asin });
@@ -23,7 +23,10 @@ export class ProductController {
                 errorCode: "already_product_with_asin",
                 errorMessage: product._id,
             };
-        const scrappedData = await scrapper.getAmazonProductDetails({ asin });
+        const scrappedData = await scrapper.getAmazonProductDetails({
+            asin,
+            amazonMerchantId,
+        });
         if (!scrappedData.success)
             return scrappedData;
         const category = scrappedData.data.category;
@@ -144,4 +147,4 @@ export class ProductController {
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=9c456d40-a0fc-596e-9e73-190e742b18f4
+//# debugId=2993716e-fd2b-543b-9c1c-3c26984ad07b

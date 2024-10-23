@@ -73,6 +73,7 @@ export const configs = z
     WEBFLOW_API_KEY: z.string(),
     AMAZON_ARTICLES_WEBFLOW_COLLECTION_ID: z.string().default("67095b5263ba7126480b36f2"),
     NO_REPLY_EMAIL_SENDER_EMAIL: z.string().optional().default("no-reply@test-place.fr"),
+    MAX_TESTING_PER_USER: z.coerce.number().default(2),
   })
   .parse(process.env);
 

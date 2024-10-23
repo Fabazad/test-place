@@ -1,7 +1,10 @@
 import { CustomResponse } from "@/utils/CustomResponse.js";
 
 export type Scrapper = {
-  getAmazonProductDetails: (params: { asin: string }) => Promise<
+  getAmazonProductDetails: (params: {
+    asin: string;
+    amazonMerchantId?: string;
+  }) => Promise<
     CustomResponse<
       {
         title?: string;

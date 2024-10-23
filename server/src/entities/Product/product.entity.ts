@@ -72,6 +72,7 @@ export const productDataSchema = z.object({
       url: z.string(),
     })
     .optional(),
+  amazonMerchantId: z.string().optional(),
   publishDate: z.date().optional(),
   publishExpirationDate: z.date().nullish(),
   keywords: z.array(z.string()).optional(),

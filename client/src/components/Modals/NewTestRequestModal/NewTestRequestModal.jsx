@@ -53,6 +53,8 @@ const NewTestRequestModal = (props) => {
       if (res?.error) {
         if (res.error === "already_testing") {
           toast.error(t("ALREADY_TESTING_THIS_PRODUCT"));
+        } else if (res.error === "testing_limit_reached") {
+          toast.error(t("TESTING_LIMIT_REACHED"));
         } else toast.error(res.error);
       } else setRequestSent(true);
     } catch (err) {

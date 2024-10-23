@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="46558800-eb0e-5214-98b3-f7b01b598b19")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="05872532-976a-56a9-8774-94ded12dc8be")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 export const PRODUCT_CATEGORIES = [
@@ -71,6 +71,7 @@ export const productDataSchema = z.object({
         url: z.string(),
     })
         .optional(),
+    amazonMerchantId: z.string().optional(),
     publishDate: z.date().optional(),
     publishExpirationDate: z.date().nullish(),
     keywords: z.array(z.string()).optional(),
@@ -81,4 +82,4 @@ export const productSchema = productDataSchema
     .extend(savedDataSchema)
     .extend({ amazonUrl: z.string() });
 //# sourceMappingURL=product.entity.js.map
-//# debugId=46558800-eb0e-5214-98b3-f7b01b598b19
+//# debugId=05872532-976a-56a9-8774-94ded12dc8be

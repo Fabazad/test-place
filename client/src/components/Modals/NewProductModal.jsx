@@ -24,7 +24,7 @@ const NewProductModal = ({ t }) => {
 
   const [defaultData, setDefaultData] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const [asinInput, setAsinInput] = useState("");
+  const [urlInput, setUrlInput] = useState("");
   const [loadingPromise, setLoadingPromise] = useState(null);
 
   const toggleModal = () => {
@@ -35,41 +35,47 @@ const NewProductModal = ({ t }) => {
     setIsOpen(history.location.hash === "#postProductModal");
   }, [history.location]);
 
-  const scrapAsin = () => {
-    if (!asinInput || !asinInput.length) {
+  const scrapUrl = () => {
+    if (!urlInput || !urlInput.length) {
       toast.error(t("MISSING_ASIN"));
       return;
     }
-    const match = asinInput.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
+    const match = urlInput.match(/(?:[/dp/]|$)?([A-Z0-9]{10})/);
     if (!match) {
       toast.error(t("WRONG_ASIN"));
       return;
     }
     const asin = match[1];
-    const loadingPromise = productService.scrapFromAsin(asin).then((res) => {
-      if (res.error) {
-        if (res.error === "already_product_with_asin")
-          toast.error(t("ALREADY_PRODUCT_WITH_ASIN"));
-        else toast.error(t("UNKNOWN_ERROR"));
-        return;
-      }
-      setDefaultData({
-        asin,
-        title: res.title,
-        price: res.price,
-        description: res.description,
-        images: res.imageUrls,
-        isPrime: res.isPrime,
-        category: res.category,
-        pictures: [null],
-        amazonSeller: res.seller,
+
+    const amazonMerchantId = urlInput.match(/m=(([A-Z0-9])+)&/)?.[1];
+
+    const loadingPromise = productService
+      .scrapFromAsin(asin, amazonMerchantId)
+      .then((res) => {
+        if (res.error) {
+          if (res.error === "already_product_with_asin")
+            toast.error(t("ALREADY_PRODUCT_WITH_ASIN"));
+          else toast.error(t("UNKNOWN_ERROR"));
+          return;
+        }
+        setDefaultData({
+          asin,
+          title: res.title,
+          price: res.price,
+          description: res.description,
+          images: res.imageUrls,
+          isPrime: res.isPrime,
+          category: res.category,
+          pictures: [null],
+          amazonSeller: res.seller,
+          amazonMerchantId: res.amazonMerchantId,
+        });
       });
-    });
     setLoadingPromise(loadingPromise);
   };
 
   const resetForm = () => {
-    setAsinInput(null);
+    setUrlInput(null);
     setDefaultData({});
   };
 
@@ -104,7 +110,7 @@ const NewProductModal = ({ t }) => {
 
   const onAsinSubmit = (e) => {
     e.preventDefault();
-    scrapAsin();
+    scrapUrl();
   };
 
   return (
@@ -150,9 +156,9 @@ const NewProductModal = ({ t }) => {
                     <Input
                       placeholder={t("ASIN_PLACEHOLDER")}
                       type="text"
-                      name="asinInput"
-                      value={asinInput}
-                      onChange={(e) => setAsinInput(e.target.value)}
+                      name="urlInput"
+                      value={urlInput}
+                      onChange={(e) => setUrlInput(e.target.value)}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -161,7 +167,7 @@ const NewProductModal = ({ t }) => {
                 <Button
                   color="primary"
                   className="mb-3 w-100"
-                  disabled={!asinInput}
+                  disabled={!urlInput}
                   type="submit"
                 >
                   {t("PRE_FILL")}

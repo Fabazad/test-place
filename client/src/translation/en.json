@@ -131,7 +131,7 @@
   "MESSAGE_SENT": "Message sent !",
   "MESSAGE_TO_SELLER": "Message to the seller",
   "MIN_INITIAL_PRICE": "Initial price minimum",
-  "MISSING_ASIN": "Give the ASIN ou the url of the product.",
+  "MISSING_ASIN": "Give the url of the product.",
   "MISSING_CATEGORY": "Please, choose a category.",
   "MISSING_DECLINE_REASON": "Please give us a decline reason",
   "MISSING_FIELDS": "Some fields are missing.",
@@ -406,5 +406,6 @@
   "ORDER_SCREENSHOT_INFO": "These infos must be visible on the image:\n- The order number\n- The product name\n- The price\n- The delivery date\n- The seller\n- The product photo\nClick on \"Edit this order\" on Amazon, to have access to all the informations of the order.",
   "TEST_HAS_BEEN_CANCELLED": "Your test has been cancelled.",
   "PRODUCT_SET_AS_REVIEWED": "The product has been marked as reviewed.",
-  "REVIEW_DECLINED": "The review has been declined."
+  "REVIEW_DECLINED": "The review has been declined.",
+  "TESTING_LIMIT_REACHED": "You have reached the maximum number of tests in progress."
 }

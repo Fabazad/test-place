@@ -18,9 +18,11 @@ class ProductService extends BaseService {
     this.productsUpdatedSubject = new Subject();
   }
 
-  async scrapFromAsin(asin) {
+  async scrapFromAsin(asin, amazonMerchantId) {
     return this.enrichResponseWithError(() =>
-      axios.get(this.baseURL + "/srapFromAsin/" + asin).then(serviceResolve)
+      axios
+        .get(this.baseURL + "/srapFromAsin/" + asin, { params: { amazonMerchantId } })
+        .then(serviceResolve)
     );
   }
 
