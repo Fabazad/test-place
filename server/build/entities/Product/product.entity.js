@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a562c518-875b-544d-a728-64bbbb0c9bb0")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="46558800-eb0e-5214-98b3-f7b01b598b19")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 export const PRODUCT_CATEGORIES = [
@@ -65,10 +65,12 @@ export const productDataSchema = z.object({
     imageUrls: z.array(z.string()),
     category: z.enum(PRODUCT_CATEGORIES).optional(),
     seller: z.string({ description: "User" }),
-    amazonSeller: z.object({
+    amazonSeller: z
+        .object({
         name: z.string(),
         url: z.string(),
-    }),
+    })
+        .optional(),
     publishDate: z.date().optional(),
     publishExpirationDate: z.date().nullish(),
     keywords: z.array(z.string()).optional(),
@@ -79,4 +81,4 @@ export const productSchema = productDataSchema
     .extend(savedDataSchema)
     .extend({ amazonUrl: z.string() });
 //# sourceMappingURL=product.entity.js.map
-//# debugId=a562c518-875b-544d-a728-64bbbb0c9bb0
+//# debugId=46558800-eb0e-5214-98b3-f7b01b598b19

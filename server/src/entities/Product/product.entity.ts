@@ -66,10 +66,12 @@ export const productDataSchema = z.object({
   imageUrls: z.array(z.string()),
   category: z.enum(PRODUCT_CATEGORIES).optional(),
   seller: z.string({ description: "User" }),
-  amazonSeller: z.object({
-    name: z.string(),
-    url: z.string(),
-  }),
+  amazonSeller: z
+    .object({
+      name: z.string(),
+      url: z.string(),
+    })
+    .optional(),
   publishDate: z.date().optional(),
   publishExpirationDate: z.date().nullish(),
   keywords: z.array(z.string()).optional(),
