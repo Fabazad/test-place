@@ -199,7 +199,7 @@ const TestListWithControls = ({
           {tests && !tests.length && !loading ? (
             <div className="p-5 w-100 text-center">
               <img
-                src={require("assets/img/undraws/empty.svg")}
+                src={require("assets/img/undraws/empty.svg").default}
                 alt=""
                 style={{ maxWidth: "300px" }}
                 className="w-100"

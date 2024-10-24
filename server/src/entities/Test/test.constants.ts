@@ -17,7 +17,7 @@ export const TestStatus = {
 export type TestStatus = InferEnum<typeof TestStatus>;
 
 export const GLOBAL_TEST_STATUSES: Record<string, Array<TestStatus>> = {
-  REQUESTED: [TestStatus.REQUESTED, TestStatus.REQUEST_CANCELLED],
+  REQUESTED: [TestStatus.REQUESTED],
   PROCESSING: [
     TestStatus.REQUEST_ACCEPTED,
     TestStatus.PRODUCT_ORDERED,
@@ -27,7 +27,11 @@ export const GLOBAL_TEST_STATUSES: Record<string, Array<TestStatus>> = {
     TestStatus.MONEY_SENT,
   ],
   COMPLETED: [TestStatus.MONEY_RECEIVED],
-  CANCELLED: [TestStatus.REVIEW_REFUSED, TestStatus.TEST_CANCELLED],
+  CANCELLED: [
+    TestStatus.REVIEW_REFUSED,
+    TestStatus.TEST_CANCELLED,
+    TestStatus.REQUEST_CANCELLED,
+  ],
 } as const;
 
 export type GlobalTestStatus = InferKeyAsEnum<typeof GLOBAL_TEST_STATUSES>;

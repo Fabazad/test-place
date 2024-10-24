@@ -25,6 +25,7 @@ const TestStatusIcon = (props) => {
       [TestStatus.REVIEW_REFUSED]: { color: "danger", icon: "fa-star" },
       [TestStatus.TEST_CANCELLED]: { color: "danger", icon: "fa-times" },
       [TestStatus.MONEY_SENT]: { color: "success", icon: "fa-dollar-sign" },
+      [TestStatus.REQUEST_CANCELLED]: { color: "default", icon: "fa-times" },
     },
     [TEST_GLOBAL_STATUSES.COMPLETED]: {
       [TestStatus.MONEY_RECEIVED]: { color: "success", icon: "fa-dollar-sign" },

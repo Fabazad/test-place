@@ -23,11 +23,7 @@ const routes = (t) => [
     color: "warning",
     component: () => (
       <TestList
-        statuses={[
-          TestStatus.REQUESTED,
-          TestStatus.REQUEST_CANCELLED,
-          TestStatus.REQUEST_DECLINED,
-        ]}
+        statuses={[TestStatus.REQUESTED, TestStatus.REQUEST_DECLINED]}
         globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}
         title={t("SENT_REQUESTS")}
         userRole={USER_ROLES.TESTER}
@@ -44,11 +40,7 @@ const routes = (t) => [
     color: "warning",
     component: () => (
       <TestList
-        statuses={[
-          TestStatus.REQUESTED,
-          TestStatus.REQUEST_CANCELLED,
-          TestStatus.REQUEST_DECLINED,
-        ]}
+        statuses={[TestStatus.REQUESTED, TestStatus.REQUEST_DECLINED]}
         globalStatus={TEST_GLOBAL_STATUSES.REQUESTED}
         title={t("RECEIVED_REQUESTS")}
         userRole={USER_ROLES.SELLER}
@@ -147,7 +139,12 @@ const routes = (t) => [
     color: "danger",
     component: () => (
       <TestList
-        statuses={[TestStatus.TEST_CANCELLED, TestStatus.REVIEW_REFUSED]}
+        statuses={[
+          TestStatus.TEST_CANCELLED,
+          TestStatus.REVIEW_REFUSED,
+          TestStatus.REQUEST_CANCELLED,
+          TestStatus.REQUEST_CANCELLED,
+        ]}
         globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
         title={t("CANCELLED_TESTS")}
         userRole={USER_ROLES.SELLER}
@@ -164,7 +161,11 @@ const routes = (t) => [
     color: "danger",
     component: () => (
       <TestList
-        statuses={[TestStatus.TEST_CANCELLED, TestStatus.REVIEW_REFUSED]}
+        statuses={[
+          TestStatus.TEST_CANCELLED,
+          TestStatus.REVIEW_REFUSED,
+          TestStatus.REQUEST_CANCELLED,
+        ]}
         globalStatus={TEST_GLOBAL_STATUSES.PROCESSING}
         title={t("CANCELLED_TESTS")}
         userRole={USER_ROLES.TESTER}

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f211f7c1-b983-590d-beb3-feb338d99565")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a70b7080-09d4-5b8f-95af-b91a3b418117")}catch(e){}}();
 import { configs } from "../configs.js";
 import { UserController } from "../controllers/user.controller.js";
 import { decode } from "../middlewares/decode.js";
@@ -70,7 +70,6 @@ router.post("/resetPasswordMail", asyncHandler(async (request, reply) => {
     const { email } = zodValidationForRoute(request.body, z.object({ email: z.string().trim().email() }));
     const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
     const res = await UserController.resetPasswordMail({ email, frontendUrl });
-    console.log(res);
     reply.send(handleResponseForRoute(res, {
         email_not_found: new NotFoundRequestError("email_not_found"),
         email_not_sent: ({ errorMessage }) => new ServerRequestError("email_not_sent", errorMessage),
@@ -242,4 +241,4 @@ router.post("/update-language", withAuth(), asyncHandler(async (request, reply) 
 }));
 export default router;
 //# sourceMappingURL=user.routes.js.map
-//# debugId=f211f7c1-b983-590d-beb3-feb338d99565
+//# debugId=a70b7080-09d4-5b8f-95af-b91a3b418117

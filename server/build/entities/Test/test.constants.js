@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="97b1cc2c-bbef-5422-a2ce-c9f710802c0d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b7b45627-f788-59cc-a233-193a5d799686")}catch(e){}}();
 export const TestStatus = {
     REQUESTED: "REQUESTED",
     REQUEST_CANCELLED: "REQUEST_CANCELLED",
@@ -15,7 +15,7 @@ export const TestStatus = {
     TEST_CANCELLED: "TEST_CANCELLED",
 };
 export const GLOBAL_TEST_STATUSES = {
-    REQUESTED: [TestStatus.REQUESTED, TestStatus.REQUEST_CANCELLED],
+    REQUESTED: [TestStatus.REQUESTED],
     PROCESSING: [
         TestStatus.REQUEST_ACCEPTED,
         TestStatus.PRODUCT_ORDERED,
@@ -25,7 +25,11 @@ export const GLOBAL_TEST_STATUSES = {
         TestStatus.MONEY_SENT,
     ],
     COMPLETED: [TestStatus.MONEY_RECEIVED],
-    CANCELLED: [TestStatus.REVIEW_REFUSED, TestStatus.TEST_CANCELLED],
+    CANCELLED: [
+        TestStatus.REVIEW_REFUSED,
+        TestStatus.TEST_CANCELLED,
+        TestStatus.REQUEST_CANCELLED,
+    ],
 };
 //# sourceMappingURL=test.constants.js.map
-//# debugId=97b1cc2c-bbef-5422-a2ce-c9f710802c0d
+//# debugId=b7b45627-f788-59cc-a233-193a5d799686

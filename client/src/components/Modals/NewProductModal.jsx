@@ -58,6 +58,7 @@ const NewProductModal = ({ t }) => {
           else toast.error(t("UNKNOWN_ERROR"));
           return;
         }
+
         setDefaultData({
           asin,
           title: res.title,
@@ -68,7 +69,7 @@ const NewProductModal = ({ t }) => {
           category: res.category,
           pictures: [null],
           amazonSeller: res.seller,
-          amazonMerchantId: res.amazonMerchantId,
+          amazonMerchantId,
         });
       });
     setLoadingPromise(loadingPromise);
@@ -93,6 +94,7 @@ const NewProductModal = ({ t }) => {
       );
 
       delete product.images;
+
       return productService
         .create(product)
         .then(() => {

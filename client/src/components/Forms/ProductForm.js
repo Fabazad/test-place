@@ -24,6 +24,7 @@ const ProductForm = (props) => {
   const { defaultData, t } = props;
 
   const asin = defaultData.asin ?? null;
+  const amazonMerchantId = defaultData.amazonMerchantId;
 
   const [title, setTitle] = useState(defaultData.title ?? undefined);
   const [price, setPrice] = useState(defaultData.price ?? "");
@@ -60,6 +61,7 @@ const ProductForm = (props) => {
     e.preventDefault();
     props.onSubmit({
       asin,
+      amazonMerchantId,
       title,
       price: +price || 0,
       finalPrice: +finalPrice || 0,

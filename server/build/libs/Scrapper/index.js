@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f18d8d9b-16ea-5fb5-a5e6-c94886836b9e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c9e8a310-f13d-5465-b5ff-58a7cbb5d73a")}catch(e){}}();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import { configs } from "../../configs.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -15,7 +15,7 @@ import { getTitle } from "./productHelpers/getTitle.js";
 const createScrapper = () => {
     return {
         getAmazonProductDetails: async ({ asin, amazonMerchantId }) => {
-            const url = `https://www.amazon.fr/dp/${asin}`;
+            const url = `https://www.amazon.fr/dp/${asin}${amazonMerchantId ? `?m=${amazonMerchantId}` : ""}`;
             const test = await axios.default.get(url, {
                 proxy: {
                     host: configs.PROXY_HOST,
@@ -42,4 +42,4 @@ const createScrapper = () => {
 };
 export const getScrapper = createSingletonGetter(createScrapper);
 //# sourceMappingURL=index.js.map
-//# debugId=f18d8d9b-16ea-5fb5-a5e6-c94886836b9e
+//# debugId=c9e8a310-f13d-5465-b5ff-58a7cbb5d73a
