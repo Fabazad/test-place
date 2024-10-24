@@ -34,7 +34,7 @@ router.get(
     const { amazonMerchantId } = zodValidationForRoute(
       request.query,
       z.object({
-        amazonMerchantId: z.string(),
+        amazonMerchantId: z.string().optional(),
       })
     );
 
