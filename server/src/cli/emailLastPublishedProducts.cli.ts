@@ -18,6 +18,7 @@ const emailLastPublishedProducts = async () => {
     await ProductController.emailLastPublishedProducts({
       frontendUrl: configs.FRONTEND_URL,
       lastPublishedProductsPeriodInDays: configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS,
+      productsLimit: configs.PRODUCTS_LIMIT_ON_LAST_PUBLISHED,
     });
   } catch (err: any) {
     monitoringClient.sendEvent({

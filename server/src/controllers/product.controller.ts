@@ -220,22 +220,24 @@ export class ProductController {
   static async emailLastPublishedProducts(params: {
     frontendUrl: string;
     lastPublishedProductsPeriodInDays: number;
+    productsLimit: number;
   }) {
-    const { frontendUrl, lastPublishedProductsPeriodInDays } = params;
+    const { frontendUrl, lastPublishedProductsPeriodInDays, productsLimit } = params;
     const productDAO = getProductDAO();
     const emailClient = getEmailClient();
     const userDAO = getUserDAO();
 
     const fromDate = dayjs().subtract(lastPublishedProductsPeriodInDays, "d").toDate();
 
-    const [products, testers] = await Promise.all([
-      productDAO.findLastPublishedProducts({ fromDate }),
+    const [{ hits: products, totalCount: productsCount }, testers] = await Promise.all([
+      productDAO.findLastPublishedProducts({ fromDate, limit: productsLimit }),
       userDAO.getTestersContacts(),
     ]);
 
     const emailsRes = await emailClient.sendLastPublishedProductsMail({
       frontendUrl,
       products,
+      productsCount,
       to: testers,
     });
 

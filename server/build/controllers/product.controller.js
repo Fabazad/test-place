@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2993716e-fd2b-543b-9c1c-3c26984ad07b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="96363c50-f3de-5d4a-b1d8-2a4477d3cb35")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
@@ -129,22 +129,23 @@ export class ProductController {
         return { success: true, data: oldProduct };
     }
     static async emailLastPublishedProducts(params) {
-        const { frontendUrl, lastPublishedProductsPeriodInDays } = params;
+        const { frontendUrl, lastPublishedProductsPeriodInDays, productsLimit } = params;
         const productDAO = getProductDAO();
         const emailClient = getEmailClient();
         const userDAO = getUserDAO();
         const fromDate = dayjs().subtract(lastPublishedProductsPeriodInDays, "d").toDate();
-        const [products, testers] = await Promise.all([
-            productDAO.findLastPublishedProducts({ fromDate }),
+        const [{ hits: products, totalCount: productsCount }, testers] = await Promise.all([
+            productDAO.findLastPublishedProducts({ fromDate, limit: productsLimit }),
             userDAO.getTestersContacts(),
         ]);
         const emailsRes = await emailClient.sendLastPublishedProductsMail({
             frontendUrl,
             products,
+            productsCount,
             to: testers,
         });
         return { success: true, data: emailsRes.data };
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=2993716e-fd2b-543b-9c1c-3c26984ad07b
+//# debugId=96363c50-f3de-5d4a-b1d8-2a4477d3cb35

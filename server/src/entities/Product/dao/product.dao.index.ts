@@ -144,17 +144,21 @@ const createProductDAO = (): ProductDAO => {
       res.amazonUrl = generateAmazonUrl(res);
       return res;
     },
-    findLastPublishedProducts: async ({ fromDate }) => {
-      const products = await productModel
-        .find({ publishDate: { $gte: fromDate } })
-        .sort({ publishDate: 1 })
-        .lean<Array<Product>>();
+    findLastPublishedProducts: async ({ fromDate, limit }) => {
+      const [hits, totalCount] = await Promise.all([
+        productModel
+          .find({ publishDate: { $gte: fromDate } })
+          .limit(limit)
+          .sort({ publishDate: 1 })
+          .lean<Array<Product>>(),
+        productModel.countDocuments({ publishDate: { $gte: fromDate } }),
+      ]);
 
-      products.forEach((p) => {
+      hits.forEach((p) => {
         p.amazonUrl = generateAmazonUrl(p);
       });
 
-      return products;
+      return { hits, totalCount };
     },
   };
 };

@@ -125,7 +125,12 @@ const createEmailClient = (): EmailClient => {
 
       return res;
     },
-    sendLastPublishedProductsMail: async ({ frontendUrl, to, products }) => {
+    sendLastPublishedProductsMail: async ({
+      frontendUrl,
+      to,
+      products,
+      productsCount,
+    }) => {
       const productsObjects = products.map((product) => ({
         title: product.title,
         imageUrl: product.imageUrls[0],
@@ -142,7 +147,7 @@ const createEmailClient = (): EmailClient => {
             from: fromTestPlaceNoReply,
             to: { email, name },
             templateId,
-            templateParams: { userName: name, products: productsObjects },
+            templateParams: { userName: name, products: productsObjects, productsCount },
           });
 
           return res;

@@ -33,6 +33,7 @@ export type EmailClient = {
     frontendUrl: string;
     to: Array<{ email: string; name: string; language: Language }>;
     products: Array<Product>;
+    productsCount: number;
   }) => Promise<CustomResponse<Array<string>>>;
 };
 

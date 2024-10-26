@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3cc8bc6a-97d4-50e3-baee-9b9e6070f59b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="34b3a229-17b4-5955-854e-d00273daf101")}catch(e){}}();
 import { configs } from "../configs.js";
 import { ProductController } from "../controllers/product.controller.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
@@ -17,6 +17,7 @@ const emailLastPublishedProducts = async () => {
         await ProductController.emailLastPublishedProducts({
             frontendUrl: configs.FRONTEND_URL,
             lastPublishedProductsPeriodInDays: configs.LAST_PUBLISHED_PRODUCTS_PERIOD_IN_DAYS,
+            productsLimit: configs.PRODUCTS_LIMIT_ON_LAST_PUBLISHED,
         });
     }
     catch (err) {
@@ -33,4 +34,4 @@ const emailLastPublishedProducts = async () => {
 };
 emailLastPublishedProducts();
 //# sourceMappingURL=emailLastPublishedProducts.cli.js.map
-//# debugId=3cc8bc6a-97d4-50e3-baee-9b9e6070f59b
+//# debugId=34b3a229-17b4-5955-854e-d00273daf101

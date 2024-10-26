@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9b3440e3-80db-5218-9024-a4c5e273dae7")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5d071cd9-4273-5c5f-a0a9-12f6ab7797f1")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -73,8 +73,9 @@ export const configs = z
     AMAZON_ARTICLES_WEBFLOW_COLLECTION_ID: z.string().default("67095b5263ba7126480b36f2"),
     NO_REPLY_EMAIL_SENDER_EMAIL: z.string().optional().default("no-reply@test-place.fr"),
     MAX_TESTING_PER_USER: z.coerce.number().default(2),
+    PRODUCTS_LIMIT_ON_LAST_PUBLISHED: z.coerce.number().default(10),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=9b3440e3-80db-5218-9024-a4c5e273dae7
+//# debugId=5d071cd9-4273-5c5f-a0a9-12f6ab7797f1

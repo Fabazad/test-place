@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7e78c707-dabf-5cf3-91e5-08951204ab09")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="98668f8d-9c8b-59a5-9eef-cbd7f90f6be8")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { NotificationType, Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -86,7 +86,7 @@ const createEmailClient = () => {
             });
             return res;
         },
-        sendLastPublishedProductsMail: async ({ frontendUrl, to, products }) => {
+        sendLastPublishedProductsMail: async ({ frontendUrl, to, products, productsCount, }) => {
             const productsObjects = products.map((product) => ({
                 title: product.title,
                 imageUrl: product.imageUrls[0],
@@ -99,7 +99,7 @@ const createEmailClient = () => {
                     from: fromTestPlaceNoReply,
                     to: { email, name },
                     templateId,
-                    templateParams: { userName: name, products: productsObjects },
+                    templateParams: { userName: name, products: productsObjects, productsCount },
                 });
                 return res;
             }));
@@ -109,4 +109,4 @@ const createEmailClient = () => {
 };
 export const getEmailClient = createSingletonGetter(createEmailClient);
 //# sourceMappingURL=index.js.map
-//# debugId=7e78c707-dabf-5cf3-91e5-08951204ab09
+//# debugId=98668f8d-9c8b-59a5-9eef-cbd7f90f6be8

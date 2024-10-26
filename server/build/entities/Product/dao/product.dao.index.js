@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="711083b2-50d2-5a64-8fc9-1e870f593e26")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="793e2f82-3e08-5b16-9ae0-3bb763e60d4f")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -118,18 +118,22 @@ const createProductDAO = () => {
             res.amazonUrl = generateAmazonUrl(res);
             return res;
         },
-        findLastPublishedProducts: async ({ fromDate }) => {
-            const products = await productModel
-                .find({ publishDate: { $gte: fromDate } })
-                .sort({ publishDate: 1 })
-                .lean();
-            products.forEach((p) => {
+        findLastPublishedProducts: async ({ fromDate, limit }) => {
+            const [hits, totalCount] = await Promise.all([
+                productModel
+                    .find({ publishDate: { $gte: fromDate } })
+                    .limit(limit)
+                    .sort({ publishDate: 1 })
+                    .lean(),
+                productModel.countDocuments({ publishDate: { $gte: fromDate } }),
+            ]);
+            hits.forEach((p) => {
                 p.amazonUrl = generateAmazonUrl(p);
             });
-            return products;
+            return { hits, totalCount };
         },
     };
 };
 export const getProductDAO = createSingletonGetter(createProductDAO);
 //# sourceMappingURL=product.dao.index.js.map
-//# debugId=711083b2-50d2-5a64-8fc9-1e870f593e26
+//# debugId=793e2f82-3e08-5b16-9ae0-3bb763e60d4f

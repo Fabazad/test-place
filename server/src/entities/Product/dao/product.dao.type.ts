@@ -18,5 +18,8 @@ export type ProductDAO = {
     updates: ProductUpdateData & Pick<Product, "publishExpirationDate">;
   }) => Promise<Product | null>;
   findAndDeleteProduct: (params: { id: string }) => Promise<Product | null>;
-  findLastPublishedProducts: (params: { fromDate: Date }) => Promise<Array<Product>>;
+  findLastPublishedProducts: (params: {
+    fromDate: Date;
+    limit: number;
+  }) => Promise<{ hits: Array<Product>; totalCount: number }>;
 };
