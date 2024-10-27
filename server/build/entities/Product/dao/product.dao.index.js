@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="793e2f82-3e08-5b16-9ae0-3bb763e60d4f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f1a3a9b2-70b0-5db9-8dcf-afd1160d99cb")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -123,7 +123,7 @@ const createProductDAO = () => {
                 productModel
                     .find({ publishDate: { $gte: fromDate } })
                     .limit(limit)
-                    .sort({ publishDate: 1 })
+                    .sort({ publishDate: -1 })
                     .lean(),
                 productModel.countDocuments({ publishDate: { $gte: fromDate } }),
             ]);
@@ -136,4 +136,4 @@ const createProductDAO = () => {
 };
 export const getProductDAO = createSingletonGetter(createProductDAO);
 //# sourceMappingURL=product.dao.index.js.map
-//# debugId=793e2f82-3e08-5b16-9ae0-3bb763e60d4f
+//# debugId=f1a3a9b2-70b0-5db9-8dcf-afd1160d99cb

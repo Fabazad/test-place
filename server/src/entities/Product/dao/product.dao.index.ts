@@ -149,7 +149,7 @@ const createProductDAO = (): ProductDAO => {
         productModel
           .find({ publishDate: { $gte: fromDate } })
           .limit(limit)
-          .sort({ publishDate: 1 })
+          .sort({ publishDate: -1 })
           .lean<Array<Product>>(),
         productModel.countDocuments({ publishDate: { $gte: fromDate } }),
       ]);
