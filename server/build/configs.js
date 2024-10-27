@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5d071cd9-4273-5c5f-a0a9-12f6ab7797f1")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f25f5f1c-2e8c-5fc8-b63f-61c908a07e82")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -74,8 +74,10 @@ export const configs = z
     NO_REPLY_EMAIL_SENDER_EMAIL: z.string().optional().default("no-reply@test-place.fr"),
     MAX_TESTING_PER_USER: z.coerce.number().default(2),
     PRODUCTS_LIMIT_ON_LAST_PUBLISHED: z.coerce.number().default(10),
+    BRIDGE_SITE_URL: z.string().optional().default("https://chassauxcadeaux.com"),
+    BRIDGE_SITE_PARAMS_KEY: z.string().optional().default("redirectUrl"),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=5d071cd9-4273-5c5f-a0a9-12f6ab7797f1
+//# debugId=f25f5f1c-2e8c-5fc8-b63f-61c908a07e82

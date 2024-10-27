@@ -75,6 +75,8 @@ export const configs = z
     NO_REPLY_EMAIL_SENDER_EMAIL: z.string().optional().default("no-reply@test-place.fr"),
     MAX_TESTING_PER_USER: z.coerce.number().default(2),
     PRODUCTS_LIMIT_ON_LAST_PUBLISHED: z.coerce.number().default(10),
+    BRIDGE_SITE_URL: z.string().optional().default("https://chassauxcadeaux.com"),
+    BRIDGE_SITE_PARAMS_KEY: z.string().optional().default("redirectUrl"),
   })
   .parse(process.env);
 
