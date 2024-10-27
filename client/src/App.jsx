@@ -1,4 +1,5 @@
 import i18n from "i18next";
+import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
@@ -8,6 +9,7 @@ import userService from "../src/services/user.services";
 import ConfirmModal from "./components/Modals/ConfirmModal";
 import ScrollToTop from "./components/ScrollTop";
 import anyAuth from "./helpers/anyAuth";
+import { getAffiliatedByFromUrl } from "./helpers/getAffiliatedBy";
 import withAuth from "./helpers/withAuth";
 import withoutAuth from "./helpers/withoutAuth";
 import history from "./history";
@@ -66,6 +68,12 @@ const App = () => {
         window.$crisp.push(["do", "message:show", ["text", i18n.t("CAN_I_HELP")]]);
       }
     }, 60000);
+
+    const affiliatedByFromUrl = getAffiliatedByFromUrl({ history });
+
+    if (affiliatedByFromUrl) {
+      Cookies.set("affiliatedBy", affiliatedByFromUrl, { secure: true });
+    }
   }, []);
 
   const { t } = useTranslation();

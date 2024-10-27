@@ -200,6 +200,16 @@ export const createTestDAO = (): TestDAO => {
 
       return testModel.countDocuments(query);
     },
+    findManyByUser: async ({ userId, status }) => {
+      const tests = await testModel
+        .find({
+          tester: userId,
+          ...(status && { status: { $in: status } }),
+        })
+        .lean<Array<Test>>();
+
+      return tests;
+    },
   };
 };
 

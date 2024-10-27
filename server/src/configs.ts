@@ -77,6 +77,7 @@ export const configs = z
     PRODUCTS_LIMIT_ON_LAST_PUBLISHED: z.coerce.number().default(10),
     BRIDGE_SITE_URL: z.string().optional().default("https://chassauxcadeaux.com"),
     BRIDGE_SITE_PARAMS_KEY: z.string().optional().default("redirectUrl"),
+    AFFILIATION_RATE_IN_PERCENT: z.coerce.number().default(2),
   })
   .parse(process.env);
 

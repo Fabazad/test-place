@@ -143,10 +143,15 @@ class UserService extends BaseService {
     return this.post("change-gender", { gender }, this.currentUserResolve);
   }
 
-  googleRegister({ credential, roles, language }) {
+  googleRegister({ credential, roles, language, affiliatedBy }) {
     return this.enrichResponseWithError(() =>
       axios
-        .post(this.baseURL + "/google-register", { credential, roles, language })
+        .post(this.baseURL + "/google-register", {
+          credential,
+          roles,
+          language,
+          affiliatedBy,
+        })
         .then(this.currentUserResolve)
     );
   }

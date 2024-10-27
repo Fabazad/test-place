@@ -1,25 +1,46 @@
+import { configs } from "@/configs.js";
 import { Role } from "@/utils/constants.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { Language } from "@/utils/Language.js";
+import { omittedSavedDataSchema } from "@/utils/savedDataSchema.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
-import mongoose from "mongoose";
-import { User, userDataSchema } from "../user.entity.js";
+import dayjs from "dayjs";
+import mongoose, { Types } from "mongoose";
+import { User, userSchema } from "../user.entity.js";
 import { UserDAO } from "./user.dao.type.js";
 
-const userSchema = new mongoose.Schema<User>(
-  generateMongooseSchemaFromZod(userDataSchema)
+const mongooseUserSchema = new mongoose.Schema<User>(
+  generateMongooseSchemaFromZod(userSchema.omit(omittedSavedDataSchema)),
+  { timestamps: true }
 );
 
-userSchema
+mongooseUserSchema
   .index({ email: 1 }, { unique: true })
   .index({ name: 1 }, { unique: true })
   .index({ googleId: 1 }, { unique: true, sparse: true })
   .index({ facebookId: 1 }, { unique: true, sparse: true })
-  .index({ amazonId: 1 }, { unique: true, sparse: true });
+  .index({ amazonId: 1 }, { unique: true, sparse: true })
+  .index({ "affiliated.by": 1 });
 
-const userModel = mongoose.model<User>("User", userSchema);
+const userModel = mongoose.model<User>("User", mongooseUserSchema);
 
 const createUserDAO = (): UserDAO => {
+  const checkAffiliated = async (
+    affiliatedBy?: string
+  ): Promise<{ by: string; rateInPercent: number } | undefined> => {
+    if (!affiliatedBy) return undefined;
+    if (!Types.ObjectId.isValid(affiliatedBy)) return undefined;
+    const affiliatedByUser = await userModel.findOne({ _id: affiliatedBy });
+    if (!affiliatedByUser) return undefined;
+
+    return {
+      by: affiliatedByUser._id,
+      rateInPercent:
+        affiliatedByUser.personalAffiliationRateInPercent ||
+        configs.AFFILIATION_RATE_IN_PERCENT,
+    };
+  };
+
   return {
     getUser: async (params) => {
       const user = await userModel
@@ -46,7 +67,8 @@ const createUserDAO = (): UserDAO => {
     },
     createUser: async ({ userData }) => {
       try {
-        const user = await userModel.create(userData);
+        const affiliated = await checkAffiliated(userData.affiliatedBy);
+        const user = await userModel.create({ ...userData, affiliated });
         const { password, ...userWithoutPassword } = user.toJSON();
         return { success: true, data: JSON.parse(JSON.stringify(userWithoutPassword)) };
       } catch (err: any) {
@@ -163,6 +185,46 @@ const createUserDAO = (): UserDAO => {
         .find({ roles: { $in: [Role.TESTER] } }, { email: 1, name: 1, language: 1 })
         .lean<Array<{ email: string; name: string; language: Language }>>();
       return testers;
+    },
+    getUserAffiliated: async ({ userId, page, limit }) => {
+      const [affiliatedUsers, totalCount] = await Promise.all([
+        userModel
+          .find(
+            { "affiliated.by": userId },
+            { _id: 1, name: 1, email: 1, "affiliated.rateInPercent": 1, createdAt: 1 }
+          )
+          .sort({ _id: -1 })
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .lean<
+            Array<{
+              _id: string;
+              name: string;
+              email: string;
+              affiliated: { rateInPercent: number };
+              createdAt: string;
+            }>
+          >(),
+        userModel.find({ "affiliated.by": userId }).countDocuments(),
+      ]);
+
+      const affiliated = affiliatedUsers.map((user) => ({
+        userId: user._id,
+        name: user.name,
+        email: user.email,
+        rateInPercent: user.affiliated.rateInPercent,
+        createdAt:
+          user.createdAt ||
+          dayjs(new Types.ObjectId(user._id).getTimestamp()).toISOString(),
+      }));
+      return { affiliated, totalCount };
+    },
+    getUserAffiliatedCount: async ({ userId }) => {
+      const totalCount = await userModel
+        .find({ "affiliated.by": userId })
+        .countDocuments();
+
+      return totalCount;
     },
   };
 };

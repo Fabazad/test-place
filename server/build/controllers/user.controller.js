@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="32b96257-b4c1-5c0d-8634-39064cbc237f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c72de675-ea7b-5c00-b609-ac4047dfde9f")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES } from "../entities/Test/test.constants.js";
@@ -13,7 +13,7 @@ import { formatFailedResponse } from "../utils/CustomResponse.js";
 import dayjs from "dayjs";
 export class UserController {
     static async credentialRegister(params) {
-        const { roles, name, email, password, language, frontendUrl } = params;
+        const { roles, name, email, password, language, frontendUrl, affiliatedBy } = params;
         const userDAO = getUserDAO();
         const authManager = getAuthManager();
         const emailClient = getEmailClient();
@@ -28,6 +28,7 @@ export class UserController {
                 language,
                 isCertified: false,
                 emailValidation: false,
+                affiliatedBy: roles.includes(Role.TESTER) ? affiliatedBy : undefined,
             },
         });
         if (!userRes.success)
@@ -333,7 +334,7 @@ export class UserController {
         };
     }
     static async googleRegister(params) {
-        const { credential, roles, language: paramsLanguage } = params;
+        const { credential, roles, language: paramsLanguage, affiliatedBy } = params;
         const userDAO = getUserDAO();
         const authManager = getAuthManager();
         const googleLoginRes = await authManager.googleLogin({ credential });
@@ -373,6 +374,7 @@ export class UserController {
                 language,
                 isCertified: false,
                 password: null,
+                affiliatedBy: roles.includes(Role.TESTER) ? affiliatedBy : undefined,
             },
         });
         if (!createUserRes.success)
@@ -468,4 +470,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=32b96257-b4c1-5c0d-8634-39064cbc237f
+//# debugId=c72de675-ea7b-5c00-b609-ac4047dfde9f

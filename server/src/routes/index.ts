@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { affiliationRouter } from "./affiliation.routes.js";
 import frontRoutes from "./front.routes.js";
 import notificationRoutes from "./notification.routes.js";
 import productRoutes from "./product.routes.js";
@@ -13,6 +14,7 @@ router.use("/api/product", productRoutes);
 router.use("/api/test", testRoutes);
 router.use("/api/notification", notificationRoutes);
 router.use("/api/storage", storageRoutes);
+router.use("/api/affiliation", affiliationRouter);
 router.use("/", frontRoutes);
 
 export default router;

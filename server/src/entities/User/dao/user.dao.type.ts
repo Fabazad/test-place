@@ -69,4 +69,19 @@ export type UserDAO = {
       language: User["language"];
     }>
   >;
+  getUserAffiliated: (params: {
+    userId: string;
+    page: number;
+    limit: number;
+  }) => Promise<{
+    affiliated: Array<{
+      userId: string;
+      name: string;
+      email: string;
+      rateInPercent: number;
+      createdAt: string;
+    }>;
+    totalCount: number;
+  }>;
+  getUserAffiliatedCount: (params: { userId: string }) => Promise<number>;
 };

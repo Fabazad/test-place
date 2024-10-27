@@ -5,3 +5,9 @@ export const savedDataSchema = {
   updatedAt: z.date(),
   _id: z.string(),
 };
+
+export const omittedSavedDataSchema = {
+  createdAt: true,
+  updatedAt: true,
+  _id: true,
+} as const;

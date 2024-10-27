@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="97e6cdee-ad45-5084-84f4-dc97dcef4729")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="377cfd65-a2b6-5ffc-9966-99ecb0f05c25")}catch(e){}}();
 import { Role } from "../../utils/constants.js";
 import { Language } from "../../utils/Language.js";
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
@@ -21,7 +21,19 @@ export const userDataSchema = z.object({
     facebookId: z.string().nullish(),
     language: z.nativeEnum(Language),
     isCertified: z.boolean().default(false),
+    affiliatedBy: z.string({ description: "User" }).optional(),
+    personalAffiliationRateInPercent: z.number().optional(),
 });
-export const userSchema = userDataSchema.extend(savedDataSchema);
+export const userSchema = userDataSchema
+    .extend(savedDataSchema)
+    .omit({ affiliatedBy: true })
+    .extend({
+    affiliated: z
+        .object({
+        by: z.string({ description: "User" }),
+        rateInPercent: z.number(),
+    })
+        .optional(),
+});
 //# sourceMappingURL=user.entity.js.map
-//# debugId=97e6cdee-ad45-5084-84f4-dc97dcef4729
+//# debugId=377cfd65-a2b6-5ffc-9966-99ecb0f05c25

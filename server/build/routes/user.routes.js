@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a70b7080-09d4-5b8f-95af-b91a3b418117")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="82d4c2af-69d9-5743-8971-feff97dc3fea")}catch(e){}}();
 import { configs } from "../configs.js";
 import { UserController } from "../controllers/user.controller.js";
 import { decode } from "../middlewares/decode.js";
@@ -19,12 +19,13 @@ import express from "express";
 import { z } from "zod";
 const router = express.Router();
 router.post("/register", asyncHandler(async (request, reply) => {
-    const { name, email, password, roles, language } = zodValidationForRoute(request.body, z.object({
+    const { name, email, password, roles, language, affiliatedBy } = zodValidationForRoute(request.body, z.object({
         name: z.string().trim(),
         email: z.string().trim().email(),
         password: z.string().trim().min(configs.MIN_PASSWORD_LENGTH),
         roles: z.array(z.nativeEnum(Role)),
         language: z.nativeEnum(Language),
+        affiliatedBy: z.string().trim().optional(),
     }));
     const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
     const res = await UserController.credentialRegister({
@@ -34,6 +35,7 @@ router.post("/register", asyncHandler(async (request, reply) => {
         password,
         language,
         frontendUrl,
+        affiliatedBy,
     });
     reply.send(handleResponseForRoute(res, {
         duplicate_email: new BadRequestError("duplicate_email"),
@@ -158,15 +160,17 @@ router.get("/:userId", asyncHandler(async (request, reply) => {
     }));
 }));
 router.post("/google-register", asyncHandler(async (request, reply) => {
-    const { credential, roles, language } = zodValidationForRoute(request.body, z.object({
+    const { credential, roles, language, affiliatedBy } = zodValidationForRoute(request.body, z.object({
         credential: z.string().min(1),
         roles: z.array(z.nativeEnum(Role)),
         language: z.nativeEnum(Language),
+        affiliatedBy: z.string().trim().optional(),
     }));
     const res = await UserController.googleRegister({
         credential,
         roles,
         language,
+        affiliatedBy,
     });
     reply.send(handleResponseForRoute(res, {
         name_already_used_when_adding_email: new ServerRequestError("name_already_used_when_adding_email"),
@@ -241,4 +245,4 @@ router.post("/update-language", withAuth(), asyncHandler(async (request, reply) 
 }));
 export default router;
 //# sourceMappingURL=user.routes.js.map
-//# debugId=a70b7080-09d4-5b8f-95af-b91a3b418117
+//# debugId=82d4c2af-69d9-5743-8971-feff97dc3fea

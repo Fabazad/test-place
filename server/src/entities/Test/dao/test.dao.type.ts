@@ -31,4 +31,8 @@ export type TestDAO = {
     statuses: Array<TestStatus>;
     withGuilty?: boolean;
   }) => Promise<number>;
+  findManyByUser: (params: {
+    userId: string;
+    status?: Array<TestStatus>;
+  }) => Promise<Array<Test>>;
 };

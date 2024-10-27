@@ -21,16 +21,18 @@ const router = express.Router();
 router.post(
   "/register",
   asyncHandler(async (request, reply) => {
-    const { name, email, password, roles, language } = zodValidationForRoute(
-      request.body,
-      z.object({
-        name: z.string().trim(),
-        email: z.string().trim().email(),
-        password: z.string().trim().min(configs.MIN_PASSWORD_LENGTH),
-        roles: z.array(z.nativeEnum(Role)),
-        language: z.nativeEnum(Language),
-      })
-    );
+    const { name, email, password, roles, language, affiliatedBy } =
+      zodValidationForRoute(
+        request.body,
+        z.object({
+          name: z.string().trim(),
+          email: z.string().trim().email(),
+          password: z.string().trim().min(configs.MIN_PASSWORD_LENGTH),
+          roles: z.array(z.nativeEnum(Role)),
+          language: z.nativeEnum(Language),
+          affiliatedBy: z.string().trim().optional(),
+        })
+      );
 
     const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
 
@@ -41,6 +43,7 @@ router.post(
       password,
       language,
       frontendUrl,
+      affiliatedBy,
     });
 
     reply.send(
@@ -290,12 +293,13 @@ router.get(
 router.post(
   "/google-register",
   asyncHandler(async (request, reply) => {
-    const { credential, roles, language } = zodValidationForRoute(
+    const { credential, roles, language, affiliatedBy } = zodValidationForRoute(
       request.body,
       z.object({
         credential: z.string().min(1),
         roles: z.array(z.nativeEnum(Role)),
         language: z.nativeEnum(Language),
+        affiliatedBy: z.string().trim().optional(),
       })
     );
 
@@ -303,6 +307,7 @@ router.post(
       credential,
       roles,
       language,
+      affiliatedBy,
     });
 
     reply.send(

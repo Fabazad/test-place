@@ -32,6 +32,7 @@ import RolesSelectInput from "../components/Forms/RolesSelectInput";
 import Loading from "../components/Loading";
 import PrivacyPolicyModal from "../components/Modals/PrivacyPolicyModal";
 import PasswordStrength from "../components/PasswordStrength";
+import { getAffiliatedBy } from "../helpers/getAffiliatedBy";
 
 const Register = ({ t }) => {
   const history = useHistory();
@@ -41,6 +42,8 @@ const Register = ({ t }) => {
   const [password, setPassword] = useState(null);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(null);
+
+  const affiliatedBy = getAffiliatedBy({ history });
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -55,7 +58,14 @@ const Register = ({ t }) => {
       return;
     }
 
-    const user = { name, email, password, roles: [role], language: i18n.language };
+    const user = {
+      name,
+      email,
+      password,
+      roles: [role],
+      language: i18n.language,
+      affiliatedBy,
+    };
 
     setLoading(true);
     userService

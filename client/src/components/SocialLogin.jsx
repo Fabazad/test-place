@@ -5,6 +5,7 @@ import { withTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import constants from "../helpers/constants";
+import { getAffiliatedBy } from "../helpers/getAffiliatedBy";
 import userService from "../services/user.services";
 import GoogleLoginButton from "./Buttons/GoogleLoginButton";
 
@@ -51,10 +52,13 @@ const SocialLogin = ({
   const googleRegister = async ({ credential, roles }) => {
     setLoading(true);
     try {
+      const affiliatedBy = getAffiliatedBy({ history });
+
       const res = await userService.googleRegister({
         credential,
         roles,
         language: i18n.language,
+        affiliatedBy,
       });
 
       history.push(

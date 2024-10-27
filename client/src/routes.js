@@ -1,5 +1,6 @@
 import React from "react";
 import constants, { TestStatus } from "./helpers/constants";
+import { Affiliation } from "./views/Affiliation/Affiliation";
 import MyProducts from "./views/MyProducts";
 import Profile from "./views/Profile/Profile.jsx";
 import TestList from "./views/TestList";
@@ -198,6 +199,14 @@ const routes = (t) => [
     icon: "fa fa-user",
     color: "info",
     component: Profile,
+    layout: "/dashboard",
+  },
+  {
+    path: "/affiliation",
+    name: t("AFFILIATION"),
+    icon: "fa fa-user-tag",
+    color: "promotion",
+    component: Affiliation,
     layout: "/dashboard",
   },
 ];

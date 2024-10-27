@@ -22,8 +22,9 @@ export class UserController {
     password: string;
     language: Language;
     frontendUrl: string;
+    affiliatedBy?: string;
   }): Promise<CustomResponse<undefined, "duplicate_email" | "duplicate_name">> {
-    const { roles, name, email, password, language, frontendUrl } = params;
+    const { roles, name, email, password, language, frontendUrl, affiliatedBy } = params;
 
     const userDAO = getUserDAO();
     const authManager = getAuthManager();
@@ -40,6 +41,7 @@ export class UserController {
         language,
         isCertified: false,
         emailValidation: false,
+        affiliatedBy: roles.includes(Role.TESTER) ? affiliatedBy : undefined,
       },
     });
 
@@ -522,6 +524,7 @@ export class UserController {
     credential: string;
     roles: Array<Role>;
     language: Language;
+    affiliatedBy?: string;
   }): Promise<
     CustomResponse<
       SignedInUser,
@@ -536,7 +539,7 @@ export class UserController {
       | "user_name_not_found"
     >
   > {
-    const { credential, roles, language: paramsLanguage } = params;
+    const { credential, roles, language: paramsLanguage, affiliatedBy } = params;
 
     const userDAO = getUserDAO();
     const authManager = getAuthManager();
@@ -588,6 +591,7 @@ export class UserController {
         language,
         isCertified: false,
         password: null,
+        affiliatedBy: roles.includes(Role.TESTER) ? affiliatedBy : undefined,
       },
     });
 

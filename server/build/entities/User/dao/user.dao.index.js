@@ -1,19 +1,37 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a542246a-16d8-5fb9-9ddc-f58cac9ef9b6")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a485ac00-ba8e-5f4f-a7d0-99f74cb63db1")}catch(e){}}();
+import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
+import { omittedSavedDataSchema } from "../../../utils/savedDataSchema.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
-import mongoose from "mongoose";
-import { userDataSchema } from "../user.entity.js";
-const userSchema = new mongoose.Schema(generateMongooseSchemaFromZod(userDataSchema));
-userSchema
+import dayjs from "dayjs";
+import mongoose, { Types } from "mongoose";
+import { userSchema } from "../user.entity.js";
+const mongooseUserSchema = new mongoose.Schema(generateMongooseSchemaFromZod(userSchema.omit(omittedSavedDataSchema)), { timestamps: true });
+mongooseUserSchema
     .index({ email: 1 }, { unique: true })
     .index({ name: 1 }, { unique: true })
     .index({ googleId: 1 }, { unique: true, sparse: true })
     .index({ facebookId: 1 }, { unique: true, sparse: true })
-    .index({ amazonId: 1 }, { unique: true, sparse: true });
-const userModel = mongoose.model("User", userSchema);
+    .index({ amazonId: 1 }, { unique: true, sparse: true })
+    .index({ "affiliated.by": 1 });
+const userModel = mongoose.model("User", mongooseUserSchema);
 const createUserDAO = () => {
+    const checkAffiliated = async (affiliatedBy) => {
+        if (!affiliatedBy)
+            return undefined;
+        if (!Types.ObjectId.isValid(affiliatedBy))
+            return undefined;
+        const affiliatedByUser = await userModel.findOne({ _id: affiliatedBy });
+        if (!affiliatedByUser)
+            return undefined;
+        return {
+            by: affiliatedByUser._id,
+            rateInPercent: affiliatedByUser.personalAffiliationRateInPercent ||
+                configs.AFFILIATION_RATE_IN_PERCENT,
+        };
+    };
     return {
         getUser: async (params) => {
             const user = await userModel
@@ -42,7 +60,8 @@ const createUserDAO = () => {
         },
         createUser: async ({ userData }) => {
             try {
-                const user = await userModel.create(userData);
+                const affiliated = await checkAffiliated(userData.affiliatedBy);
+                const user = await userModel.create({ ...userData, affiliated });
                 const { password, ...userWithoutPassword } = user.toJSON();
                 return { success: true, data: JSON.parse(JSON.stringify(userWithoutPassword)) };
             }
@@ -149,8 +168,34 @@ const createUserDAO = () => {
                 .lean();
             return testers;
         },
+        getUserAffiliated: async ({ userId, page, limit }) => {
+            const [affiliatedUsers, totalCount] = await Promise.all([
+                userModel
+                    .find({ "affiliated.by": userId }, { _id: 1, name: 1, email: 1, "affiliated.rateInPercent": 1, createdAt: 1 })
+                    .sort({ _id: -1 })
+                    .skip((page - 1) * limit)
+                    .limit(limit)
+                    .lean(),
+                userModel.find({ "affiliated.by": userId }).countDocuments(),
+            ]);
+            const affiliated = affiliatedUsers.map((user) => ({
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                rateInPercent: user.affiliated.rateInPercent,
+                createdAt: user.createdAt ||
+                    dayjs(new Types.ObjectId(user._id).getTimestamp()).toISOString(),
+            }));
+            return { affiliated, totalCount };
+        },
+        getUserAffiliatedCount: async ({ userId }) => {
+            const totalCount = await userModel
+                .find({ "affiliated.by": userId })
+                .countDocuments();
+            return totalCount;
+        },
     };
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=a542246a-16d8-5fb9-9ddc-f58cac9ef9b6
+//# debugId=a485ac00-ba8e-5f4f-a7d0-99f74cb63db1

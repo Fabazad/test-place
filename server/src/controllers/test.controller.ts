@@ -6,6 +6,7 @@ import { GLOBAL_TEST_STATUSES, TestStatus } from "@/entities/Test/test.constants
 import { PopulatedTest, Test, TestData } from "@/entities/Test/test.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
+import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import {
   NOTIFICATION_TYPES,
   Role,
@@ -14,6 +15,7 @@ import {
 } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
+import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
 
 export class TestController {
@@ -247,6 +249,7 @@ export class TestController {
     >
   > {
     const testDAO = getTestDAO();
+    const monitoringClient = getMonitoringClient();
 
     const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
 
@@ -314,6 +317,28 @@ export class TestController {
         TestController.checkAndUpdateUserCertification(test.tester),
         TestController.checkAndUpdateUserCertification(test.seller),
       ]);
+    }
+
+    if (update.status === TestStatus.MONEY_RECEIVED) {
+      const res = await AffiliationController.checkForAffiliatedCommissionRecord({
+        affiliatedId: test.tester,
+        productAmount: test.product.price,
+      });
+      if (!res.success) {
+        if (
+          ["could_not_find_user", "could_not_find_ambassador"].includes(res.errorCode)
+        ) {
+          await monitoringClient.sendEvent({
+            level: "error",
+            eventName: res.errorCode,
+            data: {
+              errorMessage: res.errorMessage,
+              affiliatedId: test.seller,
+              productAmount: test.product.price,
+            },
+          });
+        }
+      }
     }
 
     return {

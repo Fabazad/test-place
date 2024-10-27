@@ -1,12 +1,14 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bdd2d64c-c2da-5a8a-8466-b4e218654d86")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1d6fcb2d-de94-5b19-8c81-af7b8142b9e4")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
+import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { NOTIFICATION_TYPES, Role, TEST_STATUS_PROCESSES, } from "../utils/constants.js";
 import dayjs from "dayjs";
+import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
 export class TestController {
     static async generateTestData(params) {
@@ -143,6 +145,7 @@ export class TestController {
     }
     static async updateStatus({ userId, testId, update, frontendUrl, }) {
         const testDAO = getTestDAO();
+        const monitoringClient = getMonitoringClient();
         const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
         const test = await testDAO.findById({ id: testId });
         if (!test)
@@ -195,6 +198,25 @@ export class TestController {
                 TestController.checkAndUpdateUserCertification(test.seller),
             ]);
         }
+        if (update.status === TestStatus.MONEY_RECEIVED) {
+            const res = await AffiliationController.checkForAffiliatedCommissionRecord({
+                affiliatedId: test.tester,
+                productAmount: test.product.price,
+            });
+            if (!res.success) {
+                if (["could_not_find_user", "could_not_find_ambassador"].includes(res.errorCode)) {
+                    await monitoringClient.sendEvent({
+                        level: "error",
+                        eventName: res.errorCode,
+                        data: {
+                            errorMessage: res.errorMessage,
+                            affiliatedId: test.seller,
+                            productAmount: test.product.price,
+                        },
+                    });
+                }
+            }
+        }
         return {
             success: true,
             data: {
@@ -222,4 +244,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=bdd2d64c-c2da-5a8a-8466-b4e218654d86
+//# debugId=1d6fcb2d-de94-5b19-8c81-af7b8142b9e4

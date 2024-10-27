@@ -8,7 +8,6 @@ import { GLOBAL_TEST_STATUSES } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
-import { NotificationType } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 
 export class NotificationController {

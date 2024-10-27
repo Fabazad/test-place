@@ -1,6 +1,7 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b185ae34-402a-5758-9df0-77f23fd776f9")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="94072739-571d-548f-bbc7-f426a0d2d8e4")}catch(e){}}();
 import { Router } from "express";
+import { affiliationRouter } from "./affiliation.routes.js";
 import frontRoutes from "./front.routes.js";
 import notificationRoutes from "./notification.routes.js";
 import productRoutes from "./product.routes.js";
@@ -13,7 +14,8 @@ router.use("/api/product", productRoutes);
 router.use("/api/test", testRoutes);
 router.use("/api/notification", notificationRoutes);
 router.use("/api/storage", storageRoutes);
+router.use("/api/affiliation", affiliationRouter);
 router.use("/", frontRoutes);
 export default router;
 //# sourceMappingURL=index.js.map
-//# debugId=b185ae34-402a-5758-9df0-77f23fd776f9
+//# debugId=94072739-571d-548f-bbc7-f426a0d2d8e4

@@ -20,9 +20,21 @@ export const userDataSchema = z.object({
   facebookId: z.string().nullish(),
   language: z.nativeEnum(Language),
   isCertified: z.boolean().default(false),
+  affiliatedBy: z.string({ description: "User" }).optional(),
+  personalAffiliationRateInPercent: z.number().optional(),
 });
 export type UserData = z.infer<typeof userDataSchema>;
 
-export const userSchema = userDataSchema.extend(savedDataSchema);
+export const userSchema = userDataSchema
+  .extend(savedDataSchema)
+  .omit({ affiliatedBy: true })
+  .extend({
+    affiliated: z
+      .object({
+        by: z.string({ description: "User" }),
+        rateInPercent: z.number(),
+      })
+      .optional(),
+  });
 export type User = z.infer<typeof userSchema>;
 export type UserWithoutPassword = Omit<User, "password">;
