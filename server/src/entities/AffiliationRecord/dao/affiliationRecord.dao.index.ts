@@ -15,6 +15,10 @@ const mongooseAffiliationRecordSchema = new mongoose.Schema<AffiliationRecord>(
   { timestamps: true }
 );
 
+mongooseAffiliationRecordSchema
+  .index({ ambassadorId: 1, "params.paramsType": 1 })
+  .index({ ambassadorId: 1, createdAt: -1 });
+
 const affiliationRecordModel = mongoose.model<AffiliationRecord>(
   "AffiliationRecord",
   mongooseAffiliationRecordSchema

@@ -1,11 +1,14 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="facbbc95-9e47-51d2-aab2-e3143ff727a8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f153eaed-738d-5a2f-b483-84b46e73ab5a")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { omittedSavedDataSchema } from "../../../utils/savedDataSchema.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose, { Types } from "mongoose";
 import { AffiliationRecordParamsType, affiliationRecordSchema, } from "../affiliationRecord.entity.js";
 const mongooseAffiliationRecordSchema = new mongoose.Schema(generateMongooseSchemaFromZod(affiliationRecordSchema.omit(omittedSavedDataSchema)), { timestamps: true });
+mongooseAffiliationRecordSchema
+    .index({ ambassadorId: 1, "params.paramsType": 1 })
+    .index({ ambassadorId: 1, createdAt: -1 });
 const affiliationRecordModel = mongoose.model("AffiliationRecord", mongooseAffiliationRecordSchema);
 const createAffiliationRecordDAO = () => {
     return {
@@ -79,4 +82,4 @@ const createAffiliationRecordDAO = () => {
 };
 export const getAffiliationRecordDAO = createSingletonGetter(createAffiliationRecordDAO);
 //# sourceMappingURL=affiliationRecord.dao.index.js.map
-//# debugId=facbbc95-9e47-51d2-aab2-e3143ff727a8
+//# debugId=f153eaed-738d-5a2f-b483-84b46e73ab5a

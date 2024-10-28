@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="53012e9c-92dd-5e73-991c-c0a3d7f0e908")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8cfa2214-95ab-5919-9714-3768efc56db2")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { savedDataSchema } from "../../../utils/savedDataSchema.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import mongoose from "mongoose";
 import { notificationDataSchema } from "../notification.entity.js";
 const notificationMongooseSchema = new mongoose.Schema(generateMongooseSchemaFromZod(notificationDataSchema), { timestamps: true });
+notificationMongooseSchema.index({ user: 1, viewDate: -1, createdAt: -1 });
 const notificationSchema = notificationDataSchema.extend(savedDataSchema);
 const notificationModel = mongoose.model("Notification", notificationMongooseSchema);
 export const createNotificationDAO = () => {
@@ -47,4 +48,4 @@ export const createNotificationDAO = () => {
 };
 export const getNotificationDAO = createSingletonGetter(createNotificationDAO);
 //# sourceMappingURL=notification.dao.index.js.map
-//# debugId=53012e9c-92dd-5e73-991c-c0a3d7f0e908
+//# debugId=8cfa2214-95ab-5919-9714-3768efc56db2

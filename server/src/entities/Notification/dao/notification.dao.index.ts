@@ -12,6 +12,8 @@ const notificationMongooseSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+notificationMongooseSchema.index({ user: 1, viewDate: -1, createdAt: -1 });
+
 const notificationSchema = notificationDataSchema.extend(savedDataSchema);
 type Notification = z.infer<typeof notificationSchema>;
 

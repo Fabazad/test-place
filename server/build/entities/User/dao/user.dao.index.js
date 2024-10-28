@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a485ac00-ba8e-5f4f-a7d0-99f74cb63db1")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f7386ee2-b688-506e-801d-c9d979e3e42d")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -15,7 +15,7 @@ mongooseUserSchema
     .index({ googleId: 1 }, { unique: true, sparse: true })
     .index({ facebookId: 1 }, { unique: true, sparse: true })
     .index({ amazonId: 1 }, { unique: true, sparse: true })
-    .index({ "affiliated.by": 1 });
+    .index({ "affiliated.by": 1, _id: -1 });
 const userModel = mongoose.model("User", mongooseUserSchema);
 const createUserDAO = () => {
     const checkAffiliated = async (affiliatedBy) => {
@@ -198,4 +198,4 @@ const createUserDAO = () => {
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=a485ac00-ba8e-5f4f-a7d0-99f74cb63db1
+//# debugId=f7386ee2-b688-506e-801d-c9d979e3e42d

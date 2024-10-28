@@ -20,7 +20,7 @@ mongooseUserSchema
   .index({ googleId: 1 }, { unique: true, sparse: true })
   .index({ facebookId: 1 }, { unique: true, sparse: true })
   .index({ amazonId: 1 }, { unique: true, sparse: true })
-  .index({ "affiliated.by": 1 });
+  .index({ "affiliated.by": 1, _id: -1 });
 
 const userModel = mongoose.model<User>("User", mongooseUserSchema);
 
