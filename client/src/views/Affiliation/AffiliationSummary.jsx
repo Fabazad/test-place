@@ -20,7 +20,7 @@ export const AffiliationSummary = withTranslation()(({ t }) => {
   }, []);
 
   const userId = userServices.currentUser._id;
-  const affiliationLink = `${window.location.origin}/register?affiliatedBy=${userId}`;
+  const affiliationLink = `${window.location.origin}/register?a=${userId}`;
 
   const copyAffiliationLink = () => {
     navigator.clipboard.writeText(affiliationLink);

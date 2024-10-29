@@ -442,5 +442,6 @@
   "APP_PAYMENT": "应用付款",
   "DATE": "日期",
   "TEST_REQUESTED": "请求测试",
-  "TYPE": "类型"
+  "TYPE": "类型",
+  "NAME": "名称"
 }

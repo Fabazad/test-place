@@ -1,7 +1,10 @@
 import Cookies from "js-cookie";
 
 export const getAffiliatedByFromUrl = ({ history }) => {
-  return new URLSearchParams(history.location.search).get("affiliatedBy");
+  return (
+    new URLSearchParams(history.location.search).get("affiliatedBy") ||
+    new URLSearchParams(history.location.search).get("a")
+  );
 };
 
 export const getAffiliatedBy = ({ history }) => {
