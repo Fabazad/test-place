@@ -8,7 +8,7 @@ export const getAffiliatedBy = ({ history }) => {
   const affiliatedByFromCookie = Cookies.get("affiliatedBy");
 
   if (!affiliatedByFromCookie) {
-    return getAffiliatedByFromUrl({ history });
+    return getAffiliatedByFromUrl({ history }) || undefined;
   }
-  return affiliatedByFromCookie;
+  return affiliatedByFromCookie || undefined;
 };
