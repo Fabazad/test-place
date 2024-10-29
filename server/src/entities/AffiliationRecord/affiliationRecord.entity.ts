@@ -7,12 +7,19 @@ export const AffiliationRecordParamsType = {
   AFFILIATED_COMMISSION: "affiliatedCommission",
   APP_PAYMENT: "appPayment",
 } as const;
-
 export type AffiliationRecordParamsType = InferEnum<typeof AffiliationRecordParamsType>;
+
+export const AffiliatedCommissionStatus = {
+  TEST_REQUEST: "testRequest",
+  PRODUCT_ORDERED: "productOrdered",
+  MONEY_RECEIVED: "moneyReceived",
+} as const;
+export type AffiliatedCommissionStatus = InferEnum<typeof AffiliatedCommissionStatus>;
 
 const affiliatedCommissionParamsSchema = z.object({
   paramsType: z.literal(AffiliationRecordParamsType.AFFILIATED_COMMISSION),
   affiliated: z.string({ description: "User" }),
+  status: z.nativeEnum(AffiliatedCommissionStatus),
   rateInPercent: z.number(),
 });
 

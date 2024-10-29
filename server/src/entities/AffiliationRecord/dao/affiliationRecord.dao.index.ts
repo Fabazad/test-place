@@ -3,6 +3,7 @@ import { omittedSavedDataSchema } from "@/utils/savedDataSchema.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
 import mongoose, { Types } from "mongoose";
 import {
+  AffiliatedCommissionStatus,
   AffiliationRecord,
   AffiliationRecordParamsType,
   affiliationRecordSchema,
@@ -16,7 +17,7 @@ const mongooseAffiliationRecordSchema = new mongoose.Schema<AffiliationRecord>(
 );
 
 mongooseAffiliationRecordSchema
-  .index({ ambassadorId: 1, "params.paramsType": 1 })
+  .index({ ambassadorId: 1, "params.paramsType": 1, "params.status": 1 })
   .index({ ambassadorId: 1, createdAt: -1 });
 
 const affiliationRecordModel = mongoose.model<AffiliationRecord>(
@@ -31,12 +32,14 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
       ambassadorId,
       amount,
       rateInPercent,
+      status,
     }) => {
       await affiliationRecordModel.create({
         params: {
           paramsType: AffiliationRecordParamsType.AFFILIATED_COMMISSION,
           affiliated: affiliatedId,
           rateInPercent,
+          status,
         },
         amount,
         ambassadorId,
@@ -79,6 +82,7 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
             $match: {
               ambassadorId: new Types.ObjectId(userId),
               "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
+              "params.status": AffiliatedCommissionStatus.MONEY_RECEIVED,
             },
           },
           { $group: { _id: null, totalGeneratedMoney: { $sum: "$amount" } } },
@@ -93,6 +97,15 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
           {
             $match: {
               ambassadorId: new Types.ObjectId(userId),
+              $or: [
+                {
+                  "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
+                  "params.status": AffiliatedCommissionStatus.MONEY_RECEIVED,
+                },
+                {
+                  "params.paramsType": AffiliationRecordParamsType.APP_PAYMENT,
+                },
+              ],
             },
           },
           { $group: { _id: null, outstandingBalance: { $sum: "$amount" } } },

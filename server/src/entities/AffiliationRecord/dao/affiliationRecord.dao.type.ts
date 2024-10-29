@@ -1,5 +1,8 @@
 import { CustomResponse } from "@/utils/CustomResponse.js";
-import { PopulatedAffiliationRecord } from "../affiliationRecord.entity.js";
+import {
+  AffiliatedCommissionStatus,
+  PopulatedAffiliationRecord,
+} from "../affiliationRecord.entity.js";
 
 export type AffiliationRecordDAO = {
   createAffiliatedCommissionRecord: (params: {
@@ -7,6 +10,7 @@ export type AffiliationRecordDAO = {
     ambassadorId: string;
     amount: number;
     rateInPercent: number;
+    status: AffiliatedCommissionStatus;
   }) => Promise<CustomResponse<undefined>>;
   getLastRecords: (params: {
     page: number;

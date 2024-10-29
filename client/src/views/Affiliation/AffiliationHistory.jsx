@@ -39,6 +39,23 @@ export const AffiliationHistory = withTranslation()(({ t }) => {
     })();
   }, [page, itemsPerPage]);
 
+  const getBadgeColorFromRecord = (record) => {
+    if (record.params.paramsType === "appPayment") return "primary";
+
+    if (record.params.status === "moneyReceived") {
+      return "success";
+    }
+    return "default";
+  };
+
+  const getTypeFromRecord = (record) => {
+    if (record.params.paramsType === "appPayment") return t("APP_PAYMENT");
+    if (record.params.status === "moneyReceived") return t("MONEY_RECEIVED");
+    if (record.params.status === "productOrdered") return t("PRODUCT_ORDERED");
+    if (record.params.status === "testRequest") return t("TEST_REQUESTED");
+    return "Unknown";
+  };
+
   return (
     <Card className="shadow">
       <CardHeader className="bg-white border-0">
@@ -59,8 +76,9 @@ export const AffiliationHistory = withTranslation()(({ t }) => {
           <thead className="thead-light">
             <tr>
               <th scope="col">{t("NAME")}</th>
-              <th scope="col">{t("RATE")} (%)</th>
-              <th scope="col">{t("SIGN_UP_DATE")}</th>
+              <th scope="col">{t("RATE")}</th>
+              <th scope="col">{t("DATE")}</th>
+              <th scope="col">{t("TYPE")}</th>
               <th scope="col">{t("AMOUNT")}</th>
             </tr>
           </thead>
@@ -70,7 +88,17 @@ export const AffiliationHistory = withTranslation()(({ t }) => {
                 <td>{record.params.affiliated.name}</td>
                 <td>{record.params.rateInPercent}%</td>
                 <td>{formatDate(record.createdAt)}</td>
-                <td>{record.amount}€</td>
+                <td>{getTypeFromRecord(record)}</td>
+                <td>
+                  <Badge
+                    color={getBadgeColorFromRecord(record)}
+                    pill
+                    className="badge-lg font-size-lg"
+                  >
+                    {record.amount < 0 ? "-" : "+"}
+                    {record.amount}€
+                  </Badge>
+                </td>
               </tr>
             ))}
           </tbody>

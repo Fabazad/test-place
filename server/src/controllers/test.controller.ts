@@ -319,11 +319,17 @@ export class TestController {
       ]);
     }
 
-    if (update.status === TestStatus.MONEY_RECEIVED) {
+    if (
+      update.status === TestStatus.MONEY_RECEIVED ||
+      update.status === TestStatus.PRODUCT_ORDERED ||
+      update.status === TestStatus.REQUEST_ACCEPTED
+    ) {
       const res = await AffiliationController.checkForAffiliatedCommissionRecord({
         affiliatedId: test.tester,
         productAmount: test.product.price,
+        testStatus: update.status,
       });
+
       if (!res.success) {
         if (
           ["could_not_find_user", "could_not_find_ambassador"].includes(res.errorCode)

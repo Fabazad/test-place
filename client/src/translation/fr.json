@@ -437,5 +437,10 @@
   "TOTAL_EARNINGS_DESCRIPTION": "Le badge vert indique le montant total de vos commissions via le programme d'affiliation.",
   "PENDING_BALANCE_TITLE": "Solde en attente de paiement",
   "PENDING_BALANCE_DESCRIPTION": "Le badge bleu indique le montant qui vous sera versé dès que le seuil de 5€ sera atteint.",
-  "INVITATION_MESSAGE": "Invitez des testeurs, partagez votre lien, et profitez d’un revenu supplémentaire chaque mois !"
+  "INVITATION_MESSAGE": "Invitez des testeurs, partagez votre lien, et profitez d’un revenu supplémentaire chaque mois !",
+  "AMOUNT": "Montant",
+  "APP_PAYMENT": "Paiement par application",
+  "DATE": "Date",
+  "TEST_REQUESTED": "Demande de test",
+  "TYPE": "Type"
 }

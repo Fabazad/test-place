@@ -437,5 +437,10 @@
   "TOTAL_EARNINGS_DESCRIPTION": "绿色标志表示您通过推荐获得的总佣金。",
   "PENDING_BALANCE_TITLE": "待支付余额",
   "PENDING_BALANCE_DESCRIPTION": "蓝色标志显示当达到5欧元阈值时将支付的金额。",
-  "INVITATION_MESSAGE": "邀请测试人员，分享您的链接，每月享受额外收入！"
+  "INVITATION_MESSAGE": "邀请测试人员，分享您的链接，每月享受额外收入！",
+  "AMOUNT": "金额",
+  "APP_PAYMENT": "应用付款",
+  "DATE": "日期",
+  "TEST_REQUESTED": "请求测试",
+  "TYPE": "类型"
 }

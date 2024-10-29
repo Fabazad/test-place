@@ -437,5 +437,10 @@
   "TOTAL_EARNINGS_DESCRIPTION": "The green badge shows the total amount of your affiliate commissions.",
   "PENDING_BALANCE_TITLE": "Pending Balance",
   "PENDING_BALANCE_DESCRIPTION": "The blue badge displays the amount that will be paid once the 5€ threshold is reached.",
-  "INVITATION_MESSAGE": "Invite testers, share your link, and enjoy an extra income each month!"
+  "INVITATION_MESSAGE": "Invite testers, share your link, and enjoy an extra income each month!",
+  "AMOUNT": "Amount",
+  "APP_PAYMENT": "App Payment",
+  "DATE": "Date",
+  "TEST_REQUESTED": "Test Requested",
+  "TYPE": "Type"
 }

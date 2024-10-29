@@ -1,14 +1,20 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e8dafe2e-8ea8-56c7-8424-ed74170a9645")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ffb93377-cda0-5bbb-bcee-8f1c674cd005")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 export const AffiliationRecordParamsType = {
     AFFILIATED_COMMISSION: "affiliatedCommission",
     APP_PAYMENT: "appPayment",
 };
+export const AffiliatedCommissionStatus = {
+    TEST_REQUEST: "testRequest",
+    PRODUCT_ORDERED: "productOrdered",
+    MONEY_RECEIVED: "moneyReceived",
+};
 const affiliatedCommissionParamsSchema = z.object({
     paramsType: z.literal(AffiliationRecordParamsType.AFFILIATED_COMMISSION),
     affiliated: z.string({ description: "User" }),
+    status: z.nativeEnum(AffiliatedCommissionStatus),
     rateInPercent: z.number(),
 });
 const appPaymentParamsSchema = z.object({
@@ -24,4 +30,4 @@ export const affiliationRecordDataSchema = z.object({
 });
 export const affiliationRecordSchema = affiliationRecordDataSchema.extend(savedDataSchema);
 //# sourceMappingURL=affiliationRecord.entity.js.map
-//# debugId=e8dafe2e-8ea8-56c7-8424-ed74170a9645
+//# debugId=ffb93377-cda0-5bbb-bcee-8f1c674cd005

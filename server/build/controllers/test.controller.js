@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1d6fcb2d-de94-5b19-8c81-af7b8142b9e4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9a3c1f5a-5df3-5caf-816f-f25df45b2909")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -198,10 +198,13 @@ export class TestController {
                 TestController.checkAndUpdateUserCertification(test.seller),
             ]);
         }
-        if (update.status === TestStatus.MONEY_RECEIVED) {
+        if (update.status === TestStatus.MONEY_RECEIVED ||
+            update.status === TestStatus.PRODUCT_ORDERED ||
+            update.status === TestStatus.REQUEST_ACCEPTED) {
             const res = await AffiliationController.checkForAffiliatedCommissionRecord({
                 affiliatedId: test.tester,
                 productAmount: test.product.price,
+                testStatus: update.status,
             });
             if (!res.success) {
                 if (["could_not_find_user", "could_not_find_ambassador"].includes(res.errorCode)) {
@@ -244,4 +247,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=1d6fcb2d-de94-5b19-8c81-af7b8142b9e4
+//# debugId=9a3c1f5a-5df3-5caf-816f-f25df45b2909

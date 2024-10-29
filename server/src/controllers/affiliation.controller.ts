@@ -1,7 +1,16 @@
-import { PopulatedAffiliationRecord } from "@/entities/AffiliationRecord/affiliationRecord.entity.js";
+import {
+  AffiliatedCommissionStatus,
+  PopulatedAffiliationRecord,
+} from "@/entities/AffiliationRecord/affiliationRecord.entity.js";
 import { getAffiliationRecordDAO } from "@/entities/AffiliationRecord/dao/affiliationRecord.dao.index.js";
+import { TestStatus } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
+
+type AcceptedTestStatus =
+  | typeof TestStatus.REQUEST_ACCEPTED
+  | typeof TestStatus.MONEY_RECEIVED
+  | typeof TestStatus.PRODUCT_ORDERED;
 
 export class AffiliationController {
   static async getUserAffiliated({
@@ -32,16 +41,18 @@ export class AffiliationController {
     });
     return { success: true, data: { affiliated, totalCount } };
   }
+
   static async checkForAffiliatedCommissionRecord(params: {
     affiliatedId: string;
     productAmount: number;
+    testStatus: AcceptedTestStatus;
   }): Promise<
     CustomResponse<
       undefined,
       "could_not_find_user" | "not_affiliated" | "could_not_find_ambassador"
     >
   > {
-    const { affiliatedId, productAmount } = params;
+    const { affiliatedId, productAmount, testStatus } = params;
 
     const userDAO = getUserDAO();
     const affiliationRecordDAO = getAffiliationRecordDAO();
@@ -58,11 +69,18 @@ export class AffiliationController {
       `${(productAmount * affiliated.affiliated.rateInPercent) / 100}`
     ).toFixed(2);
 
+    const testStatusMap: Record<AcceptedTestStatus, AffiliatedCommissionStatus> = {
+      [TestStatus.REQUEST_ACCEPTED]: AffiliatedCommissionStatus.TEST_REQUEST,
+      [TestStatus.MONEY_RECEIVED]: AffiliatedCommissionStatus.MONEY_RECEIVED,
+      [TestStatus.PRODUCT_ORDERED]: AffiliatedCommissionStatus.PRODUCT_ORDERED,
+    };
+
     await affiliationRecordDAO.createAffiliatedCommissionRecord({
       affiliatedId,
       ambassadorId: ambassador._id,
       rateInPercent: affiliated.affiliated.rateInPercent,
       amount,
+      status: testStatusMap[testStatus],
     });
 
     return { success: true, data: undefined };
