@@ -45,6 +45,7 @@ router.get(
         already_product_with_asin: new BadRequestError("already_product_with_asin"),
         product_not_found: new NotFoundRequestError("product_not_found"),
         unknown_error: new ServerRequestError("unknown_error"),
+        missing_data: new ServerRequestError("missing_data_when_scrapping"),
       })
     );
   })

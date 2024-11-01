@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3333e92d-7ad3-541b-8824-bc8842450c35")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="186bcd98-ca7f-5f3b-97fb-338c3786dfb4")}catch(e){}}();
 import { productSearchDataSchema, productUpdateDataSchema, } from "../entities/Product/product.constants.js";
 import { productDataSchema } from "../entities/Product/product.entity.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -24,6 +24,7 @@ router.get("/srapFromAsin/:asin", withAuth(Role.SELLER), asyncHandler(async (req
         already_product_with_asin: new BadRequestError("already_product_with_asin"),
         product_not_found: new NotFoundRequestError("product_not_found"),
         unknown_error: new ServerRequestError("unknown_error"),
+        missing_data: new ServerRequestError("missing_data_when_scrapping"),
     }));
 }));
 router.post("/create", withAuth(Role.SELLER), asyncHandler(async (request, reply) => {
@@ -89,4 +90,4 @@ router.delete("/:productId", withAuth(Role.SELLER), asyncHandler(async (request,
 }));
 export default router;
 //# sourceMappingURL=product.routes.js.map
-//# debugId=3333e92d-7ad3-541b-8824-bc8842450c35
+//# debugId=186bcd98-ca7f-5f3b-97fb-338c3786dfb4

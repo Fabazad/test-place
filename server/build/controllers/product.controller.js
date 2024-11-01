@@ -1,21 +1,21 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="96363c50-f3de-5d4a-b1d8-2a4477d3cb35")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c3e7353f-27ce-544f-ac15-9f6a4611b2c3")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
 import { PRODUCT_CATEGORIES, } from "../entities/Product/product.entity.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
+import { getAmazonClient } from "../libs/AmazonClient/index.js";
 import { getEmailClient } from "../libs/EmailClient/index.js";
 import { getEventProducer } from "../libs/EventProducer/index.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
-import { getScrapper } from "../libs/Scrapper/index.js";
 import { Role } from "../utils/constants.js";
 import dayjs from "dayjs";
 export class ProductController {
     static async scrapFromAsin(params) {
         const { asin, amazonMerchantId } = params;
         const productDAO = getProductDAO();
-        const scrapper = getScrapper();
+        const amazonClient = getAmazonClient();
         const product = await productDAO.getProductByAsin({ asin });
         if (product)
             return {
@@ -23,7 +23,7 @@ export class ProductController {
                 errorCode: "already_product_with_asin",
                 errorMessage: product._id,
             };
-        const scrappedData = await scrapper.getAmazonProductDetails({
+        const scrappedData = await amazonClient.getAmazonProductDetails({
             asin,
             amazonMerchantId,
         });
@@ -148,4 +148,4 @@ export class ProductController {
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=96363c50-f3de-5d4a-b1d8-2a4477d3cb35
+//# debugId=c3e7353f-27ce-544f-ac15-9f6a4611b2c3

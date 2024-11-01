@@ -13,10 +13,10 @@ import {
   ProductData,
 } from "@/entities/Product/product.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
+import { getAmazonClient } from "@/libs/AmazonClient/index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
 import { getEventProducer } from "@/libs/EventProducer/index.js";
 import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
-import { getScrapper } from "@/libs/Scrapper/index.js";
 import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
@@ -39,13 +39,13 @@ export class ProductController {
         };
         imageUrls: Array<string>;
       },
-      "already_product_with_asin" | "product_not_found" | "unknown_error"
+      "already_product_with_asin" | "product_not_found" | "unknown_error" | "missing_data"
     >
   > {
     const { asin, amazonMerchantId } = params;
 
     const productDAO = getProductDAO();
-    const scrapper = getScrapper();
+    const amazonClient = getAmazonClient();
 
     const product = await productDAO.getProductByAsin({ asin });
 
@@ -56,7 +56,7 @@ export class ProductController {
         errorMessage: product._id,
       };
 
-    const scrappedData = await scrapper.getAmazonProductDetails({
+    const scrappedData = await amazonClient.getAmazonProductDetails({
       asin,
       amazonMerchantId,
     });

@@ -1,0 +1,123 @@
+{
+  "ItemsResult": {
+    "Items": [
+      {
+        "ASIN": "B0D97XRSZ3",
+        "DetailPageURL": "https://www.amazon.fr/dp/B0D97XRSZ3?tag=meekoloc04-21&linkCode=ogi&th=1&psc=1",
+        "Images": {
+          "Primary": {
+            "Large": {
+              "Height": 500,
+              "URL": "https://m.media-amazon.com/images/I/41WbiNB27yL._SL500_.jpg",
+              "Width": 500
+            }
+          },
+          "Variants": [
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/51Q0NhEXNZL._SL500_.jpg",
+                "Width": 400
+              }
+            },
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/51mTZsPRGqL._SL500_.jpg",
+                "Width": 400
+              }
+            },
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/41OWSn4rQHL._SL500_.jpg",
+                "Width": 400
+              }
+            },
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/41Ns73yY+0L._SL500_.jpg",
+                "Width": 400
+              }
+            },
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/41QBCaXgOoL._SL500_.jpg",
+                "Width": 400
+              }
+            },
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/418VER7k2SL._SL500_.jpg",
+                "Width": 400
+              }
+            },
+            {
+              "Large": {
+                "Height": 500,
+                "URL": "https://m.media-amazon.com/images/I/419bhsFWc2L._SL500_.jpg",
+                "Width": 400
+              }
+            }
+          ]
+        },
+        "ItemInfo": {
+          "Classifications": {
+            "Binding": {
+              "DisplayValue": "Cuisine",
+              "Label": "Binding",
+              "Locale": "fr_FR"
+            },
+            "ProductGroup": {
+              "DisplayValue": "Cuisine",
+              "Label": "ProductGroup",
+              "Locale": "fr_FR"
+            }
+          },
+          "Features": {
+            "DisplayValues": [
+              "【Aspiration puissante & légèr】L'aspirateur balai sans fil ne pèse que 2,5 kilogrammes, équipé d'une puissance d'aspiration de 35 kPa, peut être commuté entre deux modes : le mode Max et le mode ECO. Cet aspirateur sans fil est conçu pour affronter facilement les saletés et les débris les plus tenaces sur les sols durs, garantissant un nettoyage complet à chaque fois. De plus, une brosse EasyGrab améliorée, avec des poils et des bandes en plastique, permet de mieux absorber la poussière du bois dur et des tapis, améliorant considérablement les performances de l'appareil.",
+              "【Autonomie longue】Les aspirateurs sans fil offrent jusqu'à 60 minutes de nettoyage ininterrompu en mode basse puissance. Une seule charge de la batterie permet de nettoyer toute une pièce, du salon à la chambre en passant par la cuisine, sans avoir à recharger fréquemment. Cela répond parfaitement aux besoins des familles nombreuses qui ont besoin d'un nettoyage en continu. En outre, la batterie (c'est-à-dire la poignée) est amovible et peut être rechargée séparément, et nous proposons une station de recharge murale qui peut être accrochée au mur pour la recharge, ce qui permet d'économiser de l'espace de stockage, une charge complète ne prenant que 4 heures.",
+              "【Système de filtration cyclonique en 4 étapes】L’aspirateur balai sans Fil est équipé de la technologie CycloneFlow, un système de filtration multicyclone en 4 étapes qui garantit que 99,97 % des particules de poussière microscopiques aussi petites que 0,1 micron sont filtrées, assurant l'air frais libéré pendant l’aspiration et prévenant la pollution de l’air. De plus, le filtre HEPA lavable assure un air purifié pour votre famille.",
+              "【Conception verticale et humanisée】Aspirateur sans fil avec est équipé d’une conception verticale qui résout l’ennui de l’appui contre le mur et le risque de chute. Libérez vos mains et vous permettez de placer l’aspirateur où vous le souhaitez. Le tube métal rétractable vous permet d’ajuster sans effort la hauteur que vous voulez. Les utilisateurs peuvent maintenir une posture confortable et atteindre facilement les zones les plus difficiles.",
+              "【Écran LED intelligent】Avec une simple opération tactile, vous pouvez facilement régler la puissance d'aspiration pour répondre à vos différents besoins de nettoyage. De plus, vous pouvez surveiller en temps réel la durée de vie de la batterie de votre aspirateur, ce qui rend le processus de nettoyage plus intelligent et plus efficace. Ainsi, vous pouvez profiter de la commodité et du plaisir qu'il apporte.",
+              "【Utilisation multifonctionnelle】Cet aspirateur est livré avec 4 phares LED blancs pour éclairer la poussière. Il dispose d'une fonction de rotation flexible de 180° sur le côté et de 90° de haut en bas, qui peut facilement se glisser sous les meubles et les armoires pour éliminer la poussière et les débris difficiles à atteindre. Le bac à poussière de l'aspirateur sans fil est équipé d'une capacité de 500 ml. Vous n’avez donc pas besoin de le vider fréquemment, ce qui est plus pratique à utiliser."
+            ],
+            "Label": "Features",
+            "Locale": "fr_FR"
+          },
+          "Title": {
+            "DisplayValue": "35KPA Aspirateur Balai sans Fil, 40 Min Autonomie Écran LED Aspirateur sans Fil Puissant, Système de filtration cyclonique en 4 étapes, Aspirateur balai pour Sols Durs/Les Poils d'animaux/Tapis",
+            "Label": "Title",
+            "Locale": "fr_FR"
+          }
+        },
+        "Offers": {
+          "Listings": [
+            {
+              "Id": "BRA0fg1EI2PurAu1JJcOdk9uvd7CBkd9uVXcTFRSXAXIWmbfJW%2BNvg5%2F6uEZWAd0hQ9FAVSXF19KClW%2BsMbRct2lxC1E88eLUZ%2FvEK8jHpdKy0OD4OMtzZo8WxHgoNPP2F%2FdBPjGR10%3D",
+              "MerchantInfo": {
+                "FeedbackCount": 0,
+                "FeedbackRating": 0,
+                "Id": "A1X6FK5RDHNB96",
+                "Name": "Amazon.fr"
+              },
+              "Price": {
+                "Amount": 109,
+                "Currency": "EUR",
+                "DisplayAmount": "109,00 €"
+              },
+              "ProgramEligibility": {
+                "IsPrimeExclusive": false
+              },
+              "ViolatesMAP": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

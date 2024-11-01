@@ -1,6 +1,6 @@
 import { CustomResponse } from "@/utils/CustomResponse.js";
 
-export type Scrapper = {
+export type AmazonClient = {
   getAmazonProductDetails: (params: {
     asin: string;
     amazonMerchantId?: string;
@@ -18,7 +18,7 @@ export type Scrapper = {
         };
         imageUrls: Array<string>;
       },
-      "product_not_found" | "unknown_error"
+      "product_not_found" | "unknown_error" | "missing_data"
     >
   >;
 };

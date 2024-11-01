@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="cf61200d-21bb-5787-a088-56e4e02dcd5a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c5823182-9b08-572d-83e0-b1ae5a73729d")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -77,8 +77,10 @@ export const configs = z
     BRIDGE_SITE_URL: z.string().optional().default("https://chassauxcadeaux.com"),
     BRIDGE_SITE_PARAMS_KEY: z.string().optional().default("redirectUrl"),
     AFFILIATION_RATE_IN_PERCENT: z.coerce.number().default(2),
+    AMAZON_ACCESS_KEY: z.string(),
+    AMAZON_SECRET_KEY: z.string(),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=cf61200d-21bb-5787-a088-56e4e02dcd5a
+//# debugId=c5823182-9b08-572d-83e0-b1ae5a73729d

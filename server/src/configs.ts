@@ -78,6 +78,8 @@ export const configs = z
     BRIDGE_SITE_URL: z.string().optional().default("https://chassauxcadeaux.com"),
     BRIDGE_SITE_PARAMS_KEY: z.string().optional().default("redirectUrl"),
     AFFILIATION_RATE_IN_PERCENT: z.coerce.number().default(2),
+    AMAZON_ACCESS_KEY: z.string(),
+    AMAZON_SECRET_KEY: z.string(),
   })
   .parse(process.env);
 
