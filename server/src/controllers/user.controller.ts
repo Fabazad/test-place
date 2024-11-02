@@ -1,8 +1,8 @@
 import { configs } from "@/configs.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
-import { GLOBAL_TEST_STATUSES } from "@/entities/Test/test.constants.js";
+import { GLOBAL_TEST_STATUSES, TestStatus } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
-import { UserWithoutPassword } from "@/entities/User/user.entity.js";
+import { ActivationEventType, UserWithoutPassword } from "@/entities/User/user.entity.js";
 import { SignedInUser } from "@/entities/User/user.helpers.js";
 import { getAuthManager } from "@/libs/AuthManager/index.js";
 import { getEmailClient } from "@/libs/EmailClient/index.js";
@@ -291,7 +291,13 @@ export class UserController {
 
     const userDAO = getUserDAO();
 
-    const user = await userDAO.validateEmail({ userId });
+    const [user] = await Promise.all([
+      userDAO.validateEmail({ userId }),
+      userDAO.addActivationEvents({
+        userId,
+        eventTypes: [ActivationEventType.EMAIL_VALIDATION],
+      }),
+    ]);
 
     if (!user) return { success: false, errorCode: "user_not_found" };
 
@@ -752,5 +758,59 @@ export class UserController {
     if (!user) return { success: false, errorCode: "user_not_found" };
 
     return { success: true, data: user };
+  }
+
+  static async checkForActivationEventsOnTestStatusUpdate(
+    userId: string,
+    testStatus: TestStatus
+  ): Promise<CustomResponse<undefined>> {
+    const acceptedTestStatuses = [
+      TestStatus.REQUEST_ACCEPTED,
+      TestStatus.PRODUCT_ORDERED,
+      TestStatus.PRODUCT_RECEIVED,
+      TestStatus.PRODUCT_REVIEWED,
+      TestStatus.MONEY_RECEIVED,
+    ];
+
+    type AcceptedTestStatus = (typeof acceptedTestStatuses)[number];
+
+    const isAcceptedTestStatus = (status: TestStatus): status is AcceptedTestStatus =>
+      (acceptedTestStatuses as Array<TestStatus>).includes(status);
+
+    if (!isAcceptedTestStatus(testStatus)) return { success: true, data: undefined };
+
+    const userDAO = getUserDAO();
+    const monitoringClient = getMonitoringClient();
+    const user = await userDAO.getUser({ userId });
+
+    if (!user) {
+      await monitoringClient.sendEvent({
+        level: "error",
+        eventName: "user_not_found",
+        data: { params: { userId } },
+      });
+      return { success: true, data: undefined };
+    }
+
+    const hasActivationEvent = user.activationEvents.some(
+      (event) => event.eventType === ActivationEventType.FIRST_TEST_REQUEST
+    );
+
+    if (hasActivationEvent) return { success: true, data: undefined };
+
+    const statusMap: Record<AcceptedTestStatus, ActivationEventType> = {
+      [TestStatus.REQUEST_ACCEPTED]: ActivationEventType.FIRST_TEST_REQUEST,
+      [TestStatus.PRODUCT_ORDERED]: ActivationEventType.FIRST_PRODUCT_ORDERED,
+      [TestStatus.PRODUCT_RECEIVED]: ActivationEventType.FIRST_PRODUCT_RECEIVED,
+      [TestStatus.PRODUCT_REVIEWED]: ActivationEventType.FIRST_PRODUCT_REVIEWED,
+      [TestStatus.MONEY_RECEIVED]: ActivationEventType.FIRST_MONEY_RECEIVED,
+    };
+
+    await userDAO.addActivationEvents({
+      userId,
+      eventTypes: [statusMap[testStatus]],
+    });
+
+    return { success: true, data: undefined };
   }
 }

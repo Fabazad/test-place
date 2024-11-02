@@ -1,9 +1,21 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="377cfd65-a2b6-5ffc-9966-99ecb0f05c25")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f01b075b-0859-5a2d-8310-c64c922e18b0")}catch(e){}}();
 import { Role } from "../../utils/constants.js";
 import { Language } from "../../utils/Language.js";
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
+export const ActivationEventType = {
+    EMAIL_VALIDATION: "emailValidation",
+    FIRST_TEST_REQUEST: "firstTestRequest",
+    FIRST_PRODUCT_ORDERED: "firstProductOrdered",
+    FIRST_PRODUCT_RECEIVED: "firstProductReceived",
+    FIRST_PRODUCT_REVIEWED: "firstProductReviewed",
+    FIRST_MONEY_RECEIVED: "firstMoneyReceived",
+};
+const activationEventTypeSchema = z.object({
+    eventType: z.nativeEnum(ActivationEventType),
+    eventDate: z.date(),
+});
 export const userDataSchema = z.object({
     name: z.string().min(1),
     email: z.string().email(),
@@ -34,6 +46,7 @@ export const userSchema = userDataSchema
         rateInPercent: z.number(),
     })
         .optional(),
+    activationEvents: z.array(activationEventTypeSchema).default([]),
 });
 //# sourceMappingURL=user.entity.js.map
-//# debugId=377cfd65-a2b6-5ffc-9966-99ecb0f05c25
+//# debugId=f01b075b-0859-5a2d-8310-c64c922e18b0

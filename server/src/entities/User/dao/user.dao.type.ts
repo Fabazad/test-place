@@ -1,6 +1,12 @@
+import { Role } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { Language } from "@/utils/Language.js";
-import { User, UserData, UserWithoutPassword } from "../user.entity.js";
+import {
+  ActivationEventType,
+  User,
+  UserData,
+  UserWithoutPassword,
+} from "../user.entity.js";
 
 export type UserDAO = {
   getUser: (
@@ -84,4 +90,9 @@ export type UserDAO = {
     totalCount: number;
   }>;
   getUserAffiliatedCount: (params: { userId: string }) => Promise<number>;
+  addActivationEvents: (params: {
+    userId: string;
+    eventTypes: Array<ActivationEventType>;
+  }) => Promise<void>;
+  getUserIds: (params: { role: Role }) => Promise<Array<string>>;
 };

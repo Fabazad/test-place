@@ -226,6 +226,23 @@ const createUserDAO = (): UserDAO => {
 
       return totalCount;
     },
+    addActivationEvents: async ({ userId, eventTypes }) => {
+      await userModel.updateOne(
+        { _id: userId },
+        {
+          $addToSet: {
+            activationEvents: eventTypes.map((eventType) => ({
+              eventType,
+              eventDate: new Date(),
+            })),
+          },
+        }
+      );
+    },
+    getUserIds: async ({ role }) => {
+      const users = await userModel.find({ roles: role }).select({ _id: 1 }).lean();
+      return users.map((user) => user._id);
+    },
   };
 };
 

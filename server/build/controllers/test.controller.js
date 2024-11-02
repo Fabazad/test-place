@@ -1,15 +1,15 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9a3c1f5a-5df3-5caf-816f-f25df45b2909")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5a7feb0e-74a7-5e58-9e07-329285f42a27")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
-import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 import { NOTIFICATION_TYPES, Role, TEST_STATUS_PROCESSES, } from "../utils/constants.js";
 import dayjs from "dayjs";
 import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
+import { UserController } from "./user.controller.js";
 export class TestController {
     static async generateTestData(params) {
         const { product, userId, status, testerMessage } = params;
@@ -145,7 +145,6 @@ export class TestController {
     }
     static async updateStatus({ userId, testId, update, frontendUrl, }) {
         const testDAO = getTestDAO();
-        const monitoringClient = getMonitoringClient();
         const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
         const test = await testDAO.findById({ id: testId });
         if (!test)
@@ -198,28 +197,14 @@ export class TestController {
                 TestController.checkAndUpdateUserCertification(test.seller),
             ]);
         }
-        if (update.status === TestStatus.MONEY_RECEIVED ||
-            update.status === TestStatus.PRODUCT_ORDERED ||
-            update.status === TestStatus.REQUEST_ACCEPTED) {
-            const res = await AffiliationController.checkForAffiliatedCommissionRecord({
+        await Promise.all([
+            AffiliationController.checkForAffiliatedCommissionRecord({
                 affiliatedId: test.tester,
                 productAmount: test.product.price,
                 testStatus: update.status,
-            });
-            if (!res.success) {
-                if (["could_not_find_user", "could_not_find_ambassador"].includes(res.errorCode)) {
-                    await monitoringClient.sendEvent({
-                        level: "error",
-                        eventName: res.errorCode,
-                        data: {
-                            errorMessage: res.errorMessage,
-                            affiliatedId: test.seller,
-                            productAmount: test.product.price,
-                        },
-                    });
-                }
-            }
-        }
+            }),
+            UserController.checkForActivationEventsOnTestStatusUpdate(test.tester, update.status),
+        ]);
         return {
             success: true,
             data: {
@@ -247,4 +232,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=9a3c1f5a-5df3-5caf-816f-f25df45b2909
+//# debugId=5a7feb0e-74a7-5e58-9e07-329285f42a27

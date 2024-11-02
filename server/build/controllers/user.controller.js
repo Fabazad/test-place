@@ -1,9 +1,10 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c72de675-ea7b-5c00-b609-ac4047dfde9f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="97dc431f-bf1e-5710-ac85-d1da212926ba")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
-import { GLOBAL_TEST_STATUSES } from "../entities/Test/test.constants.js";
+import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
+import { ActivationEventType } from "../entities/User/user.entity.js";
 import { getAuthManager } from "../libs/AuthManager/index.js";
 import { getEmailClient } from "../libs/EmailClient/index.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
@@ -194,7 +195,13 @@ export class UserController {
     static async emailValidation(params) {
         const { userId } = params;
         const userDAO = getUserDAO();
-        const user = await userDAO.validateEmail({ userId });
+        const [user] = await Promise.all([
+            userDAO.validateEmail({ userId }),
+            userDAO.addActivationEvents({
+                userId,
+                eventTypes: [ActivationEventType.EMAIL_VALIDATION],
+            }),
+        ]);
         if (!user)
             return { success: false, errorCode: "user_not_found" };
         return { success: true, data: { user } };
@@ -468,6 +475,44 @@ export class UserController {
             return { success: false, errorCode: "user_not_found" };
         return { success: true, data: user };
     }
+    static async checkForActivationEventsOnTestStatusUpdate(userId, testStatus) {
+        const acceptedTestStatuses = [
+            TestStatus.REQUEST_ACCEPTED,
+            TestStatus.PRODUCT_ORDERED,
+            TestStatus.PRODUCT_RECEIVED,
+            TestStatus.PRODUCT_REVIEWED,
+            TestStatus.MONEY_RECEIVED,
+        ];
+        const isAcceptedTestStatus = (status) => acceptedTestStatuses.includes(status);
+        if (!isAcceptedTestStatus(testStatus))
+            return { success: true, data: undefined };
+        const userDAO = getUserDAO();
+        const monitoringClient = getMonitoringClient();
+        const user = await userDAO.getUser({ userId });
+        if (!user) {
+            await monitoringClient.sendEvent({
+                level: "error",
+                eventName: "user_not_found",
+                data: { params: { userId } },
+            });
+            return { success: true, data: undefined };
+        }
+        const hasActivationEvent = user.activationEvents.some((event) => event.eventType === ActivationEventType.FIRST_TEST_REQUEST);
+        if (hasActivationEvent)
+            return { success: true, data: undefined };
+        const statusMap = {
+            [TestStatus.REQUEST_ACCEPTED]: ActivationEventType.FIRST_TEST_REQUEST,
+            [TestStatus.PRODUCT_ORDERED]: ActivationEventType.FIRST_PRODUCT_ORDERED,
+            [TestStatus.PRODUCT_RECEIVED]: ActivationEventType.FIRST_PRODUCT_RECEIVED,
+            [TestStatus.PRODUCT_REVIEWED]: ActivationEventType.FIRST_PRODUCT_REVIEWED,
+            [TestStatus.MONEY_RECEIVED]: ActivationEventType.FIRST_MONEY_RECEIVED,
+        };
+        await userDAO.addActivationEvents({
+            userId,
+            eventTypes: [statusMap[testStatus]],
+        });
+        return { success: true, data: undefined };
+    }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=c72de675-ea7b-5c00-b609-ac4047dfde9f
+//# debugId=97dc431f-bf1e-5710-ac85-d1da212926ba

@@ -1,7 +1,23 @@
 import { Role } from "@/utils/constants.js";
+import { InferEnum } from "@/utils/inferEnum.js";
 import { Language } from "@/utils/Language.js";
 import { savedDataSchema } from "@/utils/savedDataSchema.js";
 import z from "zod";
+
+export const ActivationEventType = {
+  EMAIL_VALIDATION: "emailValidation",
+  FIRST_TEST_REQUEST: "firstTestRequest",
+  FIRST_PRODUCT_ORDERED: "firstProductOrdered",
+  FIRST_PRODUCT_RECEIVED: "firstProductReceived",
+  FIRST_PRODUCT_REVIEWED: "firstProductReviewed",
+  FIRST_MONEY_RECEIVED: "firstMoneyReceived",
+} as const;
+export type ActivationEventType = InferEnum<typeof ActivationEventType>;
+
+const activationEventTypeSchema = z.object({
+  eventType: z.nativeEnum(ActivationEventType),
+  eventDate: z.date(),
+});
 
 export const userDataSchema = z.object({
   name: z.string().min(1),
@@ -35,6 +51,7 @@ export const userSchema = userDataSchema
         rateInPercent: z.number(),
       })
       .optional(),
+    activationEvents: z.array(activationEventTypeSchema).default([]),
   });
 export type User = z.infer<typeof userSchema>;
 export type UserWithoutPassword = Omit<User, "password">;

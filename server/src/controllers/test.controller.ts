@@ -6,7 +6,6 @@ import { GLOBAL_TEST_STATUSES, TestStatus } from "@/entities/Test/test.constants
 import { PopulatedTest, Test, TestData } from "@/entities/Test/test.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
-import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import {
   NOTIFICATION_TYPES,
   Role,
@@ -17,6 +16,7 @@ import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
 import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
+import { UserController } from "./user.controller.js";
 
 export class TestController {
   private static async generateTestData(params: {
@@ -249,7 +249,6 @@ export class TestController {
     >
   > {
     const testDAO = getTestDAO();
-    const monitoringClient = getMonitoringClient();
 
     const testStatusProcessStep = TEST_STATUS_PROCESSES[update.status];
 
@@ -319,33 +318,17 @@ export class TestController {
       ]);
     }
 
-    if (
-      update.status === TestStatus.MONEY_RECEIVED ||
-      update.status === TestStatus.PRODUCT_ORDERED ||
-      update.status === TestStatus.REQUEST_ACCEPTED
-    ) {
-      const res = await AffiliationController.checkForAffiliatedCommissionRecord({
+    await Promise.all([
+      AffiliationController.checkForAffiliatedCommissionRecord({
         affiliatedId: test.tester,
         productAmount: test.product.price,
         testStatus: update.status,
-      });
-
-      if (!res.success) {
-        if (
-          ["could_not_find_user", "could_not_find_ambassador"].includes(res.errorCode)
-        ) {
-          await monitoringClient.sendEvent({
-            level: "error",
-            eventName: res.errorCode,
-            data: {
-              errorMessage: res.errorMessage,
-              affiliatedId: test.seller,
-              productAmount: test.product.price,
-            },
-          });
-        }
-      }
-    }
+      }),
+      UserController.checkForActivationEventsOnTestStatusUpdate(
+        test.tester,
+        update.status
+      ),
+    ]);
 
     return {
       success: true,

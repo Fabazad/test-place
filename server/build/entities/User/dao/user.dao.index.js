@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f7386ee2-b688-506e-801d-c9d979e3e42d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ca120209-729d-58cd-9b59-11c0860eebda")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -194,8 +194,22 @@ const createUserDAO = () => {
                 .countDocuments();
             return totalCount;
         },
+        addActivationEvents: async ({ userId, eventTypes }) => {
+            await userModel.updateOne({ _id: userId }, {
+                $addToSet: {
+                    activationEvents: eventTypes.map((eventType) => ({
+                        eventType,
+                        eventDate: new Date(),
+                    })),
+                },
+            });
+        },
+        getUserIds: async ({ role }) => {
+            const users = await userModel.find({ roles: role }).select({ _id: 1 }).lean();
+            return users.map((user) => user._id);
+        },
     };
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=f7386ee2-b688-506e-801d-c9d979e3e42d
+//# debugId=ca120209-729d-58cd-9b59-11c0860eebda

@@ -1,3 +1,4 @@
+import { ActivationEventType } from "@/entities/User/user.entity.js";
 import { TestStatusUpdateParams } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { TestStatus } from "../test.constants.js";

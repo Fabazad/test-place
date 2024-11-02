@@ -1,9 +1,10 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7d01e7c0-c838-5bba-9b21-ef8bcdfe9f67")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7e2e8506-28a7-524a-874f-4510601c5675")}catch(e){}}();
 import { AffiliatedCommissionStatus, } from "../entities/AffiliationRecord/affiliationRecord.entity.js";
 import { getAffiliationRecordDAO } from "../entities/AffiliationRecord/dao/affiliationRecord.dao.index.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
+import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 export class AffiliationController {
     static async getUserAffiliated({ userId, page, itemsPerPage, }) {
         const userDAO = getUserDAO();
@@ -16,16 +17,37 @@ export class AffiliationController {
     }
     static async checkForAffiliatedCommissionRecord(params) {
         const { affiliatedId, productAmount, testStatus } = params;
+        const acceptedTestStatuses = [
+            TestStatus.REQUEST_ACCEPTED,
+            TestStatus.PRODUCT_ORDERED,
+            TestStatus.MONEY_RECEIVED,
+        ];
+        const isAcceptedTestStatus = (status) => acceptedTestStatuses.includes(status);
+        if (!isAcceptedTestStatus(testStatus))
+            return { success: true, data: undefined };
         const userDAO = getUserDAO();
         const affiliationRecordDAO = getAffiliationRecordDAO();
+        const monitoringClient = getMonitoringClient();
         const affiliated = await userDAO.getUser({ userId: affiliatedId });
-        if (!affiliated)
-            return { success: false, errorCode: "could_not_find_user" };
+        if (!affiliated) {
+            await monitoringClient.sendEvent({
+                level: "error",
+                eventName: "could_not_find_user",
+                data: { params },
+            });
+            return { success: true, data: undefined };
+        }
         if (!affiliated.affiliated)
-            return { success: false, errorCode: "not_affiliated" };
+            return { success: true, data: undefined };
         const ambassador = await userDAO.getUser({ userId: affiliated.affiliated.by });
-        if (!ambassador)
-            return { success: false, errorCode: "could_not_find_ambassador" };
+        if (!ambassador) {
+            await monitoringClient.sendEvent({
+                level: "error",
+                eventName: "could_not_find_ambassador",
+                data: { params, ambassador },
+            });
+            return { success: true, data: undefined };
+        }
         const amount = +parseFloat(`${(productAmount * affiliated.affiliated.rateInPercent) / 100}`).toFixed(2);
         const testStatusMap = {
             [TestStatus.REQUEST_ACCEPTED]: AffiliatedCommissionStatus.TEST_REQUEST,
@@ -67,4 +89,4 @@ export class AffiliationController {
     }
 }
 //# sourceMappingURL=affiliation.controller.js.map
-//# debugId=7d01e7c0-c838-5bba-9b21-ef8bcdfe9f67
+//# debugId=7e2e8506-28a7-524a-874f-4510601c5675

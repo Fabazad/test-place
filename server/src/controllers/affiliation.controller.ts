@@ -5,12 +5,8 @@ import {
 import { getAffiliationRecordDAO } from "@/entities/AffiliationRecord/dao/affiliationRecord.dao.index.js";
 import { TestStatus } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
+import { getMonitoringClient } from "@/libs/MonitoringClient/index.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
-
-type AcceptedTestStatus =
-  | typeof TestStatus.REQUEST_ACCEPTED
-  | typeof TestStatus.MONEY_RECEIVED
-  | typeof TestStatus.PRODUCT_ORDERED;
 
 export class AffiliationController {
   static async getUserAffiliated({
@@ -45,25 +41,48 @@ export class AffiliationController {
   static async checkForAffiliatedCommissionRecord(params: {
     affiliatedId: string;
     productAmount: number;
-    testStatus: AcceptedTestStatus;
-  }): Promise<
-    CustomResponse<
-      undefined,
-      "could_not_find_user" | "not_affiliated" | "could_not_find_ambassador"
-    >
-  > {
+    testStatus: TestStatus;
+  }): Promise<CustomResponse<undefined>> {
     const { affiliatedId, productAmount, testStatus } = params;
+
+    const acceptedTestStatuses = [
+      TestStatus.REQUEST_ACCEPTED,
+      TestStatus.PRODUCT_ORDERED,
+      TestStatus.MONEY_RECEIVED,
+    ];
+    type AcceptedTestStatus = (typeof acceptedTestStatuses)[number];
+
+    const isAcceptedTestStatus = (status: TestStatus): status is AcceptedTestStatus =>
+      (acceptedTestStatuses as Array<TestStatus>).includes(status);
+
+    if (!isAcceptedTestStatus(testStatus)) return { success: true, data: undefined };
 
     const userDAO = getUserDAO();
     const affiliationRecordDAO = getAffiliationRecordDAO();
+    const monitoringClient = getMonitoringClient();
 
     const affiliated = await userDAO.getUser({ userId: affiliatedId });
-    if (!affiliated) return { success: false, errorCode: "could_not_find_user" };
+    if (!affiliated) {
+      await monitoringClient.sendEvent({
+        level: "error",
+        eventName: "could_not_find_user",
+        data: { params },
+      });
+      return { success: true, data: undefined };
+    }
 
-    if (!affiliated.affiliated) return { success: false, errorCode: "not_affiliated" };
+    if (!affiliated.affiliated) return { success: true, data: undefined };
 
     const ambassador = await userDAO.getUser({ userId: affiliated.affiliated.by });
-    if (!ambassador) return { success: false, errorCode: "could_not_find_ambassador" };
+
+    if (!ambassador) {
+      await monitoringClient.sendEvent({
+        level: "error",
+        eventName: "could_not_find_ambassador",
+        data: { params, ambassador },
+      });
+      return { success: true, data: undefined };
+    }
 
     const amount = +parseFloat(
       `${(productAmount * affiliated.affiliated.rateInPercent) / 100}`
