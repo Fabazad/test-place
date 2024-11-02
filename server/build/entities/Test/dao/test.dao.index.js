@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0dc8e178-e5e8-52bb-8890-10cbd7c03f37")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="56be9d04-305c-55e5-b6a8-80aeaea3258e")}catch(e){}}();
 import { generateAmazonUrl } from "../../Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -120,6 +120,7 @@ export const createTestDAO = () => {
                         ? { $inc: { remainingTestsCount: 1 } }
                         : {}),
                 },
+                $push: { updates: { date: new Date(), status: statusUpdate.status } },
             }, {
                 new: true,
             })
@@ -184,4 +185,4 @@ export const createTestDAO = () => {
 };
 export const getTestDAO = createSingletonGetter(createTestDAO);
 //# sourceMappingURL=test.dao.index.js.map
-//# debugId=0dc8e178-e5e8-52bb-8890-10cbd7c03f37
+//# debugId=56be9d04-305c-55e5-b6a8-80aeaea3258e

@@ -128,6 +128,8 @@ const TestModal = ({
 
             <Col xs={12} md={8} className="d-flex mt-3 mt-md-0">
               <div className="my-auto">
+                <Label>ASIN :</Label> <Badge color="primary">{test.product.asin}</Badge>
+                <br />
                 <Label>{t("TEST_REQUEST_DATE")} :</Label> {formatDate(test.createdAt)}
                 <h4>
                   <Link

@@ -144,6 +144,7 @@ export const createTestDAO = (): TestDAO => {
                 ? { $inc: { remainingTestsCount: 1 } }
                 : {}),
             },
+            $push: { updates: { date: new Date(), status: statusUpdate.status } },
           },
           {
             new: true,
