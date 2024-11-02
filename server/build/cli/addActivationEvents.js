@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d18ab79e-8465-56f1-975e-9dd3df4c2280")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="30ba6b01-6ff6-5a68-88e8-d9aca23d15a9")}catch(e){}}();
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
@@ -17,6 +17,7 @@ const addActivationEvents = async () => {
     const testerIds = await userDAO.getUserIds({ role: Role.TESTER });
     console.log({ testerIds });
     for (const testerId of testerIds) {
+        console.log({ testerId });
         const user = await userDAO.getUser({ userId: testerId });
         if (!user)
             continue;
@@ -113,10 +114,14 @@ const addActivationEvents = async () => {
             });
             continue;
         }
+        await userDAO.addActivationEvents({
+            userId: testerId,
+            eventTypes: filterAndDistinct(activationEventsToAdd, currentActivationEvents),
+        });
     }
     await databaseConnection.disconnect();
     process.exit(0);
 };
 addActivationEvents();
 //# sourceMappingURL=addActivationEvents.js.map
-//# debugId=d18ab79e-8465-56f1-975e-9dd3df4c2280
+//# debugId=30ba6b01-6ff6-5a68-88e8-d9aca23d15a9

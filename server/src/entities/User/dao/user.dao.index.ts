@@ -191,7 +191,14 @@ const createUserDAO = (): UserDAO => {
         userModel
           .find(
             { "affiliated.by": userId },
-            { _id: 1, name: 1, email: 1, "affiliated.rateInPercent": 1, createdAt: 1 }
+            {
+              _id: 1,
+              name: 1,
+              email: 1,
+              "affiliated.rateInPercent": 1,
+              createdAt: 1,
+              activationEvents: 1,
+            }
           )
           .sort({ _id: -1 })
           .skip((page - 1) * limit)
@@ -203,6 +210,7 @@ const createUserDAO = (): UserDAO => {
               email: string;
               affiliated: { rateInPercent: number };
               createdAt: string;
+              activationEvents: User["activationEvents"];
             }>
           >(),
         userModel.find({ "affiliated.by": userId }).countDocuments(),
@@ -216,6 +224,7 @@ const createUserDAO = (): UserDAO => {
         createdAt:
           user.createdAt ||
           dayjs(new Types.ObjectId(user._id).getTimestamp()).toISOString(),
+        activationEvents: user.activationEvents,
       }));
       return { affiliated, totalCount };
     },
@@ -241,7 +250,7 @@ const createUserDAO = (): UserDAO => {
     },
     getUserIds: async ({ role }) => {
       const users = await userModel.find({ roles: role }).select({ _id: 1 }).lean();
-      return users.map((user) => user._id);
+      return users.map((user) => user._id.toString());
     },
   };
 };

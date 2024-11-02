@@ -443,5 +443,12 @@
   "DATE": "তারিখ",
   "TEST_REQUESTED": "অনুরোধ পরীক্ষা করা হয়েছে",
   "TYPE": "ধরন",
-  "NAME": "নাম"
+  "NAME": "নাম",
+  "ACTIVATION_EVENTS": "সক্রিয় ঘটনা",
+  "EMAIL_VALIDATION": "ইমেইল যাচাই করুন",
+  "FIRST_TEST_REQUEST": "প্রথম পরীক্ষা অনুরোধ",
+  "FIRST_PRODUCT_ORDERED": "প্রথম পণ্য অর্ডার করা হয়েছে",
+  "FIRST_PRODUCT_RECEIVED": "প্রথম পণ্য গৃহীত হয়েছে",
+  "FIRST_PRODUCT_REVIEWED": "প্রথম পণ্য রিভিউ করা হয়েছে",
+  "FIRST_MONEY_RECEIVED": "প্রথম পরীক্ষা পরিমাণ পেয়েছে"
 }

@@ -443,5 +443,12 @@
   "DATE": "Date",
   "TEST_REQUESTED": "Demande de test",
   "TYPE": "Type",
-  "NAME": "Nom"
+  "NAME": "Nom",
+  "ACTIVATION_EVENTS": "Activation",
+  "EMAIL_VALIDATION": "Email validation",
+  "FIRST_TEST_REQUEST": "Première demande de test",
+  "FIRST_PRODUCT_ORDERED": "Première commande de produit",
+  "FIRST_PRODUCT_RECEIVED": "Première réception de produit",
+  "FIRST_PRODUCT_REVIEWED": "Premier avis de produit",
+  "FIRST_MONEY_RECEIVED": "Première remboursement"
 }

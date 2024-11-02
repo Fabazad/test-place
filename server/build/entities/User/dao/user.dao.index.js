@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ca120209-729d-58cd-9b59-11c0860eebda")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b72b1a67-d3a4-5765-a91a-ae32f4817d1e")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -171,7 +171,14 @@ const createUserDAO = () => {
         getUserAffiliated: async ({ userId, page, limit }) => {
             const [affiliatedUsers, totalCount] = await Promise.all([
                 userModel
-                    .find({ "affiliated.by": userId }, { _id: 1, name: 1, email: 1, "affiliated.rateInPercent": 1, createdAt: 1 })
+                    .find({ "affiliated.by": userId }, {
+                    _id: 1,
+                    name: 1,
+                    email: 1,
+                    "affiliated.rateInPercent": 1,
+                    createdAt: 1,
+                    activationEvents: 1,
+                })
                     .sort({ _id: -1 })
                     .skip((page - 1) * limit)
                     .limit(limit)
@@ -185,6 +192,7 @@ const createUserDAO = () => {
                 rateInPercent: user.affiliated.rateInPercent,
                 createdAt: user.createdAt ||
                     dayjs(new Types.ObjectId(user._id).getTimestamp()).toISOString(),
+                activationEvents: user.activationEvents,
             }));
             return { affiliated, totalCount };
         },
@@ -206,10 +214,10 @@ const createUserDAO = () => {
         },
         getUserIds: async ({ role }) => {
             const users = await userModel.find({ roles: role }).select({ _id: 1 }).lean();
-            return users.map((user) => user._id);
+            return users.map((user) => user._id.toString());
         },
     };
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=ca120209-729d-58cd-9b59-11c0860eebda
+//# debugId=b72b1a67-d3a4-5765-a91a-ae32f4817d1e

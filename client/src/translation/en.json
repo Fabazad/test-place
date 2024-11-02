@@ -443,5 +443,12 @@
   "DATE": "Date",
   "TEST_REQUESTED": "Test Requested",
   "TYPE": "Type",
-  "NAME": "Name"
+  "NAME": "Name",
+  "ACTIVATION_EVENTS": "Activation",
+  "EMAIL_VALIDATION": "Email validation",
+  "FIRST_TEST_REQUEST": "First test request",
+  "FIRST_PRODUCT_ORDERED": "First product ordered",
+  "FIRST_PRODUCT_RECEIVED": "First product received",
+  "FIRST_PRODUCT_REVIEWED": "First product reviewed",
+  "FIRST_MONEY_RECEIVED": "First money received"
 }

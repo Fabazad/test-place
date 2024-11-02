@@ -86,6 +86,7 @@ export type UserDAO = {
       email: string;
       rateInPercent: number;
       createdAt: string;
+      activationEvents: User["activationEvents"];
     }>;
     totalCount: number;
   }>;

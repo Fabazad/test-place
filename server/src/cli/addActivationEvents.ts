@@ -21,6 +21,7 @@ const addActivationEvents = async () => {
   console.log({ testerIds });
 
   for (const testerId of testerIds) {
+    console.log({ testerId });
     const user = await userDAO.getUser({ userId: testerId });
     if (!user) continue;
 
@@ -136,6 +137,11 @@ const addActivationEvents = async () => {
       });
       continue;
     }
+
+    await userDAO.addActivationEvents({
+      userId: testerId,
+      eventTypes: filterAndDistinct(activationEventsToAdd, currentActivationEvents),
+    });
   }
 
   await databaseConnection.disconnect();
