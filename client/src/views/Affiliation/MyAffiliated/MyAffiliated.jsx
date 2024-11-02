@@ -56,9 +56,9 @@ export const MyAffiliated = withTranslation()(({ t }) => {
           <thead className="thead-light">
             <tr>
               <th scope="col">{t("NAME")}</th>
+              <th scope="col">{t("ACTIVATION_EVENTS")}</th>
               <th scope="col">{t("EMAIL")}</th>
               <th scope="col">{t("RATE")}</th>
-              <th scope="col">{t("ACTIVATION_EVENTS")}</th>
             </tr>
           </thead>
           <tbody>

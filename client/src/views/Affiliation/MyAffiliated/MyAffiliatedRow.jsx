@@ -1,16 +1,15 @@
+import { formatDate } from "helpers/textHelpers";
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { Badge, UncontrolledTooltip } from "reactstrap";
 
 export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
-  console.log({ affiliated });
-
-  const ActivationBadge = ({ eventType, text, color, icon }) => (
+  const ActivationBadge = ({ eventType, text, color, icon, date }) => (
     <>
       <Badge
-        className={`text-white badge-circle badge-xl bg-gradient-${color} ${
-          eventType === "emailValidation" ? "" : "ml--3"
-        }`}
+        className={`text-white badge-circle badge-xl bg-gradient-${
+          date ? color : "light"
+        } ${eventType === "emailValidation" ? "" : "ml--1 ml-md--3"}`}
         id={`activation-${eventType}-${affiliated.userId}`}
       >
         <i className={`${icon} m-0`} />
@@ -19,18 +18,19 @@ export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
         delay={0}
         target={`activation-${eventType}-${affiliated.userId}`}
       >
-        {text}
+        {text} - {date ? formatDate(date) : t("NOT_ACTIVATED")}
       </UncontrolledTooltip>
     </>
   );
 
-  const badgeMap = {
+  const badgeMap = (date) => ({
     emailValidation: (
       <ActivationBadge
         eventType="emailValidation"
         text={t("EMAIL_VALIDATION")}
         color="success"
         icon="fa fa-check-circle"
+        date={date}
       />
     ),
     firstTestRequest: (
@@ -39,6 +39,7 @@ export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
         text={t("FIRST_TEST_REQUEST")}
         color="primary"
         icon="far fa-hand-paper"
+        date={date}
       />
     ),
     firstProductOrdered: (
@@ -47,6 +48,7 @@ export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
         text={t("FIRST_PRODUCT_ORDERED")}
         color="info"
         icon="fa fa-truck"
+        date={date}
       />
     ),
     firstProductReceived: (
@@ -55,6 +57,7 @@ export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
         text={t("FIRST_PRODUCT_RECEIVED")}
         color="info"
         icon="fa-lg fa fa-box-open"
+        date={date}
       />
     ),
     firstProductReviewed: (
@@ -63,6 +66,7 @@ export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
         text={t("FIRST_PRODUCT_REVIEWED")}
         color="warning"
         icon="fa fa-star"
+        date={date}
       />
     ),
     firstMoneyReceived: (
@@ -71,24 +75,31 @@ export const MyAffiliatedRow = withTranslation()(({ affiliated, t }) => {
         text={t("FIRST_MONEY_RECEIVED")}
         color="success"
         icon="fa fa-dollar-sign"
+        date={date}
       />
     ),
-  };
+  });
 
   const Badges = () => (
     <div>
-      {(affiliated.activationEvents || []).map((event) => badgeMap[event.eventType])}
+      {Object.keys(badgeMap()).map(
+        (eventType) =>
+          badgeMap(
+            (affiliated.activationEvents || []).find((e) => e.eventType === eventType)
+              ?.eventDate
+          )[eventType]
+      )}
     </div>
   );
 
   return (
     <tr key={affiliated._id}>
       <td>{affiliated.name}</td>
-      <td>{affiliated.email}</td>
-      <td>{affiliated.rateInPercent}%</td>
       <td>
         <Badges />
       </td>
+      <td>{affiliated.email}</td>
+      <td>{affiliated.rateInPercent}%</td>
     </tr>
   );
 });

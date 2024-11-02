@@ -450,5 +450,6 @@
   "FIRST_PRODUCT_ORDERED": "First product ordered",
   "FIRST_PRODUCT_RECEIVED": "First product received",
   "FIRST_PRODUCT_REVIEWED": "First product reviewed",
-  "FIRST_MONEY_RECEIVED": "First money received"
+  "FIRST_MONEY_RECEIVED": "First money received",
+  "NOT_ACTIVATED": "Not activated"
 }

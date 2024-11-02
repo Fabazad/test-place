@@ -450,5 +450,6 @@
   "FIRST_PRODUCT_ORDERED": "প্রথম পণ্য অর্ডার করা হয়েছে",
   "FIRST_PRODUCT_RECEIVED": "প্রথম পণ্য গৃহীত হয়েছে",
   "FIRST_PRODUCT_REVIEWED": "প্রথম পণ্য রিভিউ করা হয়েছে",
-  "FIRST_MONEY_RECEIVED": "প্রথম পরীক্ষা পরিমাণ পেয়েছে"
+  "FIRST_MONEY_RECEIVED": "প্রথম পরীক্ষা পরিমাণ পেয়েছে",
+  "NOT_ACTIVATED": "সক্রিয় নেই"
 }

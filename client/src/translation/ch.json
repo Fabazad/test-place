@@ -450,5 +450,6 @@
   "FIRST_PRODUCT_ORDERED": "第一次产品订购",
   "FIRST_PRODUCT_RECEIVED": "第一次产品收到",
   "FIRST_PRODUCT_REVIEWED": "第一次产品审查",
-  "FIRST_MONEY_RECEIVED": "第一次收到金额"
+  "FIRST_MONEY_RECEIVED": "第一次收到金额",
+  "NOT_ACTIVATED": "未激活"
 }

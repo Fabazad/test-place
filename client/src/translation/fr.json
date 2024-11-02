@@ -450,5 +450,6 @@
   "FIRST_PRODUCT_ORDERED": "Première commande de produit",
   "FIRST_PRODUCT_RECEIVED": "Première réception de produit",
   "FIRST_PRODUCT_REVIEWED": "Premier avis de produit",
-  "FIRST_MONEY_RECEIVED": "Premier remboursement"
+  "FIRST_MONEY_RECEIVED": "Premier remboursement",
+  "NOT_ACTIVATED": "Non activé"
 }
