@@ -80,6 +80,8 @@ export const configs = z
     AFFILIATION_RATE_IN_PERCENT: z.coerce.number().default(2),
     AMAZON_ACCESS_KEY: z.string(),
     AMAZON_SECRET_KEY: z.string(),
+    CANCEL_PENDING_DAYS: z.coerce.number().default(14),
+    NOTIFICATION_PENDING_DAYS: z.coerce.number().default(4),
   })
   .parse(process.env);
 

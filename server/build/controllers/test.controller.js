@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5a7feb0e-74a7-5e58-9e07-329285f42a27")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="faf10aa2-582a-54af-89a1-c664859f9176")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -7,6 +7,7 @@ import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constant
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
 import { NOTIFICATION_TYPES, Role, TEST_STATUS_PROCESSES, } from "../utils/constants.js";
 import dayjs from "dayjs";
+import _ from "lodash";
 import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
 import { UserController } from "./user.controller.js";
@@ -157,7 +158,7 @@ export class TestController {
                 return { success: false, errorCode: "only_allowed_for_seller" };
             }
         }
-        if (!testStatusProcessStep.previous.includes(test.status)) {
+        if (!testStatusProcessStep.previous?.includes(test.status)) {
             return { success: false, errorCode: "wrong_previous_status" };
         }
         const newTest = await testDAO.updateTestStatus({
@@ -230,6 +231,65 @@ export class TestController {
         }
         return { success: true, data: test };
     }
+    static async checkPendingTests(params) {
+        const { cancelPendingDays, notificationPendingDays, frontendUrl, dryRun } = params;
+        const testDAO = getTestDAO();
+        const pendingTests = await testDAO.findPendingTests({
+            pendingDays: notificationPendingDays,
+        });
+        if (pendingTests.length === 0)
+            return { success: true, data: undefined };
+        const [testsToCancel, testsToNotify] = _.partition(pendingTests, ({ updatedAt }) => dayjs(updatedAt).isBefore(dayjs().subtract(cancelPendingDays, "days")));
+        console.log("Start", {
+            testsToCancel: testsToCancel.length,
+            testsToNotify: testsToNotify.length,
+        });
+        const getGuilty = (test) => {
+            const guiltyMap = {
+                [TestStatus.REQUEST_ACCEPTED]: test.tester,
+                [TestStatus.PRODUCT_ORDERED]: test.tester,
+                [TestStatus.PRODUCT_RECEIVED]: test.tester,
+                [TestStatus.PRODUCT_REVIEWED]: test.seller,
+                [TestStatus.MONEY_RECEIVED]: null,
+                [TestStatus.MONEY_SENT]: test.tester,
+                [TestStatus.REVIEW_VALIDATED]: test.seller,
+                [TestStatus.TEST_CANCELLED]: null,
+                [TestStatus.REQUEST_CANCELLED]: null,
+                [TestStatus.REQUEST_DECLINED]: null,
+                [TestStatus.REQUESTED]: test.seller,
+                [TestStatus.REVIEW_REFUSED]: null,
+            };
+            return guiltyMap[test.status];
+        };
+        const testsCancellations = testsToCancel.map((test) => ({
+            testId: test._id,
+            guiltyUserId: getGuilty(test),
+        }));
+        if (!dryRun) {
+            await testDAO.cancelTests({
+                testsCancellations,
+                adminMessage: "Timeout, the test has been cancelled because it's been too long in the same status.",
+            });
+        }
+        console.log({
+            testsToCancel: testsToCancel.length,
+        });
+        if (!dryRun) {
+            await Promise.all(testsToNotify.map((test) => NotificationController.createNotification({
+                frontendUrl,
+                notificationData: {
+                    user: getGuilty(test),
+                    type: TEST_STATUS_PROCESSES[test.status].notificationType,
+                    test,
+                    product: test.product,
+                },
+            })));
+        }
+        console.log({
+            testsToNotify: testsToNotify.length,
+        });
+        return { success: true, data: undefined };
+    }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=5a7feb0e-74a7-5e58-9e07-329285f42a27
+//# debugId=faf10aa2-582a-54af-89a1-c664859f9176

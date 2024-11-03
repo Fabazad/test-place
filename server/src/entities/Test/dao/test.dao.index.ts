@@ -1,6 +1,7 @@
 import { generateAmazonUrl } from "@/entities/Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
+import dayjs from "dayjs";
 import mongoose, { FilterQuery } from "mongoose";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../test.constants.js";
 import { PopulatedTest, Test, testDataSchema } from "../test.entity.js";
@@ -210,6 +211,36 @@ export const createTestDAO = (): TestDAO => {
         .lean<Array<Test>>();
 
       return tests;
+    },
+    findPendingTests: async ({ pendingDays }) => {
+      const limitDate = dayjs().subtract(pendingDays, "days").toDate();
+
+      const tests = await testModel
+        .find({
+          status: {
+            $in: [...GLOBAL_TEST_STATUSES.PROCESSING, ...GLOBAL_TEST_STATUSES.REQUESTED],
+          },
+          updatedAt: { $lt: limitDate },
+        })
+        .lean<Array<Test>>();
+
+      return tests;
+    },
+    cancelTests: async ({ testsCancellations, adminMessage }) => {
+      await testModel.bulkWrite(
+        testsCancellations.map(({ testId, guiltyUserId }) => ({
+          updateOne: {
+            filter: { _id: testId },
+            update: {
+              $set: {
+                status: TestStatus.TEST_CANCELLED,
+                cancellationGuilty: guiltyUserId,
+                ...(adminMessage && { adminMessage }),
+              },
+            },
+          },
+        }))
+      );
     },
   };
 };

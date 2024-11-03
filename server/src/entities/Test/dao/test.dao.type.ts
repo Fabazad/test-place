@@ -1,4 +1,3 @@
-import { ActivationEventType } from "@/entities/User/user.entity.js";
 import { TestStatusUpdateParams } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { TestStatus } from "../test.constants.js";
@@ -36,4 +35,9 @@ export type TestDAO = {
     userId: string;
     status?: Array<TestStatus>;
   }) => Promise<Array<Test>>;
+  findPendingTests: (params: { pendingDays: number }) => Promise<Array<Test>>;
+  cancelTests: (params: {
+    testsCancellations: Array<{ testId: string; guiltyUserId: string }>;
+    adminMessage?: string;
+  }) => Promise<void>;
 };

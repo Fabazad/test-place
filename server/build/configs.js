@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c5823182-9b08-572d-83e0-b1ae5a73729d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="33ece824-cb1d-5038-9e71-559fae58f94c")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -79,8 +79,10 @@ export const configs = z
     AFFILIATION_RATE_IN_PERCENT: z.coerce.number().default(2),
     AMAZON_ACCESS_KEY: z.string(),
     AMAZON_SECRET_KEY: z.string(),
+    CANCEL_PENDING_DAYS: z.coerce.number().default(14),
+    NOTIFICATION_PENDING_DAYS: z.coerce.number().default(4),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=c5823182-9b08-572d-83e0-b1ae5a73729d
+//# debugId=33ece824-cb1d-5038-9e71-559fae58f94c

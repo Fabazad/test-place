@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1abb5275-6f8c-585c-a666-911442d44b62")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="dccc58bc-f610-5aea-95a5-8cedfab08518")}catch(e){}}();
 import { TestStatus } from "../entities/Test/test.constants.js";
 import z from "zod";
 export const Role = {
@@ -189,6 +189,11 @@ export const testStatusUpdateParamsSchema = z.discriminatedUnion("status", [
     }),
 ]);
 export const TEST_STATUS_PROCESSES = {
+    [TestStatus.REQUESTED]: {
+        previous: null,
+        role: Role.TESTER,
+        notificationType: NOTIFICATION_TYPES.NEW_REQUEST.value,
+    },
     [TestStatus.REQUEST_CANCELLED]: {
         previous: TestStatus.REQUESTED,
         role: Role.TESTER,
@@ -252,4 +257,4 @@ export const VALID_TEST_STATUSES = [
     TestStatus.REVIEW_VALIDATED,
 ];
 //# sourceMappingURL=constants.js.map
-//# debugId=1abb5275-6f8c-585c-a666-911442d44b62
+//# debugId=dccc58bc-f610-5aea-95a5-8cedfab08518

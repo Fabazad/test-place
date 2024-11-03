@@ -209,16 +209,18 @@ export const testStatusUpdateParamsSchema = z.discriminatedUnion("status", [
 export type TestStatusUpdateParams = z.infer<typeof testStatusUpdateParamsSchema>;
 
 type TestStatusProcessStep = {
-  previous: TestStatus | Array<TestStatus>;
+  previous: TestStatus | Array<TestStatus> | null;
   role?: Role;
   params?: string[];
   notificationType: NotificationType;
 };
 
-export const TEST_STATUS_PROCESSES: Record<
-  Exclude<TestStatus, "REQUESTED">,
-  TestStatusProcessStep
-> = {
+export const TEST_STATUS_PROCESSES: Record<TestStatus, TestStatusProcessStep> = {
+  [TestStatus.REQUESTED]: {
+    previous: null,
+    role: Role.TESTER,
+    notificationType: NOTIFICATION_TYPES.NEW_REQUEST.value,
+  },
   [TestStatus.REQUEST_CANCELLED]: {
     previous: TestStatus.REQUESTED,
     role: Role.TESTER,
