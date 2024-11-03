@@ -74,6 +74,7 @@ const ProductForm = (props) => {
       keywords,
       privateNote,
       amazonSeller: defaultData.amazonSeller,
+      inputUrl: defaultData.inputUrl,
     });
   };
 

@@ -78,6 +78,7 @@ export const productDataSchema = z.object({
   keywords: z.array(z.string()).optional(),
   privateNote: z.string().optional(),
   remainingTestsCount: z.number(),
+  inputUrl: z.string().optional(),
 });
 
 export type ProductData = z.infer<typeof productDataSchema>;

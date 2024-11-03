@@ -70,6 +70,7 @@ const NewProductModal = ({ t }) => {
           pictures: [null],
           amazonSeller: res.seller,
           amazonMerchantId,
+          inputUrl: urlInput,
         });
       });
     setLoadingPromise(loadingPromise);
