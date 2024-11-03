@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="437f4e28-d441-5069-94b1-2392286c9427")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5a32ef77-e5de-5b5a-a1f9-7e6247c33a68")}catch(e){}}();
 import { generateAmazonUrl } from "../../Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -182,14 +182,20 @@ export const createTestDAO = () => {
                 .lean();
             return tests;
         },
-        findPendingTests: async ({ pendingDays }) => {
-            const limitDate = dayjs().subtract(pendingDays, "days").toDate();
+        findPendingTests: async (params) => {
             const tests = await testModel
                 .find({
                 status: {
                     $in: [...GLOBAL_TEST_STATUSES.PROCESSING, ...GLOBAL_TEST_STATUSES.REQUESTED],
                 },
-                updatedAt: { $lt: limitDate },
+                updatedAt: "pendingDays" in params
+                    ? {
+                        $lt: dayjs().subtract(params.pendingDays, "days").toDate(),
+                        $gte: dayjs()
+                            .subtract(params.pendingDays + 1, "days")
+                            .toDate(),
+                    }
+                    : { $lt: dayjs().subtract(params.minPendingDays, "days").toDate() },
             })
                 .lean();
             return tests;
@@ -212,4 +218,4 @@ export const createTestDAO = () => {
 };
 export const getTestDAO = createSingletonGetter(createTestDAO);
 //# sourceMappingURL=test.dao.index.js.map
-//# debugId=437f4e28-d441-5069-94b1-2392286c9427
+//# debugId=5a32ef77-e5de-5b5a-a1f9-7e6247c33a68

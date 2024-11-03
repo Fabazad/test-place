@@ -14,7 +14,6 @@ import {
 } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import dayjs from "dayjs";
-import _ from "lodash";
 import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
 import { UserController } from "./user.controller.js";
@@ -378,15 +377,14 @@ export class TestController {
     const { cancelPendingDays, notificationPendingDays, frontendUrl, dryRun } = params;
     const testDAO = getTestDAO();
 
-    const pendingTests = await testDAO.findPendingTests({
-      pendingDays: notificationPendingDays,
-    });
-
-    if (pendingTests.length === 0) return { success: true, data: undefined };
-
-    const [testsToCancel, testsToNotify] = _.partition(pendingTests, ({ updatedAt }) =>
-      dayjs(updatedAt).isBefore(dayjs().subtract(cancelPendingDays, "days"))
-    );
+    const [testsToNotify, testsToCancel] = await Promise.all([
+      testDAO.findPendingTests({
+        pendingDays: notificationPendingDays,
+      }),
+      testDAO.findPendingTests({
+        minPendingDays: cancelPendingDays,
+      }),
+    ]);
 
     console.log("Start", {
       testsToCancel: testsToCancel.length,

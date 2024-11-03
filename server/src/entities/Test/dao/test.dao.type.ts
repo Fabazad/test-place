@@ -35,7 +35,9 @@ export type TestDAO = {
     userId: string;
     status?: Array<TestStatus>;
   }) => Promise<Array<Test>>;
-  findPendingTests: (params: { pendingDays: number }) => Promise<Array<Test>>;
+  findPendingTests: (
+    params: { pendingDays: number } | { minPendingDays: number }
+  ) => Promise<Array<Test>>;
   cancelTests: (params: {
     testsCancellations: Array<{ testId: string; guiltyUserId: string }>;
     adminMessage?: string;

@@ -212,15 +212,21 @@ export const createTestDAO = (): TestDAO => {
 
       return tests;
     },
-    findPendingTests: async ({ pendingDays }) => {
-      const limitDate = dayjs().subtract(pendingDays, "days").toDate();
-
+    findPendingTests: async (params) => {
       const tests = await testModel
         .find({
           status: {
             $in: [...GLOBAL_TEST_STATUSES.PROCESSING, ...GLOBAL_TEST_STATUSES.REQUESTED],
           },
-          updatedAt: { $lt: limitDate },
+          updatedAt:
+            "pendingDays" in params
+              ? {
+                  $lt: dayjs().subtract(params.pendingDays, "days").toDate(),
+                  $gte: dayjs()
+                    .subtract(params.pendingDays + 1, "days")
+                    .toDate(),
+                }
+              : { $lt: dayjs().subtract(params.minPendingDays, "days").toDate() },
         })
         .lean<Array<Test>>();
 

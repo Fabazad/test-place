@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="faf10aa2-582a-54af-89a1-c664859f9176")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6134cc21-1640-5623-b3db-5bd6dec7f2c1")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -7,7 +7,6 @@ import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constant
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
 import { NOTIFICATION_TYPES, Role, TEST_STATUS_PROCESSES, } from "../utils/constants.js";
 import dayjs from "dayjs";
-import _ from "lodash";
 import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
 import { UserController } from "./user.controller.js";
@@ -234,12 +233,14 @@ export class TestController {
     static async checkPendingTests(params) {
         const { cancelPendingDays, notificationPendingDays, frontendUrl, dryRun } = params;
         const testDAO = getTestDAO();
-        const pendingTests = await testDAO.findPendingTests({
-            pendingDays: notificationPendingDays,
-        });
-        if (pendingTests.length === 0)
-            return { success: true, data: undefined };
-        const [testsToCancel, testsToNotify] = _.partition(pendingTests, ({ updatedAt }) => dayjs(updatedAt).isBefore(dayjs().subtract(cancelPendingDays, "days")));
+        const [testsToNotify, testsToCancel] = await Promise.all([
+            testDAO.findPendingTests({
+                pendingDays: notificationPendingDays,
+            }),
+            testDAO.findPendingTests({
+                minPendingDays: cancelPendingDays,
+            }),
+        ]);
         console.log("Start", {
             testsToCancel: testsToCancel.length,
             testsToNotify: testsToNotify.length,
@@ -292,4 +293,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=faf10aa2-582a-54af-89a1-c664859f9176
+//# debugId=6134cc21-1640-5623-b3db-5bd6dec7f2c1
