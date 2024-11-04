@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b72b1a67-d3a4-5765-a91a-ae32f4817d1e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5b381d3b-cbfe-5b85-aead-2c9465a7ed4b")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -77,9 +77,9 @@ const createUserDAO = () => {
                 throw err;
             }
         },
-        upToDateLastLogin: async ({ userId }) => {
+        upToDateLastLogin: async ({ userId, ip }) => {
             const user = await userModel
-                .findByIdAndUpdate(userId, { $set: { lastLogin: new Date() } }, { new: true })
+                .findByIdAndUpdate(userId, { $set: { lastLogin: new Date() }, $addToSet: { ips: ip } }, { new: true })
                 .lean();
             if (!user)
                 return null;
@@ -220,4 +220,4 @@ const createUserDAO = () => {
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=b72b1a67-d3a4-5765-a91a-ae32f4817d1e
+//# debugId=5b381d3b-cbfe-5b85-aead-2c9465a7ed4b

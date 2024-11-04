@@ -67,10 +67,15 @@ router.post(
       })
     );
 
+    const ip =
+      (request.headers["x-forwarded-for"] as string | undefined) ||
+      request.connection.remoteAddress;
+
     const res = await UserController.credentialLogin({
       email,
       password,
       staySignedIn: keepConnection,
+      ip,
     });
 
     reply.send(

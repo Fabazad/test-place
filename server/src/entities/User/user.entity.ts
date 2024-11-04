@@ -38,6 +38,7 @@ export const userDataSchema = z.object({
   isCertified: z.boolean().default(false),
   affiliatedBy: z.string({ description: "User" }).optional(),
   personalAffiliationRateInPercent: z.number().optional(),
+  ips: z.array(z.string()).optional(),
 });
 export type UserData = z.infer<typeof userDataSchema>;
 

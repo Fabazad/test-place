@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="97dc431f-bf1e-5710-ac85-d1da212926ba")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a129750d-0966-563e-82cc-bb32888efc0e")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -56,7 +56,7 @@ export class UserController {
         return { success: true, data: undefined };
     }
     static async login(params) {
-        const { user, staySignedIn } = params;
+        const { user, staySignedIn, ip } = params;
         const authManager = getAuthManager();
         const userDAO = getUserDAO();
         const testDAO = getTestDAO();
@@ -69,7 +69,7 @@ export class UserController {
             staySignedIn,
         });
         const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount,] = await Promise.all([
-            userDAO.upToDateLastLogin({ userId: user._id }),
+            userDAO.upToDateLastLogin({ userId: user._id, ip }),
             testDAO.countTestWithStatues({
                 userId: user._id,
                 statuses: GLOBAL_TEST_STATUSES.REQUESTED,
@@ -108,7 +108,7 @@ export class UserController {
         };
     }
     static async credentialLogin(params) {
-        const { email, password, staySignedIn } = params;
+        const { email, password, staySignedIn, ip } = params;
         const userDAO = getUserDAO();
         const authManager = getAuthManager();
         const user = await userDAO.getUserWithPassword({ email });
@@ -120,7 +120,7 @@ export class UserController {
             return { success: false, errorCode: "missing_password" };
         if (!authManager.comparePasswords(password, user.password))
             return { success: false, errorCode: "wrong_password" };
-        const loggedUser = await this.login({ user, staySignedIn });
+        const loggedUser = await this.login({ user, staySignedIn, ip });
         if (!loggedUser.success)
             return loggedUser;
         return { success: true, data: loggedUser.data };
@@ -515,4 +515,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=97dc431f-bf1e-5710-ac85-d1da212926ba
+//# debugId=a129750d-0966-563e-82cc-bb32888efc0e

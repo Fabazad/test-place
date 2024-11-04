@@ -74,8 +74,9 @@ export class UserController {
   static async login(params: {
     user: UserWithoutPassword;
     staySignedIn: boolean;
+    ip?: string;
   }): Promise<CustomResponse<SignedInUser, "user_not_found_when_logging">> {
-    const { user, staySignedIn } = params;
+    const { user, staySignedIn, ip } = params;
 
     const authManager = getAuthManager();
     const userDAO = getUserDAO();
@@ -98,7 +99,7 @@ export class UserController {
       cancelledTestsCount,
       guiltyTestsCount,
     ] = await Promise.all([
-      userDAO.upToDateLastLogin({ userId: user._id }),
+      userDAO.upToDateLastLogin({ userId: user._id, ip }),
       testDAO.countTestWithStatues({
         userId: user._id,
         statuses: GLOBAL_TEST_STATUSES.REQUESTED,
@@ -142,6 +143,7 @@ export class UserController {
     email: string;
     password: string;
     staySignedIn: boolean;
+    ip?: string;
   }): Promise<
     CustomResponse<
       SignedInUser,
@@ -152,7 +154,7 @@ export class UserController {
       | "user_not_found_when_logging"
     >
   > {
-    const { email, password, staySignedIn } = params;
+    const { email, password, staySignedIn, ip } = params;
 
     const userDAO = getUserDAO();
     const authManager = getAuthManager();
@@ -169,7 +171,7 @@ export class UserController {
     if (!authManager.comparePasswords(password, user.password))
       return { success: false, errorCode: "wrong_password" };
 
-    const loggedUser = await this.login({ user, staySignedIn });
+    const loggedUser = await this.login({ user, staySignedIn, ip });
 
     if (!loggedUser.success) return loggedUser;
 

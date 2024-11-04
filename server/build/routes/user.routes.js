@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="82d4c2af-69d9-5743-8971-feff97dc3fea")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6ee9fce3-c9ba-5262-bcf3-57f6fb0dc3f6")}catch(e){}}();
 import { configs } from "../configs.js";
 import { UserController } from "../controllers/user.controller.js";
 import { decode } from "../middlewares/decode.js";
@@ -48,10 +48,13 @@ router.post("/login", asyncHandler(async (request, reply) => {
         password: z.string().trim(),
         keepConnection: z.boolean(),
     }));
+    const ip = request.headers["x-forwarded-for"] ||
+        request.connection.remoteAddress;
     const res = await UserController.credentialLogin({
         email,
         password,
         staySignedIn: keepConnection,
+        ip,
     });
     reply.send(handleResponseForRoute(res, {
         user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
@@ -245,4 +248,4 @@ router.post("/update-language", withAuth(), asyncHandler(async (request, reply) 
 }));
 export default router;
 //# sourceMappingURL=user.routes.js.map
-//# debugId=82d4c2af-69d9-5743-8971-feff97dc3fea
+//# debugId=6ee9fce3-c9ba-5262-bcf3-57f6fb0dc3f6

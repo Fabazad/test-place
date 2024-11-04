@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f01b075b-0859-5a2d-8310-c64c922e18b0")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e5732d80-9454-5931-8650-2f57fbda2f9e")}catch(e){}}();
 import { Role } from "../../utils/constants.js";
 import { Language } from "../../utils/Language.js";
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
@@ -35,6 +35,7 @@ export const userDataSchema = z.object({
     isCertified: z.boolean().default(false),
     affiliatedBy: z.string({ description: "User" }).optional(),
     personalAffiliationRateInPercent: z.number().optional(),
+    ips: z.array(z.string()).optional(),
 });
 export const userSchema = userDataSchema
     .extend(savedDataSchema)
@@ -49,4 +50,4 @@ export const userSchema = userDataSchema
     activationEvents: z.array(activationEventTypeSchema).default([]),
 });
 //# sourceMappingURL=user.entity.js.map
-//# debugId=f01b075b-0859-5a2d-8310-c64c922e18b0
+//# debugId=e5732d80-9454-5931-8650-2f57fbda2f9e

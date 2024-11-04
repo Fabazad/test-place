@@ -28,7 +28,10 @@ export type UserDAO = {
   getUserWithPassword: (
     params: { email: string } | { userId: string }
   ) => Promise<User | null>;
-  upToDateLastLogin: (params: { userId: string }) => Promise<UserWithoutPassword | null>;
+  upToDateLastLogin: (params: {
+    userId: string;
+    ip?: string;
+  }) => Promise<UserWithoutPassword | null>;
   setResetPasswordToken: (params: {
     email: string;
     token: string;

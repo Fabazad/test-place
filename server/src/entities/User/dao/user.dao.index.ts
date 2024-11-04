@@ -82,9 +82,13 @@ const createUserDAO = (): UserDAO => {
         throw err;
       }
     },
-    upToDateLastLogin: async ({ userId }) => {
+    upToDateLastLogin: async ({ userId, ip }) => {
       const user = await userModel
-        .findByIdAndUpdate(userId, { $set: { lastLogin: new Date() } }, { new: true })
+        .findByIdAndUpdate(
+          userId,
+          { $set: { lastLogin: new Date() }, $addToSet: { ips: ip } },
+          { new: true }
+        )
         .lean();
       if (!user) return null;
       const { password, ...userWithoutPassword } = user;
