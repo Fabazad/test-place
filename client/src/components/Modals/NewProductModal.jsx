@@ -47,7 +47,9 @@ const NewProductModal = ({ t }) => {
     }
     const asin = match[1];
 
-    const amazonMerchantId = urlInput.match(/m=(([A-Z0-9])+)&/)?.[1];
+    const amazonMerchantId =
+      urlInput.match(/m=(([A-Z0-9])+)&/)?.[1] ||
+      urlInput.match(/smid=(([A-Z0-9])+)&/)?.[1];
 
     const loadingPromise = productService
       .scrapFromAsin(asin, amazonMerchantId)
