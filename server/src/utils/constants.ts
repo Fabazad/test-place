@@ -181,6 +181,7 @@ export const testStatusUpdateParamsSchema = z.discriminatedUnion("status", [
     status: z.literal(TestStatus.PRODUCT_REVIEWED),
     params: z.object({
       reviewId: z.string(),
+      reviewScreenshotUrl: z.string(),
     }),
   }),
   z.object({

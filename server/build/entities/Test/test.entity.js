@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="03171a0e-1bc8-54f2-a815-bae514f60756")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b199f189-35f2-5edf-95c1-41ca4f89a21f")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 import { productSchema } from "../Product/product.entity.js";
@@ -25,7 +25,8 @@ export const testDataSchema = z.object({
     cancelReason: z.string().optional(),
     adminMessage: z.string().optional(),
     cancellationGuilty: z.string({ description: "User" }).optional(),
+    reviewScreenshotUrl: z.string().optional(),
 });
 export const testSchema = testDataSchema.extend(savedDataSchema);
 //# sourceMappingURL=test.entity.js.map
-//# debugId=03171a0e-1bc8-54f2-a815-bae514f60756
+//# debugId=b199f189-35f2-5edf-95c1-41ca4f89a21f

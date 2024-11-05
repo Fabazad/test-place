@@ -27,6 +27,7 @@ export const testDataSchema = z.object({
   cancelReason: z.string().optional(),
   adminMessage: z.string().optional(),
   cancellationGuilty: z.string({ description: "User" }).optional(),
+  reviewScreenshotUrl: z.string().optional(),
 });
 export type TestData = z.infer<typeof testDataSchema>;
 

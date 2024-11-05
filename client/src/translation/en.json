@@ -451,5 +451,8 @@
   "FIRST_PRODUCT_RECEIVED": "First product received",
   "FIRST_PRODUCT_REVIEWED": "First product reviewed",
   "FIRST_MONEY_RECEIVED": "First money received",
-  "NOT_ACTIVATED": "Not activated"
+  "NOT_ACTIVATED": "Not activated",
+  "EMAIL_SCREENSHOT_LABEL": "Email screenshot of your review",
+  "YOU_RECEIVED_BY_EMAIL": "You must have received an email validation of your review by Amazon. You can find it in your inbox.",
+  "REVIEW_SCREENSHOT": "Review screenshot"
 }

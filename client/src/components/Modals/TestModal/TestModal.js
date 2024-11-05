@@ -184,22 +184,25 @@ const TestModal = ({
               ) : null}
               {test.orderScreenshotUrl ? (
                 <Col xs={12} md={3} className="text-center mt-3 mt-sm-0">
-                  <Label>{t("SCREENSHOT")}</Label>
+                  <Label>{t("ORDER_SCREENSHOT")}</Label>
                   <div>
                     <a
                       href={test.orderScreenshotUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      id={"screenshot-" + test._id}
+                      id={"order-screenshot-" + test._id}
                     >
                       <img
                         src={test.orderScreenshotUrl}
-                        alt="Screenshot"
+                        alt="Order Screenshot"
                         className="img-fluid"
                         style={{ maxWidth: "100%", maxHeight: "200px" }}
                       />
                     </a>
-                    <UncontrolledTooltip target={"screenshot-" + test._id} delay={0}>
+                    <UncontrolledTooltip
+                      target={"order-screenshot-" + test._id}
+                      delay={0}
+                    >
                       {t("CLICK_TO_OPEN")}
                     </UncontrolledTooltip>
                   </div>
@@ -216,6 +219,32 @@ const TestModal = ({
                     >
                       {t("LINK")}
                     </a>
+                  </div>
+                </Col>
+              ) : null}
+              {test.reviewScreenshotUrl ? (
+                <Col xs={12} md={3} className="text-center mt-3 mt-sm-0">
+                  <Label>{t("REVIEW_SCREENSHOT")}</Label>
+                  <div>
+                    <a
+                      href={test.reviewScreenshotUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      id={"review-screenshot-" + test._id}
+                    >
+                      <img
+                        src={test.reviewScreenshotUrl}
+                        alt="Review Screenshot"
+                        className="img-fluid"
+                        style={{ maxWidth: "100%", maxHeight: "200px" }}
+                      />
+                    </a>
+                    <UncontrolledTooltip
+                      target={"review-screenshot-" + test._id}
+                      delay={0}
+                    >
+                      {t("CLICK_TO_OPEN")}
+                    </UncontrolledTooltip>
                   </div>
                 </Col>
               ) : null}

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="dccc58bc-f610-5aea-95a5-8cedfab08518")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="40d4dca9-8c9a-54c5-a096-65553de9f3a1")}catch(e){}}();
 import { TestStatus } from "../entities/Test/test.constants.js";
 import z from "zod";
 export const Role = {
@@ -164,6 +164,7 @@ export const testStatusUpdateParamsSchema = z.discriminatedUnion("status", [
         status: z.literal(TestStatus.PRODUCT_REVIEWED),
         params: z.object({
             reviewId: z.string(),
+            reviewScreenshotUrl: z.string(),
         }),
     }),
     z.object({
@@ -257,4 +258,4 @@ export const VALID_TEST_STATUSES = [
     TestStatus.REVIEW_VALIDATED,
 ];
 //# sourceMappingURL=constants.js.map
-//# debugId=dccc58bc-f610-5aea-95a5-8cedfab08518
+//# debugId=40d4dca9-8c9a-54c5-a096-65553de9f3a1

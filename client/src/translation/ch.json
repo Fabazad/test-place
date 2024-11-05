@@ -451,5 +451,8 @@
   "FIRST_PRODUCT_RECEIVED": "第一次产品收到",
   "FIRST_PRODUCT_REVIEWED": "第一次产品审查",
   "FIRST_MONEY_RECEIVED": "第一次收到金额",
-  "NOT_ACTIVATED": "未激活"
+  "NOT_ACTIVATED": "未激活",
+  "EMAIL_SCREENSHOT_LABEL": "您的评论的邮件截图",
+  "YOU_RECEIVED_BY_EMAIL": "您必须已经收到您的评论的邮件验证，通过Amazon。您可以在您的收件箱中找到它。",
+  "REVIEW_SCREENSHOT": "评论截图"
 }

@@ -10,25 +10,45 @@ import Input from "reactstrap/es/Input";
 import ModalBody from "reactstrap/es/ModalBody";
 import ModalFooter from "reactstrap/es/ModalFooter";
 import Label from "reactstrap/lib/Label";
-import { TestStatus } from "../../helpers/constants";
+import constants, { TestStatus } from "../../helpers/constants";
 import { getAmazonProfileUrl } from "../../helpers/urlHelpers";
+import s3Services from "../../services/s3.services";
 import testServices from "../../services/test.services";
 import userServices from "../../services/user.services";
+import ImageUploader from "../ImageUploader";
 import InfoPopover from "../InfoPopover";
 import Loading from "../Loading";
 
 const ProductReviewedModal = ({ isOpen, onToggle, testId, t, onReviewed }) => {
   const [reviewId, setReviewId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [reviewScreenshotUrl, setReviewScreenshotUrl] = useState(null);
+  const [reviewScreenshot, setReviewScreenshot] = useState(null);
+
+  const retrieveAndSetScreenshotUrl = (file) => {
+    try {
+      const fileUrl = URL.createObjectURL(file);
+      setReviewScreenshot(file);
+      setReviewScreenshotUrl(fileUrl);
+    } catch (err) {
+      toast.error(t("COULD_NOT_IMPORT_PICTURE"));
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (!reviewId) return null;
+    if (!reviewId || !reviewScreenshot) return null;
 
     setLoading(true);
     try {
-      await testServices.updateStatus(testId, TestStatus.PRODUCT_REVIEWED, { reviewId });
+      const finalScreenshotUrl = await s3Services.upload(reviewScreenshot);
+
+      await testServices.updateStatus(testId, TestStatus.PRODUCT_REVIEWED, {
+        reviewId,
+        reviewScreenshotUrl: finalScreenshotUrl,
+      });
+
       testServices.testsSubject.next();
     } catch (e) {
       toast.error(e.message);
@@ -95,6 +115,27 @@ const ProductReviewedModal = ({ isOpen, onToggle, testId, t, onReviewed }) => {
                 placeholder="https://www.amazon.fr/gp/customer-reviews/XXXXXXXXXXXXXX"
               />
             </FormGroup>
+            <FormGroup>
+              <Label>{t("EMAIL_SCREENSHOT_LABEL")} *</Label>
+              <InfoPopover className="ml-3 white-space-pre-line">
+                <Label className="ml-3 white-space-pre-line">
+                  {t("YOU_RECEIVED_BY_EMAIL")}
+                  <br />
+                  <br />
+                  {t("EXAMPLE")}
+                </Label>
+                <img
+                  style={{ maxWidth: "15rem" }}
+                  src={require("assets/img/amazonReview.jpg")}
+                  alt="example"
+                />
+              </InfoPopover>
+              <ImageUploader
+                onChange={(file) => retrieveAndSetScreenshotUrl(file)}
+                baseUrl={constants.BASE_PRODUCT_PICTURE_URL}
+                src={reviewScreenshotUrl}
+              />
+            </FormGroup>
           </div>
         </ModalBody>
 
@@ -102,7 +143,7 @@ const ProductReviewedModal = ({ isOpen, onToggle, testId, t, onReviewed }) => {
           <Button color="secondary" data-dismiss="modal" type="button" onClick={onToggle}>
             Annuler
           </Button>
-          <Button type="submit" color="primary" disabled={!reviewId}>
+          <Button type="submit" color="primary" disabled={!reviewId || !reviewScreenshot}>
             {t("SAVE")}
           </Button>
         </ModalFooter>

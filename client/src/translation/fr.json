@@ -229,7 +229,6 @@
   "SAFE": "Sécurisé",
   "SAVE": "Enregister",
   "SAVE_AND_PUBLISH": "Enregistrer et publier",
-  "SCREENSHOT": "Capture d'écran",
   "SEARCH": "Rechercher",
   "SEARCH_ENGINE_TEXT": "Ne perdez plus de temps à<br/><b>scroller indéfiniement</b> les pages Facebook.<br/><br/>Trouvez en <b>une minute</b><br/>le produit qui vous <b>intéresse</b>.",
   "SEARCH_ENGINE_TITLE": "Moteur de recherche",
@@ -451,5 +450,8 @@
   "FIRST_PRODUCT_RECEIVED": "Première réception de produit",
   "FIRST_PRODUCT_REVIEWED": "Premier avis de produit",
   "FIRST_MONEY_RECEIVED": "Premier remboursement",
-  "NOT_ACTIVATED": "Non activé"
+  "NOT_ACTIVATED": "Non activé",
+  "EMAIL_SCREENSHOT_LABEL": "Screenshot de l'email de validation de votre commentaire",
+  "YOU_RECEIVED_BY_EMAIL": "Vous devez avoir reçu un email de validation de votre commentaire par Amazon. Vous pouvez le trouver dans votre boîte de réception.",
+  "REVIEW_SCREENSHOT": "Screenshot de l'avie"
 }
