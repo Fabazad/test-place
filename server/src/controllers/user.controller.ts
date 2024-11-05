@@ -605,6 +605,11 @@ export class UserController {
 
     if (!createUserRes.success) return createUserRes;
 
+    await userDAO.addActivationEvents({
+      userId: createUserRes.data._id,
+      eventTypes: [ActivationEventType.EMAIL_VALIDATION],
+    });
+
     return this.login({ user: createUserRes.data, staySignedIn: false });
   }
 

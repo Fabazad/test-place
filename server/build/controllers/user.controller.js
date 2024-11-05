@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a129750d-0966-563e-82cc-bb32888efc0e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4b7f1fdb-d45e-51a7-9e90-8d11fc17087c")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -386,6 +386,10 @@ export class UserController {
         });
         if (!createUserRes.success)
             return createUserRes;
+        await userDAO.addActivationEvents({
+            userId: createUserRes.data._id,
+            eventTypes: [ActivationEventType.EMAIL_VALIDATION],
+        });
         return this.login({ user: createUserRes.data, staySignedIn: false });
     }
     static async googleLogin(params) {
@@ -515,4 +519,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=a129750d-0966-563e-82cc-bb32888efc0e
+//# debugId=4b7f1fdb-d45e-51a7-9e90-8d11fc17087c
