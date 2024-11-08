@@ -184,6 +184,15 @@ class UserService extends BaseService {
       this.currentUserResolve({ ...res, data: { user: res.data } })
     );
   }
+
+  async impersonate(userId) {
+    return this.enrichResponseWithError(async () => {
+      const response = await axios.post(this.baseURL + "/impersonate", {
+        impersonatedUserId: userId,
+      });
+      return this.currentUserResolve(response);
+    });
+  }
 }
 
 export default new UserService();

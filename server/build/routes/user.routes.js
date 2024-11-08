@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6ee9fce3-c9ba-5262-bcf3-57f6fb0dc3f6")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="960dfa12-8eca-5366-b2a9-90f88bcf0f70")}catch(e){}}();
 import { configs } from "../configs.js";
 import { UserController } from "../controllers/user.controller.js";
 import { decode } from "../middlewares/decode.js";
@@ -246,6 +246,18 @@ router.post("/update-language", withAuth(), asyncHandler(async (request, reply) 
         user_not_found: new NotFoundRequestError("user_not_found"),
     }));
 }));
+router.post("/impersonate", async (request, reply) => {
+    const { userId, roles } = request.decoded;
+    const { impersonatedUserId } = zodValidationForRoute(request.body, z.object({ impersonatedUserId: z.string() }));
+    if (!roles.includes(Role.ADMIN))
+        throw new ForbiddenRequestError("impersonation_not_allowed");
+    const res = await UserController.impersonate({ userId, impersonatedUserId });
+    reply.send(handleResponseForRoute(res, {
+        user_not_found: new NotFoundRequestError("user_not_found"),
+        same_user: new BadRequestError("same_user"),
+        user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+    }));
+});
 export default router;
 //# sourceMappingURL=user.routes.js.map
-//# debugId=6ee9fce3-c9ba-5262-bcf3-57f6fb0dc3f6
+//# debugId=960dfa12-8eca-5366-b2a9-90f88bcf0f70

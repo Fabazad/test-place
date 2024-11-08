@@ -49,7 +49,9 @@ const DemoNavbar = (props) => {
   const toggle = (open = !isOpen) => setIsOpen(open);
 
   useEffect(() => toggle(false), [props.location.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const isAuth = userServices.isAuth();
+
   return (
     <>
       <header className="header-global ">
@@ -70,6 +72,7 @@ const DemoNavbar = (props) => {
                 test-place.fr
               </span>
             </NavbarBrand>
+
             {isAuth && (
               <div className="d-md-none">
                 <Notifications />

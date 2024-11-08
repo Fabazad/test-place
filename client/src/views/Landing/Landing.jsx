@@ -4,16 +4,20 @@ import { Link } from "react-router-dom";
 // nodejs library that concatenates classes
 
 // reactstrap components
-import { Col, Container, Row } from "reactstrap";
+import { Button, Col, Container, Form, Input, Row } from "reactstrap";
 
 // core components
 
 // index page sections
 import SimpleFooter from "../../components/Footers/SimpleFooter";
 import SearchEngine from "../../components/SearchEngine";
+import constants from "../../helpers/constants";
 import { scrollTo } from "../../helpers/scrollHelpers";
 import { updateURLParameters } from "../../helpers/urlHelpers";
-import userService from "../../services/user.services";
+import {
+  default as userService,
+  default as userServices,
+} from "../../services/user.services";
 import CommunityCard from "./CommunityCard";
 import ContactSections from "./ContactSections";
 import UISection from "./FreeProducts";
@@ -25,11 +29,14 @@ const Landing = (props) => {
   const { location, t } = props;
 
   const [currentUser, setUser] = useState(userService.currentUser);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const subscriber = userService.currentUserSubject.subscribe(setUser);
     return () => subscriber.unsubscribe();
   }, []);
+
+  const isAdmin = userService.hasRole(constants.USER_ROLES.ADMIN);
 
   useEffect(() => {
     if (location.hash) {
@@ -44,6 +51,12 @@ const Landing = (props) => {
 
   const onSearch = (searchData) => {
     updateURLParameters(searchData, "/search");
+  };
+
+  const onImpersonate = async (e) => {
+    e.preventDefault();
+
+    await userServices.impersonate(userId);
   };
 
   return (
@@ -72,6 +85,25 @@ const Landing = (props) => {
                     </Link>
                   </Col>
                 </Row>
+              )}
+              {isAdmin && (
+                <Form
+                  style={{ width: "15rem" }}
+                  className="m-auto d-flex"
+                  onSubmit={onImpersonate}
+                >
+                  <Input
+                    type="text"
+                    name="search"
+                    placeholder="Impersonate (userId)"
+                    className="form-control-alternative"
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                  />
+                  <Button type="submit" disabled={!userId} className="ml-3">
+                    GO
+                  </Button>
+                </Form>
               )}
               <Row>
                 <Col lg="12 text-center">

@@ -75,8 +75,9 @@ export class UserController {
     user: UserWithoutPassword;
     staySignedIn: boolean;
     ip?: string;
+    isImpersonate?: boolean;
   }): Promise<CustomResponse<SignedInUser, "user_not_found_when_logging">> {
-    const { user, staySignedIn, ip } = params;
+    const { user, staySignedIn, ip, isImpersonate } = params;
 
     const authManager = getAuthManager();
     const userDAO = getUserDAO();
@@ -99,7 +100,9 @@ export class UserController {
       cancelledTestsCount,
       guiltyTestsCount,
     ] = await Promise.all([
-      userDAO.upToDateLastLogin({ userId: user._id, ip }),
+      isImpersonate
+        ? userDAO.getUser({ userId: user._id })
+        : userDAO.upToDateLastLogin({ userId: user._id, ip }),
       testDAO.countTestWithStatues({
         userId: user._id,
         statuses: GLOBAL_TEST_STATUSES.REQUESTED,
@@ -819,5 +822,34 @@ export class UserController {
     });
 
     return { success: true, data: undefined };
+  }
+
+  static async impersonate(params: {
+    userId: string;
+    impersonatedUserId: string;
+  }): Promise<
+    CustomResponse<
+      SignedInUser,
+      "user_not_found" | "same_user" | "user_not_found_when_logging"
+    >
+  > {
+    const { impersonatedUserId, userId } = params;
+    const userDAO = getUserDAO();
+
+    const userToImpersonate = await userDAO.getUser({ userId: impersonatedUserId });
+
+    if (!userToImpersonate) return { success: false, errorCode: "user_not_found" };
+
+    if (userId === impersonatedUserId) return { success: false, errorCode: "same_user" };
+
+    const loggedUser = await this.login({
+      user: userToImpersonate,
+      staySignedIn: false,
+      isImpersonate: true,
+    });
+
+    if (!loggedUser.success) return loggedUser;
+
+    return { success: true, data: loggedUser.data };
   }
 }

@@ -458,4 +458,25 @@ router.post(
   })
 );
 
+router.post("/impersonate", async (request, reply) => {
+  const { userId, roles } = request.decoded!;
+  const { impersonatedUserId } = zodValidationForRoute(
+    request.body,
+    z.object({ impersonatedUserId: z.string() })
+  );
+
+  if (!roles.includes(Role.ADMIN))
+    throw new ForbiddenRequestError("impersonation_not_allowed");
+
+  const res = await UserController.impersonate({ userId, impersonatedUserId });
+
+  reply.send(
+    handleResponseForRoute(res, {
+      user_not_found: new NotFoundRequestError("user_not_found"),
+      same_user: new BadRequestError("same_user"),
+      user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
+    })
+  );
+});
+
 export default router;

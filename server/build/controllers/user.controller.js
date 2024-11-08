@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4b7f1fdb-d45e-51a7-9e90-8d11fc17087c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3d7bb1bd-9dd8-5c91-84cf-f7ed01808c9e")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -56,7 +56,7 @@ export class UserController {
         return { success: true, data: undefined };
     }
     static async login(params) {
-        const { user, staySignedIn, ip } = params;
+        const { user, staySignedIn, ip, isImpersonate } = params;
         const authManager = getAuthManager();
         const userDAO = getUserDAO();
         const testDAO = getTestDAO();
@@ -69,7 +69,9 @@ export class UserController {
             staySignedIn,
         });
         const [newUser, requestedTestsCount, processingTestsCount, completedTestsCount, cancelledTestsCount, guiltyTestsCount,] = await Promise.all([
-            userDAO.upToDateLastLogin({ userId: user._id, ip }),
+            isImpersonate
+                ? userDAO.getUser({ userId: user._id })
+                : userDAO.upToDateLastLogin({ userId: user._id, ip }),
             testDAO.countTestWithStatues({
                 userId: user._id,
                 statuses: GLOBAL_TEST_STATUSES.REQUESTED,
@@ -517,6 +519,23 @@ export class UserController {
         });
         return { success: true, data: undefined };
     }
+    static async impersonate(params) {
+        const { impersonatedUserId, userId } = params;
+        const userDAO = getUserDAO();
+        const userToImpersonate = await userDAO.getUser({ userId: impersonatedUserId });
+        if (!userToImpersonate)
+            return { success: false, errorCode: "user_not_found" };
+        if (userId === impersonatedUserId)
+            return { success: false, errorCode: "same_user" };
+        const loggedUser = await this.login({
+            user: userToImpersonate,
+            staySignedIn: false,
+            isImpersonate: true,
+        });
+        if (!loggedUser.success)
+            return loggedUser;
+        return { success: true, data: loggedUser.data };
+    }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=4b7f1fdb-d45e-51a7-9e90-8d11fc17087c
+//# debugId=3d7bb1bd-9dd8-5c91-84cf-f7ed01808c9e
