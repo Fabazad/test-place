@@ -802,12 +802,6 @@ export class UserController {
       return { success: true, data: undefined };
     }
 
-    const hasActivationEvent = user.activationEvents.some(
-      (event) => event.eventType === ActivationEventType.FIRST_TEST_REQUEST
-    );
-
-    if (hasActivationEvent) return { success: true, data: undefined };
-
     const statusMap: Record<AcceptedTestStatus, ActivationEventType> = {
       [TestStatus.REQUEST_ACCEPTED]: ActivationEventType.FIRST_TEST_REQUEST,
       [TestStatus.PRODUCT_ORDERED]: ActivationEventType.FIRST_PRODUCT_ORDERED,
@@ -816,9 +810,17 @@ export class UserController {
       [TestStatus.MONEY_RECEIVED]: ActivationEventType.FIRST_MONEY_RECEIVED,
     };
 
+    const activationEventType = statusMap[testStatus];
+
+    const hasActivationEvent = user.activationEvents.some(
+      (event) => event.eventType === activationEventType
+    );
+
+    if (hasActivationEvent) return { success: true, data: undefined };
+
     await userDAO.addActivationEvents({
       userId,
-      eventTypes: [statusMap[testStatus]],
+      eventTypes: [activationEventType],
     });
 
     return { success: true, data: undefined };

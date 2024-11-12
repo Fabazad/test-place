@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3d7bb1bd-9dd8-5c91-84cf-f7ed01808c9e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="058c3b54-dbfa-5e5e-a0ac-aa5287cf31f5")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -503,9 +503,6 @@ export class UserController {
             });
             return { success: true, data: undefined };
         }
-        const hasActivationEvent = user.activationEvents.some((event) => event.eventType === ActivationEventType.FIRST_TEST_REQUEST);
-        if (hasActivationEvent)
-            return { success: true, data: undefined };
         const statusMap = {
             [TestStatus.REQUEST_ACCEPTED]: ActivationEventType.FIRST_TEST_REQUEST,
             [TestStatus.PRODUCT_ORDERED]: ActivationEventType.FIRST_PRODUCT_ORDERED,
@@ -513,9 +510,13 @@ export class UserController {
             [TestStatus.PRODUCT_REVIEWED]: ActivationEventType.FIRST_PRODUCT_REVIEWED,
             [TestStatus.MONEY_RECEIVED]: ActivationEventType.FIRST_MONEY_RECEIVED,
         };
+        const activationEventType = statusMap[testStatus];
+        const hasActivationEvent = user.activationEvents.some((event) => event.eventType === activationEventType);
+        if (hasActivationEvent)
+            return { success: true, data: undefined };
         await userDAO.addActivationEvents({
             userId,
-            eventTypes: [statusMap[testStatus]],
+            eventTypes: [activationEventType],
         });
         return { success: true, data: undefined };
     }
@@ -538,4 +539,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=3d7bb1bd-9dd8-5c91-84cf-f7ed01808c9e
+//# debugId=058c3b54-dbfa-5e5e-a0ac-aa5287cf31f5
