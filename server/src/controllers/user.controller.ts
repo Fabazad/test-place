@@ -854,4 +854,18 @@ export class UserController {
 
     return { success: true, data: loggedUser.data };
   }
+
+  static async getUsers(): Promise<
+    CustomResponse<Array<{ userId: string; name: string }>>
+  > {
+    const userDAO = getUserDAO();
+    console.log("HEREEE");
+    const users = await userDAO.getUsers();
+
+    console.log("THEENE");
+    return {
+      success: true,
+      data: users.map((user) => ({ userId: user._id, name: user.name })),
+    };
+  }
 }

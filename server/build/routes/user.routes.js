@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="960dfa12-8eca-5366-b2a9-90f88bcf0f70")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ed57aee9-8f3a-5db6-b4ad-93573577160b")}catch(e){}}();
 import { configs } from "../configs.js";
 import { UserController } from "../controllers/user.controller.js";
 import { decode } from "../middlewares/decode.js";
@@ -155,6 +155,11 @@ router.post("/contact-us", asyncHandler(async (request, reply) => {
         email_not_sent: new BadRequestError("email_not_sent"),
     }));
 }));
+router.get("/users", withAuth(Role.ADMIN), async (request, reply) => {
+    console.log("ROUTE");
+    const res = await UserController.getUsers();
+    reply.send(handleResponseForRoute(res));
+});
 router.get("/:userId", asyncHandler(async (request, reply) => {
     const { userId } = zodValidationForRoute(request.params, z.object({ userId: z.string().min(1) }));
     const res = await UserController.getOne({ userId });
@@ -246,11 +251,9 @@ router.post("/update-language", withAuth(), asyncHandler(async (request, reply) 
         user_not_found: new NotFoundRequestError("user_not_found"),
     }));
 }));
-router.post("/impersonate", async (request, reply) => {
-    const { userId, roles } = request.decoded;
+router.post("/impersonate", withAuth(Role.ADMIN), async (request, reply) => {
+    const { userId } = request.decoded;
     const { impersonatedUserId } = zodValidationForRoute(request.body, z.object({ impersonatedUserId: z.string() }));
-    if (!roles.includes(Role.ADMIN))
-        throw new ForbiddenRequestError("impersonation_not_allowed");
     const res = await UserController.impersonate({ userId, impersonatedUserId });
     reply.send(handleResponseForRoute(res, {
         user_not_found: new NotFoundRequestError("user_not_found"),
@@ -260,4 +263,4 @@ router.post("/impersonate", async (request, reply) => {
 });
 export default router;
 //# sourceMappingURL=user.routes.js.map
-//# debugId=960dfa12-8eca-5366-b2a9-90f88bcf0f70
+//# debugId=ed57aee9-8f3a-5db6-b4ad-93573577160b

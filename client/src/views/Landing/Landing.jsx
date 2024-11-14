@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import DropdownSelect from "../../components/DropdownSelect";
 // nodejs library that concatenates classes
 
 // reactstrap components
-import { Button, Col, Container, Form, Input, Row } from "reactstrap";
+import { Button, Col, Container, Form, Row } from "reactstrap";
 
 // core components
 
@@ -30,9 +31,19 @@ const Landing = (props) => {
 
   const [currentUser, setUser] = useState(userService.currentUser);
   const [userId, setUserId] = useState(null);
+  const [usersOptions, setUsersOptions] = useState([]);
 
   useEffect(() => {
     const subscriber = userService.currentUserSubject.subscribe(setUser);
+
+    const isAdmin = userService.hasRole(constants.USER_ROLES.ADMIN);
+    if (isAdmin) {
+      userService.getUsers().then((res) => {
+        setUsersOptions(
+          res.data.map((user) => ({ value: user.userId, text: user.name }))
+        );
+      });
+    }
     return () => subscriber.unsubscribe();
   }, []);
 
@@ -92,13 +103,14 @@ const Landing = (props) => {
                   className="m-auto d-flex"
                   onSubmit={onImpersonate}
                 >
-                  <Input
+                  <DropdownSelect
                     type="text"
                     name="search"
                     placeholder="Impersonate (userId)"
                     className="form-control-alternative"
                     value={userId}
                     onChange={(e) => setUserId(e.target.value)}
+                    options={usersOptions}
                   />
                   <Button type="submit" disabled={!userId} className="ml-3">
                     GO

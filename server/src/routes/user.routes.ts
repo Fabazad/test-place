@@ -279,6 +279,11 @@ router.post(
   })
 );
 
+router.get("/users", withAuth(Role.ADMIN), async (request, reply) => {
+  const res = await UserController.getUsers();
+  reply.send(handleResponseForRoute(res));
+});
+
 router.get(
   "/:userId",
   asyncHandler(async (request, reply) => {
@@ -458,15 +463,12 @@ router.post(
   })
 );
 
-router.post("/impersonate", async (request, reply) => {
-  const { userId, roles } = request.decoded!;
+router.post("/impersonate", withAuth(Role.ADMIN), async (request, reply) => {
+  const { userId } = request.decoded!;
   const { impersonatedUserId } = zodValidationForRoute(
     request.body,
     z.object({ impersonatedUserId: z.string() })
   );
-
-  if (!roles.includes(Role.ADMIN))
-    throw new ForbiddenRequestError("impersonation_not_allowed");
 
   const res = await UserController.impersonate({ userId, impersonatedUserId });
 

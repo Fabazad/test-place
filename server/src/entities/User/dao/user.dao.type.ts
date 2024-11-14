@@ -99,4 +99,5 @@ export type UserDAO = {
     eventTypes: Array<ActivationEventType>;
   }) => Promise<void>;
   getUserIds: (params: { role: Role }) => Promise<Array<string>>;
+  getUsers: () => Promise<Array<{ _id: string; name: string }>>;
 };

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="058c3b54-dbfa-5e5e-a0ac-aa5287cf31f5")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5796db45-cb1f-515f-a5b6-575bcf08f672")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -537,6 +537,16 @@ export class UserController {
             return loggedUser;
         return { success: true, data: loggedUser.data };
     }
+    static async getUsers() {
+        const userDAO = getUserDAO();
+        console.log("HEREEE");
+        const users = await userDAO.getUsers();
+        console.log("THEENE");
+        return {
+            success: true,
+            data: users.map((user) => ({ userId: user._id, name: user.name })),
+        };
+    }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=058c3b54-dbfa-5e5e-a0ac-aa5287cf31f5
+//# debugId=5796db45-cb1f-515f-a5b6-575bcf08f672

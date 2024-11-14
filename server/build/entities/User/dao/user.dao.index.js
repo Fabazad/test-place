@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5b381d3b-cbfe-5b85-aead-2c9465a7ed4b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="266ef687-6d27-5788-99b9-aba228386915")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -216,8 +216,16 @@ const createUserDAO = () => {
             const users = await userModel.find({ roles: role }).select({ _id: 1 }).lean();
             return users.map((user) => user._id.toString());
         },
+        getUsers: async () => {
+            const users = await userModel
+                .find()
+                .select({ _id: 1, name: 1 })
+                .sort({ name: 1 })
+                .lean();
+            return users;
+        },
     };
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=5b381d3b-cbfe-5b85-aead-2c9465a7ed4b
+//# debugId=266ef687-6d27-5788-99b9-aba228386915

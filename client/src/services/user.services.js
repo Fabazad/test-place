@@ -193,6 +193,10 @@ class UserService extends BaseService {
       return this.currentUserResolve(response);
     });
   }
+
+  async getUsers() {
+    return axios.get(this.baseURL + "/users");
+  }
 }
 
 export default new UserService();

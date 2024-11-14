@@ -256,6 +256,14 @@ const createUserDAO = (): UserDAO => {
       const users = await userModel.find({ roles: role }).select({ _id: 1 }).lean();
       return users.map((user) => user._id.toString());
     },
+    getUsers: async () => {
+      const users = await userModel
+        .find()
+        .select({ _id: 1, name: 1 })
+        .sort({ name: 1 })
+        .lean<Array<{ _id: string; name: string }>>();
+      return users;
+    },
   };
 };
 
