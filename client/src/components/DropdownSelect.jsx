@@ -96,7 +96,7 @@ const DropdownSelect = (props) => {
           <Input
             className={"text-left w-100 d-inline-block font-weight-normal"}
             placeholder={t(placeholder)}
-            style={{ backgroundColor: "transparent" }}
+            style={{ backgroundColor: "transparent", padding: "0px", marginTop: "-10px" }}
             value={inputValue}
             onChange={onInputChange}
             onFocus={onInputFocus}
