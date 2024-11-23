@@ -1,8 +1,9 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d4f192e7-b69f-5b54-b5e6-fd8801c44eb9")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="db64c933-8c0f-57ba-8894-8c7a36270358")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { omittedSavedDataSchema } from "../../../utils/savedDataSchema.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
+import { round } from "lodash";
 import mongoose, { Types } from "mongoose";
 import { AffiliatedCommissionStatus, AffiliationRecordParamsType, affiliationRecordSchema, } from "../affiliationRecord.entity.js";
 const mongooseAffiliationRecordSchema = new mongoose.Schema(generateMongooseSchemaFromZod(affiliationRecordSchema.omit(omittedSavedDataSchema)), { timestamps: true });
@@ -65,7 +66,7 @@ const createAffiliationRecordDAO = () => {
                 { $group: { _id: null, totalGeneratedMoney: { $sum: "$amount" } } },
             ])
                 .exec();
-            return res[0]?.totalGeneratedMoney || 0;
+            return round(res[0]?.totalGeneratedMoney || 0, 2);
         },
         getOutstandingBalance: async ({ userId }) => {
             const res = await affiliationRecordModel
@@ -87,10 +88,10 @@ const createAffiliationRecordDAO = () => {
                 { $group: { _id: null, outstandingBalance: { $sum: "$amount" } } },
             ])
                 .exec();
-            return res[0]?.outstandingBalance || 0;
+            return round(res[0]?.outstandingBalance || 0, 2);
         },
     };
 };
 export const getAffiliationRecordDAO = createSingletonGetter(createAffiliationRecordDAO);
 //# sourceMappingURL=affiliationRecord.dao.index.js.map
-//# debugId=d4f192e7-b69f-5b54-b5e6-fd8801c44eb9
+//# debugId=db64c933-8c0f-57ba-8894-8c7a36270358

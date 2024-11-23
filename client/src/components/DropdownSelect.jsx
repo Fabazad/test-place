@@ -74,6 +74,8 @@ const DropdownSelect = (props) => {
     setInputValue(option ? option.text : "");
   }, [blurTrigger]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  console.log("TEST", !option || (option && typeof option.text === "string"));
+
   return (
     <UncontrolledDropdown
       group
@@ -83,14 +85,12 @@ const DropdownSelect = (props) => {
       <DropdownToggle
         caret
         color="secondary"
-        className={"w-100 text-right bg-white input-group-alternative rounded"}
-        style={{
-          height: "46px",
-          padding:
-            !option || (option && typeof option.text === "string")
-              ? "0 1.2rem 0 0"
-              : "auto",
-        }}
+        className={`w-100 text-right bg-white input-group-alternative rounded ${
+          !option || (option && typeof option.text === "string")
+            ? "my-dropdown-toggle"
+            : ""
+        }`}
+        style={{ height: "46px" }}
       >
         {(!option || (option && typeof option.text === "string")) && (
           <Input

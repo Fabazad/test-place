@@ -1,6 +1,7 @@
 import { generateMongooseSchemaFromZod } from "@/utils/generateMongooseSchemaFromZod/index.js";
 import { omittedSavedDataSchema } from "@/utils/savedDataSchema.js";
 import { createSingletonGetter } from "@/utils/singleton.js";
+import { round } from "lodash";
 import mongoose, { Types } from "mongoose";
 import {
   AffiliatedCommissionStatus,
@@ -89,7 +90,7 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
         ])
         .exec();
 
-      return res[0]?.totalGeneratedMoney || 0;
+      return round(res[0]?.totalGeneratedMoney || 0, 2);
     },
     getOutstandingBalance: async ({ userId }) => {
       const res = await affiliationRecordModel
@@ -112,7 +113,7 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
         ])
         .exec();
 
-      return res[0]?.outstandingBalance || 0;
+      return round(res[0]?.outstandingBalance || 0, 2);
     },
   };
 };

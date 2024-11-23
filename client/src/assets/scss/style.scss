@@ -398,3 +398,7 @@ img.selected {
 .text-promotion {
   color: #ffc851 !important;
 }
+
+.my-dropdown-toggle::after {
+  translate: -1rem;
+}
