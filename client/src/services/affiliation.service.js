@@ -6,9 +6,9 @@ class AffiliationService extends BaseService {
     super("/affiliation");
   }
 
-  getAffiliated({ page, itemsPerPage }) {
+  getAffiliated({ page, itemsPerPage, search }) {
     return axios
-      .get(this.baseURL + "/affiliated", { params: { page, itemsPerPage } })
+      .get(this.baseURL + "/affiliated", { params: { page, itemsPerPage, search } })
       .then(this.serviceResolve);
   }
 

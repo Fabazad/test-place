@@ -1,17 +1,18 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7e2e8506-28a7-524a-874f-4510601c5675")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3ceaf59c-57dd-5053-a991-df52ba5854eb")}catch(e){}}();
 import { AffiliatedCommissionStatus, } from "../entities/AffiliationRecord/affiliationRecord.entity.js";
 import { getAffiliationRecordDAO } from "../entities/AffiliationRecord/dao/affiliationRecord.dao.index.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
 import { getMonitoringClient } from "../libs/MonitoringClient/index.js";
 export class AffiliationController {
-    static async getUserAffiliated({ userId, page, itemsPerPage, }) {
+    static async getUserAffiliated({ userId, page, itemsPerPage, search, }) {
         const userDAO = getUserDAO();
         const { affiliated, totalCount } = await userDAO.getUserAffiliated({
             userId,
             page,
             limit: itemsPerPage,
+            search,
         });
         return { success: true, data: { affiliated, totalCount } };
     }
@@ -89,4 +90,4 @@ export class AffiliationController {
     }
 }
 //# sourceMappingURL=affiliation.controller.js.map
-//# debugId=7e2e8506-28a7-524a-874f-4510601c5675
+//# debugId=3ceaf59c-57dd-5053-a991-df52ba5854eb

@@ -190,11 +190,14 @@ const createUserDAO = (): UserDAO => {
         .lean<Array<{ email: string; name: string; language: Language }>>();
       return testers;
     },
-    getUserAffiliated: async ({ userId, page, limit }) => {
+    getUserAffiliated: async ({ userId, page, limit, search }) => {
       const [affiliatedUsers, totalCount] = await Promise.all([
         userModel
           .find(
-            { "affiliated.by": userId },
+            {
+              "affiliated.by": userId,
+              ...(search ? { name: { $regex: search, $options: "i" } } : {}),
+            },
             {
               _id: 1,
               name: 1,

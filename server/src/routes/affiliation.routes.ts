@@ -9,11 +9,12 @@ import { z } from "zod";
 export const affiliationRouter = express.Router();
 
 affiliationRouter.get("/affiliated", withAuth(), async (request, reply) => {
-  const { page, itemsPerPage } = zodValidationForRoute(
+  const { page, itemsPerPage, search } = zodValidationForRoute(
     request.query,
     z.object({
       page: z.coerce.number().min(1).default(1),
       itemsPerPage: z.coerce.number().min(1).max(100).default(10),
+      search: z.string().optional(),
     })
   );
   const { userId } = request.decoded!;
@@ -22,6 +23,7 @@ affiliationRouter.get("/affiliated", withAuth(), async (request, reply) => {
     userId,
     page,
     itemsPerPage,
+    search,
   });
 
   reply.send(handleResponseForRoute(res));

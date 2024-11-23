@@ -13,10 +13,12 @@ export class AffiliationController {
     userId,
     page,
     itemsPerPage,
+    search,
   }: {
     userId: string;
     page: number;
     itemsPerPage: number;
+    search?: string;
   }): Promise<
     CustomResponse<{
       affiliated: Array<{
@@ -34,6 +36,7 @@ export class AffiliationController {
       userId,
       page,
       limit: itemsPerPage,
+      search,
     });
     return { success: true, data: { affiliated, totalCount } };
   }

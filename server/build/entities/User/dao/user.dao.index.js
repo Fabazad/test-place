@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="266ef687-6d27-5788-99b9-aba228386915")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="220d15b3-0219-5320-a1a4-bab56dbf4c6b")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -168,10 +168,13 @@ const createUserDAO = () => {
                 .lean();
             return testers;
         },
-        getUserAffiliated: async ({ userId, page, limit }) => {
+        getUserAffiliated: async ({ userId, page, limit, search }) => {
             const [affiliatedUsers, totalCount] = await Promise.all([
                 userModel
-                    .find({ "affiliated.by": userId }, {
+                    .find({
+                    "affiliated.by": userId,
+                    ...(search ? { name: { $regex: search, $options: "i" } } : {}),
+                }, {
                     _id: 1,
                     name: 1,
                     email: 1,
@@ -228,4 +231,4 @@ const createUserDAO = () => {
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=266ef687-6d27-5788-99b9-aba228386915
+//# debugId=220d15b3-0219-5320-a1a4-bab56dbf4c6b

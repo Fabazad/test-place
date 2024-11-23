@@ -82,6 +82,7 @@ export type UserDAO = {
     userId: string;
     page: number;
     limit: number;
+    search?: string;
   }) => Promise<{
     affiliated: Array<{
       userId: string;

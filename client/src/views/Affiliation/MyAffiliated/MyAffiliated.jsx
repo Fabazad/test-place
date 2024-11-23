@@ -7,6 +7,8 @@ import {
   CardFooter,
   CardHeader,
   Col,
+  Form,
+  Input,
   Row,
   Table,
 } from "reactstrap";
@@ -25,17 +27,30 @@ export const MyAffiliated = withTranslation()(({ t }) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_OPTIONS[1].value);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState(undefined);
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const res = await AffiliationServices.getAffiliated({ page, itemsPerPage });
+      const res = await AffiliationServices.getAffiliated({
+        page,
+        itemsPerPage,
+        search: search !== "" ? search : undefined,
+      });
 
       setLoading(false);
       setAffiliated(res.affiliated);
       setTotalAffiliatedCount(res.totalCount);
     })();
-  }, [page, itemsPerPage]);
+  }, [page, itemsPerPage, search]);
+
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    setPage(1);
+    setSearch(searchInput);
+  };
+
   return (
     <Card className="shadow">
       <CardHeader className="bg-white border-0">
@@ -47,6 +62,16 @@ export const MyAffiliated = withTranslation()(({ t }) => {
                 <h4 className="m-0">{totalAffiliatedCount}</h4>
               </Badge>
             </h3>
+          </Col>
+          <Col xs="4" className="text-right">
+            <Form onSubmit={onSearchSubmit}>
+              <Input
+                type="text"
+                placeholder={t("SEARCH")}
+                onChange={(e) => setSearchInput(e.target.value)}
+                value={searchInput}
+              />
+            </Form>
           </Col>
         </Row>
       </CardHeader>
