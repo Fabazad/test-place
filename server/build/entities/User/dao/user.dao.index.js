@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="220d15b3-0219-5320-a1a4-bab56dbf4c6b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b1e8d9cf-2926-5604-b02b-0a35c296d1da")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -186,7 +186,12 @@ const createUserDAO = () => {
                     .skip((page - 1) * limit)
                     .limit(limit)
                     .lean(),
-                userModel.find({ "affiliated.by": userId }).countDocuments(),
+                userModel
+                    .find({
+                    "affiliated.by": userId,
+                    ...(search ? { name: { $regex: search, $options: "i" } } : {}),
+                })
+                    .countDocuments(),
             ]);
             const affiliated = affiliatedUsers.map((user) => ({
                 userId: user._id,
@@ -231,4 +236,4 @@ const createUserDAO = () => {
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=220d15b3-0219-5320-a1a4-bab56dbf4c6b
+//# debugId=b1e8d9cf-2926-5604-b02b-0a35c296d1da

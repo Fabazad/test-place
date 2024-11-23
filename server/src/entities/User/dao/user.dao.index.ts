@@ -220,7 +220,12 @@ const createUserDAO = (): UserDAO => {
               activationEvents: User["activationEvents"];
             }>
           >(),
-        userModel.find({ "affiliated.by": userId }).countDocuments(),
+        userModel
+          .find({
+            "affiliated.by": userId,
+            ...(search ? { name: { $regex: search, $options: "i" } } : {}),
+          })
+          .countDocuments(),
       ]);
 
       const affiliated = affiliatedUsers.map((user) => ({

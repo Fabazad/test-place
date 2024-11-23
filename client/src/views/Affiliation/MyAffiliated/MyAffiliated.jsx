@@ -105,7 +105,7 @@ export const MyAffiliated = withTranslation()(({ t }) => {
         <nav aria-label="...">
           <PaginationBis
             page={page}
-            totalPage={Math.ceil(affiliated.length / itemsPerPage)}
+            totalPage={Math.ceil(totalAffiliatedCount / itemsPerPage)}
             onPageClick={(newPage) => setPage(newPage)}
           />
         </nav>
