@@ -85,8 +85,12 @@ export const AffiliationHistory = withTranslation()(({ t }) => {
           <tbody>
             {records.map((record) => (
               <tr key={record._id}>
-                <td>{record.params.affiliated.name}</td>
-                <td>{record.params.rateInPercent}%</td>
+                <td>{record.params?.affiliated?.name || "Test Place"}</td>
+                <td>
+                  {record.params?.rateInPercent
+                    ? record.params?.rateInPercent + "%"
+                    : "-"}
+                </td>
                 <td>{formatDate(record.createdAt)}</td>
                 <td>{getTypeFromRecord(record)}</td>
                 <td>
@@ -95,7 +99,7 @@ export const AffiliationHistory = withTranslation()(({ t }) => {
                     pill
                     className="badge-lg font-size-lg"
                   >
-                    {record.amount < 0 ? "-" : "+"}
+                    {record.amount < 0 ? "" : "+"}
                     {record.amount}€
                   </Badge>
                 </td>
