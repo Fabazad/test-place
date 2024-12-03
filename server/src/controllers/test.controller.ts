@@ -308,16 +308,6 @@ export class TestController {
       }),
     ]);
 
-    if (
-      update.status === TestStatus.TEST_CANCELLED ||
-      update.status === TestStatus.MONEY_RECEIVED
-    ) {
-      await Promise.all([
-        TestController.checkAndUpdateUserCertification(test.tester),
-        TestController.checkAndUpdateUserCertification(test.seller),
-      ]);
-    }
-
     await Promise.all([
       AffiliationController.checkForAffiliatedCommissionRecord({
         affiliatedId: test.tester,

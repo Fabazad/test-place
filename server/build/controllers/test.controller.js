@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6134cc21-1640-5623-b3db-5bd6dec7f2c1")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6b3c0179-1dc7-566e-863b-37c82fbb38cb")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -190,13 +190,6 @@ export class TestController {
                 frontendUrl,
             }),
         ]);
-        if (update.status === TestStatus.TEST_CANCELLED ||
-            update.status === TestStatus.MONEY_RECEIVED) {
-            await Promise.all([
-                TestController.checkAndUpdateUserCertification(test.tester),
-                TestController.checkAndUpdateUserCertification(test.seller),
-            ]);
-        }
         await Promise.all([
             AffiliationController.checkForAffiliatedCommissionRecord({
                 affiliatedId: test.tester,
@@ -293,4 +286,4 @@ export class TestController {
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=6134cc21-1640-5623-b3db-5bd6dec7f2c1
+//# debugId=6b3c0179-1dc7-566e-863b-37c82fbb38cb

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5796db45-cb1f-515f-a5b6-575bcf08f672")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b4db7c90-c2b8-52a2-a4b6-cab57ed4f32b")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
@@ -539,9 +539,7 @@ export class UserController {
     }
     static async getUsers() {
         const userDAO = getUserDAO();
-        console.log("HEREEE");
         const users = await userDAO.getUsers();
-        console.log("THEENE");
         return {
             success: true,
             data: users.map((user) => ({ userId: user._id, name: user.name })),
@@ -549,4 +547,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=5796db45-cb1f-515f-a5b6-575bcf08f672
+//# debugId=b4db7c90-c2b8-52a2-a4b6-cab57ed4f32b
