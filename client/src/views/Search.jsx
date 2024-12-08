@@ -42,6 +42,7 @@ const Search = (props) => {
       ...(urlParams.has("category") ? { category: urlParams.get("category") } : {}),
       ...(urlParams.has("keyWords") ? { keyWords: urlParams.get("keyWords") } : {}),
       page: 1,
+      isCertified: urlParams.get("isCertified") === "true",
     };
 
     setSearchEngineData(Object.assign({}, params));

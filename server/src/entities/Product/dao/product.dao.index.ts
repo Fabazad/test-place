@@ -160,6 +160,17 @@ const createProductDAO = (): ProductDAO => {
 
       return { hits, totalCount };
     },
+    setIsFromCertifiedSeller: async ({ sellerId, isCertified }) => {
+      const [affectedCount] = await Promise.all([
+        productModel.countDocuments({ seller: sellerId }),
+        productModel.updateMany(
+          { seller: sellerId },
+          { $set: { isFromCertifiedSeller: isCertified } }
+        ),
+      ]);
+
+      return { affectedCount };
+    },
   };
 };
 

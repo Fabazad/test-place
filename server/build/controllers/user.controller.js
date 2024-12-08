@@ -1,6 +1,7 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b4db7c90-c2b8-52a2-a4b6-cab57ed4f32b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="faea2130-51e6-51c4-adae-9c2babd3fadb")}catch(e){}}();
 import { configs } from "../configs.js";
+import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
@@ -545,6 +546,19 @@ export class UserController {
             data: users.map((user) => ({ userId: user._id, name: user.name })),
         };
     }
+    static async setUserCertification(params) {
+        const { userId, isCertified } = params;
+        const userDAO = getUserDAO();
+        const productDAO = getProductDAO();
+        const seller = await userDAO.setIsCertified({ userId, isCertified });
+        if (!seller)
+            return { success: false, errorCode: "seller_not_found" };
+        const { affectedCount: affectedProductsCount } = await productDAO.setIsFromCertifiedSeller({
+            sellerId: seller._id,
+            isCertified,
+        });
+        return { success: true, data: { affectedProductsCount } };
+    }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=b4db7c90-c2b8-52a2-a4b6-cab57ed4f32b
+//# debugId=faea2130-51e6-51c4-adae-9c2babd3fadb

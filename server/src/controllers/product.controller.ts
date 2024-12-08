@@ -78,12 +78,17 @@ export class ProductController {
   static async create(params: {
     productData: Omit<ProductData, "seller" | "remainingTestsCount">;
     userId: string;
-  }): Promise<CustomResponse<Product, "duplicate_asin">> {
+  }): Promise<CustomResponse<Product, "duplicate_asin" | "user_not_found">> {
     const { productData, userId } = params;
 
     const productDAO = getProductDAO();
+    const userDAO = getUserDAO();
     const eventProducer = getEventProducer();
     const monitoringClient = getMonitoringClient();
+
+    const user = await userDAO.getUser({ userId });
+
+    if (!user) return { success: false, errorCode: "user_not_found" };
 
     const creationRes = await productDAO.create({
       productData: {
@@ -94,6 +99,7 @@ export class ProductController {
           .add(configs.PUBLICATION_TIME_IN_DAYS, "d")
           .toDate(),
         remainingTestsCount: productData.maxDemands,
+        isFromCertifiedSeller: user.isCertified,
       },
     });
     if (!creationRes.success) return creationRes;

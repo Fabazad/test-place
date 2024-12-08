@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="186bcd98-ca7f-5f3b-97fb-338c3786dfb4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="57abe8a5-f3ee-58cd-8543-e86ed5eb34ec")}catch(e){}}();
 import { productSearchDataSchema, productUpdateDataSchema, } from "../entities/Product/product.constants.js";
 import { productDataSchema } from "../entities/Product/product.entity.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -35,6 +35,7 @@ router.post("/create", withAuth(Role.SELLER), asyncHandler(async (request, reply
     const res = await ProductController.create({ productData: item, userId });
     reply.send(handleResponseForRoute(res, {
         duplicate_asin: new UnauthorizedRequestError("duplicate_asin"),
+        user_not_found: new ServerRequestError("user_not_found"),
     }));
 }));
 router.get("/find", asyncHandler(async (request, reply) => {
@@ -90,4 +91,4 @@ router.delete("/:productId", withAuth(Role.SELLER), asyncHandler(async (request,
 }));
 export default router;
 //# sourceMappingURL=product.routes.js.map
-//# debugId=186bcd98-ca7f-5f3b-97fb-338c3786dfb4
+//# debugId=57abe8a5-f3ee-58cd-8543-e86ed5eb34ec

@@ -1,4 +1,5 @@
 import { configs } from "@/configs.js";
+import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "@/entities/Test/test.constants.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
@@ -864,5 +865,27 @@ export class UserController {
       success: true,
       data: users.map((user) => ({ userId: user._id, name: user.name })),
     };
+  }
+
+  static async setUserCertification(params: {
+    userId: string;
+    isCertified: boolean;
+  }): Promise<CustomResponse<{ affectedProductsCount: number }, "seller_not_found">> {
+    const { userId, isCertified } = params;
+
+    const userDAO = getUserDAO();
+    const productDAO = getProductDAO();
+
+    const seller = await userDAO.setIsCertified({ userId, isCertified });
+
+    if (!seller) return { success: false, errorCode: "seller_not_found" };
+
+    const { affectedCount: affectedProductsCount } =
+      await productDAO.setIsFromCertifiedSeller({
+        sellerId: seller._id,
+        isCertified,
+      });
+
+    return { success: true, data: { affectedProductsCount } };
   }
 }

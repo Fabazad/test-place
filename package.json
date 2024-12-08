@@ -12,7 +12,8 @@
     "start-client": "cd client && npm start",
     "start": "cd server && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod-build": "cd client && npm run build && cd .. && cd server && npm run build && cd .."
+    "prod-build": "cd client && npm run build && cd .. && cd server && npm run build && cd ..",
+    "setIsCertifiedSeller": "node ./build/cli/setIsCertifiedSeller.cli.js"
   },
   "repository": {
     "type": "git",

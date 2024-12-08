@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2db331cf-820b-5121-a948-51f7a0fcf337")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7cd7a8d8-a037-59ad-9176-51b4b35b37c2")}catch(e){}}();
 import { savedDataSchema } from "../../utils/savedDataSchema.js";
 import z from "zod";
 export const PRODUCT_CATEGORIES = [
@@ -78,9 +78,10 @@ export const productDataSchema = z.object({
     privateNote: z.string().optional(),
     remainingTestsCount: z.number(),
     inputUrl: z.string().optional(),
+    isFromCertifiedSeller: z.boolean().optional(),
 });
 export const productSchema = productDataSchema
     .extend(savedDataSchema)
     .extend({ amazonUrl: z.string() });
 //# sourceMappingURL=product.entity.js.map
-//# debugId=2db331cf-820b-5121-a948-51f7a0fcf337
+//# debugId=7cd7a8d8-a037-59ad-9176-51b4b35b37c2

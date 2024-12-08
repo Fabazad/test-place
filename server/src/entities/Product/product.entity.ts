@@ -79,6 +79,7 @@ export const productDataSchema = z.object({
   privateNote: z.string().optional(),
   remainingTestsCount: z.number(),
   inputUrl: z.string().optional(),
+  isFromCertifiedSeller: z.boolean().optional(),
 });
 
 export type ProductData = z.infer<typeof productDataSchema>;

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f1a3a9b2-70b0-5db9-8dcf-afd1160d99cb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ef6f38c2-16e7-52f1-8ef5-9dc4d714e5aa")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -132,8 +132,15 @@ const createProductDAO = () => {
             });
             return { hits, totalCount };
         },
+        setIsFromCertifiedSeller: async ({ sellerId, isCertified }) => {
+            const [affectedCount] = await Promise.all([
+                productModel.countDocuments({ seller: sellerId }),
+                productModel.updateMany({ seller: sellerId }, { $set: { isFromCertifiedSeller: isCertified } }),
+            ]);
+            return { affectedCount };
+        },
     };
 };
 export const getProductDAO = createSingletonGetter(createProductDAO);
 //# sourceMappingURL=product.dao.index.js.map
-//# debugId=f1a3a9b2-70b0-5db9-8dcf-afd1160d99cb
+//# debugId=ef6f38c2-16e7-52f1-8ef5-9dc4d714e5aa

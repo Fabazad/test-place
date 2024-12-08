@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c3e7353f-27ce-544f-ac15-9f6a4611b2c3")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2b427fa4-df20-5df9-bd4c-1bd92debd766")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { isProductCategory, } from "../entities/Product/product.constants.js";
@@ -41,8 +41,12 @@ export class ProductController {
     static async create(params) {
         const { productData, userId } = params;
         const productDAO = getProductDAO();
+        const userDAO = getUserDAO();
         const eventProducer = getEventProducer();
         const monitoringClient = getMonitoringClient();
+        const user = await userDAO.getUser({ userId });
+        if (!user)
+            return { success: false, errorCode: "user_not_found" };
         const creationRes = await productDAO.create({
             productData: {
                 ...productData,
@@ -52,6 +56,7 @@ export class ProductController {
                     .add(configs.PUBLICATION_TIME_IN_DAYS, "d")
                     .toDate(),
                 remainingTestsCount: productData.maxDemands,
+                isFromCertifiedSeller: user.isCertified,
             },
         });
         if (!creationRes.success)
@@ -148,4 +153,4 @@ export class ProductController {
     }
 }
 //# sourceMappingURL=product.controller.js.map
-//# debugId=c3e7353f-27ce-544f-ac15-9f6a4611b2c3
+//# debugId=2b427fa4-df20-5df9-bd4c-1bd92debd766

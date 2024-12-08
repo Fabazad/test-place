@@ -22,4 +22,8 @@ export type ProductDAO = {
     fromDate: Date;
     limit: number;
   }) => Promise<{ hits: Array<Product>; totalCount: number }>;
+  setIsFromCertifiedSeller: (params: {
+    sellerId: string;
+    isCertified: boolean;
+  }) => Promise<{ affectedCount: number }>;
 };

@@ -4,6 +4,7 @@ import { withTranslation } from "react-i18next";
 import {
   Badge,
   Button,
+  Col,
   Container,
   Form,
   FormGroup,
@@ -54,6 +55,7 @@ const SearchEngine = (props) => {
     if (values.free) newFilterNb++;
     if (values.automaticAcceptance) newFilterNb++;
     if (values.prime) newFilterNb++;
+    if (values.category) newFilterNb++;
     setFilterNb(newFilterNb);
   };
 
@@ -96,6 +98,7 @@ const SearchEngine = (props) => {
       prime: false,
       minPrice: "",
       maxPrice: "",
+      category: null,
     });
   };
 
@@ -103,20 +106,10 @@ const SearchEngine = (props) => {
     setIsPopoverOpen(!isPopoverOpen);
   };
 
+  console.log("WESH", values.category);
+
   return (
     <Form onSubmit={onSubmit} className="d-flex justify-content-center gap-1 flex-wrap">
-      <div className="text-center" style={{ minWidth: "15em" }}>
-        <FormGroup className="mb-0">
-          <DropdownSelect
-            className={"w-100"}
-            name={"category"}
-            placeholder={t("CATEGORIES")}
-            value={values.category}
-            onChange={handleInputChange}
-            options={categories}
-          />
-        </FormGroup>
-      </div>
       <div className="text-center flex-1" style={{ minWidth: "20em" }}>
         <FormGroup className="mb-0">
           <Input
@@ -128,6 +121,22 @@ const SearchEngine = (props) => {
             value={values.keyWords}
           />
         </FormGroup>
+      </div>
+      <div className="text-center" style={{ minWidth: "15em" }}>
+        <label className="custom-toggle mt-2">
+          <input
+            type="checkbox"
+            name="isCertified"
+            onChange={handleCheckChange}
+            id="isCertifiedInput"
+            checked={values.isCertified}
+          />
+          <span className="custom-toggle-slider rounded-circle" />
+        </label>
+
+        <label htmlFor="isCertifiedInput" className="cursor-pointer">
+          Certifié honnête
+        </label>
       </div>
       {lean === false && (
         <div className="text-center">
@@ -195,6 +204,20 @@ const SearchEngine = (props) => {
                         </InputGroup>
                       </FormGroup>
                     </div>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col xs={6}>
+                      <FormGroup className="mb-0">
+                        <DropdownSelect
+                          className={"w-100"}
+                          name={"category"}
+                          placeholder={t("CATEGORIES")}
+                          value={values.category}
+                          onChange={handleInputChange}
+                          options={categories}
+                        />
+                      </FormGroup>
+                    </Col>
                   </Row>
                   <Row className="mt-2">
                     <div className="col-12 d-flex">

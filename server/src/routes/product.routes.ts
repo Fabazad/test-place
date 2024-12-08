@@ -66,6 +66,7 @@ router.post(
     reply.send(
       handleResponseForRoute(res, {
         duplicate_asin: new UnauthorizedRequestError("duplicate_asin"),
+        user_not_found: new ServerRequestError("user_not_found"),
       })
     );
   })
