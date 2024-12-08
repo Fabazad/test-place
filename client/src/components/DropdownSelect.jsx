@@ -74,8 +74,6 @@ const DropdownSelect = (props) => {
     setInputValue(option ? option.text : "");
   }, [blurTrigger]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log("TEST", !option || (option && typeof option.text === "string"));
-
   return (
     <UncontrolledDropdown
       group

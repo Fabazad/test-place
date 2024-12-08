@@ -402,3 +402,12 @@ img.selected {
 .my-dropdown-toggle::after {
   translate: -1rem;
 }
+
+.checkbox-success:checked {
+  + span {
+    border-color: #2cce8a !important;
+  }
+  + span::before {
+    background-color: #2cce8a !important;
+  }
+}

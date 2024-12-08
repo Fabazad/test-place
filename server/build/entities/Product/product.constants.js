@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d24a9db8-1b0c-5df9-8675-172e29204ffa")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9d5af77c-4745-5102-a7dd-9d2163a2fb88")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { booleanSchema, numberSchema } from "../../utils/zod.utils.js";
 import z from "zod";
@@ -25,6 +25,7 @@ export const productSearchDataSchema = z.object({
     published: booleanSchema().optional(),
     remainingRequests: booleanSchema().optional(),
     seller: z.string().optional(),
+    isCertified: booleanSchema().optional(),
 });
 export const productUpdateDataSchema = productDataSchema.pick({
     title: true,
@@ -47,4 +48,4 @@ export const generateAmazonUrl = (product) => {
     return amazonUrl;
 };
 //# sourceMappingURL=product.constants.js.map
-//# debugId=d24a9db8-1b0c-5df9-8675-172e29204ffa
+//# debugId=9d5af77c-4745-5102-a7dd-9d2163a2fb88

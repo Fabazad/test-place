@@ -60,6 +60,7 @@ const createProductDAO = (): ProductDAO => {
         prime,
         seller,
         remainingRequests,
+        isCertified,
       } = searchData;
       const query: FilterQuery<ProductData> = {
         ...(published && { publishExpirationDate: { $gte: new Date() } }),
@@ -76,6 +77,7 @@ const createProductDAO = (): ProductDAO => {
         ...(prime && { isPrime: true }),
         ...(seller && { seller }),
         ...(remainingRequests && { remainingTestsCount: { $gt: 0 } }),
+        ...(isCertified && { isFromCertifiedSeller: true }),
       };
 
       const [hits, totalCount] = await Promise.all([

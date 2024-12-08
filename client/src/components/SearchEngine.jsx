@@ -19,6 +19,7 @@ import {
 } from "reactstrap";
 import "../assets/scss/animated-checks.scss";
 import productServices from "../services/product.service";
+import CertifiedIcon from "./CertifiedIcon";
 import DropdownSelect from "./DropdownSelect";
 
 const SearchEngine = (props) => {
@@ -106,8 +107,6 @@ const SearchEngine = (props) => {
     setIsPopoverOpen(!isPopoverOpen);
   };
 
-  console.log("WESH", values.category);
-
   return (
     <Form onSubmit={onSubmit} className="d-flex justify-content-center gap-1 flex-wrap">
       <div className="text-center flex-1" style={{ minWidth: "20em" }}>
@@ -122,7 +121,10 @@ const SearchEngine = (props) => {
           />
         </FormGroup>
       </div>
-      <div className="text-center" style={{ minWidth: "15em" }}>
+      <div
+        className="d-flex align-items-center justify-content-center"
+        style={{ minWidth: "15em", gap: "1rem" }}
+      >
         <label className="custom-toggle mt-2">
           <input
             type="checkbox"
@@ -130,12 +132,14 @@ const SearchEngine = (props) => {
             onChange={handleCheckChange}
             id="isCertifiedInput"
             checked={values.isCertified}
+            className="checkbox-success"
           />
           <span className="custom-toggle-slider rounded-circle" />
         </label>
 
-        <label htmlFor="isCertifiedInput" className="cursor-pointer">
-          Certifié honnête
+        <label htmlFor="isCertifiedInput" className="cursor-pointer text-white m-0">
+          {t("CERTIFIED_SELLERS")}
+          <CertifiedIcon className="ml-2" />
         </label>
       </div>
       {lean === false && (

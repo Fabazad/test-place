@@ -1,4 +1,5 @@
 import { UserController } from "@/controllers/user.controller.js";
+import { getDatabaseConnection } from "databaseConnection/index.js";
 import { z } from "zod";
 
 const setIsCertifiedSeller = async () => {
@@ -9,12 +10,21 @@ const setIsCertifiedSeller = async () => {
     })
     .parse({ sellerId: process.argv[2], isCertified: process.argv[3] });
 
-  const result = await UserController.setUserCertification({
-    userId: sellerId,
-    isCertified,
-  });
+  const databaseConnection = getDatabaseConnection();
 
-  console.log(result);
+  try {
+    await databaseConnection.connect();
+    const result = await UserController.setUserCertification({
+      userId: sellerId,
+      isCertified,
+    });
+
+    console.log(result);
+  } catch (err: any) {
+    console.error(err);
+  } finally {
+    await databaseConnection.disconnect();
+  }
 };
 
 setIsCertifiedSeller();

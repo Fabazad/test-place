@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ef6f38c2-16e7-52f1-8ef5-9dc4d714e5aa")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="53d17cb0-7eb0-5685-9ad9-95e2a24dcc99")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
 import mongoose from "mongoose";
@@ -34,7 +34,7 @@ const createProductDAO = () => {
             return JSON.parse(JSON.stringify(product));
         },
         findPageResults: async ({ searchData }) => {
-            const { itemsPerPage, page, published, sortBy, keyWords, automaticAcceptance, category, free, maxPrice, minPrice, prime, seller, remainingRequests, } = searchData;
+            const { itemsPerPage, page, published, sortBy, keyWords, automaticAcceptance, category, free, maxPrice, minPrice, prime, seller, remainingRequests, isCertified, } = searchData;
             const query = {
                 ...(published && { publishExpirationDate: { $gte: new Date() } }),
                 ...(keyWords && { $text: { $search: keyWords.toLowerCase() } }),
@@ -50,6 +50,7 @@ const createProductDAO = () => {
                 ...(prime && { isPrime: true }),
                 ...(seller && { seller }),
                 ...(remainingRequests && { remainingTestsCount: { $gt: 0 } }),
+                ...(isCertified && { isFromCertifiedSeller: true }),
             };
             const [hits, totalCount] = await Promise.all([
                 productModel
@@ -143,4 +144,4 @@ const createProductDAO = () => {
 };
 export const getProductDAO = createSingletonGetter(createProductDAO);
 //# sourceMappingURL=product.dao.index.js.map
-//# debugId=ef6f38c2-16e7-52f1-8ef5-9dc4d714e5aa
+//# debugId=53d17cb0-7eb0-5685-9ad9-95e2a24dcc99

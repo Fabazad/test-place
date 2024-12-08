@@ -30,6 +30,7 @@ export const productSearchDataSchema = z.object({
   published: booleanSchema().optional(),
   remainingRequests: booleanSchema().optional(),
   seller: z.string().optional(),
+  isCertified: booleanSchema().optional(),
 });
 export type ProductSearchData = z.infer<typeof productSearchDataSchema>;
 

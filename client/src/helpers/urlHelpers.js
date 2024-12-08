@@ -1,6 +1,4 @@
 import history from "../history";
-import constants from "./constants";
-const { AMAZON_PARTNER_ID } = constants;
 
 export function updateURLParameter(url, param, paramVal) {
   let newAdditionalURL = "";
@@ -30,6 +28,7 @@ export function updateURLParameters(params, pathname = history.location.pathname
     return updateURLParameter(acc, key, params[key]);
   }, pathname + "?");
 
+  console.log({ newUrl });
   history.push(newUrl);
 }
 

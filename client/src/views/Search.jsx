@@ -82,11 +82,11 @@ const Search = (props) => {
   };
 
   const goToPage = (page) => {
-    updateURLParameters({ page });
+    updateURLParameters({ ...searchEngineData, page });
   };
 
   const onSortByChange = (sortBy) => {
-    updateURLParameters({ sortBy, page: 1 });
+    updateURLParameters({ ...searchEngineData, sortBy, page: 1 });
   };
 
   return (
