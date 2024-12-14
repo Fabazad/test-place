@@ -1,6 +1,7 @@
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import {
   AffiliatedCommissionStatus,
+  AffiliationRecord,
   PopulatedAffiliationRecord,
 } from "../affiliationRecord.entity.js";
 
@@ -22,4 +23,8 @@ export type AffiliationRecordDAO = {
   }>;
   getTotalGeneratedMoney: (params: { userId: string }) => Promise<number>;
   getOutstandingBalance: (params: { userId: string }) => Promise<number>;
+  getRecordsByStatus: (params: {
+    status: Array<AffiliatedCommissionStatus>;
+  }) => Promise<Array<AffiliationRecord>>;
+  updateRecords: (params: Array<AffiliationRecord>) => Promise<undefined>;
 };

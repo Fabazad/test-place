@@ -42,7 +42,10 @@ export const AffiliationHistory = withTranslation()(({ t }) => {
   const getBadgeColorFromRecord = (record) => {
     if (record.params.paramsType === "appPayment") return "primary";
 
-    if (record.params.status === "moneyReceived") {
+    if (
+      record.params.status === "moneyReceived" ||
+      record.params.status === "productOrdered"
+    ) {
       return "success";
     }
     return "default";

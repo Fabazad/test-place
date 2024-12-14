@@ -83,7 +83,12 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
             $match: {
               ambassadorId: new Types.ObjectId(userId),
               "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
-              "params.status": AffiliatedCommissionStatus.MONEY_RECEIVED,
+              "params.status": {
+                $in: [
+                  AffiliatedCommissionStatus.MONEY_RECEIVED,
+                  AffiliatedCommissionStatus.PRODUCT_ORDERED,
+                ],
+              },
             },
           },
           { $group: { _id: null, totalGeneratedMoney: { $sum: "$amount" } } },
@@ -101,7 +106,12 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
               $or: [
                 {
                   "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
-                  "params.status": AffiliatedCommissionStatus.MONEY_RECEIVED,
+                  "params.status": {
+                    $in: [
+                      AffiliatedCommissionStatus.MONEY_RECEIVED,
+                      AffiliatedCommissionStatus.PRODUCT_ORDERED,
+                    ],
+                  },
                 },
                 {
                   "params.paramsType": AffiliationRecordParamsType.APP_PAYMENT,
@@ -114,6 +124,26 @@ const createAffiliationRecordDAO = (): AffiliationRecordDAO => {
         .exec();
 
       return round(res[0]?.outstandingBalance || 0, 2);
+    },
+    getRecordsByStatus: async ({ status }) => {
+      const res = await affiliationRecordModel
+        .find({
+          "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
+          "params.status": { $in: status },
+        })
+        .lean<Array<AffiliationRecord>>();
+
+      return res;
+    },
+    updateRecords: async (records) => {
+      const bulkWrites = records.map((record) => ({
+        updateOne: {
+          filter: { _id: record._id },
+          update: { $set: record },
+        },
+      }));
+
+      await affiliationRecordModel.bulkWrite(bulkWrites);
     },
   };
 };

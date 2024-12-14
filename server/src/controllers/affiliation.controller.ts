@@ -87,8 +87,14 @@ export class AffiliationController {
       return { success: true, data: undefined };
     }
 
+    const calculatedRateInPercent =
+      testStatus === TestStatus.MONEY_RECEIVED ||
+      testStatus === TestStatus.PRODUCT_ORDERED
+        ? affiliated.affiliated.rateInPercent / 2
+        : affiliated.affiliated.rateInPercent;
+
     const amount = +parseFloat(
-      `${(productAmount * affiliated.affiliated.rateInPercent) / 100}`
+      `${(productAmount * calculatedRateInPercent) / 100}`
     ).toFixed(2);
 
     const testStatusMap: Record<AcceptedTestStatus, AffiliatedCommissionStatus> = {

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="dbaef9e7-1e40-5281-8e79-9fa26897a2b0")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6bf7e49c-c39f-5368-8cfe-e065552ecf06")}catch(e){}}();
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { omittedSavedDataSchema } from "../../../utils/savedDataSchema.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -60,7 +60,12 @@ const createAffiliationRecordDAO = () => {
                     $match: {
                         ambassadorId: new Types.ObjectId(userId),
                         "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
-                        "params.status": AffiliatedCommissionStatus.MONEY_RECEIVED,
+                        "params.status": {
+                            $in: [
+                                AffiliatedCommissionStatus.MONEY_RECEIVED,
+                                AffiliatedCommissionStatus.PRODUCT_ORDERED,
+                            ],
+                        },
                     },
                 },
                 { $group: { _id: null, totalGeneratedMoney: { $sum: "$amount" } } },
@@ -77,7 +82,12 @@ const createAffiliationRecordDAO = () => {
                         $or: [
                             {
                                 "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
-                                "params.status": AffiliatedCommissionStatus.MONEY_RECEIVED,
+                                "params.status": {
+                                    $in: [
+                                        AffiliatedCommissionStatus.MONEY_RECEIVED,
+                                        AffiliatedCommissionStatus.PRODUCT_ORDERED,
+                                    ],
+                                },
                             },
                             {
                                 "params.paramsType": AffiliationRecordParamsType.APP_PAYMENT,
@@ -90,8 +100,26 @@ const createAffiliationRecordDAO = () => {
                 .exec();
             return round(res[0]?.outstandingBalance || 0, 2);
         },
+        getRecordsByStatus: async ({ status }) => {
+            const res = await affiliationRecordModel
+                .find({
+                "params.paramsType": AffiliationRecordParamsType.AFFILIATED_COMMISSION,
+                "params.status": { $in: status },
+            })
+                .lean();
+            return res;
+        },
+        updateRecords: async (records) => {
+            const bulkWrites = records.map((record) => ({
+                updateOne: {
+                    filter: { _id: record._id },
+                    update: { $set: record },
+                },
+            }));
+            await affiliationRecordModel.bulkWrite(bulkWrites);
+        },
     };
 };
 export const getAffiliationRecordDAO = createSingletonGetter(createAffiliationRecordDAO);
 //# sourceMappingURL=affiliationRecord.dao.index.js.map
-//# debugId=dbaef9e7-1e40-5281-8e79-9fa26897a2b0
+//# debugId=6bf7e49c-c39f-5368-8cfe-e065552ecf06

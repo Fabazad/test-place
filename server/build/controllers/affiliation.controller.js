@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3ceaf59c-57dd-5053-a991-df52ba5854eb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="738c81eb-f367-52a2-9adf-63ff95519891")}catch(e){}}();
 import { AffiliatedCommissionStatus, } from "../entities/AffiliationRecord/affiliationRecord.entity.js";
 import { getAffiliationRecordDAO } from "../entities/AffiliationRecord/dao/affiliationRecord.dao.index.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
@@ -49,7 +49,11 @@ export class AffiliationController {
             });
             return { success: true, data: undefined };
         }
-        const amount = +parseFloat(`${(productAmount * affiliated.affiliated.rateInPercent) / 100}`).toFixed(2);
+        const calculatedRateInPercent = testStatus === TestStatus.MONEY_RECEIVED ||
+            testStatus === TestStatus.PRODUCT_ORDERED
+            ? affiliated.affiliated.rateInPercent / 2
+            : affiliated.affiliated.rateInPercent;
+        const amount = +parseFloat(`${(productAmount * calculatedRateInPercent) / 100}`).toFixed(2);
         const testStatusMap = {
             [TestStatus.REQUEST_ACCEPTED]: AffiliatedCommissionStatus.TEST_REQUEST,
             [TestStatus.MONEY_RECEIVED]: AffiliatedCommissionStatus.MONEY_RECEIVED,
@@ -90,4 +94,4 @@ export class AffiliationController {
     }
 }
 //# sourceMappingURL=affiliation.controller.js.map
-//# debugId=3ceaf59c-57dd-5053-a991-df52ba5854eb
+//# debugId=738c81eb-f367-52a2-9adf-63ff95519891
