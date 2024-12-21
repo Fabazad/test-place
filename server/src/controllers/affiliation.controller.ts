@@ -106,7 +106,7 @@ export class AffiliationController {
     await affiliationRecordDAO.createAffiliatedCommissionRecord({
       affiliatedId,
       ambassadorId: ambassador._id,
-      rateInPercent: affiliated.affiliated.rateInPercent,
+      rateInPercent: calculatedRateInPercent,
       amount,
       status: testStatusMap[testStatus],
     });

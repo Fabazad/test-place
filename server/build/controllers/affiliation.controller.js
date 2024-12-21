@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="738c81eb-f367-52a2-9adf-63ff95519891")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="28a01ce3-511a-53c5-8bdc-186ade1d603c")}catch(e){}}();
 import { AffiliatedCommissionStatus, } from "../entities/AffiliationRecord/affiliationRecord.entity.js";
 import { getAffiliationRecordDAO } from "../entities/AffiliationRecord/dao/affiliationRecord.dao.index.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
@@ -62,7 +62,7 @@ export class AffiliationController {
         await affiliationRecordDAO.createAffiliatedCommissionRecord({
             affiliatedId,
             ambassadorId: ambassador._id,
-            rateInPercent: affiliated.affiliated.rateInPercent,
+            rateInPercent: calculatedRateInPercent,
             amount,
             status: testStatusMap[testStatus],
         });
@@ -94,4 +94,4 @@ export class AffiliationController {
     }
 }
 //# sourceMappingURL=affiliation.controller.js.map
-//# debugId=738c81eb-f367-52a2-9adf-63ff95519891
+//# debugId=28a01ce3-511a-53c5-8bdc-186ade1d603c
