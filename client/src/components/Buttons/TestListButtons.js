@@ -113,9 +113,11 @@ const TestListButtons = (props) => {
                   onClick={() => onClick(TEST_ROW_CLICK_ACTIONS.PRODUCT_REVIEWED)}
                 />
               ) : null}
-              {[TestStatus.REVIEW_VALIDATED, TestStatus.MONEY_SENT].includes(
-                test.status
-              ) ? (
+              {[
+                TestStatus.PRODUCT_REVIEWED,
+                TestStatus.REVIEW_VALIDATED,
+                TestStatus.MONEY_SENT,
+              ].includes(test.status) ? (
                 <RowActionButton
                   title={t("MONEY_RECEIVED")}
                   icon="fa fa-dollar-sign"

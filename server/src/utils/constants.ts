@@ -268,7 +268,11 @@ export const TEST_STATUS_PROCESSES: Record<TestStatus, TestStatusProcessStep> = 
     notificationType: NOTIFICATION_TYPES.MONEY_SENT.value,
   },
   [TestStatus.MONEY_RECEIVED]: {
-    previous: [TestStatus.MONEY_SENT, TestStatus.REVIEW_VALIDATED],
+    previous: [
+      TestStatus.PRODUCT_REVIEWED,
+      TestStatus.MONEY_SENT,
+      TestStatus.REVIEW_VALIDATED,
+    ],
     notificationType: NOTIFICATION_TYPES.MONEY_RECEIVED.value,
   },
   [TestStatus.TEST_CANCELLED]: {

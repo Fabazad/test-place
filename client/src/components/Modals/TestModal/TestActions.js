@@ -145,7 +145,16 @@ const TestActions = ({ test, userRole, onToggle, t }) => {
         ])) ||
       (userRole === USER_ROLES.TESTER && isStatus(TestStatus.PRODUCT_REVIEWED))
     ) {
-      return <CancelButton />;
+      return (
+        <>
+          <div>
+            <CancelButton />
+          </div>
+          <div>
+            <MoneyReceivedButton />
+          </div>
+        </>
+      );
     }
     if (userRole === USER_ROLES.TESTER && isStatus(TestStatus.REQUEST_ACCEPTED)) {
       return (

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="40d4dca9-8c9a-54c5-a096-65553de9f3a1")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="481d5bee-dd18-5f83-9601-84e13a0614fb")}catch(e){}}();
 import { TestStatus } from "../entities/Test/test.constants.js";
 import z from "zod";
 export const Role = {
@@ -241,7 +241,11 @@ export const TEST_STATUS_PROCESSES = {
         notificationType: NOTIFICATION_TYPES.MONEY_SENT.value,
     },
     [TestStatus.MONEY_RECEIVED]: {
-        previous: [TestStatus.MONEY_SENT, TestStatus.REVIEW_VALIDATED],
+        previous: [
+            TestStatus.PRODUCT_REVIEWED,
+            TestStatus.MONEY_SENT,
+            TestStatus.REVIEW_VALIDATED,
+        ],
         notificationType: NOTIFICATION_TYPES.MONEY_RECEIVED.value,
     },
     [TestStatus.TEST_CANCELLED]: {
@@ -258,4 +262,4 @@ export const VALID_TEST_STATUSES = [
     TestStatus.REVIEW_VALIDATED,
 ];
 //# sourceMappingURL=constants.js.map
-//# debugId=40d4dca9-8c9a-54c5-a096-65553de9f3a1
+//# debugId=481d5bee-dd18-5f83-9601-84e13a0614fb
