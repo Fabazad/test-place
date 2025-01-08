@@ -27,8 +27,14 @@ const MyTesterInfoForm = (props) => {
         amazonId: amazonId.replace(/.*(amzn1\.account\.[A-Z0-9]{28}).*/, "$1"),
       })
       .catch(() => setLoading(false))
-      .then(() => {
+      .then((val) => {
         setLoading(false);
+        if (val.error) {
+          if (val.error === "amazon_id_already_used")
+            toast.error(t("AMAZON_ID_ALREADY_USED"));
+          else toast.error(t("UNKNOWN_ERROR"));
+          return;
+        }
         toast.success(t("UPDATES_SAVED"));
       });
   };

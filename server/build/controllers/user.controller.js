@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="faea2130-51e6-51c4-adae-9c2babd3fadb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="15c42211-0edd-5b29-8672-5bb859b56dd8")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -370,6 +370,7 @@ export class UserController {
                 return formatFailedResponse(updateUserRes, {
                     user_not_found: "user_not_found_when_adding_email",
                     name_already_used: "name_already_used_when_adding_email",
+                    amazon_id_already_used: "amazon_id_already_used_when_adding_email",
                 });
             }
             return this.login({ user: updateUserRes.data, staySignedIn: false });
@@ -432,6 +433,7 @@ export class UserController {
                 return formatFailedResponse(updateUserRes, {
                     name_already_used: "name_already_used",
                     user_not_found: "user_not_found_when_adding_email",
+                    amazon_id_already_used: "amazon_id_already_used",
                 });
             }
             return this.login({ user: updateUserRes.data, staySignedIn: false });
@@ -561,4 +563,4 @@ export class UserController {
     }
 }
 //# sourceMappingURL=user.controller.js.map
-//# debugId=faea2130-51e6-51c4-adae-9c2babd3fadb
+//# debugId=15c42211-0edd-5b29-8672-5bb859b56dd8

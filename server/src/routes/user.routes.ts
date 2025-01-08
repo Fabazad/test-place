@@ -253,6 +253,7 @@ router.post(
         user_not_found: new NotFoundRequestError("user_not_found"),
         unauthorized: new UnauthorizedRequestError("unauthorized"),
         name_already_used: new BadRequestError("name_already_used"),
+        amazon_id_already_used: new BadRequestError("amazon_id_already_used"),
       })
     );
   })
@@ -338,6 +339,9 @@ router.post(
         user_name_not_found: new ServerRequestError("user_name_not_found"),
         unknown_error: ({ errorMessage }) =>
           new ServerRequestError("unknown_error", errorMessage),
+        amazon_id_already_used_when_adding_email: new ServerRequestError(
+          "amazon_id_already_used_when_adding_email"
+        ),
       })
     );
   })
@@ -404,6 +408,7 @@ router.post(
           "duplicate_email_when_creating_user"
         ),
         duplicate_name: new BadRequestError("duplicate_name"),
+        amazon_id_already_used: new BadRequestError("amazon_id_already_used"),
       })
     );
   })

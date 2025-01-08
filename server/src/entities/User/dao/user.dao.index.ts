@@ -169,6 +169,9 @@ const createUserDAO = (): UserDAO => {
           if (err.keyPattern.name) {
             return { success: false, errorCode: "name_already_used" };
           }
+          if (err.keyPattern.amazonId) {
+            return { success: false, errorCode: "amazon_id_already_used" };
+          }
         }
         throw err;
       }

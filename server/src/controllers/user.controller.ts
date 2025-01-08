@@ -356,7 +356,7 @@ export class UserController {
   }): Promise<
     CustomResponse<
       { user: UserWithoutPassword; token: string },
-      "user_not_found" | "unauthorized" | "name_already_used"
+      "user_not_found" | "unauthorized" | "name_already_used" | "amazon_id_already_used"
     >
   > {
     const { decoded, userId, updates } = params;
@@ -549,6 +549,7 @@ export class UserController {
       | "invalid_token"
       | "user_email_not_found"
       | "user_name_not_found"
+      | "amazon_id_already_used_when_adding_email"
     >
   > {
     const { credential, roles, language: paramsLanguage, affiliatedBy } = params;
@@ -588,6 +589,7 @@ export class UserController {
         return formatFailedResponse(updateUserRes, {
           user_not_found: "user_not_found_when_adding_email",
           name_already_used: "name_already_used_when_adding_email",
+          amazon_id_already_used: "amazon_id_already_used_when_adding_email",
         });
       }
       return this.login({ user: updateUserRes.data, staySignedIn: false });
@@ -662,6 +664,7 @@ export class UserController {
       | "user_not_found_when_logging"
       | "duplicate_email_when_creating_user"
       | "duplicate_name"
+      | "amazon_id_already_used"
     >
   > {
     const { accessToken, roles, language } = params;
@@ -691,6 +694,7 @@ export class UserController {
         return formatFailedResponse(updateUserRes, {
           name_already_used: "name_already_used",
           user_not_found: "user_not_found_when_adding_email",
+          amazon_id_already_used: "amazon_id_already_used",
         });
       }
 

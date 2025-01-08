@@ -58,7 +58,10 @@ export type UserDAO = {
       facebookId?: string;
     };
   }) => Promise<
-    CustomResponse<UserWithoutPassword, "name_already_used" | "user_not_found">
+    CustomResponse<
+      UserWithoutPassword,
+      "name_already_used" | "user_not_found" | "amazon_id_already_used"
+    >
   >;
   updateUserWIthNoUniqueField: (params: {
     userId: string;

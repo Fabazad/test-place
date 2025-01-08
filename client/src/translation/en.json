@@ -456,5 +456,6 @@
   "YOU_RECEIVED_BY_EMAIL": "You must have received an email validation of your review by Amazon. You can find it in your inbox.",
   "REVIEW_SCREENSHOT": "Review screenshot",
   "CERTIFIED_SELLERS": "Certified sellers",
-  "NO_COUPON_WARNING": "Be ware ! Don't pay your products with an Amazon coupon. You may not receive your refund."
+  "NO_COUPON_WARNING": "Be ware ! Don't pay your products with an Amazon coupon. You may not receive your refund.",
+  "AMAZON_ID_ALREADY_USED": "This Amazon id is already used by another user."
 }

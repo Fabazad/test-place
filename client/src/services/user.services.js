@@ -128,9 +128,11 @@ class UserService extends BaseService {
   }
 
   updateUserInfo(userId, data) {
-    return axios
-      .post(this.baseURL + "/updateUserInfo", { userId, data })
-      .then(this.currentUserResolve);
+    return this.enrichResponseWithError(() =>
+      axios
+        .post(this.baseURL + "/updateUserInfo", { userId, data })
+        .then(this.currentUserResolve)
+    );
   }
 
   sendContactUsMessage(name, email, message) {

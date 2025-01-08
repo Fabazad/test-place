@@ -455,5 +455,6 @@
   "YOU_RECEIVED_BY_EMAIL": "Vous devez avoir reçu un email de validation de votre commentaire par Amazon. Vous pouvez le trouver dans votre boîte de réception.",
   "REVIEW_SCREENSHOT": "Screenshot de l'avis",
   "CERTIFIED_SELLERS": "Vendeurs certifiés",
-  "NO_COUPON_WARNING": "Attention ! Ne payez pas vos produits avec un coupon Amazon. Vous risquez de ne pas recevoir votre remboursement."
+  "NO_COUPON_WARNING": "Attention ! Ne payez pas vos produits avec un coupon Amazon. Vous risquez de ne pas recevoir votre remboursement.",
+  "AMAZON_ID_ALREADY_USED": "Cet identifiant Amazon est déjà utilisé par un autre utilisateur."
 }

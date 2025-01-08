@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b1e8d9cf-2926-5604-b02b-0a35c296d1da")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7e88bd58-f42b-517a-8a38-1596e4843763")}catch(e){}}();
 import { configs } from "../../../configs.js";
 import { Role } from "../../../utils/constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
@@ -150,6 +150,9 @@ const createUserDAO = () => {
                     if (err.keyPattern.name) {
                         return { success: false, errorCode: "name_already_used" };
                     }
+                    if (err.keyPattern.amazonId) {
+                        return { success: false, errorCode: "amazon_id_already_used" };
+                    }
                 }
                 throw err;
             }
@@ -236,4 +239,4 @@ const createUserDAO = () => {
 };
 export const getUserDAO = createSingletonGetter(createUserDAO);
 //# sourceMappingURL=user.dao.index.js.map
-//# debugId=b1e8d9cf-2926-5604-b02b-0a35c296d1da
+//# debugId=7e88bd58-f42b-517a-8a38-1596e4843763

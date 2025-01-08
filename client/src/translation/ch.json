@@ -456,5 +456,6 @@
   "YOU_RECEIVED_BY_EMAIL": "您必须已经收到您的评论的邮件验证，通过Amazon。您可以在您的收件箱中找到它。",
   "REVIEW_SCREENSHOT": "评论截图",
   "CERTIFIED_SELLERS": "认证的卖家",
-  "NO_COUPON_WARNING": "警告！不要使用Amazon优惠券支付产品。您可能无法收到退款。"
+  "NO_COUPON_WARNING": "警告！不要使用Amazon优惠券支付产品。您可能无法收到退款。",
+  "AMAZON_ID_ALREADY_USED": "该亚马逊登录ID已经被其他用户使用。"
 }

@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ff0c5ed4-7b96-5d99-a81d-eada212fbe5e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1597f90a-cf0f-555d-9ae8-90521561aff1")}catch(e){}}();
 import { configs } from "../configs.js";
 import { UserController } from "../controllers/user.controller.js";
 import { decode } from "../middlewares/decode.js";
@@ -142,6 +142,7 @@ router.post("/updateUserInfo", withAuth(), asyncHandler(async (request, reply) =
         user_not_found: new NotFoundRequestError("user_not_found"),
         unauthorized: new UnauthorizedRequestError("unauthorized"),
         name_already_used: new BadRequestError("name_already_used"),
+        amazon_id_already_used: new BadRequestError("amazon_id_already_used"),
     }));
 }));
 router.post("/contact-us", asyncHandler(async (request, reply) => {
@@ -189,6 +190,7 @@ router.post("/google-register", asyncHandler(async (request, reply) => {
         user_email_not_found: new ServerRequestError("user_email_not_found"),
         user_name_not_found: new ServerRequestError("user_name_not_found"),
         unknown_error: ({ errorMessage }) => new ServerRequestError("unknown_error", errorMessage),
+        amazon_id_already_used_when_adding_email: new ServerRequestError("amazon_id_already_used_when_adding_email"),
     }));
 }));
 router.post("/google-login", asyncHandler(async (request, reply) => {
@@ -222,6 +224,7 @@ router.post("/facebook-register", asyncHandler(async (request, reply) => {
         user_not_found_when_logging: new ServerRequestError("user_not_found_when_logging"),
         duplicate_email_when_creating_user: new ServerRequestError("duplicate_email_when_creating_user"),
         duplicate_name: new BadRequestError("duplicate_name"),
+        amazon_id_already_used: new BadRequestError("amazon_id_already_used"),
     }));
 }));
 router.post("/facebook-login", asyncHandler(async (request, reply) => {
@@ -262,4 +265,4 @@ router.post("/impersonate", withAuth(Role.ADMIN), async (request, reply) => {
 });
 export default router;
 //# sourceMappingURL=user.routes.js.map
-//# debugId=ff0c5ed4-7b96-5d99-a81d-eada212fbe5e
+//# debugId=1597f90a-cf0f-555d-9ae8-90521561aff1
