@@ -71,14 +71,19 @@ const TestProcessInfo = ({ test, userRole, onToggle, adminView, t }) => {
       ) : null}
       {isStatus(TestStatus.REQUEST_ACCEPTED) &&
       (USER_ROLES.TESTER === userRole || adminView) ? (
-        <NextStepAdvice color="info">
-          {t("ORDER_PRODUCT_FOLLOW_LINK")}{" "}
-          <a href={test.product.amazonUrl} target="_blank" rel="noopener noreferrer">
-            {t("PRODUCT_LINK")}
-          </a>
-          .<br />
-          {t("INDICATE_ON_PRODUCT_ORDER")}
-        </NextStepAdvice>
+        <>
+          <NextStepAdvice color="info">
+            {t("ORDER_PRODUCT_FOLLOW_LINK")}{" "}
+            <a href={test.product.amazonUrl} target="_blank" rel="noopener noreferrer">
+              {t("PRODUCT_LINK")}
+            </a>
+            .<br />
+            {t("INDICATE_ON_PRODUCT_ORDER")}
+          </NextStepAdvice>
+          <Alert color="warning" className="white-space-pre-line">
+            {t("NO_COUPON_WARNING")}
+          </Alert>
+        </>
       ) : null}
       {isStatus([
         TestStatus.REQUEST_ACCEPTED,
