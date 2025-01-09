@@ -35,14 +35,19 @@ export class TestController {
     const { product, userId, status, testerMessage } = params;
     const userDAO = getUserDAO();
 
-    const baseTestData: Pick<
-      TestData,
-      "product" | "seller" | "tester" | "testerMessage"
-    > = {
+    const baseTestData: Pick<TestData, "product" | "seller" | "tester" | "messages"> = {
       product: product,
       seller: product.seller,
       tester: userId,
-      testerMessage,
+      messages: testerMessage
+        ? [
+            {
+              sender: { senderType: MessageSenderType.TESTER, userId },
+              message: testerMessage,
+              date: new Date(),
+            },
+          ]
+        : [],
     };
 
     if (status === TestStatus.REQUEST_ACCEPTED) {
@@ -59,7 +64,16 @@ export class TestController {
         data: {
           ...baseTestData,
           status: TestStatus.REQUEST_ACCEPTED,
-          sellerMessage: seller.sellerMessage,
+          messages: seller.sellerMessage
+            ? [
+                ...(baseTestData.messages ?? []),
+                {
+                  sender: { senderType: MessageSenderType.SELLER, userId: seller._id },
+                  message: seller.sellerMessage,
+                  date: new Date(),
+                },
+              ]
+            : baseTestData.messages,
           expirationDate: null,
           updates: [],
         },
@@ -481,7 +495,6 @@ export class TestController {
         user: receiverUserId,
       },
       frontendUrl,
-      noEmail: true,
     });
 
     return { success: true, data: undefined };

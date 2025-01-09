@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8284fa29-a75e-5f51-97d6-696e274ab565")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a4502f11-1c08-5c8d-857f-a77bd0e81c27")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
@@ -19,7 +19,15 @@ export class TestController {
             product: product,
             seller: product.seller,
             tester: userId,
-            testerMessage,
+            messages: testerMessage
+                ? [
+                    {
+                        sender: { senderType: MessageSenderType.TESTER, userId },
+                        message: testerMessage,
+                        date: new Date(),
+                    },
+                ]
+                : [],
         };
         if (status === TestStatus.REQUEST_ACCEPTED) {
             if (!product.automaticAcceptance) {
@@ -34,7 +42,16 @@ export class TestController {
                 data: {
                     ...baseTestData,
                     status: TestStatus.REQUEST_ACCEPTED,
-                    sellerMessage: seller.sellerMessage,
+                    messages: seller.sellerMessage
+                        ? [
+                            ...(baseTestData.messages ?? []),
+                            {
+                                sender: { senderType: MessageSenderType.SELLER, userId: seller._id },
+                                message: seller.sellerMessage,
+                                date: new Date(),
+                            },
+                        ]
+                        : baseTestData.messages,
                     expirationDate: null,
                     updates: [],
                 },
@@ -306,10 +323,9 @@ export class TestController {
                 user: receiverUserId,
             },
             frontendUrl,
-            noEmail: true,
         });
         return { success: true, data: undefined };
     }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=8284fa29-a75e-5f51-97d6-696e274ab565
+//# debugId=a4502f11-1c08-5c8d-857f-a77bd0e81c27

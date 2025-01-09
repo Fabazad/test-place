@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fa7fa220-a523-505e-aace-a5d7a54a5247")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ec1799d6-0c5e-5f89-bf92-e50df7159390")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -49,11 +49,11 @@ export const configs = z
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(22),
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(23),
     PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(24),
-    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(22),
+    PRODUCT_REVIEWED_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(23),
     LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_FR: numberSchema().optional().default(25),
-    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(26),
-    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(27),
-    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(26),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_EN: numberSchema().optional().default(25),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_CH: numberSchema().optional().default(25),
+    LAST_PUBLISHED_PRODUCTS_EMAIL_TEMPLATE_ID_BD: numberSchema().optional().default(25),
     SECRET_GOOGLE_CLIENT_ID: z.string(),
     PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     AMAZON_AFFILIATION_TAG: z.string().trim(),
@@ -81,12 +81,12 @@ export const configs = z
     AMAZON_SECRET_KEY: z.string(),
     CANCEL_PENDING_DAYS: z.coerce.number().default(14),
     NOTIFICATION_PENDING_DAYS: z.coerce.number().default(4),
-    NEW_MESSAGE_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(1),
-    NEW_MESSAGE_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(1),
-    NEW_MESSAGE_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(1),
-    NEW_MESSAGE_EMAIL_TEMPLATE_ID_BD: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(26),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(27),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(27),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_BD: z.number().optional().default(28),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=fa7fa220-a523-505e-aace-a5d7a54a5247
+//# debugId=ec1799d6-0c5e-5f89-bf92-e50df7159390
