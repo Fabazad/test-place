@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="98668f8d-9c8b-59a5-9eef-cbd7f90f6be8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="adb14643-7593-5710-8ce2-3ceee36605a7")}catch(e){}}();
 import { configs } from "../../configs.js";
 import { NotificationType, Role } from "../../utils/constants.js";
 import { createSingletonGetter } from "../../utils/singleton.js";
@@ -68,6 +68,7 @@ const createEmailClient = () => {
                 [NotificationType.NEW_REQUEST]: EmailTemplate.NEW_TEST_REQUEST,
                 [NotificationType.PRODUCT_REVIEWED]: EmailTemplate.PRODUCT_REVIEWED,
                 [NotificationType.REQUEST_ACCEPTED]: EmailTemplate.TEST_REQUEST_ACCEPTED,
+                [NotificationType.NEW_MESSAGE]: EmailTemplate.NEW_MESSAGE,
             };
             const defaultTemplate = EmailTemplate.NOTIFICATION;
             const templateId = TEMPLATE_IDS[templateMap[notification.type] || defaultTemplate][to.language];
@@ -109,4 +110,4 @@ const createEmailClient = () => {
 };
 export const getEmailClient = createSingletonGetter(createEmailClient);
 //# sourceMappingURL=index.js.map
-//# debugId=98668f8d-9c8b-59a5-9eef-cbd7f90f6be8
+//# debugId=adb14643-7593-5710-8ce2-3ceee36605a7

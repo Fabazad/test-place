@@ -46,4 +46,5 @@ export enum EmailTemplate {
   MONEY_SENT = "money-sent",
   PRODUCT_REVIEWED = "product-reviewed",
   LAST_PUBLISHED_PRODUCTS = "last-published-products",
+  NEW_MESSAGE = "new-message",
 }

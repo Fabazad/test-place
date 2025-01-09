@@ -457,5 +457,10 @@
   "REVIEW_SCREENSHOT": "Review screenshot",
   "CERTIFIED_SELLERS": "Certified sellers",
   "NO_COUPON_WARNING": "Be ware ! Don't pay your products with an Amazon coupon. You may not receive your refund.",
-  "AMAZON_ID_ALREADY_USED": "This Amazon id is already used by another user."
+  "AMAZON_ID_ALREADY_USED": "This Amazon id is already used by another user.",
+  "TEST_MESSAGES": "Messages",
+  "WRITE_A_MESSAGE": "Write a message...",
+  "NO_MESSAGES": "No messages",
+  "NEW_MESSAGE_NOTIFICATION_TEXT": "You have received a new message on your test: ",
+  "NEW_MESSAGE": "New message"
 }

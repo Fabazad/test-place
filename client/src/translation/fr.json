@@ -456,5 +456,10 @@
   "REVIEW_SCREENSHOT": "Screenshot de l'avis",
   "CERTIFIED_SELLERS": "Vendeurs certifiés",
   "NO_COUPON_WARNING": "Attention ! Ne payez pas vos produits avec un coupon Amazon. Vous risquez de ne pas recevoir votre remboursement.",
-  "AMAZON_ID_ALREADY_USED": "Cet identifiant Amazon est déjà utilisé par un autre utilisateur."
+  "AMAZON_ID_ALREADY_USED": "Cet identifiant Amazon est déjà utilisé par un autre utilisateur.",
+  "TEST_MESSAGES": "Messages",
+  "WRITE_A_MESSAGE": "Écrivez un message...",
+  "NO_MESSAGES": "Aucun message",
+  "NEW_MESSAGE_NOTIFICATION_TEXT": "Vous avez reçu un nouveau message sur votre test : ",
+  "NEW_MESSAGE": "Nouveau message"
 }

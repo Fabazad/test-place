@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="33ece824-cb1d-5038-9e71-559fae58f94c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fa7fa220-a523-505e-aace-a5d7a54a5247")}catch(e){}}();
 import "dotenv/config";
 import z from "zod";
 import { numberSchema } from "./utils/zod.utils.js";
@@ -81,8 +81,12 @@ export const configs = z
     AMAZON_SECRET_KEY: z.string(),
     CANCEL_PENDING_DAYS: z.coerce.number().default(14),
     NOTIFICATION_PENDING_DAYS: z.coerce.number().default(4),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_BD: z.number().optional().default(1),
 })
     .parse(process.env);
 console.log({ configs });
 //# sourceMappingURL=configs.js.map
-//# debugId=33ece824-cb1d-5038-9e71-559fae58f94c
+//# debugId=fa7fa220-a523-505e-aace-a5d7a54a5247

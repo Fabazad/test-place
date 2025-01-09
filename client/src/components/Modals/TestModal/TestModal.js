@@ -28,6 +28,7 @@ import Stepper from "../../Stepper";
 import TestStatusIcon from "../../TestStatusIcon";
 import SellerTesterInfo from "./SellerTesterInfo";
 import TestActions from "./TestActions";
+import TestMessages from "./TestMessages";
 import TestPrices from "./TestPrices";
 import TestProcessInfo from "./TestProcessInfo";
 
@@ -279,6 +280,8 @@ const TestModal = ({
             </Col>
           </Row>
 
+          <hr />
+
           <Row className="mt-3">
             <Col xs={12}>
               <TestProcessInfo
@@ -289,6 +292,18 @@ const TestModal = ({
               />
             </Col>
           </Row>
+
+          <hr />
+
+          <TestMessages
+            messages={test.messages || []}
+            testId={test._id}
+            seller={test.seller}
+            tester={test.tester}
+          />
+
+          <hr />
+
           <TestActions test={test} userRole={userType} onToggle={onToggle} />
         </Container>
       </ModalBody>

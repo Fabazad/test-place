@@ -1,11 +1,12 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6b3c0179-1dc7-566e-863b-37c82fbb38cb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8284fa29-a75e-5f51-97d6-696e274ab565")}catch(e){}}();
 import { configs } from "../configs.js";
 import { getProductDAO } from "../entities/Product/dao/product.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "../entities/Test/test.constants.js";
+import { MessageSenderType, } from "../entities/Test/test.entity.js";
 import { getUserDAO } from "../entities/User/dao/user.dao.index.js";
-import { NOTIFICATION_TYPES, Role, TEST_STATUS_PROCESSES, } from "../utils/constants.js";
+import { NotificationType, Role, TEST_STATUS_PROCESSES, } from "../utils/constants.js";
 import dayjs from "dayjs";
 import { AffiliationController } from "./affiliation.controller.js";
 import { NotificationController } from "./notification.controller.js";
@@ -87,7 +88,7 @@ export class TestController {
             NotificationController.createNotification({
                 notificationData: {
                     user: test.seller,
-                    type: NOTIFICATION_TYPES.NEW_REQUEST.value,
+                    type: NotificationType.NEW_REQUEST,
                     test: test,
                     product,
                 },
@@ -284,6 +285,31 @@ export class TestController {
         });
         return { success: true, data: undefined };
     }
+    static async addMessage(params) {
+        const { testId, message, senderUserId, frontendUrl } = params;
+        const testDAO = getTestDAO();
+        const test = await testDAO.findById({ id: testId });
+        if (!test)
+            return { success: false, errorCode: "test_not_found" };
+        const senderType = test?.seller === senderUserId ? MessageSenderType.SELLER : MessageSenderType.TESTER;
+        const receiverUserId = senderType === MessageSenderType.SELLER ? test.tester : test.seller;
+        await testDAO.addMessage({
+            testId,
+            message,
+            sender: { senderType, userId: senderUserId },
+        });
+        await NotificationController.createNotification({
+            notificationData: {
+                test,
+                type: NotificationType.NEW_MESSAGE,
+                product: test.product,
+                user: receiverUserId,
+            },
+            frontendUrl,
+            noEmail: true,
+        });
+        return { success: true, data: undefined };
+    }
 }
 //# sourceMappingURL=test.controller.js.map
-//# debugId=6b3c0179-1dc7-566e-863b-37c82fbb38cb
+//# debugId=8284fa29-a75e-5f51-97d6-696e274ab565

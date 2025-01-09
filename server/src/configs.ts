@@ -82,6 +82,10 @@ export const configs = z
     AMAZON_SECRET_KEY: z.string(),
     CANCEL_PENDING_DAYS: z.coerce.number().default(14),
     NOTIFICATION_PENDING_DAYS: z.coerce.number().default(4),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_FR: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_EN: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_CH: z.number().optional().default(1),
+    NEW_MESSAGE_EMAIL_TEMPLATE_ID_BD: z.number().optional().default(1),
   })
   .parse(process.env);
 

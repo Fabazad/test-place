@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="481d5bee-dd18-5f83-9601-84e13a0614fb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="74673d54-a1f0-513f-9617-9147ebf014f9")}catch(e){}}();
 import { TestStatus } from "../entities/Test/test.constants.js";
 import z from "zod";
 export const Role = {
@@ -20,81 +20,7 @@ export const NotificationType = {
     MONEY_SENT: "MONEY_SENT",
     MONEY_RECEIVED: "MONEY_RECEIVED",
     TEST_CANCELLED: "TEST_CANCELLED",
-};
-// Need to match front ones
-export const NOTIFICATION_TYPES = {
-    [NotificationType.NEW_REQUEST]: {
-        value: NotificationType.NEW_REQUEST,
-        title: "Nouvelle demande de test.",
-        text: "Vous avez une nouvelle demande de test pour le produit :",
-        to: "/dashboard/received-requests",
-    },
-    [NotificationType.REQUEST_ACCEPTED]: {
-        value: NotificationType.REQUEST_ACCEPTED,
-        title: "Demande de test acceptée.",
-        text: "Votre demande de test a été acceptée pour le produit :",
-        to: "/dashboard/sent-requests",
-    },
-    [NotificationType.REQUEST_DECLINED]: {
-        value: NotificationType.REQUEST_DECLINED,
-        title: "Demande de test refusée.",
-        text: "Votre demande de test a été refusée pour le produit :",
-        to: "/dashboard/sent-requests",
-    },
-    [NotificationType.REQUEST_CANCELLED]: {
-        value: NotificationType.REQUEST_CANCELLED,
-        title: "Demande de test annulée.",
-        text: "La demande de test a été annulée pour le produit :",
-        to: "/dashboard/received-requests",
-    },
-    [NotificationType.PRODUCT_ORDERED]: {
-        value: NotificationType.PRODUCT_ORDERED,
-        title: "Produit commandé.",
-        text: "Le produit a été commandé :",
-        to: "/dashboard/customer-current-tests",
-    },
-    [NotificationType.PRODUCT_RECEIVED]: {
-        value: NotificationType.PRODUCT_RECEIVED,
-        title: "Produit reçu.",
-        text: "Le produit a été indiqué comme reçu :",
-        to: "/dashboard/customer-current-tests",
-    },
-    [NotificationType.PRODUCT_REVIEWED]: {
-        value: NotificationType.PRODUCT_REVIEWED,
-        title: "Produit commenté.",
-        text: "Le produit a été indiqué comme noté et commenté :",
-        to: "/dashboard/customer-current-tests",
-    },
-    [NotificationType.REVIEW_VALIDATED]: {
-        value: NotificationType.REVIEW_VALIDATED,
-        title: "Commentaire confirmé.",
-        text: "Le vendeur a confirmé le commentaire du produit :",
-        to: "/dashboard/my-current-tests",
-    },
-    [NotificationType.REVIEW_REFUSED]: {
-        value: NotificationType.REVIEW_REFUSED,
-        title: "Commentaire refusé.",
-        text: "Le vendeur a refusé le commentaire du produit :",
-        to: "/dashboard/my-current-tests",
-    },
-    [NotificationType.MONEY_SENT]: {
-        value: NotificationType.MONEY_SENT,
-        title: "Remboursement envoyé.",
-        text: "Le vendeur vous a envoyé de l'argent suite au test du produit :",
-        to: "/dashboard/my-current-tests",
-    },
-    [NotificationType.TEST_CANCELLED]: {
-        value: NotificationType.TEST_CANCELLED,
-        title: "Annulation ou Réclamation.",
-        text: "Une annulation ou une réclamation a été faite sur le produit :",
-        to: "/dashboard/customer-current-tests",
-    },
-    [NotificationType.MONEY_RECEIVED]: {
-        value: NotificationType.MONEY_RECEIVED,
-        title: "Remboursement reçu.",
-        text: "Le tester a indiqué avoir reçu le remboursement sur le produit :",
-        to: "/dashboard/finished-tests",
-    },
+    NEW_MESSAGE: "NEW_MESSAGE",
 };
 export const constants = {
     MONGO_LOCAL_URL: "mongodb://127.0.0.1:27017/test-place",
@@ -193,52 +119,52 @@ export const TEST_STATUS_PROCESSES = {
     [TestStatus.REQUESTED]: {
         previous: null,
         role: Role.TESTER,
-        notificationType: NOTIFICATION_TYPES.NEW_REQUEST.value,
+        notificationType: NotificationType.NEW_REQUEST,
     },
     [TestStatus.REQUEST_CANCELLED]: {
         previous: TestStatus.REQUESTED,
         role: Role.TESTER,
-        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED.value,
+        notificationType: NotificationType.PRODUCT_ORDERED,
     },
     [TestStatus.REQUEST_DECLINED]: {
         previous: TestStatus.REQUESTED,
         role: Role.SELLER,
-        notificationType: NOTIFICATION_TYPES.REQUEST_DECLINED.value,
+        notificationType: NotificationType.REQUEST_DECLINED,
     },
     [TestStatus.REQUEST_ACCEPTED]: {
         previous: TestStatus.REQUESTED,
         role: Role.SELLER,
-        notificationType: NOTIFICATION_TYPES.REQUEST_ACCEPTED.value,
+        notificationType: NotificationType.REQUEST_ACCEPTED,
     },
     [TestStatus.PRODUCT_ORDERED]: {
         previous: TestStatus.REQUEST_ACCEPTED,
         role: Role.TESTER,
-        notificationType: NOTIFICATION_TYPES.PRODUCT_ORDERED.value,
+        notificationType: NotificationType.PRODUCT_ORDERED,
     },
     [TestStatus.PRODUCT_RECEIVED]: {
         previous: TestStatus.PRODUCT_ORDERED,
         role: Role.TESTER,
-        notificationType: NOTIFICATION_TYPES.PRODUCT_RECEIVED.value,
+        notificationType: NotificationType.PRODUCT_RECEIVED,
     },
     [TestStatus.PRODUCT_REVIEWED]: {
         previous: TestStatus.PRODUCT_RECEIVED,
         role: Role.TESTER,
-        notificationType: NOTIFICATION_TYPES.PRODUCT_REVIEWED.value,
+        notificationType: NotificationType.PRODUCT_REVIEWED,
     },
     [TestStatus.REVIEW_VALIDATED]: {
         previous: TestStatus.PRODUCT_REVIEWED,
         role: Role.SELLER,
-        notificationType: NOTIFICATION_TYPES.REVIEW_VALIDATED.value,
+        notificationType: NotificationType.REVIEW_VALIDATED,
     },
     [TestStatus.REVIEW_REFUSED]: {
         previous: TestStatus.PRODUCT_REVIEWED,
         role: Role.SELLER,
-        notificationType: NOTIFICATION_TYPES.REVIEW_REFUSED.value,
+        notificationType: NotificationType.REVIEW_REFUSED,
     },
     [TestStatus.MONEY_SENT]: {
         previous: TestStatus.REVIEW_VALIDATED,
         role: Role.SELLER,
-        notificationType: NOTIFICATION_TYPES.MONEY_SENT.value,
+        notificationType: NotificationType.MONEY_SENT,
     },
     [TestStatus.MONEY_RECEIVED]: {
         previous: [
@@ -246,11 +172,11 @@ export const TEST_STATUS_PROCESSES = {
             TestStatus.MONEY_SENT,
             TestStatus.REVIEW_VALIDATED,
         ],
-        notificationType: NOTIFICATION_TYPES.MONEY_RECEIVED.value,
+        notificationType: NotificationType.MONEY_RECEIVED,
     },
     [TestStatus.TEST_CANCELLED]: {
         previous: Object.values(TestStatus).filter((status) => ![TestStatus.TEST_CANCELLED, TestStatus.MONEY_RECEIVED].includes(status)),
-        notificationType: NOTIFICATION_TYPES.TEST_CANCELLED.value,
+        notificationType: NotificationType.TEST_CANCELLED,
     },
 };
 export const VALID_TEST_STATUSES = [
@@ -262,4 +188,4 @@ export const VALID_TEST_STATUSES = [
     TestStatus.REVIEW_VALIDATED,
 ];
 //# sourceMappingURL=constants.js.map
-//# debugId=481d5bee-dd18-5f83-9601-84e13a0614fb
+//# debugId=74673d54-a1f0-513f-9617-9147ebf014f9

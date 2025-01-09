@@ -457,5 +457,10 @@
   "REVIEW_SCREENSHOT": "评论截图",
   "CERTIFIED_SELLERS": "认证的卖家",
   "NO_COUPON_WARNING": "警告！不要使用Amazon优惠券支付产品。您可能无法收到退款。",
-  "AMAZON_ID_ALREADY_USED": "该亚马逊登录ID已经被其他用户使用。"
+  "AMAZON_ID_ALREADY_USED": "该亚马逊登录ID已经被其他用户使用。",
+  "TEST_MESSAGES": "消息",
+  "WRITE_A_MESSAGE": "写一条消息...",
+  "NO_MESSAGES": "没有消息",
+  "NEW_MESSAGE_NOTIFICATION_TEXT": "您在测试中收到了一条新消息: ",
+  "NEW_MESSAGE": "新消息"
 }

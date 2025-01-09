@@ -1,7 +1,7 @@
 import { TestStatusUpdateParams } from "@/utils/constants.js";
 import { CustomResponse } from "@/utils/CustomResponse.js";
 import { TestStatus } from "../test.constants.js";
-import { PopulatedTest, Test, TestData } from "../test.entity.js";
+import { MessageSenderType, PopulatedTest, Test, TestData } from "../test.entity.js";
 
 export type TestDAO = {
   createTest: (params: {
@@ -41,5 +41,10 @@ export type TestDAO = {
   cancelTests: (params: {
     testsCancellations: Array<{ testId: string; guiltyUserId: string }>;
     adminMessage?: string;
+  }) => Promise<void>;
+  addMessage: (params: {
+    testId: string;
+    message: string;
+    sender: { senderType: MessageSenderType; userId: string };
   }) => Promise<void>;
 };

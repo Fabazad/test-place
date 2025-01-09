@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f338e7dc-0400-557d-a259-ff96cc67064d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9cc738ea-461e-544e-83ae-4679f46c38e6")}catch(e){}}();
 import { getNotificationDAO } from "../entities/Notification/dao/notification.dao.index.js";
 import { getTestDAO } from "../entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES } from "../entities/Test/test.constants.js";
@@ -66,12 +66,15 @@ export class NotificationController {
         return { success: true, data: undefined };
     }
     static async createNotification(params) {
-        const { notificationData, frontendUrl } = params;
+        const { notificationData, frontendUrl, noEmail } = params;
         const notificationDAO = getNotificationDAO();
         const monitoringClient = getMonitoringClient();
         const notification = await notificationDAO.createNotification({
             notificationData: notificationData,
         });
+        if (noEmail) {
+            return { success: true, data: notification };
+        }
         const sentNotification = await this.sendNotification({
             notification,
             frontendUrl,
@@ -89,4 +92,4 @@ export class NotificationController {
     }
 }
 //# sourceMappingURL=notification.controller.js.map
-//# debugId=f338e7dc-0400-557d-a259-ff96cc67064d
+//# debugId=9cc738ea-461e-544e-83ae-4679f46c38e6

@@ -9,11 +9,16 @@ import ListGroupItem from "reactstrap/es/ListGroupItem";
 import Row from "reactstrap/es/Row";
 import constants from "../../helpers/constants";
 import { textSlice } from "../../helpers/textHelpers";
+import userServices from "../../services/user.services";
 
 const { NOTIFICATION_TYPES } = constants;
 
 const NotificationItem = (props) => {
   const { notification, t } = props;
+
+  const currentUser = userServices.currentUser;
+
+  const isUserTester = currentUser.roles.includes("TESTER");
 
   const timeDifference = () => {
     const createdAtMoment = dayjs(notification.createdAt);
@@ -25,7 +30,7 @@ const NotificationItem = (props) => {
     return days + "j";
   };
 
-  const notificationType = NOTIFICATION_TYPES(t)[notification.type];
+  const notificationType = NOTIFICATION_TYPES(t, isUserTester)[notification.type];
 
   return (
     <ListGroupItem

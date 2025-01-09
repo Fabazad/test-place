@@ -3,11 +3,16 @@ import { getProductDAO } from "@/entities/Product/dao/product.dao.index.js";
 import { Product } from "@/entities/Product/product.entity.js";
 import { getTestDAO } from "@/entities/Test/dao/test.dao.index.js";
 import { GLOBAL_TEST_STATUSES, TestStatus } from "@/entities/Test/test.constants.js";
-import { PopulatedTest, Test, TestData } from "@/entities/Test/test.entity.js";
+import {
+  MessageSenderType,
+  PopulatedTest,
+  Test,
+  TestData,
+} from "@/entities/Test/test.entity.js";
 import { getUserDAO } from "@/entities/User/dao/user.dao.index.js";
 import { UserWithoutPassword } from "@/entities/User/user.entity.js";
 import {
-  NOTIFICATION_TYPES,
+  NotificationType,
   Role,
   TEST_STATUS_PROCESSES,
   TestStatusUpdateParams,
@@ -135,7 +140,7 @@ export class TestController {
       NotificationController.createNotification({
         notificationData: {
           user: test.seller,
-          type: NOTIFICATION_TYPES.NEW_REQUEST.value,
+          type: NotificationType.NEW_REQUEST,
           test: test,
           product,
         },
@@ -438,6 +443,45 @@ export class TestController {
 
     console.log({
       testsToNotify: testsToNotify.length,
+    });
+
+    return { success: true, data: undefined };
+  }
+
+  static async addMessage(params: {
+    testId: string;
+    message: string;
+    senderUserId: string;
+    frontendUrl: string;
+  }): Promise<CustomResponse<undefined, "test_not_found">> {
+    const { testId, message, senderUserId, frontendUrl } = params;
+
+    const testDAO = getTestDAO();
+
+    const test = await testDAO.findById({ id: testId });
+
+    if (!test) return { success: false, errorCode: "test_not_found" };
+
+    const senderType =
+      test?.seller === senderUserId ? MessageSenderType.SELLER : MessageSenderType.TESTER;
+    const receiverUserId =
+      senderType === MessageSenderType.SELLER ? test.tester : test.seller;
+
+    await testDAO.addMessage({
+      testId,
+      message,
+      sender: { senderType, userId: senderUserId },
+    });
+
+    await NotificationController.createNotification({
+      notificationData: {
+        test,
+        type: NotificationType.NEW_MESSAGE,
+        product: test.product,
+        user: receiverUserId,
+      },
+      frontendUrl,
+      noEmail: true,
     });
 
     return { success: true, data: undefined };

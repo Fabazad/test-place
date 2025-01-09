@@ -147,4 +147,35 @@ router.get(
   })
 );
 
+router.post(
+  "/addMessage",
+  withAuth(),
+  asyncHandler(async (request, reply) => {
+    const { userId } = request.decoded!;
+
+    const { testId, message } = zodValidationForRoute(
+      request.body,
+      z.object({
+        testId: z.string(),
+        message: z.string(),
+      })
+    );
+
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
+
+    const res = await TestController.addMessage({
+      testId,
+      message,
+      senderUserId: userId,
+      frontendUrl,
+    });
+
+    reply.send(
+      handleResponseForRoute(res, {
+        test_not_found: new NotFoundRequestError("test_not_found"),
+      })
+    );
+  })
+);
+
 export default router;

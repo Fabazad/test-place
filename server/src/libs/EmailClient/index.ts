@@ -102,6 +102,7 @@ const createEmailClient = (): EmailClient => {
         [NotificationType.NEW_REQUEST]: EmailTemplate.NEW_TEST_REQUEST,
         [NotificationType.PRODUCT_REVIEWED]: EmailTemplate.PRODUCT_REVIEWED,
         [NotificationType.REQUEST_ACCEPTED]: EmailTemplate.TEST_REQUEST_ACCEPTED,
+        [NotificationType.NEW_MESSAGE]: EmailTemplate.NEW_MESSAGE,
       };
 
       const defaultTemplate = EmailTemplate.NOTIFICATION;

@@ -248,6 +248,20 @@ export const createTestDAO = (): TestDAO => {
         }))
       );
     },
+    addMessage: async ({ testId, message, sender }) => {
+      await testModel.updateOne(
+        { _id: testId },
+        {
+          $push: {
+            messages: {
+              message,
+              sender,
+              date: new Date(),
+            },
+          },
+        }
+      );
+    },
   };
 };
 

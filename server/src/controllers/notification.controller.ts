@@ -108,8 +108,9 @@ export class NotificationController {
   static async createNotification(params: {
     notificationData: NotificationData;
     frontendUrl: string;
+    noEmail?: boolean;
   }): Promise<CustomResponse<Notification, "user_not_found">> {
-    const { notificationData, frontendUrl } = params;
+    const { notificationData, frontendUrl, noEmail } = params;
 
     const notificationDAO = getNotificationDAO();
     const monitoringClient = getMonitoringClient();
@@ -117,6 +118,10 @@ export class NotificationController {
     const notification = await notificationDAO.createNotification({
       notificationData: notificationData,
     });
+
+    if (noEmail) {
+      return { success: true, data: notification };
+    }
 
     const sentNotification = await this.sendNotification({
       notification,

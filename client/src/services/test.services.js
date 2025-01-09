@@ -58,6 +58,12 @@ class TestServices extends BaseService {
       axios.post(this.baseURL + "/create", item).then(this.serviceResolve)
     );
   }
+
+  sendMessage(item) {
+    return this.enrichResponseWithError(() =>
+      axios.post(this.baseURL + "/addMessage", item).then(this.serviceResolve)
+    );
+  }
 }
 
 export default new TestServices();

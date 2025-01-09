@@ -56,7 +56,7 @@ const constants = {
     CANCEL_TEST: "CANCEL_TEST",
   },
   ITEMS_PER_PAGE_OPTIONS: [5, 10, 20, 50].map((n) => ({ value: n, text: n })),
-  NOTIFICATION_TYPES: (t) => ({
+  NOTIFICATION_TYPES: (t, isUserTester) => ({
     NEW_REQUEST: {
       value: "NEW_REQUEST",
       text: t("NEW_REQUEST_TEXT"),
@@ -140,6 +140,15 @@ const constants = {
       icon: "fa-times",
       color: "danger",
       to: "/dashboard/my-current-tests",
+    },
+    NEW_MESSAGE: {
+      value: "NEW_MESSAGE",
+      text: t("NEW_MESSAGE_NOTIFICATION_TEXT"),
+      icon: "fa-envelope",
+      color: "primary",
+      to: isUserTester
+        ? "/dashboard/my-current-tests"
+        : "/dashboard/customer-current-tests",
     },
   }),
 };

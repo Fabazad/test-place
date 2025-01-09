@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5a32ef77-e5de-5b5a-a1f9-7e6247c33a68")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="851791c2-8c06-5b44-bd17-8e249103e16d")}catch(e){}}();
 import { generateAmazonUrl } from "../../Product/product.constants.js";
 import { generateMongooseSchemaFromZod } from "../../../utils/generateMongooseSchemaFromZod/index.js";
 import { createSingletonGetter } from "../../../utils/singleton.js";
@@ -214,8 +214,19 @@ export const createTestDAO = () => {
                 },
             })));
         },
+        addMessage: async ({ testId, message, sender }) => {
+            await testModel.updateOne({ _id: testId }, {
+                $push: {
+                    messages: {
+                        message,
+                        sender,
+                        date: new Date(),
+                    },
+                },
+            });
+        },
     };
 };
 export const getTestDAO = createSingletonGetter(createTestDAO);
 //# sourceMappingURL=test.dao.index.js.map
-//# debugId=5a32ef77-e5de-5b5a-a1f9-7e6247c33a68
+//# debugId=851791c2-8c06-5b44-bd17-8e249103e16d

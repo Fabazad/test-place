@@ -456,5 +456,10 @@
   "REVIEW_SCREENSHOT": "রিভিউের স্ক্রিনশট",
   "CERTIFIED_SELLERS": "স্বাক্ষরিত বিক্রেতার",
   "NO_COUPON_WARNING": "মনোযোগ! একটি Amazon কুপন দিয়ে আপনার পণ্যের জন্য অর্থ প্রদান করবেন না. আপনি আপনার ফেরত নাও পেতে পারেন.",
-  "AMAZON_ID_ALREADY_USED": "এই Amazon ID ইতিমধ্যেই অন্য ব্যবহারকারীর দ্বারা ব্যবহার করা হচ্ছে৷"
+  "AMAZON_ID_ALREADY_USED": "এই Amazon ID ইতিমধ্যেই অন্য ব্যবহারকারীর দ্বারা ব্যবহার করা হচ্ছে৷",
+  "TEST_MESSAGES": "বার্তা",
+  "WRITE_A_MESSAGE": "একটি বার্তা লিখুন...",
+  "NO_MESSAGES": "কোন বার্তা নেই",
+  "NEW_MESSAGE_NOTIFICATION_TEXT": "আপনি এখন আপনার পরীক্ষার সাথে একটি নতুন বার্তা পেতে পারেন: ",
+  "NEW_MESSAGE": "নতুন বার্তা"
 }

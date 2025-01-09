@@ -1,5 +1,5 @@
 
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b60c816f-20e3-5356-aff8-06db3c096167")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5fe3b15e-d13d-50eb-a63a-944d581a8b74")}catch(e){}}();
 import { TestController } from "../controllers/test.controller.js";
 import { TestStatus } from "../entities/Test/test.constants.js";
 import { withAuth } from "../middlewares/withAuth.js";
@@ -88,6 +88,23 @@ router.get("/:testId", withAuth(), asyncHandler(async (request, reply) => {
         not_allowed: new UnauthorizedRequestError("not_allowed"),
     }));
 }));
+router.post("/addMessage", withAuth(), asyncHandler(async (request, reply) => {
+    const { userId } = request.decoded;
+    const { testId, message } = zodValidationForRoute(request.body, z.object({
+        testId: z.string(),
+        message: z.string(),
+    }));
+    const frontendUrl = zodValidationForRoute(request.headers.origin, z.string());
+    const res = await TestController.addMessage({
+        testId,
+        message,
+        senderUserId: userId,
+        frontendUrl,
+    });
+    reply.send(handleResponseForRoute(res, {
+        test_not_found: new NotFoundRequestError("test_not_found"),
+    }));
+}));
 export default router;
 //# sourceMappingURL=test.routes.js.map
-//# debugId=b60c816f-20e3-5356-aff8-06db3c096167
+//# debugId=5fe3b15e-d13d-50eb-a63a-944d581a8b74
