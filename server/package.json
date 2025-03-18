@@ -15,7 +15,7 @@
     "amazon-paapi": "^1.0.7",
     "amazon-product-api": "^0.4.4",
     "aws-sdk": "^2.1671.0",
-    "axios": "^1.7.3",
+    "axios": "^1.7.4",
     "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
