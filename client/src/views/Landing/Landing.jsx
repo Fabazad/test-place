@@ -122,9 +122,6 @@ const Landing = (props) => {
                   <h1 className="display-4 text-white">
                     <span>{t("LANDING_PAGE_TITLE_1")}</span>
                   </h1>
-                  <h1 className="display-4 text-white">
-                    <span>{t("LANDING_PAGE_TITLE_2")}</span>
-                  </h1>
                 </Col>
               </Row>
               <Row className="mt-5">
